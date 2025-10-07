@@ -1,0 +1,16 @@
+@echo off
+REM Build Lazarus project "trayslator" using lazbuild
+
+SET PROJECT_PATH=trayslator.lpi
+SET BUILD_MODE=Release
+
+echo Building project: %PROJECT_PATH%
+"C:\Lazarus\lazbuild.exe" %PROJECT_PATH% --build-mode=%BUILD_MODE%
+
+IF %ERRORLEVEL% NEQ 0 (
+    echo Build failed!
+    pause
+    exit /b %ERRORLEVEL%
+)
+
+echo Build completed successfully

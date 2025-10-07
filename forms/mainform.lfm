@@ -1,0 +1,15 @@
+object formTrayslator: TformTrayslator
+  Left = 334
+  Height = 275
+  Top = 250
+  Width = 384
+  Caption = 'formTrayslator'
+  LCLVersion = '4.0.0.4'
+  Visible = True
+  OnCreate = FormCreate
+  object trayIcon: TTrayIcon
+    Visible = True
+    Left = 40
+    Top = 192
+  end
+end

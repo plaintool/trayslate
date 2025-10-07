@@ -1,0 +1,118 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.5\n"
+
+#: tformabouttrayslator.buttonok.caption
+msgctxt "tformabouttrayslator.buttonok.caption"
+msgid "OK"
+msgstr ""
+
+#: tformabouttrayslator.caption
+msgid "About"
+msgstr ""
+
+#: tformabouttrayslator.labelby.caption
+msgid "by Alexander Tverskoy is licensed under"
+msgstr ""
+
+#: tformabouttrayslator.labelby1.caption
+msgid "the GNU General Public License, Version 3 "
+msgstr ""
+
+#: tformabouttrayslator.labellic.caption
+msgid "For questions or feedback, contact me at"
+msgstr ""
+
+#: tformabouttrayslator.labellicurl.caption
+msgid "mailto:astverskoy@gmail.com"
+msgstr ""
+
+#: tformabouttrayslator.labelname.caption
+msgid "Trayslator © 2024"
+msgstr ""
+
+#: tformdonatetrayslator.buttonok.caption
+msgctxt "tformdonatetrayslator.buttonok.caption"
+msgid "OK"
+msgstr ""
+
+#: tformdonatetrayslator.caption
+msgid "Buy me a coffee"
+msgstr ""
+
+#: tformdonatetrayslator.editwallet1.text
+msgid "bc1qqzarmz7yzv34mgpxdp5v58ejre7twy8upalfa9"
+msgstr ""
+
+#: tformdonatetrayslator.editwallet2.text
+msgctxt "tformdonatetrayslator.editwallet2.text"
+msgid "0x404d7f200A318979EC9eB940F022045e6d38e43D"
+msgstr ""
+
+#: tformdonatetrayslator.editwallet3.text
+msgctxt "tformdonatetrayslator.editwallet3.text"
+msgid "0x404d7f200A318979EC9eB940F022045e6d38e43D"
+msgstr ""
+
+#: tformdonatetrayslator.editwallet4.text
+msgid "TJvoYPRWw35SFxP5wh4c97Egm5TaS8uBVE"
+msgstr ""
+
+#: tformdonatetrayslator.label1.caption
+msgid "Hey there! Fuel this passion project with a little caffeine boost! Every donation helps keep the code rolling and the coffee brewing. Thanks for supporting the work and the developer behind it!"
+msgstr ""
+
+#: tformdonatetrayslator.label10.caption
+msgid "Feel free to make a donation through any exchange, for example:"
+msgstr ""
+
+#: tformdonatetrayslator.label2.caption
+msgid "BTC"
+msgstr ""
+
+#: tformdonatetrayslator.label3.caption
+msgid "Bitcoin (BTC)"
+msgstr ""
+
+#: tformdonatetrayslator.label4.caption
+msgid "ETH"
+msgstr ""
+
+#: tformdonatetrayslator.label5.caption
+msgid "Ethereum (ERC20)"
+msgstr ""
+
+#: tformdonatetrayslator.label6.caption
+msgctxt "tformdonatetrayslator.label6.caption"
+msgid "USDT"
+msgstr ""
+
+#: tformdonatetrayslator.label7.caption
+msgid "ETH Ethereum (ERC20), BSC Binance Smart Chain (BEP20)"
+msgstr ""
+
+#: tformdonatetrayslator.label8.caption
+msgid "TRX Tron (TRC20)"
+msgstr ""
+
+#: tformdonatetrayslator.label9.caption
+msgctxt "tformdonatetrayslator.label9.caption"
+msgid "USDT"
+msgstr ""
+
+#: tformdonatetrayslator.labelurl.caption
+msgid "https://changelly.com/buy-crypto?amount=15&from=usd"
+msgstr ""
+
+#: tformtrayslator.caption
+msgid "formTrayslator"
+msgstr ""

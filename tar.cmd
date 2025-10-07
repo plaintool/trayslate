@@ -1,0 +1,1 @@
+C:\Windows\System32\tar -cvf trayslator.tar --exclude=trayslator.tar --exclude=examples --exclude=installer --exclude=lib --exclude=.git *
