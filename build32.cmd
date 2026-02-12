@@ -1,7 +1,7 @@
 @echo off
 setlocal
 
-::Build Lazarus project "trayslator" using lazbuild
+::Build 32-bit Lazarus project "trayslator" using lazbuild
 SET "PROJECT_PATH=trayslator.lpi"
 SET "BUILD_MODE=Release"
 
@@ -19,17 +19,53 @@ if not exist "%LAZARUS_DIR%\lazbuild.exe" (
 
 SET "LAZBUILD=%LAZARUS_DIR%\lazbuild.exe"
 
-echo Building project: %PROJECT_PATH%
-"%LAZBUILD%" %PROJECT_PATH% --build-mode=%BUILD_MODE%
+::Path to 32-bit FPC compiler
+SET "FPC32=%FPC32_PATH%"
+if not exist "%FPC32%" (
+    for /d %%F in ("%LAZARUS_DIR%\fpc\*") do (
+        if exist "%%~F\bin\i386-win32\fpc.exe" (
+            SET "FPC32=%%~F\bin\i386-win32\fpc.exe"
+        )
+    )
+)
+if not exist "%FPC32%" (
+    echo 32-bit FPC compiler not found. Set FPC32_PATH.
+    exit /b 1
+)
+
+::Rename existing 64-bit exe to trayslator64.exe to avoid overwriting
+if exist "trayslator.exe" (
+    echo Renaming existing 64-bit executable...
+    ren "trayslator.exe" "trayslator64.exe"
+)
+
+echo Building 32-bit project: %PROJECT_PATH%
+"%LAZBUILD%" %PROJECT_PATH% --cpu=i386 --ws=win32 --build-mode=%BUILD_MODE% --compiler=%FPC32%
 
 IF %ERRORLEVEL% NEQ 0 (
-    echo Build failed!
+    echo 32-bit build failed!
+    ::Restore 64-bit exe back
+    if exist "trayslator64.exe" ren "trayslator64.exe" "trayslator.exe"
     exit /b %ERRORLEVEL%
 )
 
-echo Build completed successfully
+::Rename output to trayslator32.exe to distinguish from 64-bit
+if exist "trayslator.exe" (
+    echo Renaming 32-bit executable...
+    if exist "trayslator32.exe" del /F /Q "trayslator32.exe"
+    ren "trayslator.exe" "trayslator32.exe"
+)
 
-echo Wait 2 seconds to ensure file is free
+::Restore 64-bit exe back to original name
+if exist "trayslator64.exe" (
+    echo Restoring 64-bit executable name...
+    if exist "trayslator.exe" del /F /Q "trayslator.exe"
+    ren "trayslator64.exe" "trayslator.exe"
+)
+
+echo 32-bit build completed successfully
+
+::Wait 2 seconds to ensure file is free
 timeout /t 2 /nobreak >nul
 
 ::Certificate settings (optional)
@@ -51,13 +87,13 @@ IF "%CERTFILE%"=="" (
 SET "CERTPASS=1234"
 SET "TIMESTAMP_URL=http://timestamp.digicert.com"
 
-::Sign the executable in the same folder
-if exist "trayslator.exe" (
+::Sign the 32-bit executable
+if exist "trayslator32.exe" (
     if not "%CERTFILE%"=="" (
         if exist "%CERTFILE%" (
             if exist "%SIGNTOOL%" (
-                echo Signing executable...
-                "%SIGNTOOL%" sign /f "%CERTFILE%" /p "%CERTPASS%" /fd SHA256 /tr %TIMESTAMP_URL% /td SHA256 "trayslator.exe"
+                echo Signing 32-bit executable...
+                "%SIGNTOOL%" sign /f "%CERTFILE%" /p "%CERTPASS%" /fd SHA256 /tr %TIMESTAMP_URL% /td SHA256 "trayslator32.exe"
                 IF %ERRORLEVEL% EQU 0 (
                     echo Signing completed successfully
                 ) else (
