@@ -1,5 +1,9 @@
 #define MyAppName "Trayslator"
-#define MyAppVersion "1.0.0"
+#define FileHandle FileOpen("..\VERSION")
+#define MyAppVersion Trim(FileRead(FileHandle))
+#if FileHandle
+  #expr FileClose(FileHandle)
+#endif
 #define MyAppPublisher "Alexander Tverskoy"
 #define MyAppURL "https://github.com/plaintool/trayslator"
 #define MyAppExeName "trayslator.exe"

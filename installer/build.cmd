@@ -8,7 +8,7 @@ IF "%~2" NEQ "" (
     SET "VERSION=%~2"
 )
 IF "%VERSION%"=="" (
-    SET "VERSION=1.0.0"
+    FOR /F "usebackq delims=" %%i IN ("%SOURCE_DIR%..\VERSION") DO SET "VERSION=%%i"
 )
 
 :: Check if platform parameter is provided
@@ -28,7 +28,7 @@ IF NOT "%PLATFORM%"=="x64" IF NOT "%PLATFORM%"=="x86" (
 
 :: --- Build peruser ---
 echo Compiling msisetup_peruser.wxs with candle for %PLATFORM%...
-candle -nologo "%SOURCE_DIR%\msisetup_peruser.wxs" -out "%SOURCE_DIR%\peruser.wixobj" -ext WixUIExtension -dPlatform=%PLATFORM%
+candle -nologo "%SOURCE_DIR%\msisetup_peruser.wxs" -out "%SOURCE_DIR%\peruser.wixobj" -ext WixUIExtension -dPlatform=%PLATFORM% -dVersion=%VERSION%
 echo Linking peruser.wixobj into trayslator-%VERSION%-%PLATFORM%.msi with light...
 light -nologo "%SOURCE_DIR%\peruser.wixobj" -out "%SOURCE_DIR%\trayslator-%VERSION%-%PLATFORM%.msi" -ext WixUIExtension
 echo File created: trayslator-%VERSION%-%PLATFORM%.msi
@@ -36,7 +36,7 @@ echo.
 
 :: --- Build permachine ---
 echo Compiling msisetup_permachine.wxs with candle for %PLATFORM%...
-candle -nologo "%SOURCE_DIR%\msisetup_permachine.wxs" -out "%SOURCE_DIR%\permachine.wixobj" -ext WixUIExtension -dPlatform=%PLATFORM%
+candle -nologo "%SOURCE_DIR%\msisetup_permachine.wxs" -out "%SOURCE_DIR%\permachine.wixobj" -ext WixUIExtension -dPlatform=%PLATFORM% -dVersion=%VERSION%
 echo Linking permachine.wixobj into trayslator-%VERSION%-%PLATFORM%-allusers.msi with light...
 light -nologo "%SOURCE_DIR%\permachine.wixobj" -out "%SOURCE_DIR%\trayslator-%VERSION%-%PLATFORM%-allusers.msi" -ext WixUIExtension
 echo File created: trayslator-%VERSION%-%PLATFORM%-allusers.msi
