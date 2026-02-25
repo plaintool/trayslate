@@ -9,6 +9,7 @@ object formDonateTrayslator: TformDonateTrayslator
   ClientHeight = 442
   ClientWidth = 441
   Color = clWindow
+  Position = poDesktopCenter
   LCLVersion = '4.4.0.0'
   OnCreate = FormCreate
   object buttonOk: TButton

@@ -19,47 +19,47 @@ uses
   jsonparser;
 
 type
+  TRequestType = (rtGet, rtPost);
+  TResponseParserType = (rpJson, rpRegEx);
+
   { TTranslate }
   TTranslate = class
   private
-    FUsePost: boolean;
+    FRequestType: TRequestType;
+    FResponseParserType: TResponseParserType;
     FUrl: string;
     FUserAgent: string;
     FContentType: string;
     FRegex: string;
     FTextToTranslate: string;
-    FPostDataTemplate: string;
+    FPostData: string;
     FSourceLang: string;
     FTargetLang: string;
-    FDefaultTarget: string;
   public
     constructor Create;
     destructor Destroy; override;
 
-    // Basic GET POST
     function Get: string;
     function Post: string;
-
-    // Universal request depending on UsePost
     function Request: string;
-
-    // Regex extraction
     function TransRegEx: string;
-
-    // Parse JSON to get clean translated text
     function TransJson: string;
+    function Translate: string;
 
-    property UsePost: boolean read FUsePost write FUsePost;
+    property RequestType: TRequestType read FRequestType write FRequestType;
+    property ResponseParserType: TResponseParserType read FResponseParserType write FResponseParserType;
     property Url: string read FUrl write FUrl;
     property UserAgent: string read FUserAgent write FUserAgent;
     property ContentType: string read FContentType write FContentType;
     property RegexPattern: string read FRegex write FRegex;
     property TextToTranslate: string read FTextToTranslate write FTextToTranslate;
-    property PostDataTemplate: string read FPostDataTemplate write FPostDataTemplate;
+    property PostData: string read FPostData write FPostData;
     property SourceLang: string read FSourceLang write FSourceLang;
     property TargetLang: string read FTargetLang write FTargetLang;
-    property DefaultLang: string read FDefaultTarget write FDefaultTarget;
   end;
+
+const
+  defaultlang = 'en';
 
 implementation
 
@@ -70,13 +70,12 @@ uses systemtool;
 constructor TTranslate.Create;
 begin
   inherited Create;
-  FUsePost := False;
+  FRequestType := rtGet;
+  FResponseParserType := rpJson;
   FUserAgent := 'Mozilla/5.0';
   FContentType := 'application/x-www-form-urlencoded';
   FSourceLang := Language;
-  FDefaultTarget := 'en';
   FRegex := '\[\["(.*?)"';
-  FTargetLang := FDefaultTarget;
 end;
 
 destructor TTranslate.Destroy;
@@ -111,7 +110,7 @@ begin
     if FTargetLang <> string.Empty then
       tarUrl := StringReplace(tarUrl, '{target}', FTargetLang, [rfReplaceAll])
     else
-      tarUrl := StringReplace(tarUrl, '{target}', FDefaultTarget, [rfReplaceAll]);
+      tarUrl := StringReplace(tarUrl, '{target}', defaultlang, [rfReplaceAll]);
 
     http.Get(tarUrl, response);
     Result := response.DataString;
@@ -125,14 +124,14 @@ function TTranslate.Post: string;
 var
   http: TFPHTTPClient;
   response, postStream: TStringStream;
-  postData: string;
+  Data: string;
 begin
   Result := string.Empty;
   http := TFPHTTPClient.Create(nil);
   response := TStringStream.Create(string.Empty);
   try
-    postData := StringReplace(FPostDataTemplate, '{text}', TextToTranslate, [rfReplaceAll]);
-    postStream := TStringStream.Create(postData, TEncoding.UTF8);
+    Data := StringReplace(FPostData, '{text}', TextToTranslate, [rfReplaceAll]);
+    postStream := TStringStream.Create(Data, TEncoding.UTF8);
     try
       http.AddHeader('User-Agent', FUserAgent);
       http.AddHeader('Content-Type', FContentType);
@@ -152,7 +151,7 @@ end;
 
 function TTranslate.Request: string;
 begin
-  if FUsePost then
+  if FRequestType = rtPost then
     Result := Post
   else
     Result := Get;
@@ -206,6 +205,14 @@ begin
   finally
     Data.Free;
   end;
+end;
+
+function TTranslate.Translate: string;
+begin
+  if FResponseParserType = rpJson then
+    Result := TransJson
+  else
+    Result := TransRegEx;
 end;
 
 end.

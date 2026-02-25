@@ -27,7 +27,7 @@ msgid "mailto:astverskoy@gmail.com"
 msgstr ""
 
 #: tformabouttrayslator.labelname.caption
-msgid "Trayslator © 2024"
+msgid "Trayslator © 2026"
 msgstr ""
 
 #: tformdonatetrayslator.buttonok.caption
@@ -103,12 +103,24 @@ msgstr ""
 msgid "https://changelly.com/buy-crypto?amount=15&from=usd"
 msgstr ""
 
+#: tformtrayslator.aabout.caption
+msgid "About..."
+msgstr ""
+
+#: tformtrayslator.adonate.caption
+msgid "Buy me a coffee..."
+msgstr ""
+
 #: tformtrayslator.aexit.caption
 msgid "Exit"
 msgstr ""
 
-#: tformtrayslator.button1.caption
-msgid "Test"
+#: tformtrayslator.ashowtrayslate.caption
+msgid "Show"
+msgstr ""
+
+#: tformtrayslator.btntranslate.caption
+msgid "Translate"
 msgstr ""
 
 #: tformtrayslator.caption

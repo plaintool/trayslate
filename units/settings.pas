@@ -16,13 +16,18 @@ uses
   Classes,
   SysUtils,
   fpjson,
-  Grids,
   Graphics,
-  mainform;
+  IniFiles,
+  mainform,
+  translate;
 
 procedure SaveFormSettings(Form: TformTrayslator);
 
 function LoadFormSettings(Form: TformTrayslator): boolean;
+
+procedure SaveIniSettings(Translate: TTranslate);
+
+procedure LoadIniSettings(Translate: TTranslate);
 
 implementation
 
@@ -32,6 +37,15 @@ function GetSettingsDirectory(fileName: string = ''): string;
 begin
   {$IFDEF Windows}
   Result := IncludeTrailingPathDelimiter(GetEnvironmentVariable('LOCALAPPDATA')) + 'trayslator\'+fileName;
+  {$ELSE}
+  Result := IncludeTrailingPathDelimiter(GetUserDir) + '.config/trayslator/' + filename;
+  {$ENDIF}
+end;
+
+function GetIniDirectory(fileName: string = ''): string;
+begin
+  {$IFDEF Windows}
+  Result := ExtractFilePath(ParamStr(0)) + fileName;
   {$ELSE}
   Result := IncludeTrailingPathDelimiter(GetUserDir) + '.config/trayslator/' + filename;
   {$ENDIF}
@@ -129,5 +143,72 @@ begin
     FileStream.Free;
   end;
 end;
+
+procedure SaveIniSettings(Translate: TTranslate);
+var
+  Ini: TIniFile;
+begin
+  Ini := TIniFile.Create(GetIniDirectory('config.ini'));
+  try
+    Ini.WriteString('Translate', 'Source', Translate.SourceLang);
+    Ini.WriteString('Translate', 'Target', Translate.TargetLang);
+
+    // determine method string based on UsePost property
+    if Translate.RequestType = rtPost then
+      Ini.WriteString('Request', 'Method', 'POST')
+    else
+      Ini.WriteString('Request', 'Method', 'GET');
+
+    Ini.WriteString('Request', 'Url', Translate.Url);
+    Ini.WriteString('Request', 'PostData', Translate.PostData);
+    Ini.WriteString('Request', 'UserAgent', Translate.UserAgent);
+    Ini.WriteString('Request', 'ContentType', Translate.ContentType);
+
+    if Translate.ResponseParserType = rpJson then
+      Ini.WriteString('Response', 'ParserType', 'Json')
+    else
+      Ini.WriteString('Response', 'ParserType', 'Regexp');
+
+    Ini.WriteString('Response', 'Regex', Translate.RegexPattern);
+  finally
+    Ini.Free;
+  end;
+end;
+
+procedure LoadIniSettings(Translate: TTranslate);
+var
+  Ini: TIniFile;
+  Method: string;
+begin
+  Ini := TIniFile.Create(GetIniDirectory('config.ini'));
+  try
+    Translate.SourceLang := Ini.ReadString('Translate', 'Source', Translate.SourceLang);
+    Translate.TargetLang := Ini.ReadString('Translate', 'Target', Translate.TargetLang);
+
+    // read method and assign UsePost accordingly
+    Method := Ini.ReadString('Request', 'Method', 'GET');
+    if (SameText(Method, 'POST')) then
+      Translate.RequestType := rtPost
+    else
+      Translate.RequestType := rtGet;
+
+    // read URL
+    Translate.Url := Ini.ReadString('Request', 'Url', Translate.Url);
+    Translate.PostData := Ini.ReadString('Request', 'PostData', Translate.PostData);
+    Translate.UserAgent := Ini.ReadString('Request', 'UserAgent', Translate.UserAgent);
+    Translate.ContentType := Ini.ReadString('Request', 'ContentType', Translate.ContentType);
+
+    Method := Ini.ReadString('Response', 'ParserType', 'Json');
+    if (SameText(Method, 'Json')) then
+      Translate.ResponseParserType := rpJson
+    else
+      Translate.ResponseParserType := rpRegEx;
+
+    Translate.RegexPattern := Ini.ReadString('Response', 'Regex', Translate.RegexPattern);
+  finally
+    Ini.Free;
+  end;
+end;
+
 
 end.

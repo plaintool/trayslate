@@ -7,44 +7,60 @@ object formTrayslator: TformTrayslator
   ClientHeight = 480
   ClientWidth = 512
   LCLVersion = '4.4.0.0'
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  object Memo1: TMemo
+  object MemoSource: TMemo
     Left = 24
     Height = 120
     Top = 16
     Width = 408
-    Lines.Strings = (
-      'Скушай еще этих мягких французских булочек'
-    )
+    ScrollBars = ssAutoBoth
     TabOrder = 0
   end
-  object Memo2: TMemo
+  object MemoTarget: TMemo
     Left = 24
     Height = 122
     Top = 152
     Width = 408
+    ScrollBars = ssAutoBoth
     TabOrder = 1
   end
-  object Button1: TButton
+  object BtnTranslate: TButton
     Left = 352
     Height = 25
     Top = 288
     Width = 75
-    Caption = 'Test'
+    Caption = 'Translate'
     TabOrder = 2
-    OnClick = Button1Click
+    OnClick = BtnTranslateClick
   end
   object TrayIcon: TTrayIcon
     PopUpMenu = PopupTray
     Visible = True
     OnClick = TrayIconClick
+    OnDblClick = TrayIconDblClick
     Left = 168
     Top = 328
   end
   object PopupTray: TPopupMenu
     Left = 104
     Top = 328
+    object MenuItem3: TMenuItem
+      Action = aShowTrayslate
+    end
+    object Separator2: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem2: TMenuItem
+      Action = aDonate
+    end
+    object MenuItem1: TMenuItem
+      Action = aAbout
+    end
+    object Separator1: TMenuItem
+      Caption = '-'
+    end
     object MenuExit: TMenuItem
       Action = aExit
     end
@@ -52,6 +68,18 @@ object formTrayslator: TformTrayslator
   object ActionList: TActionList
     Left = 40
     Top = 328
+    object aShowTrayslate: TAction
+      Caption = 'Show'
+      OnExecute = aShowTrayslateExecute
+    end
+    object aDonate: TAction
+      Caption = 'Buy me a coffee...'
+      OnExecute = aDonateExecute
+    end
+    object aAbout: TAction
+      Caption = 'About...'
+      OnExecute = aAboutExecute
+    end
     object aExit: TAction
       Caption = 'Exit'
       OnExecute = aExitExecute
