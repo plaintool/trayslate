@@ -22,6 +22,7 @@ uses
   Menus,
   ActnList,
   StdCtrls,
+  StrUtils,
   Clipbrd,
   translate;
 
@@ -59,10 +60,17 @@ type
   private
     FTrans: TTranslate;
     FDoubleClicked: boolean;
+    FIconBackgroundColor: TColor;
+    FIconFontColor: TColor;
+    FIconTwoLang: boolean;
+    procedure SetIcon;
     function GetClipboartText: boolean;
     procedure Translate;
   public
     property Trans: TTranslate read FTrans write FTrans;
+    property IconBackgroundColor: TColor read FIconBackgroundColor write FIconBackgroundColor;
+    property IconFontColor: TColor read FIconFontColor write FIconFontColor;
+    property IconTwoLang: boolean read FIconTwoLang write FIconTwoLang;
   end;
 
 var
@@ -78,10 +86,14 @@ uses formdonate, formabout, langtool, settings;
 
 procedure TformTrayslator.FormCreate(Sender: TObject);
 begin
+  FIconBackgroundColor := $00FF9628;
+  FIconFontColor := $00DCDCDC;
+  FIconTwoLang := False;
+
   Trans := TTranslate.Create;
   LoadFormSettings(Self);
-  LoadIniSettings(Trans);
-  TrayIcon.Icon := CreateTrayIconLang(UpperCase(Trans.TargetLang));
+  LoadIniSettings(Self, Trans);
+  SetIcon;
 end;
 
 procedure TformTrayslator.FormDestroy(Sender: TObject);
@@ -153,6 +165,12 @@ end;
 procedure TformTrayslator.BtnTranslateClick(Sender: TObject);
 begin
   Translate;
+end;
+
+procedure TformTrayslator.SetIcon;
+begin
+  TrayIcon.Icon := CreateTrayIconLang(UpperCase(Trans.SourceLang), ifthen(FIconTwoLang, UpperCase(Trans.TargetLang), string.Empty),
+    FIconBackgroundColor, FIconFontColor);
 end;
 
 function TformTrayslator.GetClipboartText: boolean;

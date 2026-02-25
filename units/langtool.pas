@@ -17,11 +17,13 @@ uses
   Types,
   SysUtils;
 
-function CreateTrayIconLang(const ALang1: string; const ALang2: string = ''): TIcon;
+function CreateTrayIconLang(const ALang1: string; const ALang2: string = ''; ABackgroundColor: TColor = $00FF9628;
+  AFontColor: TColor = $00DCDCDC): TIcon;
 
 implementation
 
-function CreateTrayIconLang(const ALang1: string; const ALang2: string = ''): TIcon;
+function CreateTrayIconLang(const ALang1: string; const ALang2: string = ''; ABackgroundColor: TColor = $00FF9628;
+  AFontColor: TColor = $00DCDCDC): TIcon;
 var
   bmp: TBitmap;
   icon: TIcon;
@@ -36,13 +38,13 @@ begin
 
     // set background
     bmp.Canvas.Brush.Style := bsSolid;
-    bmp.Canvas.Brush.Color := RGB(40, 150, 255); // background color
+    bmp.Canvas.Brush.Color := ABackgroundColor;
     rect := Types.Rect(0, 0, bmp.Width, bmp.Height);
     bmp.Canvas.FillRect(rect);
 
     // set text style
     bmp.Canvas.Font.Name := 'Tahoma';
-    bmp.Canvas.Font.Color := RGB(220, 220, 220);
+    bmp.Canvas.Font.Color := AFontColor;
     bmp.Canvas.Font.Style := [fsBold];
 
     if (ALang2 = string.Empty) then

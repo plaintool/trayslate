@@ -25,13 +25,13 @@ procedure SaveFormSettings(Form: TformTrayslator);
 
 function LoadFormSettings(Form: TformTrayslator): boolean;
 
-procedure SaveIniSettings(Translate: TTranslate);
+procedure SaveIniSettings(Form: TformTrayslator; Translate: TTranslate);
 
-procedure LoadIniSettings(Translate: TTranslate);
+procedure LoadIniSettings(Form: TformTrayslator; Translate: TTranslate);
 
 implementation
 
-uses systemtool;
+uses systemtool, formattool;
 
 function GetSettingsDirectory(fileName: string = ''): string;
 begin
@@ -144,7 +144,7 @@ begin
   end;
 end;
 
-procedure SaveIniSettings(Translate: TTranslate);
+procedure SaveIniSettings(Form: TformTrayslator; Translate: TTranslate);
 var
   Ini: TIniFile;
 begin
@@ -170,12 +170,16 @@ begin
       Ini.WriteString('Response', 'ParserType', 'Regexp');
 
     Ini.WriteString('Response', 'Regex', Translate.RegexPattern);
+
+    Ini.WriteString('TrayIcon', 'BackgroundColor', ColorToHtml(Form.IconBackgroundColor));
+    Ini.WriteString('TrayIcon', 'FontColor', ColorToHtml(Form.IconFontColor));
+    Ini.WriteBool('TrayIcon', 'TwoLang', Form.IconTwoLang);
   finally
     Ini.Free;
   end;
 end;
 
-procedure LoadIniSettings(Translate: TTranslate);
+procedure LoadIniSettings(Form: TformTrayslator; Translate: TTranslate);
 var
   Ini: TIniFile;
   Method: string;
@@ -205,10 +209,13 @@ begin
       Translate.ResponseParserType := rpRegEx;
 
     Translate.RegexPattern := Ini.ReadString('Response', 'Regex', Translate.RegexPattern);
+
+    Form.IconBackgroundColor := ColorFromHtml(Ini.ReadString('TrayIcon', 'BackgroundColor', ColorToHtml(Form.IconBackgroundColor)));
+    Form.IconFontColor := ColorFromHtml(Ini.ReadString('TrayIcon', 'FontColor', ColorToHtml(Form.IconFontColor)));
+    Form.IconTwoLang := Ini.ReadBool('TrayIcon', 'TwoLang', Form.IconTwoLang);
   finally
     Ini.Free;
   end;
 end;
-
 
 end.

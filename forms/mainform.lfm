@@ -3,7 +3,7 @@ object formTrayslator: TformTrayslator
   Height = 480
   Top = 250
   Width = 512
-  Caption = 'FormTrayslator'
+  Caption = 'Trayslator'
   ClientHeight = 480
   ClientWidth = 512
   LCLVersion = '4.4.0.0'

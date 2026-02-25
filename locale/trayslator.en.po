@@ -134,6 +134,6 @@ msgid "Translate"
 msgstr ""
 
 #: tformtrayslator.caption
-msgid "FormTrayslator"
+msgid "Trayslator"
 msgstr ""
 
