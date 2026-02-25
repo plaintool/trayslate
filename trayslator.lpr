@@ -16,8 +16,10 @@ uses
   Interfaces, // this includes the LCL widgetset
   Forms,
   SysUtils,
+  opensslsockets,
   mainform,
-  langtool, systemtool;
+  langtool,
+  systemtool;
 
   {$R *.res}
 
@@ -28,7 +30,7 @@ begin
   Application.Title:='Trayslator';
   Application.Scaled:=True;
   Application.Initialize;
-  ApplicationTranslate(Language);
+  //Application.ShowMainForm := False;
   Application.CreateForm(TformTrayslator, formTrayslator);
   ApplicationTranslate(Language);
   Application.Run;

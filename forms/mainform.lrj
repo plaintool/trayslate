@@ -1,3 +1,5 @@
 {"version":1,"strings":[
-{"hash":101725442,"name":"tformtrayslator.caption","sourcebytes":[102,111,114,109,84,114,97,121,115,108,97,116,111,114],"value":"formTrayslator"}
+{"hash":101725954,"name":"tformtrayslator.caption","sourcebytes":[70,111,114,109,84,114,97,121,115,108,97,116,111,114],"value":"FormTrayslator"},
+{"hash":371876,"name":"tformtrayslator.button1.caption","sourcebytes":[84,101,115,116],"value":"Test"},
+{"hash":315140,"name":"tformtrayslator.aexit.caption","sourcebytes":[69,120,105,116],"value":"Exit"}
 ]}

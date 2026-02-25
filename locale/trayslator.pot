@@ -103,7 +103,15 @@ msgstr ""
 msgid "https://changelly.com/buy-crypto?amount=15&from=usd"
 msgstr ""
 
+#: tformtrayslator.aexit.caption
+msgid "Exit"
+msgstr ""
+
+#: tformtrayslator.button1.caption
+msgid "Test"
+msgstr ""
+
 #: tformtrayslator.caption
-msgid "formTrayslator"
+msgid "FormTrayslator"
 msgstr ""
 

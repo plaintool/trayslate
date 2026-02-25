@@ -17,17 +17,33 @@ uses
   Forms,
   Controls,
   Graphics,
-  Dialogs, ExtCtrls;
+  Dialogs,
+  ExtCtrls,
+  Menus,
+  ActnList,
+  StdCtrls,
+  translate;
 
 type
 
   { TformTrayslator }
 
   TformTrayslator = class(TForm)
-    trayIcon: TTrayIcon;
+    aExit: TAction;
+    ActionList: TActionList;
+    Button1: TButton;
+    Memo1: TMemo;
+    Memo2: TMemo;
+    MenuExit: TMenuItem;
+    PopupTray: TPopupMenu;
+    TrayIcon: TTrayIcon;
+    procedure aExitExecute(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure TrayIconClick(Sender: TObject);
   private
-
+    Trans: TTranslate;
   public
 
   end;
@@ -45,7 +61,33 @@ uses langtool;
 
 procedure TformTrayslator.FormCreate(Sender: TObject);
 begin
-  trayIcon.Icon := CreateTrayIconLang('RU');
+  Trans := TTranslate.Create;
+  TrayIcon.Icon := CreateTrayIconLang(UpperCase(Trans.TargetLang));
+end;
+
+procedure TformTrayslator.FormDestroy(Sender: TObject);
+begin
+  Trans.Free;
+end;
+
+procedure TformTrayslator.TrayIconClick(Sender: TObject);
+begin
+  if not Visible then
+    Show
+  else
+    Hide;
+end;
+
+procedure TformTrayslator.aExitExecute(Sender: TObject);
+begin
+  Application.Terminate;
+end;
+
+procedure TformTrayslator.Button1Click(Sender: TObject);
+begin
+  Trans.Url := 'https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&sl={source}&tl={target}&q={text}';
+  Trans.TextToTranslate := Memo1.Text;
+  Memo2.Text := Trans.TransJson;
 end;
 
 end.

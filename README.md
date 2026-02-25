@@ -3,7 +3,7 @@ Trayslator is a tray application for translating text. You can translate text fr
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Build with: Lazarus](https://img.shields.io/badge/Build_with-Lazarus-blueviolet)](https://www.lazarus-ide.org/)
-[![Platform: Windows Linux](https://img.shields.io/badge/Platform-Windows-yellow)](#)
+[![Platform: Windows](https://img.shields.io/badge/Platform-Windows-yellow)](#)
 
 ## Licensing
 

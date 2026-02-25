@@ -1,4 +1,5 @@
 *.exe
+*.dll
 *.res
 *.lps
 *.dbg
