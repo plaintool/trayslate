@@ -37,6 +37,7 @@ object formTrayslator: TformTrayslator
   end
   object TrayIcon: TTrayIcon
     PopUpMenu = PopupTray
+    Hint = 'Trayslator'
     Visible = True
     OnClick = TrayIconClick
     OnDblClick = TrayIconDblClick

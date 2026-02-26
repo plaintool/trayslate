@@ -29,6 +29,10 @@ IF %ERRORLEVEL% NEQ 0 (
 
 echo Build completed successfully
 
+:: Copy 64-bit OpenSSL DLLs to output folder
+copy /Y "%~dp0installer\redist\libcrypto-1_1-x64.dll" "%~dp0"
+copy /Y "%~dp0installer\redist\libssl-1_1-x64.dll" "%~dp0"
+
 echo Wait 2 seconds to ensure file is free
 ping 127.0.0.1 -n 3 >nul
 

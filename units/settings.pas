@@ -34,11 +34,32 @@ implementation
 uses systemtool, formattool;
 
 function GetSettingsDirectory(fileName: string = ''): string;
+  {$IFDEF Windows}
+var
+  baseDir: string;
+  exeDir: string;
+  {$ENDIF}
 begin
   {$IFDEF Windows}
-  Result := IncludeTrailingPathDelimiter(GetEnvironmentVariable('LOCALAPPDATA')) + 'trayslator\'+fileName;
+  // Get directory where exe is located
+  exeDir := ExtractFilePath(ParamStr(0));
+
+  // Portable mode: settings file exists near exe
+  if FileExists(exeDir + 'form_settings.json') then
+  begin
+    Result := IncludeTrailingPathDelimiter(exeDir) + fileName;
+    Exit;
+  end;
+
+  // Default mode: use LOCALAPPDATA or APPDATA
+  baseDir := GetEnvironmentVariable('LOCALAPPDATA');
+  if baseDir = '' then
+    baseDir := GetEnvironmentVariable('APPDATA');
+
+  Result := IncludeTrailingPathDelimiter(baseDir) + 'trayslator\' + fileName;
   {$ELSE}
-  Result := IncludeTrailingPathDelimiter(GetUserDir) + '.config/trayslator/' + filename;
+  // Unix-like systems: use ~/.config/trayslator
+  Result := IncludeTrailingPathDelimiter(GetUserDir) + '.config/trayslator/' + fileName;
   {$ENDIF}
 end;
 
@@ -148,7 +169,7 @@ procedure SaveIniSettings(Form: TformTrayslator; Translate: TTranslate);
 var
   Ini: TIniFile;
 begin
-  Ini := TIniFile.Create(GetIniDirectory('config.ini'));
+  Ini := TIniFile.Create(GetIniDirectory('google.ini'));
   try
     Ini.WriteString('Translate', 'Source', Translate.SourceLang);
     Ini.WriteString('Translate', 'Target', Translate.TargetLang);
@@ -184,7 +205,7 @@ var
   Ini: TIniFile;
   Method: string;
 begin
-  Ini := TIniFile.Create(GetIniDirectory('config.ini'));
+  Ini := TIniFile.Create(GetIniDirectory('google.ini'));
   try
     Translate.SourceLang := Ini.ReadString('Translate', 'Source', Translate.SourceLang);
     Translate.TargetLang := Ini.ReadString('Translate', 'Target', Translate.TargetLang);

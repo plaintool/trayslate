@@ -65,6 +65,10 @@ if exist "trayslator64.exe" (
 
 echo 32-bit build completed successfully
 
+:: Copy 32-bit OpenSSL DLLs to output folder
+copy /Y "%~dp0installer\redist\libcrypto-1_1.dll" "%~dp0"
+copy /Y "%~dp0installer\redist\libssl-1_1.dll" "%~dp0"
+
 ::Wait 2 seconds to ensure file is free
 timeout /t 2 /nobreak >nul
 

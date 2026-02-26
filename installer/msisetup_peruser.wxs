@@ -8,6 +8,7 @@
 -->
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<?define ProductVersion = "$(var.Version)" ?>
+	<?define OpenSslDir = ".\redist" ?>
 	<?if $(var.Platform) = x64 ?>
         <?define ProductName = "Trayslator $(var.ProductVersion)" ?>
         <?define Win64Value = "yes" ?>
@@ -15,6 +16,8 @@
 		<?define ExeName = "trayslator.exe" ?>
 		<?define ExeNameUpper = "TRAYSLATOR.EXE" ?>
         <?define SystemFolder = "System64Folder" ?>
+		<?define LibCryptoName = "libcrypto-1_1-x64.dll" ?>
+		<?define LibSslName    = "libssl-1_1-x64.dll" ?>
     <?else?>
         <?define ProductName = "Trayslator $(var.ProductVersion) (32-bit)" ?>
         <?define Win64Value = "no" ?>
@@ -22,6 +25,8 @@
 		<?define ExeName = "trayslator32.exe" ?>
 		<?define ExeNameUpper = "TRAYSLATOR32.EXE" ?>
         <?define SystemFolder = "SystemFolder" ?>
+		<?define LibCryptoName = "libcrypto-1_1.dll" ?>
+		<?define LibSslName    = "libssl-1_1.dll" ?>
     <?endif?>
     
     <Product Id="*" Name="$(var.ProductName)" Language="1033" Version="$(var.ProductVersion)" Manufacturer="Alexander Tverskoy" UpgradeCode="45C75BC5-3DDC-453B-A7AB-7E2AE0D88699">
@@ -44,6 +49,13 @@
                         <!-- Files to be installed -->
                         <File Id="$(var.ExeNameUpper)" Name="$(var.ExeName)" Source="..\$(var.ExeName)" />
                         <File Id="LICENSE" Name="LICENSE" Source="..\LICENSE" />
+						<File Id="CONFIG" Name="google.ini" Source="..\google.ini" />
+						<File Id="LIBCRYPTO"
+							  Name="$(var.LibCryptoName)"
+							  Source="$(var.OpenSslDir)\$(var.LibCryptoName)" />
+						<File Id="LIBSSL"
+							  Name="$(var.LibSslName)"
+							  Source="$(var.OpenSslDir)\$(var.LibSslName)" />
                         <!-- Registry KeyPath to satisfy ICE38 -->
                         <RegistryValue Root="HKCU" Key="Software\Alexander Tverskoy\Trayslator" Name="InstallPath" Type="string" Value="[INSTALLDIR]" KeyPath="yes" />
                         <!-- Remove INSTALLDIR on uninstall -->

@@ -62,10 +62,16 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 ; 64-bit
 Source: "..\{#MyAppExeName}"; DestDir: "{app}"; DestName: "{#MyAppExeName}"; Check: Is64BitInstallMode; Flags: ignoreversion
+Source: ".\redist\libcrypto-1_1-x64.dll"; DestDir: "{app}"; Check: Is64BitInstallMode; Flags: ignoreversion
+Source: ".\redist\libssl-1_1-x64.dll"; DestDir: "{app}"; Check: Is64BitInstallMode; Flags: ignoreversion
 ; 32-bit
 Source: "..\trayslator32.exe"; DestDir: "{app}"; DestName: "{#MyAppExeName}"; Check: not Is64BitInstallMode; Flags: ignoreversion
+Source: ".\redist\libcrypto-1_1.dll"; DestDir: "{app}"; Check: not Is64BitInstallMode; Flags: ignoreversion
+Source: ".\redist\libssl-1_1.dll"; DestDir: "{app}"; Check: not Is64BitInstallMode; Flags: ignoreversion
 ; License
 Source: "..\LICENSE"; DestDir: "{app}"; Flags: ignoreversion
+; Congig
+Source: "..\google.ini"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
