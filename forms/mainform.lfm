@@ -13,7 +13,7 @@ object formTrayslator: TformTrayslator
   object MemoSource: TMemo
     Left = 24
     Height = 120
-    Top = 16
+    Top = 40
     Width = 408
     ScrollBars = ssAutoBoth
     TabOrder = 0
@@ -21,19 +21,43 @@ object formTrayslator: TformTrayslator
   object MemoTarget: TMemo
     Left = 24
     Height = 122
-    Top = 152
+    Top = 200
     Width = 408
     ScrollBars = ssAutoBoth
     TabOrder = 1
   end
   object BtnTranslate: TButton
-    Left = 352
+    Left = 357
     Height = 25
-    Top = 288
+    Top = 328
     Width = 75
     Caption = 'Translate'
     TabOrder = 2
     OnClick = BtnTranslateClick
+  end
+  object ComboSource: TComboBox
+    Left = 24
+    Height = 23
+    Top = 8
+    Width = 408
+    AutoComplete = True
+    AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
+    AutoDropDown = True
+    DropDownCount = 20
+    ItemHeight = 15
+    TabOrder = 3
+  end
+  object ComboTarget: TComboBox
+    Left = 24
+    Height = 23
+    Top = 168
+    Width = 408
+    AutoComplete = True
+    AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
+    AutoDropDown = True
+    DropDownCount = 20
+    ItemHeight = 15
+    TabOrder = 4
   end
   object TrayIcon: TTrayIcon
     PopUpMenu = PopupTray

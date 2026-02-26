@@ -37,6 +37,8 @@ type
     aExit: TAction;
     ActionList: TActionList;
     BtnTranslate: TButton;
+    ComboSource: TComboBox;
+    ComboTarget: TComboBox;
     MemoSource: TMemo;
     MemoTarget: TMemo;
     MenuExit: TMenuItem;
@@ -88,7 +90,7 @@ resourcestring
 
 implementation
 
-uses formdonate, formabout, langtool, settings;
+uses formdonate, formabout, langtool, settings, languages;
 
   {$R *.lfm}
 
@@ -118,6 +120,11 @@ begin
       aExit.Execute;
     end;
   end;
+
+  // Init Controls
+  ComboSource.Items.Assign(GetLanguageDisplayStrings);
+  ComboSource.ItemIndex := 0;
+  ComboTarget.Items.Assign(ComboSource.Items);
 
   LoadIniSettings(Trans, FConfigFile);
   SetIcon;
