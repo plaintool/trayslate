@@ -60,6 +60,10 @@ type
   private
     FTrans: TTranslate;
     FDoubleClicked: boolean;
+
+    // Settings
+    FConfigFile: string;
+    FConfigFiles: TStringList;
     FIconBackgroundColor: TColor;
     FIconFontColor: TColor;
     FIconTwoLang: boolean;
@@ -68,6 +72,9 @@ type
     procedure Translate;
   public
     property Trans: TTranslate read FTrans write FTrans;
+
+    // Settings property
+    property ConfigFile: string read FConfigFile write FConfigFile;
     property IconBackgroundColor: TColor read FIconBackgroundColor write FIconBackgroundColor;
     property IconFontColor: TColor read FIconFontColor write FIconFontColor;
     property IconTwoLang: boolean read FIconTwoLang write FIconTwoLang;
@@ -75,6 +82,9 @@ type
 
 var
   formTrayslator: TformTrayslator;
+
+resourcestring
+  NoConfig = 'Configuration file not found!';
 
 implementation
 
@@ -86,13 +96,30 @@ uses formdonate, formabout, langtool, settings;
 
 procedure TformTrayslator.FormCreate(Sender: TObject);
 begin
+  // Default values
+  FConfigFile := GetIniDirectory('google.ini');
   FIconBackgroundColor := $00FF9628;
   FIconFontColor := $00DCDCDC;
   FIconTwoLang := False;
 
   Trans := TTranslate.Create;
   LoadFormSettings(Self);
-  LoadIniSettings(Self, Trans);
+
+  FConfigFiles := TStringList.Create;
+  GetIniFiles(FConfigFiles);
+
+  if (FConfigFiles.IndexOf(FConfigFile) < 0) then
+  begin
+    if FConfigFiles.Count > 0 then
+      FConfigFile := FConfigFiles[0]
+    else
+    begin
+      ShowMessage(NoConfig);
+      aExit.Execute;
+    end;
+  end;
+
+  LoadIniSettings(Trans, FConfigFile);
   SetIcon;
 end;
 

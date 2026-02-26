@@ -21,19 +21,23 @@ uses
   mainform,
   translate;
 
+function GetIniDirectory(fileName: string = string.Empty): string;
+
 procedure SaveFormSettings(Form: TformTrayslator);
 
 function LoadFormSettings(Form: TformTrayslator): boolean;
 
-procedure SaveIniSettings(Form: TformTrayslator; Translate: TTranslate);
+procedure SaveIniSettings(Translate: TTranslate; AFileName: string);
 
-procedure LoadIniSettings(Form: TformTrayslator; Translate: TTranslate);
+procedure LoadIniSettings(Translate: TTranslate; AFileName: string);
+
+procedure GetIniFiles(List: TStrings);
 
 implementation
 
-uses systemtool, formattool;
+uses systemtool;
 
-function GetSettingsDirectory(fileName: string = ''): string;
+function GetSettingsDirectory(fileName: string = string.Empty): string;
   {$IFDEF Windows}
 var
   baseDir: string;
@@ -63,7 +67,7 @@ begin
   {$ENDIF}
 end;
 
-function GetIniDirectory(fileName: string = ''): string;
+function GetIniDirectory(fileName: string = string.Empty): string;
 begin
   {$IFDEF Windows}
   Result := ExtractFilePath(ParamStr(0)) + fileName;
@@ -98,6 +102,11 @@ begin
     end;
     JSONObj.Add('WindowState', Ord(Form.WindowState));
     JSONObj.Add('Language', Language);
+
+    JSONObj.Add('ConfigFile', Form.ConfigFile);
+    JSONObj.Add('IconBackgroundColor', Form.IconBackgroundColor);
+    JSONObj.Add('IconFontColor', Form.IconFontColor);
+    JSONObj.Add('IconTwoLang', Form.IconTwoLang);
 
     // Write to file
     with TStringList.Create do
@@ -156,6 +165,18 @@ begin
           Language := JSONObj.FindPath('Language').AsString;
       end;
 
+      if JSONObj.FindPath('ConfigFile') <> nil then
+        Form.ConfigFile := JSONObj.FindPath('ConfigFile').AsString;
+
+      if JSONObj.FindPath('IconBackgroundColor') <> nil then
+        Form.IconBackgroundColor := JSONObj.FindPath('IconBackgroundColor').AsInteger;
+
+      if JSONObj.FindPath('IconFontColor') <> nil then
+        Form.IconFontColor := JSONObj.FindPath('IconFontColor').AsInteger;
+
+      if JSONObj.FindPath('IconTwoLang') <> nil then
+        Form.IconTwoLang := JSONObj.FindPath('IconTwoLang').AsBoolean;
+
       Result := True;
     finally
       JSONData.Free;
@@ -165,11 +186,11 @@ begin
   end;
 end;
 
-procedure SaveIniSettings(Form: TformTrayslator; Translate: TTranslate);
+procedure SaveIniSettings(Translate: TTranslate; AFileName: string);
 var
   Ini: TIniFile;
 begin
-  Ini := TIniFile.Create(GetIniDirectory('google.ini'));
+  Ini := TIniFile.Create(AFileName);
   try
     Ini.WriteString('Translate', 'Source', Translate.SourceLang);
     Ini.WriteString('Translate', 'Target', Translate.TargetLang);
@@ -191,21 +212,17 @@ begin
       Ini.WriteString('Response', 'ParserType', 'Regexp');
 
     Ini.WriteString('Response', 'Regex', Translate.RegexPattern);
-
-    Ini.WriteString('TrayIcon', 'BackgroundColor', ColorToHtml(Form.IconBackgroundColor));
-    Ini.WriteString('TrayIcon', 'FontColor', ColorToHtml(Form.IconFontColor));
-    Ini.WriteBool('TrayIcon', 'TwoLang', Form.IconTwoLang);
   finally
     Ini.Free;
   end;
 end;
 
-procedure LoadIniSettings(Form: TformTrayslator; Translate: TTranslate);
+procedure LoadIniSettings(Translate: TTranslate; AFileName: string);
 var
   Ini: TIniFile;
   Method: string;
 begin
-  Ini := TIniFile.Create(GetIniDirectory('google.ini'));
+  Ini := TIniFile.Create(AFileName);
   try
     Translate.SourceLang := Ini.ReadString('Translate', 'Source', Translate.SourceLang);
     Translate.TargetLang := Ini.ReadString('Translate', 'Target', Translate.TargetLang);
@@ -230,13 +247,76 @@ begin
       Translate.ResponseParserType := rpRegEx;
 
     Translate.RegexPattern := Ini.ReadString('Response', 'Regex', Translate.RegexPattern);
-
-    Form.IconBackgroundColor := ColorFromHtml(Ini.ReadString('TrayIcon', 'BackgroundColor', ColorToHtml(Form.IconBackgroundColor)));
-    Form.IconFontColor := ColorFromHtml(Ini.ReadString('TrayIcon', 'FontColor', ColorToHtml(Form.IconFontColor)));
-    Form.IconTwoLang := Ini.ReadBool('TrayIcon', 'TwoLang', Form.IconTwoLang);
   finally
     Ini.Free;
   end;
+end;
+
+function IsValidIni(const FileName: string): boolean;
+var
+  Ini: TIniFile;
+  Method: string;
+  Url: string;
+  ParserType: string;
+begin
+  Result := False;
+
+  if not FileExists(FileName) then
+    Exit;
+
+  Ini := TIniFile.Create(FileName);
+  try
+    // Check required keys
+    Method := Ini.ReadString('Request', 'Method', '');
+    Url := Ini.ReadString('Request', 'Url', '');
+    ParserType := Ini.ReadString('Response', 'ParserType', '');
+
+    if (Method <> '') and ((Method = 'GET') or (Method = 'POST')) and (Url <> '') and
+      ((ParserType = 'Json') or (ParserType = 'Regexp')) then
+      Result := True;
+
+  finally
+    Ini.Free;
+  end;
+end;
+
+procedure FindIniFiles(const Dir: string; List: TStrings);
+var
+  SR: TSearchRec;
+  FilePath: string;
+begin
+  if not DirectoryExists(Dir) then
+    Exit;
+
+  if FindFirst(IncludeTrailingPathDelimiter(Dir) + '*.ini', faAnyFile, SR) = 0 then
+  begin
+    repeat
+      FilePath := IncludeTrailingPathDelimiter(Dir) + SR.Name;
+
+      if IsValidIni(FilePath) then
+        List.Add(FilePath);
+
+    until FindNext(SR) <> 0;
+
+    FindClose(SR);
+  end;
+end;
+
+procedure GetIniFiles(List: TStrings);
+var
+  ExeDir: string;
+  SettingsDir: string;
+begin
+  List.Clear;
+
+  // Executable directory
+  ExeDir := ExtractFilePath(ParamStr(0));
+  FindIniFiles(ExeDir, List);
+
+  // Settings directory
+  SettingsDir := GetSettingsDirectory('');
+  if CompareText(ExcludeTrailingPathDelimiter(ExeDir), ExcludeTrailingPathDelimiter(SettingsDir)) <> 0 then
+    FindIniFiles(SettingsDir, List);
 end;
 
 end.

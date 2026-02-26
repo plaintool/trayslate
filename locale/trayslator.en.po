@@ -11,6 +11,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.5\n"
 
+#: mainform.noconfig
+msgid "Configuration file not found!"
+msgstr ""
+
 #: tformabouttrayslator.buttonok.caption
 msgctxt "tformabouttrayslator.buttonok.caption"
 msgid "OK"

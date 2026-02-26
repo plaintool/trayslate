@@ -1,6 +1,10 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8"
 
+#: mainform.noconfig
+msgid "Configuration file not found!"
+msgstr ""
+
 #: tformabouttrayslator.buttonok.caption
 msgctxt "tformabouttrayslator.buttonok.caption"
 msgid "OK"
