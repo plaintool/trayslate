@@ -103,6 +103,20 @@ if exist "trayslator32.exe" (
                 ) else (
                     echo Signing failed
                 )
+                echo Signing 32-bit libssl-1_1.dll...
+                "%SIGNTOOL%" sign /f "%CERTFILE%" /p "%CERTPASS%" /fd SHA256 /tr %TIMESTAMP_URL% /td SHA256 "libssl-1_1.dll"
+                IF %ERRORLEVEL% EQU 0 (
+                    echo Signing completed successfully
+                ) else (
+                    echo Signing failed
+                )
+                echo Signing 32-bit libcrypto-1_1.dll...
+                "%SIGNTOOL%" sign /f "%CERTFILE%" /p "%CERTPASS%" /fd SHA256 /tr %TIMESTAMP_URL% /td SHA256 "libcrypto-1_1.dll"
+                IF %ERRORLEVEL% EQU 0 (
+                    echo Signing completed successfully
+                ) else (
+                    echo Signing failed
+                )
             ) else (
                 echo Skipping signing: signtool not found.
             )

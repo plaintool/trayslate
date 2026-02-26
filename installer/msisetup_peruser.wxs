@@ -8,7 +8,7 @@
 -->
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<?define ProductVersion = "$(var.Version)" ?>
-	<?define OpenSslDir = ".\redist" ?>
+	<?define OpenSslDir = "..\" ?>
 	<?if $(var.Platform) = x64 ?>
         <?define ProductName = "Trayslator $(var.ProductVersion)" ?>
         <?define Win64Value = "yes" ?>
