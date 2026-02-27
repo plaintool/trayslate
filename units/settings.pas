@@ -101,8 +101,20 @@ begin
       JSONObj.Add('Height', Form.Height);
     end;
     JSONObj.Add('WindowState', Ord(Form.WindowState));
+    JSONObj.Add('MemoTargetHeight', Form.MemoTarget.Height);
+
+    // Save language
     JSONObj.Add('Language', Language);
 
+    // Save font
+    JSONObj.Add('FontName', Form.Font.Name);
+    JSONObj.Add('FontSize', Form.Font.Size);
+    JSONObj.Add('FontStyle', integer(Form.Font.Style));  // Convert font style to number
+    JSONObj.Add('FontCharset', Form.Font.Charset);
+    JSONObj.Add('FontColor', Form.Font.Color);
+    JSONObj.Add('FontPitch', Ord(Form.Font.Pitch));
+
+    // Save config
     JSONObj.Add('ConfigFile', Form.ConfigFile);
     JSONObj.Add('IconBackgroundColor', Form.IconBackgroundColor);
     JSONObj.Add('IconFontColor', Form.IconFontColor);
@@ -161,12 +173,31 @@ begin
       if JSONObj.FindPath('WindowState') <> nil then
         Form.WindowState := TWindowState(JSONObj.FindPath('WindowState').AsInteger);
 
+      if JSONObj.FindPath('MemoTargetHeight') <> nil then
+        Form.MemoTarget.Height := JSONObj.FindPath('MemoTargetHeight').AsInteger;
+
+      // Load language
       if JSONObj.FindPath('Language') <> nil then
       begin
         if (JSONObj.FindPath('Language').AsString <> string.Empty) and (Language <> JSONObj.FindPath('Language').AsString) then
           Language := JSONObj.FindPath('Language').AsString;
       end;
 
+      // Check and load font properties
+      if JSONObj.FindPath('FontName') <> nil then
+        Form.Font.Name := JSONObj.FindPath('FontName').AsString;
+      if JSONObj.FindPath('FontSize') <> nil then
+        Form.Font.Size := JSONObj.FindPath('FontSize').AsInteger;
+      if JSONObj.FindPath('FontStyle') <> nil then
+        Form.Font.Style := TFontStyles(JSONObj.FindPath('FontStyle').AsInteger); // Convert integer back to TFontStyles
+      if JSONObj.FindPath('FontCharset') <> nil then
+        Form.Font.Charset := JSONObj.FindPath('FontCharset').AsInteger;
+      if JSONObj.FindPath('FontColor') <> nil then
+        Form.Font.Color := JSONObj.FindPath('FontColor').AsInteger;
+      if JSONObj.FindPath('FontPitch') <> nil then
+        Form.Font.Pitch := TFontPitch(JSONObj.FindPath('FontPitch').AsInteger);
+
+      // Load config
       if JSONObj.FindPath('ConfigFile') <> nil then
         Form.ConfigFile := JSONObj.FindPath('ConfigFile').AsString;
 

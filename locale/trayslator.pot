@@ -107,8 +107,70 @@ msgstr ""
 msgid "https://changelly.com/buy-crypto?amount=15&from=usd"
 msgstr ""
 
+#: tformsettingstrayslator.btnapply.caption
+msgid "Apply"
+msgstr ""
+
+#: tformsettingstrayslator.btncancel.caption
+msgid "Cancel"
+msgstr ""
+
+#: tformsettingstrayslator.btnfont.caption
+msgctxt "tformsettingstrayslator.btnfont.caption"
+msgid "Font..."
+msgstr ""
+
+#: tformsettingstrayslator.btnok.caption
+msgctxt "tformsettingstrayslator.btnok.caption"
+msgid "OK"
+msgstr ""
+
+#: tformsettingstrayslator.btnreset.caption
+msgctxt "tformsettingstrayslator.btnreset.caption"
+msgid "Reset"
+msgstr ""
+
+#: tformsettingstrayslator.caption
+msgid "Settings"
+msgstr ""
+
+#: tformsettingstrayslator.checktwolang.caption
+msgid "Two languages"
+msgstr ""
+
+#: tformsettingstrayslator.groupfont.caption
+msgctxt "tformsettingstrayslator.groupfont.caption"
+msgid "Font"
+msgstr ""
+
+#: tformsettingstrayslator.grouptrayicon.caption
+msgid "Tray Icon"
+msgstr ""
+
+#: tformsettingstrayslator.labeliconbackground.caption
+msgid "Background Color"
+msgstr ""
+
+#: tformsettingstrayslator.labeliconfont.caption
+msgid "Font Color"
+msgstr ""
+
+#: tformsettingstrayslator.panelfont.caption
+msgctxt "tformsettingstrayslator.panelfont.caption"
+msgid "Default, 0"
+msgstr ""
+
+#: tformsettingstrayslator.tabinterface.caption
+msgctxt "tformsettingstrayslator.tabinterface.caption"
+msgid "Interface"
+msgstr ""
+
 #: tformtrayslator.aabout.caption
 msgid "About..."
+msgstr ""
+
+#: tformtrayslator.aclipboard.caption
+msgid "Clipboard - Double-Click"
 msgstr ""
 
 #: tformtrayslator.adonate.caption
@@ -119,8 +181,12 @@ msgstr ""
 msgid "Exit"
 msgstr ""
 
-#: tformtrayslator.ashowtrayslate.caption
-msgid "Show"
+#: tformtrayslator.asettings.caption
+msgid "Settings..."
+msgstr ""
+
+#: tformtrayslator.ashow.caption
+msgid "Show - Click"
 msgstr ""
 
 #: tformtrayslator.aswap.hint

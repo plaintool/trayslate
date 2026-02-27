@@ -1,0 +1,208 @@
+object formSettingsTrayslator: TformSettingsTrayslator
+  Left = 318
+  Height = 450
+  Top = 250
+  Width = 400
+  BorderStyle = bsDialog
+  Caption = 'Settings'
+  ClientHeight = 450
+  ClientWidth = 400
+  Position = poDesktopCenter
+  LCLVersion = '4.4.0.0'
+  OnCreate = FormCreate
+  object PagesSettings: TPageControl
+    Left = 5
+    Height = 405
+    Top = 5
+    Width = 390
+    ActivePage = TabInterface
+    Align = alClient
+    BorderSpacing.Bottom = 35
+    BorderSpacing.Around = 5
+    TabIndex = 0
+    TabOrder = 0
+    object TabInterface: TTabSheet
+      Caption = 'Interface'
+      ClientHeight = 377
+      ClientWidth = 382
+      object GroupFont: TGroupBox
+        Left = 5
+        Height = 99
+        Top = 5
+        Width = 372
+        Align = alTop
+        BorderSpacing.Around = 5
+        Caption = 'Font'
+        ClientHeight = 79
+        ClientWidth = 368
+        TabOrder = 0
+        object PanelFont: TPanel
+          Left = 16
+          Height = 57
+          Top = 8
+          Width = 238
+          Anchors = [akTop, akLeft, akRight]
+          BevelOuter = bvNone
+          Caption = 'Default, 0'
+          Color = clBtnFace
+          ParentBackground = False
+          ParentColor = False
+          ParentFont = False
+          TabOrder = 0
+        end
+        object BtnFont: TButton
+          Left = 270
+          Height = 25
+          Top = 8
+          Width = 75
+          Anchors = [akTop, akRight]
+          Caption = 'Font...'
+          TabOrder = 1
+          OnClick = BtnFontClick
+        end
+        object BtnReset: TButton
+          Left = 270
+          Height = 25
+          Top = 40
+          Width = 75
+          Anchors = [akTop, akRight]
+          Caption = 'Reset'
+          Enabled = False
+          TabOrder = 2
+          OnClick = BtnResetClick
+        end
+      end
+      object GroupTrayIcon: TGroupBox
+        Left = 5
+        Height = 131
+        Top = 109
+        Width = 372
+        Align = alTop
+        BorderSpacing.Around = 5
+        Caption = 'Tray Icon'
+        ClientHeight = 111
+        ClientWidth = 368
+        TabOrder = 1
+        object CheckTwoLang: TCheckBox
+          Left = 45
+          Height = 24
+          Top = 80
+          Width = 104
+          Alignment = taLeftJustify
+          AutoSize = False
+          Caption = 'Two languages'
+          TabOrder = 0
+          OnChange = CheckTwoLangChange
+        end
+        object ColorIconBackground: TColorBox
+          Left = 136
+          Height = 22
+          Top = 8
+          Width = 180
+          Style = [cbCustomColor, cbCustomColors]
+          ColorDialog = ColorDialog
+          DropDownCount = 12
+          ItemHeight = 16
+          TabOrder = 1
+          OnChange = ColorIconBackgroundChange
+        end
+        object LabelIconBackground: TLabel
+          Left = 16
+          Height = 32
+          Top = 8
+          Width = 104
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Background Color'
+        end
+        object LabelIconFont: TLabel
+          Left = 16
+          Height = 26
+          Top = 48
+          Width = 104
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Font Color'
+        end
+        object ColorIconFont: TColorBox
+          Left = 136
+          Height = 22
+          Top = 48
+          Width = 180
+          Style = [cbCustomColor, cbCustomColors]
+          ColorDialog = ColorDialog
+          DropDownCount = 12
+          ItemHeight = 16
+          TabOrder = 2
+          OnChange = ColorIconFontChange
+        end
+      end
+    end
+  end
+  object BtnApply: TButton
+    Left = 312
+    Height = 25
+    Top = 416
+    Width = 75
+    Anchors = [akRight, akBottom]
+    Caption = 'Apply'
+    Enabled = False
+    TabOrder = 1
+    OnClick = BtnApplyClick
+  end
+  object BtnCancel: TButton
+    Left = 232
+    Height = 25
+    Top = 416
+    Width = 75
+    Anchors = [akRight, akBottom]
+    Cancel = True
+    Caption = 'Cancel'
+    TabOrder = 2
+    OnClick = BtnCancelClick
+  end
+  object BtnOk: TButton
+    Left = 152
+    Height = 25
+    Top = 416
+    Width = 75
+    Anchors = [akRight, akBottom]
+    Caption = 'OK'
+    Default = True
+    TabOrder = 3
+    OnClick = BtnOkClick
+  end
+  object ColorDialog: TColorDialog
+    Color = clBlack
+    CustomColors.Strings = (
+      'ColorA=000000'
+      'ColorB=000080'
+      'ColorC=008000'
+      'ColorD=008080'
+      'ColorE=800000'
+      'ColorF=800080'
+      'ColorG=808000'
+      'ColorH=808080'
+      'ColorI=C0C0C0'
+      'ColorJ=0000FF'
+      'ColorK=00FF00'
+      'ColorL=00FFFF'
+      'ColorM=FF0000'
+      'ColorN=FF00FF'
+      'ColorO=FFFF00'
+      'ColorP=FFFFFF'
+      'ColorQ=C0DCC0'
+      'ColorR=F0CAA6'
+      'ColorS=F0FBFF'
+      'ColorT=A4A0A0'
+    )
+    Left = 56
+    Top = 336
+  end
+  object FontDialog: TFontDialog
+    MinFontSize = 0
+    MaxFontSize = 0
+    Left = 128
+    Top = 336
+  end
+end

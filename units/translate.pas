@@ -12,8 +12,11 @@ interface
 
 uses
   Classes,
+  Forms,
   SysUtils,
   RegExpr,
+  StdCtrls,
+  Controls,
   fphttpclient,
   fpjson,
   jsonparser;
@@ -58,6 +61,20 @@ type
     property LangSource: string read FLangSource write FLangSource;
     property LangTarget: string read FLangTarget write FLangTarget;
     property Languages: TStringList read FLanguages write FLanguages;
+  end;
+
+  { TTranslateThread }
+  TTranslateThread = class(TThread)
+  private
+    FTrans: TTranslate;
+    FSourceText: string;
+    FResultText: string;
+    FMemoTarget: TMemo;
+  protected
+    procedure Execute; override;
+    procedure UpdateUI;
+  public
+    constructor Create(ATrans: TTranslate; AMemo: TMemo; const AText: string);
   end;
 
 const
@@ -217,6 +234,36 @@ begin
     Result := TransJson
   else
     Result := TransRegEx;
+end;
+
+{ TTranslateThread }
+
+constructor TTranslateThread.Create(ATrans: TTranslate; AMemo: TMemo; const AText: string);
+begin
+  inherited Create(True);
+  FreeOnTerminate := True;
+
+  FTrans := ATrans;
+  FMemoTarget := AMemo;
+  FSourceText := AText;
+
+  Start;
+end;
+
+procedure TTranslateThread.Execute;
+begin
+  // Perform network request in background
+  FTrans.TextToTranslate := FSourceText;
+  FResultText := FTrans.Translate;
+
+  Synchronize(@UpdateUI);
+end;
+
+procedure TTranslateThread.UpdateUI;
+begin
+  // Update UI in main thread
+  FMemoTarget.Text := FResultText;
+  Screen.Cursor := crDefault;
 end;
 
 end.

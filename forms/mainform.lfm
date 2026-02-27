@@ -8,13 +8,15 @@ object formTrayslator: TformTrayslator
   ClientHeight = 480
   ClientWidth = 512
   Color = clWindow
+  KeyPreview = True
   LCLVersion = '4.4.0.0'
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnKeyDown = FormKeyDown
   object MemoSource: TMemo
     Left = 3
-    Height = 207
+    Height = 202
     Top = 35
     Width = 506
     Align = alClient
@@ -22,11 +24,12 @@ object formTrayslator: TformTrayslator
     BorderStyle = bsNone
     ScrollBars = ssAutoBoth
     TabOrder = 0
+    OnEnter = MemoSourceEnter
   end
   object MemoTarget: TMemo
     Left = 3
-    Height = 224
-    Top = 253
+    Height = 229
+    Top = 248
     Width = 506
     Align = alBottom
     BorderSpacing.Around = 3
@@ -34,6 +37,7 @@ object formTrayslator: TformTrayslator
     Constraints.MinHeight = 30
     ScrollBars = ssAutoBoth
     TabOrder = 1
+    OnEnter = MemoTargetEnter
   end
   object PanelLang: TPanel
     Left = 0
@@ -47,11 +51,12 @@ object formTrayslator: TformTrayslator
     ClientWidth = 512
     ParentBackground = False
     TabOrder = 2
+    OnResize = PanelLangResize
     object ComboTarget: TComboBox
       Left = 257
       Height = 23
       Top = 3
-      Width = 220
+      Width = 225
       Align = alRight
       AutoComplete = True
       AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
@@ -59,14 +64,14 @@ object formTrayslator: TformTrayslator
       BorderSpacing.Around = 3
       DropDownCount = 20
       ItemHeight = 15
-      TabOrder = 0
+      TabOrder = 1
       OnChange = ComboTargetChange
     end
     object ComboSource: TComboBox
       Left = 3
       Height = 23
       Top = 3
-      Width = 220
+      Width = 225
       Align = alLeft
       AutoComplete = True
       AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
@@ -74,16 +79,16 @@ object formTrayslator: TformTrayslator
       BorderSpacing.Around = 3
       DropDownCount = 20
       ItemHeight = 15
-      TabOrder = 1
+      TabOrder = 0
       OnChange = ComboSourceChange
     end
     object SbSwap: TSpeedButton
-      Left = 226
+      Left = 231
       Height = 26
       Top = 3
-      Width = 28
+      Width = 24
       Action = aSwap
-      Align = alClient
+      Align = alLeft
       BorderSpacing.Around = 3
       Flat = True
       Glyph.Data = {
@@ -122,12 +127,14 @@ object formTrayslator: TformTrayslator
         0000000000000000000000000000000000000000000000000000000000000000
         0000000000000000000000000000000000000000000000000000
       }
+      ShowHint = True
+      ParentShowHint = False
     end
     object SbTranslate: TSpeedButton
-      Left = 480
+      Left = 485
       Height = 26
       Top = 3
-      Width = 29
+      Width = 24
       Action = aTranslate
       Align = alRight
       BorderSpacing.Around = 3
@@ -168,13 +175,15 @@ object formTrayslator: TformTrayslator
         0000000000000000000000000000000000000000000000000000000000000000
         0000000000000000000000000000000000000000000000000000
       }
+      ShowHint = True
+      ParentShowHint = False
     end
   end
   object SplitterMemo: TSplitter
     Cursor = crVSplit
     Left = 0
     Height = 5
-    Top = 245
+    Top = 240
     Width = 512
     Align = alBottom
     Color = clBtnFace
@@ -193,16 +202,25 @@ object formTrayslator: TformTrayslator
   object PopupTray: TPopupMenu
     Left = 104
     Top = 328
-    object MenuItem3: TMenuItem
-      Action = aShowTrayslate
+    object MenuShow: TMenuItem
+      Action = aShow
+    end
+    object MenuShowTranslate: TMenuItem
+      Action = aClipboard
     end
     object Separator2: TMenuItem
       Caption = '-'
     end
-    object MenuItem2: TMenuItem
+    object MenuItem1: TMenuItem
+      Action = aSettings
+    end
+    object Separator3: TMenuItem
+      Caption = '-'
+    end
+    object MenuDonate: TMenuItem
       Action = aDonate
     end
-    object MenuItem1: TMenuItem
+    object MenuAbout: TMenuItem
       Action = aAbout
     end
     object Separator1: TMenuItem
@@ -215,10 +233,30 @@ object formTrayslator: TformTrayslator
   object ActionList: TActionList
     Left = 40
     Top = 328
-    object aShowTrayslate: TAction
+    object aShow: TAction
       Category = 'Tray'
-      Caption = 'Show'
-      OnExecute = aShowTrayslateExecute
+      Caption = 'Show - Click'
+      OnExecute = aShowExecute
+    end
+    object aClipboard: TAction
+      Category = 'Tray'
+      Caption = 'Clipboard - Double-Click'
+      OnExecute = aClipboardExecute
+    end
+    object aSettings: TAction
+      Category = 'Tray'
+      Caption = 'Settings...'
+      OnExecute = aSettingsExecute
+    end
+    object aTranslate: TAction
+      Category = 'Form'
+      Hint = 'Translate'
+      OnExecute = aTranslateExecute
+    end
+    object aSwap: TAction
+      Category = 'Form'
+      Hint = 'Swap'
+      OnExecute = aSwapExecute
     end
     object aDonate: TAction
       Category = 'Tray'
@@ -235,14 +273,12 @@ object formTrayslator: TformTrayslator
       Caption = 'Exit'
       OnExecute = aExitExecute
     end
-    object aTranslate: TAction
-      Category = 'Form'
-      Hint = 'Translate'
-      OnExecute = aTranslateExecute
-    end
-    object aSwap: TAction
-      Category = 'Form'
-      Hint = 'Swap'
-    end
+  end
+  object TimerClick: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = TimerClickTimer
+    Left = 231
+    Top = 328
   end
 end

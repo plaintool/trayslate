@@ -27,8 +27,8 @@ begin
   RequireDerivedFormResource := True;
   Language := GetOSLanguage;
   DefaultFormatSettings.DecimalSeparator := '.';
-  Application.Title := 'Trayslator';
-  Application.Scaled := True;
+  Application.Title:='Trayslator';
+  Application.Scaled:=True;
   Application.Initialize;
   Application.ShowMainForm := False;
   Application.CreateForm(TformTrayslator, formTrayslator);
