@@ -107,6 +107,8 @@ begin
     JSONObj.Add('IconBackgroundColor', Form.IconBackgroundColor);
     JSONObj.Add('IconFontColor', Form.IconFontColor);
     JSONObj.Add('IconTwoLang', Form.IconTwoLang);
+    JSONObj.Add('LangSource', Form.LangSource);
+    JSONObj.Add('LangTarget', Form.LangTarget);
 
     // Write to file
     with TStringList.Create do
@@ -177,6 +179,12 @@ begin
       if JSONObj.FindPath('IconTwoLang') <> nil then
         Form.IconTwoLang := JSONObj.FindPath('IconTwoLang').AsBoolean;
 
+      if JSONObj.FindPath('LangSource') <> nil then
+        Form.LangSource := JSONObj.FindPath('LangSource').AsString;
+
+      if JSONObj.FindPath('LangTarget') <> nil then
+        Form.LangTarget := JSONObj.FindPath('LangTarget').AsString;
+
       Result := True;
     finally
       JSONData.Free;
@@ -189,11 +197,12 @@ end;
 procedure SaveIniSettings(Translate: TTranslate; AFileName: string);
 var
   Ini: TIniFile;
+  i: integer;
 begin
   Ini := TIniFile.Create(AFileName);
   try
-    Ini.WriteString('Translate', 'Source', Translate.SourceLang);
-    Ini.WriteString('Translate', 'Target', Translate.TargetLang);
+    Ini.WriteString('Translate', 'Source', Translate.LangSource);
+    Ini.WriteString('Translate', 'Target', Translate.LangTarget);
 
     // determine method string based on UsePost property
     if Translate.RequestType = rtPost then
@@ -212,6 +221,12 @@ begin
       Ini.WriteString('Response', 'ParserType', 'Regexp');
 
     Ini.WriteString('Response', 'Regex', Translate.RegexPattern);
+
+    // Save language mappings (code=apiCode)
+    Ini.EraseSection('Languages'); // Clear previous entries
+    if Assigned(Translate.Languages) then
+      for i := 0 to Translate.Languages.Count - 1 do
+        Ini.WriteString('Languages', Translate.Languages.Names[i], Translate.Languages.ValueFromIndex[i]);
   finally
     Ini.Free;
   end;
@@ -224,8 +239,8 @@ var
 begin
   Ini := TIniFile.Create(AFileName);
   try
-    Translate.SourceLang := Ini.ReadString('Translate', 'Source', Translate.SourceLang);
-    Translate.TargetLang := Ini.ReadString('Translate', 'Target', Translate.TargetLang);
+    Translate.LangSource := Ini.ReadString('Translate', 'Source', Translate.LangSource);
+    Translate.LangTarget := Ini.ReadString('Translate', 'Target', Translate.LangTarget);
 
     // read method and assign UsePost accordingly
     Method := Ini.ReadString('Request', 'Method', 'GET');
@@ -247,6 +262,8 @@ begin
       Translate.ResponseParserType := rpRegEx;
 
     Translate.RegexPattern := Ini.ReadString('Response', 'Regex', Translate.RegexPattern);
+
+    Ini.ReadSectionValues('Languages', Translate.Languages);
   finally
     Ini.Free;
   end;

@@ -33,8 +33,9 @@ type
     FRegex: string;
     FTextToTranslate: string;
     FPostData: string;
-    FSourceLang: string;
-    FTargetLang: string;
+    FLangSource: string;
+    FLangTarget: string;
+    FLanguages: TStringList;
   public
     constructor Create;
     destructor Destroy; override;
@@ -54,8 +55,9 @@ type
     property RegexPattern: string read FRegex write FRegex;
     property TextToTranslate: string read FTextToTranslate write FTextToTranslate;
     property PostData: string read FPostData write FPostData;
-    property SourceLang: string read FSourceLang write FSourceLang;
-    property TargetLang: string read FTargetLang write FTargetLang;
+    property LangSource: string read FLangSource write FLangSource;
+    property LangTarget: string read FLangTarget write FLangTarget;
+    property Languages: TStringList read FLanguages write FLanguages;
   end;
 
 const
@@ -74,12 +76,14 @@ begin
   FResponseParserType := rpJson;
   FUserAgent := 'Mozilla/5.0';
   FContentType := 'application/x-www-form-urlencoded';
-  FSourceLang := Language;
+  FLangSource := Language;
   FRegex := '\[\["(.*?)"';
+  FLanguages := TStringList.Create;
 end;
 
 destructor TTranslate.Destroy;
 begin
+  FLanguages.Free;
   inherited Destroy;
 end;
 
@@ -102,13 +106,13 @@ begin
     else
       tarUrl := StringReplace(tarUrl, '{text}', string.Empty, [rfReplaceAll]);
 
-    if FSourceLang <> string.Empty then
-      tarUrl := StringReplace(tarUrl, '{source}', FSourceLang, [rfReplaceAll])
+    if FLangSource <> string.Empty then
+      tarUrl := StringReplace(tarUrl, '{source}', FLangSource, [rfReplaceAll])
     else
       tarUrl := StringReplace(tarUrl, '{source}', Language, [rfReplaceAll]);
 
-    if FTargetLang <> string.Empty then
-      tarUrl := StringReplace(tarUrl, '{target}', FTargetLang, [rfReplaceAll])
+    if FLangTarget <> string.Empty then
+      tarUrl := StringReplace(tarUrl, '{target}', FLangTarget, [rfReplaceAll])
     else
       tarUrl := StringReplace(tarUrl, '{target}', defaultlang, [rfReplaceAll]);
 

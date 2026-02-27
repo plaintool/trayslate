@@ -3,13 +3,14 @@ unit languages;
 interface
 
 uses
-  Classes;
+  Classes,
+  SysUtils,
+  StrUtils;
 
 type
   TAppLanguage = record
     Code: string;        // ISO code (ru, en, de ...)
     DisplayName: string; // Name shown in UI (English)
-    ApiCode: string;     // How to send to translate API
   end;
 
 type
@@ -17,270 +18,305 @@ type
 
 function GetLanguages: TAppLanguageArray;
 
+function GetLanguageCodePairList: TStringList;
+
 function GetLanguageDisplayStrings: TStringList;
+
+function GetDisplayNamesFromCodeMap(ACodeMap: TStringList): TStringList;
+
+function ExtractCodeFromItem(const ItemText: string): string;
 
 implementation
 
 function GetLanguages: TAppLanguageArray;
 const
   Languages: array[0..248] of TAppLanguage = (
-    (Code: 'auto'; DisplayName: 'Auto detect'; ApiCode: 'auto'),
-    (Code: 'ab'; DisplayName: 'Abkhazian'; ApiCode: 'ab'),
-    (Code: 'awa'; DisplayName: 'Awadhi'; ApiCode: 'awa'),
-    (Code: 'av'; DisplayName: 'Avar'; ApiCode: 'av'),
-    (Code: 'az'; DisplayName: 'Azerbaijani'; ApiCode: 'az'),
-    (Code: 'ay'; DisplayName: 'Aymara'; ApiCode: 'ay'),
-    (Code: 'sq'; DisplayName: 'Albanian'; ApiCode: 'sq'),
-    (Code: 'alz'; DisplayName: 'Alur'; ApiCode: 'alz'),
-    (Code: 'am'; DisplayName: 'Amharic'; ApiCode: 'am'),
-    (Code: 'en'; DisplayName: 'English'; ApiCode: 'en'),
-    (Code: 'ar'; DisplayName: 'Arabic'; ApiCode: 'ar'),
-    (Code: 'hy'; DisplayName: 'Armenian'; ApiCode: 'hy'),
-    (Code: 'as'; DisplayName: 'Assamese'; ApiCode: 'as'),
-    (Code: 'aa'; DisplayName: 'Afar'; ApiCode: 'aa'),
-    (Code: 'af'; DisplayName: 'Afrikaans'; ApiCode: 'af'),
-    (Code: 'ace'; DisplayName: 'Acehnese'; ApiCode: 'ace'),
-    (Code: 'ach'; DisplayName: 'Acholi'; ApiCode: 'ach'),
-    (Code: 'ban'; DisplayName: 'Balinese'; ApiCode: 'ban'),
-    (Code: 'bm'; DisplayName: 'Bambara'; ApiCode: 'bm'),
-    (Code: 'eu'; DisplayName: 'Basque'; ApiCode: 'eu'),
-    (Code: 'bci'; DisplayName: 'Baoulé'; ApiCode: 'bci'),
-    (Code: 'ba'; DisplayName: 'Bashkir'; ApiCode: 'ba'),
-    (Code: 'be'; DisplayName: 'Belarusian'; ApiCode: 'be'),
-    (Code: 'bal'; DisplayName: 'Balochi'; ApiCode: 'bal'),
-    (Code: 'bem'; DisplayName: 'Bemba'; ApiCode: 'bem'),
-    (Code: 'bn'; DisplayName: 'Bengali'; ApiCode: 'bn'),
-    (Code: 'bew'; DisplayName: 'Betawi'; ApiCode: 'bew'),
-    (Code: 'bik'; DisplayName: 'Bikol'; ApiCode: 'bik'),
-    (Code: 'my'; DisplayName: 'Burmese'; ApiCode: 'my'),
-    (Code: 'bg'; DisplayName: 'Bulgarian'; ApiCode: 'bg'),
-    (Code: 'bs'; DisplayName: 'Bosnian'; ApiCode: 'bs'),
-    (Code: 'br'; DisplayName: 'Breton'; ApiCode: 'br'),
-    (Code: 'bua'; DisplayName: 'Buryat'; ApiCode: 'bua'),
-    (Code: 'bho'; DisplayName: 'Bhojpuri'; ApiCode: 'bho'),
-    (Code: 'cy'; DisplayName: 'Welsh'; ApiCode: 'cy'),
-    (Code: 'war'; DisplayName: 'Waray'; ApiCode: 'war'),
-    (Code: 'hu'; DisplayName: 'Hungarian'; ApiCode: 'hu'),
-    (Code: 've'; DisplayName: 'Venda'; ApiCode: 've'),
-    (Code: 'vec'; DisplayName: 'Venetian'; ApiCode: 'vec'),
-    (Code: 'wo'; DisplayName: 'Wolof'; ApiCode: 'wo'),
-    (Code: 'vi'; DisplayName: 'Vietnamese'; ApiCode: 'vi'),
-    (Code: 'gaa'; DisplayName: 'Ga'; ApiCode: 'gaa'),
-    (Code: 'haw'; DisplayName: 'Hawaiian'; ApiCode: 'haw'),
-    (Code: 'ht'; DisplayName: 'Haitian Creole'; ApiCode: 'ht'),
-    (Code: 'gl'; DisplayName: 'Galician'; ApiCode: 'gl'),
-    (Code: 'kl'; DisplayName: 'Greenlandic'; ApiCode: 'kl'),
-    (Code: 'el'; DisplayName: 'Greek'; ApiCode: 'el'),
-    (Code: 'ka'; DisplayName: 'Georgian'; ApiCode: 'ka'),
-    (Code: 'gn'; DisplayName: 'Guarani'; ApiCode: 'gn'),
-    (Code: 'gu'; DisplayName: 'Gujarati'; ApiCode: 'gu'),
-    (Code: 'fa-AF'; DisplayName: 'Dari'; ApiCode: 'fa-AF'),
-    (Code: 'da'; DisplayName: 'Danish'; ApiCode: 'da'),
-    (Code: 'dz'; DisplayName: 'Dzongkha'; ApiCode: 'dz'),
-    (Code: 'din'; DisplayName: 'Dinka'; ApiCode: 'din'),
-    (Code: 'doi'; DisplayName: 'Dogri'; ApiCode: 'doi'),
-    (Code: 'dov'; DisplayName: 'Dombe'; ApiCode: 'dov'),
-    (Code: 'dyu'; DisplayName: 'Dyula'; ApiCode: 'dyu'),
-    (Code: 'zu'; DisplayName: 'Zulu'; ApiCode: 'zu'),
-    (Code: 'iba'; DisplayName: 'Iban'; ApiCode: 'iba'),
-    (Code: 'iw'; DisplayName: 'Hebrew'; ApiCode: 'iw'),
-    (Code: 'ig'; DisplayName: 'Igbo'; ApiCode: 'ig'),
-    (Code: 'yi'; DisplayName: 'Yiddish'; ApiCode: 'yi'),
-    (Code: 'ilo'; DisplayName: 'Ilocano'; ApiCode: 'ilo'),
-    (Code: 'id'; DisplayName: 'Indonesian'; ApiCode: 'id'),
-    (Code: 'iu-Latn'; DisplayName: 'Inuktut (Latin)'; ApiCode: 'iu-Latn'),
-    (Code: 'iu'; DisplayName: 'Inuktut (Syllabics)'; ApiCode: 'iu'),
-    (Code: 'ga'; DisplayName: 'Irish'; ApiCode: 'ga'),
-    (Code: 'is'; DisplayName: 'Icelandic'; ApiCode: 'is'),
-    (Code: 'es'; DisplayName: 'Spanish'; ApiCode: 'es'),
-    (Code: 'it'; DisplayName: 'Italian'; ApiCode: 'it'),
-    (Code: 'yo'; DisplayName: 'Yoruba'; ApiCode: 'yo'),
-    (Code: 'kk'; DisplayName: 'Kazakh'; ApiCode: 'kk'),
-    (Code: 'kn'; DisplayName: 'Kannada'; ApiCode: 'kn'),
-    (Code: 'yue'; DisplayName: 'Cantonese'; ApiCode: 'yue'),
-    (Code: 'kr'; DisplayName: 'Kanuri'; ApiCode: 'kr'),
-    (Code: 'pam'; DisplayName: 'Kapampangan'; ApiCode: 'pam'),
-    (Code: 'btx'; DisplayName: 'Karo'; ApiCode: 'btx'),
-    (Code: 'ca'; DisplayName: 'Catalan'; ApiCode: 'ca'),
-    (Code: 'kek'; DisplayName: 'Qʼeqchiʼ'; ApiCode: 'kek'),
-    (Code: 'qu'; DisplayName: 'Quechua'; ApiCode: 'qu'),
-    (Code: 'cgg'; DisplayName: 'Kiga'; ApiCode: 'cgg'),
-    (Code: 'kg'; DisplayName: 'Kongo'; ApiCode: 'kg'),
-    (Code: 'rw'; DisplayName: 'Kinyarwanda'; ApiCode: 'rw'),
-    (Code: 'ky'; DisplayName: 'Kyrgyz'; ApiCode: 'ky'),
-    (Code: 'zh-CN'; DisplayName: 'Chinese'; ApiCode: 'zh-CN'),
-    (Code: 'ktu'; DisplayName: 'Kituba'; ApiCode: 'ktu'),
-    (Code: 'trp'; DisplayName: 'Kokborok'; ApiCode: 'trp'),
-    (Code: 'kv'; DisplayName: 'Komi'; ApiCode: 'kv'),
-    (Code: 'gom'; DisplayName: 'Konkani'; ApiCode: 'gom'),
-    (Code: 'ko'; DisplayName: 'Korean'; ApiCode: 'ko'),
-    (Code: 'co'; DisplayName: 'Corsican'; ApiCode: 'co'),
-    (Code: 'xh'; DisplayName: 'Xhosa'; ApiCode: 'xh'),
-    (Code: 'kri'; DisplayName: 'Krio'; ApiCode: 'kri'),
-    (Code: 'crh'; DisplayName: 'Crimean Tatar (Cyrillic)'; ApiCode: 'crh'),
-    (Code: 'crh-Latn'; DisplayName: 'Crimean Tatar (Latin)'; ApiCode: 'crh-Latn'),
-    (Code: 'ku'; DisplayName: 'Kurdish (Kurmanji)'; ApiCode: 'ku'),
-    (Code: 'ckb'; DisplayName: 'Kurdish (Sorani)'; ApiCode: 'ckb'),
-    (Code: 'kha'; DisplayName: 'Khasi'; ApiCode: 'kha'),
-    (Code: 'km'; DisplayName: 'Khmer'; ApiCode: 'km'),
-    (Code: 'lo'; DisplayName: 'Lao'; ApiCode: 'lo'),
-    (Code: 'ltg'; DisplayName: 'Latgalian'; ApiCode: 'ltg'),
-    (Code: 'la'; DisplayName: 'Latin'; ApiCode: 'la'),
-    (Code: 'lv'; DisplayName: 'Latvian'; ApiCode: 'lv'),
-    (Code: 'lij'; DisplayName: 'Ligurian'; ApiCode: 'lij'),
-    (Code: 'li'; DisplayName: 'Limburgish'; ApiCode: 'li'),
-    (Code: 'ln'; DisplayName: 'Lingala'; ApiCode: 'ln'),
-    (Code: 'lt'; DisplayName: 'Lithuanian'; ApiCode: 'lt'),
-    (Code: 'lmo'; DisplayName: 'Lombard'; ApiCode: 'lmo'),
-    (Code: 'lg'; DisplayName: 'Luganda'; ApiCode: 'lg'),
-    (Code: 'chm'; DisplayName: 'Meadow Mari'; ApiCode: 'chm'),
-    (Code: 'luo'; DisplayName: 'Luo'; ApiCode: 'luo'),
-    (Code: 'lb'; DisplayName: 'Luxembourgish'; ApiCode: 'lb'),
-    (Code: 'mfe'; DisplayName: 'Mauritian Creole'; ApiCode: 'mfe'),
-    (Code: 'mad'; DisplayName: 'Madurese'; ApiCode: 'mad'),
-    (Code: 'mai'; DisplayName: 'Maithili'; ApiCode: 'mai'),
-    (Code: 'mak'; DisplayName: 'Makassar'; ApiCode: 'mak'),
-    (Code: 'mk'; DisplayName: 'Macedonian'; ApiCode: 'mk'),
-    (Code: 'mg'; DisplayName: 'Malagasy'; ApiCode: 'mg'),
-    (Code: 'ms'; DisplayName: 'Malay'; ApiCode: 'ms'),
-    (Code: 'ms-Arab'; DisplayName: 'Malay (Jawi)'; ApiCode: 'ms-Arab'),
-    (Code: 'ml'; DisplayName: 'Malayalam'; ApiCode: 'ml'),
-    (Code: 'dv'; DisplayName: 'Maldivian'; ApiCode: 'dv'),
-    (Code: 'mt'; DisplayName: 'Maltese'; ApiCode: 'mt'),
-    (Code: 'mam'; DisplayName: 'Mam'; ApiCode: 'mam'),
-    (Code: 'mi'; DisplayName: 'Maori'; ApiCode: 'mi'),
-    (Code: 'mr'; DisplayName: 'Marathi'; ApiCode: 'mr'),
-    (Code: 'mwr'; DisplayName: 'Marwari'; ApiCode: 'mwr'),
-    (Code: 'mh'; DisplayName: 'Marshallese'; ApiCode: 'mh'),
-    (Code: 'mni-Mtei'; DisplayName: 'Meiteilon (Manipuri)'; ApiCode: 'mni-Mtei'),
-    (Code: 'lus'; DisplayName: 'Mizo'; ApiCode: 'lus'),
-    (Code: 'min'; DisplayName: 'Minangkabau'; ApiCode: 'min'),
-    (Code: 'mn'; DisplayName: 'Mongolian'; ApiCode: 'mn'),
-    (Code: 'gv'; DisplayName: 'Manx'; ApiCode: 'gv'),
-    (Code: 'ndc-ZW'; DisplayName: 'Ndau'; ApiCode: 'ndc-ZW'),
-    (Code: 'nr'; DisplayName: 'Ndebele (South)'; ApiCode: 'nr'),
-    (Code: 'new'; DisplayName: 'Newari'; ApiCode: 'new'),
-    (Code: 'de'; DisplayName: 'German'; ApiCode: 'de'),
-    (Code: 'ne'; DisplayName: 'Nepali'; ApiCode: 'ne'),
-    (Code: 'nl'; DisplayName: 'Dutch'; ApiCode: 'nl'),
-    (Code: 'bm-Nkoo'; DisplayName: 'NKo'; ApiCode: 'bm-Nkoo'),
-    (Code: 'no'; DisplayName: 'Norwegian'; ApiCode: 'no'),
-    (Code: 'nus'; DisplayName: 'Nuer'; ApiCode: 'nus'),
-    (Code: 'oc'; DisplayName: 'Occitan'; ApiCode: 'oc'),
-    (Code: 'or'; DisplayName: 'Odia (Oriya)'; ApiCode: 'or'),
-    (Code: 'om'; DisplayName: 'Oromo'; ApiCode: 'om'),
-    (Code: 'os'; DisplayName: 'Ossetian'; ApiCode: 'os'),
-    (Code: 'pag'; DisplayName: 'Pangasinan'; ApiCode: 'pag'),
-    (Code: 'pa'; DisplayName: 'Punjabi (Gurmukhi)'; ApiCode: 'pa'),
-    (Code: 'pa-Arab'; DisplayName: 'Punjabi (Shahmukhi)'; ApiCode: 'pa-Arab'),
-    (Code: 'pap'; DisplayName: 'Papiamento'; ApiCode: 'pap'),
-    (Code: 'pl'; DisplayName: 'Polish'; ApiCode: 'pl'),
-    (Code: 'pt'; DisplayName: 'Portuguese (Brazil)'; ApiCode: 'pt'),
-    (Code: 'pt-PT'; DisplayName: 'Portuguese (Portugal)'; ApiCode: 'pt-PT'),
-    (Code: 'ps'; DisplayName: 'Pashto'; ApiCode: 'ps'),
-    (Code: 'ro'; DisplayName: 'Romanian'; ApiCode: 'ro'),
-    (Code: 'rn'; DisplayName: 'Rundi'; ApiCode: 'rn'),
-    (Code: 'ru'; DisplayName: 'Russian'; ApiCode: 'ru'),
-    (Code: 'sm'; DisplayName: 'Samoan'; ApiCode: 'sm'),
-    (Code: 'sg'; DisplayName: 'Sango'; ApiCode: 'sg'),
-    (Code: 'sa'; DisplayName: 'Sanskrit'; ApiCode: 'sa'),
-    (Code: 'sat-Latn'; DisplayName: 'Santali (Latin)'; ApiCode: 'sat-Latn'),
-    (Code: 'sat'; DisplayName: 'Santali (Ol Chiki)'; ApiCode: 'sat'),
-    (Code: 'zap'; DisplayName: 'Zapotec'; ApiCode: 'zap'),
-    (Code: 'ss'; DisplayName: 'Swati'; ApiCode: 'ss'),
-    (Code: 'ceb'; DisplayName: 'Cebuano'; ApiCode: 'ceb'),
-    (Code: 'se'; DisplayName: 'Northern Sami'; ApiCode: 'se'),
-    (Code: 'crs'; DisplayName: 'Seychellois Creole'; ApiCode: 'crs'),
-    (Code: 'nso'; DisplayName: 'Sepedi'; ApiCode: 'nso'),
-    (Code: 'sr'; DisplayName: 'Serbian'; ApiCode: 'sr'),
-    (Code: 'st'; DisplayName: 'Sesotho'; ApiCode: 'st'),
-    (Code: 'szl'; DisplayName: 'Silesian'; ApiCode: 'szl'),
-    (Code: 'bts'; DisplayName: 'Simalungun'; ApiCode: 'bts'),
-    (Code: 'si'; DisplayName: 'Sinhala'; ApiCode: 'si'),
-    (Code: 'sd'; DisplayName: 'Sindhi'; ApiCode: 'sd'),
-    (Code: 'scn'; DisplayName: 'Sicilian'; ApiCode: 'scn'),
-    (Code: 'sk'; DisplayName: 'Slovak'; ApiCode: 'sk'),
-    (Code: 'sl'; DisplayName: 'Slovenian'; ApiCode: 'sl'),
-    (Code: 'so'; DisplayName: 'Somali'; ApiCode: 'so'),
-    (Code: 'sw'; DisplayName: 'Swahili'; ApiCode: 'sw'),
-    (Code: 'su'; DisplayName: 'Sundanese'; ApiCode: 'su'),
-    (Code: 'sus'; DisplayName: 'Susu'; ApiCode: 'sus'),
-    (Code: 'tg'; DisplayName: 'Tajik'; ApiCode: 'tg'),
-    (Code: 'ty'; DisplayName: 'Tahitian'; ApiCode: 'ty'),
-    (Code: 'th'; DisplayName: 'Thai'; ApiCode: 'th'),
-    (Code: 'ber-Latn'; DisplayName: 'Tamazight'; ApiCode: 'ber-Latn'),
-    (Code: 'ber'; DisplayName: 'Tamazight (Tifinagh)'; ApiCode: 'ber'),
-    (Code: 'ta'; DisplayName: 'Tamil'; ApiCode: 'ta'),
-    (Code: 'tt'; DisplayName: 'Tatar'; ApiCode: 'tt'),
-    (Code: 'te'; DisplayName: 'Telugu'; ApiCode: 'te'),
-    (Code: 'tet'; DisplayName: 'Tetum'; ApiCode: 'tet'),
-    (Code: 'bo'; DisplayName: 'Tibetan'; ApiCode: 'bo'),
-    (Code: 'tiv'; DisplayName: 'Tiv'; ApiCode: 'tiv'),
-    (Code: 'ti'; DisplayName: 'Tigrinya'; ApiCode: 'ti'),
-    (Code: 'bbc'; DisplayName: 'Toba Batak'; ApiCode: 'bbc'),
-    (Code: 'tpi'; DisplayName: 'Tok Pisin'; ApiCode: 'tpi'),
-    (Code: 'to'; DisplayName: 'Tongan'; ApiCode: 'to'),
-    (Code: 'tn'; DisplayName: 'Tswana'; ApiCode: 'tn'),
-    (Code: 'ts'; DisplayName: 'Tsonga'; ApiCode: 'ts'),
-    (Code: 'tyv'; DisplayName: 'Tuvan'; ApiCode: 'tyv'),
-    (Code: 'tcy'; DisplayName: 'Tulu'; ApiCode: 'tcy'),
-    (Code: 'tum'; DisplayName: 'Tumbuka'; ApiCode: 'tum'),
-    (Code: 'tr'; DisplayName: 'Turkish'; ApiCode: 'tr'),
-    (Code: 'tk'; DisplayName: 'Turkmen'; ApiCode: 'tk'),
-    (Code: 'nhe'; DisplayName: 'Huastec Nahuatl'; ApiCode: 'nhe'),
-    (Code: 'udm'; DisplayName: 'Udmurt'; ApiCode: 'udm'),
-    (Code: 'uz'; DisplayName: 'Uzbek'; ApiCode: 'uz'),
-    (Code: 'ug'; DisplayName: 'Uyghur'; ApiCode: 'ug'),
-    (Code: 'uk'; DisplayName: 'Ukrainian'; ApiCode: 'uk'),
-    (Code: 'ur'; DisplayName: 'Urdu'; ApiCode: 'ur'),
-    (Code: 'fo'; DisplayName: 'Faroese'; ApiCode: 'fo'),
-    (Code: 'fa'; DisplayName: 'Persian'; ApiCode: 'fa'),
-    (Code: 'fj'; DisplayName: 'Fijian'; ApiCode: 'fj'),
-    (Code: 'tl'; DisplayName: 'Filipino'; ApiCode: 'tl'),
-    (Code: 'fi'; DisplayName: 'Finnish'; ApiCode: 'fi'),
-    (Code: 'fon'; DisplayName: 'Fon'; ApiCode: 'fon'),
-    (Code: 'fr'; DisplayName: 'French'; ApiCode: 'fr'),
-    (Code: 'fr-CA'; DisplayName: 'French (Canada)'; ApiCode: 'fr-CA'),
-    (Code: 'fy'; DisplayName: 'Frisian'; ApiCode: 'fy'),
-    (Code: 'fur'; DisplayName: 'Friulian'; ApiCode: 'fur'),
-    (Code: 'ff'; DisplayName: 'Fula'; ApiCode: 'ff'),
-    (Code: 'ha'; DisplayName: 'Hausa'; ApiCode: 'ha'),
-    (Code: 'hil'; DisplayName: 'Hiligaynon'; ApiCode: 'hil'),
-    (Code: 'hi'; DisplayName: 'Hindi'; ApiCode: 'hi'),
-    (Code: 'hmn'; DisplayName: 'Hmong'; ApiCode: 'hmn'),
-    (Code: 'hr'; DisplayName: 'Croatian'; ApiCode: 'hr'),
-    (Code: 'hrx'; DisplayName: 'Hunsrik'; ApiCode: 'hrx'),
-    (Code: 'kac'; DisplayName: 'Jingpo'; ApiCode: 'kac'),
-    (Code: 'rom'; DisplayName: 'Romani'; ApiCode: 'rom'),
-    (Code: 'ch'; DisplayName: 'Chamorro'; ApiCode: 'ch'),
-    (Code: 'ak'; DisplayName: 'Twi'; ApiCode: 'ak'),
-    (Code: 'ny'; DisplayName: 'Chewa'; ApiCode: 'ny'),
-    (Code: 'ce'; DisplayName: 'Chechen'; ApiCode: 'ce'),
-    (Code: 'cs'; DisplayName: 'Czech'; ApiCode: 'cs'),
-    (Code: 'lua'; DisplayName: 'Chiluba'; ApiCode: 'lua'),
-    (Code: 'cnh'; DisplayName: 'Chin'; ApiCode: 'cnh'),
-    (Code: 'cv'; DisplayName: 'Chuvash'; ApiCode: 'cv'),
-    (Code: 'chk'; DisplayName: 'Chuukese'; ApiCode: 'chk'),
-    (Code: 'shn'; DisplayName: 'Shan'; ApiCode: 'shn'),
-    (Code: 'sv'; DisplayName: 'Swedish'; ApiCode: 'sv'),
-    (Code: 'sn'; DisplayName: 'Shona'; ApiCode: 'sn'),
-    (Code: 'gd'; DisplayName: 'Scottish Gaelic'; ApiCode: 'gd'),
-    (Code: 'ee'; DisplayName: 'Ewe'; ApiCode: 'ee'),
-    (Code: 'eo'; DisplayName: 'Esperanto'; ApiCode: 'eo'),
-    (Code: 'et'; DisplayName: 'Estonian'; ApiCode: 'et'),
-    (Code: 'yua'; DisplayName: 'Yucatec'; ApiCode: 'yua'),
-    (Code: 'jw'; DisplayName: 'Javanese'; ApiCode: 'jw'),
-    (Code: 'sah'; DisplayName: 'Yakut'; ApiCode: 'sah'),
-    (Code: 'jam'; DisplayName: 'Jamaican Creole'; ApiCode: 'jam'),
-    (Code: 'ja'; DisplayName: 'Japanese'; ApiCode: 'ja')
-    );
+    (Code: 'auto';     DisplayName: 'Auto detect'),
+    (Code: 'ab';       DisplayName: 'Abkhazian'),
+    (Code: 'awa';      DisplayName: 'Awadhi'),
+    (Code: 'av';       DisplayName: 'Avar'),
+    (Code: 'az';       DisplayName: 'Azerbaijani'),
+    (Code: 'ay';       DisplayName: 'Aymara'),
+    (Code: 'sq';       DisplayName: 'Albanian'),
+    (Code: 'alz';      DisplayName: 'Alur'),
+    (Code: 'am';       DisplayName: 'Amharic'),
+    (Code: 'en';       DisplayName: 'English'),
+    (Code: 'ar';       DisplayName: 'Arabic'),
+    (Code: 'hy';       DisplayName: 'Armenian'),
+    (Code: 'as';       DisplayName: 'Assamese'),
+    (Code: 'aa';       DisplayName: 'Afar'),
+    (Code: 'af';       DisplayName: 'Afrikaans'),
+    (Code: 'ace';      DisplayName: 'Acehnese'),
+    (Code: 'ach';      DisplayName: 'Acholi'),
+    (Code: 'ban';      DisplayName: 'Balinese'),
+    (Code: 'bm';       DisplayName: 'Bambara'),
+    (Code: 'eu';       DisplayName: 'Basque'),
+    (Code: 'bci';      DisplayName: 'Baoulé'),
+    (Code: 'ba';       DisplayName: 'Bashkir'),
+    (Code: 'be';       DisplayName: 'Belarusian'),
+    (Code: 'bal';      DisplayName: 'Balochi'),
+    (Code: 'bem';      DisplayName: 'Bemba'),
+    (Code: 'bn';       DisplayName: 'Bengali'),
+    (Code: 'bew';      DisplayName: 'Betawi'),
+    (Code: 'bik';      DisplayName: 'Bikol'),
+    (Code: 'my';       DisplayName: 'Burmese'),
+    (Code: 'bg';       DisplayName: 'Bulgarian'),
+    (Code: 'bs';       DisplayName: 'Bosnian'),
+    (Code: 'br';       DisplayName: 'Breton'),
+    (Code: 'bua';      DisplayName: 'Buryat'),
+    (Code: 'bho';      DisplayName: 'Bhojpuri'),
+    (Code: 'cy';       DisplayName: 'Welsh'),
+    (Code: 'war';      DisplayName: 'Waray'),
+    (Code: 'hu';       DisplayName: 'Hungarian'),
+    (Code: 've';       DisplayName: 'Venda'),
+    (Code: 'vec';      DisplayName: 'Venetian'),
+    (Code: 'wo';       DisplayName: 'Wolof'),
+    (Code: 'vi';       DisplayName: 'Vietnamese'),
+    (Code: 'gaa';      DisplayName: 'Ga'),
+    (Code: 'haw';      DisplayName: 'Hawaiian'),
+    (Code: 'ht';       DisplayName: 'Haitian Creole'),
+    (Code: 'gl';       DisplayName: 'Galician'),
+    (Code: 'kl';       DisplayName: 'Greenlandic'),
+    (Code: 'el';       DisplayName: 'Greek'),
+    (Code: 'ka';       DisplayName: 'Georgian'),
+    (Code: 'gn';       DisplayName: 'Guarani'),
+    (Code: 'gu';       DisplayName: 'Gujarati'),
+    (Code: 'fa-AF';    DisplayName: 'Dari'),
+    (Code: 'da';       DisplayName: 'Danish'),
+    (Code: 'dz';       DisplayName: 'Dzongkha'),
+    (Code: 'din';      DisplayName: 'Dinka'),
+    (Code: 'doi';      DisplayName: 'Dogri'),
+    (Code: 'dov';      DisplayName: 'Dombe'),
+    (Code: 'dyu';      DisplayName: 'Dyula'),
+    (Code: 'zu';       DisplayName: 'Zulu'),
+    (Code: 'iba';      DisplayName: 'Iban'),
+    (Code: 'iw';       DisplayName: 'Hebrew'),
+    (Code: 'ig';       DisplayName: 'Igbo'),
+    (Code: 'yi';       DisplayName: 'Yiddish'),
+    (Code: 'ilo';      DisplayName: 'Ilocano'),
+    (Code: 'id';       DisplayName: 'Indonesian'),
+    (Code: 'iu-Latn';  DisplayName: 'Inuktut (Latin)'),
+    (Code: 'iu';       DisplayName: 'Inuktut (Syllabics)'),
+    (Code: 'ga';       DisplayName: 'Irish'),
+    (Code: 'is';       DisplayName: 'Icelandic'),
+    (Code: 'es';       DisplayName: 'Spanish'),
+    (Code: 'it';       DisplayName: 'Italian'),
+    (Code: 'yo';       DisplayName: 'Yoruba'),
+    (Code: 'kk';       DisplayName: 'Kazakh'),
+    (Code: 'kn';       DisplayName: 'Kannada'),
+    (Code: 'yue';      DisplayName: 'Cantonese'),
+    (Code: 'kr';       DisplayName: 'Kanuri'),
+    (Code: 'pam';      DisplayName: 'Kapampangan'),
+    (Code: 'btx';      DisplayName: 'Karo'),
+    (Code: 'ca';       DisplayName: 'Catalan'),
+    (Code: 'kek';      DisplayName: 'Qʼeqchiʼ'),
+    (Code: 'qu';       DisplayName: 'Quechua'),
+    (Code: 'cgg';      DisplayName: 'Kiga'),
+    (Code: 'kg';       DisplayName: 'Kongo'),
+    (Code: 'rw';       DisplayName: 'Kinyarwanda'),
+    (Code: 'ky';       DisplayName: 'Kyrgyz'),
+    (Code: 'zh-CN';    DisplayName: 'Chinese'),
+    (Code: 'ktu';      DisplayName: 'Kituba'),
+    (Code: 'trp';      DisplayName: 'Kokborok'),
+    (Code: 'kv';       DisplayName: 'Komi'),
+    (Code: 'gom';      DisplayName: 'Konkani'),
+    (Code: 'ko';       DisplayName: 'Korean'),
+    (Code: 'co';       DisplayName: 'Corsican'),
+    (Code: 'xh';       DisplayName: 'Xhosa'),
+    (Code: 'kri';      DisplayName: 'Krio'),
+    (Code: 'crh';      DisplayName: 'Crimean Tatar (Cyrillic)'),
+    (Code: 'crh-Latn'; DisplayName: 'Crimean Tatar (Latin)'),
+    (Code: 'ku';       DisplayName: 'Kurdish (Kurmanji)'),
+    (Code: 'ckb';      DisplayName: 'Kurdish (Sorani)'),
+    (Code: 'kha';      DisplayName: 'Khasi'),
+    (Code: 'km';       DisplayName: 'Khmer'),
+    (Code: 'lo';       DisplayName: 'Lao'),
+    (Code: 'ltg';      DisplayName: 'Latgalian'),
+    (Code: 'la';       DisplayName: 'Latin'),
+    (Code: 'lv';       DisplayName: 'Latvian'),
+    (Code: 'lij';      DisplayName: 'Ligurian'),
+    (Code: 'li';       DisplayName: 'Limburgish'),
+    (Code: 'ln';       DisplayName: 'Lingala'),
+    (Code: 'lt';       DisplayName: 'Lithuanian'),
+    (Code: 'lmo';      DisplayName: 'Lombard'),
+    (Code: 'lg';       DisplayName: 'Luganda'),
+    (Code: 'chm';      DisplayName: 'Meadow Mari'),
+    (Code: 'luo';      DisplayName: 'Luo'),
+    (Code: 'lb';       DisplayName: 'Luxembourgish'),
+    (Code: 'mfe';      DisplayName: 'Mauritian Creole'),
+    (Code: 'mad';      DisplayName: 'Madurese'),
+    (Code: 'mai';      DisplayName: 'Maithili'),
+    (Code: 'mak';      DisplayName: 'Makassar'),
+    (Code: 'mk';       DisplayName: 'Macedonian'),
+    (Code: 'mg';       DisplayName: 'Malagasy'),
+    (Code: 'ms';       DisplayName: 'Malay'),
+    (Code: 'ms-Arab';  DisplayName: 'Malay (Jawi)'),
+    (Code: 'ml';       DisplayName: 'Malayalam'),
+    (Code: 'dv';       DisplayName: 'Maldivian'),
+    (Code: 'mt';       DisplayName: 'Maltese'),
+    (Code: 'mam';      DisplayName: 'Mam'),
+    (Code: 'mi';       DisplayName: 'Maori'),
+    (Code: 'mr';       DisplayName: 'Marathi'),
+    (Code: 'mwr';      DisplayName: 'Marwari'),
+    (Code: 'mh';       DisplayName: 'Marshallese'),
+    (Code: 'mni-Mtei'; DisplayName: 'Meiteilon (Manipuri)'),
+    (Code: 'lus';      DisplayName: 'Mizo'),
+    (Code: 'min';      DisplayName: 'Minangkabau'),
+    (Code: 'mn';       DisplayName: 'Mongolian'),
+    (Code: 'gv';       DisplayName: 'Manx'),
+    (Code: 'ndc-ZW';   DisplayName: 'Ndau'),
+    (Code: 'nr';       DisplayName: 'Ndebele (South)'),
+    (Code: 'new';      DisplayName: 'Newari'),
+    (Code: 'de';       DisplayName: 'German'),
+    (Code: 'ne';       DisplayName: 'Nepali'),
+    (Code: 'nl';       DisplayName: 'Dutch'),
+    (Code: 'bm-Nkoo';  DisplayName: 'NKo'),
+    (Code: 'no';       DisplayName: 'Norwegian'),
+    (Code: 'nus';      DisplayName: 'Nuer'),
+    (Code: 'oc';       DisplayName: 'Occitan'),
+    (Code: 'or';       DisplayName: 'Odia (Oriya)'),
+    (Code: 'om';       DisplayName: 'Oromo'),
+    (Code: 'os';       DisplayName: 'Ossetian'),
+    (Code: 'pag';      DisplayName: 'Pangasinan'),
+    (Code: 'pa';       DisplayName: 'Punjabi (Gurmukhi)'),
+    (Code: 'pa-Arab';  DisplayName: 'Punjabi (Shahmukhi)'),
+    (Code: 'pap';      DisplayName: 'Papiamento'),
+    (Code: 'pl';       DisplayName: 'Polish'),
+    (Code: 'pt';       DisplayName: 'Portuguese (Brazil)'),
+    (Code: 'pt-PT';    DisplayName: 'Portuguese (Portugal)'),
+    (Code: 'ps';       DisplayName: 'Pashto'),
+    (Code: 'ro';       DisplayName: 'Romanian'),
+    (Code: 'rn';       DisplayName: 'Rundi'),
+    (Code: 'ru';       DisplayName: 'Russian'),
+    (Code: 'sm';       DisplayName: 'Samoan'),
+    (Code: 'sg';       DisplayName: 'Sango'),
+    (Code: 'sa';       DisplayName: 'Sanskrit'),
+    (Code: 'sat-Latn'; DisplayName: 'Santali (Latin)'),
+    (Code: 'sat';      DisplayName: 'Santali (Ol Chiki)'),
+    (Code: 'zap';      DisplayName: 'Zapotec'),
+    (Code: 'ss';       DisplayName: 'Swati'),
+    (Code: 'ceb';      DisplayName: 'Cebuano'),
+    (Code: 'se';       DisplayName: 'Northern Sami'),
+    (Code: 'crs';      DisplayName: 'Seychellois Creole'),
+    (Code: 'nso';      DisplayName: 'Sepedi'),
+    (Code: 'sr';       DisplayName: 'Serbian'),
+    (Code: 'st';       DisplayName: 'Sesotho'),
+    (Code: 'szl';      DisplayName: 'Silesian'),
+    (Code: 'bts';      DisplayName: 'Simalungun'),
+    (Code: 'si';       DisplayName: 'Sinhala'),
+    (Code: 'sd';       DisplayName: 'Sindhi'),
+    (Code: 'scn';      DisplayName: 'Sicilian'),
+    (Code: 'sk';       DisplayName: 'Slovak'),
+    (Code: 'sl';       DisplayName: 'Slovenian'),
+    (Code: 'so';       DisplayName: 'Somali'),
+    (Code: 'sw';       DisplayName: 'Swahili'),
+    (Code: 'su';       DisplayName: 'Sundanese'),
+    (Code: 'sus';      DisplayName: 'Susu'),
+    (Code: 'tg';       DisplayName: 'Tajik'),
+    (Code: 'ty';       DisplayName: 'Tahitian'),
+    (Code: 'th';       DisplayName: 'Thai'),
+    (Code: 'ber-Latn'; DisplayName: 'Tamazight'),
+    (Code: 'ber';      DisplayName: 'Tamazight (Tifinagh)'),
+    (Code: 'ta';       DisplayName: 'Tamil'),
+    (Code: 'tt';       DisplayName: 'Tatar'),
+    (Code: 'te';       DisplayName: 'Telugu'),
+    (Code: 'tet';      DisplayName: 'Tetum'),
+    (Code: 'bo';       DisplayName: 'Tibetan'),
+    (Code: 'tiv';      DisplayName: 'Tiv'),
+    (Code: 'ti';       DisplayName: 'Tigrinya'),
+    (Code: 'bbc';      DisplayName: 'Toba Batak'),
+    (Code: 'tpi';      DisplayName: 'Tok Pisin'),
+    (Code: 'to';       DisplayName: 'Tongan'),
+    (Code: 'tn';       DisplayName: 'Tswana'),
+    (Code: 'ts';       DisplayName: 'Tsonga'),
+    (Code: 'tyv';      DisplayName: 'Tuvan'),
+    (Code: 'tcy';      DisplayName: 'Tulu'),
+    (Code: 'tum';      DisplayName: 'Tumbuka'),
+    (Code: 'tr';       DisplayName: 'Turkish'),
+    (Code: 'tk';       DisplayName: 'Turkmen'),
+    (Code: 'nhe';      DisplayName: 'Huastec Nahuatl'),
+    (Code: 'udm';      DisplayName: 'Udmurt'),
+    (Code: 'uz';       DisplayName: 'Uzbek'),
+    (Code: 'ug';       DisplayName: 'Uyghur'),
+    (Code: 'uk';       DisplayName: 'Ukrainian'),
+    (Code: 'ur';       DisplayName: 'Urdu'),
+    (Code: 'fo';       DisplayName: 'Faroese'),
+    (Code: 'fa';       DisplayName: 'Persian'),
+    (Code: 'fj';       DisplayName: 'Fijian'),
+    (Code: 'tl';       DisplayName: 'Filipino'),
+    (Code: 'fi';       DisplayName: 'Finnish'),
+    (Code: 'fon';      DisplayName: 'Fon'),
+    (Code: 'fr';       DisplayName: 'French'),
+    (Code: 'fr-CA';    DisplayName: 'French (Canada)'),
+    (Code: 'fy';       DisplayName: 'Frisian'),
+    (Code: 'fur';      DisplayName: 'Friulian'),
+    (Code: 'ff';       DisplayName: 'Fula'),
+    (Code: 'ha';       DisplayName: 'Hausa'),
+    (Code: 'hil';      DisplayName: 'Hiligaynon'),
+    (Code: 'hi';       DisplayName: 'Hindi'),
+    (Code: 'hmn';      DisplayName: 'Hmong'),
+    (Code: 'hr';       DisplayName: 'Croatian'),
+    (Code: 'hrx';      DisplayName: 'Hunsrik'),
+    (Code: 'kac';      DisplayName: 'Jingpo'),
+    (Code: 'rom';      DisplayName: 'Romani'),
+    (Code: 'ch';       DisplayName: 'Chamorro'),
+    (Code: 'ak';       DisplayName: 'Twi'),
+    (Code: 'ny';       DisplayName: 'Chewa'),
+    (Code: 'ce';       DisplayName: 'Chechen'),
+    (Code: 'cs';       DisplayName: 'Czech'),
+    (Code: 'lua';      DisplayName: 'Chiluba'),
+    (Code: 'cnh';      DisplayName: 'Chin'),
+    (Code: 'cv';       DisplayName: 'Chuvash'),
+    (Code: 'chk';      DisplayName: 'Chuukese'),
+    (Code: 'shn';      DisplayName: 'Shan'),
+    (Code: 'sv';       DisplayName: 'Swedish'),
+    (Code: 'sn';       DisplayName: 'Shona'),
+    (Code: 'gd';       DisplayName: 'Scottish Gaelic'),
+    (Code: 'ee';       DisplayName: 'Ewe'),
+    (Code: 'eo';       DisplayName: 'Esperanto'),
+    (Code: 'et';       DisplayName: 'Estonian'),
+    (Code: 'yua';      DisplayName: 'Yucatec'),
+    (Code: 'jw';       DisplayName: 'Javanese'),
+    (Code: 'sah';      DisplayName: 'Yakut'),
+    (Code: 'jam';      DisplayName: 'Jamaican Creole'),
+    (Code: 'ja';       DisplayName: 'Japanese')
+  );
 var
-  i: integer;
+  i, j: Integer;
+  Temp: TAppLanguage;
 begin
   Result := [];
   SetLength(Result, Length(Languages));
   for i := 0 to High(Languages) do
     Result[i] := Languages[i];
+
+  for i := 1 to High(Result) do
+  begin
+    Temp := Result[i];
+    j := i - 1;
+    while (j >= 1) and (Result[j].DisplayName > Temp.DisplayName) do
+    begin
+      Result[j + 1] := Result[j];
+      Dec(j);
+    end;
+    Result[j + 1] := Temp;
+  end;
+end;
+
+function GetLanguageCodePairList: TStringList;
+var
+  Langs: array of TAppLanguage;
+  L: TAppLanguage;
+begin
+  Result := TStringList.Create;
+  try
+    Langs := GetLanguages;
+    for L in Langs do
+      Result.Add(L.Code + '=' + L.Code);
+  except
+    Result.Free;
+    raise;
+  end;
 end;
 
 function GetLanguageDisplayStrings: TStringList;
@@ -292,6 +328,66 @@ begin
   Langs := GetLanguages;
   for L in Langs do
     Result.Add(L.DisplayName + ' (' + L.Code + ')');
+end;
+
+function GetDisplayNamesFromCodeMap(ACodeMap: TStringList): TStringList;
+var
+  Langs: array of TAppLanguage;
+  LangMap: TStringList;          // List of "code=displayname" for lookup
+  i, idx: Integer;
+  Key, ApiValue: string;
+begin
+  Result := TStringList.Create;
+  try
+    // Retrieve the master language list
+    Langs := GetLanguages;
+
+    // Build a map from language code to display name (unsorted, because IndexOfName works on any list)
+    LangMap := TStringList.Create;
+    try
+      for i := 0 to High(Langs) do
+        LangMap.Add(Langs[i].Code + '=' + Langs[i].DisplayName);
+
+      // Process each entry in the input code map
+      for i := 0 to ACodeMap.Count - 1 do
+      begin
+        if Trim(ACodeMap[i]) = '' then
+          Continue; // Skip empty lines
+
+        Key := Trim(ACodeMap.Names[i]);               // Left part (language code)
+        ApiValue := Trim(ACodeMap.ValueFromIndex[i]); // Right part (API code)
+
+        if (Key = '') or (ApiValue = '') then
+          Continue; // Skip malformed lines
+
+        // Look up the key using IndexOfName (linear search, acceptable for ~250 items)
+        idx := LangMap.IndexOfName(Key);
+        if idx >= 0 then
+          // Found: add "DisplayName (ApiCode)"
+          Result.Add(LangMap.ValueFromIndex[idx] + ' (' + ApiValue + ')')
+        else
+          // Not found: fallback
+          Result.Add(ApiValue);
+      end;
+    finally
+      LangMap.Free;
+    end;
+  except
+    Result.Free;
+    raise;
+  end;
+end;
+
+function ExtractCodeFromItem(const ItemText: string): string;
+var
+  P: Integer;
+begin
+  Result := '';
+  // Find the last occurrence of " (" to handle cases where DisplayName itself contains parentheses
+  P := RPos(' (', ItemText);
+  if P > 0 then
+    // Copy the substring between '(' and ')'
+    Result := Copy(ItemText, P + 2, Length(ItemText) - P - 2);
 end;
 
 end.

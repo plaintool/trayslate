@@ -1,8 +1,9 @@
 {"version":1,"strings":[
 {"hash":10957810,"name":"tformtrayslator.caption","sourcebytes":[84,114,97,121,115,108,97,116,111,114],"value":"Trayslator"},
-{"hash":140145445,"name":"tformtrayslator.btntranslate.caption","sourcebytes":[84,114,97,110,115,108,97,116,101],"value":"Translate"},
 {"hash":368487,"name":"tformtrayslator.ashowtrayslate.caption","sourcebytes":[83,104,111,119],"value":"Show"},
 {"hash":255115374,"name":"tformtrayslator.adonate.caption","sourcebytes":[66,117,121,32,109,101,32,97,32,99,111,102,102,101,101,46,46,46],"value":"Buy me a coffee..."},
 {"hash":158102910,"name":"tformtrayslator.aabout.caption","sourcebytes":[65,98,111,117,116,46,46,46],"value":"About..."},
-{"hash":315140,"name":"tformtrayslator.aexit.caption","sourcebytes":[69,120,105,116],"value":"Exit"}
+{"hash":315140,"name":"tformtrayslator.aexit.caption","sourcebytes":[69,120,105,116],"value":"Exit"},
+{"hash":140145445,"name":"tformtrayslator.atranslate.hint","sourcebytes":[84,114,97,110,115,108,97,116,101],"value":"Translate"},
+{"hash":372096,"name":"tformtrayslator.aswap.hint","sourcebytes":[83,119,97,112],"value":"Swap"}
 ]}

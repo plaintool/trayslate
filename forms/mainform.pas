@@ -23,7 +23,7 @@ uses
   ActnList,
   StdCtrls,
   StrUtils,
-  Clipbrd,
+  Clipbrd, Buttons,
   translate;
 
 type
@@ -32,11 +32,12 @@ type
 
   TformTrayslator = class(TForm)
     aAbout: TAction;
+    aSwap: TAction;
+    aTranslate: TAction;
     aShowTrayslate: TAction;
     aDonate: TAction;
     aExit: TAction;
     ActionList: TActionList;
-    BtnTranslate: TButton;
     ComboSource: TComboBox;
     ComboTarget: TComboBox;
     MemoSource: TMemo;
@@ -45,19 +46,25 @@ type
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
+    PanelLang: TPanel;
     PopupTray: TPopupMenu;
     Separator1: TMenuItem;
     Separator2: TMenuItem;
+    SbSwap: TSpeedButton;
+    SbTranslate: TSpeedButton;
+    SplitterMemo: TSplitter;
     TrayIcon: TTrayIcon;
-    procedure aShowTrayslateExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
+    procedure aShowTrayslateExecute(Sender: TObject);
     procedure aDonateExecute(Sender: TObject);
     procedure aAboutExecute(Sender: TObject);
     procedure aExitExecute(Sender: TObject);
+    procedure aTranslateExecute(Sender: TObject);
+    procedure ComboSourceChange(Sender: TObject);
+    procedure ComboTargetChange(Sender: TObject);
     procedure TrayIconClick(Sender: TObject);
-    procedure BtnTranslateClick(Sender: TObject);
     procedure TrayIconDblClick(Sender: TObject);
   private
     FTrans: TTranslate;
@@ -69,6 +76,8 @@ type
     FIconBackgroundColor: TColor;
     FIconFontColor: TColor;
     FIconTwoLang: boolean;
+    FLangSource: string;
+    FLangTarget: string;
     procedure SetIcon;
     function GetClipboartText: boolean;
     procedure Translate;
@@ -80,6 +89,8 @@ type
     property IconBackgroundColor: TColor read FIconBackgroundColor write FIconBackgroundColor;
     property IconFontColor: TColor read FIconFontColor write FIconFontColor;
     property IconTwoLang: boolean read FIconTwoLang write FIconTwoLang;
+    property LangSource: string read FLangSource write FLangSource;
+    property LangTarget: string read FLangTarget write FLangTarget;
   end;
 
 var
@@ -121,12 +132,23 @@ begin
     end;
   end;
 
-  // Init Controls
-  ComboSource.Items.Assign(GetLanguageDisplayStrings);
-  ComboSource.ItemIndex := 0;
-  ComboTarget.Items.Assign(ComboSource.Items);
-
   LoadIniSettings(Trans, FConfigFile);
+
+  // Init Controls
+  ComboSource.Items.Assign(GetDisplayNamesFromCodeMap(Trans.Languages));
+  ComboTarget.Items.Assign(ComboSource.Items);
+  if LangSource <> string.Empty then
+    Trans.LangSource := LangSource
+  else
+  begin
+    ComboSource.ItemIndex := 0;
+    ComboSourceChange(Self);
+  end;
+  if LangTarget <> string.Empty then Trans.LangTarget := LangTarget;
+  SetComboBoxByCode(ComboSource, Trans.LangSource);
+  SetComboBoxByCode(ComboTarget, Trans.LangTarget);
+
+
   SetIcon;
 end;
 
@@ -172,6 +194,26 @@ begin
   Application.Terminate;
 end;
 
+procedure TformTrayslator.aTranslateExecute(Sender: TObject);
+begin
+  Translate;
+end;
+
+procedure TformTrayslator.ComboSourceChange(Sender: TObject);
+begin
+  if ComboSource.ItemIndex < 0 then exit;
+  FLangSource := Trans.Languages.ValueFromIndex[ComboSource.ItemIndex];
+  Trans.LangSource := FLangSource;
+end;
+
+procedure TformTrayslator.ComboTargetChange(Sender: TObject);
+begin
+  if ComboTarget.ItemIndex < 0 then exit;
+  FLangTarget := Trans.Languages.ValueFromIndex[ComboTarget.ItemIndex];
+  Trans.LangTarget := FLangTarget;
+  SetIcon;
+end;
+
 procedure TformTrayslator.TrayIconClick(Sender: TObject);
 begin
   if FDoubleClicked then
@@ -196,14 +238,9 @@ begin
     Hide;
 end;
 
-procedure TformTrayslator.BtnTranslateClick(Sender: TObject);
-begin
-  Translate;
-end;
-
 procedure TformTrayslator.SetIcon;
 begin
-  TrayIcon.Icon := CreateTrayIconLang(UpperCase(Trans.SourceLang), ifthen(FIconTwoLang, UpperCase(Trans.TargetLang), string.Empty),
+  TrayIcon.Icon := CreateTrayIconLang(UpperCase(Trans.LangTarget), ifthen(FIconTwoLang, UpperCase(Trans.LangTarget), string.Empty),
     FIconBackgroundColor, FIconFontColor);
 end;
 
