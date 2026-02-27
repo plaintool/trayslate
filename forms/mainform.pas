@@ -65,6 +65,8 @@ type
     procedure aSettingsExecute(Sender: TObject);
     procedure aClipboardExecute(Sender: TObject);
     procedure aSwapExecute(Sender: TObject);
+    procedure ComboSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+    procedure ComboTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -266,17 +268,47 @@ begin
   Translate;
 end;
 
-procedure TformTrayslator.ComboSourceChange(Sender: TObject);
+procedure TformTrayslator.ComboSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
-  if ComboSource.ItemIndex < 0 then exit;
-  FLangSource := Trans.Languages.ValueFromIndex[ComboSource.ItemIndex];
+  if (Key = VK_RETURN) then ComboSourceChange(Self);
+end;
+
+procedure TformTrayslator.ComboTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+begin
+  if (Key = VK_RETURN) then ComboTargetChange(Self);
+end;
+
+procedure TformTrayslator.ComboSourceChange(Sender: TObject);
+var
+  idx: integer;
+begin
+  // try to find typed text in items
+  idx := ComboSource.Items.IndexOf(ComboSource.Text);
+  if idx < 0 then Exit;
+
+  // assign the found index
+  ComboSource.ItemIndex := idx;
+
+  // now safe to use ItemIndex
+  FLangSource := Trans.Languages.ValueFromIndex[idx];
   Trans.LangSource := FLangSource;
+
+  if FIconTwoLang then  SetIcon;
 end;
 
 procedure TformTrayslator.ComboTargetChange(Sender: TObject);
+var
+  idx: integer;
 begin
-  if ComboTarget.ItemIndex < 0 then exit;
-  FLangTarget := Trans.Languages.ValueFromIndex[ComboTarget.ItemIndex];
+  // try to find typed text in items
+  idx := ComboTarget.Items.IndexOf(ComboTarget.Text);
+  if idx < 0 then Exit;
+
+  // assign the found index
+  ComboTarget.ItemIndex := idx;
+
+  // now safe to use ItemIndex
+  FLangTarget := Trans.Languages.ValueFromIndex[idx];
   Trans.LangTarget := FLangTarget;
   SetIcon;
 end;

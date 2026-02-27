@@ -66,6 +66,7 @@ object formTrayslator: TformTrayslator
       ItemHeight = 15
       TabOrder = 1
       OnChange = ComboTargetChange
+      OnKeyDown = ComboTargetKeyDown
     end
     object ComboSource: TComboBox
       Left = 3
@@ -81,6 +82,7 @@ object formTrayslator: TformTrayslator
       ItemHeight = 15
       TabOrder = 0
       OnChange = ComboSourceChange
+      OnKeyDown = ComboSourceKeyDown
     end
     object SbSwap: TSpeedButton
       Left = 231
