@@ -9,7 +9,7 @@
 #define MyAppExeName "trayslator.exe"
 
 [Setup]
-AppId={{F803A17B-C1FD-4B8A-8284-0AEDA0F8B73D}
+AppId={{D1E4B5C2-8F9A-4B6D-AB12-3F7C9E4D8A21}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 AppPublisher={#MyAppPublisher}
