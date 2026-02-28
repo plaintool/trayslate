@@ -92,11 +92,13 @@ type
     procedure TrayIconDblClick(Sender: TObject);
     procedure TimerClickTimer(Sender: TObject);
     procedure TimerActiveTimer(Sender: TObject);
+    procedure TrayIconMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
   private
     FTrans: TTranslate;
     FTopMost: boolean;
     FClicked: boolean;
     FDoubleClicked: boolean;
+    FLeftButton: boolean;
     FLanguages: TStringList;
     FLanguagesSorted: TStringList;
 
@@ -105,6 +107,10 @@ type
     FConfigFiles: TStringList;
     FLangSource: string;
     FLangTarget: string;
+    FFormConfigLeft: integer;
+    FFormConfigTop: integer;
+    FFormConfigWidth: integer;
+    FFormConfigHeight: integer;
 
     // TrayIcon
     FIconBackgroundColor: TColor;
@@ -135,6 +141,11 @@ type
     property LangSource: string read FLangSource write FLangSource;
     property LangTarget: string read FLangTarget write FLangTarget;
     property AutoStart: boolean read FAutoStart write SetAutoStart;
+
+    property FormConfigLeft: integer read FFormConfigLeft write FFormConfigLeft;
+    property FormConfigTop: integer read FFormConfigTop write FFormConfigTop;
+    property FormConfigWidth: integer read FFormConfigWidth write FFormConfigWidth;
+    property FormConfigHeight: integer read FFormConfigHeight write FFormConfigHeight;
   end;
 
 var
@@ -160,6 +171,10 @@ begin
   FIconTwoLang := False;
   FAutoStart := True;
   FLangTarget := Language;
+  FFormConfigLeft := 0;
+  FFormConfigTop := 0;
+  FFormConfigWidth := 0;
+  FFormConfigHeight := 0;
 
   // Components config
   Left := Screen.WorkAreaRect.Right - Width - 30;
@@ -279,6 +294,14 @@ procedure TformTrayslator.aConfigEditorExecute(Sender: TObject);
 begin
   if not Assigned(formConfigTrayslator) then
     formConfigTrayslator := TformConfigTrayslator.Create(nil);
+  if FormConfigLeft > 0 then
+    formConfigTrayslator.Left := FormConfigLeft;
+  if FormConfigTop > 0 then
+    formConfigTrayslator.Top := FormConfigTop;
+  if FormConfigWidth > 0 then
+    formConfigTrayslator.Width := FormConfigWidth;
+  if FormConfigHeight > 0 then
+    formConfigTrayslator.Height := FormConfigHeight;
   formConfigTrayslator.Show;
   formConfigTrayslator.BringToFront;
 end;
@@ -437,8 +460,15 @@ begin
   end;
 end;
 
+procedure TformTrayslator.TrayIconMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
+begin
+  FLeftButton := Button = mbLeft;
+end;
+
 procedure TformTrayslator.TrayIconClick(Sender: TObject);
 begin
+  if not FLeftButton then exit;
+
   TimerClick.Enabled := False;
   FClicked := False;
   if FDoubleClicked then
@@ -464,6 +494,8 @@ end;
 
 procedure TformTrayslator.TrayIconDblClick(Sender: TObject);
 begin
+  if not FLeftButton then exit;
+
   TimerClick.Enabled := False; // cancel single click action
   FDoubleClicked := True;
   if FClicked then

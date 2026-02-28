@@ -16,6 +16,7 @@ uses
   Classes,
   SysUtils,
   fpjson,
+  jsonparser,
   Graphics,
   IniFiles,
   mainform,
@@ -103,6 +104,11 @@ begin
     JSONObj.Add('WindowState', Ord(Form.WindowState));
     JSONObj.Add('MemoTargetHeight', Form.MemoTarget.Height);
 
+    JSONObj.Add('FormConfigLeft', Form.FormConfigLeft);
+    JSONObj.Add('FormConfigTop', Form.FormConfigTop);
+    JSONObj.Add('FormConfigWidth', Form.FormConfigWidth);
+    JSONObj.Add('FormConfigHeight', Form.FormConfigHeight);
+
     // Save language
     JSONObj.Add('Language', Language);
 
@@ -126,7 +132,7 @@ begin
     // Write to file
     with TStringList.Create do
     try
-      Add(JSONObj.AsJSON);
+      Text := JSONObj.FormatJSON;
       SaveToFile(FileName);
     finally
       Free;
@@ -176,6 +182,18 @@ begin
 
       if JSONObj.FindPath('MemoTargetHeight') <> nil then
         Form.MemoTarget.Height := JSONObj.FindPath('MemoTargetHeight').AsInteger;
+
+      if JSONObj.FindPath('FormConfigLeft') <> nil then
+        Form.FormConfigLeft := JSONObj.FindPath('FormConfigLeft').AsInteger;
+
+      if JSONObj.FindPath('FormConfigTop') <> nil then
+        Form.FormConfigTop := JSONObj.FindPath('FormConfigTop').AsInteger;
+
+      if JSONObj.FindPath('FormConfigWidth') <> nil then
+        Form.FormConfigWidth := JSONObj.FindPath('FormConfigWidth').AsInteger;
+
+      if JSONObj.FindPath('FormConfigHeight') <> nil then
+        Form.FormConfigHeight := JSONObj.FindPath('FormConfigHeight').AsInteger;
 
       // Load language
       if JSONObj.FindPath('Language') <> nil then

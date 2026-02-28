@@ -131,6 +131,7 @@ object formTrayslator: TformTrayslator
     Visible = True
     OnClick = TrayIconClick
     OnDblClick = TrayIconDblClick
+    OnMouseDown = TrayIconMouseDown
     Left = 168
     Top = 328
   end

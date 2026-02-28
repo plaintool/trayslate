@@ -56,6 +56,8 @@ type
     procedure BtnCloseClick(Sender: TObject);
     procedure BtnSaveClick(Sender: TObject);
     procedure ComboConfigChange(Sender: TObject);
+    procedure FormChangeBounds(Sender: TObject);
+    procedure FormResize(Sender: TObject);
     procedure ValueChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure SbCopyConfigClick(Sender: TObject);
@@ -86,6 +88,18 @@ procedure TformConfigTrayslator.FormCreate(Sender: TObject);
 begin
   UpdateConfigList;
   UpdateConfig;
+end;
+
+procedure TformConfigTrayslator.FormResize(Sender: TObject);
+begin
+  formTrayslator.FormConfigWidth := Width;
+  formTrayslator.FormConfigHeight := Height;
+end;
+
+procedure TformConfigTrayslator.FormChangeBounds(Sender: TObject);
+begin
+  formTrayslator.FormConfigLeft := Left;
+  formTrayslator.FormConfigTop := Top;
 end;
 
 procedure TformConfigTrayslator.SbCopyConfigClick(Sender: TObject);

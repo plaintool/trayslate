@@ -6,9 +6,10 @@ object formConfigTrayslator: TformConfigTrayslator
   Caption = 'Config Editor'
   ClientHeight = 542
   ClientWidth = 567
-  Position = poDesktopCenter
   LCLVersion = '4.4.0.0'
+  OnChangeBounds = FormChangeBounds
   OnCreate = FormCreate
+  OnResize = FormResize
   object BtnClose: TButton
     Left = 487
     Height = 25

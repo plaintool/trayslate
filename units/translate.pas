@@ -212,7 +212,9 @@ begin
       begin
         Result := regex.Match[1];
         Result := UnescapeUnicode(Result);
-      end;
+      end
+      else
+        Result := content;
     finally
       regex.Free;
     end;
