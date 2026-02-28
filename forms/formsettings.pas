@@ -1,3 +1,9 @@
+//-----------------------------------------------------------------------------------
+//  Trayslator © 2024 by Alexander Tverskoy
+//  Licensed under the GNU General Public License, Version 3 (GPL-3.0)
+//  You may obtain a copy of the License at https://www.gnu.org/licenses/gpl-3.0.html
+//-----------------------------------------------------------------------------------
+
 unit formsettings;
 
 {$mode ObjFPC}{$H+}
@@ -5,8 +11,17 @@ unit formsettings;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ComCtrls, StdCtrls,
-  ExtCtrls, ColorBox;
+  Classes,
+  SysUtils,
+  StrUtils,
+  Forms,
+  Controls,
+  Graphics,
+  Dialogs,
+  ComCtrls,
+  StdCtrls,
+  ExtCtrls,
+  ColorBox;
 
 type
 
@@ -19,10 +34,12 @@ type
     BtnCancel: TButton;
     BtnOk: TButton;
     CheckTwoLang: TCheckBox;
+    CheckAutostart: TCheckBox;
     ColorIconBackground: TColorBox;
     ColorIconFont: TColorBox;
     ColorDialog: TColorDialog;
     FontDialog: TFontDialog;
+    GroupAutostart: TGroupBox;
     GroupFont: TGroupBox;
     GroupTrayIcon: TGroupBox;
     LabelIconBackground: TLabel;
@@ -35,6 +52,7 @@ type
     procedure BtnFontClick(Sender: TObject);
     procedure BtnOkClick(Sender: TObject);
     procedure BtnResetClick(Sender: TObject);
+    procedure CheckAutostartChange(Sender: TObject);
     procedure CheckTwoLangChange(Sender: TObject);
     procedure ColorIconBackgroundChange(Sender: TObject);
     procedure ColorIconFontChange(Sender: TObject);
@@ -44,6 +62,8 @@ type
     FOriginalIconBackgroundColor: TColor;
     FOriginalIconFontColor: TColor;
     FOriginalIconTwoLang: boolean;
+    FOriginalAutoStart: boolean;
+    procedure SetPanelFont(const AFont: TFont);
     procedure AddTrayColors(AColorBox: TColorBox);
   public
     procedure Apply;
@@ -70,10 +90,11 @@ end;
 
 procedure TformSettingsTrayslator.BtnFontClick(Sender: TObject);
 begin
+  FontDialog.Font.Assign(PanelFont.Font);
   if FontDialog.Execute then
   begin
     PanelFont.Font.Assign(FontDialog.Font);
-    PanelFont.Caption := FontDialog.Font.Name + ',' + IntToStr(FontDialog.Font.Size);
+    SetPanelFont(FontDialog.Font);
 
     BtnReset.Enabled := True;
     BtnApply.Enabled := True;
@@ -83,9 +104,14 @@ end;
 procedure TformSettingsTrayslator.BtnResetClick(Sender: TObject);
 begin
   PanelFont.Font.Assign(FOriginalFont);
-  PanelFont.Caption := FOriginalFont.Name + ',' + IntToStr(FOriginalFont.Size);
+  SetPanelFont(FOriginalFont);
 
   BtnReset.Enabled := False;
+end;
+
+procedure TformSettingsTrayslator.CheckAutostartChange(Sender: TObject);
+begin
+  BtnApply.Enabled := True;
 end;
 
 procedure TformSettingsTrayslator.CheckTwoLangChange(Sender: TObject);
@@ -126,6 +152,7 @@ begin
   formTrayslator.IconBackgroundColor := ColorIconBackground.Selected;
   formTrayslator.IconFontColor := ColorIconFont.Selected;
   formTrayslator.IconTwoLang := CheckTwoLang.Checked;
+  formTrayslator.AutoStart := CheckAutostart.Checked;
 
   formTrayslator.SetIcon;
   Reset;
@@ -137,15 +164,23 @@ begin
   FOriginalIconBackgroundColor := formTrayslator.IconBackgroundColor;
   FOriginalIconFontColor := formTrayslator.IconFontColor;
   FOriginalIconTwoLang := formTrayslator.IconTwoLang;
+  FOriginalAutoStart := formTrayslator.AutoStart;
 
   PanelFont.Font.Assign(FOriginalFont);
-  PanelFont.Caption := FOriginalFont.Name + ',' + IntToStr(FOriginalFont.Size);
+  SetPanelFont(FOriginalFont);
   ColorIconBackground.Selected := FOriginalIconBackgroundColor;
   ColorIconFont.Selected := FOriginalIconFontColor;
   CheckTwoLang.Checked := FOriginalIconTwoLang;
+  CheckAutostart.Checked := FOriginalAutoStart;
 
   BtnApply.Enabled := False;
   BtnReset.Enabled := False;
+end;
+
+procedure TformSettingsTrayslator.SetPanelFont(const AFont: TFont);
+begin
+  PanelFont.Caption := ifthen((Trim(AFont.Name) = string.Empty) or (LowerCase(AFont.Name) = 'default'), 'Default', AFont.Name) +
+    ',' + IntToStr(AFont.Size);
 end;
 
 procedure TformSettingsTrayslator.AddTrayColors(AColorBox: TColorBox);

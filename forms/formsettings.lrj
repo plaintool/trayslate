@@ -9,6 +9,8 @@
 {"hash":252317683,"name":"tformsettingstrayslator.checktwolang.caption","sourcebytes":[84,119,111,32,108,97,110,103,117,97,103,101,115],"value":"Two languages"},
 {"hash":128307330,"name":"tformsettingstrayslator.labeliconbackground.caption","sourcebytes":[66,97,99,107,103,114,111,117,110,100,32,67,111,108,111,114],"value":"Background Color"},
 {"hash":105813298,"name":"tformsettingstrayslator.labeliconfont.caption","sourcebytes":[70,111,110,116,32,67,111,108,111,114],"value":"Font Color"},
+{"hash":191553620,"name":"tformsettingstrayslator.groupautostart.caption","sourcebytes":[65,117,116,111,115,116,97,114,116],"value":"Autostart"},
+{"hash":8594211,"name":"tformsettingstrayslator.checkautostart.caption","sourcebytes":[83,116,97,114,116,32,97,112,112,108,105,99,97,116,105,111,110,32,119,105,116,104,32,87,105,110,100,111,119,115],"value":"Start application with Windows"},
 {"hash":4749113,"name":"tformsettingstrayslator.btnapply.caption","sourcebytes":[65,112,112,108,121],"value":"Apply"},
 {"hash":77089212,"name":"tformsettingstrayslator.btncancel.caption","sourcebytes":[67,97,110,99,101,108],"value":"Cancel"},
 {"hash":1339,"name":"tformsettingstrayslator.btnok.caption","sourcebytes":[79,75],"value":"OK"}

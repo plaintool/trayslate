@@ -28,7 +28,7 @@ object formSettingsTrayslator: TformSettingsTrayslator
       object GroupFont: TGroupBox
         Left = 5
         Height = 99
-        Top = 5
+        Top = 74
         Width = 372
         Align = alTop
         BorderSpacing.Around = 5
@@ -75,7 +75,7 @@ object formSettingsTrayslator: TformSettingsTrayslator
       object GroupTrayIcon: TGroupBox
         Left = 5
         Height = 131
-        Top = 109
+        Top = 178
         Width = 372
         Align = alTop
         BorderSpacing.Around = 5
@@ -135,6 +135,28 @@ object formSettingsTrayslator: TformSettingsTrayslator
           ItemHeight = 16
           TabOrder = 2
           OnChange = ColorIconFontChange
+        end
+      end
+      object GroupAutostart: TGroupBox
+        Left = 5
+        Height = 64
+        Top = 5
+        Width = 372
+        Align = alTop
+        BorderSpacing.Around = 5
+        Caption = 'Autostart'
+        ClientHeight = 44
+        ClientWidth = 368
+        TabOrder = 2
+        object CheckAutostart: TCheckBox
+          Left = 21
+          Height = 24
+          Top = 8
+          Width = 203
+          AutoSize = False
+          Caption = 'Start application with Windows'
+          TabOrder = 0
+          OnChange = CheckAutostartChange
         end
       end
     end

@@ -14,6 +14,7 @@ uses
   Forms,
   StdCtrls,
   ExtCtrls,
+  Graphics,
   LCLIntf;
 
 type
@@ -48,14 +49,15 @@ uses systemtool;
 
   { TformAboutTrayslator }
 
-procedure TformAboutTrayslator.LabelLicUrlClick(Sender: TObject);
-begin
-  OpenUrl(labelLicUrl.Caption);
-end;
-
 procedure TformAboutTrayslator.FormCreate(Sender: TObject);
 begin
   labelName.Caption := 'Trayslator © ' + GetAppVersion;
+  LabelLicUrl.Font.Color := ThemeColor(clBlue, clSkyBlue);
+end;
+
+procedure TformAboutTrayslator.LabelLicUrlClick(Sender: TObject);
+begin
+  OpenUrl(labelLicUrl.Caption);
 end;
 
 end.

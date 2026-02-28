@@ -22,29 +22,37 @@ uses
   DefaultTranslator,
   Translations,
   LResources,
-  LCLTranslator
+  LCLTranslator,
+  LCLIntf,
+  Dialogs,
   {$IFDEF Windows}
-  ,Windows
-  ,Registry
+  Windows,
+  Registry,
+  wininet,
+  uDarkStyle,
   {$ENDIF}
   {$IFDEF Linux}
-  ,Unix
-  ,LCLType
+  Unix,
+  LCLType,
+  Process,
+  fphttpclient,
+  opensslsockets,
   {$ENDIF}
   {$IFDEF MacOS}
-  ,MacOSAll
+  MacOSAll,
+  fphttpclient,
+  opensslsockets,
   {$ENDIF}
-  ;
+  fpjson,
+  jsonparser;
 
 function GetOSLanguage: string;
 
 function ApplicationTranslate(const Language: string; AForm: TCustomForm = nil): boolean;
 
-{$IFDEF Windows}
+function ThemeColor(LightColor, DarkColor: TColor): TColor;
 
-function IsWindowsDarkThemeEnabled: Boolean;
-
-{$ENDIF}
+function ThemeValue(LightValue, DarkValue: integer): integer;
 
 function SetCursorTo(Control: TControl; const ResName: string; CursorIndex: integer = 1001): boolean;
 
@@ -54,8 +62,17 @@ function IsSystemKey(Key: word): boolean;
 
 function GetAppVersion: string;
 
+function CheckGithubLatestVersion(const Repo: string = 'plaintool/trayslator'): boolean;
+
+procedure RegAutoStart(const AEnable: Boolean; const AppName:string = 'Trayslator');
+
 var
   Language: string;
+
+resourcestring
+  newversion = 'New version available: %s. Open GitHub page to download?';
+  newversionuptodate = 'Your version is up to date.';
+  newversioncheckerror = 'Error checking version:';
 
 implementation
 
@@ -109,65 +126,70 @@ var
   PoFile: TPOFile;
   LocalTranslator: TUpdateTranslator;
   i: integer;
+  LangToUse: string;
+  LangFound: boolean;
 begin
   Result := False;
-
-  // Wrap in try-finally to ensure resources are freed
   Res := nil;
   PoStringStream := nil;
   PoFile := nil;
   LocalTranslator := nil;
 
+  // Determine which language to load
+  LangToUse := Language;
+
   try
     try
-      // Create string stream
       PoStringStream := TStringStream.Create('');
 
-      // Load the resource file and save the resource to the string stream
-      Res := TResourceStream.Create(HInstance, 'trayslator.' + Language, RT_RCDATA);
+      // Try to load the language resource file
+      try
+        Res := TResourceStream.Create(HInstance, 'trayslator.' + LangToUse, RT_RCDATA);
+        LangFound := True;
+      except
+        // If language resource not found, fall back to English
+        LangToUse := 'en';
+        Res := TResourceStream.Create(HInstance, 'trayslator.en', RT_RCDATA);
+        LangFound := False;
+      end;
+
+      // Save resource to string stream
       Res.SaveToStream(PoStringStream);
 
-      // Read strings from the file
+      // Read PO strings
       PoFile := TPOFile.Create(False);
       PoFile.ReadPOText(PoStringStream.DataString);
 
-      // Translate resource strings (this works for messagestring and resourcestring)
-      if (not Assigned(AForm)) then
+      // Apply translations to resource strings
+      if not Assigned(AForm) then
         Result := TranslateResourceStrings(PoFile);
 
-      if (Result) or (Assigned(AForm)) then
+      if Result or Assigned(AForm) then
       begin
-        // Create a local translator for the form or forms
+        // Create a local translator for the form or all forms
         LocalTranslator := TPOTranslator.Create(PoFile);
-        if (Assigned(LRSTranslator)) then LRSTranslator.Free;
+        if Assigned(LRSTranslator) then
+          LRSTranslator.Free;
         LRSTranslator := LocalTranslator;
 
+        // Translate only the specified form
         if Assigned(AForm) then
-        begin
-          // Translate only the specified form
-          LocalTranslator.UpdateTranslation(AForm);
-        end
+          LocalTranslator.UpdateTranslation(AForm)
         else
         begin
           // Translate all forms
           for i := 0 to Screen.CustomFormCount - 1 do
             LocalTranslator.UpdateTranslation(Screen.CustomForms[i]);
-
           // Translate all data modules
           for i := 0 to Screen.DataModuleCount - 1 do
             LocalTranslator.UpdateTranslation(Screen.DataModules[i]);
         end;
       end;
-
     except
-      on E: Exception do
-      begin
-        // Handle translation error and display message
-        WriteLn('Error during translation: ', E.Message);
-        Result := False; // Return False in case of error
-      end;
+      Result := False;
     end;
 
+    Result := Result and LangFound;
   finally
     // Free all used resources
     if Assigned(LocalTranslator) then
@@ -175,40 +197,39 @@ begin
       LRSTranslator := nil;
       LocalTranslator.Free;
     end
-    else
-    if Assigned(PoFile) then
+    else if Assigned(PoFile) then
       PoFile.Free;
 
     if Assigned(PoStringStream) then
       PoStringStream.Free;
-
     if Assigned(Res) then
       Res.Free;
   end;
 end;
 
-{$IFDEF Windows}
-
-function IsWindowsDarkThemeEnabled: Boolean;
-var
-  Key: HKEY;
-  Value: DWORD;
-  ValueSize: DWORD;
+function ThemeColor(LightColor, DarkColor: TColor): TColor;
 begin
-  Result := False;
-  Key:=HKEY_CURRENT_USER;
-  if RegOpenKeyEx(HKEY_CURRENT_USER, 'Software\Microsoft\Windows\CurrentVersion\Themes\Personalize', 0, KEY_READ, Key) = ERROR_SUCCESS then
-  begin
-    ValueSize := SizeOf(Value);
-    if RegQueryValueEx(Key, 'AppsUseLightTheme', nil, nil, @Value, @ValueSize) = ERROR_SUCCESS then
-    begin
-      Result := Value = 0; // 0 - Dark theme, 1 - Light theme
-    end;
-    RegCloseKey(Key);
-  end;
+  {$IFDEF WINDOWS}
+  if g_darkModeEnabled then
+    Result := DarkColor
+  else
+    Result := LightColor;
+  {$ELSE}
+  Result := LightColor;
+  {$ENDIF}
 end;
 
-{$ENDIF}
+function ThemeValue(LightValue, DarkValue: integer): integer;
+begin
+  {$IFDEF WINDOWS}
+  if g_darkModeEnabled then
+    Result := DarkValue
+  else
+    Result := LightValue;
+  {$ELSE}
+  Result := LightValue;
+  {$ENDIF}
+end;
 
 function SetCursorTo(Control: TControl; const ResName: string; CursorIndex: integer = 1001): boolean;
 var
@@ -498,6 +519,297 @@ begin
     Result := Info.VersionStrings.Values['ProductVersion'];
   finally
     Info.Free;
+  end;
+end;
+
+function CheckGithubLatestVersion(const Repo: string = 'plaintool/trayslator'): boolean;
+var
+  JsonData: TJSONData;
+  LatestVersion, Msg: string;
+  Url: string;
+  CurrentVersion: string;
+  ResponseContent: string;
+  ErrorMsg: string;
+
+{$IFDEF WINDOWS}
+  function HttpGetWinInet(const AUrl: string): string;
+  var
+    hInet, hUrl: HINTERNET;
+    Buffer: array[0..4095] of Char;
+    BytesRead: DWORD = 0;
+    I: Integer;
+  begin
+    for I := 0 to High(Buffer) do
+      Buffer[I] := #0;
+
+    Result := '';
+    hInet := InternetOpen('TrayslatorVersionChecker', INTERNET_OPEN_TYPE_PRECONFIG, nil, nil, 0);
+    if hInet = nil then
+      Exit;
+
+    try
+      hUrl := InternetOpenUrl(hInet, PChar(AUrl), nil, 0,
+                             INTERNET_FLAG_RELOAD or INTERNET_FLAG_SECURE or
+                             INTERNET_FLAG_EXISTING_CONNECT, 0);
+      if hUrl = nil then
+        Exit;
+
+      try
+        while InternetReadFile(hUrl, @Buffer, SizeOf(Buffer), BytesRead) and (BytesRead > 0) do
+        begin
+          Result := Result + Copy(Buffer, 1, BytesRead);
+        end;
+      finally
+        InternetCloseHandle(hUrl);
+      end;
+    finally
+      InternetCloseHandle(hInet);
+    end;
+  end;
+{$ELSE}
+
+  function HttpGetCurl(const AUrl: string): string;
+  var
+    Process: TProcess;
+    OutputStream: TMemoryStream;
+    BytesRead: longint;
+    Buffer: TBytes = nil;
+    OutputString: ansistring = '';
+  begin
+    Result := '';
+    SetLength(Buffer, 2048);
+    Process := TProcess.Create(nil);
+    OutputStream := TMemoryStream.Create;
+    try
+      Process.Executable := 'curl';
+      Process.Parameters.Add('-s');
+      Process.Parameters.Add('-L');
+      Process.Parameters.Add('-H');
+      Process.Parameters.Add('User-Agent: TrayslatorVersionChecker');
+      Process.Parameters.Add(AUrl);
+
+      Process.Options := [poUsePipes, poNoConsole];
+      Process.Execute;
+
+      while Process.Running or (Process.Output.NumBytesAvailable > 0) do
+      begin
+        BytesRead := Process.Output.Read(Buffer[1], SizeOf(Buffer));
+        if BytesRead > 0 then
+          OutputStream.Write(Buffer[1], BytesRead);
+      end;
+
+      Process.WaitOnExit;
+
+      if OutputStream.Size > 0 then
+      begin
+        SetLength(OutputString, OutputStream.Size);
+        OutputStream.Position := 0;
+        OutputStream.Read(OutputString[1], OutputStream.Size);
+        Result := string(OutputString);
+      end;
+    finally
+      OutputStream.Free;
+      Process.Free;
+    end;
+  end;
+
+  function IsCurlAvailable: boolean;
+  var
+    Process: TProcess;
+    ExitStatus: integer;
+  begin
+    Result := False;
+    Process := TProcess.Create(nil);
+    try
+      Process.Executable := 'curl';
+      Process.Parameters.Add('--version');
+      Process.Options := [poWaitOnExit, poNoConsole, poUsePipes];
+      Process.ShowWindow := swoHIDE;
+
+      try
+        Process.Execute;
+        Process.WaitOnExit;
+        ExitStatus := Process.ExitStatus;
+        Result := (ExitStatus = 0);
+      except
+        on E: EProcess do
+          Result := False;
+        on E: Exception do
+          Result := False;
+      end;
+    finally
+      Process.Free;
+    end;
+  end;
+
+  function HttpGetWget(const AUrl: string): string;
+  var
+    Process: TProcess;
+    OutputStream: TMemoryStream;
+    BytesRead: longint;
+    Buffer: TBytes = ();
+  begin
+    Result := '';
+    SetLength(Buffer, 2048);
+    Process := TProcess.Create(nil);
+    OutputStream := TMemoryStream.Create;
+    try
+      Process.Executable := 'wget';
+      Process.Parameters.Add('-q');
+      Process.Parameters.Add('-O');
+      Process.Parameters.Add('-');
+      Process.Parameters.Add('--header=User-Agent: TrayslatorVersionChecker');
+      Process.Parameters.Add(AUrl);
+
+      Process.Options := [poUsePipes, poNoConsole];
+      Process.Execute;
+
+      while Process.Running or (Process.Output.NumBytesAvailable > 0) do
+      begin
+        BytesRead := Process.Output.Read(Buffer[0], Length(Buffer));
+        if BytesRead > 0 then
+          OutputStream.Write(Buffer[0], BytesRead);
+      end;
+
+      Process.WaitOnExit;
+
+      if OutputStream.Size > 0 then
+      begin
+        SetLength(Result, OutputStream.Size);
+        OutputStream.Position := 0;
+        OutputStream.Read(Result[1], OutputStream.Size);
+      end;
+    finally
+      OutputStream.Free;
+      Process.Free;
+    end;
+  end;
+
+  function IsWgetAvailable: boolean;
+  var
+    Process: TProcess;
+  begin
+    Result := False;
+    Process := TProcess.Create(nil);
+    try
+      Process.Executable := 'wget';
+      Process.Parameters.Add('--version');
+      Process.Options := [poWaitOnExit, poNoConsole];
+      try
+        Process.Execute;
+        Process.WaitOnExit;
+        Result := (Process.ExitStatus = 0);
+      except
+        Result := False;
+      end;
+    finally
+      Process.Free;
+    end;
+  end;
+
+{$ENDIF}
+begin
+  CurrentVersion := GetAppVersion;
+  Result := False;
+  Url := Format('https://api.github.com/repos/%s/releases/latest', [Repo]);
+
+  try
+    {$IFDEF WINDOWS}
+    ResponseContent := HttpGetWinInet(Url);
+    {$ELSE}
+    try
+      with TFPHttpClient.Create(nil) do
+      try
+        AddHeader('User-Agent', 'TrayslatorVersionChecker');
+        ResponseContent := Get(Url);
+      finally
+        Free;
+      end;
+    except
+      on E: Exception do
+      begin
+        if IsCurlAvailable then
+        begin
+          ResponseContent := HttpGetCurl(Url);
+        end
+        else if IsWgetAvailable then
+        begin
+          ResponseContent := HttpGetWget(Url);
+        end
+        else
+        begin
+          ShowMessage(newversioncheckerror + ' ' + 'Please install OpenSSL, curl or wget library!');
+          Exit;
+        end;
+      end;
+    end;
+    {$ENDIF}
+
+    if ResponseContent <> string.Empty then
+    begin
+      JsonData := GetJSON(ResponseContent);
+      try
+        if JsonData.FindPath('tag_name') = nil then
+        begin
+          try
+            ErrorMsg := JsonData.GetPath('message').AsString;
+            if ErrorMsg <> '' then
+              ShowMessage(newversioncheckerror + LineEnding + Url + LineEnding + 'GitHub API: ' + ErrorMsg)
+            else
+              ShowMessage(newversioncheckerror + LineEnding + Url);
+          except
+            ShowMessage(newversioncheckerror + LineEnding + Url);
+          end;
+          Exit;
+        end;
+
+        LatestVersion := JsonData.GetPath('tag_name').AsString;
+
+        if AnsiLowerCase(StringReplace(LatestVersion, 'v', '', [rfReplaceAll])) <> AnsiLowerCase(
+          StringReplace(CurrentVersion, 'v', '', [rfReplaceAll])) then
+        begin
+          Msg := Format(newversion, [LatestVersion]);
+          if MessageDlg(Msg, mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+            OpenURL(Format('https://github.com/%s/releases/latest', [Repo]));
+        end
+        else
+          ShowMessage(newversionuptodate);
+
+        Result := True;
+      finally
+        JsonData.Free;
+      end;
+    end
+    else
+      ShowMessage(newversioncheckerror + LineEnding + Url);
+
+  except
+    on E: Exception do
+      ShowMessage(newversioncheckerror + LineEnding + Url + LineEnding + E.Message);
+  end;
+end;
+
+procedure RegAutoStart(const AEnable: Boolean; const AppName:string = 'Trayslator');
+var
+  Reg: TRegistry;
+  ExeName: string;
+begin
+  ExeName := '"' + ParamStr(0) + '"'; // полный путь к текущему exe
+
+  Reg := TRegistry.Create;
+  try
+    Reg.RootKey := HKEY_CURRENT_USER;
+
+    if Reg.OpenKey('Software\Microsoft\Windows\CurrentVersion\Run', True) then
+    begin
+      if AEnable then
+        Reg.WriteString(AppName, ExeName)
+      else
+        if Reg.ValueExists(AppName) then
+          Reg.DeleteValue(AppName);
+    end;
+  finally
+    Reg.Free;
   end;
 end;
 

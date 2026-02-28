@@ -12,10 +12,12 @@ interface
 
 uses
   Forms,
+  Classes,
   StdCtrls,
   Buttons,
   Clipbrd,
-  LCLIntf, Classes;
+  Graphics,
+  LCLIntf;
 
 type
 
@@ -40,8 +42,9 @@ type
     buttonCopy4: TSpeedButton;
     Label8: TLabel;
     Label9: TLabel;
-    labelUrl: TLabel;
     Label10: TLabel;
+    labelUrl: TLabel;
+    labelUrl1: TLabel;
     procedure buttonCopy1Click(Sender: TObject);
     procedure buttonCopy2Click(Sender: TObject);
     procedure buttonCopy3Click(Sender: TObject);
@@ -72,6 +75,8 @@ uses systemtool;
 procedure TformDonateTrayslator.FormCreate(Sender: TObject);
 begin
   ApplicationTranslate(language, self);
+  LabelUrl.Font.Color := ThemeColor(clBlue, clSkyBlue);
+  LabelUrl1.Font.Color := ThemeColor(clBlue, clSkyBlue);
 end;
 
 procedure TformDonateTrayslator.buttonCopy1Click(Sender: TObject);
@@ -104,7 +109,7 @@ end;
 
 procedure TformDonateTrayslator.labelUrlClick(Sender: TObject);
 begin
-  OpenUrl(labelUrl.Caption);
+  OpenUrl((Sender as TLabel).Hint);
 end;
 
 procedure TformDonateTrayslator.editWallet4Click(Sender: TObject);

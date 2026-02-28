@@ -1,7 +1,7 @@
 {"version":1,"strings":[
 {"hash":10957810,"name":"tformtrayslator.caption","sourcebytes":[84,114,97,121,115,108,97,116,111,114],"value":"Trayslator"},
-{"hash":181880507,"name":"tformtrayslator.ashow.caption","sourcebytes":[83,104,111,119,32,45,32,67,108,105,99,107],"value":"Show - Click"},
-{"hash":59110107,"name":"tformtrayslator.aclipboard.caption","sourcebytes":[67,108,105,112,98,111,97,114,100,32,45,32,68,111,117,98,108,101,45,67,108,105,99,107],"value":"Clipboard - Double-Click"},
+{"hash":55384373,"name":"tformtrayslator.ashowhide.caption","sourcebytes":[83,104,111,119,32,47,32,72,105,100,101],"value":"Show / Hide"},
+{"hash":55078116,"name":"tformtrayslator.aclipboard.caption","sourcebytes":[84,114,97,110,115,108,97,116,101,32,99,108,105,112,98,111,97,114,100],"value":"Translate clipboard"},
 {"hash":1551550,"name":"tformtrayslator.asettings.caption","sourcebytes":[83,101,116,116,105,110,103,115,46,46,46],"value":"Settings..."},
 {"hash":140145445,"name":"tformtrayslator.atranslate.hint","sourcebytes":[84,114,97,110,115,108,97,116,101],"value":"Translate"},
 {"hash":372096,"name":"tformtrayslator.aswap.hint","sourcebytes":[83,119,97,112],"value":"Swap"},

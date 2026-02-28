@@ -121,6 +121,7 @@ begin
     JSONObj.Add('IconTwoLang', Form.IconTwoLang);
     JSONObj.Add('LangSource', Form.LangSource);
     JSONObj.Add('LangTarget', Form.LangTarget);
+    JSONObj.Add('AutoStart', Form.AutoStart);
 
     // Write to file
     with TStringList.Create do
@@ -215,6 +216,9 @@ begin
 
       if JSONObj.FindPath('LangTarget') <> nil then
         Form.LangTarget := JSONObj.FindPath('LangTarget').AsString;
+
+      if JSONObj.FindPath('AutoStart') <> nil then
+        Form.AutoStart := JSONObj.FindPath('AutoStart').AsBoolean;
 
       Result := True;
     finally

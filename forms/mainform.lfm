@@ -205,7 +205,7 @@ object formTrayslator: TformTrayslator
     Left = 104
     Top = 328
     object MenuShow: TMenuItem
-      Action = aShow
+      Action = aShowHide
     end
     object MenuShowTranslate: TMenuItem
       Action = aClipboard
@@ -235,14 +235,14 @@ object formTrayslator: TformTrayslator
   object ActionList: TActionList
     Left = 40
     Top = 328
-    object aShow: TAction
+    object aShowHide: TAction
       Category = 'Tray'
-      Caption = 'Show - Click'
-      OnExecute = aShowExecute
+      Caption = 'Show / Hide'
+      OnExecute = aShowHideExecute
     end
     object aClipboard: TAction
       Category = 'Tray'
-      Caption = 'Clipboard - Double-Click'
+      Caption = 'Translate clipboard'
       OnExecute = aClipboardExecute
     end
     object aSettings: TAction

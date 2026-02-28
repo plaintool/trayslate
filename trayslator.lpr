@@ -19,7 +19,12 @@ uses
   opensslsockets,
   mainform,
   langtool,
-  systemtool;
+  systemtool
+  {$IFDEF WINDOWS}
+  ,uDarkStyle
+  ,uWin32WidgetSetDark
+  {$ENDIF}
+  ;
 
   {$R *.res}
 
@@ -27,9 +32,12 @@ begin
   RequireDerivedFormResource := True;
   Language := GetOSLanguage;
   DefaultFormatSettings.DecimalSeparator := '.';
-  Application.Title:='Trayslator';
-  Application.Scaled:=True;
+  Application.Title := 'Trayslator';
+  Application.Scaled := True;
   Application.Initialize;
+  {$IFDEF WINDOWS}
+  ApplyDarkStyle;
+  {$ENDIF}
   Application.ShowMainForm := False;
   Application.CreateForm(TformTrayslator, formTrayslator);
   ApplicationTranslate(Language);

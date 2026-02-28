@@ -5,6 +5,19 @@ msgstr "Content-Type: text/plain; charset=UTF-8"
 msgid "Configuration file not found!"
 msgstr ""
 
+#: systemtool.newversion
+#, object-pascal-format
+msgid "New version available: %s. Open GitHub page to download?"
+msgstr ""
+
+#: systemtool.newversioncheckerror
+msgid "Error checking version:"
+msgstr ""
+
+#: systemtool.newversionuptodate
+msgid "Your version is up to date."
+msgstr ""
+
 #: tformabouttrayslator.buttonok.caption
 msgctxt "tformabouttrayslator.buttonok.caption"
 msgid "OK"
@@ -104,7 +117,21 @@ msgid "USDT"
 msgstr ""
 
 #: tformdonatetrayslator.labelurl.caption
+msgctxt "tformdonatetrayslator.labelurl.caption"
+msgid "Changelly.com"
+msgstr ""
+
+#: tformdonatetrayslator.labelurl.hint
+msgctxt "tformdonatetrayslator.labelurl.hint"
 msgid "https://changelly.com/buy-crypto?amount=15&from=usd"
+msgstr ""
+
+#: tformdonatetrayslator.labelurl1.caption
+msgid "How to do it easily"
+msgstr ""
+
+#: tformdonatetrayslator.labelurl1.hint
+msgid "https://plaintool.github.io/notetask/donate.htm"
 msgstr ""
 
 #: tformsettingstrayslator.btnapply.caption
@@ -134,8 +161,16 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
+#: tformsettingstrayslator.checkautostart.caption
+msgid "Start application with Windows"
+msgstr ""
+
 #: tformsettingstrayslator.checktwolang.caption
 msgid "Two languages"
+msgstr ""
+
+#: tformsettingstrayslator.groupautostart.caption
+msgid "Autostart"
 msgstr ""
 
 #: tformsettingstrayslator.groupfont.caption
@@ -170,7 +205,8 @@ msgid "About..."
 msgstr ""
 
 #: tformtrayslator.aclipboard.caption
-msgid "Clipboard - Double-Click"
+msgctxt "tformtrayslator.aclipboard.caption"
+msgid "Translate clipboard"
 msgstr ""
 
 #: tformtrayslator.adonate.caption
@@ -185,8 +221,9 @@ msgstr ""
 msgid "Settings..."
 msgstr ""
 
-#: tformtrayslator.ashow.caption
-msgid "Show - Click"
+#: tformtrayslator.ashowhide.caption
+msgctxt "tformtrayslator.ashowhide.caption"
+msgid "Show / Hide"
 msgstr ""
 
 #: tformtrayslator.aswap.hint

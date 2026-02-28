@@ -38,7 +38,7 @@ type
     aClipboard: TAction;
     aSwap: TAction;
     aTranslate: TAction;
-    aShow: TAction;
+    aShowHide: TAction;
     aDonate: TAction;
     aExit: TAction;
     ActionList: TActionList;
@@ -70,7 +70,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
-    procedure aShowExecute(Sender: TObject);
+    procedure aShowHideExecute(Sender: TObject);
     procedure aDonateExecute(Sender: TObject);
     procedure aAboutExecute(Sender: TObject);
     procedure aExitExecute(Sender: TObject);
@@ -98,10 +98,12 @@ type
     FIconBackgroundColor: TColor;
     FIconFontColor: TColor;
     FIconTwoLang: boolean;
+    FAutoStart: boolean;
 
     function GetClipboartText: boolean;
     procedure Translate;
     procedure ProcessMessages;
+    procedure SetAutoStart(Value: boolean);
   public
     property Trans: TTranslate read FTrans write FTrans;
 
@@ -112,6 +114,7 @@ type
     property IconTwoLang: boolean read FIconTwoLang write FIconTwoLang;
     property LangSource: string read FLangSource write FLangSource;
     property LangTarget: string read FLangTarget write FLangTarget;
+    property AutoStart: boolean read FAutoStart write SetAutoStart;
     procedure SetIcon;
   end;
 
@@ -123,7 +126,7 @@ resourcestring
 
 implementation
 
-uses formdonate, formabout, formsettings, langtool, settings, languages;
+uses formdonate, formabout, formsettings, langtool, settings, languages, systemtool;
 
   {$R *.lfm}
 
@@ -133,9 +136,10 @@ procedure TformTrayslator.FormCreate(Sender: TObject);
 begin
   // Default values
   FConfigFile := GetIniDirectory('google.ini');
-  FIconBackgroundColor := $00FF9628;
-  FIconFontColor := $00DCDCDC;
+  FIconBackgroundColor := $00FF9E2B;
+  FIconFontColor := clWhite;
   FIconTwoLang := False;
+  FAutoStart := True;
 
   Left := Screen.WorkAreaRect.Right - Width - 30;
   Top := Screen.WorkAreaRect.Bottom - Height - 50;
@@ -188,9 +192,12 @@ begin
   Hide;
 end;
 
-procedure TformTrayslator.aShowExecute(Sender: TObject);
+procedure TformTrayslator.aShowHideExecute(Sender: TObject);
 begin
-  Show;
+  if Visible then
+    Hide
+  else
+    Show;
 end;
 
 procedure TformTrayslator.aClipboardExecute(Sender: TObject);
@@ -438,6 +445,12 @@ begin
   Application.ProcessMessages;
   Repaint;
   Application.ProcessMessages;
+end;
+
+procedure TformTrayslator.SetAutoStart(Value: boolean);
+begin
+  FAutoStart := Value;
+  RegAutoStart(FAutoStart, 'Trayslator');
 end;
 
 end.
