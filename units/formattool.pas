@@ -22,6 +22,8 @@ function ColorToHtml(AColor: TColor): string;
 
 function ColorFromHtml(const AHtml: string): TColor;
 
+function UnescapeUnicode(const S: string): string;
+
 implementation
 
 {TColor}
@@ -54,6 +56,54 @@ begin
 
   // Build TColor
   Result := RGBToColor(R, G, B);
+end;
+
+function UnescapeUnicode(const S: string): string;
+var
+  i: Integer;
+  Code: string;
+  tmp: Integer;
+begin
+  // Initialize result
+  Result := '';
+  i := 1;
+
+  // Loop through the input string
+  while i <= Length(S) do
+  begin
+    // Handle Unicode escape sequence \uXXXX
+    if (S[i] = '\') and (i + 5 <= Length(S)) and (S[i + 1] = 'u') then
+    begin
+      Code := Copy(S, i + 2, 4);
+      // Convert hexadecimal code to integer
+      if TryStrToInt('$' + Code, tmp) and (tmp <= $FFFF) then
+        // Explicit conversion to AnsiChar to remove warnings
+        Result := Result + string(WideChar(tmp))
+      else
+        Result := Result + '\u' + Code; // Keep original if conversion fails
+      Inc(i, 6);
+    end
+    // Handle standard escape sequences \r, \n, \t, \\, \"
+    else if (S[i] = '\') and (i < Length(S)) then
+    begin
+      case S[i + 1] of
+        'r': Result := Result + #13;
+        'n': Result := Result + #10;
+        't': Result := Result + #9;
+        '\': Result := Result + '\';
+        '"': Result := Result + '"';
+      else
+        Result := Result + '\' + S[i + 1]; // Keep unknown escapes as-is
+      end;
+      Inc(i, 2);
+    end
+    // Append normal character
+    else
+    begin
+      Result := Result + S[i];
+      Inc(i);
+    end;
+  end;
 end;
 
 end.

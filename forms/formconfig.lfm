@@ -15,6 +15,7 @@ object formConfigTrayslator: TformConfigTrayslator
     Top = 509
     Width = 75
     Anchors = [akRight, akBottom]
+    Cancel = True
     Caption = 'Close'
     TabOrder = 0
     OnClick = BtnCloseClick

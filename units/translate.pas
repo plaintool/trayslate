@@ -84,7 +84,7 @@ const
 
 implementation
 
-uses systemtool;
+uses systemtool, formattool;
 
   { TTranslate }
 
@@ -153,7 +153,23 @@ begin
   http := TFPHTTPClient.Create(nil);
   response := TStringStream.Create(string.Empty);
   try
-    Data := StringReplace(FPostData, '{text}', TextToTranslate, [rfReplaceAll]);
+    Data := FPostData;
+
+    if FTextToTranslate <> string.Empty then
+      Data := StringReplace(Data, '{text}', EncodeURLElement(FTextToTranslate), [rfReplaceAll])
+    else
+      Data := StringReplace(Data, '{text}', string.Empty, [rfReplaceAll]);
+
+    if FLangSource <> string.Empty then
+      Data := StringReplace(Data, '{source}', FLangSource, [rfReplaceAll])
+    else
+      Data := StringReplace(Data, '{source}', Language, [rfReplaceAll]);
+
+    if FLangTarget <> string.Empty then
+      Data := StringReplace(Data, '{target}', FLangTarget, [rfReplaceAll])
+    else
+      Data := StringReplace(Data, '{target}', defaultlang, [rfReplaceAll]);
+
     postStream := TStringStream.Create(Data, TEncoding.UTF8);
     try
       http.AddHeader('User-Agent', FUserAgent);
@@ -187,13 +203,24 @@ var
 begin
   Result := string.Empty;
   content := Request;
-  regex := TRegExpr.Create;
+
   try
-    regex.Expression := FRegexp;
-    if regex.Exec(content) then
-      Result := regex.Match[1];
-  finally
-    regex.Free;
+    regex := TRegExpr.Create;
+    try
+      regex.Expression := FRegexp;
+      if regex.Exec(content) then
+      begin
+        Result := regex.Match[1];
+        Result := UnescapeUnicode(Result);
+      end;
+    finally
+      regex.Free;
+    end;
+  except
+    on E: Exception do
+    begin
+      raise Exception.Create(E.Message + #10 + content);
+    end;
   end;
 end;
 
@@ -209,24 +236,31 @@ begin
 
   if Trim(jsonStr) = string.Empty then Exit;
 
-  Data := nil;
   try
-    Data := fpjson.GetJSON(jsonStr);
-    if (Data.Count > 0) and (Data.Items[0] is TJSONArray) then
-    begin
-      Arr := TJSONArray(Data.Items[0]);
-      for i := 0 to Arr.Count - 1 do
+    Data := nil;
+    try
+      Data := fpjson.GetJSON(jsonStr);
+      if (Data.Count > 0) and (Data.Items[0] is TJSONArray) then
       begin
-        if Arr.Items[i] is TJSONArray then
+        Arr := TJSONArray(Data.Items[0]);
+        for i := 0 to Arr.Count - 1 do
         begin
-          Item := TJSONArray(Arr.Items[i]);
-          if Item.Count > 0 then
-            Result := Result + Item.Strings[0];
+          if Arr.Items[i] is TJSONArray then
+          begin
+            Item := TJSONArray(Arr.Items[i]);
+            if Item.Count > 0 then
+              Result := Result + Item.Strings[0];
+          end;
         end;
       end;
+    finally
+      Data.Free;
     end;
-  finally
-    Data.Free;
+  except
+    on E: Exception do
+    begin
+      raise Exception.Create(E.Message + #10 + jsonStr);
+    end;
   end;
 end;
 
