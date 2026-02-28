@@ -84,13 +84,12 @@ object formSettingsTrayslator: TformSettingsTrayslator
         ClientWidth = 368
         TabOrder = 1
         object CheckTwoLang: TCheckBox
-          Left = 45
+          Left = 21
           Height = 24
           Top = 80
           Width = 104
-          Alignment = taLeftJustify
           AutoSize = False
-          Caption = 'Two languages'
+          Caption = '  Two languages'
           TabOrder = 0
           OnChange = CheckTwoLangChange
         end
@@ -154,7 +153,7 @@ object formSettingsTrayslator: TformSettingsTrayslator
           Top = 8
           Width = 203
           AutoSize = False
-          Caption = 'Start application with Windows'
+          Caption = '  Start application with Windows'
           TabOrder = 0
           OnChange = CheckAutostartChange
         end

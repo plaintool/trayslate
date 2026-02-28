@@ -93,6 +93,7 @@ type
     FTrans: TTranslate;
     FClicked, FDoubleClicked: boolean;
     FTopMost: boolean;
+    FLanguages, FLanguagesSorted: TStringList;
 
     // Settings
     FConfigFile: string;
@@ -110,8 +111,9 @@ type
     procedure Translate;
     procedure ProcessMessages;
     procedure SetAutoStart(Value: boolean);
-    procedure AppOnActivate(Sender: TObject);
-    procedure AppOnDeactivate(Sender: TObject);
+    procedure ApplicationOnActivate(Sender: TObject);
+    procedure ApplicationOnDeactivate(Sender: TObject);
+    procedure ApplicationOnException(Sender: TObject; E: Exception);
   public
     property Trans: TTranslate read FTrans write FTrans;
 
@@ -148,6 +150,8 @@ begin
   FIconFontColor := clWhite;
   FIconTwoLang := False;
   FAutoStart := True;
+  FLanguages := TStringList.Create;
+  FLanguagesSorted := TStringList.Create;
 
   Left := Screen.WorkAreaRect.Right - Width - 30;
   Top := Screen.WorkAreaRect.Bottom - Height - 50;
@@ -175,7 +179,8 @@ begin
   LoadIniSettings(Trans, FConfigFile);
 
   // Init Controls
-  ComboSource.Items.Assign(GetDisplayNamesFromCodeMap(Trans.Languages));
+  FLanguages.Assign(GetDisplayNamesFromCodeMap(Trans.Languages));
+  ComboSource.Items.Assign(GetDisplayNamesFromCodeMap(Trans.Languages, True));
   ComboTarget.Items.Assign(ComboSource.Items);
   if LangSource <> string.Empty then
     Trans.LangSource := LangSource
@@ -190,13 +195,16 @@ begin
 
   SetIcon;
 
-  Application.OnDeactivate := @AppOnDeactivate;
-  Application.OnActivate := @AppOnActivate;
+  Application.OnDeactivate := @ApplicationOnDeactivate;
+  Application.OnActivate := @ApplicationOnActivate;
+    Application.OnException := @ApplicationOnException;
 end;
 
 procedure TformTrayslator.FormDestroy(Sender: TObject);
 begin
   SaveFormSettings(Self);
+  FLanguages.Free;
+  FLanguagesSorted.Free;
   Trans.Free;
 end;
 
@@ -216,14 +224,19 @@ begin
   FTopMost := False;
 end;
 
-procedure TformTrayslator.AppOnActivate(Sender: TObject);
+procedure TformTrayslator.ApplicationOnActivate(Sender: TObject);
 begin
   FTopMost := True;
 end;
 
-procedure TformTrayslator.AppOnDeactivate(Sender: TObject);
+procedure TformTrayslator.ApplicationOnDeactivate(Sender: TObject);
 begin
   TimerActive.Enabled := True;
+end;
+
+procedure TformTrayslator.ApplicationOnException(Sender: TObject; E: Exception);
+begin
+  MessageDlg('Trayslator', E.Message, mtWarning, [mbOK], 0);
 end;
 
 procedure TformTrayslator.aShowExecute(Sender: TObject);
@@ -321,17 +334,18 @@ end;
 
 procedure TformTrayslator.ComboSourceChange(Sender: TObject);
 var
-  idx: integer;
+  idx, idnative: integer;
 begin
   // try to find typed text in items
   idx := ComboSource.Items.IndexOf(ComboSource.Text);
+  idnative := FLanguages.IndexOf(ComboSource.Text);
   if idx < 0 then Exit;
 
   // assign the found index
   ComboSource.ItemIndex := idx;
 
   // now safe to use ItemIndex
-  FLangSource := Trans.Languages.ValueFromIndex[idx];
+  FLangSource := Trans.Languages.ValueFromIndex[idnative];
   Trans.LangSource := FLangSource;
 
   if FIconTwoLang then  SetIcon;
@@ -339,17 +353,18 @@ end;
 
 procedure TformTrayslator.ComboTargetChange(Sender: TObject);
 var
-  idx: integer;
+  idx, idnative: integer;
 begin
   // try to find typed text in items
   idx := ComboTarget.Items.IndexOf(ComboTarget.Text);
+  idnative := FLanguages.IndexOf(ComboTarget.Text);
   if idx < 0 then Exit;
 
   // assign the found index
   ComboTarget.ItemIndex := idx;
 
   // now safe to use ItemIndex
-  FLangTarget := Trans.Languages.ValueFromIndex[idx];
+  FLangTarget := Trans.Languages.ValueFromIndex[idnative];
   Trans.LangTarget := FLangTarget;
   SetIcon;
 end;

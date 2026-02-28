@@ -70,6 +70,7 @@ type
     FSourceText: string;
     FResultText: string;
     FMemoTarget: TMemo;
+    FException: Exception;
   protected
     procedure Execute; override;
     procedure UpdateUI;
@@ -252,22 +253,36 @@ end;
 
 procedure TTranslateThread.Execute;
 begin
-  // Perform network request in background
-  FTrans.TextToTranslate := FSourceText;
+  try
+    // Perform network request in background
+    FTrans.TextToTranslate := FSourceText;
 
-  if Length(Trim(FSourceText)) > 0 then
-    FResultText := FTrans.Translate
-  else
-    FResultText := string.Empty;
-
+    if Length(Trim(FSourceText)) > 0 then
+      FResultText := FTrans.Translate
+    else
+      FResultText := string.Empty;
+  except
+    on E: Exception do
+      FException := Exception.Create(E.Message);
+  end;
   Synchronize(@UpdateUI);
 end;
 
 procedure TTranslateThread.UpdateUI;
 begin
   // Update UI in main thread
-  FMemoTarget.Text := FResultText;
   Screen.Cursor := crDefault;
+  if Assigned(FException) then
+  begin
+    if Assigned(Application.OnException) then
+      Application.OnException(Self, FException)
+    else
+      Application.ShowException(FException);
+
+    FreeAndNil(FException); // free manually
+  end
+  else
+    FMemoTarget.Text := FResultText;
 end;
 
 end.

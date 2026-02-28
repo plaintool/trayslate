@@ -28,7 +28,7 @@ function GetLanguageCodePairList: TStringList;
 
 function GetLanguageDisplayStrings: TStringList;
 
-function GetDisplayNamesFromCodeMap(ACodeMap: TStringList): TStringList;
+function GetDisplayNamesFromCodeMap(ACodeMap: TStringList; Sort: Boolean = False): TStringList;
 
 function ExtractCodeFromItem(const ItemText: string): string;
 
@@ -336,19 +336,21 @@ begin
     Result.Add(L.DisplayName + ' (' + L.Code + ')');
 end;
 
-function GetDisplayNamesFromCodeMap(ACodeMap: TStringList): TStringList;
+function GetDisplayNamesFromCodeMap(ACodeMap: TStringList; Sort: Boolean = False): TStringList;
 var
   Langs: array of TAppLanguage;
   LangMap: TStringList;          // List of "code=displayname" for lookup
   i, idx: Integer;
   Key, ApiValue: string;
+  AutoItem: string;
+  TempList: TStringList;
 begin
   Result := TStringList.Create;
   try
     // Retrieve the master language list
     Langs := GetLanguages;
 
-    // Build a map from language code to display name (unsorted, because IndexOfName works on any list)
+    // Build a map from language code to display name
     LangMap := TStringList.Create;
     try
       for i := 0 to High(Langs) do
@@ -372,8 +374,38 @@ begin
           // Found: add "DisplayName (ApiCode)"
           Result.Add(LangMap.ValueFromIndex[idx] + ' (' + ApiValue + ')')
         else
-          // Not found: fallback
+          // Not found: fallback – just use the API code
           Result.Add(ApiValue);
+      end;
+
+      // Optional sorting: keep "auto" first if present
+      if Sort and (Result.Count > 1) then
+      begin
+        AutoItem := '';
+        TempList := TStringList.Create;
+        try
+          // Separate the "auto" item from the rest
+          for i := 0 to Result.Count - 1 do
+          begin
+            // Detect "auto" by checking if the string ends with "(auto)"
+            if (Length(Result[i]) > 6) and (Copy(Result[i], Length(Result[i]) - 5, 6) = '(auto)') then
+              AutoItem := Result[i]
+            else
+              TempList.Add(Result[i]);
+          end;
+
+          // Sort the remaining items alphabetically
+          TempList.Sort;
+
+          // Rebuild the result list with auto first, then the sorted items
+          Result.Clear;
+          if AutoItem <> '' then
+            Result.Add(AutoItem);
+          for i := 0 to TempList.Count - 1 do
+            Result.Add(TempList[i]);
+        finally
+          TempList.Free;
+        end;
       end;
     finally
       LangMap.Free;
@@ -389,10 +421,8 @@ var
   P: Integer;
 begin
   Result := '';
-  // Find the last occurrence of " (" to handle cases where DisplayName itself contains parentheses
   P := RPos(' (', ItemText);
   if P > 0 then
-    // Copy the substring between '(' and ')'
     Result := Copy(ItemText, P + 2, Length(ItemText) - P - 2);
 end;
 

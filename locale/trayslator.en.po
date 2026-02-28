@@ -172,11 +172,11 @@ msgid "Settings"
 msgstr ""
 
 #: tformsettingstrayslator.checkautostart.caption
-msgid "Start application with Windows"
+msgid "  Start application with Windows"
 msgstr ""
 
 #: tformsettingstrayslator.checktwolang.caption
-msgid "Two languages"
+msgid "  Two languages"
 msgstr ""
 
 #: tformsettingstrayslator.groupautostart.caption
