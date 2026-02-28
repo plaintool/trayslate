@@ -236,9 +236,6 @@ var
 begin
   Ini := TIniFile.Create(AFileName);
   try
-    Ini.WriteString('Translate', 'Source', Translate.LangSource);
-    Ini.WriteString('Translate', 'Target', Translate.LangTarget);
-
     // determine method string based on UsePost property
     if Translate.RequestType = rtPost then
       Ini.WriteString('Request', 'Method', 'POST')
@@ -274,9 +271,6 @@ var
 begin
   Ini := TIniFile.Create(AFileName);
   try
-    Translate.LangSource := Ini.ReadString('Translate', 'Source', Translate.LangSource);
-    Translate.LangTarget := Ini.ReadString('Translate', 'Target', Translate.LangTarget);
-
     // read method and assign UsePost accordingly
     Method := Ini.ReadString('Request', 'Method', 'GET');
     if (SameText(Method, 'POST')) then
