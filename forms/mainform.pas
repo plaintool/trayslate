@@ -44,6 +44,7 @@ type
     ActionList: TActionList;
     ComboSource: TComboBox;
     ComboTarget: TComboBox;
+    ImageButtons: TImageList;
     MemoSource: TMemo;
     MemoTarget: TMemo;
     MenuExit: TMenuItem;
@@ -150,6 +151,9 @@ begin
 
   Left := Screen.WorkAreaRect.Right - Width - 30;
   Top := Screen.WorkAreaRect.Bottom - Height - 50;
+
+  SbSwap.ImageIndex := ThemeValue(0, 1);
+  SbTranslate.ImageIndex := ThemeValue(2, 3);
 
   Trans := TTranslate.Create;
   LoadFormSettings(Self);
