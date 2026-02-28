@@ -1,5 +1,19 @@
 {"version":1,"strings":[
 {"hash":249546418,"name":"tformconfigtrayslator.caption","sourcebytes":[67,111,110,102,105,103,32,69,100,105,116,111,114],"value":"Config Editor"},
-{"hash":4863637,"name":"tformconfigtrayslator.buttonclose.caption","sourcebytes":[67,108,111,115,101],"value":"Close"},
-{"hash":59383006,"name":"tformconfigtrayslator.sbcopyconfig.hint","sourcebytes":[67,111,112,121,32,99,111,110,102,105,103,117,114,97,116,105,111,110],"value":"Copy configuration"}
+{"hash":4863637,"name":"tformconfigtrayslator.btnclose.caption","sourcebytes":[67,108,111,115,101],"value":"Close"},
+{"hash":212295701,"name":"tformconfigtrayslator.groupresponse.caption","sourcebytes":[82,101,115,112,111,110,115,101],"value":"Response"},
+{"hash":158394613,"name":"tformconfigtrayslator.labelresponseparser.caption","sourcebytes":[80,97,114,115,101,32,84,121,112,101],"value":"Parse Type"},
+{"hash":325694,"name":"tformconfigtrayslator.comboresponseparser.text","sourcebytes":[74,83,79,78],"value":"JSON"},
+{"hash":93043952,"name":"tformconfigtrayslator.labelregexp.caption","sourcebytes":[82,101,103,69,120,112],"value":"RegExp"},
+{"hash":147373300,"name":"tformconfigtrayslator.grouprequest.caption","sourcebytes":[82,101,113,117,101,115,116],"value":"Request"},
+{"hash":87863124,"name":"tformconfigtrayslator.labelmethod.caption","sourcebytes":[77,101,116,104,111,100],"value":"Method"},
+{"hash":19364,"name":"tformconfigtrayslator.combomethod.text","sourcebytes":[71,69,84],"value":"GET"},
+{"hash":71439252,"name":"tformconfigtrayslator.labeluseragent.caption","sourcebytes":[85,115,101,114,32,65,103,101,110,116],"value":"User Agent"},
+{"hash":29620901,"name":"tformconfigtrayslator.labelcontenttype.caption","sourcebytes":[67,111,110,116,101,110,116,32,84,121,112,101],"value":"Content Type"},
+{"hash":23148,"name":"tformconfigtrayslator.labelurl.caption","sourcebytes":[85,82,76],"value":"URL"},
+{"hash":195842666,"name":"tformconfigtrayslator.labelparemeters.caption","sourcebytes":[85,115,101,32,112,97,114,97,109,101,116,101,114,115,32,32,123,115,111,117,114,99,101,125,32,226,128,147,32,115,111,117,114,99,101,32,108,97,110,103,117,97,103,101,44,32,123,116,97,114,103,101,116,125,32,226,128,147,32,116,97,114,103,101,116,32,108,97,110,103,117,97,103,101,44,32,123,116,101,120,116,125,32,226,128,147,32,105,110,112,117,116,32,116,101,120,116,46,10],"value":"Use parameters  {source} \u2013 source language, {target} \u2013 target language, {text} \u2013 input text.\n"},
+{"hash":174391233,"name":"tformconfigtrayslator.labelpostdata.caption","sourcebytes":[80,111,115,116,32,68,97,116,97],"value":"Post Data"},
+{"hash":82521923,"name":"tformconfigtrayslator.grouplanguages.caption","sourcebytes":[76,97,110,103,117,97,103,101,115],"value":"Languages"},
+{"hash":59383006,"name":"tformconfigtrayslator.sbcopyconfig.hint","sourcebytes":[67,111,112,121,32,99,111,110,102,105,103,117,114,97,116,105,111,110],"value":"Copy configuration"},
+{"hash":366789,"name":"tformconfigtrayslator.btnsave.caption","sourcebytes":[83,97,118,101],"value":"Save"}
 ]}

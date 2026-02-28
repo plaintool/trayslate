@@ -22,18 +22,18 @@ uses
   jsonparser;
 
 type
-  TRequestType = (rtGet, rtPost);
-  TResponseParserType = (rpJson, rpRegEx);
+  TWebMethod = (wmGet, wmPost);
+  TResponseParser = (rpJson, rpRegEx);
 
   { TTranslate }
   TTranslate = class
   private
-    FRequestType: TRequestType;
-    FResponseParserType: TResponseParserType;
+    FWebMethod: TWebMethod;
+    FResponseParser: TResponseParser;
     FUrl: string;
     FUserAgent: string;
     FContentType: string;
-    FRegex: string;
+    FRegexp: string;
     FTextToTranslate: string;
     FPostData: string;
     FLangSource: string;
@@ -50,16 +50,17 @@ type
     function TransJson: string;
     function Translate: string;
 
-    property RequestType: TRequestType read FRequestType write FRequestType;
-    property ResponseParserType: TResponseParserType read FResponseParserType write FResponseParserType;
+    property LangSource: string read FLangSource write FLangSource;
+    property LangTarget: string read FLangTarget write FLangTarget;
+    property TextToTranslate: string read FTextToTranslate write FTextToTranslate;
+
+    property WebMethod: TWebMethod read FWebMethod write FWebMethod;
+    property ResponseParser: TResponseParser read FResponseParser write FResponseParser;
     property Url: string read FUrl write FUrl;
     property UserAgent: string read FUserAgent write FUserAgent;
     property ContentType: string read FContentType write FContentType;
-    property RegexPattern: string read FRegex write FRegex;
-    property TextToTranslate: string read FTextToTranslate write FTextToTranslate;
+    property Regexp: string read FRegexp write FRegexp;
     property PostData: string read FPostData write FPostData;
-    property LangSource: string read FLangSource write FLangSource;
-    property LangTarget: string read FLangTarget write FLangTarget;
     property Languages: TStringList read FLanguages write FLanguages;
   end;
 
@@ -90,12 +91,12 @@ uses systemtool;
 constructor TTranslate.Create;
 begin
   inherited Create;
-  FRequestType := rtGet;
-  FResponseParserType := rpJson;
+  FWebMethod := wmGet;
+  FResponseParser := rpJson;
   FUserAgent := 'Mozilla/5.0';
   FContentType := 'application/x-www-form-urlencoded';
   FLangSource := Language;
-  FRegex := '\[\["(.*?)"';
+  FRegexp := '\[\["(.*?)"';
   FLanguages := TStringList.Create;
 end;
 
@@ -173,7 +174,7 @@ end;
 
 function TTranslate.Request: string;
 begin
-  if FRequestType = rtPost then
+  if FWebMethod = wmPost then
     Result := Post
   else
     Result := Get;
@@ -188,7 +189,7 @@ begin
   content := Request;
   regex := TRegExpr.Create;
   try
-    regex.Expression := FRegex;
+    regex.Expression := FRegexp;
     if regex.Exec(content) then
       Result := regex.Match[1];
   finally
@@ -231,7 +232,7 @@ end;
 
 function TTranslate.Translate: string;
 begin
-  if FResponseParserType = rpJson then
+  if FResponseParser = rpJson then
     Result := TransJson
   else
     Result := TransRegEx;

@@ -133,17 +133,31 @@
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="units\settings.pas"/>
+        <Filename Value="LICENSE"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="units\langtool.pas"/>
+        <Filename Value="THIRD_PARTIES"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="forms\formabout.pas"/>
+        <Filename Value="forms\mainform.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="formAboutTrayslator"/>
+        <ComponentName Value="formTrayslator"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="forms\formsettings.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="formSettingsTrayslator"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="forms\formconfig.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="formConfigTrayslator"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
@@ -155,23 +169,23 @@
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
-        <Filename Value="LICENSE"/>
+        <Filename Value="forms\formabout.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="formAboutTrayslator"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="units\settings.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="THIRD_PARTIES"/>
+        <Filename Value="units\langtool.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="units\formattool.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
-        <Filename Value="forms\mainform.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="formTrayslator"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
         <Filename Value="units\systemtool.pas"/>
@@ -184,13 +198,6 @@
       <Unit>
         <Filename Value="units\languages.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
-        <Filename Value="forms\formsettings.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="formSettingsTrayslator"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
         <Filename Value="common\udarkstyle.pas"/>
@@ -206,12 +213,6 @@
         <Filename Value="common\uwin32widgetsetdark.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWin32WidgetSetDark"/>
-      </Unit>
-      <Unit>
-        <Filename Value="forms\formconfig.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="formConfigTrayslator"/>
-        <ResourceBaseClass Value="Form"/>
       </Unit>
     </Units>
   </ProjectOptions>

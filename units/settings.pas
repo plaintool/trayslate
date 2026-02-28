@@ -237,7 +237,7 @@ begin
   Ini := TIniFile.Create(AFileName);
   try
     // determine method string based on UsePost property
-    if Translate.RequestType = rtPost then
+    if Translate.WebMethod = wmPost then
       Ini.WriteString('Request', 'Method', 'POST')
     else
       Ini.WriteString('Request', 'Method', 'GET');
@@ -247,12 +247,12 @@ begin
     Ini.WriteString('Request', 'UserAgent', Translate.UserAgent);
     Ini.WriteString('Request', 'ContentType', Translate.ContentType);
 
-    if Translate.ResponseParserType = rpJson then
+    if Translate.ResponseParser = rpJson then
       Ini.WriteString('Response', 'ParserType', 'Json')
     else
       Ini.WriteString('Response', 'ParserType', 'Regexp');
 
-    Ini.WriteString('Response', 'Regex', Translate.RegexPattern);
+    Ini.WriteString('Response', 'Regexp', Translate.Regexp);
 
     // Save language mappings (code=apiCode)
     Ini.EraseSection('Languages'); // Clear previous entries
@@ -274,9 +274,9 @@ begin
     // read method and assign UsePost accordingly
     Method := Ini.ReadString('Request', 'Method', 'GET');
     if (SameText(Method, 'POST')) then
-      Translate.RequestType := rtPost
+      Translate.WebMethod := wmPost
     else
-      Translate.RequestType := rtGet;
+      Translate.WebMethod := wmGet;
 
     // read URL
     Translate.Url := Ini.ReadString('Request', 'Url', Translate.Url);
@@ -286,11 +286,11 @@ begin
 
     Method := Ini.ReadString('Response', 'ParserType', 'Json');
     if (SameText(Method, 'Json')) then
-      Translate.ResponseParserType := rpJson
+      Translate.ResponseParser := rpJson
     else
-      Translate.ResponseParserType := rpRegEx;
+      Translate.ResponseParser := rpRegEx;
 
-    Translate.RegexPattern := Ini.ReadString('Response', 'Regex', Translate.RegexPattern);
+    Translate.Regexp := Ini.ReadString('Response', 'Regexp', Translate.Regexp);
 
     Ini.ReadSectionValues('Languages', Translate.Languages);
   finally

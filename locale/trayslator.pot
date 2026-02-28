@@ -1,8 +1,13 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8"
 
-#: formconfig.copyquestion
+#: formconfig.rcopyquestion
+msgctxt "formconfig.rcopyquestion"
 msgid "Enter new config file name:"
+msgstr ""
+
+#: formconfig.rneedsave
+msgid "The configuration was modified. Save changes?"
 msgstr ""
 
 #: mainform.noconfig
@@ -51,12 +56,77 @@ msgstr ""
 msgid "Trayslator © 2026"
 msgstr ""
 
-#: tformconfigtrayslator.buttonclose.caption
+#: tformconfigtrayslator.btnclose.caption
+msgctxt "tformconfigtrayslator.btnclose.caption"
 msgid "Close"
+msgstr ""
+
+#: tformconfigtrayslator.btnsave.caption
+msgctxt "tformconfigtrayslator.btnsave.caption"
+msgid "Save"
 msgstr ""
 
 #: tformconfigtrayslator.caption
 msgid "Config Editor"
+msgstr ""
+
+#: tformconfigtrayslator.combomethod.text
+msgid "GET"
+msgstr ""
+
+#: tformconfigtrayslator.comboresponseparser.text
+msgctxt "tformconfigtrayslator.comboresponseparser.text"
+msgid "JSON"
+msgstr ""
+
+#: tformconfigtrayslator.grouplanguages.caption
+msgid "Languages"
+msgstr ""
+
+#: tformconfigtrayslator.grouprequest.caption
+msgid "Request"
+msgstr ""
+
+#: tformconfigtrayslator.groupresponse.caption
+msgid "Response"
+msgstr ""
+
+#: tformconfigtrayslator.labelcontenttype.caption
+msgctxt "tformconfigtrayslator.labelcontenttype.caption"
+msgid "Content Type"
+msgstr ""
+
+#: tformconfigtrayslator.labelmethod.caption
+msgctxt "tformconfigtrayslator.labelmethod.caption"
+msgid "Method"
+msgstr ""
+
+#: tformconfigtrayslator.labelparemeters.caption
+msgid "Use parameters  {source} – source language, {target} – target language, {text} – input text.\n"
+msgstr ""
+
+#: tformconfigtrayslator.labelpostdata.caption
+msgid "Post Data"
+msgstr ""
+
+#: tformconfigtrayslator.labelregexp.caption
+msgctxt "tformconfigtrayslator.labelregexp.caption"
+msgid "RegExp"
+msgstr ""
+
+#: tformconfigtrayslator.labelresponseparser.caption
+msgctxt "tformconfigtrayslator.labelresponseparser.caption"
+msgid "Parse Type"
+msgstr ""
+
+#: tformconfigtrayslator.labelurl.caption
+msgctxt "tformconfigtrayslator.labelurl.caption"
+msgid "URL"
+msgstr ""
+
+#: tformconfigtrayslator.labeluseragent.caption
+msgctxt "tformconfigtrayslator.labeluseragent.caption"
+msgid "User Agent"
 msgstr ""
 
 #: tformconfigtrayslator.sbcopyconfig.hint
