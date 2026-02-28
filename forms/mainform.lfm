@@ -10,8 +10,10 @@ object formTrayslator: TformTrayslator
   Color = clWindow
   KeyPreview = True
   LCLVersion = '4.4.0.0'
+  OnActivate = FormActivate
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
+  OnDeactivate = FormDeactivate
   OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
   object MemoSource: TMemo
@@ -57,7 +59,6 @@ object formTrayslator: TformTrayslator
       Height = 23
       Top = 3
       Width = 225
-      Align = alRight
       AutoComplete = True
       AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
       AutoDropDown = True
@@ -73,7 +74,6 @@ object formTrayslator: TformTrayslator
       Height = 23
       Top = 3
       Width = 225
-      Align = alLeft
       AutoComplete = True
       AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
       AutoDropDown = True
@@ -90,7 +90,6 @@ object formTrayslator: TformTrayslator
       Top = 3
       Width = 24
       Action = aSwap
-      Align = alLeft
       BorderSpacing.Around = 3
       Flat = True
       Glyph.Data = {
@@ -138,7 +137,6 @@ object formTrayslator: TformTrayslator
       Top = 3
       Width = 24
       Action = aTranslate
-      Align = alRight
       BorderSpacing.Around = 3
       Flat = True
       Glyph.Data = {
@@ -205,7 +203,7 @@ object formTrayslator: TformTrayslator
     Left = 104
     Top = 328
     object MenuShow: TMenuItem
-      Action = aShowHide
+      Action = aShow
     end
     object MenuShowTranslate: TMenuItem
       Action = aClipboard
@@ -235,10 +233,10 @@ object formTrayslator: TformTrayslator
   object ActionList: TActionList
     Left = 40
     Top = 328
-    object aShowHide: TAction
+    object aShow: TAction
       Category = 'Tray'
-      Caption = 'Show / Hide'
-      OnExecute = aShowHideExecute
+      Caption = 'Show'
+      OnExecute = aShowExecute
     end
     object aClipboard: TAction
       Category = 'Tray'
@@ -281,6 +279,13 @@ object formTrayslator: TformTrayslator
     Interval = 300
     OnTimer = TimerClickTimer
     Left = 231
+    Top = 328
+  end
+  object TimerActive: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = TimerActiveTimer
+    Left = 304
     Top = 328
   end
 end

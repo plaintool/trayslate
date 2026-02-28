@@ -38,7 +38,7 @@ type
     aClipboard: TAction;
     aSwap: TAction;
     aTranslate: TAction;
-    aShowHide: TAction;
+    aShow: TAction;
     aDonate: TAction;
     aExit: TAction;
     ActionList: TActionList;
@@ -61,16 +61,19 @@ type
     Separator3: TMenuItem;
     SplitterMemo: TSplitter;
     TimerClick: TTimer;
+    TimerActive: TTimer;
     TrayIcon: TTrayIcon;
     procedure aSettingsExecute(Sender: TObject);
     procedure aClipboardExecute(Sender: TObject);
     procedure aSwapExecute(Sender: TObject);
     procedure ComboSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure ComboTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+    procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormDeactivate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
-    procedure aShowHideExecute(Sender: TObject);
+    procedure aShowExecute(Sender: TObject);
     procedure aDonateExecute(Sender: TObject);
     procedure aAboutExecute(Sender: TObject);
     procedure aExitExecute(Sender: TObject);
@@ -84,9 +87,11 @@ type
     procedure TrayIconClick(Sender: TObject);
     procedure TrayIconDblClick(Sender: TObject);
     procedure TimerClickTimer(Sender: TObject);
+    procedure TimerActiveTimer(Sender: TObject);
   private
     FTrans: TTranslate;
     FClicked, FDoubleClicked: boolean;
+    FTopMost: boolean;
 
     // Settings
     FConfigFile: string;
@@ -104,6 +109,8 @@ type
     procedure Translate;
     procedure ProcessMessages;
     procedure SetAutoStart(Value: boolean);
+    procedure AppOnActivate(Sender: TObject);
+    procedure AppOnDeactivate(Sender: TObject);
   public
     property Trans: TTranslate read FTrans write FTrans;
 
@@ -178,6 +185,9 @@ begin
   SetComboBoxByCode(ComboTarget, Trans.LangTarget);
 
   SetIcon;
+
+  Application.OnDeactivate := @AppOnDeactivate;
+  Application.OnActivate := @AppOnActivate;
 end;
 
 procedure TformTrayslator.FormDestroy(Sender: TObject);
@@ -192,10 +202,30 @@ begin
   Hide;
 end;
 
-procedure TformTrayslator.aShowHideExecute(Sender: TObject);
+procedure TformTrayslator.FormActivate(Sender: TObject);
 begin
-  if Visible then
-    Hide
+  FTopMost := True;
+end;
+
+procedure TformTrayslator.FormDeactivate(Sender: TObject);
+begin
+  FTopMost := False;
+end;
+
+procedure TformTrayslator.AppOnActivate(Sender: TObject);
+begin
+  FTopMost := True;
+end;
+
+procedure TformTrayslator.AppOnDeactivate(Sender: TObject);
+begin
+  TimerActive.Enabled := True;
+end;
+
+procedure TformTrayslator.aShowExecute(Sender: TObject);
+begin
+  if Showing then
+    BringToFront
   else
     Show;
 end;
@@ -341,12 +371,13 @@ end;
 procedure TformTrayslator.PanelLangResize(Sender: TObject);
 var
   Available: integer;
+  Border: integer = 3;
 begin
   // prevent recursive resize loop
   if PanelLang.Tag = 1 then Exit;
   PanelLang.Tag := 1;
   try
-    Available := PanelLang.ClientWidth - sbSwap.Width - sbTranslate.Width - 15; // spacing
+    Available := PanelLang.ClientWidth - sbSwap.ClientWidth - sbTranslate.ClientWidth - 15; // spacing
 
     ComboSource.SetBounds(
       0,
@@ -354,15 +385,23 @@ begin
       Available div 2,
       ComboSource.Height);
 
-    sbSwap.Left := ComboSource.Width;
+    sbSwap.SetBounds(
+      ComboSource.Width + Border,
+      Border,
+      sbSwap.Width,
+      ComboSource.Height);
 
     ComboTarget.SetBounds(
-      sbSwap.Left + sbSwap.Width,
+      sbSwap.Left + sbSwap.Width + Border,
       ComboTarget.Top,
       Available - ComboSource.Width,
       ComboTarget.Height);
 
-    sbTranslate.Left := PanelLang.ClientWidth - sbTranslate.Width;
+    sbTranslate.SetBounds(
+      PanelLang.ClientWidth - sbTranslate.Width - Border * 2,
+      Border,
+      sbTranslate.Width,
+      ComboTarget.Height);
   finally
     PanelLang.Tag := 0;
   end;
@@ -380,7 +419,13 @@ begin
 
   if Showing then
   begin
-    Hide;
+    if not FTopMost then
+    begin
+      BringToFront;
+      FTopMost := True;
+    end
+    else
+      Hide;
     FClicked := True;
   end
   else
@@ -411,9 +456,24 @@ begin
 
   // Single click action
   if Showing then
-    Hide
+  begin
+    if not FTopMost then
+    begin
+      BringToFront;
+      FTopMost := True;
+    end
+    else
+      Hide;
+  end
   else
     Show;
+end;
+
+procedure TformTrayslator.TimerActiveTimer(Sender: TObject);
+begin
+  TimerActive.Enabled := False;
+  if (not FClicked) and (not FDoubleClicked) then
+    FTopMost := False;
 end;
 
 procedure TformTrayslator.SetIcon;
@@ -434,6 +494,8 @@ end;
 
 procedure TformTrayslator.Translate;
 begin
+  if (Trim(MemoSource.Text) = string.Empty) then Exit;
+
   Trans.TextToTranslate := MemoSource.Text;
   ProcessMessages;
   Screen.Cursor := crAppStart;

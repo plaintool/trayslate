@@ -254,7 +254,11 @@ procedure TTranslateThread.Execute;
 begin
   // Perform network request in background
   FTrans.TextToTranslate := FSourceText;
-  FResultText := FTrans.Translate;
+
+  if Length(Trim(FSourceText)) > 0 then
+    FResultText := FTrans.Translate
+  else
+    FResultText := string.Empty;
 
   Synchronize(@UpdateUI);
 end;

@@ -221,9 +221,8 @@ msgstr ""
 msgid "Settings..."
 msgstr ""
 
-#: tformtrayslator.ashowhide.caption
-msgctxt "tformtrayslator.ashowhide.caption"
-msgid "Show / Hide"
+#: tformtrayslator.ashow.caption
+msgid "Show"
 msgstr ""
 
 #: tformtrayslator.aswap.hint
