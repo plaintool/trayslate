@@ -1,6 +1,10 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8"
 
+#: formconfig.copyquestion
+msgid "Enter new config file name:"
+msgstr ""
+
 #: mainform.noconfig
 msgid "Configuration file not found!"
 msgstr ""
@@ -45,6 +49,18 @@ msgstr ""
 
 #: tformabouttrayslator.labelname.caption
 msgid "Trayslator © 2026"
+msgstr ""
+
+#: tformconfigtrayslator.buttonclose.caption
+msgid "Close"
+msgstr ""
+
+#: tformconfigtrayslator.caption
+msgid "Config Editor"
+msgstr ""
+
+#: tformconfigtrayslator.sbcopyconfig.hint
+msgid "Copy configuration"
 msgstr ""
 
 #: tformdonatetrayslator.buttonok.caption
@@ -162,7 +178,7 @@ msgid "Settings"
 msgstr ""
 
 #: tformsettingstrayslator.checkautostart.caption
-msgid "  Start application with Windows"
+msgid "  Launch at system startup"
 msgstr ""
 
 #: tformsettingstrayslator.checktwolang.caption
@@ -207,6 +223,10 @@ msgstr ""
 #: tformtrayslator.aclipboard.caption
 msgctxt "tformtrayslator.aclipboard.caption"
 msgid "Translate clipboard"
+msgstr ""
+
+#: tformtrayslator.aconfigeditor.caption
+msgid "Config editor..."
 msgstr ""
 
 #: tformtrayslator.adonate.caption

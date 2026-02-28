@@ -28,7 +28,7 @@ object formSettingsTrayslator: TformSettingsTrayslator
       object GroupFont: TGroupBox
         Left = 5
         Height = 99
-        Top = 74
+        Top = 69
         Width = 372
         Align = alTop
         BorderSpacing.Around = 5
@@ -75,7 +75,7 @@ object formSettingsTrayslator: TformSettingsTrayslator
       object GroupTrayIcon: TGroupBox
         Left = 5
         Height = 131
-        Top = 178
+        Top = 173
         Width = 372
         Align = alTop
         BorderSpacing.Around = 5
@@ -100,6 +100,7 @@ object formSettingsTrayslator: TformSettingsTrayslator
           Width = 180
           Style = [cbCustomColor, cbCustomColors]
           ColorDialog = ColorDialog
+          Anchors = [akTop, akLeft, akRight]
           DropDownCount = 12
           ItemHeight = 16
           TabOrder = 1
@@ -130,6 +131,7 @@ object formSettingsTrayslator: TformSettingsTrayslator
           Width = 180
           Style = [cbCustomColor, cbCustomColors]
           ColorDialog = ColorDialog
+          Anchors = [akTop, akLeft, akRight]
           DropDownCount = 12
           ItemHeight = 16
           TabOrder = 2
@@ -138,22 +140,22 @@ object formSettingsTrayslator: TformSettingsTrayslator
       end
       object GroupAutostart: TGroupBox
         Left = 5
-        Height = 64
+        Height = 59
         Top = 5
         Width = 372
         Align = alTop
         BorderSpacing.Around = 5
         Caption = 'Autostart'
-        ClientHeight = 44
+        ClientHeight = 39
         ClientWidth = 368
         TabOrder = 2
         object CheckAutostart: TCheckBox
           Left = 21
-          Height = 24
-          Top = 8
-          Width = 203
+          Height = 32
+          Top = 0
+          Width = 233
           AutoSize = False
-          Caption = '  Start application with Windows'
+          Caption = '  Launch at system startup'
           TabOrder = 0
           OnChange = CheckAutostartChange
         end

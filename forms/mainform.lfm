@@ -18,8 +18,8 @@ object formTrayslator: TformTrayslator
   OnKeyDown = FormKeyDown
   object MemoSource: TMemo
     Left = 3
-    Height = 202
-    Top = 35
+    Height = 200
+    Top = 37
     Width = 506
     Align = alClient
     BorderSpacing.Around = 3
@@ -48,10 +48,13 @@ object formTrayslator: TformTrayslator
     Width = 512
     Align = alTop
     AutoSize = True
+    BorderSpacing.Bottom = 5
     BevelOuter = bvNone
     ClientHeight = 32
     ClientWidth = 512
+    Color = clBtnFace
     ParentBackground = False
+    ParentColor = False
     TabOrder = 2
     OnResize = PanelLangResize
     object ComboTarget: TComboBox
@@ -146,6 +149,9 @@ object formTrayslator: TformTrayslator
     object MenuItem1: TMenuItem
       Action = aSettings
     end
+    object MenuItem2: TMenuItem
+      Action = aConfigEditor
+    end
     object Separator3: TMenuItem
       Caption = '-'
     end
@@ -165,6 +171,16 @@ object formTrayslator: TformTrayslator
   object ActionList: TActionList
     Left = 40
     Top = 328
+    object aSwap: TAction
+      Category = 'Form'
+      Hint = 'Swap'
+      OnExecute = aSwapExecute
+    end
+    object aTranslate: TAction
+      Category = 'Form'
+      Hint = 'Translate'
+      OnExecute = aTranslateExecute
+    end
     object aShow: TAction
       Category = 'Tray'
       Caption = 'Show'
@@ -180,15 +196,10 @@ object formTrayslator: TformTrayslator
       Caption = 'Settings...'
       OnExecute = aSettingsExecute
     end
-    object aTranslate: TAction
-      Category = 'Form'
-      Hint = 'Translate'
-      OnExecute = aTranslateExecute
-    end
-    object aSwap: TAction
-      Category = 'Form'
-      Hint = 'Swap'
-      OnExecute = aSwapExecute
+    object aConfigEditor: TAction
+      Category = 'Tray'
+      Caption = 'Config editor...'
+      OnExecute = aConfigEditorExecute
     end
     object aDonate: TAction
       Category = 'Tray'

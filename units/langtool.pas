@@ -31,7 +31,6 @@ function CreateTrayIconLang(const ALang1: string; const ALang2: string = ''; ABa
   AFontColor: TColor = $00DCDCDC): TIcon;
 var
   bmp: TBitmap;
-  icon: TIcon;
   rect, rect1, rect2: TRect;
   Value: string;
 
@@ -52,7 +51,7 @@ var
 
 begin
   bmp := TBitmap.Create;
-  icon := TIcon.Create;
+  Result := TIcon.Create;
   try
     bmp.Width := 16;  // standard tray icon size
     bmp.Height := 16;
@@ -91,8 +90,7 @@ begin
         DT_CENTER or DT_VCENTER or DT_SINGLELINE);
     end;
     // create icon from bitmap
-    icon.Assign(bmp);
-    Result := icon;
+    Result.Assign(bmp);
   finally
     bmp.Free;
   end;

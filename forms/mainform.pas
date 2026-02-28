@@ -34,6 +34,7 @@ type
 
   TformTrayslator = class(TForm)
     aAbout: TAction;
+    aConfigEditor: TAction;
     aSettings: TAction;
     aClipboard: TAction;
     aSwap: TAction;
@@ -51,6 +52,7 @@ type
     MenuAbout: TMenuItem;
     MenuDonate: TMenuItem;
     MenuItem1: TMenuItem;
+    MenuItem2: TMenuItem;
     MenuShow: TMenuItem;
     MenuShowTranslate: TMenuItem;
     PanelLang: TPanel;
@@ -64,6 +66,7 @@ type
     TimerClick: TTimer;
     TimerActive: TTimer;
     TrayIcon: TTrayIcon;
+    procedure aConfigEditorExecute(Sender: TObject);
     procedure aSettingsExecute(Sender: TObject);
     procedure aClipboardExecute(Sender: TObject);
     procedure aSwapExecute(Sender: TObject);
@@ -117,17 +120,21 @@ type
     procedure ApplicationOnDeactivate(Sender: TObject);
     procedure ApplicationOnException(Sender: TObject; E: Exception);
   public
+    procedure SetIcon;
+    procedure LoadConfig;
+
+    // Base properties
     property Trans: TTranslate read FTrans write FTrans;
 
-    // Settings property
+    // Settings properties
     property ConfigFile: string read FConfigFile write FConfigFile;
+    property ConfigFiles: TStringList read FConfigFiles write FConfigFiles;
     property IconBackgroundColor: TColor read FIconBackgroundColor write FIconBackgroundColor;
     property IconFontColor: TColor read FIconFontColor write FIconFontColor;
     property IconTwoLang: boolean read FIconTwoLang write FIconTwoLang;
     property LangSource: string read FLangSource write FLangSource;
     property LangTarget: string read FLangTarget write FLangTarget;
     property AutoStart: boolean read FAutoStart write SetAutoStart;
-    procedure SetIcon;
   end;
 
 var
@@ -138,7 +145,7 @@ resourcestring
 
 implementation
 
-uses formdonate, formabout, formsettings, langtool, settings, languages, systemtool;
+uses formdonate, formabout, formsettings, formconfig, langtool, settings, languages, systemtool;
 
   {$R *.lfm}
 
@@ -184,22 +191,7 @@ begin
   end;
 
   // Load current config
-  LoadIniSettings(Trans, FConfigFile);
-
-  // Init language lists
-  FLanguages.Assign(GetDisplayNamesFromCodeMap(Trans.Languages));
-  ComboSource.Items.Assign(GetDisplayNamesFromCodeMap(Trans.Languages, True));
-  ComboTarget.Items.Assign(ComboSource.Items);
-  if LangSource <> string.Empty then
-    Trans.LangSource := LangSource
-  else
-  begin
-    ComboSource.ItemIndex := 0;
-    ComboSourceChange(Self);
-  end;
-  if LangTarget <> string.Empty then Trans.LangTarget := LangTarget;
-  SetComboBoxByCode(ComboSource, Trans.LangSource);
-  SetComboBoxByCode(ComboTarget, Trans.LangTarget);
+  LoadConfig;
 
   // Set tray icon
   SetIcon;
@@ -215,6 +207,7 @@ begin
   SaveFormSettings(Self);
   FLanguages.Free;
   FLanguagesSorted.Free;
+  FConfigFiles.Free;
   Trans.Free;
 end;
 
@@ -280,6 +273,14 @@ begin
   finally
     FreeAndNil(formSettingsTrayslator);
   end;
+end;
+
+procedure TformTrayslator.aConfigEditorExecute(Sender: TObject);
+begin
+  if not Assigned(formConfigTrayslator) then
+    formConfigTrayslator := TformConfigTrayslator.Create(nil);
+  formConfigTrayslator.Show;
+  formConfigTrayslator.BringToFront;
 end;
 
 procedure TformTrayslator.aSwapExecute(Sender: TObject);
@@ -505,12 +506,6 @@ begin
     FTopMost := False;
 end;
 
-procedure TformTrayslator.SetIcon;
-begin
-  TrayIcon.Icon := CreateTrayIconLang(ifthen(FIconTwoLang, UpperCase(Trans.LangSource), UpperCase(Trans.LangTarget)),
-    ifthen(FIconTwoLang, UpperCase(Trans.LangTarget), string.Empty), FIconBackgroundColor, FIconFontColor);
-end;
-
 function TformTrayslator.GetClipboartText: boolean;
 begin
   Result := False;
@@ -519,6 +514,53 @@ begin
     MemoSource.Text := Clipboard.AsText;
     Result := True;
   end;
+end;
+
+procedure TformTrayslator.SetIcon;
+var
+  Ico: TIcon;
+begin
+  Ico := CreateTrayIconLang(ifthen(FIconTwoLang, UpperCase(Trans.LangSource), UpperCase(Trans.LangTarget)),
+    ifthen(FIconTwoLang, UpperCase(Trans.LangTarget), string.Empty), FIconBackgroundColor, FIconFontColor);
+  try
+    TrayIcon.Icon.Assign(Ico);
+  finally
+    Ico.Free;
+  end;
+end;
+
+procedure TformTrayslator.LoadConfig;
+var
+  List: TStringList;
+begin
+  LoadIniSettings(Trans, FConfigFile);
+
+  // Init language lists
+  List := GetDisplayNamesFromCodeMap(Trans.Languages);
+  try
+    FLanguages.Assign(List);
+  finally
+    List.Free;
+  end;
+
+  List := GetDisplayNamesFromCodeMap(Trans.Languages, True);
+  try
+    ComboSource.Items.Assign(List);
+    ComboTarget.Items.Assign(List);
+  finally
+    List.Free;
+  end;
+
+  if LangSource <> string.Empty then
+    Trans.LangSource := LangSource
+  else
+  begin
+    ComboSource.ItemIndex := 0;
+    ComboSourceChange(Self);
+  end;
+  if LangTarget <> string.Empty then Trans.LangTarget := LangTarget;
+  SetComboBoxByCode(ComboSource, Trans.LangSource);
+  SetComboBoxByCode(ComboTarget, Trans.LangTarget);
 end;
 
 procedure TformTrayslator.Translate;

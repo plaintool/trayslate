@@ -207,6 +207,12 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWin32WidgetSetDark"/>
       </Unit>
+      <Unit>
+        <Filename Value="forms\formconfig.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="formConfigTrayslator"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
