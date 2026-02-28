@@ -91,9 +91,11 @@ type
     procedure TimerActiveTimer(Sender: TObject);
   private
     FTrans: TTranslate;
-    FClicked, FDoubleClicked: boolean;
     FTopMost: boolean;
-    FLanguages, FLanguagesSorted: TStringList;
+    FClicked: boolean;
+    FDoubleClicked: boolean;
+    FLanguages: TStringList;
+    FLanguagesSorted: TStringList;
 
     // Settings
     FConfigFile: string;
@@ -150,9 +152,9 @@ begin
   FIconFontColor := clWhite;
   FIconTwoLang := False;
   FAutoStart := True;
-  FLanguages := TStringList.Create;
-  FLanguagesSorted := TStringList.Create;
+  FLangTarget := Language;
 
+  // Components config
   Left := Screen.WorkAreaRect.Right - Width - 30;
   Top := Screen.WorkAreaRect.Bottom - Height - 50;
 
@@ -160,8 +162,13 @@ begin
   SbTranslate.ImageIndex := ThemeValue(2, 3);
 
   Trans := TTranslate.Create;
+  FLanguages := TStringList.Create;
+  FLanguagesSorted := TStringList.Create;
+
+  // Load form settings
   LoadFormSettings(Self);
 
+  // Load config files
   FConfigFiles := TStringList.Create;
   GetIniFiles(FConfigFiles);
 
@@ -176,9 +183,10 @@ begin
     end;
   end;
 
+  // Load current config
   LoadIniSettings(Trans, FConfigFile);
 
-  // Init Controls
+  // Init language lists
   FLanguages.Assign(GetDisplayNamesFromCodeMap(Trans.Languages));
   ComboSource.Items.Assign(GetDisplayNamesFromCodeMap(Trans.Languages, True));
   ComboTarget.Items.Assign(ComboSource.Items);
@@ -193,11 +201,13 @@ begin
   SetComboBoxByCode(ComboSource, Trans.LangSource);
   SetComboBoxByCode(ComboTarget, Trans.LangTarget);
 
+  // Set tray icon
   SetIcon;
 
+  // Events assign
   Application.OnDeactivate := @ApplicationOnDeactivate;
   Application.OnActivate := @ApplicationOnActivate;
-    Application.OnException := @ApplicationOnException;
+  Application.OnException := @ApplicationOnException;
 end;
 
 procedure TformTrayslator.FormDestroy(Sender: TObject);

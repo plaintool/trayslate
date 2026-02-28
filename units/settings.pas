@@ -211,10 +211,10 @@ begin
       if JSONObj.FindPath('IconTwoLang') <> nil then
         Form.IconTwoLang := JSONObj.FindPath('IconTwoLang').AsBoolean;
 
-      if JSONObj.FindPath('LangSource') <> nil then
+      if (JSONObj.FindPath('LangSource') <> nil) and (JSONObj.FindPath('LangSource').AsString <> string.Empty) then
         Form.LangSource := JSONObj.FindPath('LangSource').AsString;
 
-      if JSONObj.FindPath('LangTarget') <> nil then
+      if (JSONObj.FindPath('LangTarget') <> nil) and (JSONObj.FindPath('LangTarget').AsString <> string.Empty) then
         Form.LangTarget := JSONObj.FindPath('LangTarget').AsString;
 
       if JSONObj.FindPath('AutoStart') <> nil then
