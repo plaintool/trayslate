@@ -1,5 +1,6 @@
 {"version":1,"strings":[
 {"hash":10957810,"name":"tformtrayslator.caption","sourcebytes":[84,114,97,121,115,108,97,116,111,114],"value":"Trayslator"},
+{"hash":78007543,"name":"tformtrayslator.menuconfig.caption","sourcebytes":[67,111,110,102,105,103],"value":"Config"},
 {"hash":372096,"name":"tformtrayslator.aswap.hint","sourcebytes":[83,119,97,112],"value":"Swap"},
 {"hash":140145445,"name":"tformtrayslator.atranslate.hint","sourcebytes":[84,114,97,110,115,108,97,116,101],"value":"Translate"},
 {"hash":368487,"name":"tformtrayslator.ashow.caption","sourcebytes":[83,104,111,119],"value":"Show"},

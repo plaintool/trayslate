@@ -62,11 +62,12 @@ type
     procedure ComboConfigKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure FormChangeBounds(Sender: TObject);
     procedure FormResize(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure ValueChange(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure SbCopyConfigClick(Sender: TObject);
   private
     FLastConfig: integer;
+  public
     procedure UpdateConfigList;
     procedure UpdateConfig;
     function TestChanges: boolean;
@@ -88,7 +89,7 @@ uses mainform, translate, settings;
 
   { TformConfigTrayslator }
 
-procedure TformConfigTrayslator.FormCreate(Sender: TObject);
+procedure TformConfigTrayslator.FormShow(Sender: TObject);
 begin
   UpdateConfigList;
   UpdateConfig;

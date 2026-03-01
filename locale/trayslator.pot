@@ -332,3 +332,7 @@ msgstr ""
 msgid "Trayslator"
 msgstr ""
 
+#: tformtrayslator.menuconfig.caption
+msgid "Config"
+msgstr ""
+

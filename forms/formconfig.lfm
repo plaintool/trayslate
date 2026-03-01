@@ -8,8 +8,8 @@ object formConfigTrayslator: TformConfigTrayslator
   ClientWidth = 567
   LCLVersion = '4.4.0.0'
   OnChangeBounds = FormChangeBounds
-  OnCreate = FormCreate
   OnResize = FormResize
+  OnShow = FormShow
   object BtnClose: TButton
     Left = 487
     Height = 25

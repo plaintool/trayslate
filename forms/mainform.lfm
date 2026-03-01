@@ -147,11 +147,14 @@ object formTrayslator: TformTrayslator
     object Separator2: TMenuItem
       Caption = '-'
     end
-    object MenuItem1: TMenuItem
-      Action = aSettings
+    object MenuConfig: TMenuItem
+      Caption = 'Config'
     end
     object MenuItem2: TMenuItem
       Action = aConfigEditor
+    end
+    object MenuItem1: TMenuItem
+      Action = aSettings
     end
     object Separator3: TMenuItem
       Caption = '-'

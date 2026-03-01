@@ -53,6 +53,7 @@ type
     MenuDonate: TMenuItem;
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
+    MenuConfig: TMenuItem;
     MenuShow: TMenuItem;
     MenuShowTranslate: TMenuItem;
     PanelLang: TPanel;
@@ -92,6 +93,7 @@ type
     procedure TrayIconDblClick(Sender: TObject);
     procedure TimerClickTimer(Sender: TObject);
     procedure TimerActiveTimer(Sender: TObject);
+    procedure ConfigItemClick(Sender: TObject);
     procedure TrayIconMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
   private
     FTrans: TTranslate;
@@ -128,6 +130,8 @@ type
   public
     procedure SetIcon;
     procedure LoadConfig;
+    procedure BuildConfigMenu;
+    procedure UpdateCheckConfigMenu;
 
     // Base properties
     property Trans: TTranslate read FTrans write FTrans;
@@ -193,6 +197,7 @@ begin
   // Load config files
   FConfigFiles := TStringList.Create;
   GetIniFiles(FConfigFiles);
+  BuildConfigMenu;
 
   if (FConfigFiles.IndexOf(FConfigFile) < 0) then
   begin
@@ -538,6 +543,26 @@ begin
     FTopMost := False;
 end;
 
+procedure TFormTrayslator.ConfigItemClick(Sender: TObject);
+var
+  Item: TMenuItem;
+begin
+  if (Assigned(formConfigTrayslator)) and (formConfigTrayslator.Showing) and (not formConfigTrayslator.TestChanges) then
+    Exit;
+
+  Item := TMenuItem(Sender);
+
+  // Update current config and load it
+  FConfigFile := FConfigFiles[Item.Tag];
+  LoadConfig;
+
+  if (Assigned(formConfigTrayslator)) and (formConfigTrayslator.Showing) then
+  begin
+    formConfigTrayslator.UpdateConfigList;
+    formConfigTrayslator.UpdateConfig;
+  end;
+end;
+
 function TformTrayslator.GetClipboartText: boolean;
 begin
   Result := False;
@@ -566,6 +591,7 @@ var
   List: TStringList;
 begin
   Caption := 'Trayslator - ' + ExtractFileName(FConfigFile);
+  UpdateCheckConfigMenu;
 
   LoadIniSettings(Trans, FConfigFile);
 
@@ -595,6 +621,48 @@ begin
   if LangTarget <> string.Empty then Trans.LangTarget := LangTarget;
   SetComboBoxByCode(ComboSource, Trans.LangSource);
   SetComboBoxByCode(ComboTarget, Trans.LangTarget);
+end;
+
+procedure TFormTrayslator.BuildConfigMenu;
+var
+  i: integer;
+  Item: TMenuItem;
+  FileName, FullPath: string;
+begin
+  MenuConfig.Clear;
+
+  for i := 0 to FConfigFiles.Count - 1 do
+  begin
+    FullPath := FConfigFiles[i];
+    FileName := ExtractFileName(FullPath);
+
+    Item := TMenuItem.Create(MenuConfig);
+    Item.Caption := FileName;
+    Item.Hint := FullPath;
+    Item.Tag := i;
+    Item.OnClick := @ConfigItemClick;
+
+    // Check the current config
+    if SameText(FConfigFiles[i], FConfigFile) then
+      Item.Checked := True
+    else
+      Item.Checked := False;
+
+    MenuConfig.Add(Item);
+  end;
+end;
+
+procedure TFormTrayslator.UpdateCheckConfigMenu;
+var
+  i: integer;
+begin
+  for i := 0 to MenuConfig.Count - 1 do
+  begin
+    if SameText(FConfigFiles[i], FConfigFile) then
+      MenuConfig.Items[i].Checked := True
+    else
+      MenuConfig.Items[i].Checked := False;
+  end;
 end;
 
 procedure TformTrayslator.Translate;
