@@ -112,7 +112,11 @@ msgid "Method"
 msgstr ""
 
 #: tformconfigtrayslator.labelparemeters.caption
-msgid "Use parameters  {source} – source language, {target} – target language, {text} – input text.\n"
+msgid "Use parameters  {text} – input text, {source} – source language, {target} – target language"
+msgstr ""
+
+#: tformconfigtrayslator.labelparemeters1.caption
+msgid "Supported languages e.g. en=en-US, en - internal, en-US - service code."
 msgstr ""
 
 #: tformconfigtrayslator.labelpostdata.caption

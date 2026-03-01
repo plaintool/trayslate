@@ -22,6 +22,8 @@ uses
   mainform,
   translate;
 
+function GetSettingsDirectory(fileName: string = string.Empty): string;
+
 function GetIniDirectory(fileName: string = string.Empty): string;
 
 procedure SaveFormSettings(Form: TformTrayslator);
@@ -251,6 +253,7 @@ procedure SaveIniSettings(Translate: TTranslate; AFileName: string);
 var
   Ini: TIniFile;
   i: integer;
+  PostDataEscaped: string;
 begin
   Ini := TIniFile.Create(AFileName);
   try
@@ -260,23 +263,47 @@ begin
     else
       Ini.WriteString('Request', 'Method', 'GET');
 
-    Ini.WriteString('Request', 'Url', Translate.Url);
-    Ini.WriteString('Request', 'PostData', Translate.PostData);
-    Ini.WriteString('Request', 'UserAgent', Translate.UserAgent);
-    Ini.WriteString('Request', 'ContentType', Translate.ContentType);
+    Ini.DeleteKey('Request', 'Url');
+    if Trim(Translate.Url) <> string.Empty then
+      Ini.WriteString('Request', 'Url', Translate.Url);
+
+    // Replace line breaks with \r\n for single-line storage
+    Ini.DeleteKey('Request', 'PostData');
+    if Trim(Translate.PostData) <> string.Empty then
+    begin
+      PostDataEscaped := StringReplace(Translate.PostData, LineEnding, '\r\n', [rfReplaceAll]);
+      Ini.WriteString('Request', 'PostData', PostDataEscaped);
+    end;
+
+    Ini.DeleteKey('Request', 'UserAgent');
+    if Trim(Translate.UserAgent) <> string.Empty then
+      Ini.WriteString('Request', 'UserAgent', Translate.UserAgent);
+
+    Ini.DeleteKey('Request', 'ContentType');
+    if Trim(Translate.ContentType) <> string.Empty then
+      Ini.WriteString('Request', 'ContentType', Translate.ContentType);
 
     if Translate.ResponseParser = rpJson then
       Ini.WriteString('Response', 'ParserType', 'Json')
     else
       Ini.WriteString('Response', 'ParserType', 'Regexp');
 
-    Ini.WriteString('Response', 'Regexp', Translate.Regexp);
+    Ini.DeleteKey('Response', 'Regexp');
+    if Trim(Translate.Regexp) <> string.Empty then
+      Ini.WriteString('Response', 'Regexp', Translate.Regexp);
+
+    Ini.DeleteKey('Response', 'JsonKeys');
+    if Trim(Translate.JsonKeys) <> string.Empty then
+      Ini.WriteString('Response', 'JsonKeys', Translate.JsonKeys);
 
     // Save language mappings (code=apiCode)
     Ini.EraseSection('Languages'); // Clear previous entries
     if Assigned(Translate.Languages) then
       for i := 0 to Translate.Languages.Count - 1 do
-        Ini.WriteString('Languages', Translate.Languages.Names[i], Translate.Languages.ValueFromIndex[i]);
+        Ini.WriteString('Languages',
+          Translate.Languages.Names[i],
+          Translate.Languages.ValueFromIndex[i]);
+
   finally
     Ini.Free;
   end;
@@ -286,29 +313,33 @@ procedure LoadIniSettings(Translate: TTranslate; AFileName: string);
 var
   Ini: TIniFile;
   Method: string;
+  PostDataEscaped: string;
 begin
   Ini := TIniFile.Create(AFileName);
   try
-    // read method and assign UsePost accordingly
     Method := Ini.ReadString('Request', 'Method', 'GET');
-    if (SameText(Method, 'POST')) then
+    if SameText(Method, 'POST') then
       Translate.WebMethod := wmPost
     else
       Translate.WebMethod := wmGet;
 
-    // read URL
     Translate.Url := Ini.ReadString('Request', 'Url', Translate.Url);
-    Translate.PostData := Ini.ReadString('Request', 'PostData', Translate.PostData);
+
+    // Restore line breaks from \r\n
+    PostDataEscaped := Ini.ReadString('Request', 'PostData', '');
+    Translate.PostData := StringReplace(PostDataEscaped, '\r\n', LineEnding, [rfReplaceAll]);
+
     Translate.UserAgent := Ini.ReadString('Request', 'UserAgent', Translate.UserAgent);
     Translate.ContentType := Ini.ReadString('Request', 'ContentType', Translate.ContentType);
 
     Method := Ini.ReadString('Response', 'ParserType', 'Json');
-    if (SameText(Method, 'Json')) then
+    if SameText(Method, 'Json') then
       Translate.ResponseParser := rpJson
     else
       Translate.ResponseParser := rpRegEx;
 
     Translate.Regexp := Ini.ReadString('Response', 'Regexp', Translate.Regexp);
+    Translate.JsonKeys := Ini.ReadString('Response', 'JsonKeys', Translate.JsonKeys);
 
     Ini.ReadSectionValues('Languages', Translate.Languages);
   finally
@@ -352,7 +383,8 @@ begin
   if not DirectoryExists(Dir) then
     Exit;
 
-  if FindFirst(IncludeTrailingPathDelimiter(Dir) + '*.ini', faAnyFile, SR) = 0 then
+  // Search for *.ini files in current directory
+  if FindFirst(IncludeTrailingPathDelimiter(Dir) + '*.ini', faAnyFile and not faDirectory, SR) = 0 then
   begin
     repeat
       FilePath := IncludeTrailingPathDelimiter(Dir) + SR.Name;
@@ -360,6 +392,23 @@ begin
       if IsValidIni(FilePath) then
         List.Add(FilePath);
 
+    until FindNext(SR) <> 0;
+
+    FindClose(SR);
+  end;
+
+  // Search subdirectories recursively
+  if FindFirst(IncludeTrailingPathDelimiter(Dir) + '*', faDirectory, SR) = 0 then
+  begin
+    repeat
+      if (SR.Name <> '.') and (SR.Name <> '..') then
+      begin
+        if (SR.Attr and faDirectory) <> 0 then
+        begin
+          FilePath := IncludeTrailingPathDelimiter(Dir) + SR.Name;
+          FindIniFiles(FilePath, List); // Recursive call
+        end;
+      end;
     until FindNext(SR) <> 0;
 
     FindClose(SR);

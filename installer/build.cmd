@@ -97,7 +97,7 @@ if not "%CERTFILE%"=="" (
 
 :: --- Portable ---
 if "%BUILD_PORTABLE%"=="1" (
-    powershell -NoProfile -Command "$exe64='%~dp0..\\trayslator.exe'; $exe32='%~dp0..\\trayslator32.exe'; $settings='%~dp0form_settings.json'; $license='%~dp0LICENSE.rtf'; $config='%~dp0..\\google.ini'; $dll1='%~dp0redist\\libcrypto-1_1-x64.dll'; $dll2='%~dp0redist\\libssl-1_1-x64.dll'; $dll3='%~dp0redist\\libcrypto-1_1.dll'; $dll4='%~dp0redist\\libssl-1_1.dll'; if ((Test-Path $exe64) -and (Test-Path $exe32) -and (Test-Path $settings) -and (Test-Path $license) -and (Test-Path $config) -and (Test-Path $dll1) -and (Test-Path $dll2) -and (Test-Path $dll3) -and (Test-Path $dll4)) { Compress-Archive -Force -Path $exe64,$exe32,$settings,$license,$config,$dll1,$dll2,$dll3,$dll4 -DestinationPath '%~dp0trayslator-%VERSION%-x86-x64-portable.zip' } else { Write-Error 'Portable inputs missing'; exit 1 }"
+    powershell -NoProfile -Command "$exe64='%~dp0..\\trayslator.exe'; $exe32='%~dp0..\\trayslator32.exe'; $settings='%~dp0form_settings.json'; $license='%~dp0LICENSE.rtf'; $config='%~dp0..\\config\\google.ini'; $dll1='%~dp0redist\\libcrypto-1_1-x64.dll'; $dll2='%~dp0redist\\libssl-1_1-x64.dll'; $dll3='%~dp0redist\\libcrypto-1_1.dll'; $dll4='%~dp0redist\\libssl-1_1.dll'; if ((Test-Path $exe64) -and (Test-Path $exe32) -and (Test-Path $settings) -and (Test-Path $license) -and (Test-Path $config) -and (Test-Path $dll1) -and (Test-Path $dll2) -and (Test-Path $dll3) -and (Test-Path $dll4)) { Compress-Archive -Force -Path $exe64,$exe32,$settings,$license,$config,$dll1,$dll2,$dll3,$dll4 -DestinationPath '%~dp0trayslator-%VERSION%-x86-x64-portable.zip' } else { Write-Error 'Portable inputs missing'; exit 1 }"
 )
 
 echo Build and signing completed successfully!

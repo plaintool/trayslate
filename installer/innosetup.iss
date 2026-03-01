@@ -71,7 +71,7 @@ Source: "..\libssl-1_1.dll"; DestDir: "{app}"; Check: not Is64BitInstallMode; Fl
 ; License
 Source: "..\LICENSE"; DestDir: "{app}"; Flags: ignoreversion
 ; Congig
-Source: "..\google.ini"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\config\google.ini"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

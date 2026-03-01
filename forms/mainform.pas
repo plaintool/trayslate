@@ -565,6 +565,8 @@ procedure TformTrayslator.LoadConfig;
 var
   List: TStringList;
 begin
+  Caption := 'Trayslator - ' + ExtractFileName(FConfigFile);
+
   LoadIniSettings(Trans, FConfigFile);
 
   // Init language lists

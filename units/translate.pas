@@ -34,6 +34,7 @@ type
     FUserAgent: string;
     FContentType: string;
     FRegexp: string;
+    FJsonKeys: string;
     FTextToTranslate: string;
     FPostData: string;
     FLangSource: string;
@@ -60,6 +61,7 @@ type
     property UserAgent: string read FUserAgent write FUserAgent;
     property ContentType: string read FContentType write FContentType;
     property Regexp: string read FRegexp write FRegexp;
+    property JsonKeys: string read FJsonKeys write FJsonKeys;
     property PostData: string read FPostData write FPostData;
     property Languages: TStringList read FLanguages write FLanguages;
   end;

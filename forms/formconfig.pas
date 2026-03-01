@@ -16,11 +16,13 @@ uses
   Forms,
   Controls,
   Graphics,
+  Clipbrd,
   Dialogs,
   StdCtrls,
   ExtCtrls,
   FileUtil,
-  Buttons;
+  Buttons,
+  LCLType;
 
 type
 
@@ -39,6 +41,7 @@ type
     GroupResponse: TGroupBox;
     GroupLanguages: TGroupBox;
     LabelMethod: TLabel;
+    LabelParemeters1: TLabel;
     LabelPostData: TLabel;
     LabelUserAgent: TLabel;
     LabelContentType: TLabel;
@@ -56,6 +59,7 @@ type
     procedure BtnCloseClick(Sender: TObject);
     procedure BtnSaveClick(Sender: TObject);
     procedure ComboConfigChange(Sender: TObject);
+    procedure ComboConfigKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure FormChangeBounds(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure ValueChange(Sender: TObject);
@@ -128,7 +132,7 @@ begin
     Exit;
 
   SourceFile := ComboConfig.Text;
-  DestFile := IncludeTrailingPathDelimiter(ExtractFilePath(ComboConfig.Text)) + NewName;
+  DestFile := IncludeTrailingPathDelimiter(GetSettingsDirectory) + NewName;
 
   // Copy config file
   try
@@ -159,6 +163,12 @@ begin
   formTrayslator.LoadConfig;
   UpdateConfig;
   FLastConfig := ComboConfig.ItemIndex;
+end;
+
+procedure TformConfigTrayslator.ComboConfigKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+begin
+  if (ssCtrl in shift) and (Key = VK_C) then
+    Clipboard.AsText := ComboConfig.Text;
 end;
 
 procedure TformConfigTrayslator.ValueChange(Sender: TObject);
