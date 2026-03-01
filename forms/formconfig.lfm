@@ -1,10 +1,10 @@
 object formConfigTrayslator: TformConfigTrayslator
   Left = 318
-  Height = 669
+  Height = 865
   Top = 250
   Width = 567
   Caption = 'Config Editor'
-  ClientHeight = 669
+  ClientHeight = 865
   ClientWidth = 567
   LCLVersion = '4.4.0.0'
   OnChangeBounds = FormChangeBounds
@@ -13,7 +13,7 @@ object formConfigTrayslator: TformConfigTrayslator
   object BtnClose: TButton
     Left = 487
     Height = 25
-    Top = 636
+    Top = 832
     Width = 75
     Anchors = [akRight, akBottom]
     Cancel = True
@@ -23,13 +23,13 @@ object formConfigTrayslator: TformConfigTrayslator
   end
   object PanelConfig: TPanel
     Left = 5
-    Height = 588
+    Height = 784
     Top = 41
     Width = 557
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
-    ClientHeight = 588
+    ClientHeight = 784
     ClientWidth = 557
     Color = clWindow
     ParentBackground = False
@@ -37,18 +37,18 @@ object formConfigTrayslator: TformConfigTrayslator
     TabOrder = 1
     object ScrollBoxConfig: TScrollBox
       Left = 1
-      Height = 586
+      Height = 782
       Top = 1
       Width = 555
       HorzScrollBar.Page = 1
       HorzScrollBar.Visible = False
-      VertScrollBar.Increment = 58
-      VertScrollBar.Page = 586
+      VertScrollBar.Increment = 78
+      VertScrollBar.Page = 782
       VertScrollBar.Smooth = True
       VertScrollBar.Tracking = True
       Align = alClient
       BorderStyle = bsNone
-      ClientHeight = 586
+      ClientHeight = 782
       ClientWidth = 538
       ParentBackground = False
       TabOrder = 0
@@ -262,6 +262,7 @@ object formConfigTrayslator: TformConfigTrayslator
           ScrollBars = ssVertical
           TabOrder = 4
           OnChange = ValueChange
+          OnKeyDown = MemoKeyDown
         end
       end
       object GroupLanguages: TGroupBox
@@ -288,6 +289,7 @@ object formConfigTrayslator: TformConfigTrayslator
           ScrollBars = ssVertical
           TabOrder = 0
           OnChange = ValueChange
+          OnKeyDown = MemoKeyDown
         end
         object LabelParemeters1: TLabel
           Left = 8
@@ -373,7 +375,7 @@ object formConfigTrayslator: TformConfigTrayslator
   object BtnSave: TButton
     Left = 408
     Height = 25
-    Top = 636
+    Top = 832
     Width = 75
     Action = aSave
     Anchors = [akRight, akBottom]
@@ -384,6 +386,7 @@ object formConfigTrayslator: TformConfigTrayslator
     Top = 616
     object aSave: TAction
       Caption = 'Save'
+      Enabled = False
       ShortCut = 16467
       OnExecute = aSaveExecute
     end

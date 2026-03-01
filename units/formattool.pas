@@ -14,6 +14,8 @@ interface
 uses
   Classes,
   SysUtils,
+  StdCtrls,
+  Clipbrd,
   Graphics;
 
   {TColor}
@@ -24,7 +26,9 @@ function ColorFromHtml(const AHtml: string): TColor;
 
 function UnescapeUnicode(const S: string): string;
 
-function IsJson(const S: string): Boolean;
+function IsJson(const S: string): boolean;
+
+procedure PasteWithLineEnding(AMemo: TMemo);
 
 implementation
 
@@ -62,9 +66,9 @@ end;
 
 function UnescapeUnicode(const S: string): string;
 var
-  i: Integer;
+  i: integer;
   Code: string;
-  tmp: Integer;
+  tmp: integer;
 begin
   // Initialize result
   Result := '';
@@ -80,7 +84,7 @@ begin
       // Convert hexadecimal code to integer
       if TryStrToInt('$' + Code, tmp) and (tmp <= $FFFF) then
         // Explicit conversion to AnsiChar to remove warnings
-        Result := Result + string(WideChar(tmp))
+        Result := Result + string(widechar(tmp))
       else
         Result := Result + '\u' + Code; // Keep original if conversion fails
       Inc(i, 6);
@@ -94,8 +98,8 @@ begin
         't': Result := Result + #9;
         '\': Result := Result + '\';
         '"': Result := Result + '"';
-      else
-        Result := Result + '\' + S[i + 1]; // Keep unknown escapes as-is
+        else
+          Result := Result + '\' + S[i + 1]; // Keep unknown escapes as-is
       end;
       Inc(i, 2);
     end
@@ -108,13 +112,30 @@ begin
   end;
 end;
 
-function IsJson(const S: string): Boolean;
+function IsJson(const S: string): boolean;
 var
   Trimmed: string;
 begin
   Trimmed := TrimLeft(S);
   // Check first character: { или [ — обычно JSON
   Result := (Trimmed <> '') and ((Trimmed[1] = '{') or (Trimmed[1] = '['));
+end;
+
+procedure PasteWithLineEnding(AMemo: TMemo);
+var
+  s: string;
+begin
+  if Clipboard.HasFormat(CF_TEXT) then
+  begin
+    s := Clipboard.AsText;
+
+    s := StringReplace(s, #13#10, #10, [rfReplaceAll]); // Windows CRLF -> LF
+    s := StringReplace(s, #13, #10, [rfReplaceAll]);   // Macintosh CR -> LF
+
+    s := StringReplace(s, #10, LineEnding, [rfReplaceAll]);   // Macintosh CR -> LF
+
+    AMemo.SelText := s;
+  end;
 end;
 
 end.

@@ -27,6 +27,7 @@ object formTrayslator: TformTrayslator
     ScrollBars = ssAutoBoth
     TabOrder = 0
     OnEnter = MemoSourceEnter
+    OnKeyDown = MemoKeyDown
   end
   object MemoTarget: TMemo
     Left = 3
@@ -40,6 +41,7 @@ object formTrayslator: TformTrayslator
     ScrollBars = ssAutoBoth
     TabOrder = 1
     OnEnter = MemoTargetEnter
+    OnKeyDown = MemoKeyDown
   end
   object PanelLang: TPanel
     Left = 0

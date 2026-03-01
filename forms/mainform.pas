@@ -86,6 +86,7 @@ type
     procedure ComboSourceChange(Sender: TObject);
     procedure ComboTargetChange(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+    procedure MemoKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure MemoSourceEnter(Sender: TObject);
     procedure MemoTargetEnter(Sender: TObject);
     procedure PanelLangResize(Sender: TObject);
@@ -160,7 +161,7 @@ resourcestring
 
 implementation
 
-uses formdonate, formabout, formsettings, formconfig, langtool, settings, languages, systemtool;
+uses formdonate, formabout, formsettings, formconfig, langtool, settings, languages, systemtool, formattool;
 
   {$R *.lfm}
 
@@ -412,6 +413,15 @@ procedure TformTrayslator.FormKeyDown(Sender: TObject; var Key: word; Shift: TSh
 begin
   if Key = VK_ESCAPE then
     Hide;
+end;
+
+procedure TformTrayslator.MemoKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+begin
+  if (ssCtrl in Shift) and (Key = VK_V) then // Ctrl + V
+  begin
+    PasteWithLineEnding(Sender as TMemo);
+    Key := 0;
+  end;
 end;
 
 procedure TformTrayslator.MemoSourceEnter(Sender: TObject);

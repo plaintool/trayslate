@@ -68,6 +68,7 @@ type
     procedure FormChangeBounds(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure MemoKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure ValueChange(Sender: TObject);
     procedure SbCopyConfigClick(Sender: TObject);
   private
@@ -88,7 +89,7 @@ resourcestring
 
 implementation
 
-uses mainform, translate, settings;
+uses mainform, translate, settings, formattool;
 
   {$R *.lfm}
 
@@ -98,6 +99,15 @@ procedure TformConfigTrayslator.FormShow(Sender: TObject);
 begin
   UpdateConfigList;
   UpdateConfig;
+end;
+
+procedure TformConfigTrayslator.MemoKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+begin
+  if (ssCtrl in Shift) and (Key = VK_V) then // Ctrl + V
+  begin
+    PasteWithLineEnding(Sender as TMemo);
+    Key := 0;
+  end;
 end;
 
 procedure TformConfigTrayslator.FormResize(Sender: TObject);
