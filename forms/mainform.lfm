@@ -162,11 +162,17 @@ object formTrayslator: TformTrayslator
     object Separator3: TMenuItem
       Caption = '-'
     end
-    object MenuDonate: TMenuItem
-      Action = aDonate
-    end
-    object MenuAbout: TMenuItem
-      Action = aAbout
+    object MenuHelp: TMenuItem
+      Caption = 'Help'
+      object MenuDonate: TMenuItem
+        Action = aDonate
+      end
+      object MenuCheckForUpdates: TMenuItem
+        Action = aCheckForUpdates
+      end
+      object MenuAbout: TMenuItem
+        Action = aAbout
+      end
     end
     object Separator1: TMenuItem
       Caption = '-'
@@ -212,6 +218,11 @@ object formTrayslator: TformTrayslator
       Category = 'Tray'
       Caption = 'Buy me a coffee...'
       OnExecute = aDonateExecute
+    end
+    object aCheckForUpdates: TAction
+      Category = 'Tray'
+      Caption = 'Check for updates'
+      OnExecute = aCheckForUpdatesExecute
     end
     object aAbout: TAction
       Category = 'Tray'

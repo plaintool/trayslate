@@ -35,6 +35,7 @@ type
   TformTrayslator = class(TForm)
     aAbout: TAction;
     aConfigEditor: TAction;
+    aCheckForUpdates: TAction;
     aSettings: TAction;
     aClipboard: TAction;
     aSwap: TAction;
@@ -49,11 +50,13 @@ type
     MemoSource: TMemo;
     MemoTarget: TMemo;
     MenuExit: TMenuItem;
-    MenuAbout: TMenuItem;
-    MenuDonate: TMenuItem;
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
     MenuConfig: TMenuItem;
+    MenuHelp: TMenuItem;
+    MenuDonate: TMenuItem;
+    MenuCheckForUpdates: TMenuItem;
+    MenuAbout: TMenuItem;
     MenuShow: TMenuItem;
     MenuShowTranslate: TMenuItem;
     PanelLang: TPanel;
@@ -67,6 +70,7 @@ type
     TimerClick: TTimer;
     TimerActive: TTimer;
     TrayIcon: TTrayIcon;
+    procedure aCheckForUpdatesExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -301,6 +305,11 @@ begin
     Translate;
 end;
 
+procedure TformTrayslator.aTranslateExecute(Sender: TObject);
+begin
+  Translate;
+end;
+
 procedure TformTrayslator.aSettingsExecute(Sender: TObject);
 begin
   if Assigned(formSettingsTrayslator) then
@@ -354,14 +363,9 @@ begin
   end;
 end;
 
-procedure TformTrayslator.aAboutExecute(Sender: TObject);
+procedure TformTrayslator.aCheckForUpdatesExecute(Sender: TObject);
 begin
-  formAboutTrayslator := TformAboutTrayslator.Create(nil);
-  try
-    formAboutTrayslator.ShowModal;
-  finally
-    formAboutTrayslator.Free;
-  end;
+  CheckGithubLatestVersion();
 end;
 
 procedure TformTrayslator.aDonateExecute(Sender: TObject);
@@ -374,14 +378,19 @@ begin
   end;
 end;
 
+procedure TformTrayslator.aAboutExecute(Sender: TObject);
+begin
+  formAboutTrayslator := TformAboutTrayslator.Create(nil);
+  try
+    formAboutTrayslator.ShowModal;
+  finally
+    formAboutTrayslator.Free;
+  end;
+end;
+
 procedure TformTrayslator.aExitExecute(Sender: TObject);
 begin
   Application.Terminate;
-end;
-
-procedure TformTrayslator.aTranslateExecute(Sender: TObject);
-begin
-  Translate;
 end;
 
 {Control Events}

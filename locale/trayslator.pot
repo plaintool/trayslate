@@ -306,6 +306,10 @@ msgstr ""
 msgid "About..."
 msgstr ""
 
+#: tformtrayslator.acheckforupdates.caption
+msgid "Check for updates"
+msgstr ""
+
 #: tformtrayslator.aclipboard.caption
 msgctxt "tformtrayslator.aclipboard.caption"
 msgid "Translate clipboard"
@@ -346,5 +350,9 @@ msgstr ""
 
 #: tformtrayslator.menuconfig.caption
 msgid "Config"
+msgstr ""
+
+#: tformtrayslator.menuhelp.caption
+msgid "Help"
 msgstr ""
 
