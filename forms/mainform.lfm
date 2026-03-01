@@ -16,6 +16,7 @@ object formTrayslator: TformTrayslator
   OnDeactivate = FormDeactivate
   OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
+  OnWindowStateChange = FormWindowStateChange
   object MemoSource: TMemo
     Left = 3
     Height = 200

@@ -67,17 +67,17 @@ type
     TimerClick: TTimer;
     TimerActive: TTimer;
     TrayIcon: TTrayIcon;
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
+    procedure FormActivate(Sender: TObject);
+    procedure FormDeactivate(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+    procedure FormWindowStateChange(Sender: TObject);
     procedure aConfigEditorExecute(Sender: TObject);
     procedure aSettingsExecute(Sender: TObject);
     procedure aClipboardExecute(Sender: TObject);
     procedure aSwapExecute(Sender: TObject);
-    procedure ComboSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
-    procedure ComboTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
-    procedure FormActivate(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
-    procedure FormDeactivate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
-    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure aShowExecute(Sender: TObject);
     procedure aDonateExecute(Sender: TObject);
     procedure aAboutExecute(Sender: TObject);
@@ -85,16 +85,17 @@ type
     procedure aTranslateExecute(Sender: TObject);
     procedure ComboSourceChange(Sender: TObject);
     procedure ComboTargetChange(Sender: TObject);
-    procedure FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
-    procedure MemoKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+    procedure ComboSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+    procedure ComboTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure MemoSourceEnter(Sender: TObject);
     procedure MemoTargetEnter(Sender: TObject);
+    procedure MemoKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+    procedure ConfigItemClick(Sender: TObject);
     procedure PanelLangResize(Sender: TObject);
     procedure TrayIconClick(Sender: TObject);
     procedure TrayIconDblClick(Sender: TObject);
     procedure TimerClickTimer(Sender: TObject);
     procedure TimerActiveTimer(Sender: TObject);
-    procedure ConfigItemClick(Sender: TObject);
     procedure TrayIconMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
   private
     FTrans: TTranslate;
@@ -166,6 +167,8 @@ uses formdonate, formabout, formsettings, formconfig, langtool, settings, langua
   {$R *.lfm}
 
   { TformTrayslator }
+
+  {Form Events}
 
 procedure TformTrayslator.FormCreate(Sender: TObject);
 begin
@@ -248,6 +251,23 @@ begin
   FTopMost := False;
 end;
 
+procedure TformTrayslator.FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+begin
+  if Key = VK_ESCAPE then
+    Hide;
+end;
+
+procedure TformTrayslator.FormWindowStateChange(Sender: TObject);
+begin
+  if WindowState = wsMinimized then
+  begin
+    Hide;
+    WindowState := wsNormal;
+  end;
+end;
+
+{Application Events}
+
 procedure TformTrayslator.ApplicationOnActivate(Sender: TObject);
 begin
   FTopMost := True;
@@ -263,10 +283,15 @@ begin
   MessageDlg('Trayslator', E.Message, mtWarning, [mbOK], 0);
 end;
 
+{Actions Events}
+
 procedure TformTrayslator.aShowExecute(Sender: TObject);
 begin
   if Showing then
-    BringToFront
+  begin
+    FTopMost := True;
+    BringToFront;
+  end
   else
     Show;
 end;
@@ -362,15 +387,7 @@ begin
   Translate;
 end;
 
-procedure TformTrayslator.ComboSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
-begin
-  if (Key = VK_RETURN) then ComboSourceChange(Self);
-end;
-
-procedure TformTrayslator.ComboTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
-begin
-  if (Key = VK_RETURN) then ComboTargetChange(Self);
-end;
+{Control Events}
 
 procedure TformTrayslator.ComboSourceChange(Sender: TObject);
 var
@@ -409,19 +426,14 @@ begin
   SetIcon;
 end;
 
-procedure TformTrayslator.FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+procedure TformTrayslator.ComboSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
-  if Key = VK_ESCAPE then
-    Hide;
+  if (Key = VK_RETURN) then ComboSourceChange(Self);
 end;
 
-procedure TformTrayslator.MemoKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+procedure TformTrayslator.ComboTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
-  if (ssCtrl in Shift) and (Key = VK_V) then // Ctrl + V
-  begin
-    PasteWithLineEnding(Sender as TMemo);
-    Key := 0;
-  end;
+  if (Key = VK_RETURN) then ComboTargetChange(Self);
 end;
 
 procedure TformTrayslator.MemoSourceEnter(Sender: TObject);
@@ -434,6 +446,35 @@ procedure TformTrayslator.MemoTargetEnter(Sender: TObject);
 begin
   MemoTarget.SelStart := 0;
   MemoTarget.SelLength := Length(MemoTarget.Text);
+end;
+
+procedure TformTrayslator.MemoKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+begin
+  if (ssCtrl in Shift) and (Key = VK_V) then // Ctrl + V
+  begin
+    PasteWithLineEnding(Sender as TMemo);
+    Key := 0;
+  end;
+end;
+
+procedure TFormTrayslator.ConfigItemClick(Sender: TObject);
+var
+  Item: TMenuItem;
+begin
+  if (Assigned(formConfigTrayslator)) and (formConfigTrayslator.Showing) and (not formConfigTrayslator.TestChanges) then
+    Exit;
+
+  Item := TMenuItem(Sender);
+
+  // Update current config and load it
+  FConfigFile := FConfigFiles[Item.Tag];
+  LoadConfig;
+
+  if (Assigned(formConfigTrayslator)) and (formConfigTrayslator.Showing) then
+  begin
+    formConfigTrayslator.UpdateConfigList;
+    formConfigTrayslator.UpdateConfig;
+  end;
 end;
 
 procedure TformTrayslator.PanelLangResize(Sender: TObject);
@@ -494,13 +535,13 @@ begin
 
   if Showing then
   begin
-    if not FTopMost then
+    if FTopMost then
+      Hide
+    else
     begin
       BringToFront;
       FTopMost := True;
-    end
-    else
-      Hide;
+    end;
     FClicked := True;
   end
   else
@@ -543,7 +584,10 @@ begin
       Hide;
   end
   else
+  begin
     Show;
+    FTopMost := True;
+  end;
 end;
 
 procedure TformTrayslator.TimerActiveTimer(Sender: TObject);
@@ -553,25 +597,7 @@ begin
     FTopMost := False;
 end;
 
-procedure TFormTrayslator.ConfigItemClick(Sender: TObject);
-var
-  Item: TMenuItem;
-begin
-  if (Assigned(formConfigTrayslator)) and (formConfigTrayslator.Showing) and (not formConfigTrayslator.TestChanges) then
-    Exit;
-
-  Item := TMenuItem(Sender);
-
-  // Update current config and load it
-  FConfigFile := FConfigFiles[Item.Tag];
-  LoadConfig;
-
-  if (Assigned(formConfigTrayslator)) and (formConfigTrayslator.Showing) then
-  begin
-    formConfigTrayslator.UpdateConfigList;
-    formConfigTrayslator.UpdateConfig;
-  end;
-end;
+{Methods}
 
 function TformTrayslator.GetClipboartText: boolean;
 begin
