@@ -78,13 +78,13 @@ begin
     else
     begin
       // upper half
-      Value := FormatValue(ALang1, 6);
+      Value := FormatValue(ALang1, 7);
       rect1 := Types.Rect(rect.Left, rect.Top, rect.Right, (rect.Top + rect.Bottom) div 2);
       DrawText(bmp.Canvas.Handle, PChar(Value), Length(Value), rect1,
         DT_CENTER or DT_VCENTER or DT_SINGLELINE);
 
       // lower half
-      Value := FormatValue(ALang2, 6);
+      Value := FormatValue(ALang2, 7);
       rect2 := Types.Rect(rect.Left, (rect.Top + rect.Bottom) div 2, rect.Right, rect.Bottom);
       DrawText(bmp.Canvas.Handle, PChar(Value), Length(Value), rect2,
         DT_CENTER or DT_VCENTER or DT_SINGLELINE);
@@ -111,6 +111,5 @@ begin
   // If code not found, clear selection
   ComboBox.ItemIndex := -1;
 end;
-
 
 end.

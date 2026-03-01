@@ -1,10 +1,10 @@
 object formConfigTrayslator: TformConfigTrayslator
   Left = 318
-  Height = 681
+  Height = 873
   Top = 250
   Width = 567
   Caption = 'Config Editor'
-  ClientHeight = 681
+  ClientHeight = 873
   ClientWidth = 567
   ShowInTaskBar = stAlways
   LCLVersion = '4.4.0.0'
@@ -14,7 +14,7 @@ object formConfigTrayslator: TformConfigTrayslator
   object BtnClose: TButton
     Left = 487
     Height = 25
-    Top = 648
+    Top = 840
     Width = 75
     Anchors = [akRight, akBottom]
     Cancel = True
@@ -24,13 +24,13 @@ object formConfigTrayslator: TformConfigTrayslator
   end
   object PanelConfig: TPanel
     Left = 5
-    Height = 600
+    Height = 792
     Top = 41
     Width = 557
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
-    ClientHeight = 600
+    ClientHeight = 792
     ClientWidth = 557
     Color = clWindow
     ParentBackground = False
@@ -38,18 +38,18 @@ object formConfigTrayslator: TformConfigTrayslator
     TabOrder = 1
     object ScrollBoxConfig: TScrollBox
       Left = 1
-      Height = 598
+      Height = 790
       Top = 1
       Width = 555
       HorzScrollBar.Page = 1
       HorzScrollBar.Visible = False
-      VertScrollBar.Increment = 59
-      VertScrollBar.Page = 598
+      VertScrollBar.Increment = 79
+      VertScrollBar.Page = 790
       VertScrollBar.Smooth = True
       VertScrollBar.Tracking = True
       Align = alClient
       BorderStyle = bsNone
-      ClientHeight = 598
+      ClientHeight = 790
       ClientWidth = 538
       ParentBackground = False
       TabOrder = 0
@@ -94,7 +94,7 @@ object formConfigTrayslator: TformConfigTrayslator
         object LabelRegexp: TLabel
           Left = 8
           Height = 23
-          Top = 40
+          Top = 72
           Width = 104
           Alignment = taRightJustify
           AutoSize = False
@@ -103,7 +103,7 @@ object formConfigTrayslator: TformConfigTrayslator
         object EditRegexp: TEdit
           Left = 120
           Height = 23
-          Top = 40
+          Top = 72
           Width = 384
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 1
@@ -112,7 +112,7 @@ object formConfigTrayslator: TformConfigTrayslator
         object LabelJsonKeys: TLabel
           Left = 8
           Height = 23
-          Top = 68
+          Top = 40
           Width = 104
           Alignment = taRightJustify
           AutoSize = False
@@ -121,7 +121,7 @@ object formConfigTrayslator: TformConfigTrayslator
         object EditJsonKeys: TEdit
           Left = 120
           Height = 23
-          Top = 68
+          Top = 40
           Width = 384
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 2
@@ -199,7 +199,7 @@ object formConfigTrayslator: TformConfigTrayslator
         object LabelContentType: TLabel
           Left = 8
           Height = 23
-          Top = 72
+          Top = 144
           Width = 104
           Alignment = taRightJustify
           AutoSize = False
@@ -208,7 +208,7 @@ object formConfigTrayslator: TformConfigTrayslator
         object EditContentType: TEdit
           Left = 120
           Height = 23
-          Top = 72
+          Top = 144
           Width = 384
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 2
@@ -217,7 +217,7 @@ object formConfigTrayslator: TformConfigTrayslator
         object LabelUrl: TLabel
           Left = 8
           Height = 23
-          Top = 104
+          Top = 72
           Width = 104
           Alignment = taRightJustify
           AutoSize = False
@@ -226,7 +226,7 @@ object formConfigTrayslator: TformConfigTrayslator
         object MemoURL: TMemo
           Left = 120
           Height = 64
-          Top = 104
+          Top = 72
           Width = 384
           Anchors = [akTop, akLeft, akRight]
           ScrollBars = ssVertical
@@ -235,10 +235,10 @@ object formConfigTrayslator: TformConfigTrayslator
           OnChange = ValueChange
         end
         object LabelParemeters: TLabel
-          Left = 38
+          Left = 5
           Height = 15
           Top = 320
-          Width = 466
+          Width = 499
           Anchors = [akTop, akLeft, akRight]
           Caption = 'Use parameters  {text} – input text, {source} – source language, {target} – target language'
           Color = clInfoBk
@@ -296,7 +296,7 @@ object formConfigTrayslator: TformConfigTrayslator
           Left = 8
           Height = 15
           Top = 8
-          Width = 377
+          Width = 496
           Anchors = [akTop, akLeft, akRight]
           Caption = 'Supported languages e.g. en=en-US, en - internal, en-US - service code.'
           Color = clInfoBk
@@ -376,7 +376,7 @@ object formConfigTrayslator: TformConfigTrayslator
   object BtnSave: TButton
     Left = 408
     Height = 25
-    Top = 648
+    Top = 840
     Width = 75
     Action = aSave
     Anchors = [akRight, akBottom]
@@ -387,6 +387,7 @@ object formConfigTrayslator: TformConfigTrayslator
     Top = 16
     object aSave: TAction
       Caption = 'Save'
+      Enabled = False
       ShortCut = 16467
       OnExecute = aSaveExecute
     end
