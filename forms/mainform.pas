@@ -93,7 +93,8 @@ type
     procedure ComboTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure MemoSourceEnter(Sender: TObject);
     procedure MemoTargetEnter(Sender: TObject);
-    procedure MemoKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+    procedure MemoSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+    procedure MemoTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure ConfigItemClick(Sender: TObject);
     procedure PanelLangResize(Sender: TObject);
     procedure TrayIconClick(Sender: TObject);
@@ -444,23 +445,36 @@ end;
 
 procedure TformTrayslator.MemoSourceEnter(Sender: TObject);
 begin
-  MemoSource.SelStart := 0;
-  MemoSource.SelLength := Length(MemoSource.Text);
+  //MemoSource.SelStart := 0;
+  //MemoSource.SelLength := Length(MemoSource.Text);
 end;
 
 procedure TformTrayslator.MemoTargetEnter(Sender: TObject);
 begin
   MemoTarget.SelStart := 0;
   MemoTarget.SelLength := Length(MemoTarget.Text);
+  Clipboard.AsText := MemoTarget.Text;
 end;
 
-procedure TformTrayslator.MemoKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+procedure TformTrayslator.MemoTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
   if (ssCtrl in Shift) and (Key = VK_V) then // Ctrl + V
   begin
     PasteWithLineEnding(Sender as TMemo);
     Key := 0;
   end;
+end;
+
+procedure TformTrayslator.MemoSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+begin
+  if (ssCtrl in Shift) and (Key = VK_V) then // Ctrl + V
+  begin
+    PasteWithLineEnding(Sender as TMemo);
+    Key := 0;
+  end
+  else
+  if ((ssCtrl in Shift) or (ssShift in Shift)) and (Key = VK_RETURN) then
+    aTranslate.Execute;
 end;
 
 procedure TFormTrayslator.ConfigItemClick(Sender: TObject);

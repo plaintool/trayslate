@@ -28,7 +28,7 @@ object formTrayslator: TformTrayslator
     ScrollBars = ssAutoBoth
     TabOrder = 0
     OnEnter = MemoSourceEnter
-    OnKeyDown = MemoKeyDown
+    OnKeyDown = MemoSourceKeyDown
   end
   object MemoTarget: TMemo
     Left = 3
@@ -42,7 +42,7 @@ object formTrayslator: TformTrayslator
     ScrollBars = ssAutoBoth
     TabOrder = 1
     OnEnter = MemoTargetEnter
-    OnKeyDown = MemoKeyDown
+    OnKeyDown = MemoTargetKeyDown
   end
   object PanelLang: TPanel
     Left = 0
@@ -106,6 +106,7 @@ object formTrayslator: TformTrayslator
     object SbTranslate: TSpeedButton
       Left = 485
       Height = 26
+      Hint = 'Translate'#13#10'(Ctrl+Enter)'
       Top = 3
       Width = 24
       Action = aTranslate

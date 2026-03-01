@@ -366,3 +366,9 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
+#: tformtrayslator.sbtranslate.hint
+msgid ""
+"Translate\n"
+"(Ctrl+Enter)"
+msgstr ""
+
