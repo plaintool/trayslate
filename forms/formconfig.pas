@@ -101,15 +101,6 @@ begin
   UpdateConfig;
 end;
 
-procedure TformConfigTrayslator.MemoKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
-begin
-  if (ssCtrl in Shift) and (Key = VK_V) then // Ctrl + V
-  begin
-    PasteWithLineEnding(Sender as TMemo);
-    Key := 0;
-  end;
-end;
-
 procedure TformConfigTrayslator.FormResize(Sender: TObject);
 begin
   formTrayslator.FormConfigWidth := Width;
@@ -120,6 +111,51 @@ procedure TformConfigTrayslator.FormChangeBounds(Sender: TObject);
 begin
   formTrayslator.FormConfigLeft := Left;
   formTrayslator.FormConfigTop := Top;
+end;
+
+procedure TformConfigTrayslator.aSaveExecute(Sender: TObject);
+begin
+  SaveConfig;
+end;
+
+procedure TformConfigTrayslator.ComboConfigChange(Sender: TObject);
+begin
+  if not TestChanges then
+  begin
+    ComboConfig.ItemIndex := FLastConfig;
+    exit;
+  end;
+  formTrayslator.ConfigFile := ComboConfig.Text;
+  formTrayslator.LoadConfig;
+  UpdateConfig;
+  FLastConfig := ComboConfig.ItemIndex;
+end;
+
+procedure TformConfigTrayslator.ComboConfigKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+begin
+  if (ssCtrl in shift) and (Key = VK_C) then
+    Clipboard.AsText := ComboConfig.Text;
+end;
+
+procedure TformConfigTrayslator.MemoKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+begin
+  if (ssCtrl in Shift) and (Key = VK_V) then // Ctrl + V
+  begin
+    PasteWithLineEnding(Sender as TMemo);
+    Key := 0;
+  end;
+end;
+
+procedure TformConfigTrayslator.ValueChange(Sender: TObject);
+begin
+  BtnSave.Enabled := True;
+  Caption := '*Config Editor';
+end;
+
+procedure TformConfigTrayslator.BtnCloseClick(Sender: TObject);
+begin
+  if not TestChanges then exit;
+  Hide;
 end;
 
 procedure TformConfigTrayslator.SbCopyConfigClick(Sender: TObject);
@@ -166,42 +202,6 @@ begin
   formTrayslator.LoadConfig;
   UpdateConfigList;
   UpdateConfig;
-end;
-
-procedure TformConfigTrayslator.ComboConfigChange(Sender: TObject);
-begin
-  if not TestChanges then
-  begin
-    ComboConfig.ItemIndex := FLastConfig;
-    exit;
-  end;
-  formTrayslator.ConfigFile := ComboConfig.Text;
-  formTrayslator.LoadConfig;
-  UpdateConfig;
-  FLastConfig := ComboConfig.ItemIndex;
-end;
-
-procedure TformConfigTrayslator.ComboConfigKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
-begin
-  if (ssCtrl in shift) and (Key = VK_C) then
-    Clipboard.AsText := ComboConfig.Text;
-end;
-
-procedure TformConfigTrayslator.ValueChange(Sender: TObject);
-begin
-  BtnSave.Enabled := True;
-  Caption := '*Config Editor';
-end;
-
-procedure TformConfigTrayslator.BtnCloseClick(Sender: TObject);
-begin
-  if not TestChanges then exit;
-  Hide;
-end;
-
-procedure TformConfigTrayslator.aSaveExecute(Sender: TObject);
-begin
-  SaveConfig;
 end;
 
 procedure TformConfigTrayslator.UpdateConfigList;
@@ -258,6 +258,7 @@ end;
 
 procedure TformConfigTrayslator.SaveConfig;
 begin
+  Screen.Cursor := crHourGlass;
   try
     with formTrayslator.Trans do
     begin
@@ -281,6 +282,7 @@ begin
     formTrayslator.LoadConfig;
   finally
     BtnSave.Enabled := False;
+    Screen.Cursor := crDefault;
     Caption := 'Config Editor';
   end;
 end;
