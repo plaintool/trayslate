@@ -2,5 +2,14 @@ THIRD-PARTY RESOURCES
 
 This application uses third-party resources under the following licenses:
 
-1. Main icon designed by Flaticon
-https://www.flaticon.com/ru/free-icon/translator_682045
+1. OpenSSL libraries (compiled from source, 32-bit and 64-bit versions)
+   License: Apache License 2.0
+   https://www.openssl.org
+
+2. Dark theme support modules from Double Commander
+   Modules used: udarkstyle.pas, uimport.pas, uwin32widgetsetdark.pas
+   License: GNU General Public License v2.0 (GPL-2.0)
+   https://github.com/doublecmd/doublecmd
+
+3. Main icon designed by Flaticon
+   https://www.flaticon.com/ru/free-icon/translator_682045
