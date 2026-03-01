@@ -6,6 +6,7 @@ object formConfigTrayslator: TformConfigTrayslator
   Caption = 'Config Editor'
   ClientHeight = 681
   ClientWidth = 567
+  ShowInTaskBar = stAlways
   LCLVersion = '4.4.0.0'
   OnChangeBounds = FormChangeBounds
   OnResize = FormResize

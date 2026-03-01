@@ -260,10 +260,7 @@ end;
 procedure TformTrayslator.FormWindowStateChange(Sender: TObject);
 begin
   if WindowState = wsMinimized then
-  begin
-    Hide;
     WindowState := wsNormal;
-  end;
 end;
 
 {Application Events}
