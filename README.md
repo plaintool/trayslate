@@ -10,3 +10,6 @@ Trayslator is a tray application for translating text. You can translate text fr
 Trayslator is licensed under the GPL v3 license. See the LICENSE file for details.
 
 The Trayslator application uses third-party resources licensed as described in the [THIRD_PARTIES](THIRD_PARTIES) file.
+
+The application does not provide translation services.
+Users are responsible for complying with third-party service terms.
