@@ -24,6 +24,8 @@ function ColorFromHtml(const AHtml: string): TColor;
 
 function UnescapeUnicode(const S: string): string;
 
+function IsJson(const S: string): Boolean;
+
 implementation
 
 {TColor}
@@ -104,6 +106,15 @@ begin
       Inc(i);
     end;
   end;
+end;
+
+function IsJson(const S: string): Boolean;
+var
+  Trimmed: string;
+begin
+  Trimmed := TrimLeft(S);
+  // Check first character: { или [ — обычно JSON
+  Result := (Trimmed <> '') and ((Trimmed[1] = '{') or (Trimmed[1] = '['));
 end;
 
 end.

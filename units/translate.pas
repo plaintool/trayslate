@@ -345,6 +345,7 @@ begin
 
   jsonStr := Request;
   if Trim(jsonStr) = string.Empty then Exit;
+  if not IsJson(jsonStr) then Exit(jsonstr);
 
   try
     // Use universal path parser. JsonKeys is a field, e.g. '\responseData\translatedText' or '\matches\0\translation'
