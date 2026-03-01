@@ -34,7 +34,7 @@ type
     FUserAgent: string;
     FContentType: string;
     FRegexp: string;
-    FJsonKeys: string;
+    FJsonPath: string;
     FTextToTranslate: string;
     FPostData: string;
     FLangSource: string;
@@ -48,6 +48,7 @@ type
     function Post: string;
     function Request: string;
     function TransRegEx: string;
+    function TransJsonByPath(const JsonStr, JsonPath: string): string;
     function TransJson: string;
     function Translate: string;
 
@@ -61,7 +62,7 @@ type
     property UserAgent: string read FUserAgent write FUserAgent;
     property ContentType: string read FContentType write FContentType;
     property Regexp: string read FRegexp write FRegexp;
-    property JsonKeys: string read FJsonKeys write FJsonKeys;
+    property JsonPath: string read FJsonPath write FJsonPath;
     property PostData: string read FPostData write FPostData;
     property Languages: TStringList read FLanguages write FLanguages;
   end;
@@ -228,43 +229,133 @@ begin
   end;
 end;
 
-function TTranslate.TransJson: string;
+function TTranslate.TransJsonByPath(const JsonStr, JsonPath: string): string;
 var
   Data: TJSONData;
-  Arr, Item: TJSONArray;
-  i: integer;
-  jsonStr: string;
-begin
-  Result := string.Empty;
-  jsonStr := Request;
 
-  if Trim(jsonStr) = string.Empty then Exit;
+// Recursive traversal of JSON according to path parts
+  function Traverse(Data: TJSONData; PathParts: TStringList; Level: integer): string;
+  var
+    Key: string;
+    i: integer;
+    Arr: TJSONArray;
+    Obj: TJSONObject;
+    SubResult: string;
+    Child: TJSONData;
+  begin
+    Result := string.Empty;
+    if Data = nil then Exit;
 
-  try
-    Data := nil;
-    try
-      Data := fpjson.GetJSON(jsonStr);
-      if (Data.Count > 0) and (Data.Items[0] is TJSONArray) then
-      begin
-        Arr := TJSONArray(Data.Items[0]);
-        for i := 0 to Arr.Count - 1 do
+    // If we've reached the end of the path, return string or number
+    if Level >= PathParts.Count then
+    begin
+      case Data.JSONType of
+        jtString, jtNumber: Result := Data.AsString;
+        jtArray:
         begin
-          if Arr.Items[i] is TJSONArray then
+          Arr := TJSONArray(Data);
+          for i := 0 to Arr.Count - 1 do
           begin
-            Item := TJSONArray(Arr.Items[i]);
-            if Item.Count > 0 then
-              Result := Result + Item.Strings[0];
+            SubResult := Traverse(Arr.Items[i], PathParts, Level);
+            if SubResult <> string.Empty then
+            begin
+              if Result <> string.Empty then
+                Result := Result + #10;
+              Result := Result + SubResult;
+            end;
           end;
         end;
       end;
+      Exit;
+    end;
+
+    Key := PathParts[Level];
+
+    case Data.JSONType of
+      jtObject:
+      begin
+        Obj := TJSONObject(Data);
+        Child := Obj.Find(Key);
+        if Child <> nil then
+          Result := Traverse(Child, PathParts, Level + 1);
+      end;
+
+      jtArray:
+      begin
+        Arr := TJSONArray(Data);
+        if (Key = '*') or (Key = '*#10') then
+        begin
+          // Iterate all elements of the array
+          for i := 0 to Arr.Count - 1 do
+          begin
+            SubResult := Traverse(Arr.Items[i], PathParts, Level + 1);
+            if SubResult <> string.Empty then
+            begin
+              if (Result <> string.Empty) and (Key = '*#10') then
+                Result := Result + #10;
+              Result := Result + SubResult;
+            end;
+          end;
+        end
+        else
+        begin
+          // Numeric index
+          i := StrToIntDef(Key, -1);
+          if (i >= 0) and (i < Arr.Count) then
+            Result := Traverse(Arr.Items[i], PathParts, Level + 1);
+        end;
+      end;
+    end;
+  end;
+
+var
+  PathParts: TStringList;
+  i: integer;
+begin
+  Result := string.Empty;
+  if Trim(JsonStr) = string.Empty then Exit;
+
+  PathParts := TStringList.Create;
+  try
+    PathParts.Delimiter := '\';
+    PathParts.StrictDelimiter := True;
+    PathParts.DelimitedText := JsonPath;
+
+    // Remove empty parts (leading/trailing slashes)
+    for i := PathParts.Count - 1 downto 0 do
+      if Trim(PathParts[i]) = string.Empty then
+        PathParts.Delete(i);
+
+    Data := fpjson.GetJSON(JsonStr);
+    try
+      Result := Traverse(Data, PathParts, 0);
     finally
       Data.Free;
     end;
+  finally
+    PathParts.Free;
+  end;
+end;
+
+function TTranslate.TransJson: string;
+var
+  jsonStr: string;
+begin
+  Result := string.Empty;
+
+  jsonStr := Request;
+  if Trim(jsonStr) = string.Empty then Exit;
+
+  try
+    // Use universal path parser. JsonKeys is a field, e.g. '\responseData\translatedText' or '\matches\0\translation'
+    Result := TransJsonByPath(jsonStr, JsonPath);
+    if (Result <> string.Empty) then
+      Result := UnescapeUnicode(Result)
+    else
+      Result := jsonStr;
   except
     on E: Exception do
-    begin
-      raise Exception.Create(E.Message + #10 + jsonStr);
-    end;
+      raise Exception.Create(E.Message + #10 + Request);
   end;
 end;
 

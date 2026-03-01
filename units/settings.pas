@@ -292,9 +292,9 @@ begin
     if Trim(Translate.Regexp) <> string.Empty then
       Ini.WriteString('Response', 'Regexp', Translate.Regexp);
 
-    Ini.DeleteKey('Response', 'JsonKeys');
-    if Trim(Translate.JsonKeys) <> string.Empty then
-      Ini.WriteString('Response', 'JsonKeys', Translate.JsonKeys);
+    Ini.DeleteKey('Response', 'JsonPath');
+    if Trim(Translate.JsonPath) <> string.Empty then
+      Ini.WriteString('Response', 'JsonPath', Translate.JsonPath);
 
     // Save language mappings (code=apiCode)
     Ini.EraseSection('Languages'); // Clear previous entries
@@ -323,14 +323,14 @@ begin
     else
       Translate.WebMethod := wmGet;
 
-    Translate.Url := Ini.ReadString('Request', 'Url', Translate.Url);
+    Translate.Url := Ini.ReadString('Request', 'Url', string.Empty);
 
     // Restore line breaks from \r\n
-    PostDataEscaped := Ini.ReadString('Request', 'PostData', '');
+    PostDataEscaped := Ini.ReadString('Request', 'PostData', string.Empty);
     Translate.PostData := StringReplace(PostDataEscaped, '\r\n', LineEnding, [rfReplaceAll]);
 
-    Translate.UserAgent := Ini.ReadString('Request', 'UserAgent', Translate.UserAgent);
-    Translate.ContentType := Ini.ReadString('Request', 'ContentType', Translate.ContentType);
+    Translate.UserAgent := Ini.ReadString('Request', 'UserAgent', string.Empty);
+    Translate.ContentType := Ini.ReadString('Request', 'ContentType', string.Empty);
 
     Method := Ini.ReadString('Response', 'ParserType', 'Json');
     if SameText(Method, 'Json') then
@@ -338,8 +338,8 @@ begin
     else
       Translate.ResponseParser := rpRegEx;
 
-    Translate.Regexp := Ini.ReadString('Response', 'Regexp', Translate.Regexp);
-    Translate.JsonKeys := Ini.ReadString('Response', 'JsonKeys', Translate.JsonKeys);
+    Translate.Regexp := Ini.ReadString('Response', 'Regexp', string.Empty);
+    Translate.JsonPath := Ini.ReadString('Response', 'JsonPath', string.Empty);
 
     Ini.ReadSectionValues('Languages', Translate.Languages);
   finally

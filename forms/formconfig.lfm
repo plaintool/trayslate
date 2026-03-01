@@ -1,10 +1,10 @@
 object formConfigTrayslator: TformConfigTrayslator
   Left = 318
-  Height = 607
+  Height = 669
   Top = 250
   Width = 567
   Caption = 'Config Editor'
-  ClientHeight = 607
+  ClientHeight = 669
   ClientWidth = 567
   LCLVersion = '4.4.0.0'
   OnChangeBounds = FormChangeBounds
@@ -13,7 +13,7 @@ object formConfigTrayslator: TformConfigTrayslator
   object BtnClose: TButton
     Left = 487
     Height = 25
-    Top = 574
+    Top = 636
     Width = 75
     Anchors = [akRight, akBottom]
     Cancel = True
@@ -23,13 +23,13 @@ object formConfigTrayslator: TformConfigTrayslator
   end
   object PanelConfig: TPanel
     Left = 5
-    Height = 526
+    Height = 588
     Top = 41
     Width = 557
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
-    ClientHeight = 526
+    ClientHeight = 588
     ClientWidth = 557
     Color = clWindow
     ParentBackground = False
@@ -37,30 +37,30 @@ object formConfigTrayslator: TformConfigTrayslator
     TabOrder = 1
     object ScrollBoxConfig: TScrollBox
       Left = 1
-      Height = 524
+      Height = 586
       Top = 1
       Width = 555
       HorzScrollBar.Page = 1
       HorzScrollBar.Visible = False
-      VertScrollBar.Increment = 52
-      VertScrollBar.Page = 524
+      VertScrollBar.Increment = 58
+      VertScrollBar.Page = 586
       VertScrollBar.Smooth = True
       VertScrollBar.Tracking = True
       Align = alClient
       BorderStyle = bsNone
-      ClientHeight = 524
+      ClientHeight = 586
       ClientWidth = 538
       ParentBackground = False
       TabOrder = 0
       object GroupResponse: TGroupBox
         Left = 5
-        Height = 91
+        Height = 187
         Top = 373
         Width = 528
         Align = alTop
         BorderSpacing.Around = 5
         Caption = 'Response'
-        ClientHeight = 71
+        ClientHeight = 167
         ClientWidth = 524
         ParentBackground = False
         TabOrder = 0
@@ -107,6 +107,36 @@ object formConfigTrayslator: TformConfigTrayslator
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 1
           OnChange = ValueChange
+        end
+        object LabelJsonKeys: TLabel
+          Left = 8
+          Height = 23
+          Top = 68
+          Width = 104
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Json Path'
+        end
+        object EditJsonKeys: TEdit
+          Left = 120
+          Height = 23
+          Top = 68
+          Width = 384
+          Anchors = [akTop, akLeft, akRight]
+          TabOrder = 2
+          OnChange = ValueChange
+        end
+        object LabelParemeters2: TLabel
+          Left = 8
+          Height = 45
+          Top = 104
+          Width = 496
+          Anchors = [akTop, akLeft, akRight]
+          Caption = 'In Json Path use \ to separate levels, numbers for array indexes, * for all array items, *#10 for all items joined by newline, strings for object keys. '#13#10'Examples: \0\*\0, responseData\translatedText, matches\*#10\translation'
+          Color = clInfoBk
+          ParentColor = False
+          Transparent = False
+          WordWrap = True
         end
       end
       object GroupRequest: TGroupBox
@@ -208,7 +238,7 @@ object formConfigTrayslator: TformConfigTrayslator
           Height = 15
           Top = 320
           Width = 466
-          Anchors = [akTop, akRight]
+          Anchors = [akTop, akLeft, akRight]
           Caption = 'Use parameters  {text} – input text, {source} – source language, {target} – target language'
           Color = clInfoBk
           ParentColor = False
@@ -237,7 +267,7 @@ object formConfigTrayslator: TformConfigTrayslator
       object GroupLanguages: TGroupBox
         Left = 5
         Height = 323
-        Top = 469
+        Top = 565
         Width = 528
         Align = alTop
         BorderSpacing.Around = 5
@@ -264,6 +294,7 @@ object formConfigTrayslator: TformConfigTrayslator
           Height = 15
           Top = 8
           Width = 377
+          Anchors = [akTop, akLeft, akRight]
           Caption = 'Supported languages e.g. en=en-US, en - internal, en-US - service code.'
           Color = clInfoBk
           ParentColor = False
@@ -342,12 +373,19 @@ object formConfigTrayslator: TformConfigTrayslator
   object BtnSave: TButton
     Left = 408
     Height = 25
-    Top = 574
+    Top = 636
     Width = 75
+    Action = aSave
     Anchors = [akRight, akBottom]
-    Caption = 'Save'
-    Enabled = False
     TabOrder = 3
-    OnClick = BtnSaveClick
+  end
+  object ActionList: TActionList
+    Left = 344
+    Top = 616
+    object aSave: TAction
+      Caption = 'Save'
+      ShortCut = 16467
+      OnExecute = aSaveExecute
+    end
   end
 end

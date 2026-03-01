@@ -22,18 +22,21 @@ uses
   ExtCtrls,
   FileUtil,
   Buttons,
-  LCLType;
+  LCLType, ActnList;
 
 type
 
   { TformConfigTrayslator }
 
   TformConfigTrayslator = class(TForm)
+    aSave: TAction;
+    ActionList: TActionList;
     BtnClose: TButton;
     BtnSave: TButton;
     ComboMethod: TComboBox;
     ComboConfig: TComboBox;
     ComboResponseParser: TComboBox;
+    EditJsonKeys: TEdit;
     EditUserAgent: TEdit;
     EditContentType: TEdit;
     EditRegexp: TEdit;
@@ -42,7 +45,9 @@ type
     GroupLanguages: TGroupBox;
     LabelMethod: TLabel;
     LabelParemeters1: TLabel;
+    LabelParemeters2: TLabel;
     LabelPostData: TLabel;
+    LabelJsonKeys: TLabel;
     LabelUserAgent: TLabel;
     LabelContentType: TLabel;
     LabelUrl: TLabel;
@@ -56,8 +61,8 @@ type
     PanelConfig: TPanel;
     SbCopyConfig: TSpeedButton;
     ScrollBoxConfig: TScrollBox;
+    procedure aSaveExecute(Sender: TObject);
     procedure BtnCloseClick(Sender: TObject);
-    procedure BtnSaveClick(Sender: TObject);
     procedure ComboConfigChange(Sender: TObject);
     procedure ComboConfigKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure FormChangeBounds(Sender: TObject);
@@ -175,6 +180,7 @@ end;
 procedure TformConfigTrayslator.ValueChange(Sender: TObject);
 begin
   BtnSave.Enabled := True;
+  Caption := '*Config Editor';
 end;
 
 procedure TformConfigTrayslator.BtnCloseClick(Sender: TObject);
@@ -183,7 +189,7 @@ begin
   Hide;
 end;
 
-procedure TformConfigTrayslator.BtnSaveClick(Sender: TObject);
+procedure TformConfigTrayslator.aSaveExecute(Sender: TObject);
 begin
   SaveConfig;
 end;
@@ -212,9 +218,11 @@ begin
     else
       ComboResponseParser.ItemIndex := 1;
     EditRegexp.Text := Regexp;
+    EditJsonKeys.Text := JsonPath;
     MemoLanguages.Lines.Assign(Languages);
   end;
   BtnSave.Enabled := False;
+  Caption := 'Config Editor';
 end;
 
 function TformConfigTrayslator.TestChanges: boolean;
@@ -256,11 +264,14 @@ begin
       else
         ResponseParser := rpRegEx;
       Regexp := EditRegexp.Text;
+      JsonPath := EditJsonKeys.Text;
       Languages.Assign(MemoLanguages.Lines);
     end;
     SaveIniSettings(formTrayslator.Trans, formTrayslator.ConfigFile);
+    formTrayslator.LoadConfig;
   finally
     BtnSave.Enabled := False;
+    Caption := 'Config Editor';
   end;
 end;
 

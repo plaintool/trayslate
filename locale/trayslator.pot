@@ -56,14 +56,14 @@ msgstr ""
 msgid "Trayslator © 2026"
 msgstr ""
 
+#: tformconfigtrayslator.asave.caption
+msgctxt "tformconfigtrayslator.asave.caption"
+msgid "Save"
+msgstr ""
+
 #: tformconfigtrayslator.btnclose.caption
 msgctxt "tformconfigtrayslator.btnclose.caption"
 msgid "Close"
-msgstr ""
-
-#: tformconfigtrayslator.btnsave.caption
-msgctxt "tformconfigtrayslator.btnsave.caption"
-msgid "Save"
 msgstr ""
 
 #: tformconfigtrayslator.caption
@@ -96,17 +96,29 @@ msgctxt "tformconfigtrayslator.labelcontenttype.caption"
 msgid "Content Type"
 msgstr ""
 
+#: tformconfigtrayslator.labeljsonkeys.caption
+msgid "Json Path"
+msgstr ""
+
 #: tformconfigtrayslator.labelmethod.caption
 msgctxt "tformconfigtrayslator.labelmethod.caption"
 msgid "Method"
 msgstr ""
 
 #: tformconfigtrayslator.labelparemeters.caption
+msgctxt "tformconfigtrayslator.labelparemeters.caption"
 msgid "Use parameters  {text} – input text, {source} – source language, {target} – target language"
 msgstr ""
 
 #: tformconfigtrayslator.labelparemeters1.caption
 msgid "Supported languages e.g. en=en-US, en - internal, en-US - service code."
+msgstr ""
+
+#: tformconfigtrayslator.labelparemeters2.caption
+msgctxt "tformconfigtrayslator.labelparemeters2.caption"
+msgid ""
+"In Json Path use \\ to separate levels, numbers for array indexes, * for all array items, *#10 for all items joined by newline, strings for object keys. \n"
+"Examples: \\0\\*\\0, responseData\\translatedText, matches\\*#10\\translation"
 msgstr ""
 
 #: tformconfigtrayslator.labelpostdata.caption

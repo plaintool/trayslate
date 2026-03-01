@@ -5,6 +5,8 @@
 {"hash":158394613,"name":"tformconfigtrayslator.labelresponseparser.caption","sourcebytes":[80,97,114,115,101,32,84,121,112,101],"value":"Parse Type"},
 {"hash":325694,"name":"tformconfigtrayslator.comboresponseparser.text","sourcebytes":[74,83,79,78],"value":"JSON"},
 {"hash":93043952,"name":"tformconfigtrayslator.labelregexp.caption","sourcebytes":[82,101,103,69,120,112],"value":"RegExp"},
+{"hash":101005576,"name":"tformconfigtrayslator.labeljsonkeys.caption","sourcebytes":[74,115,111,110,32,80,97,116,104],"value":"Json Path"},
+{"hash":12922958,"name":"tformconfigtrayslator.labelparemeters2.caption","sourcebytes":[73,110,32,74,115,111,110,32,80,97,116,104,32,117,115,101,32,92,32,116,111,32,115,101,112,97,114,97,116,101,32,108,101,118,101,108,115,44,32,110,117,109,98,101,114,115,32,102,111,114,32,97,114,114,97,121,32,105,110,100,101,120,101,115,44,32,42,32,102,111,114,32,97,108,108,32,97,114,114,97,121,32,105,116,101,109,115,44,32,42,35,49,48,32,102,111,114,32,97,108,108,32,105,116,101,109,115,32,106,111,105,110,101,100,32,98,121,32,110,101,119,108,105,110,101,44,32,115,116,114,105,110,103,115,32,102,111,114,32,111,98,106,101,99,116,32,107,101,121,115,46,32,13,10,69,120,97,109,112,108,101,115,58,32,92,48,92,42,92,48,44,32,114,101,115,112,111,110,115,101,68,97,116,97,92,116,114,97,110,115,108,97,116,101,100,84,101,120,116,44,32,109,97,116,99,104,101,115,92,42,35,49,48,92,116,114,97,110,115,108,97,116,105,111,110],"value":"In Json Path use \\ to separate levels, numbers for array indexes, * for all array items, *#10 for all items joined by newline, strings for object keys. \r\nExamples: \\0\\*\\0, responseData\\translatedText, matches\\*#10\\translation"},
 {"hash":147373300,"name":"tformconfigtrayslator.grouprequest.caption","sourcebytes":[82,101,113,117,101,115,116],"value":"Request"},
 {"hash":87863124,"name":"tformconfigtrayslator.labelmethod.caption","sourcebytes":[77,101,116,104,111,100],"value":"Method"},
 {"hash":19364,"name":"tformconfigtrayslator.combomethod.text","sourcebytes":[71,69,84],"value":"GET"},
@@ -16,5 +18,5 @@
 {"hash":82521923,"name":"tformconfigtrayslator.grouplanguages.caption","sourcebytes":[76,97,110,103,117,97,103,101,115],"value":"Languages"},
 {"hash":134607726,"name":"tformconfigtrayslator.labelparemeters1.caption","sourcebytes":[83,117,112,112,111,114,116,101,100,32,108,97,110,103,117,97,103,101,115,32,101,46,103,46,32,101,110,61,101,110,45,85,83,44,32,101,110,32,45,32,105,110,116,101,114,110,97,108,44,32,101,110,45,85,83,32,45,32,115,101,114,118,105,99,101,32,99,111,100,101,46],"value":"Supported languages e.g. en=en-US, en - internal, en-US - service code."},
 {"hash":59383006,"name":"tformconfigtrayslator.sbcopyconfig.hint","sourcebytes":[67,111,112,121,32,99,111,110,102,105,103,117,114,97,116,105,111,110],"value":"Copy configuration"},
-{"hash":366789,"name":"tformconfigtrayslator.btnsave.caption","sourcebytes":[83,97,118,101],"value":"Save"}
+{"hash":366789,"name":"tformconfigtrayslator.asave.caption","sourcebytes":[83,97,118,101],"value":"Save"}
 ]}
