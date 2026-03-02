@@ -27,7 +27,7 @@ function CreateTrayIconLang(const ALang1: string; const ALang2: string = ''; ABa
 
 procedure SetComboBoxByCode(ComboBox: TComboBox; const Code: string);
 
-function TransJsonByPath(const JsonStr, JsonPointer: string): string;
+function ParseJsonByPointer(const JsonStr, JsonPointer: string): string;
 
 implementation
 
@@ -118,7 +118,7 @@ begin
   ComboBox.ItemIndex := -1;
 end;
 
-function TransJsonByPath(const JsonStr, JsonPointer: string): string;
+function ParseJsonByPointer(const JsonStr, JsonPointer: string): string;
 var
   Data: TJSONData;
 
@@ -160,6 +160,10 @@ var
 
     Key := PathParts[Level];
 
+    // Decode JSON Pointer escape sequences
+    Key := StringReplace(Key, '~1', '/', [rfReplaceAll]);
+    Key := StringReplace(Key, '~0', '~', [rfReplaceAll]);
+
     case Data.JSONType of
       jtObject:
       begin
@@ -199,7 +203,6 @@ var
 
 var
   PathParts: TStringList;
-  i: integer;
 begin
   Result := string.Empty;
   if Trim(JsonStr) = string.Empty then Exit;
@@ -210,10 +213,10 @@ begin
     PathParts.StrictDelimiter := True;
     PathParts.DelimitedText := JsonPointer;
 
-    // Remove empty parts (leading/trailing slashes)
-    for i := PathParts.Count - 1 downto 0 do
-      if Trim(PathParts[i]) = string.Empty then
-        PathParts.Delete(i);
+    // Keep empty parts (they are valid keys in Json Pointer)
+    // Only remove a single leading empty segment if JsonPointer starts with '/'
+    if (PathParts.Count > 0) and (PathParts[0] = '') then
+      PathParts.Delete(0);
 
     Data := fpjson.GetJSON(JsonStr);
     try

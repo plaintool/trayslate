@@ -243,7 +243,7 @@ begin
 
   try
     // Use universal path parser. JsonKeys is a field, e.g. '\responseData\translatedText' or '\matches\0\translation'
-    Result := TransJsonByPath(jsonStr, JsonPointer);
+    Result := ParseJsonByPointer(jsonStr, JsonPointer);
     if (Result <> string.Empty) then
       Result := UnescapeUnicode(Result)
     else
