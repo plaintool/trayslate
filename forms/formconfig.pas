@@ -22,7 +22,7 @@ uses
   ExtCtrls,
   FileUtil,
   Buttons,
-  LCLType, ActnList;
+  LCLType, ActnList, ComCtrls;
 
 type
 
@@ -42,12 +42,14 @@ type
     EditRegexp: TEdit;
     EditServiceName: TEdit;
     GroupBoxService: TGroupBox;
+    GroupHeaders: TGroupBox;
     GroupRequest: TGroupBox;
     GroupResponse: TGroupBox;
     GroupLanguages: TGroupBox;
     LabelMethod: TLabel;
-    LabelParemeters1: TLabel;
+    LabelLanguages: TLabel;
     LabelParemeters2: TLabel;
+    LabelHeaders: TLabel;
     LabelPostData: TLabel;
     LabelJsonPointer: TLabel;
     LabelUserAgent: TLabel;
@@ -58,12 +60,18 @@ type
     LabelRegexp: TLabel;
     LabelServiceName: TLabel;
     MemoLanguages: TMemo;
+    MemoHeaders: TMemo;
     MemoURL: TMemo;
     MemoPostData: TMemo;
+    Pages: TPageControl;
     PanelTop: TPanel;
-    PanelConfig: TPanel;
     SbCopyConfig: TSpeedButton;
     ScrollBoxConfig: TScrollBox;
+    PageService: TTabSheet;
+    PageHeaders: TTabSheet;
+    PageLanguages: TTabSheet;
+    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
+    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormResize(Sender: TObject);
@@ -79,9 +87,9 @@ type
   private
     FLastConfig: integer;
   public
+    function TestChanges: boolean;
     procedure UpdateConfigList;
     procedure UpdateConfig;
-    function TestChanges: boolean;
     procedure SaveConfig;
   end;
 
@@ -94,11 +102,15 @@ resourcestring
 
 implementation
 
-uses mainform, translate, settings, formattool;
+uses mainform, translate, settings, formattool, langtool;
 
   {$R *.lfm}
 
   { TformConfigTrayslator }
+
+procedure TformConfigTrayslator.FormCreate(Sender: TObject);
+begin
+end;
 
 procedure TformConfigTrayslator.FormShow(Sender: TObject);
 begin
@@ -114,6 +126,11 @@ end;
 procedure TformConfigTrayslator.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   CloseAction := caFree;
+end;
+
+procedure TformConfigTrayslator.FormCloseQuery(Sender: TObject; var CanClose: boolean);
+begin
+  CanClose := TestChanges;
 end;
 
 procedure TformConfigTrayslator.FormResize(Sender: TObject);
@@ -163,13 +180,12 @@ end;
 
 procedure TformConfigTrayslator.ValueChange(Sender: TObject);
 begin
-  BtnSave.Enabled := True;
+  aSave.Enabled := True;
   Caption := '*Config Editor';
 end;
 
 procedure TformConfigTrayslator.BtnCloseClick(Sender: TObject);
 begin
-  if not TestChanges then exit;
   Close;
 end;
 
@@ -219,6 +235,27 @@ begin
   UpdateConfig;
 end;
 
+function TformConfigTrayslator.TestChanges: boolean;
+var
+  res: TModalResult;
+begin
+  Result := True;
+  if (aSave.Enabled) then
+  begin
+    res := MessageDlg(rneedsave, mtConfirmation, [mbYes, mbNo, mbCancel], 0);
+    if res = mrYes then
+    begin
+      SaveConfig;
+      Exit;
+    end
+    else
+    if res = mrCancel then
+      Result := False
+    else if res = mrNo then
+      UpdateConfig;
+  end;
+end;
+
 procedure TformConfigTrayslator.UpdateConfigList;
 begin
   ComboConfig.Items.Assign(formTrayslator.ConfigFiles);
@@ -246,30 +283,10 @@ begin
     EditRegexp.Text := Regexp;
     EditJsonPointer.Text := JsonPointer;
     MemoLanguages.Lines.Assign(Languages);
+    MemoHeaders.Lines.Assign(Headers);
   end;
-  BtnSave.Enabled := False;
+  aSave.Enabled := False;
   Caption := 'Config Editor';
-end;
-
-function TformConfigTrayslator.TestChanges: boolean;
-var
-  res: TModalResult;
-begin
-  Result := True;
-  if (BtnSave.Enabled) then
-  begin
-    res := MessageDlg(rneedsave, mtConfirmation, [mbYes, mbNo, mbCancel], 0);
-    if res = mrYes then
-    begin
-      SaveConfig;
-      Exit;
-    end
-    else
-    if res = mrCancel then
-      Result := False
-    else if res = mrNo then
-      UpdateConfig;
-  end;
 end;
 
 procedure TformConfigTrayslator.SaveConfig;
@@ -294,11 +311,13 @@ begin
       Regexp := EditRegexp.Text;
       JsonPointer := EditJsonPointer.Text;
       Languages.Assign(MemoLanguages.Lines);
+
+      Headers.Assign(HeadersFromMemo(MemoHeaders));
     end;
     SaveIniSettings(formTrayslator.Trans, formTrayslator.ConfigFile);
     formTrayslator.LoadConfig;
   finally
-    BtnSave.Enabled := False;
+    aSave.Enabled := False;
     Screen.Cursor := crDefault;
     Caption := 'Config Editor';
   end;

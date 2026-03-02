@@ -41,6 +41,7 @@ type
     FLangSource: string;
     FLangTarget: string;
     FLanguages: TStringList;
+    FHeaders: TStringList;
   public
     constructor Create;
     destructor Destroy; override;
@@ -66,6 +67,7 @@ type
     property JsonPointer: string read FJsonPointer write FJsonPointer;
     property PostData: string read FPostData write FPostData;
     property Languages: TStringList read FLanguages write FLanguages;
+    property Headers: TStringList read FHeaders write FHeaders;
   end;
 
   { TTranslateThread }
@@ -103,11 +105,15 @@ begin
   FLangSource := Language;
   FRegexp := '\[\["(.*?)"';
   FLanguages := TStringList.Create;
+  FLanguages.TrailingLineBreak := False;
+  FHeaders := TStringList.Create;
+  FHeaders.TrailingLineBreak := False;
 end;
 
 destructor TTranslate.Destroy;
 begin
   FLanguages.Free;
+  FHeaders.Free;
   inherited Destroy;
 end;
 
@@ -116,14 +122,18 @@ var
   http: TFPHTTPClient;
   response: TStringStream;
   tarUrl: string;
+  i: integer;
 begin
   Result := string.Empty;
   http := TFPHTTPClient.Create(nil);
   response := TStringStream.Create(string.Empty);
   try
     tarUrl := FUrl;
-    http.AddHeader('User-Agent', FUserAgent);
     http.AllowRedirect := True;
+    http.AddHeader('User-Agent', FUserAgent);
+    if Assigned(Headers) then
+      for i := 0 to Headers.Count - 1 do
+        http.AddHeader(Headers.Names[i], Headers.ValueFromIndex[i]);
 
     if FTextToTranslate <> string.Empty then
       tarUrl := StringReplace(tarUrl, '{text}', EncodeURLElement(FTextToTranslate), [rfReplaceAll])
@@ -153,6 +163,7 @@ var
   http: TFPHTTPClient;
   response, postStream: TStringStream;
   Data: string;
+  i: integer;
 begin
   Result := string.Empty;
   http := TFPHTTPClient.Create(nil);
@@ -177,9 +188,12 @@ begin
 
     postStream := TStringStream.Create(Data, TEncoding.UTF8);
     try
+      http.AllowRedirect := True;
       http.AddHeader('User-Agent', FUserAgent);
       http.AddHeader('Content-Type', FContentType);
-      http.AllowRedirect := True;
+      if Assigned(Headers) then
+        for i := 0 to Headers.Count - 1 do
+          http.AddHeader(Headers.Names[i], Headers.ValueFromIndex[i]);
 
       http.RequestBody := postStream;
       http.Post(FUrl, response);

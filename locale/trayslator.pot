@@ -84,7 +84,13 @@ msgctxt "tformconfigtrayslator.groupboxservice.caption"
 msgid "Service"
 msgstr ""
 
+#: tformconfigtrayslator.groupheaders.caption
+msgctxt "tformconfigtrayslator.groupheaders.caption"
+msgid "Headers"
+msgstr ""
+
 #: tformconfigtrayslator.grouplanguages.caption
+msgctxt "tformconfigtrayslator.grouplanguages.caption"
 msgid "Languages"
 msgstr ""
 
@@ -101,8 +107,17 @@ msgctxt "tformconfigtrayslator.labelcontenttype.caption"
 msgid "Content Type"
 msgstr ""
 
+#: tformconfigtrayslator.labelheaders.caption
+msgid "Additional request headers in key=value format, key: value is also supported"
+msgstr ""
+
 #: tformconfigtrayslator.labeljsonpointer.caption
 msgid "Json Pointer"
+msgstr ""
+
+#: tformconfigtrayslator.labellanguages.caption
+msgctxt "tformconfigtrayslator.labellanguages.caption"
+msgid "Supported languages e.g. en=en-US, en - internal, en-US - service code."
 msgstr ""
 
 #: tformconfigtrayslator.labelmethod.caption
@@ -115,14 +130,10 @@ msgctxt "tformconfigtrayslator.labelparemeters.caption"
 msgid "Use parameters  {text} – input text, {source} – source language, {target} – target language"
 msgstr ""
 
-#: tformconfigtrayslator.labelparemeters1.caption
-msgid "Supported languages e.g. en=en-US, en - internal, en-US - service code."
-msgstr ""
-
 #: tformconfigtrayslator.labelparemeters2.caption
 msgctxt "tformconfigtrayslator.labelparemeters2.caption"
 msgid ""
-"In Json Pointer use / to separate levels, numbers for array indexes, * for all array items, *#10 for all items joined by newline, strings for object keys. \n"
+"In Json Pointer use / to separate levels, strings for object keys, numbers for array indexes, * for all array items, *#10 for all items joined by newline.\n"
 "Examples: /0/*/0, responseData/translatedText, matches/*#10/translation"
 msgstr ""
 
@@ -152,6 +163,21 @@ msgstr ""
 #: tformconfigtrayslator.labeluseragent.caption
 msgctxt "tformconfigtrayslator.labeluseragent.caption"
 msgid "User Agent"
+msgstr ""
+
+#: tformconfigtrayslator.pageheaders.caption
+msgctxt "tformconfigtrayslator.pageheaders.caption"
+msgid "Headers"
+msgstr ""
+
+#: tformconfigtrayslator.pagelanguages.caption
+msgctxt "tformconfigtrayslator.pagelanguages.caption"
+msgid "Languages"
+msgstr ""
+
+#: tformconfigtrayslator.pageservice.caption
+msgctxt "tformconfigtrayslator.pageservice.caption"
+msgid "Service"
 msgstr ""
 
 #: tformconfigtrayslator.sbcopyconfig.hint

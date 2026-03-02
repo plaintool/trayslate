@@ -300,6 +300,14 @@ begin
     if Trim(Translate.JsonPointer) <> string.Empty then
       Ini.WriteString('Response', 'JsonPointer', Translate.JsonPointer);
 
+    // Save headers
+    Ini.EraseSection('Headers'); // Clear previous entries
+    if Assigned(Translate.Headers) then
+      for i := 0 to Translate.Headers.Count - 1 do
+        Ini.WriteString('Headers',
+          Translate.Headers.Names[i],
+          Translate.Headers.ValueFromIndex[i]);
+
     // Save language mappings (code=apiCode)
     Ini.EraseSection('Languages'); // Clear previous entries
     if Assigned(Translate.Languages) then
@@ -307,7 +315,6 @@ begin
         Ini.WriteString('Languages',
           Translate.Languages.Names[i],
           Translate.Languages.ValueFromIndex[i]);
-
   finally
     Ini.Free;
   end;
@@ -348,6 +355,7 @@ begin
     Translate.JsonPointer := Ini.ReadString('Response', 'JsonPointer', string.Empty);
 
     Ini.ReadSectionValues('Languages', Translate.Languages);
+    Ini.ReadSectionValues('Headers', Translate.Headers);
   finally
     Ini.Free;
   end;

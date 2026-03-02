@@ -27,6 +27,8 @@ function CreateTrayIconLang(const ALang1: string; const ALang2: string = ''; ABa
 
 procedure SetComboBoxByCode(ComboBox: TComboBox; const Code: string);
 
+function HeadersFromMemo(AMemo: TMemo): TStringList;
+
 function ParseJsonByPointer(const JsonStr, JsonPointer: string): string;
 
 implementation
@@ -116,6 +118,40 @@ begin
   end;
   // If code not found, clear selection
   ComboBox.ItemIndex := -1;
+end;
+
+function HeadersFromMemo(AMemo: TMemo): TStringList;
+var
+  i, p: Integer;
+  line, Key, Value: string;
+begin
+  Result := TStringList.Create;
+
+  if not Assigned(AMemo) then
+    Exit;
+
+  for i := 0 to AMemo.Lines.Count - 1 do
+  begin
+    line := Trim(AMemo.Lines[i]);
+    if line = string.Empty then
+      Continue;
+
+    // Try ':' first
+    p := Pos(':', line);
+
+    // If not found, try '='
+    if p = 0 then
+      p := Pos('=', line);
+
+    if p > 0 then
+    begin
+      Key := Trim(Copy(line, 1, p - 1));
+      Value := Trim(Copy(line, p + 1, MaxInt));
+
+      if Key <> string.Empty then
+        Result.Values[Key] := Value; // store as Key=Value
+    end;
+  end;
 end;
 
 function ParseJsonByPointer(const JsonStr, JsonPointer: string): string;

@@ -1,342 +1,30 @@
 object formConfigTrayslator: TformConfigTrayslator
   Left = 318
-  Height = 545
+  Height = 622
   Top = 250
   Width = 567
   Caption = 'Config Editor'
-  ClientHeight = 545
+  ClientHeight = 622
   ClientWidth = 567
   ShowInTaskBar = stAlways
   LCLVersion = '4.4.0.0'
   OnChangeBounds = FormChangeBounds
   OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnResize = FormResize
   OnShow = FormShow
   object BtnClose: TButton
     Left = 487
     Height = 25
-    Top = 512
+    Top = 589
     Width = 75
     Anchors = [akRight, akBottom]
     Cancel = True
     Caption = 'Close'
     TabOrder = 0
     OnClick = BtnCloseClick
-  end
-  object PanelConfig: TPanel
-    Left = 5
-    Height = 464
-    Top = 41
-    Width = 557
-    Align = alClient
-    BorderSpacing.Bottom = 35
-    BorderSpacing.Around = 5
-    ClientHeight = 464
-    ClientWidth = 557
-    Color = clWindow
-    ParentBackground = False
-    ParentColor = False
-    TabOrder = 1
-    object ScrollBoxConfig: TScrollBox
-      Left = 1
-      Height = 462
-      Top = 1
-      Width = 555
-      HorzScrollBar.Page = 1
-      HorzScrollBar.Visible = False
-      VertScrollBar.Increment = 46
-      VertScrollBar.Page = 462
-      VertScrollBar.Smooth = True
-      VertScrollBar.Tracking = True
-      Align = alClient
-      BorderStyle = bsNone
-      ClientHeight = 462
-      ClientWidth = 538
-      ParentBackground = False
-      TabOrder = 0
-      object GroupResponse: TGroupBox
-        Left = 5
-        Height = 187
-        Top = 438
-        Width = 528
-        Align = alTop
-        BorderSpacing.Around = 5
-        Caption = 'Response'
-        ClientHeight = 167
-        ClientWidth = 524
-        ParentBackground = False
-        TabOrder = 0
-        object LabelResponseParser: TLabel
-          Left = 8
-          Height = 23
-          Top = 8
-          Width = 104
-          Alignment = taRightJustify
-          AutoSize = False
-          Caption = 'Parse Type'
-        end
-        object ComboResponseParser: TComboBox
-          Left = 120
-          Height = 23
-          Top = 7
-          Width = 384
-          Anchors = [akTop, akLeft, akRight]
-          ItemHeight = 15
-          ItemIndex = 0
-          Items.Strings = (
-            'JSON'
-            'REGEXP'
-          )
-          Style = csDropDownList
-          TabOrder = 0
-          Text = 'JSON'
-          OnChange = ValueChange
-        end
-        object LabelRegexp: TLabel
-          Left = 8
-          Height = 23
-          Top = 72
-          Width = 104
-          Alignment = taRightJustify
-          AutoSize = False
-          Caption = 'RegExp'
-        end
-        object EditRegexp: TEdit
-          Left = 120
-          Height = 23
-          Top = 72
-          Width = 384
-          Anchors = [akTop, akLeft, akRight]
-          TabOrder = 1
-          OnChange = ValueChange
-        end
-        object LabelJsonPointer: TLabel
-          Left = 8
-          Height = 23
-          Top = 40
-          Width = 104
-          Alignment = taRightJustify
-          AutoSize = False
-          Caption = 'Json Pointer'
-        end
-        object EditJsonPointer: TEdit
-          Left = 120
-          Height = 23
-          Top = 40
-          Width = 384
-          Anchors = [akTop, akLeft, akRight]
-          TabOrder = 2
-          OnChange = ValueChange
-        end
-        object LabelParemeters2: TLabel
-          Left = 8
-          Height = 45
-          Top = 104
-          Width = 496
-          Anchors = [akTop, akLeft, akRight]
-          Caption = 'In Json Pointer use / to separate levels, numbers for array indexes, * for all array items, *#10 for all items joined by newline, strings for object keys. '#13#10'Examples: /0/*/0, responseData/translatedText, matches/*#10/translation'
-          Color = clInfoBk
-          ParentColor = False
-          Transparent = False
-          WordWrap = True
-        end
-      end
-      object GroupRequest: TGroupBox
-        Left = 5
-        Height = 363
-        Top = 70
-        Width = 528
-        Align = alTop
-        BorderSpacing.Around = 5
-        Caption = 'Request'
-        ClientHeight = 343
-        ClientWidth = 524
-        ParentBackground = False
-        TabOrder = 1
-        object LabelMethod: TLabel
-          Left = 8
-          Height = 23
-          Top = 8
-          Width = 104
-          Alignment = taRightJustify
-          AutoSize = False
-          Caption = 'Method'
-        end
-        object ComboMethod: TComboBox
-          Left = 120
-          Height = 23
-          Top = 7
-          Width = 384
-          Anchors = [akTop, akLeft, akRight]
-          ItemHeight = 15
-          ItemIndex = 0
-          Items.Strings = (
-            'GET'
-            'POST'
-          )
-          Style = csDropDownList
-          TabOrder = 0
-          Text = 'GET'
-          OnChange = ValueChange
-        end
-        object EditUserAgent: TEdit
-          Left = 120
-          Height = 23
-          Top = 40
-          Width = 384
-          Anchors = [akTop, akLeft, akRight]
-          TabOrder = 1
-          OnChange = ValueChange
-        end
-        object LabelUserAgent: TLabel
-          Left = 8
-          Height = 23
-          Top = 40
-          Width = 104
-          Alignment = taRightJustify
-          AutoSize = False
-          Caption = 'User Agent'
-        end
-        object LabelContentType: TLabel
-          Left = 8
-          Height = 23
-          Top = 144
-          Width = 104
-          Alignment = taRightJustify
-          AutoSize = False
-          Caption = 'Content Type'
-        end
-        object EditContentType: TEdit
-          Left = 120
-          Height = 23
-          Top = 144
-          Width = 384
-          Anchors = [akTop, akLeft, akRight]
-          TabOrder = 2
-          OnChange = ValueChange
-        end
-        object LabelUrl: TLabel
-          Left = 8
-          Height = 23
-          Top = 72
-          Width = 104
-          Alignment = taRightJustify
-          AutoSize = False
-          Caption = 'URL'
-        end
-        object MemoURL: TMemo
-          Left = 120
-          Height = 64
-          Top = 72
-          Width = 384
-          Anchors = [akTop, akLeft, akRight]
-          ScrollBars = ssVertical
-          TabOrder = 3
-          WantReturns = False
-          OnChange = ValueChange
-        end
-        object LabelParemeters: TLabel
-          Left = 5
-          Height = 15
-          Top = 320
-          Width = 499
-          Anchors = [akTop, akLeft, akRight]
-          Caption = 'Use parameters  {text} – input text, {source} – source language, {target} – target language'
-          Color = clInfoBk
-          ParentColor = False
-          Transparent = False
-        end
-        object LabelPostData: TLabel
-          Left = 8
-          Height = 23
-          Top = 176
-          Width = 104
-          Alignment = taRightJustify
-          AutoSize = False
-          Caption = 'Post Data'
-        end
-        object MemoPostData: TMemo
-          Left = 120
-          Height = 136
-          Top = 176
-          Width = 384
-          Anchors = [akTop, akLeft, akRight]
-          ScrollBars = ssVertical
-          TabOrder = 4
-          OnChange = ValueChange
-          OnKeyDown = MemoKeyDown
-        end
-      end
-      object GroupLanguages: TGroupBox
-        Left = 5
-        Height = 323
-        Top = 630
-        Width = 528
-        Align = alTop
-        BorderSpacing.Around = 5
-        Caption = 'Languages'
-        ClientHeight = 303
-        ClientWidth = 524
-        ParentBackground = False
-        TabOrder = 2
-        object MemoLanguages: TMemo
-          Left = 5
-          Height = 263
-          Top = 35
-          Width = 499
-          Align = alClient
-          BorderSpacing.Top = 30
-          BorderSpacing.Right = 15
-          BorderSpacing.Around = 5
-          ScrollBars = ssVertical
-          TabOrder = 0
-          OnChange = ValueChange
-          OnKeyDown = MemoKeyDown
-        end
-        object LabelParemeters1: TLabel
-          Left = 8
-          Height = 15
-          Top = 8
-          Width = 496
-          Anchors = [akTop, akLeft, akRight]
-          Caption = 'Supported languages e.g. en=en-US, en - internal, en-US - service code.'
-          Color = clInfoBk
-          ParentColor = False
-          Transparent = False
-        end
-      end
-      object GroupBoxService: TGroupBox
-        Left = 0
-        Height = 65
-        Top = 0
-        Width = 538
-        Align = alTop
-        Caption = 'Service'
-        ClientHeight = 45
-        ClientWidth = 534
-        ParentBackground = False
-        TabOrder = 3
-        object LabelServiceName: TLabel
-          Left = 13
-          Height = 23
-          Top = 8
-          Width = 104
-          Alignment = taRightJustify
-          AutoSize = False
-          Caption = 'Name'
-        end
-        object EditServiceName: TEdit
-          Left = 125
-          Height = 23
-          Top = 8
-          Width = 384
-          Anchors = [akTop, akLeft, akRight]
-          TabOrder = 0
-          OnChange = ValueChange
-        end
-      end
-    end
   end
   object PanelTop: TPanel
     Left = 0
@@ -349,7 +37,7 @@ object formConfigTrayslator: TformConfigTrayslator
     ClientHeight = 36
     ClientWidth = 567
     ParentBackground = False
-    TabOrder = 2
+    TabOrder = 1
     object ComboConfig: TComboBox
       Left = 5
       Height = 23
@@ -409,15 +97,380 @@ object formConfigTrayslator: TformConfigTrayslator
   object BtnSave: TButton
     Left = 408
     Height = 25
-    Top = 512
+    Top = 589
     Width = 75
     Action = aSave
     Anchors = [akRight, akBottom]
+    TabOrder = 2
+  end
+  object Pages: TPageControl
+    Left = 5
+    Height = 541
+    Top = 41
+    Width = 557
+    ActivePage = PageService
+    Align = alClient
+    BorderSpacing.Bottom = 35
+    BorderSpacing.Around = 5
+    TabIndex = 0
     TabOrder = 3
+    object PageService: TTabSheet
+      Caption = 'Service'
+      ClientHeight = 513
+      ClientWidth = 549
+      object ScrollBoxConfig: TScrollBox
+        Left = 0
+        Height = 513
+        Top = 0
+        Width = 549
+        HorzScrollBar.Page = 1
+        HorzScrollBar.Visible = False
+        VertScrollBar.Increment = 51
+        VertScrollBar.Page = 513
+        VertScrollBar.Smooth = True
+        VertScrollBar.Tracking = True
+        Align = alClient
+        BorderStyle = bsNone
+        ClientHeight = 513
+        ClientWidth = 532
+        ParentBackground = False
+        TabOrder = 0
+        object GroupResponse: TGroupBox
+          Left = 5
+          Height = 187
+          Top = 419
+          Width = 522
+          Align = alTop
+          BorderSpacing.Around = 5
+          Caption = 'Response'
+          ClientHeight = 167
+          ClientWidth = 518
+          ParentBackground = False
+          TabOrder = 0
+          object LabelResponseParser: TLabel
+            Left = 8
+            Height = 23
+            Top = 8
+            Width = 104
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Parse Type'
+          end
+          object ComboResponseParser: TComboBox
+            Left = 120
+            Height = 23
+            Top = 7
+            Width = 378
+            Anchors = [akTop, akLeft, akRight]
+            ItemHeight = 15
+            ItemIndex = 0
+            Items.Strings = (
+              'JSON'
+              'REGEXP'
+            )
+            Style = csDropDownList
+            TabOrder = 0
+            Text = 'JSON'
+            OnChange = ValueChange
+          end
+          object LabelRegexp: TLabel
+            Left = 8
+            Height = 23
+            Top = 72
+            Width = 104
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'RegExp'
+          end
+          object EditRegexp: TEdit
+            Left = 120
+            Height = 23
+            Top = 72
+            Width = 378
+            Anchors = [akTop, akLeft, akRight]
+            TabOrder = 1
+            OnChange = ValueChange
+          end
+          object LabelJsonPointer: TLabel
+            Left = 8
+            Height = 23
+            Top = 40
+            Width = 104
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Json Pointer'
+          end
+          object EditJsonPointer: TEdit
+            Left = 120
+            Height = 23
+            Top = 40
+            Width = 378
+            Anchors = [akTop, akLeft, akRight]
+            TabOrder = 2
+            OnChange = ValueChange
+          end
+          object LabelParemeters2: TLabel
+            Left = 8
+            Height = 45
+            Top = 104
+            Width = 490
+            Anchors = [akTop, akLeft, akRight]
+            Caption = 'In Json Pointer use / to separate levels, strings for object keys, numbers for array indexes, * for all array items, *#10 for all items joined by newline.'#13#10'Examples: /0/*/0, responseData/translatedText, matches/*#10/translation'
+            Color = clInfoBk
+            ParentColor = False
+            Transparent = False
+            WordWrap = True
+          end
+        end
+        object GroupRequest: TGroupBox
+          Left = 5
+          Height = 355
+          Top = 59
+          Width = 522
+          Align = alTop
+          BorderSpacing.Around = 5
+          Caption = 'Request'
+          ClientHeight = 335
+          ClientWidth = 518
+          ParentBackground = False
+          TabOrder = 1
+          object LabelMethod: TLabel
+            Left = 8
+            Height = 23
+            Top = 1
+            Width = 104
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Method'
+          end
+          object ComboMethod: TComboBox
+            Left = 120
+            Height = 23
+            Top = 0
+            Width = 378
+            Anchors = [akTop, akLeft, akRight]
+            ItemHeight = 15
+            ItemIndex = 0
+            Items.Strings = (
+              'GET'
+              'POST'
+            )
+            Style = csDropDownList
+            TabOrder = 0
+            Text = 'GET'
+            OnChange = ValueChange
+          end
+          object EditUserAgent: TEdit
+            Left = 120
+            Height = 23
+            Top = 33
+            Width = 378
+            Anchors = [akTop, akLeft, akRight]
+            TabOrder = 1
+            OnChange = ValueChange
+          end
+          object LabelUserAgent: TLabel
+            Left = 8
+            Height = 23
+            Top = 33
+            Width = 104
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'User Agent'
+          end
+          object LabelContentType: TLabel
+            Left = 8
+            Height = 23
+            Top = 137
+            Width = 104
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Content Type'
+          end
+          object EditContentType: TEdit
+            Left = 120
+            Height = 23
+            Top = 137
+            Width = 378
+            Anchors = [akTop, akLeft, akRight]
+            TabOrder = 2
+            OnChange = ValueChange
+          end
+          object LabelUrl: TLabel
+            Left = 8
+            Height = 23
+            Top = 65
+            Width = 104
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'URL'
+          end
+          object MemoURL: TMemo
+            Left = 120
+            Height = 64
+            Top = 65
+            Width = 378
+            Anchors = [akTop, akLeft, akRight]
+            ScrollBars = ssVertical
+            TabOrder = 3
+            WantReturns = False
+            OnChange = ValueChange
+          end
+          object LabelParemeters: TLabel
+            Left = 5
+            Height = 15
+            Top = 312
+            Width = 493
+            Anchors = [akTop, akLeft, akRight]
+            Caption = 'Use parameters  {text} – input text, {source} – source language, {target} – target language'
+            Color = clInfoBk
+            ParentColor = False
+            Transparent = False
+          end
+          object LabelPostData: TLabel
+            Left = 8
+            Height = 23
+            Top = 169
+            Width = 104
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Post Data'
+          end
+          object MemoPostData: TMemo
+            Left = 120
+            Height = 136
+            Top = 169
+            Width = 378
+            Anchors = [akTop, akLeft, akRight]
+            ScrollBars = ssVertical
+            TabOrder = 4
+            OnChange = ValueChange
+            OnKeyDown = MemoKeyDown
+          end
+        end
+        object GroupBoxService: TGroupBox
+          Left = 5
+          Height = 49
+          Top = 5
+          Width = 522
+          Align = alTop
+          BorderSpacing.Around = 5
+          Caption = 'Service'
+          ClientHeight = 29
+          ClientWidth = 518
+          ParentBackground = False
+          TabOrder = 2
+          object LabelServiceName: TLabel
+            Left = 8
+            Height = 23
+            Top = 0
+            Width = 104
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Name'
+          end
+          object EditServiceName: TEdit
+            Left = 120
+            Height = 23
+            Top = 0
+            Width = 378
+            Anchors = [akTop, akLeft, akRight]
+            TabOrder = 0
+            OnChange = ValueChange
+          end
+        end
+      end
+    end
+    object PageHeaders: TTabSheet
+      Caption = 'Headers'
+      ClientHeight = 513
+      ClientWidth = 549
+      object GroupHeaders: TGroupBox
+        Left = 5
+        Height = 503
+        Top = 5
+        Width = 539
+        Align = alClient
+        BorderSpacing.Around = 5
+        Caption = 'Headers'
+        ClientHeight = 483
+        ClientWidth = 535
+        ParentBackground = False
+        TabOrder = 0
+        object MemoHeaders: TMemo
+          Left = 5
+          Height = 443
+          Top = 35
+          Width = 510
+          Align = alClient
+          BorderSpacing.Top = 30
+          BorderSpacing.Right = 15
+          BorderSpacing.Around = 5
+          ScrollBars = ssVertical
+          TabOrder = 0
+          OnChange = ValueChange
+          OnKeyDown = MemoKeyDown
+        end
+        object LabelHeaders: TLabel
+          Left = 8
+          Height = 15
+          Top = 8
+          Width = 507
+          Anchors = [akTop, akLeft, akRight]
+          Caption = 'Additional request headers in key=value format, key: value is also supported'
+          Color = clInfoBk
+          ParentColor = False
+          Transparent = False
+        end
+      end
+    end
+    object PageLanguages: TTabSheet
+      Caption = 'Languages'
+      ClientHeight = 513
+      ClientWidth = 549
+      object GroupLanguages: TGroupBox
+        Left = 5
+        Height = 503
+        Top = 5
+        Width = 539
+        Align = alClient
+        BorderSpacing.Around = 5
+        Caption = 'Languages'
+        ClientHeight = 483
+        ClientWidth = 535
+        ParentBackground = False
+        TabOrder = 0
+        object MemoLanguages: TMemo
+          Left = 5
+          Height = 443
+          Top = 35
+          Width = 510
+          Align = alClient
+          BorderSpacing.Top = 30
+          BorderSpacing.Right = 15
+          BorderSpacing.Around = 5
+          ScrollBars = ssVertical
+          TabOrder = 0
+          OnChange = ValueChange
+          OnKeyDown = MemoKeyDown
+        end
+        object LabelLanguages: TLabel
+          Left = 8
+          Height = 15
+          Top = 8
+          Width = 507
+          Anchors = [akTop, akLeft, akRight]
+          Caption = 'Supported languages e.g. en=en-US, en - internal, en-US - service code.'
+          Color = clInfoBk
+          ParentColor = False
+          Transparent = False
+        end
+      end
+    end
   end
   object ActionList: TActionList
-    Left = 456
-    Top = 32
+    Left = 464
+    Top = 40
     object aSave: TAction
       Caption = 'Save'
       ShortCut = 16467
