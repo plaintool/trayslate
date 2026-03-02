@@ -267,9 +267,17 @@ begin
     else
       Ini.WriteString('Request', 'Method', 'GET');
 
+    Ini.DeleteKey('Request', 'UserAgent');
+    if Trim(Translate.UserAgent) <> string.Empty then
+      Ini.WriteString('Request', 'UserAgent', Translate.UserAgent);
+
     Ini.DeleteKey('Request', 'Url');
     if Trim(Translate.Url) <> string.Empty then
       Ini.WriteString('Request', 'Url', Translate.Url);
+
+    Ini.DeleteKey('Request', 'ContentType');
+    if Trim(Translate.ContentType) <> string.Empty then
+      Ini.WriteString('Request', 'ContentType', Translate.ContentType);
 
     // Replace line breaks with \r\n for single-line storage
     Ini.DeleteKey('Request', 'PostData');
@@ -279,13 +287,9 @@ begin
       Ini.WriteString('Request', 'PostData', PostDataEscaped);
     end;
 
-    Ini.DeleteKey('Request', 'UserAgent');
-    if Trim(Translate.UserAgent) <> string.Empty then
-      Ini.WriteString('Request', 'UserAgent', Translate.UserAgent);
-
-    Ini.DeleteKey('Request', 'ContentType');
-    if Trim(Translate.ContentType) <> string.Empty then
-      Ini.WriteString('Request', 'ContentType', Translate.ContentType);
+    Ini.DeleteKey('Request', 'Accept');
+    if Trim(Translate.Accept) <> string.Empty then
+      Ini.WriteString('Request', 'Accept', Translate.Accept);
 
     if Translate.ResponseParser = rpJson then
       Ini.WriteString('Response', 'ParserType', 'Json')
@@ -336,14 +340,17 @@ begin
     else
       Translate.WebMethod := wmGet;
 
+    Translate.UserAgent := Ini.ReadString('Request', 'UserAgent', string.Empty);
+
     Translate.Url := Ini.ReadString('Request', 'Url', string.Empty);
+
+    Translate.ContentType := Ini.ReadString('Request', 'ContentType', string.Empty);
 
     // Restore line breaks from \r\n
     PostDataEscaped := Ini.ReadString('Request', 'PostData', string.Empty);
     Translate.PostData := StringReplace(PostDataEscaped, '\r\n', LineEnding, [rfReplaceAll]);
 
-    Translate.UserAgent := Ini.ReadString('Request', 'UserAgent', string.Empty);
-    Translate.ContentType := Ini.ReadString('Request', 'ContentType', string.Empty);
+    Translate.Accept := Ini.ReadString('Request', 'Accept', string.Empty);
 
     Method := Ini.ReadString('Response', 'ParserType', 'Json');
     if SameText(Method, 'Json') then

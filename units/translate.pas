@@ -38,6 +38,7 @@ type
     FJsonPointer: string;
     FTextToTranslate: string;
     FPostData: string;
+    FAccept: string;
     FLangSource: string;
     FLangTarget: string;
     FLanguages: TStringList;
@@ -66,6 +67,7 @@ type
     property Regexp: string read FRegexp write FRegexp;
     property JsonPointer: string read FJsonPointer write FJsonPointer;
     property PostData: string read FPostData write FPostData;
+    property Accept: string read FAccept write FAccept;
     property Languages: TStringList read FLanguages write FLanguages;
     property Headers: TStringList read FHeaders write FHeaders;
   end;
@@ -102,6 +104,7 @@ begin
   FResponseParser := rpJson;
   FUserAgent := 'Mozilla/5.0';
   FContentType := 'application/json';
+  FAccept := 'application/json';
   FLangSource := Language;
   FRegexp := '\[\["(.*?)"';
   FLanguages := TStringList.Create;
@@ -130,7 +133,10 @@ begin
   try
     tarUrl := FUrl;
     http.AllowRedirect := True;
+    http.RequestHeaders.Clear;
     http.AddHeader('User-Agent', FUserAgent);
+    http.AddHeader('Content-Type', FContentType);
+    http.AddHeader('Accept', FAccept);
     if Assigned(Headers) then
       for i := 0 to Headers.Count - 1 do
         http.AddHeader(Headers.Names[i], Headers.ValueFromIndex[i]);
@@ -172,7 +178,7 @@ begin
     Data := FPostData;
 
     if FTextToTranslate <> string.Empty then
-      Data := StringReplace(Data, '{text}', EncodeURLElement(FTextToTranslate), [rfReplaceAll])
+      Data := StringReplace(Data, '{text}', FTextToTranslate, [rfReplaceAll])
     else
       Data := StringReplace(Data, '{text}', string.Empty, [rfReplaceAll]);
 
@@ -189,8 +195,10 @@ begin
     postStream := TStringStream.Create(Data, TEncoding.UTF8);
     try
       http.AllowRedirect := True;
+      http.RequestHeaders.Clear;
       http.AddHeader('User-Agent', FUserAgent);
       http.AddHeader('Content-Type', FContentType);
+      http.AddHeader('Accept', FAccept);
       if Assigned(Headers) then
         for i := 0 to Headers.Count - 1 do
           http.AddHeader(Headers.Names[i], Headers.ValueFromIndex[i]);

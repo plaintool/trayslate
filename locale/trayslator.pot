@@ -102,6 +102,10 @@ msgstr ""
 msgid "Response"
 msgstr ""
 
+#: tformconfigtrayslator.labelaccept.caption
+msgid "Accept"
+msgstr ""
+
 #: tformconfigtrayslator.labelcontenttype.caption
 msgctxt "tformconfigtrayslator.labelcontenttype.caption"
 msgid "Content Type"

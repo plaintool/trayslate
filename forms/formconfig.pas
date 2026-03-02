@@ -36,6 +36,7 @@ type
     ComboMethod: TComboBox;
     ComboConfig: TComboBox;
     ComboResponseParser: TComboBox;
+    EditAccept: TEdit;
     EditJsonPointer: TEdit;
     EditUserAgent: TEdit;
     EditContentType: TEdit;
@@ -46,6 +47,7 @@ type
     GroupRequest: TGroupBox;
     GroupResponse: TGroupBox;
     GroupLanguages: TGroupBox;
+    LabelAccept: TLabel;
     LabelMethod: TLabel;
     LabelLanguages: TLabel;
     LabelParemeters2: TLabel;
@@ -276,6 +278,7 @@ begin
     EditContentType.Text := ContentType;
     MemoUrl.Text := Url;
     MemoPostData.Text := PostData;
+    EditAccept.Text := Accept;
     if ResponseParser = rpJson then
       ComboResponseParser.ItemIndex := 0
     else
@@ -302,6 +305,7 @@ begin
         WebMethod := wmPost;
       UserAgent := EditUserAgent.Text;
       ContentType := EditContentType.Text;
+      Accept := EditAccept.Text;
       Url := MemoUrl.Text;
       PostData := MemoPostData.Text;
       if ComboResponseParser.ItemIndex = 0 then

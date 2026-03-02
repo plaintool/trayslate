@@ -17,6 +17,7 @@
 {"hash":23148,"name":"tformconfigtrayslator.labelurl.caption","sourcebytes":[85,82,76],"value":"URL"},
 {"hash":191505829,"name":"tformconfigtrayslator.labelparemeters.caption","sourcebytes":[85,115,101,32,112,97,114,97,109,101,116,101,114,115,32,32,123,116,101,120,116,125,32,226,128,147,32,105,110,112,117,116,32,116,101,120,116,44,32,123,115,111,117,114,99,101,125,32,226,128,147,32,115,111,117,114,99,101,32,108,97,110,103,117,97,103,101,44,32,123,116,97,114,103,101,116,125,32,226,128,147,32,116,97,114,103,101,116,32,108,97,110,103,117,97,103,101],"value":"Use parameters  {text} \u2013 input text, {source} \u2013 source language, {target} \u2013 target language"},
 {"hash":174391233,"name":"tformconfigtrayslator.labelpostdata.caption","sourcebytes":[80,111,115,116,32,68,97,116,97],"value":"Post Data"},
+{"hash":75078772,"name":"tformconfigtrayslator.labelaccept.caption","sourcebytes":[65,99,99,101,112,116],"value":"Accept"},
 {"hash":164220869,"name":"tformconfigtrayslator.groupboxservice.caption","sourcebytes":[83,101,114,118,105,99,101],"value":"Service"},
 {"hash":346165,"name":"tformconfigtrayslator.labelservicename.caption","sourcebytes":[78,97,109,101],"value":"Name"},
 {"hash":246918355,"name":"tformconfigtrayslator.pageheaders.caption","sourcebytes":[72,101,97,100,101,114,115],"value":"Headers"},
