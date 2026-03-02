@@ -79,6 +79,11 @@ msgctxt "tformconfigtrayslator.comboresponseparser.text"
 msgid "JSON"
 msgstr ""
 
+#: tformconfigtrayslator.groupboxservice.caption
+msgctxt "tformconfigtrayslator.groupboxservice.caption"
+msgid "Service"
+msgstr ""
+
 #: tformconfigtrayslator.grouplanguages.caption
 msgid "Languages"
 msgstr ""
@@ -96,8 +101,8 @@ msgctxt "tformconfigtrayslator.labelcontenttype.caption"
 msgid "Content Type"
 msgstr ""
 
-#: tformconfigtrayslator.labeljsonkeys.caption
-msgid "Json Path"
+#: tformconfigtrayslator.labeljsonpointer.caption
+msgid "Json Pointer"
 msgstr ""
 
 #: tformconfigtrayslator.labelmethod.caption
@@ -117,8 +122,8 @@ msgstr ""
 #: tformconfigtrayslator.labelparemeters2.caption
 msgctxt "tformconfigtrayslator.labelparemeters2.caption"
 msgid ""
-"In Json Path use \\ to separate levels, numbers for array indexes, * for all array items, *#10 for all items joined by newline, strings for object keys. \n"
-"Examples: \\0\\*\\0, responseData\\translatedText, matches\\*#10\\translation"
+"In Json Pointer use / to separate levels, numbers for array indexes, * for all array items, *#10 for all items joined by newline, strings for object keys. \n"
+"Examples: /0/*/0, responseData/translatedText, matches/*#10/translation"
 msgstr ""
 
 #: tformconfigtrayslator.labelpostdata.caption
@@ -133,6 +138,10 @@ msgstr ""
 #: tformconfigtrayslator.labelresponseparser.caption
 msgctxt "tformconfigtrayslator.labelresponseparser.caption"
 msgid "Parse Type"
+msgstr ""
+
+#: tformconfigtrayslator.labelservicename.caption
+msgid "Name"
 msgstr ""
 
 #: tformconfigtrayslator.labelurl.caption

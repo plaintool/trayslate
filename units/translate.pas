@@ -28,13 +28,14 @@ type
   { TTranslate }
   TTranslate = class
   private
+    FServiceName: string;
     FWebMethod: TWebMethod;
     FResponseParser: TResponseParser;
     FUrl: string;
     FUserAgent: string;
     FContentType: string;
     FRegexp: string;
-    FJsonPath: string;
+    FJsonPointer: string;
     FTextToTranslate: string;
     FPostData: string;
     FLangSource: string;
@@ -48,7 +49,6 @@ type
     function Post: string;
     function Request: string;
     function TransRegEx: string;
-    function TransJsonByPath(const JsonStr, JsonPath: string): string;
     function TransJson: string;
     function Translate: string;
 
@@ -56,13 +56,14 @@ type
     property LangTarget: string read FLangTarget write FLangTarget;
     property TextToTranslate: string read FTextToTranslate write FTextToTranslate;
 
+    property ServiceName: string read FServiceName write FServiceName;
     property WebMethod: TWebMethod read FWebMethod write FWebMethod;
     property ResponseParser: TResponseParser read FResponseParser write FResponseParser;
     property Url: string read FUrl write FUrl;
     property UserAgent: string read FUserAgent write FUserAgent;
     property ContentType: string read FContentType write FContentType;
     property Regexp: string read FRegexp write FRegexp;
-    property JsonPath: string read FJsonPath write FJsonPath;
+    property JsonPointer: string read FJsonPointer write FJsonPointer;
     property PostData: string read FPostData write FPostData;
     property Languages: TStringList read FLanguages write FLanguages;
   end;
@@ -87,17 +88,18 @@ const
 
 implementation
 
-uses systemtool, formattool;
+uses systemtool, langtool, formattool;
 
   { TTranslate }
 
 constructor TTranslate.Create;
 begin
   inherited Create;
+  FServiceName := 'default';
   FWebMethod := wmGet;
   FResponseParser := rpJson;
   FUserAgent := 'Mozilla/5.0';
-  FContentType := 'application/x-www-form-urlencoded';
+  FContentType := 'application/json';
   FLangSource := Language;
   FRegexp := '\[\["(.*?)"';
   FLanguages := TStringList.Create;
@@ -131,12 +133,12 @@ begin
     if FLangSource <> string.Empty then
       tarUrl := StringReplace(tarUrl, '{source}', FLangSource, [rfReplaceAll])
     else
-      tarUrl := StringReplace(tarUrl, '{source}', Language, [rfReplaceAll]);
+      tarUrl := StringReplace(tarUrl, '{source}', defaultlang, [rfReplaceAll]);
 
     if FLangTarget <> string.Empty then
       tarUrl := StringReplace(tarUrl, '{target}', FLangTarget, [rfReplaceAll])
     else
-      tarUrl := StringReplace(tarUrl, '{target}', defaultlang, [rfReplaceAll]);
+      tarUrl := StringReplace(tarUrl, '{target}', Language, [rfReplaceAll]);
 
     http.Get(tarUrl, response);
     Result := response.DataString;
@@ -229,114 +231,6 @@ begin
   end;
 end;
 
-function TTranslate.TransJsonByPath(const JsonStr, JsonPath: string): string;
-var
-  Data: TJSONData;
-
-// Recursive traversal of JSON according to path parts
-  function Traverse(Data: TJSONData; PathParts: TStringList; Level: integer): string;
-  var
-    Key: string;
-    i: integer;
-    Arr: TJSONArray;
-    Obj: TJSONObject;
-    SubResult: string;
-    Child: TJSONData;
-  begin
-    Result := string.Empty;
-    if Data = nil then Exit;
-
-    // If we've reached the end of the path, return string or number
-    if Level >= PathParts.Count then
-    begin
-      case Data.JSONType of
-        jtString, jtNumber: Result := Data.AsString;
-        jtArray:
-        begin
-          Arr := TJSONArray(Data);
-          for i := 0 to Arr.Count - 1 do
-          begin
-            SubResult := Traverse(Arr.Items[i], PathParts, Level);
-            if SubResult <> string.Empty then
-            begin
-              if Result <> string.Empty then
-                Result := Result + #10;
-              Result := Result + SubResult;
-            end;
-          end;
-        end;
-      end;
-      Exit;
-    end;
-
-    Key := PathParts[Level];
-
-    case Data.JSONType of
-      jtObject:
-      begin
-        Obj := TJSONObject(Data);
-        Child := Obj.Find(Key);
-        if Child <> nil then
-          Result := Traverse(Child, PathParts, Level + 1);
-      end;
-
-      jtArray:
-      begin
-        Arr := TJSONArray(Data);
-        if (Key = '*') or (Key = '*#10') then
-        begin
-          // Iterate all elements of the array
-          for i := 0 to Arr.Count - 1 do
-          begin
-            SubResult := Traverse(Arr.Items[i], PathParts, Level + 1);
-            if SubResult <> string.Empty then
-            begin
-              if (Result <> string.Empty) and (Key = '*#10') then
-                Result := Result + #10;
-              Result := Result + SubResult;
-            end;
-          end;
-        end
-        else
-        begin
-          // Numeric index
-          i := StrToIntDef(Key, -1);
-          if (i >= 0) and (i < Arr.Count) then
-            Result := Traverse(Arr.Items[i], PathParts, Level + 1);
-        end;
-      end;
-    end;
-  end;
-
-var
-  PathParts: TStringList;
-  i: integer;
-begin
-  Result := string.Empty;
-  if Trim(JsonStr) = string.Empty then Exit;
-
-  PathParts := TStringList.Create;
-  try
-    PathParts.Delimiter := '\';
-    PathParts.StrictDelimiter := True;
-    PathParts.DelimitedText := JsonPath;
-
-    // Remove empty parts (leading/trailing slashes)
-    for i := PathParts.Count - 1 downto 0 do
-      if Trim(PathParts[i]) = string.Empty then
-        PathParts.Delete(i);
-
-    Data := fpjson.GetJSON(JsonStr);
-    try
-      Result := Traverse(Data, PathParts, 0);
-    finally
-      Data.Free;
-    end;
-  finally
-    PathParts.Free;
-  end;
-end;
-
 function TTranslate.TransJson: string;
 var
   jsonStr: string;
@@ -349,7 +243,7 @@ begin
 
   try
     // Use universal path parser. JsonKeys is a field, e.g. '\responseData\translatedText' or '\matches\0\translation'
-    Result := TransJsonByPath(jsonStr, JsonPath);
+    Result := TransJsonByPath(jsonStr, JsonPointer);
     if (Result <> string.Empty) then
       Result := UnescapeUnicode(Result)
     else

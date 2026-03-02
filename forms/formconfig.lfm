@@ -1,10 +1,10 @@
 object formConfigTrayslator: TformConfigTrayslator
   Left = 318
-  Height = 873
+  Height = 545
   Top = 250
   Width = 567
   Caption = 'Config Editor'
-  ClientHeight = 873
+  ClientHeight = 545
   ClientWidth = 567
   ShowInTaskBar = stAlways
   LCLVersion = '4.4.0.0'
@@ -16,7 +16,7 @@ object formConfigTrayslator: TformConfigTrayslator
   object BtnClose: TButton
     Left = 487
     Height = 25
-    Top = 840
+    Top = 512
     Width = 75
     Anchors = [akRight, akBottom]
     Cancel = True
@@ -26,13 +26,13 @@ object formConfigTrayslator: TformConfigTrayslator
   end
   object PanelConfig: TPanel
     Left = 5
-    Height = 792
+    Height = 464
     Top = 41
     Width = 557
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
-    ClientHeight = 792
+    ClientHeight = 464
     ClientWidth = 557
     Color = clWindow
     ParentBackground = False
@@ -40,25 +40,25 @@ object formConfigTrayslator: TformConfigTrayslator
     TabOrder = 1
     object ScrollBoxConfig: TScrollBox
       Left = 1
-      Height = 790
+      Height = 462
       Top = 1
       Width = 555
       HorzScrollBar.Page = 1
       HorzScrollBar.Visible = False
-      VertScrollBar.Increment = 79
-      VertScrollBar.Page = 790
+      VertScrollBar.Increment = 46
+      VertScrollBar.Page = 462
       VertScrollBar.Smooth = True
       VertScrollBar.Tracking = True
       Align = alClient
       BorderStyle = bsNone
-      ClientHeight = 790
+      ClientHeight = 462
       ClientWidth = 538
       ParentBackground = False
       TabOrder = 0
       object GroupResponse: TGroupBox
         Left = 5
         Height = 187
-        Top = 373
+        Top = 438
         Width = 528
         Align = alTop
         BorderSpacing.Around = 5
@@ -111,16 +111,16 @@ object formConfigTrayslator: TformConfigTrayslator
           TabOrder = 1
           OnChange = ValueChange
         end
-        object LabelJsonKeys: TLabel
+        object LabelJsonPointer: TLabel
           Left = 8
           Height = 23
           Top = 40
           Width = 104
           Alignment = taRightJustify
           AutoSize = False
-          Caption = 'Json Path'
+          Caption = 'Json Pointer'
         end
-        object EditJsonKeys: TEdit
+        object EditJsonPointer: TEdit
           Left = 120
           Height = 23
           Top = 40
@@ -135,7 +135,7 @@ object formConfigTrayslator: TformConfigTrayslator
           Top = 104
           Width = 496
           Anchors = [akTop, akLeft, akRight]
-          Caption = 'In Json Path use \ to separate levels, numbers for array indexes, * for all array items, *#10 for all items joined by newline, strings for object keys. '#13#10'Examples: \0\*\0, responseData\translatedText, matches\*#10\translation'
+          Caption = 'In Json Pointer use / to separate levels, numbers for array indexes, * for all array items, *#10 for all items joined by newline, strings for object keys. '#13#10'Examples: /0/*/0, responseData/translatedText, matches/*#10/translation'
           Color = clInfoBk
           ParentColor = False
           Transparent = False
@@ -145,7 +145,7 @@ object formConfigTrayslator: TformConfigTrayslator
       object GroupRequest: TGroupBox
         Left = 5
         Height = 363
-        Top = 5
+        Top = 70
         Width = 528
         Align = alTop
         BorderSpacing.Around = 5
@@ -271,7 +271,7 @@ object formConfigTrayslator: TformConfigTrayslator
       object GroupLanguages: TGroupBox
         Left = 5
         Height = 323
-        Top = 565
+        Top = 630
         Width = 528
         Align = alTop
         BorderSpacing.Around = 5
@@ -306,6 +306,36 @@ object formConfigTrayslator: TformConfigTrayslator
           Transparent = False
         end
       end
+      object GroupBoxService: TGroupBox
+        Left = 0
+        Height = 65
+        Top = 0
+        Width = 538
+        Align = alTop
+        Caption = 'Service'
+        ClientHeight = 45
+        ClientWidth = 534
+        ParentBackground = False
+        TabOrder = 3
+        object LabelServiceName: TLabel
+          Left = 13
+          Height = 23
+          Top = 8
+          Width = 104
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Name'
+        end
+        object EditServiceName: TEdit
+          Left = 125
+          Height = 23
+          Top = 8
+          Width = 384
+          Anchors = [akTop, akLeft, akRight]
+          TabOrder = 0
+          OnChange = ValueChange
+        end
+      end
     end
   end
   object PanelTop: TPanel
@@ -327,6 +357,7 @@ object formConfigTrayslator: TformConfigTrayslator
       Width = 529
       Align = alClient
       BorderSpacing.Around = 5
+      DropDownCount = 15
       ItemHeight = 15
       Style = csDropDownList
       TabOrder = 0
@@ -378,15 +409,15 @@ object formConfigTrayslator: TformConfigTrayslator
   object BtnSave: TButton
     Left = 408
     Height = 25
-    Top = 840
+    Top = 512
     Width = 75
     Action = aSave
     Anchors = [akRight, akBottom]
     TabOrder = 3
   end
   object ActionList: TActionList
-    Left = 440
-    Top = 16
+    Left = 456
+    Top = 32
     object aSave: TAction
       Caption = 'Save'
       ShortCut = 16467

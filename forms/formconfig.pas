@@ -36,10 +36,12 @@ type
     ComboMethod: TComboBox;
     ComboConfig: TComboBox;
     ComboResponseParser: TComboBox;
-    EditJsonKeys: TEdit;
+    EditJsonPointer: TEdit;
     EditUserAgent: TEdit;
     EditContentType: TEdit;
     EditRegexp: TEdit;
+    EditServiceName: TEdit;
+    GroupBoxService: TGroupBox;
     GroupRequest: TGroupBox;
     GroupResponse: TGroupBox;
     GroupLanguages: TGroupBox;
@@ -47,13 +49,14 @@ type
     LabelParemeters1: TLabel;
     LabelParemeters2: TLabel;
     LabelPostData: TLabel;
-    LabelJsonKeys: TLabel;
+    LabelJsonPointer: TLabel;
     LabelUserAgent: TLabel;
     LabelContentType: TLabel;
     LabelUrl: TLabel;
     LabelParemeters: TLabel;
     LabelResponseParser: TLabel;
     LabelRegexp: TLabel;
+    LabelServiceName: TLabel;
     MemoLanguages: TMemo;
     MemoURL: TMemo;
     MemoPostData: TMemo;
@@ -227,6 +230,7 @@ procedure TformConfigTrayslator.UpdateConfig;
 begin
   with formTrayslator.Trans do
   begin
+    EditServiceName.Text := ServiceName;
     if WebMethod = wmGet then
       ComboMethod.ItemIndex := 0
     else
@@ -240,7 +244,7 @@ begin
     else
       ComboResponseParser.ItemIndex := 1;
     EditRegexp.Text := Regexp;
-    EditJsonKeys.Text := JsonPath;
+    EditJsonPointer.Text := JsonPointer;
     MemoLanguages.Lines.Assign(Languages);
   end;
   BtnSave.Enabled := False;
@@ -274,6 +278,7 @@ begin
   try
     with formTrayslator.Trans do
     begin
+      ServiceName := EditServiceName.Text;
       if ComboMethod.ItemIndex = 0 then
         WebMethod := wmGet
       else
@@ -287,7 +292,7 @@ begin
       else
         ResponseParser := rpRegEx;
       Regexp := EditRegexp.Text;
-      JsonPath := EditJsonKeys.Text;
+      JsonPointer := EditJsonPointer.Text;
       Languages.Assign(MemoLanguages.Lines);
     end;
     SaveIniSettings(formTrayslator.Trans, formTrayslator.ConfigFile);

@@ -257,6 +257,10 @@ var
 begin
   Ini := TIniFile.Create(AFileName);
   try
+    Ini.DeleteKey('Service', 'Name');
+    if Trim(Translate.ServiceName) <> string.Empty then
+      Ini.WriteString('Service', 'Name', Translate.ServiceName);
+
     // determine method string based on UsePost property
     if Translate.WebMethod = wmPost then
       Ini.WriteString('Request', 'Method', 'POST')
@@ -292,9 +296,9 @@ begin
     if Trim(Translate.Regexp) <> string.Empty then
       Ini.WriteString('Response', 'Regexp', Translate.Regexp);
 
-    Ini.DeleteKey('Response', 'JsonPath');
-    if Trim(Translate.JsonPath) <> string.Empty then
-      Ini.WriteString('Response', 'JsonPath', Translate.JsonPath);
+    Ini.DeleteKey('Response', 'JsonPointer');
+    if Trim(Translate.JsonPointer) <> string.Empty then
+      Ini.WriteString('Response', 'JsonPointer', Translate.JsonPointer);
 
     // Save language mappings (code=apiCode)
     Ini.EraseSection('Languages'); // Clear previous entries
@@ -317,6 +321,8 @@ var
 begin
   Ini := TIniFile.Create(AFileName);
   try
+    Translate.ServiceName := Ini.ReadString('Service', 'Name', string.Empty);
+
     Method := Ini.ReadString('Request', 'Method', 'GET');
     if SameText(Method, 'POST') then
       Translate.WebMethod := wmPost
@@ -339,7 +345,7 @@ begin
       Translate.ResponseParser := rpRegEx;
 
     Translate.Regexp := Ini.ReadString('Response', 'Regexp', string.Empty);
-    Translate.JsonPath := Ini.ReadString('Response', 'JsonPath', string.Empty);
+    Translate.JsonPointer := Ini.ReadString('Response', 'JsonPointer', string.Empty);
 
     Ini.ReadSectionValues('Languages', Translate.Languages);
   finally

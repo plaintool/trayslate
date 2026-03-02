@@ -12,16 +12,22 @@ unit langtool;
 interface
 
 uses
-  Windows,
+  Classes,
   Graphics,
   Types,
   SysUtils,
-  StdCtrls;
+  StdCtrls,
+  LCLType,
+  LCLIntf,
+  fpjson,
+  jsonparser;
 
 function CreateTrayIconLang(const ALang1: string; const ALang2: string = ''; ABackgroundColor: TColor = $00FF9628;
   AFontColor: TColor = $00DCDCDC): TIcon;
 
 procedure SetComboBoxByCode(ComboBox: TComboBox; const Code: string);
+
+function TransJsonByPath(const JsonStr, JsonPointer: string): string;
 
 implementation
 
@@ -110,6 +116,114 @@ begin
   end;
   // If code not found, clear selection
   ComboBox.ItemIndex := -1;
+end;
+
+function TransJsonByPath(const JsonStr, JsonPointer: string): string;
+var
+  Data: TJSONData;
+
+// Recursive traversal of JSON according to path parts
+  function Traverse(Data: TJSONData; PathParts: TStringList; Level: integer): string;
+  var
+    Key: string;
+    i: integer;
+    Arr: TJSONArray;
+    Obj: TJSONObject;
+    SubResult: string;
+    Child: TJSONData;
+  begin
+    Result := string.Empty;
+    if Data = nil then Exit;
+
+    // If we've reached the end of the path, return string or number
+    if Level >= PathParts.Count then
+    begin
+      case Data.JSONType of
+        jtString, jtNumber: Result := Data.AsString;
+        jtArray:
+        begin
+          Arr := TJSONArray(Data);
+          for i := 0 to Arr.Count - 1 do
+          begin
+            SubResult := Traverse(Arr.Items[i], PathParts, Level);
+            if SubResult <> string.Empty then
+            begin
+              if Result <> string.Empty then
+                Result := Result + #10;
+              Result := Result + SubResult;
+            end;
+          end;
+        end;
+      end;
+      Exit;
+    end;
+
+    Key := PathParts[Level];
+
+    case Data.JSONType of
+      jtObject:
+      begin
+        Obj := TJSONObject(Data);
+        Child := Obj.Find(Key);
+        if Child <> nil then
+          Result := Traverse(Child, PathParts, Level + 1);
+      end;
+
+      jtArray:
+      begin
+        Arr := TJSONArray(Data);
+        if (Key = '*') or (Key = '*#10') then
+        begin
+          // Iterate all elements of the array
+          for i := 0 to Arr.Count - 1 do
+          begin
+            SubResult := Traverse(Arr.Items[i], PathParts, Level + 1);
+            if SubResult <> string.Empty then
+            begin
+              if (Result <> string.Empty) and (Key = '*#10') then
+                Result := Result + #10;
+              Result := Result + SubResult;
+            end;
+          end;
+        end
+        else
+        begin
+          // Numeric index
+          i := StrToIntDef(Key, -1);
+          if (i >= 0) and (i < Arr.Count) then
+            Result := Traverse(Arr.Items[i], PathParts, Level + 1);
+        end;
+      end;
+    end;
+  end;
+
+var
+  PathParts: TStringList;
+  i: integer;
+begin
+  Result := string.Empty;
+  if Trim(JsonStr) = string.Empty then Exit;
+
+  PathParts := TStringList.Create;
+  try
+    PathParts.Delimiter := '/';
+    PathParts.StrictDelimiter := True;
+    PathParts.DelimitedText := JsonPointer;
+
+    // Remove empty parts (leading/trailing slashes)
+    for i := PathParts.Count - 1 downto 0 do
+      if Trim(PathParts[i]) = string.Empty then
+        PathParts.Delete(i);
+
+    Data := fpjson.GetJSON(JsonStr);
+    try
+      Result := Traverse(Data, PathParts, 0);
+    finally
+      Data.Free;
+    end;
+  finally
+    PathParts.Free;
+  end;
 end;
 
 end.

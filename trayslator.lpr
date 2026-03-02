@@ -32,8 +32,8 @@ begin
   RequireDerivedFormResource := True;
   Language := GetOSLanguage;
   DefaultFormatSettings.DecimalSeparator := '.';
-  Application.Title:='Trayslator';
-  Application.Scaled:=True;
+  Application.Title := 'Trayslator';
+  Application.Scaled := True;
   Application.Initialize;
   {$IFDEF WINDOWS}
   ApplyDarkStyle;
