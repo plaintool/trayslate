@@ -387,7 +387,6 @@ object formConfigTrayslator: TformConfigTrayslator
     Top = 16
     object aSave: TAction
       Caption = 'Save'
-      Enabled = False
       ShortCut = 16467
       OnExecute = aSaveExecute
     end
