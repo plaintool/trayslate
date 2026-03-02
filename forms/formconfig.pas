@@ -61,13 +61,15 @@ type
     PanelConfig: TPanel;
     SbCopyConfig: TSpeedButton;
     ScrollBoxConfig: TScrollBox;
+    procedure FormShow(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure FormResize(Sender: TObject);
+    procedure FormChangeBounds(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure aSaveExecute(Sender: TObject);
     procedure BtnCloseClick(Sender: TObject);
     procedure ComboConfigChange(Sender: TObject);
     procedure ComboConfigKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
-    procedure FormChangeBounds(Sender: TObject);
-    procedure FormResize(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure MemoKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure ValueChange(Sender: TObject);
     procedure SbCopyConfigClick(Sender: TObject);
@@ -99,6 +101,16 @@ procedure TformConfigTrayslator.FormShow(Sender: TObject);
 begin
   UpdateConfigList;
   UpdateConfig;
+end;
+
+procedure TformConfigTrayslator.FormDestroy(Sender: TObject);
+begin
+  formConfigTrayslator := nil;
+end;
+
+procedure TformConfigTrayslator.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  CloseAction := caFree;
 end;
 
 procedure TformConfigTrayslator.FormResize(Sender: TObject);
@@ -155,7 +167,7 @@ end;
 procedure TformConfigTrayslator.BtnCloseClick(Sender: TObject);
 begin
   if not TestChanges then exit;
-  Hide;
+  Close;
 end;
 
 procedure TformConfigTrayslator.SbCopyConfigClick(Sender: TObject);

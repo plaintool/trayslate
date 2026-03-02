@@ -22,7 +22,7 @@ uses
   systemtool
   {$IFDEF WINDOWS}
   ,uDarkStyle
-  ,uWin32WidgetSetDark, formconfig
+  ,uWin32WidgetSetDark
   {$ENDIF}
   ;
 
@@ -41,6 +41,5 @@ begin
   Application.ShowMainForm := False;
   Application.CreateForm(TformTrayslator, formTrayslator);
   ApplicationTranslate(Language);
-  Application.CreateForm(TformConfigTrayslator, formConfigTrayslator);
   Application.Run;
 end.

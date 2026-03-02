@@ -9,6 +9,8 @@ object formConfigTrayslator: TformConfigTrayslator
   ShowInTaskBar = stAlways
   LCLVersion = '4.4.0.0'
   OnChangeBounds = FormChangeBounds
+  OnClose = FormClose
+  OnDestroy = FormDestroy
   OnResize = FormResize
   OnShow = FormShow
   object BtnClose: TButton
