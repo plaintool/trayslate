@@ -26,6 +26,7 @@ uses
   Clipbrd,
   Buttons,
   LCLType,
+  LMessages,
   translate;
 
 type
@@ -75,7 +76,6 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormActivate(Sender: TObject);
-    procedure FormDeactivate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure FormWindowStateChange(Sender: TObject);
     procedure aConfigEditorExecute(Sender: TObject);
@@ -134,6 +134,9 @@ type
     procedure ApplicationOnActivate(Sender: TObject);
     procedure ApplicationOnDeactivate(Sender: TObject);
     procedure ApplicationOnException(Sender: TObject; E: Exception);
+    {$IFDEF WINDOWS}
+    procedure WMActivate(var Message: TLMActivate); message LM_ACTIVATE;
+    {$ENDIF}
   public
     procedure SetIcon;
     procedure LoadConfig;
@@ -251,10 +254,14 @@ begin
   FTopMost := True;
 end;
 
-procedure TformTrayslator.FormDeactivate(Sender: TObject);
+{$IFDEF WINDOWS}
+procedure TformTrayslator.WMActivate(var Message: TLMActivate);
 begin
-  FTopMost := False;
+  inherited;
+  if Message.Active <> WA_INACTIVE then
+    FTopMost := True;
 end;
+{$ENDIF}
 
 procedure TformTrayslator.FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin

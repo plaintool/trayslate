@@ -13,7 +13,6 @@ object formTrayslator: TformTrayslator
   OnActivate = FormActivate
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
-  OnDeactivate = FormDeactivate
   OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
   OnWindowStateChange = FormWindowStateChange
