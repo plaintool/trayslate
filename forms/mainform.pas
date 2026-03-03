@@ -1001,30 +1001,34 @@ begin
 
     // Create translation thread (it will handle exceptions itself)
     Trans.TextToTranslate := Clipboard.AsText;
-    Th := TTranslateThread.Create(Trans);
-    try
-      Th.FreeOnTerminate := False;
 
-      // Wait for thread to finish
-      while not Th.Finished do
-        Application.ProcessMessages;
+    if Trans.TextToTranslate <> string.Empty then
+    begin
+      Th := TTranslateThread.Create(Trans);
+      try
+        Th.FreeOnTerminate := False;
 
-      // Set translated text to clipboard
-      if Th.ResultTextSync <> string.Empty then
-        Clipboard.AsText := Th.ResultTextSync;
-    finally
-      Th.Free;
+        // Wait for thread to finish
+        while not Th.Finished do
+          Application.ProcessMessages;
+
+        // Set translated text to clipboard
+        if Th.ResultTextSync <> string.Empty then
+          Clipboard.AsText := Th.ResultTextSync;
+      finally
+        Th.Free;
+      end;
+
+      // Paste clipboard to active window (Ctrl+V)
+      Sleep(200);
+      KeyInput.Apply([ssCtrl]);
+      Sleep(50);
+      KeyInput.Down(Ord('V'));
+      Sleep(50);
+      KeyInput.Up(Ord('V'));
+      Sleep(50);
+      KeyInput.Unapply([ssCtrl]);
     end;
-
-    // Paste clipboard to active window (Ctrl+V)
-    Sleep(200);
-    KeyInput.Apply([ssCtrl]);
-    Sleep(50);
-    KeyInput.Down(Ord('V'));
-    Sleep(50);
-    KeyInput.Up(Ord('V'));
-    Sleep(50);
-    KeyInput.Unapply([ssCtrl]);
 
     // Restore original clipboard
     Clipboard.AsText := OriginalClip;
