@@ -31,7 +31,6 @@ uses
 begin
   RequireDerivedFormResource := True;
   Language := GetOSLanguage;
-  DefaultFormatSettings.DecimalSeparator := '.';
   Application.Title := 'Trayslator';
   Application.Scaled := True;
   Application.Initialize;
