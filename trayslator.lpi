@@ -80,6 +80,9 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="lazmouseandkeyinput"/>
+      </Item>
+      <Item>
         <PackageName Value="LCL"/>
       </Item>
     </RequiredPackages>

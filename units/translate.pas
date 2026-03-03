@@ -15,7 +15,6 @@ uses
   Forms,
   SysUtils,
   RegExpr,
-  StdCtrls,
   Controls,
   fphttpclient,
   fpjson,
@@ -78,13 +77,16 @@ type
     FTrans: TTranslate;
     FSourceText: string;
     FResultText: string;
-    FMemoTarget: TMemo;
+    FResultTextSync:string;
     FException: Exception;
   protected
     procedure Execute; override;
     procedure UpdateUI;
   public
-    constructor Create(ATrans: TTranslate; AMemo: TMemo; const AText: string);
+    constructor Create(ATrans: TTranslate);
+    property ExceptionObj: Exception read FException;
+    property ResultText: string read FResultText;
+    property ResultTextSync: string read FResultTextSync;
   end;
 
 const
@@ -286,14 +288,13 @@ end;
 
 { TTranslateThread }
 
-constructor TTranslateThread.Create(ATrans: TTranslate; AMemo: TMemo; const AText: string);
+constructor TTranslateThread.Create(ATrans: TTranslate);
 begin
   inherited Create(True);
   FreeOnTerminate := True;
 
   FTrans := ATrans;
-  FMemoTarget := AMemo;
-  FSourceText := AText;
+  FSourceText := FTrans.TextToTranslate;
 
   Start;
 end;
@@ -301,9 +302,6 @@ end;
 procedure TTranslateThread.Execute;
 begin
   try
-    // Perform network request in background
-    FTrans.TextToTranslate := FSourceText;
-
     if Length(Trim(FSourceText)) > 0 then
       FResultText := FTrans.Translate
     else
@@ -312,13 +310,14 @@ begin
     on E: Exception do
       FException := Exception.Create(E.Message);
   end;
+
+  // Call UpdateUI in main thread to handle exceptions
   Synchronize(@UpdateUI);
 end;
 
 procedure TTranslateThread.UpdateUI;
 begin
-  // Update UI in main thread
-  Screen.Cursor := crDefault;
+  // Handle exception in main thread if occurred
   if Assigned(FException) then
   begin
     if Assigned(Application.OnException) then
@@ -329,7 +328,7 @@ begin
     FreeAndNil(FException); // free manually
   end
   else
-    FMemoTarget.Text := FResultText;
+    FResultTextSync := FResultText;
 end;
 
 end.

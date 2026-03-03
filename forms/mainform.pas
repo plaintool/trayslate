@@ -27,7 +27,13 @@ uses
   Buttons,
   LCLType,
   LMessages,
-  translate;
+  mouseandkeyinput,
+  {$IFDEF WINDOWS}
+  Windows,
+  Messages,
+  {$ENDIF}
+  translate,
+  langtool;
 
 type
 
@@ -78,6 +84,9 @@ type
     procedure FormActivate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure FormWindowStateChange(Sender: TObject);
+    procedure ApplicationOnActivate(Sender: TObject);
+    procedure ApplicationOnDeactivate(Sender: TObject);
+    procedure ApplicationOnException(Sender: TObject; E: Exception);
     procedure aConfigEditorExecute(Sender: TObject);
     procedure aSettingsExecute(Sender: TObject);
     procedure aClipboardExecute(Sender: TObject);
@@ -120,6 +129,12 @@ type
     FFormConfigTop: integer;
     FFormConfigWidth: integer;
     FFormConfigHeight: integer;
+    FHotKeyApp: THotKeyData;
+    FHotKeyTransSwap: THotKeyData;
+    FHotKeyTransFromClipboard: THotKeyData;
+    FHotKeyTransClipboard: THotKeyData;
+    FHotKeyTransFromControl: THotKeyData;
+    FHotKeyTransControl: THotKeyData;
 
     // TrayIcon
     FIconBackgroundColor: TColor;
@@ -127,15 +142,22 @@ type
     FIconTwoLang: boolean;
     FAutoStart: boolean;
 
-    function GetClipboartText: boolean;
     procedure Translate;
+    procedure TranslateFromClipboard;
+    procedure TranslateClipboard;
+    procedure TranslateFromControl;
+    procedure TranslateControl;
+
     procedure ProcessMessages;
     procedure SetAutoStart(Value: boolean);
-    procedure ApplicationOnActivate(Sender: TObject);
-    procedure ApplicationOnDeactivate(Sender: TObject);
-    procedure ApplicationOnException(Sender: TObject; E: Exception);
+    {$IFDEF WINDOWS}
+    procedure RegisterHotKeys;
+    procedure UnregisterHotKeys;
+    {$ENDIF}
+  protected
     {$IFDEF WINDOWS}
     procedure WMActivate(var Message: TLMActivate); message LM_ACTIVATE;
+    procedure WndProc(var TheMessage: TLMessage); override;
     {$ENDIF}
   public
     procedure SetIcon;
@@ -160,17 +182,36 @@ type
     property FormConfigTop: integer read FFormConfigTop write FFormConfigTop;
     property FormConfigWidth: integer read FFormConfigWidth write FFormConfigWidth;
     property FormConfigHeight: integer read FFormConfigHeight write FFormConfigHeight;
+
+    property HotKeyApp: THotKeyData read FHotKeyApp write FHotKeyApp;
+    property HotKeyTransSwap: THotKeyData read FHotKeyTransSwap write FHotKeyTransSwap;
+    property HotKeyTransFromClipboard: THotKeyData read FHotKeyTransFromClipboard write FHotKeyTransFromClipboard;
+    property HotKeyTransClipboard: THotKeyData read FHotKeyTransClipboard write FHotKeyTransClipboard;
+    property HotKeyTransFromControl: THotKeyData read FHotKeyTransFromControl write FHotKeyTransFromControl;
+    property HotKeyTransControl: THotKeyData read FHotKeyTransControl write FHotKeyTransControl;
   end;
 
 var
   formTrayslator: TformTrayslator;
+
+  {$IFDEF WINDOWS}
+
+const
+  HOTKEY_APP = 1;
+  HOTKEY_TRANS_SWAP = 2;
+  HOTKEY_TRANS_FROM_CLIPBOARD = 3;
+  HOTKEY_TRANS_CLIPBOARD = 4;
+  HOTKEY_TRANS_FROM_CONTROL = 5;
+  HOTKEY_TRANS_CONTROL = 6;
+
+  {$ENDIF}
 
 resourcestring
   NoConfig = 'Configuration file not found!';
 
 implementation
 
-uses formdonate, formabout, formsettings, formconfig, langtool, settings, languages, systemtool, formattool;
+uses formdonate, formabout, formsettings, formconfig, settings, languages, systemtool, formattool;
 
   {$R *.lfm}
 
@@ -191,6 +232,31 @@ begin
   FFormConfigTop := 0;
   FFormConfigWidth := 0;
   FFormConfigHeight := 0;
+
+  // HotKeys Initialize
+  // Ctrl+Shift+A
+  FHotKeyApp.Modifiers := MOD_CONTROL or MOD_SHIFT;
+  FHotKeyApp.Key := Ord('A');
+
+  // Ctrl+Shift+S
+  FHotKeyTransSwap.Modifiers := MOD_CONTROL or MOD_SHIFT;
+  FHotKeyTransSwap.Key := Ord('S');
+
+  // Ctrl+Shift+T
+  FHotKeyTransFromClipboard.Modifiers := MOD_CONTROL or MOD_SHIFT;
+  FHotKeyTransFromClipboard.Key := Ord('T');
+
+  // Ctrl+Shift+C
+  FHotKeyTransClipboard.Modifiers := MOD_CONTROL or MOD_SHIFT;
+  FHotKeyTransClipboard.Key := Ord('C');
+
+  // Ctrl+Shift+Z
+  FHotKeyTransFromControl.Modifiers := MOD_CONTROL or MOD_SHIFT;
+  FHotKeyTransFromControl.Key := Ord('Z');
+
+  // Ctrl+Shift+X
+  FHotKeyTransControl.Modifiers := MOD_CONTROL or MOD_SHIFT;
+  FHotKeyTransControl.Key := Ord('X');
 
   // Components config
   Left := Screen.WorkAreaRect.Right - Width - 30;
@@ -232,10 +298,17 @@ begin
   Application.OnDeactivate := @ApplicationOnDeactivate;
   Application.OnActivate := @ApplicationOnActivate;
   Application.OnException := @ApplicationOnException;
+
+  {$IFDEF WINDOWS}
+  RegisterHotKeys;
+  {$ENDIF}
 end;
 
 procedure TformTrayslator.FormDestroy(Sender: TObject);
 begin
+  {$IFDEF WINDOWS}
+  UnregisterHotKeys;
+  {$ENDIF}
   SaveFormSettings(Self);
   FLanguages.Free;
   FLanguagesSorted.Free;
@@ -255,12 +328,59 @@ begin
 end;
 
 {$IFDEF WINDOWS}
+
 procedure TformTrayslator.WMActivate(var Message: TLMActivate);
 begin
   inherited;
   if Message.Active <> WA_INACTIVE then
     FTopMost := True;
 end;
+
+procedure TformTrayslator.WndProc(var TheMessage: TLMessage);
+begin
+  if TheMessage.msg = WM_HOTKEY then
+  begin
+    case TheMessage.WParam of
+
+      HOTKEY_APP:
+      begin
+        if Showing then Hide
+        else
+          Show;
+        BringToFront;
+        FTopMost := True;
+      end;
+
+      HOTKEY_TRANS_SWAP:
+      begin
+        aSwap.Execute;
+      end;
+
+      HOTKEY_TRANS_FROM_CLIPBOARD:
+      begin
+        TranslateFromClipboard;
+      end;
+
+      HOTKEY_TRANS_CLIPBOARD:
+      begin
+        TranslateClipboard;
+      end;
+
+      HOTKEY_TRANS_FROM_CONTROL:
+      begin
+        TranslateFromControl;
+      end;
+
+      HOTKEY_TRANS_CONTROL:
+      begin
+        TranslateControl;
+      end;
+    end;
+  end;
+
+  inherited WndProc(TheMessage);
+end;
+
 {$ENDIF}
 
 procedure TformTrayslator.FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
@@ -307,10 +427,7 @@ end;
 
 procedure TformTrayslator.aClipboardExecute(Sender: TObject);
 begin
-  Show;
-  ProcessMessages;
-  if GetClipboartText then
-    Translate;
+  TranslateFromClipboard;
 end;
 
 procedure TformTrayslator.aTranslateExecute(Sender: TObject);
@@ -626,16 +743,6 @@ end;
 
 {Methods}
 
-function TformTrayslator.GetClipboartText: boolean;
-begin
-  Result := False;
-  if (Clipboard.AsText <> string.empty) then
-  begin
-    MemoSource.Text := Clipboard.AsText;
-    Result := True;
-  end;
-end;
-
 procedure TformTrayslator.SetIcon;
 var
   Ico: TIcon;
@@ -729,13 +836,174 @@ begin
 end;
 
 procedure TformTrayslator.Translate;
+var
+  Th: TTranslateThread;
 begin
-  if (Trim(MemoSource.Text) = string.Empty) then Exit;
+  if Trim(MemoSource.Text) = string.Empty then Exit;
 
-  Trans.TextToTranslate := MemoSource.Text;
-  ProcessMessages;
   Screen.Cursor := crAppStart;
-  TTranslateThread.Create(Trans, MemoTarget, MemoSource.Text);
+  try
+    // Create translation thread (it will handle exceptions itself)
+    Trans.TextToTranslate := MemoSource.Text;
+    Th := TTranslateThread.Create(Trans);
+    try
+      Th.FreeOnTerminate := False;
+
+      // Wait for thread to finish
+      while not Th.Finished do
+        Application.ProcessMessages;
+
+      // Set translated text to memo
+      MemoTarget.Text := Th.ResultTextSync;
+    finally
+      Th.Free;
+    end;
+  finally
+    Screen.Cursor := crDefault;
+  end;
+end;
+
+procedure TformTrayslator.TranslateFromClipboard;
+begin
+  if not Showing then
+  begin
+    Show;
+    BringToFront;
+    FTopMost := True;
+    ProcessMessages;
+    if (Clipboard.AsText <> string.empty) then
+    begin
+      MemoSource.Text := Clipboard.AsText;
+      Translate;
+    end;
+  end
+  else
+    Hide;
+end;
+
+procedure TformTrayslator.TranslateClipboard;
+var
+  Th: TTranslateThread;
+begin
+  Screen.Cursor := crAppStart;
+  try
+    if Clipboard.AsText = string.Empty then Exit;
+
+    // Create translation thread (it will handle exceptions itself)
+    Trans.TextToTranslate := Clipboard.AsText;
+    Th := TTranslateThread.Create(Trans);
+    try
+      Th.FreeOnTerminate := False;
+
+      // Wait for thread to finish
+      while not Th.Finished do
+        Application.ProcessMessages;
+
+      // Set translated text to clipboard
+      if Th.ResultTextSync <> string.Empty then
+        Clipboard.AsText := Th.ResultTextSync;
+    finally
+      Th.Free;
+    end;
+  finally
+    Screen.Cursor := crDefault;
+  end;
+end;
+
+procedure TformTrayslator.TranslateFromControl;
+var
+  OriginalClip, SelectedText: string;
+begin
+  if not Showing then
+  begin
+    Screen.Cursor := crAppStart;
+    Application.ProcessMessages;
+    try
+      // Save current clipboard to restore later
+      OriginalClip := Clipboard.AsText;
+
+      // Copy selection from active window (Ctrl+C)
+      Sleep(200);
+      KeyInput.Apply([ssCtrl]);
+      Sleep(50);
+      KeyInput.Down(Ord('C'));
+      Sleep(50);
+      KeyInput.Up(Ord('C'));
+      Sleep(50);
+      KeyInput.Unapply([ssCtrl]);
+
+      SelectedText := Clipboard.AsText;
+
+      Show;
+      BringToFront;
+      FTopMost := True;
+      ProcessMessages;
+      MemoSource.Text := SelectedText;
+      Translate;
+
+      // Restore original clipboard
+      Clipboard.AsText := OriginalClip;
+    finally
+      Screen.Cursor := crDefault;
+    end;
+  end
+  else
+    Hide;
+end;
+
+procedure TformTrayslator.TranslateControl;
+var
+  OriginalClip: string;
+  Th: TTranslateThread;
+begin
+  Screen.Cursor := crAppStart;
+  Application.ProcessMessages;
+  try
+    // Save current clipboard to restore later
+    OriginalClip := Clipboard.AsText;
+
+    // Copy selection from active window (Ctrl+C)
+    Sleep(200);
+    KeyInput.Apply([ssCtrl]);
+    Sleep(50);
+    KeyInput.Down(Ord('C'));
+    Sleep(50);
+    KeyInput.Up(Ord('C'));
+    Sleep(50);
+    KeyInput.Unapply([ssCtrl]);
+
+    // Create translation thread (it will handle exceptions itself)
+    Trans.TextToTranslate := Clipboard.AsText;
+    Th := TTranslateThread.Create(Trans);
+    try
+      Th.FreeOnTerminate := False;
+
+      // Wait for thread to finish
+      while not Th.Finished do
+        Application.ProcessMessages;
+
+      // Set translated text to clipboard
+      if Th.ResultTextSync <> string.Empty then
+        Clipboard.AsText := Th.ResultTextSync;
+    finally
+      Th.Free;
+    end;
+
+    // Paste clipboard to active window (Ctrl+V)
+    Sleep(100);
+    KeyInput.Apply([ssCtrl]);
+    Sleep(50);
+    KeyInput.Down(Ord('V'));
+    Sleep(50);
+    KeyInput.Up(Ord('V'));
+    Sleep(50);
+    KeyInput.Unapply([ssCtrl]);
+
+    // Restore original clipboard
+    Clipboard.AsText := OriginalClip;
+  finally
+    Screen.Cursor := crDefault;
+  end;
 end;
 
 procedure TformTrayslator.ProcessMessages;
@@ -750,5 +1018,44 @@ begin
   FAutoStart := Value;
   RegAutoStart(FAutoStart, 'Trayslator');
 end;
+
+{$IFDEF WINDOWS}
+
+procedure TformTrayslator.UnregisterHotKeys;
+begin
+  UnregisterHotKey(Handle, HOTKEY_APP);
+  UnregisterHotKey(Handle, HOTKEY_TRANS_SWAP);
+  UnregisterHotKey(Handle, HOTKEY_TRANS_FROM_CLIPBOARD);
+  UnregisterHotKey(Handle, HOTKEY_TRANS_CLIPBOARD);
+  UnregisterHotKey(Handle, HOTKEY_TRANS_FROM_CONTROL);
+  UnregisterHotKey(Handle, HOTKEY_TRANS_CONTROL);
+end;
+
+procedure TformTrayslator.RegisterHotKeys;
+begin
+  // Unregister first to avoid duplicate registration
+  UnregisterHotKeys;
+
+  // Register hotkeys if key is assigned
+  if FHotKeyApp.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_APP, FHotKeyApp.Modifiers, FHotKeyApp.Key);
+
+  if FHotKeyTransSwap.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_TRANS_SWAP, FHotKeyTransSwap.Modifiers, FHotKeyTransSwap.Key);
+
+  if FHotKeyTransFromClipboard.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_TRANS_FROM_CLIPBOARD, FHotKeyTransFromClipboard.Modifiers, FHotKeyTransFromClipboard.Key);
+
+  if FHotKeyTransClipboard.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_TRANS_CLIPBOARD, FHotKeyTransClipboard.Modifiers, FHotKeyTransClipboard.Key);
+
+    if FHotKeyTransFromControl.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_TRANS_FROM_CONTROL, FHotKeyTransFromControl.Modifiers, FHotKeyTransFromControl.Key);
+
+  if FHotKeyTransControl.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_TRANS_CONTROL, FHotKeyTransControl.Modifiers, FHotKeyTransControl.Key);
+end;
+
+{$ENDIF}
 
 end.

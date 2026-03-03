@@ -22,6 +22,12 @@ uses
   fpjson,
   jsonparser;
 
+type
+  THotKeyData = record
+    Modifiers: cardinal;  // MOD_CONTROL, MOD_SHIFT...
+    Key: word;            // virtual key code
+  end;
+
 function CreateTrayIconLang(const ALang1: string; const ALang2: string = ''; ABackgroundColor: TColor = $00FF9628;
   AFontColor: TColor = $00DCDCDC): TIcon;
 
@@ -122,7 +128,7 @@ end;
 
 function HeadersFromMemo(AMemo: TMemo): TStringList;
 var
-  i, p: Integer;
+  i, p: integer;
   line, Key, Value: string;
 begin
   Result := TStringList.Create;

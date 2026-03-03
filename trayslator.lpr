@@ -22,7 +22,7 @@ uses
   systemtool
   {$IFDEF WINDOWS}
   ,uDarkStyle
-  ,uWin32WidgetSetDark
+  ,uWin32WidgetSetDark, lazmouseandkeyinput
   {$ENDIF}
   ;
 
