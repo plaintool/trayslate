@@ -12,6 +12,9 @@ unit langtool;
 interface
 
 uses
+  {$IFDEF WINDOWS}
+  Windows,
+  {$ENDIF}
   Classes,
   Graphics,
   Types,
@@ -28,6 +31,18 @@ type
     Key: word;            // virtual key code
   end;
 
+{$IFDEF WINDOWS}
+
+const
+  HOTKEY_APP = 1;
+  HOTKEY_TRANS_SWAP = 2;
+  HOTKEY_TRANS_FROM_CLIPBOARD = 3;
+  HOTKEY_TRANS_CLIPBOARD = 4;
+  HOTKEY_TRANS_FROM_CONTROL = 5;
+  HOTKEY_TRANS_CONTROL = 6;
+
+{$ENDIF}
+
 function CreateTrayIconLang(const ALang1: string; const ALang2: string = ''; ABackgroundColor: TColor = $00FF9628;
   AFontColor: TColor = $00DCDCDC): TIcon;
 
@@ -36,6 +51,8 @@ procedure SetComboBoxByCode(ComboBox: TComboBox; const Code: string);
 function HeadersFromMemo(AMemo: TMemo): TStringList;
 
 function ParseJsonByPointer(const JsonStr, JsonPointer: string): string;
+
+function HotKeyToText(const AHotKey: THotKeyData): string;
 
 implementation
 
@@ -268,6 +285,45 @@ begin
     end;
   finally
     PathParts.Free;
+  end;
+end;
+
+function HotKeyToText(const AHotKey: THotKeyData): string;
+begin
+  Result := string.Empty;
+
+  if (AHotKey.Modifiers and MOD_CONTROL) <> 0 then
+    Result := Result + 'Ctrl+';
+  if (AHotKey.Modifiers and MOD_SHIFT) <> 0 then
+    Result := Result + 'Shift+';
+  if (AHotKey.Modifiers and MOD_ALT) <> 0 then
+    Result := Result + 'Alt+';
+  if (AHotKey.Modifiers and MOD_WIN) <> 0 then
+    Result := Result + 'Win+';
+
+  case AHotKey.Key of
+    0: ; // no key
+    VK_RETURN: Result := Result + 'Enter';
+    VK_SPACE: Result := Result + 'Space';
+    VK_TAB: Result := Result + 'Tab';
+    VK_ESCAPE: Result := Result + 'Esc';
+    VK_BACK: Result := Result + 'Backspace';
+    VK_DELETE: Result := Result + 'Delete';
+    VK_INSERT: Result := Result + 'Insert';
+    VK_HOME: Result := Result + 'Home';
+    VK_END: Result := Result + 'End';
+    VK_PRIOR: Result := Result + 'PageUp';
+    VK_NEXT: Result := Result + 'PageDown';
+    VK_LEFT: Result := Result + 'Left';
+    VK_RIGHT: Result := Result + 'Right';
+    VK_UP: Result := Result + 'Up';
+    VK_DOWN: Result := Result + 'Down';
+  else
+    // For printable ASCII symbols
+    if (AHotKey.Key >= 32) and (AHotKey.Key <= 126) then
+      Result := Result + Chr(AHotKey.Key)
+    else
+      Result := Result + Format('VK_%d', [AHotKey.Key]);
   end;
 end;
 

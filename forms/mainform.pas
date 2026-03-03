@@ -12,6 +12,10 @@ unit mainform;
 interface
 
 uses
+  {$IFDEF WINDOWS}
+  Windows,
+  Messages,
+  {$ENDIF}
   Classes,
   SysUtils,
   Forms,
@@ -28,10 +32,6 @@ uses
   LCLType,
   LMessages,
   mouseandkeyinput,
-  {$IFDEF WINDOWS}
-  Windows,
-  Messages,
-  {$ENDIF}
   translate,
   langtool;
 
@@ -150,10 +150,6 @@ type
 
     procedure ProcessMessages;
     procedure SetAutoStart(Value: boolean);
-    {$IFDEF WINDOWS}
-    procedure RegisterHotKeys;
-    procedure UnregisterHotKeys;
-    {$ENDIF}
   protected
     {$IFDEF WINDOWS}
     procedure WMActivate(var Message: TLMActivate); message LM_ACTIVATE;
@@ -164,6 +160,10 @@ type
     procedure LoadConfig;
     procedure BuildConfigMenu;
     procedure UpdateCheckConfigMenu;
+    {$IFDEF WINDOWS}
+    procedure RegisterHotKeys;
+    procedure UnregisterHotKeys;
+    {$ENDIF}
 
     // Base properties
     property Trans: TTranslate read FTrans write FTrans;
@@ -193,18 +193,6 @@ type
 
 var
   formTrayslator: TformTrayslator;
-
-  {$IFDEF WINDOWS}
-
-const
-  HOTKEY_APP = 1;
-  HOTKEY_TRANS_SWAP = 2;
-  HOTKEY_TRANS_FROM_CLIPBOARD = 3;
-  HOTKEY_TRANS_CLIPBOARD = 4;
-  HOTKEY_TRANS_FROM_CONTROL = 5;
-  HOTKEY_TRANS_CONTROL = 6;
-
-  {$ENDIF}
 
 resourcestring
   NoConfig = 'Configuration file not found!';
@@ -835,6 +823,45 @@ begin
   end;
 end;
 
+{$IFDEF WINDOWS}
+
+procedure TformTrayslator.UnregisterHotKeys;
+begin
+  UnregisterHotKey(Handle, HOTKEY_APP);
+  UnregisterHotKey(Handle, HOTKEY_TRANS_SWAP);
+  UnregisterHotKey(Handle, HOTKEY_TRANS_FROM_CLIPBOARD);
+  UnregisterHotKey(Handle, HOTKEY_TRANS_CLIPBOARD);
+  UnregisterHotKey(Handle, HOTKEY_TRANS_FROM_CONTROL);
+  UnregisterHotKey(Handle, HOTKEY_TRANS_CONTROL);
+end;
+
+procedure TformTrayslator.RegisterHotKeys;
+begin
+  // Unregister first to avoid duplicate registration
+  UnregisterHotKeys;
+
+  // Register hotkeys if key is assigned
+  if FHotKeyApp.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_APP, FHotKeyApp.Modifiers, FHotKeyApp.Key);
+
+  if FHotKeyTransSwap.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_TRANS_SWAP, FHotKeyTransSwap.Modifiers, FHotKeyTransSwap.Key);
+
+  if FHotKeyTransFromClipboard.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_TRANS_FROM_CLIPBOARD, FHotKeyTransFromClipboard.Modifiers, FHotKeyTransFromClipboard.Key);
+
+  if FHotKeyTransClipboard.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_TRANS_CLIPBOARD, FHotKeyTransClipboard.Modifiers, FHotKeyTransClipboard.Key);
+
+    if FHotKeyTransFromControl.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_TRANS_FROM_CONTROL, FHotKeyTransFromControl.Modifiers, FHotKeyTransFromControl.Key);
+
+  if FHotKeyTransControl.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_TRANS_CONTROL, FHotKeyTransControl.Modifiers, FHotKeyTransControl.Key);
+end;
+
+{$ENDIF}
+
 procedure TformTrayslator.Translate;
 var
   Th: TTranslateThread;
@@ -990,7 +1017,7 @@ begin
     end;
 
     // Paste clipboard to active window (Ctrl+V)
-    Sleep(100);
+    Sleep(200);
     KeyInput.Apply([ssCtrl]);
     Sleep(50);
     KeyInput.Down(Ord('V'));
@@ -1018,44 +1045,5 @@ begin
   FAutoStart := Value;
   RegAutoStart(FAutoStart, 'Trayslator');
 end;
-
-{$IFDEF WINDOWS}
-
-procedure TformTrayslator.UnregisterHotKeys;
-begin
-  UnregisterHotKey(Handle, HOTKEY_APP);
-  UnregisterHotKey(Handle, HOTKEY_TRANS_SWAP);
-  UnregisterHotKey(Handle, HOTKEY_TRANS_FROM_CLIPBOARD);
-  UnregisterHotKey(Handle, HOTKEY_TRANS_CLIPBOARD);
-  UnregisterHotKey(Handle, HOTKEY_TRANS_FROM_CONTROL);
-  UnregisterHotKey(Handle, HOTKEY_TRANS_CONTROL);
-end;
-
-procedure TformTrayslator.RegisterHotKeys;
-begin
-  // Unregister first to avoid duplicate registration
-  UnregisterHotKeys;
-
-  // Register hotkeys if key is assigned
-  if FHotKeyApp.Key <> 0 then
-    RegisterHotKey(Handle, HOTKEY_APP, FHotKeyApp.Modifiers, FHotKeyApp.Key);
-
-  if FHotKeyTransSwap.Key <> 0 then
-    RegisterHotKey(Handle, HOTKEY_TRANS_SWAP, FHotKeyTransSwap.Modifiers, FHotKeyTransSwap.Key);
-
-  if FHotKeyTransFromClipboard.Key <> 0 then
-    RegisterHotKey(Handle, HOTKEY_TRANS_FROM_CLIPBOARD, FHotKeyTransFromClipboard.Modifiers, FHotKeyTransFromClipboard.Key);
-
-  if FHotKeyTransClipboard.Key <> 0 then
-    RegisterHotKey(Handle, HOTKEY_TRANS_CLIPBOARD, FHotKeyTransClipboard.Modifiers, FHotKeyTransClipboard.Key);
-
-    if FHotKeyTransFromControl.Key <> 0 then
-    RegisterHotKey(Handle, HOTKEY_TRANS_FROM_CONTROL, FHotKeyTransFromControl.Modifiers, FHotKeyTransFromControl.Key);
-
-  if FHotKeyTransControl.Key <> 0 then
-    RegisterHotKey(Handle, HOTKEY_TRANS_CONTROL, FHotKeyTransControl.Modifiers, FHotKeyTransControl.Key);
-end;
-
-{$ENDIF}
 
 end.

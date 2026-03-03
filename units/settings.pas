@@ -38,7 +38,7 @@ procedure GetIniFiles(List: TStrings);
 
 implementation
 
-uses systemtool;
+uses systemtool, langtool;
 
 function GetSettingsDirectory(fileName: string = string.Empty): string;
   {$IFDEF Windows}
@@ -124,12 +124,31 @@ begin
 
     // Save config
     JSONObj.Add('ConfigFile', Form.ConfigFile);
+    JSONObj.Add('AutoStart', Form.AutoStart);
     JSONObj.Add('IconBackgroundColor', Form.IconBackgroundColor);
     JSONObj.Add('IconFontColor', Form.IconFontColor);
     JSONObj.Add('IconTwoLang', Form.IconTwoLang);
     JSONObj.Add('LangSource', Form.LangSource);
     JSONObj.Add('LangTarget', Form.LangTarget);
-    JSONObj.Add('AutoStart', Form.AutoStart);
+
+    // Save hotkeys
+    JSONObj.Add('HotKeyApp_Modifiers', Form.HotKeyApp.Modifiers);
+    JSONObj.Add('HotKeyApp_Key', Form.HotKeyApp.Key);
+
+    JSONObj.Add('HotKeyTransSwap_Modifiers', Form.HotKeyTransSwap.Modifiers);
+    JSONObj.Add('HotKeyTransSwap_Key', Form.HotKeyTransSwap.Key);
+
+    JSONObj.Add('HotKeyTransFromClipboard_Modifiers', Form.HotKeyTransFromClipboard.Modifiers);
+    JSONObj.Add('HotKeyTransFromClipboard_Key', Form.HotKeyTransFromClipboard.Key);
+
+    JSONObj.Add('HotKeyTransClipboard_Modifiers', Form.HotKeyTransClipboard.Modifiers);
+    JSONObj.Add('HotKeyTransClipboard_Key', Form.HotKeyTransClipboard.Key);
+
+    JSONObj.Add('HotKeyTransFromControl_Modifiers', Form.HotKeyTransFromControl.Modifiers);
+    JSONObj.Add('HotKeyTransFromControl_Key', Form.HotKeyTransFromControl.Key);
+
+    JSONObj.Add('HotKeyTransControl_Modifiers', Form.HotKeyTransControl.Modifiers);
+    JSONObj.Add('HotKeyTransControl_Key', Form.HotKeyTransControl.Key);
 
     // Write to file
     with TStringList.Create do
@@ -151,6 +170,7 @@ var
   FileName: string;
   FileStream: TFileStream;
   FileContent: string;
+  HK: THotKeyData;
 begin
   Result := False;
   FileContent := string.Empty;
@@ -222,6 +242,9 @@ begin
       if JSONObj.FindPath('ConfigFile') <> nil then
         Form.ConfigFile := JSONObj.FindPath('ConfigFile').AsString;
 
+      if JSONObj.FindPath('AutoStart') <> nil then
+        Form.AutoStart := JSONObj.FindPath('AutoStart').AsBoolean;
+
       if JSONObj.FindPath('IconBackgroundColor') <> nil then
         Form.IconBackgroundColor := JSONObj.FindPath('IconBackgroundColor').AsInteger;
 
@@ -237,8 +260,54 @@ begin
       if (JSONObj.FindPath('LangTarget') <> nil) and (JSONObj.FindPath('LangTarget').AsString <> string.Empty) then
         Form.LangTarget := JSONObj.FindPath('LangTarget').AsString;
 
-      if JSONObj.FindPath('AutoStart') <> nil then
-        Form.AutoStart := JSONObj.FindPath('AutoStart').AsBoolean;
+      // Load HotKeys
+      // HotKeyApp
+      HK := Form.HotKeyApp;
+      if JSONObj.FindPath('HotKeyApp_Modifiers') <> nil then
+        HK.Modifiers := JSONObj.FindPath('HotKeyApp_Modifiers').AsInteger;
+      if JSONObj.FindPath('HotKeyApp_Key') <> nil then
+        HK.Key := JSONObj.FindPath('HotKeyApp_Key').AsInteger;
+      Form.HotKeyApp := HK;
+
+      // HotKeyTransSwap
+      HK := Form.HotKeyTransSwap;
+      if JSONObj.FindPath('HotKeyTransSwap_Modifiers') <> nil then
+        HK.Modifiers := JSONObj.FindPath('HotKeyTransSwap_Modifiers').AsInteger;
+      if JSONObj.FindPath('HotKeyTransSwap_Key') <> nil then
+        HK.Key := JSONObj.FindPath('HotKeyTransSwap_Key').AsInteger;
+      Form.HotKeyTransSwap := HK;
+
+      // HotKeyTransFromClipboard
+      HK := Form.HotKeyTransFromClipboard;
+      if JSONObj.FindPath('HotKeyTransFromClipboard_Modifiers') <> nil then
+        HK.Modifiers := JSONObj.FindPath('HotKeyTransFromClipboard_Modifiers').AsInteger;
+      if JSONObj.FindPath('HotKeyTransFromClipboard_Key') <> nil then
+        HK.Key := JSONObj.FindPath('HotKeyTransFromClipboard_Key').AsInteger;
+      Form.HotKeyTransFromClipboard := HK;
+
+      // HotKeyTransClipboard
+      HK := Form.HotKeyTransClipboard;
+      if JSONObj.FindPath('HotKeyTransClipboard_Modifiers') <> nil then
+        HK.Modifiers := JSONObj.FindPath('HotKeyTransClipboard_Modifiers').AsInteger;
+      if JSONObj.FindPath('HotKeyTransClipboard_Key') <> nil then
+        HK.Key := JSONObj.FindPath('HotKeyTransClipboard_Key').AsInteger;
+      Form.HotKeyTransClipboard := HK;
+
+      // HotKeyTransFromControl
+      HK := Form.HotKeyTransFromControl;
+      if JSONObj.FindPath('HotKeyTransFromControl_Modifiers') <> nil then
+        HK.Modifiers := JSONObj.FindPath('HotKeyTransFromControl_Modifiers').AsInteger;
+      if JSONObj.FindPath('HotKeyTransFromControl_Key') <> nil then
+        HK.Key := JSONObj.FindPath('HotKeyTransFromControl_Key').AsInteger;
+      Form.HotKeyTransFromControl := HK;
+
+      // HotKeyTransControl
+      HK := Form.HotKeyTransControl;
+      if JSONObj.FindPath('HotKeyTransControl_Modifiers') <> nil then
+        HK.Modifiers := JSONObj.FindPath('HotKeyTransControl_Modifiers').AsInteger;
+      if JSONObj.FindPath('HotKeyTransControl_Key') <> nil then
+        HK.Key := JSONObj.FindPath('HotKeyTransControl_Key').AsInteger;
+      Form.HotKeyTransControl := HK;
 
       Result := True;
     finally

@@ -11,6 +11,9 @@ unit formsettings;
 interface
 
 uses
+  {$IFDEF WINDOWS}
+  Windows,
+  {$ENDIF}
   Classes,
   SysUtils,
   StrUtils,
@@ -21,7 +24,8 @@ uses
   ComCtrls,
   StdCtrls,
   ExtCtrls,
-  ColorBox;
+  ColorBox,
+  langtool;
 
 type
 
@@ -38,24 +42,42 @@ type
     ColorIconBackground: TColorBox;
     ColorIconFont: TColorBox;
     ColorDialog: TColorDialog;
+    EditApp: TEdit;
+    EditTransClipboard: TEdit;
+    EditTransFromControl: TEdit;
+    EditTransControl: TEdit;
+    EditTransSwap: TEdit;
+    EditTransFromClipboard: TEdit;
     FontDialog: TFontDialog;
+    GroupTransSwap: TGroupBox;
+    GroupTransFromControl: TGroupBox;
+    GroupTransFromClipboard: TGroupBox;
     GroupAutostart: TGroupBox;
+    GroupApp: TGroupBox;
     GroupFont: TGroupBox;
+    GroupTransClipboard: TGroupBox;
+    GroupTransControl: TGroupBox;
     GroupTrayIcon: TGroupBox;
+    LabelTransClipboard: TLabel;
+    LabelTransFromControl: TLabel;
+    LabelTransControl: TLabel;
+    LabelTransSwap: TLabel;
     LabelIconBackground: TLabel;
     LabelIconFont: TLabel;
+    LabelApp: TLabel;
+    LabelTransFromClipboard: TLabel;
     PagesSettings: TPageControl;
     PanelFont: TPanel;
-    TabInterface: TTabSheet;
+    PageInterface: TTabSheet;
+    PageHotkeys: TTabSheet;
     procedure BtnApplyClick(Sender: TObject);
     procedure BtnCancelClick(Sender: TObject);
     procedure BtnFontClick(Sender: TObject);
     procedure BtnOkClick(Sender: TObject);
     procedure BtnResetClick(Sender: TObject);
-    procedure CheckAutostartChange(Sender: TObject);
-    procedure CheckTwoLangChange(Sender: TObject);
-    procedure ColorIconBackgroundChange(Sender: TObject);
-    procedure ColorIconFontChange(Sender: TObject);
+    procedure EditClick(Sender: TObject);
+    procedure SettingChange(Sender: TObject);
+    procedure EditKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
   private
     FOriginalFont: TFont;
@@ -63,6 +85,20 @@ type
     FOriginalIconFontColor: TColor;
     FOriginalIconTwoLang: boolean;
     FOriginalAutoStart: boolean;
+    FOriginalHotKeyApp: THotKeyData;
+    FOriginalHotKeyTransSwap: THotKeyData;
+    FOriginalHotKeyTransFromClipboard: THotKeyData;
+    FOriginalHotKeyTransClipboard: THotKeyData;
+    FOriginalHotKeyTransFromControl: THotKeyData;
+    FOriginalHotKeyTransControl: THotKeyData;
+
+    FHotKeyApp: THotKeyData;
+    FHotKeyTransSwap: THotKeyData;
+    FHotKeyTransFromClipboard: THotKeyData;
+    FHotKeyTransClipboard: THotKeyData;
+    FHotKeyTransFromControl: THotKeyData;
+    FHotKeyTransControl: THotKeyData;
+
     procedure SetPanelFont(const AFont: TFont);
     procedure AddTrayColors(AColorBox: TColorBox);
   public
@@ -83,6 +119,7 @@ uses mainform;
 
 procedure TformSettingsTrayslator.FormCreate(Sender: TObject);
 begin
+  PagesSettings.PageIndex := 0;
   AddTrayColors(ColorIconBackground);
   AddTrayColors(ColorIconFont);
   Reset;
@@ -109,24 +146,54 @@ begin
   BtnReset.Enabled := False;
 end;
 
-procedure TformSettingsTrayslator.CheckAutostartChange(Sender: TObject);
+procedure TformSettingsTrayslator.EditClick(Sender: TObject);
+begin
+  (Sender as TEdit).SelectAll;
+end;
+
+procedure TformSettingsTrayslator.SettingChange(Sender: TObject);
 begin
   BtnApply.Enabled := True;
 end;
 
-procedure TformSettingsTrayslator.CheckTwoLangChange(Sender: TObject);
+procedure TformSettingsTrayslator.EditKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+var
+  HK: THotKeyData;
 begin
-  BtnApply.Enabled := True;
-end;
+  // Initialize
+  HK.Modifiers := 0;
+  HK.Key := 0;
 
-procedure TformSettingsTrayslator.ColorIconBackgroundChange(Sender: TObject);
-begin
-  BtnApply.Enabled := True;
-end;
+  // Set modifiers
+  if ssCtrl in Shift then
+    HK.Modifiers := HK.Modifiers or MOD_CONTROL;
 
-procedure TformSettingsTrayslator.ColorIconFontChange(Sender: TObject);
-begin
-  BtnApply.Enabled := True;
+  if ssShift in Shift then
+    HK.Modifiers := HK.Modifiers or MOD_SHIFT;
+
+  if ssAlt in Shift then
+    HK.Modifiers := HK.Modifiers or MOD_ALT;
+
+  // Set key if not a pure modifier
+  if (Key <> VK_CONTROL) and (Key <> VK_SHIFT) and (Key <> VK_MENU) then
+  begin
+    HK.Key := Key;
+    // Block default processing only for real key
+    Key := 0;
+  end;
+
+  // Update the corresponding hotkey
+  case TEdit(Sender).Tag of
+    HOTKEY_APP: FHotKeyApp := HK;
+    HOTKEY_TRANS_SWAP: FHotKeyTransSwap := HK;
+    HOTKEY_TRANS_FROM_CLIPBOARD: FHotKeyTransFromClipboard := HK;
+    HOTKEY_TRANS_CLIPBOARD: FHotKeyTransClipboard := HK;
+    HOTKEY_TRANS_FROM_CONTROL: FHotKeyTransFromControl := HK;
+    HOTKEY_TRANS_CONTROL: FHotKeyTransControl := HK;
+  end;
+
+  // Update Edit text
+  TEdit(Sender).Text := HotKeyToText(HK);
 end;
 
 procedure TformSettingsTrayslator.BtnOkClick(Sender: TObject);
@@ -144,37 +211,6 @@ end;
 procedure TformSettingsTrayslator.BtnApplyClick(Sender: TObject);
 begin
   Apply;
-end;
-
-procedure TformSettingsTrayslator.Apply;
-begin
-  formTrayslator.Font.Assign(PanelFont.Font);
-  formTrayslator.IconBackgroundColor := ColorIconBackground.Selected;
-  formTrayslator.IconFontColor := ColorIconFont.Selected;
-  formTrayslator.IconTwoLang := CheckTwoLang.Checked;
-  formTrayslator.AutoStart := CheckAutostart.Checked;
-
-  formTrayslator.SetIcon;
-  Reset;
-end;
-
-procedure TformSettingsTrayslator.Reset;
-begin
-  FOriginalFont := formTrayslator.Font;
-  FOriginalIconBackgroundColor := formTrayslator.IconBackgroundColor;
-  FOriginalIconFontColor := formTrayslator.IconFontColor;
-  FOriginalIconTwoLang := formTrayslator.IconTwoLang;
-  FOriginalAutoStart := formTrayslator.AutoStart;
-
-  PanelFont.Font.Assign(FOriginalFont);
-  SetPanelFont(FOriginalFont);
-  ColorIconBackground.Selected := FOriginalIconBackgroundColor;
-  ColorIconFont.Selected := FOriginalIconFontColor;
-  CheckTwoLang.Checked := FOriginalIconTwoLang;
-  CheckAutostart.Checked := FOriginalAutoStart;
-
-  BtnApply.Enabled := False;
-  BtnReset.Enabled := False;
 end;
 
 procedure TformSettingsTrayslator.SetPanelFont(const AFont: TFont);
@@ -256,6 +292,62 @@ begin
   AColorBox.Items.AddObject('Coral', TObject(PtrUInt($00507FFF)));
   AColorBox.Items.AddObject('Blush', TObject(PtrUInt($007080FF)));
   AColorBox.Items.AddObject('Magenta', TObject(PtrUInt($00FF00FF)));
+end;
+
+procedure TformSettingsTrayslator.Apply;
+begin
+  formTrayslator.AutoStart := CheckAutostart.Checked;
+  formTrayslator.Font.Assign(PanelFont.Font);
+  formTrayslator.IconBackgroundColor := ColorIconBackground.Selected;
+  formTrayslator.IconFontColor := ColorIconFont.Selected;
+  formTrayslator.IconTwoLang := CheckTwoLang.Checked;
+  formTrayslator.SetIcon;
+
+  formTrayslator.HotKeyApp := FHotKeyApp;
+  formTrayslator.HotKeyTransSwap := FHotKeyTransSwap;
+  formTrayslator.HotKeyTransFromClipboard := FHotKeyTransFromClipboard;
+  formTrayslator.HotKeyTransClipboard := FHotKeyTransClipboard;
+  formTrayslator.HotKeyTransFromControl := FHotKeyTransFromControl;
+  formTrayslator.HotKeyTransControl := FHotKeyTransControl;
+  formTrayslator.RegisterHotKeys;
+  Reset;
+end;
+
+procedure TformSettingsTrayslator.Reset;
+begin
+  FOriginalFont := formTrayslator.Font;
+  FOriginalIconBackgroundColor := formTrayslator.IconBackgroundColor;
+  FOriginalIconFontColor := formTrayslator.IconFontColor;
+  FOriginalIconTwoLang := formTrayslator.IconTwoLang;
+  FOriginalAutoStart := formTrayslator.AutoStart;
+  FOriginalHotKeyApp := formTrayslator.HotKeyApp;
+  FOriginalHotKeyTransSwap := formTrayslator.HotKeyTransSwap;
+  FOriginalHotKeyTransFromClipboard := formTrayslator.HotKeyTransFromClipboard;
+  FOriginalHotKeyTransClipboard := formTrayslator.HotKeyTransClipboard;
+  FOriginalHotKeyTransFromControl := formTrayslator.HotKeyTransFromControl;
+  FOriginalHotKeyTransControl := formTrayslator.HotKeyTransControl;
+  FHotKeyApp := formTrayslator.HotKeyApp;
+  FHotKeyTransSwap := formTrayslator.HotKeyTransSwap;
+  FHotKeyTransFromClipboard := formTrayslator.HotKeyTransFromClipboard;
+  FHotKeyTransClipboard := formTrayslator.HotKeyTransClipboard;
+  FHotKeyTransFromControl := formTrayslator.HotKeyTransFromControl;
+  FHotKeyTransControl := formTrayslator.HotKeyTransControl;
+
+  PanelFont.Font.Assign(FOriginalFont);
+  SetPanelFont(FOriginalFont);
+  ColorIconBackground.Selected := FOriginalIconBackgroundColor;
+  ColorIconFont.Selected := FOriginalIconFontColor;
+  CheckTwoLang.Checked := FOriginalIconTwoLang;
+  CheckAutostart.Checked := FOriginalAutoStart;
+  EditApp.Text := HotKeyToText(FOriginalHotKeyApp);
+  EditTransSwap.Text := HotKeyToText(FOriginalHotKeyTransSwap);
+  EditTransFromClipboard.Text := HotKeyToText(FOriginalHotKeyTransFromClipboard);
+  EditTransClipboard.Text := HotKeyToText(FOriginalHotKeyTransClipboard);
+  EditTransFromControl.Text := HotKeyToText(FOriginalHotKeyTransFromControl);
+  EditTransControl.Text := HotKeyToText(FOriginalHotKeyTransControl);
+
+  BtnApply.Enabled := False;
+  BtnReset.Enabled := False;
 end;
 
 end.

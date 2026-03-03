@@ -112,6 +112,7 @@ uses mainform, translate, settings, formattool, langtool;
 
 procedure TformConfigTrayslator.FormCreate(Sender: TObject);
 begin
+  Pages.PageIndex := 0;
 end;
 
 procedure TformConfigTrayslator.FormShow(Sender: TObject);

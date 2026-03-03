@@ -15,13 +15,13 @@ object formSettingsTrayslator: TformSettingsTrayslator
     Height = 405
     Top = 5
     Width = 390
-    ActivePage = TabInterface
+    ActivePage = PageHotkeys
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
-    TabIndex = 0
+    TabIndex = 1
     TabOrder = 0
-    object TabInterface: TTabSheet
+    object PageInterface: TTabSheet
       Caption = 'Interface'
       ClientHeight = 377
       ClientWidth = 382
@@ -35,7 +35,7 @@ object formSettingsTrayslator: TformSettingsTrayslator
         Caption = 'Font'
         ClientHeight = 79
         ClientWidth = 368
-        TabOrder = 0
+        TabOrder = 1
         object PanelFont: TPanel
           Left = 16
           Height = 57
@@ -82,7 +82,7 @@ object formSettingsTrayslator: TformSettingsTrayslator
         Caption = 'Tray Icon'
         ClientHeight = 111
         ClientWidth = 368
-        TabOrder = 1
+        TabOrder = 2
         object CheckTwoLang: TCheckBox
           Left = 21
           Height = 24
@@ -90,8 +90,8 @@ object formSettingsTrayslator: TformSettingsTrayslator
           Width = 104
           AutoSize = False
           Caption = '  Two languages'
-          TabOrder = 0
-          OnChange = CheckTwoLangChange
+          TabOrder = 2
+          OnChange = SettingChange
         end
         object ColorIconBackground: TColorBox
           Left = 136
@@ -103,8 +103,8 @@ object formSettingsTrayslator: TformSettingsTrayslator
           Anchors = [akTop, akLeft, akRight]
           DropDownCount = 12
           ItemHeight = 16
-          TabOrder = 1
-          OnChange = ColorIconBackgroundChange
+          TabOrder = 0
+          OnChange = SettingChange
         end
         object LabelIconBackground: TLabel
           Left = 16
@@ -134,8 +134,8 @@ object formSettingsTrayslator: TformSettingsTrayslator
           Anchors = [akTop, akLeft, akRight]
           DropDownCount = 12
           ItemHeight = 16
-          TabOrder = 2
-          OnChange = ColorIconFontChange
+          TabOrder = 1
+          OnChange = SettingChange
         end
       end
       object GroupAutostart: TGroupBox
@@ -148,7 +148,7 @@ object formSettingsTrayslator: TformSettingsTrayslator
         Caption = 'Autostart'
         ClientHeight = 39
         ClientWidth = 368
-        TabOrder = 2
+        TabOrder = 0
         object CheckAutostart: TCheckBox
           Left = 21
           Height = 32
@@ -157,7 +157,246 @@ object formSettingsTrayslator: TformSettingsTrayslator
           AutoSize = False
           Caption = '  Launch at system startup'
           TabOrder = 0
-          OnChange = CheckAutostartChange
+          OnChange = SettingChange
+        end
+      end
+    end
+    object PageHotkeys: TTabSheet
+      Caption = 'Global Hotkeys'
+      ClientHeight = 377
+      ClientWidth = 382
+      object GroupApp: TGroupBox
+        Left = 5
+        Height = 57
+        Top = 5
+        Width = 372
+        Align = alTop
+        BorderSpacing.Around = 5
+        Caption = 'Toggle Application'
+        ClientHeight = 37
+        ClientWidth = 368
+        TabOrder = 0
+        object LabelApp: TLabel
+          Left = 8
+          Height = 23
+          Top = 8
+          Width = 144
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Default Ctrl+Shift+A'
+        end
+        object EditApp: TEdit
+          Tag = 1
+          Left = 168
+          Height = 23
+          Hint = 'Shows or hides the main application window'
+          Top = 8
+          Width = 184
+          Alignment = taCenter
+          Anchors = [akTop, akLeft, akRight]
+          Color = clBtnFace
+          ParentShowHint = False
+          ReadOnly = True
+          ShowHint = True
+          TabOrder = 0
+          OnChange = SettingChange
+          OnClick = EditClick
+          OnKeyDown = EditKeyDown
+        end
+      end
+      object GroupTransSwap: TGroupBox
+        Left = 5
+        Height = 57
+        Top = 67
+        Width = 372
+        Align = alTop
+        BorderSpacing.Around = 5
+        Caption = 'Swap Languages'
+        ClientHeight = 37
+        ClientWidth = 368
+        TabOrder = 1
+        object LabelTransSwap: TLabel
+          Left = -24
+          Height = 23
+          Top = 8
+          Width = 176
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Default: Ctrl+Shift+S'
+        end
+        object EditTransSwap: TEdit
+          Tag = 2
+          Left = 168
+          Height = 23
+          Hint = 'Swaps the source and target languages'
+          Top = 8
+          Width = 184
+          Alignment = taCenter
+          Anchors = [akTop, akLeft, akRight]
+          Color = clBtnFace
+          ParentShowHint = False
+          ReadOnly = True
+          ShowHint = True
+          TabOrder = 0
+          OnChange = SettingChange
+          OnClick = EditClick
+          OnKeyDown = EditKeyDown
+        end
+      end
+      object GroupTransFromClipboard: TGroupBox
+        Left = 5
+        Height = 57
+        Top = 129
+        Width = 372
+        Align = alTop
+        BorderSpacing.Around = 5
+        Caption = 'Translate From Clipboard'
+        ClientHeight = 37
+        ClientWidth = 368
+        TabOrder = 2
+        object LabelTransFromClipboard: TLabel
+          Left = -24
+          Height = 23
+          Top = 8
+          Width = 176
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Default: Ctrl+Shift+T'
+        end
+        object EditTransFromClipboard: TEdit
+          Tag = 3
+          Left = 168
+          Height = 23
+          Hint = 'Translates the current text from the clipboard'
+          Top = 8
+          Width = 184
+          Alignment = taCenter
+          Anchors = [akTop, akLeft, akRight]
+          Color = clBtnFace
+          ParentShowHint = False
+          ReadOnly = True
+          ShowHint = True
+          TabOrder = 0
+          OnChange = SettingChange
+          OnClick = EditClick
+          OnKeyDown = EditKeyDown
+        end
+      end
+      object GroupTransClipboard: TGroupBox
+        Left = 5
+        Height = 57
+        Top = 191
+        Width = 372
+        Align = alTop
+        BorderSpacing.Around = 5
+        Caption = 'Translate To Clipboard'
+        ClientHeight = 37
+        ClientWidth = 368
+        TabOrder = 3
+        object LabelTransClipboard: TLabel
+          Left = -24
+          Height = 23
+          Top = 8
+          Width = 176
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Default: Ctrl+Shift+C'
+        end
+        object EditTransClipboard: TEdit
+          Tag = 4
+          Left = 168
+          Height = 23
+          Hint = 'Translates the current text and copies the result to the clipboard'
+          Top = 8
+          Width = 184
+          Alignment = taCenter
+          Anchors = [akTop, akLeft, akRight]
+          Color = clBtnFace
+          ParentShowHint = False
+          ReadOnly = True
+          ShowHint = True
+          TabOrder = 0
+          OnChange = SettingChange
+          OnClick = EditClick
+          OnKeyDown = EditKeyDown
+        end
+      end
+      object GroupTransFromControl: TGroupBox
+        Left = 5
+        Height = 57
+        Top = 253
+        Width = 372
+        Align = alTop
+        BorderSpacing.Around = 5
+        Caption = 'Translate From Active Application Selection'
+        ClientHeight = 37
+        ClientWidth = 368
+        TabOrder = 4
+        object LabelTransFromControl: TLabel
+          Left = -24
+          Height = 23
+          Top = 8
+          Width = 176
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Default: Ctrl+Shift+Z'
+        end
+        object EditTransFromControl: TEdit
+          Tag = 5
+          Left = 168
+          Height = 23
+          Hint = 'Translates the selected text from the active application'
+          Top = 8
+          Width = 184
+          Alignment = taCenter
+          Anchors = [akTop, akLeft, akRight]
+          Color = clBtnFace
+          ParentShowHint = False
+          ReadOnly = True
+          ShowHint = True
+          TabOrder = 0
+          OnChange = SettingChange
+          OnClick = EditClick
+          OnKeyDown = EditKeyDown
+        end
+      end
+      object GroupTransControl: TGroupBox
+        Left = 5
+        Height = 57
+        Top = 315
+        Width = 372
+        Align = alTop
+        BorderSpacing.Around = 5
+        Caption = 'Translate In Active Application Selection'
+        ClientHeight = 37
+        ClientWidth = 368
+        TabOrder = 5
+        object LabelTransControl: TLabel
+          Left = -24
+          Height = 23
+          Top = 8
+          Width = 176
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Default: Ctrl+Shift+X'
+        end
+        object EditTransControl: TEdit
+          Tag = 6
+          Left = 168
+          Height = 23
+          Hint = 'Replaces the selected text in the active application with the translation'
+          Top = 8
+          Width = 184
+          Alignment = taCenter
+          Anchors = [akTop, akLeft, akRight]
+          Color = clBtnFace
+          ParentShowHint = False
+          ReadOnly = True
+          ShowHint = True
+          TabOrder = 0
+          OnChange = SettingChange
+          OnClick = EditClick
+          OnKeyDown = EditKeyDown
         end
       end
     end
@@ -179,7 +418,6 @@ object formSettingsTrayslator: TformSettingsTrayslator
     Top = 416
     Width = 75
     Anchors = [akRight, akBottom]
-    Cancel = True
     Caption = 'Cancel'
     TabOrder = 2
     OnClick = BtnCancelClick
@@ -219,13 +457,13 @@ object formSettingsTrayslator: TformSettingsTrayslator
       'ColorS=F0FBFF'
       'ColorT=A4A0A0'
     )
-    Left = 56
-    Top = 336
+    Left = 24
+    Top = 400
   end
   object FontDialog: TFontDialog
     MinFontSize = 0
     MaxFontSize = 0
-    Left = 128
-    Top = 336
+    Left = 88
+    Top = 400
   end
 end
