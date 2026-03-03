@@ -213,7 +213,7 @@ begin
   FConfigFile := GetIniDirectory('google.ini');
   FIconBackgroundColor := $00FF9E2B;
   FIconFontColor := clWhite;
-  FIconTwoLang := False;
+  FIconTwoLang := True;
   FAutoStart := True;
   FLangTarget := Language;
   FFormConfigLeft := 0;
