@@ -150,8 +150,8 @@ type
     procedure Translate;
     procedure TranslateFromClipboard;
     procedure TranslateClipboard;
-    procedure TranslateFromControl;
-    procedure TranslateControl;
+    procedure TranslateFromControl(Data: PtrInt);
+    procedure TranslateControl(Data: PtrInt);
 
     procedure ProcessMessages;
     procedure SetAutoStart(Value: boolean);
@@ -370,12 +370,12 @@ begin
 
       HOTKEY_TRANS_FROM_CONTROL:
       begin
-        TranslateFromControl;
+        Application.QueueAsyncCall(@TranslateFromControl, 0);
       end;
 
       HOTKEY_TRANS_CONTROL:
       begin
-        TranslateControl;
+        Application.QueueAsyncCall(@TranslateControl, 0);
       end;
     end;
   end;
@@ -983,19 +983,15 @@ end;
 procedure TformTrayslator.TranslateFromClipboard;
 begin
   if not Showing then
-  begin
     Show;
-    BringToFront;
-    FTopMost := True;
-    ProcessMessages;
-    if (Clipboard.AsText <> string.empty) then
-    begin
-      MemoSource.Text := Clipboard.AsText;
-      Translate;
-    end;
-  end
-  else
-    Hide;
+  BringToFront;
+  FTopMost := True;
+  ProcessMessages;
+  if (Clipboard.AsText <> string.empty) then
+  begin
+    MemoSource.Text := Clipboard.AsText;
+    Translate;
+  end;
 end;
 
 procedure TformTrayslator.TranslateClipboard;
@@ -1027,66 +1023,59 @@ begin
   end;
 end;
 
-procedure TformTrayslator.TranslateFromControl;
+procedure TformTrayslator.TranslateFromControl(Data: PtrInt);
 var
   OriginalClip, SelectedText: string;
 begin
-  if not Showing then
-  begin
-    Screen.Cursor := crAppStart;
-    Application.ProcessMessages;
-    try
-      // Save current clipboard to restore later
-      OriginalClip := Clipboard.AsText;
-
-      // Copy selection from active window (Ctrl+C)
-      Sleep(200);
-      KeyInput.Apply([ssCtrl]);
-      Sleep(50);
-      KeyInput.Down(Ord('C'));
-      Sleep(50);
-      KeyInput.Up(Ord('C'));
-      Sleep(50);
-      KeyInput.Unapply([ssCtrl]);
-
-      SelectedText := Clipboard.AsText;
-
-      Show;
-      BringToFront;
-      FTopMost := True;
-      ProcessMessages;
-      MemoSource.Text := SelectedText;
-      Translate;
-
-      // Restore original clipboard
-      Clipboard.AsText := OriginalClip;
-    finally
-      Screen.Cursor := crDefault;
-    end;
-  end
-  else
-    Hide;
-end;
-
-procedure TformTrayslator.TranslateControl;
-var
-  OriginalClip: string;
-  Th: TTranslateThread;
-begin
   Screen.Cursor := crAppStart;
-  Application.ProcessMessages;
   try
     // Save current clipboard to restore later
     OriginalClip := Clipboard.AsText;
 
     // Copy selection from active window (Ctrl+C)
-    Sleep(200);
+    Sleep(250);
     KeyInput.Apply([ssCtrl]);
-    Sleep(50);
+    Sleep(10);
     KeyInput.Down(Ord('C'));
-    Sleep(50);
+    Sleep(10);
     KeyInput.Up(Ord('C'));
-    Sleep(50);
+    Sleep(10);
+    KeyInput.Unapply([ssCtrl]);
+
+    SelectedText := Clipboard.AsText;
+
+    Show;
+    BringToFront;
+    FTopMost := True;
+    ProcessMessages;
+    MemoSource.Text := SelectedText;
+    Translate;
+
+    // Restore original clipboard
+    Clipboard.AsText := OriginalClip;
+  finally
+    Screen.Cursor := crDefault;
+  end;
+end;
+
+procedure TformTrayslator.TranslateControl(Data: PtrInt);
+var
+  OriginalClip: string;
+  Th: TTranslateThread;
+begin
+  Screen.Cursor := crAppStart;
+  try
+    // Save current clipboard to restore later
+    OriginalClip := Clipboard.AsText;
+
+    // Copy selection from active window (Ctrl+C)
+    Sleep(250);
+    KeyInput.Apply([ssCtrl]);
+    Sleep(10);
+    KeyInput.Down(Ord('C'));
+    Sleep(10);
+    KeyInput.Up(Ord('C'));
+    Sleep(10);
     KeyInput.Unapply([ssCtrl]);
 
     // Create translation thread (it will handle exceptions itself)
@@ -1110,13 +1099,13 @@ begin
       end;
 
       // Paste clipboard to active window (Ctrl+V)
-      Sleep(200);
+      Sleep(10);
       KeyInput.Apply([ssCtrl]);
-      Sleep(50);
+      Sleep(10);
       KeyInput.Down(Ord('V'));
-      Sleep(50);
+      Sleep(10);
       KeyInput.Up(Ord('V'));
-      Sleep(50);
+      Sleep(10);
       KeyInput.Unapply([ssCtrl]);
     end;
 
