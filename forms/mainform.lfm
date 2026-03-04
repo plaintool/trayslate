@@ -18,8 +18,8 @@ object formTrayslator: TformTrayslator
   OnWindowStateChange = FormWindowStateChange
   object MemoSource: TMemo
     Left = 3
-    Height = 200
-    Top = 37
+    Height = 199
+    Top = 38
     Width = 506
     Align = alClient
     BorderSpacing.Around = 3
@@ -45,14 +45,14 @@ object formTrayslator: TformTrayslator
   end
   object PanelLang: TPanel
     Left = 0
-    Height = 32
+    Height = 33
     Top = 0
     Width = 512
     Align = alTop
     AutoSize = True
     BorderSpacing.Bottom = 5
     BevelOuter = bvNone
-    ClientHeight = 32
+    ClientHeight = 33
     ClientWidth = 512
     Color = clBtnFace
     ParentBackground = False
@@ -62,7 +62,7 @@ object formTrayslator: TformTrayslator
     object ComboTarget: TComboBox
       Left = 257
       Height = 23
-      Top = 3
+      Top = 4
       Width = 225
       AutoComplete = True
       AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
@@ -77,7 +77,7 @@ object formTrayslator: TformTrayslator
     object ComboSource: TComboBox
       Left = 3
       Height = 23
-      Top = 3
+      Top = 4
       Width = 225
       AutoComplete = True
       AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
@@ -106,7 +106,7 @@ object formTrayslator: TformTrayslator
       Left = 485
       Height = 26
       Hint = 'Translate'#13#10'(Ctrl+Enter)'
-      Top = 3
+      Top = 4
       Width = 24
       Action = aTranslate
       BorderSpacing.Around = 3

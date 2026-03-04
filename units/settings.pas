@@ -83,7 +83,9 @@ procedure SaveFormSettings(Form: TformTrayslator);
 var
   JSONObj: TJSONObject;
   FileName: string;
+  DPI: integer;
 begin
+  DPI := Screen.PixelsPerInch;
   FileName := GetSettingsDirectory('form_settings.json'); // Get settings file name
   ForceDirectories(GetSettingsDirectory); // Ensure the directory exists
   JSONObj := TJSONObject.Create;
@@ -91,25 +93,25 @@ begin
     // Save form position and size
     if (Form.WindowState in [wsMaximized, wsMinimized]) then
     begin
-      JSONObj.Add('Left', Form.RestoredLeft);
-      JSONObj.Add('Top', Form.RestoredTop);
-      JSONObj.Add('Width', Form.RestoredWidth);
-      JSONObj.Add('Height', Form.RestoredHeight);
+      JSONObj.Add('Left', Round(Form.RestoredLeft * 96 / DPI));
+      JSONObj.Add('Top', Round(Form.RestoredTop * 96 / DPI));
+      JSONObj.Add('Width', Form.ScaleFormTo96(Form.RestoredWidth));
+      JSONObj.Add('Height', Form.ScaleFormTo96(Form.RestoredHeight));
     end
     else
     begin
-      JSONObj.Add('Left', Form.Left);
-      JSONObj.Add('Top', Form.Top);
-      JSONObj.Add('Width', Form.Width);
-      JSONObj.Add('Height', Form.Height);
+      JSONObj.Add('Left', Round(Form.Left * 96 / DPI));
+      JSONObj.Add('Top', Round(Form.Top * 96 / DPI));
+      JSONObj.Add('Width', Form.ScaleFormTo96(Form.Width));
+      JSONObj.Add('Height', Form.ScaleFormTo96(Form.Height));
     end;
     JSONObj.Add('WindowState', Ord(Form.WindowState));
-    JSONObj.Add('MemoTargetHeight', Form.MemoTarget.Height);
+    JSONObj.Add('MemoTargetHeight', Form.ScaleFormTo96(Form.MemoTarget.Height));
 
-    JSONObj.Add('FormConfigLeft', Form.FormConfigLeft);
-    JSONObj.Add('FormConfigTop', Form.FormConfigTop);
-    JSONObj.Add('FormConfigWidth', Form.FormConfigWidth);
-    JSONObj.Add('FormConfigHeight', Form.FormConfigHeight);
+    JSONObj.Add('FormConfigLeft', Round(Form.FormConfigLeft * 96 / DPI));
+    JSONObj.Add('FormConfigTop', Round(Form.FormConfigTop * 96 / DPI));
+    JSONObj.Add('FormConfigWidth', Round(Form.FormConfigWidth * 96 / DPI));
+    JSONObj.Add('FormConfigHeight', Round(Form.FormConfigHeight * 96 / DPI));
 
     // Save language
     JSONObj.Add('Language', Language);
@@ -171,8 +173,10 @@ var
   FileStream: TFileStream;
   FileContent: string;
   HK: THotKeyData;
+  DPI: integer;
 begin
   Result := False;
+  DPI := Screen.PixelsPerInch;
   FileContent := string.Empty;
   FileName := GetSettingsDirectory('form_settings.json'); // Get the settings file name
   if not FileExists(FileName) then Exit; // Exit if the file does not exist
@@ -188,34 +192,34 @@ begin
 
       // Check and load form's position and size
       if JSONObj.FindPath('Left') <> nil then
-        Form.Left := JSONObj.FindPath('Left').AsInteger;
+        Form.Left := Round(JSONObj.FindPath('Left').AsInteger * DPI / 96);
 
       if JSONObj.FindPath('Top') <> nil then
-        Form.Top := JSONObj.FindPath('Top').AsInteger;
+        Form.Top := Round(JSONObj.FindPath('Top').AsInteger * DPI / 96);
 
       if JSONObj.FindPath('Width') <> nil then
-        Form.Width := JSONObj.FindPath('Width').AsInteger;
+        Form.Width := Form.Scale96ToForm(JSONObj.FindPath('Width').AsInteger);
 
       if JSONObj.FindPath('Height') <> nil then
-        Form.Height := JSONObj.FindPath('Height').AsInteger;
+        Form.Height := Form.Scale96ToForm(JSONObj.FindPath('Height').AsInteger);
 
       if JSONObj.FindPath('WindowState') <> nil then
         Form.WindowState := TWindowState(JSONObj.FindPath('WindowState').AsInteger);
 
       if JSONObj.FindPath('MemoTargetHeight') <> nil then
-        Form.MemoTarget.Height := JSONObj.FindPath('MemoTargetHeight').AsInteger;
+        Form.MemoTarget.Height := Form.Scale96ToForm(JSONObj.FindPath('MemoTargetHeight').AsInteger);
 
       if JSONObj.FindPath('FormConfigLeft') <> nil then
-        Form.FormConfigLeft := JSONObj.FindPath('FormConfigLeft').AsInteger;
+        Form.FormConfigLeft := Round(JSONObj.FindPath('FormConfigLeft').AsInteger * DPI / 96);
 
       if JSONObj.FindPath('FormConfigTop') <> nil then
-        Form.FormConfigTop := JSONObj.FindPath('FormConfigTop').AsInteger;
+        Form.FormConfigTop := Round(JSONObj.FindPath('FormConfigTop').AsInteger * DPI / 96);
 
       if JSONObj.FindPath('FormConfigWidth') <> nil then
-        Form.FormConfigWidth := JSONObj.FindPath('FormConfigWidth').AsInteger;
+        Form.FormConfigWidth := Round(JSONObj.FindPath('FormConfigWidth').AsInteger * DPI / 96);
 
       if JSONObj.FindPath('FormConfigHeight') <> nil then
-        Form.FormConfigHeight := JSONObj.FindPath('FormConfigHeight').AsInteger;
+        Form.FormConfigHeight := Round(JSONObj.FindPath('FormConfigHeight').AsInteger * DPI / 96);
 
       // Load language
       if JSONObj.FindPath('Language') <> nil then

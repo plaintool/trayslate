@@ -150,6 +150,7 @@ type
 
     procedure ProcessMessages;
     procedure SetAutoStart(Value: boolean);
+    procedure DoRealign(Data: PtrInt);
   protected
     {$IFDEF WINDOWS}
     procedure WMActivate(var Message: TLMActivate); message LM_ACTIVATE;
@@ -610,42 +611,11 @@ begin
 end;
 
 procedure TformTrayslator.PanelLangResize(Sender: TObject);
-var
-  Available: integer;
-  Border: integer = 3;
 begin
-  // prevent recursive resize loop
   if PanelLang.Tag = 1 then Exit;
   PanelLang.Tag := 1;
-  try
-    Available := PanelLang.ClientWidth - sbSwap.ClientWidth - sbTranslate.ClientWidth - 15; // spacing
 
-    ComboSource.SetBounds(
-      0,
-      ComboSource.Top,
-      Available div 2,
-      ComboSource.Height);
-
-    sbSwap.SetBounds(
-      ComboSource.Width + Border,
-      Border,
-      sbSwap.Width,
-      ComboSource.Height);
-
-    ComboTarget.SetBounds(
-      sbSwap.Left + sbSwap.Width + Border,
-      ComboTarget.Top,
-      Available - ComboSource.Width,
-      ComboTarget.Height);
-
-    sbTranslate.SetBounds(
-      PanelLang.ClientWidth - sbTranslate.Width - Border * 2,
-      Border,
-      sbTranslate.Width,
-      ComboTarget.Height);
-  finally
-    PanelLang.Tag := 0;
-  end;
+  Application.QueueAsyncCall(@DoRealign, 0);
 end;
 
 procedure TformTrayslator.TrayIconMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
@@ -738,7 +708,7 @@ procedure TformTrayslator.SetIcon;
 var
   Ico: TIcon;
 begin
-  Ico := CreateTrayIconLang(ifthen(FIconTwoLang, UpperCase(Trans.LangSource), UpperCase(Trans.LangTarget)),
+  Ico := CreateTrayIconLang(Self, ifthen(FIconTwoLang, UpperCase(Trans.LangSource), UpperCase(Trans.LangTarget)),
     ifthen(FIconTwoLang, UpperCase(Trans.LangTarget), string.Empty), FIconBackgroundColor, FIconFontColor);
   try
     TrayIcon.Icon.Assign(Ico);
@@ -1051,6 +1021,47 @@ procedure TformTrayslator.SetAutoStart(Value: boolean);
 begin
   FAutoStart := Value;
   RegAutoStart(FAutoStart, 'Trayslator');
+end;
+
+procedure TformTrayslator.DoRealign(Data: PtrInt);
+var
+  Available, Border: integer;
+begin
+  Border := 3;
+
+  PanelLang.DisableAlign;
+  try
+    Available := PanelLang.ClientWidth - sbSwap.Width - sbTranslate.Width - 15;
+
+    // Fix Top to Border, not ComboSource.Top
+    ComboSource.SetBounds(
+      0,
+      Border,
+      Available div 2,
+      ComboSource.Height);
+
+    sbSwap.SetBounds(
+      ComboSource.Width + Border,
+      Border,
+      sbSwap.Width,
+      ComboSource.Height);
+
+    ComboTarget.SetBounds(
+      sbSwap.Left + sbSwap.Width + Border,
+      Border,
+      Available - ComboSource.Width,
+      ComboTarget.Height);
+
+    sbTranslate.SetBounds(
+      PanelLang.ClientWidth - sbTranslate.Width - Border * 2,
+      Border,
+      sbTranslate.Width,
+      ComboTarget.Height);
+
+  finally
+    PanelLang.EnableAlign;
+    PanelLang.Tag := 0;
+  end;
 end;
 
 end.

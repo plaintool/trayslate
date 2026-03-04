@@ -15,6 +15,7 @@ uses
   {$IFDEF WINDOWS}
   Windows,
   {$ENDIF}
+  Forms,
   Classes,
   Graphics,
   Types,
@@ -43,7 +44,7 @@ const
 
 {$ENDIF}
 
-function CreateTrayIconLang(const ALang1: string; const ALang2: string = ''; ABackgroundColor: TColor = $00FF9628;
+function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = ''; ABackgroundColor: TColor = $00FF9628;
   AFontColor: TColor = $00DCDCDC): TIcon;
 
 procedure SetComboBoxByCode(ComboBox: TComboBox; const Code: string);
@@ -58,7 +59,7 @@ implementation
 
 uses languages;
 
-function CreateTrayIconLang(const ALang1: string; const ALang2: string = ''; ABackgroundColor: TColor = $00FF9628;
+function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = ''; ABackgroundColor: TColor = $00FF9628;
   AFontColor: TColor = $00DCDCDC): TIcon;
 var
   bmp: TBitmap;
@@ -72,10 +73,11 @@ var
       Result := LeftStr(Result, Pos('-', Result + '-') - 1);
 
     if (Length(Result) = 3) then
-      bmp.Canvas.Font.Size := 5
+      bmp.Canvas.Font.Size := Form.ScaleScreenTo96(5)
     else
     begin
-      bmp.Canvas.Font.Size := DefSize;
+
+      bmp.Canvas.Font.Size := Form.ScaleScreenTo96(DefSize);
       Result := Result.Substring(0, 2);
     end;
   end;
@@ -318,12 +320,12 @@ begin
     VK_RIGHT: Result := Result + 'Right';
     VK_UP: Result := Result + 'Up';
     VK_DOWN: Result := Result + 'Down';
-  else
-    // For printable ASCII symbols
-    if (AHotKey.Key >= 32) and (AHotKey.Key <= 126) then
-      Result := Result + Chr(AHotKey.Key)
     else
-      Result := Result + Format('VK_%d', [AHotKey.Key]);
+      // For printable ASCII symbols
+      if (AHotKey.Key >= 32) and (AHotKey.Key <= 126) then
+        Result := Result + Chr(AHotKey.Key)
+      else
+        Result := Result + Format('VK_%d', [AHotKey.Key]);
   end;
 end;
 
