@@ -442,8 +442,11 @@ begin
     Translate.Regexp := Ini.ReadString('Response', 'Regexp', string.Empty);
     Translate.JsonPointer := Ini.ReadString('Response', 'JsonPointer', string.Empty);
 
+    Translate.Languages.Clear;
     Ini.ReadSectionValues('Languages', Translate.Languages);
+    Translate.LanguagesTarget.Clear;
     Ini.ReadSectionValues('LanguagesTarget', Translate.LanguagesTarget);
+    Translate.Headers.Clear;
     Ini.ReadSectionValues('Headers', Translate.Headers);
   finally
     Ini.Free;

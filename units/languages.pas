@@ -432,7 +432,9 @@ begin
   Result := '';
   P := RPos(' (', ItemText);
   if P > 0 then
-    Result := Copy(ItemText, P + 2, Length(ItemText) - P - 2);
+    Result := Copy(ItemText, P + 2, Length(ItemText) - P - 2)
+  else
+    Result := ItemText;
 end;
 
 end.

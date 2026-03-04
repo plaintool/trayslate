@@ -781,61 +781,78 @@ procedure TformTrayslator.LoadConfig;
 var
   List: TStringList;
 begin
+  // Form caption with config file name
   Caption := 'Trayslator - ' + ExtractFileName(FConfigFile);
   UpdateCheckConfigMenu;
 
+  // Load settings from INI
   LoadIniSettings(Trans, FConfigFile);
 
   // Init language lists
+  FLanguages.Clear;
   List := GetDisplayNamesFromCodeMap(Trans.Languages);
   try
-    FLanguages.Assign(List);
+    FLanguages.Assign(List); // Assign available source languages
   finally
     List.Free;
   end;
 
+  FLanguagesTarget.Clear;
   if (Assigned(Trans.LanguagesTarget)) and (Trans.LanguagesTarget.Count > 0) then
   begin
     List := GetDisplayNamesFromCodeMap(Trans.LanguagesTarget);
     try
-      FLanguagesTarget.Assign(List);
+      FLanguagesTarget.Assign(List); // Assign available target languages
     finally
       List.Free;
     end;
   end;
 
+  // Fill ComboSource with display names
   List := GetDisplayNamesFromCodeMap(Trans.Languages, True);
   try
-    ComboSource.Items.Assign(List);
+    ComboSource.Items.Assign(List); // Text with large letter
   finally
     List.Free;
   end;
 
+  // Check if current ComboSource text is still valid
+  if ComboSource.Items.IndexOf(ComboSource.Text) = -1 then
+    ComboSource.Text := string.Empty; // Clear if not in new list
+
+  // Fill ComboTarget with display names
   if (Assigned(Trans.LanguagesTarget)) and (Trans.LanguagesTarget.Count > 0) then
   begin
     List := GetDisplayNamesFromCodeMap(Trans.LanguagesTarget, True);
     try
-      ComboTarget.Items.Assign(List);
+      ComboTarget.Items.Assign(List); // Text with large letter
     finally
       List.Free;
     end;
   end
   else
-    ComboTarget.Items.Assign(ComboSource.Items);
+    ComboTarget.Items.Assign(ComboSource.Items); // Use source if target list empty
 
+  // Set default or saved languages
   if LangSource <> string.Empty then
     Trans.LangSource := LangSource
   else
   begin
-    ComboSource.ItemIndex := 0;
+    ComboSource.ItemIndex := 0; // First item as default
     ComboSourceChange(Self);
   end;
+
   if LangTarget <> string.Empty then
     Trans.LangTarget := LangTarget
   else
-    Trans.LangTarget := Language;
+    Trans.LangTarget := Language; // Default system language
+
+  // Set combobox selection by language code
   SetComboBoxByCode(ComboSource, Trans.LangSource);
   SetComboBoxByCode(ComboTarget, Trans.LangTarget);
+
+  if ComboTarget.ItemIndex = -1 then
+    ComboTarget.Text := string.Empty;
 end;
 
 procedure TFormTrayslator.BuildConfigMenu;
