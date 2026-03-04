@@ -119,6 +119,8 @@ type
     FLeftButton: boolean;
     FLanguages: TStringList;
     FLanguagesSorted: TStringList;
+    FLanguagesTarget: TStringList;
+    FLanguagesTargetSorted: TStringList;
 
     // Settings
     FConfigFile: string;
@@ -257,6 +259,8 @@ begin
   Trans := TTranslate.Create;
   FLanguages := TStringList.Create;
   FLanguagesSorted := TStringList.Create;
+  FLanguagesTarget := TStringList.Create;
+  FLanguagesTargetSorted := TStringList.Create;
 
   // Load form settings
   LoadFormSettings(Self);
@@ -301,6 +305,8 @@ begin
   SaveFormSettings(Self);
   FLanguages.Free;
   FLanguagesSorted.Free;
+  FLanguagesTarget.Free;
+  FLanguagesTargetSorted.Free;
   FConfigFiles.Free;
   Trans.Free;
 end;
@@ -536,14 +542,14 @@ var
 begin
   // try to find typed text in items
   idx := ComboTarget.Items.IndexOf(ComboTarget.Text);
-  idnative := FLanguages.IndexOf(ComboTarget.Text);
+  idnative := FLanguagesTarget.IndexOf(ComboTarget.Text);
   if idx < 0 then Exit;
 
   // assign the found index
   ComboTarget.ItemIndex := idx;
 
   // now safe to use ItemIndex
-  FLangTarget := Trans.Languages.ValueFromIndex[idnative];
+  FLangTarget := Trans.LanguagesTarget.ValueFromIndex[idnative];
   Trans.LangTarget := FLangTarget;
   SetIcon;
 end;
@@ -736,13 +742,34 @@ begin
     List.Free;
   end;
 
+  if (Assigned(Trans.LanguagesTarget)) and (Trans.LanguagesTarget.Count > 0) then
+  begin
+    List := GetDisplayNamesFromCodeMap(Trans.LanguagesTarget);
+    try
+      FLanguagesTarget.Assign(List);
+    finally
+      List.Free;
+    end;
+  end;
+
   List := GetDisplayNamesFromCodeMap(Trans.Languages, True);
   try
     ComboSource.Items.Assign(List);
-    ComboTarget.Items.Assign(List);
   finally
     List.Free;
   end;
+
+  if (Assigned(Trans.LanguagesTarget)) and (Trans.LanguagesTarget.Count > 0) then
+  begin
+    List := GetDisplayNamesFromCodeMap(Trans.LanguagesTarget, True);
+    try
+      ComboTarget.Items.Assign(List);
+    finally
+      List.Free;
+    end;
+  end
+  else
+    ComboTarget.Items.Assign(ComboSource.Items);
 
   if LangSource <> string.Empty then
     Trans.LangSource := LangSource
@@ -751,7 +778,10 @@ begin
     ComboSource.ItemIndex := 0;
     ComboSourceChange(Self);
   end;
-  if LangTarget <> string.Empty then Trans.LangTarget := LangTarget;
+  if LangTarget <> string.Empty then
+    Trans.LangTarget := LangTarget
+  else
+    Trans.LangTarget := Language;
   SetComboBoxByCode(ComboSource, Trans.LangSource);
   SetComboBoxByCode(ComboTarget, Trans.LangTarget);
 end;

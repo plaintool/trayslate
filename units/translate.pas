@@ -41,6 +41,7 @@ type
     FLangSource: string;
     FLangTarget: string;
     FLanguages: TStringList;
+    FLanguagesTarget: TStringList;
     FHeaders: TStringList;
   public
     constructor Create;
@@ -68,6 +69,7 @@ type
     property PostData: string read FPostData write FPostData;
     property Accept: string read FAccept write FAccept;
     property Languages: TStringList read FLanguages write FLanguages;
+    property LanguagesTarget: TStringList read FLanguagesTarget write FLanguagesTarget;
     property Headers: TStringList read FHeaders write FHeaders;
   end;
 
@@ -77,7 +79,7 @@ type
     FTrans: TTranslate;
     FSourceText: string;
     FResultText: string;
-    FResultTextSync:string;
+    FResultTextSync: string;
     FException: Exception;
   protected
     procedure Execute; override;
@@ -111,6 +113,8 @@ begin
   FRegexp := '\[\["(.*?)"';
   FLanguages := TStringList.Create;
   FLanguages.TrailingLineBreak := False;
+  FLanguagesTarget := TStringList.Create;
+  FLanguagesTarget.TrailingLineBreak := False;
   FHeaders := TStringList.Create;
   FHeaders.TrailingLineBreak := False;
 end;
@@ -118,6 +122,7 @@ end;
 destructor TTranslate.Destroy;
 begin
   FLanguages.Free;
+  FLanguagesTarget.Free;
   FHeaders.Free;
   inherited Destroy;
 end;

@@ -104,6 +104,11 @@ msgctxt "tformconfigtrayslator.grouplanguages.caption"
 msgid "Languages"
 msgstr ""
 
+#: tformconfigtrayslator.grouplanguagestarget.caption
+msgctxt "tformconfigtrayslator.grouplanguagestarget.caption"
+msgid "Target Languages"
+msgstr ""
+
 #: tformconfigtrayslator.grouprequest.caption
 msgid "Request"
 msgstr ""
@@ -132,6 +137,12 @@ msgstr ""
 #: tformconfigtrayslator.labellanguages.caption
 msgctxt "tformconfigtrayslator.labellanguages.caption"
 msgid "Supported languages e.g. en=en-US, en - internal, en-US - service code."
+msgstr ""
+
+#: tformconfigtrayslator.labellanguagestarget.caption
+msgid ""
+"Target languages e.g. en=en-US, en - internal, en-US - service code.\n"
+"If not specified, both source and target languages are taken from the languages section."
 msgstr ""
 
 #: tformconfigtrayslator.labelmethod.caption
@@ -187,6 +198,11 @@ msgstr ""
 #: tformconfigtrayslator.pagelanguages.caption
 msgctxt "tformconfigtrayslator.pagelanguages.caption"
 msgid "Languages"
+msgstr ""
+
+#: tformconfigtrayslator.pagelanguagestarget.caption
+msgctxt "tformconfigtrayslator.pagelanguagestarget.caption"
+msgid "Target Languages"
 msgstr ""
 
 #: tformconfigtrayslator.pageservice.caption

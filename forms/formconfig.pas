@@ -44,10 +44,12 @@ type
     EditServiceName: TEdit;
     GroupBoxService: TGroupBox;
     GroupHeaders: TGroupBox;
+    GroupLanguagesTarget: TGroupBox;
     GroupRequest: TGroupBox;
     GroupResponse: TGroupBox;
     GroupLanguages: TGroupBox;
     LabelAccept: TLabel;
+    LabelLanguagesTarget: TLabel;
     LabelMethod: TLabel;
     LabelLanguages: TLabel;
     LabelParemeters2: TLabel;
@@ -63,6 +65,7 @@ type
     LabelServiceName: TLabel;
     MemoLanguages: TMemo;
     MemoHeaders: TMemo;
+    MemoLanguagesTarget: TMemo;
     MemoURL: TMemo;
     MemoPostData: TMemo;
     Pages: TPageControl;
@@ -72,6 +75,7 @@ type
     PageService: TTabSheet;
     PageHeaders: TTabSheet;
     PageLanguages: TTabSheet;
+    PageLanguagesTarget: TTabSheet;
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -287,6 +291,7 @@ begin
     EditRegexp.Text := Regexp;
     EditJsonPointer.Text := JsonPointer;
     MemoLanguages.Lines.Assign(Languages);
+    MemoLanguagesTarget.Lines.Assign(LanguagesTarget);
     MemoHeaders.Lines.Assign(Headers);
   end;
   aSave.Enabled := False;
@@ -316,7 +321,7 @@ begin
       Regexp := EditRegexp.Text;
       JsonPointer := EditJsonPointer.Text;
       Languages.Assign(MemoLanguages.Lines);
-
+      LanguagesTarget.Assign(MemoLanguagesTarget.Lines);
       Headers.Assign(HeadersFromMemo(MemoHeaders));
     end;
     SaveIniSettings(formTrayslator.Trans, formTrayslator.ConfigFile);

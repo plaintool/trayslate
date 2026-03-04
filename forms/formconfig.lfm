@@ -108,11 +108,11 @@ object formConfigTrayslator: TformConfigTrayslator
     Height = 507
     Top = 41
     Width = 557
-    ActivePage = PageService
+    ActivePage = PageLanguagesTarget
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
-    TabIndex = 0
+    TabIndex = 3
     TabOrder = 1
     object PageService: TTabSheet
       Caption = 'Service'
@@ -460,11 +460,11 @@ object formConfigTrayslator: TformConfigTrayslator
         TabOrder = 0
         object MemoLanguages: TMemo
           Left = 5
-          Height = 409
-          Top = 35
+          Height = 399
+          Top = 45
           Width = 510
           Align = alClient
-          BorderSpacing.Top = 30
+          BorderSpacing.Top = 40
           BorderSpacing.Right = 15
           BorderSpacing.Around = 5
           ScrollBars = ssVertical
@@ -479,6 +479,50 @@ object formConfigTrayslator: TformConfigTrayslator
           Width = 507
           Anchors = [akTop, akLeft, akRight]
           Caption = 'Supported languages e.g. en=en-US, en - internal, en-US - service code.'
+          Color = clInfoBk
+          ParentColor = False
+          Transparent = False
+        end
+      end
+    end
+    object PageLanguagesTarget: TTabSheet
+      Caption = 'Target Languages'
+      ClientHeight = 479
+      ClientWidth = 549
+      object GroupLanguagesTarget: TGroupBox
+        Left = 5
+        Height = 469
+        Top = 5
+        Width = 539
+        Align = alClient
+        BorderSpacing.Around = 5
+        Caption = 'Target Languages'
+        ClientHeight = 449
+        ClientWidth = 535
+        ParentBackground = False
+        TabOrder = 0
+        object MemoLanguagesTarget: TMemo
+          Left = 5
+          Height = 399
+          Top = 45
+          Width = 510
+          Align = alClient
+          BorderSpacing.Top = 40
+          BorderSpacing.Right = 15
+          BorderSpacing.Around = 5
+          ScrollBars = ssVertical
+          TabOrder = 0
+          OnChange = ValueChange
+          OnKeyDown = MemoKeyDown
+        end
+        object LabelLanguagesTarget: TLabel
+          Left = 8
+          Height = 32
+          Top = 8
+          Width = 507
+          Anchors = [akTop, akLeft, akRight]
+          AutoSize = False
+          Caption = 'Target languages e.g. en=en-US, en - internal, en-US - service code.'#13#10'If not specified, both source and target languages are taken from the languages section.'
           Color = clInfoBk
           ParentColor = False
           Transparent = False
