@@ -69,6 +69,7 @@ var
   function FormatValue(const Value: string; DefSize: integer = 8): string;
   begin
     Result := Value;
+
     if Pos('-', Result) > 0 then
       Result := LeftStr(Result, Pos('-', Result + '-') - 1);
 
@@ -76,9 +77,16 @@ var
       bmp.Canvas.Font.Size := Form.ScaleScreenTo96(5)
     else
     begin
-
-      bmp.Canvas.Font.Size := Form.ScaleScreenTo96(DefSize);
-      Result := Result.Substring(0, 2);
+      if (LowerCase(Result) = 'auto') then
+      begin
+        bmp.Canvas.Font.Size := Form.ScaleScreenTo96(4);
+        Result := 'AUTO';
+      end
+      else
+      begin
+        bmp.Canvas.Font.Size := Form.ScaleScreenTo96(DefSize);
+        Result := Result.Substring(0, 2);
+      end;
     end;
   end;
 

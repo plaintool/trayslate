@@ -64,7 +64,7 @@ function GetAppVersion: string;
 
 function CheckGithubLatestVersion(const Repo: string = 'plaintool/trayslator'): boolean;
 
-procedure RegAutoStart(const AEnable: Boolean; const AppName:string = 'Trayslator');
+procedure RegAutoStart(const AEnable: boolean; const AppName: string = 'Trayslator');
 
 var
   Language: string;
@@ -789,7 +789,7 @@ begin
   end;
 end;
 
-procedure RegAutoStart(const AEnable: Boolean; const AppName:string = 'Trayslator');
+procedure RegAutoStart(const AEnable: boolean; const AppName: string = 'Trayslator');
 var
   Reg: TRegistry;
   ExeName: string;
@@ -805,8 +805,8 @@ begin
       if AEnable then
         Reg.WriteString(AppName, ExeName)
       else
-        if Reg.ValueExists(AppName) then
-          Reg.DeleteValue(AppName);
+      if Reg.ValueExists(AppName) then
+        Reg.DeleteValue(AppName);
     end;
   finally
     Reg.Free;

@@ -105,7 +105,6 @@ object formTrayslator: TformTrayslator
     object SbTranslate: TSpeedButton
       Left = 485
       Height = 26
-      Hint = 'Translate'#13#10'(Ctrl+Enter)'
       Top = 4
       Width = 24
       Action = aTranslate
@@ -191,7 +190,7 @@ object formTrayslator: TformTrayslator
     end
     object aTranslate: TAction
       Category = 'Form'
-      Hint = 'Translate'
+      Hint = 'Translate'#13#10'Ctrl ¦ Shift ¦ Enter + Enter'
       OnExecute = aTranslateExecute
     end
     object aShow: TAction

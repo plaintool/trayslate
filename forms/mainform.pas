@@ -29,6 +29,7 @@ uses
   StrUtils,
   Clipbrd,
   Buttons,
+  IniFiles,
   LCLType,
   LMessages,
   mouseandkeyinput,
@@ -117,6 +118,8 @@ type
     FClicked: boolean;
     FDoubleClicked: boolean;
     FLeftButton: boolean;
+    FLastEnterTime: DWORD;
+    FMemoSourceCaretPos: integer;
     FLanguages: TStringList;
     FLanguagesSorted: TStringList;
     FLanguagesTarget: TStringList;
@@ -197,6 +200,9 @@ type
 var
   formTrayslator: TformTrayslator;
 
+const
+  DOUBLE_ENTER_INTERVAL = 200; // ms
+
 resourcestring
   NoConfig = 'Configuration file not found!';
 
@@ -223,6 +229,7 @@ begin
   FFormConfigTop := 0;
   FFormConfigWidth := 0;
   FFormConfigHeight := 0;
+  FLastEnterTime := 0;
 
   // HotKeys Initialize
   // Ctrl+Shift+A
@@ -237,17 +244,17 @@ begin
   FHotKeyTransFromClipboard.Modifiers := MOD_CONTROL or MOD_SHIFT;
   FHotKeyTransFromClipboard.Key := Ord('T');
 
-  // Ctrl+Shift+C
+  // Ctrl+Shift+R
   FHotKeyTransClipboard.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyTransClipboard.Key := Ord('C');
+  FHotKeyTransClipboard.Key := Ord('R');
 
   // Ctrl+Shift+Z
   FHotKeyTransFromControl.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyTransFromControl.Key := Ord('Z');
+  FHotKeyTransFromControl.Key := Ord('C');
 
   // Ctrl+Shift+X
   FHotKeyTransControl.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyTransControl.Key := Ord('X');
+  FHotKeyTransControl.Key := Ord('V');
 
   // Components config
   Left := Screen.WorkAreaRect.Right - Width - 30;
@@ -542,14 +549,23 @@ var
 begin
   // try to find typed text in items
   idx := ComboTarget.Items.IndexOf(ComboTarget.Text);
-  idnative := FLanguagesTarget.IndexOf(ComboTarget.Text);
+  if FLanguagesTarget.Count > 0 then
+    idnative := FLanguagesTarget.IndexOf(ComboTarget.Text)
+  else
+    idnative := FLanguages.IndexOf(ComboTarget.Text);
   if idx < 0 then Exit;
 
   // assign the found index
   ComboTarget.ItemIndex := idx;
 
   // now safe to use ItemIndex
-  FLangTarget := Trans.LanguagesTarget.ValueFromIndex[idnative];
+  if (idnative >= 0) then
+  begin
+    if FLanguagesTarget.Count > 0 then
+      FLangTarget := Trans.LanguagesTarget.ValueFromIndex[idnative]
+    else
+      FLangTarget := Trans.Languages.ValueFromIndex[idnative];
+  end;
   Trans.LangTarget := FLangTarget;
   SetIcon;
 end;
@@ -587,15 +603,51 @@ begin
 end;
 
 procedure TformTrayslator.MemoSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+var
+  NowTime: DWORD;
 begin
-  if (ssCtrl in Shift) and (Key = VK_V) then // Ctrl + V
+  if (ssCtrl in Shift) and (Key = VK_V) then
   begin
     PasteWithLineEnding(Sender as TMemo);
     Key := 0;
-  end
-  else
+    Exit;
+  end;
+
   if ((ssCtrl in Shift) or (ssShift in Shift)) and (Key = VK_RETURN) then
+  begin
     aTranslate.Execute;
+    Key := 0;
+    Exit;
+  end;
+
+  // Check double Enter
+  if (Key = VK_RETURN) and not (ssCtrl in Shift) and not (ssShift in Shift) then
+  begin
+    FMemoSourceCaretPos := MemoSource.SelStart; // save current caret
+
+    NowTime := GetTickCount64;
+    if NowTime - FLastEnterTime <= DOUBLE_ENTER_INTERVAL then
+    begin
+      // delete the previous Enter inserted
+      if FMemoSourceCaretPos >= 2 then
+      begin
+        MemoSource.SelStart := FMemoSourceCaretPos - 2;
+        MemoSource.SelLength := 2;
+        if MemoSource.SelText = sLineBreak then
+          MemoSource.SelText := ''; // remove the line break
+      end;
+
+      // restore caret to original position
+      MemoSource.SelStart := FMemoSourceCaretPos - 2;
+      MemoSource.SelLength := 0;
+
+      aTranslate.Execute; // double Enter detected
+      FLastEnterTime := 0; // reset
+      Key := 0;
+    end
+    else
+      FLastEnterTime := NowTime;
+  end;
 end;
 
 procedure TFormTrayslator.ConfigItemClick(Sender: TObject);
@@ -790,7 +842,8 @@ procedure TFormTrayslator.BuildConfigMenu;
 var
   i: integer;
   Item: TMenuItem;
-  FileName, FullPath: string;
+  FileName, FullPath, ServiceName: string;
+  Ini: TIniFile;
 begin
   MenuConfig.Clear;
 
@@ -798,18 +851,33 @@ begin
   begin
     FullPath := FConfigFiles[i];
     FileName := ExtractFileName(FullPath);
+    ServiceName := '';
+
+    // Try read [Service] Name from ini
+    if FileExists(FullPath) then
+    begin
+      Ini := TIniFile.Create(FullPath);
+      try
+        ServiceName := Trim(Ini.ReadString('Service', 'Name', ''));
+      finally
+        Ini.Free;
+      end;
+    end;
 
     Item := TMenuItem.Create(MenuConfig);
-    Item.Caption := FileName;
+
+    // Use Service Name if exists, otherwise file name
+    if ServiceName <> '' then
+      Item.Caption := ServiceName
+    else
+      Item.Caption := FileName;
+
     Item.Hint := FullPath;
     Item.Tag := i;
     Item.OnClick := @ConfigItemClick;
 
     // Check the current config
-    if SameText(FConfigFiles[i], FConfigFile) then
-      Item.Checked := True
-    else
-      Item.Checked := False;
+    Item.Checked := SameText(FConfigFiles[i], FConfigFile);
 
     MenuConfig.Add(Item);
   end;

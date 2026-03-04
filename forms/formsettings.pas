@@ -120,6 +120,9 @@ uses mainform;
 procedure TformSettingsTrayslator.FormCreate(Sender: TObject);
 begin
   PagesSettings.PageIndex := 0;
+  BtnCancel.Cancel := True;
+  BtnOk.Default := True;
+
   AddTrayColors(ColorIconBackground);
   AddTrayColors(ColorIconFont);
   Reset;
@@ -188,40 +191,40 @@ begin
   begin
     case Edit.Tag of
       HOTKEY_APP:
-        begin
-          FHotKeyApp := FOriginalHotKeyApp;
-          HK := FHotKeyApp;
-        end;
+      begin
+        FHotKeyApp := FOriginalHotKeyApp;
+        HK := FHotKeyApp;
+      end;
 
       HOTKEY_TRANS_SWAP:
-        begin
-          FHotKeyTransSwap := FOriginalHotKeyTransSwap;
-          HK := FHotKeyTransSwap;
-        end;
+      begin
+        FHotKeyTransSwap := FOriginalHotKeyTransSwap;
+        HK := FHotKeyTransSwap;
+      end;
 
       HOTKEY_TRANS_FROM_CLIPBOARD:
-        begin
-          FHotKeyTransFromClipboard := FOriginalHotKeyTransFromClipboard;
-          HK := FHotKeyTransFromClipboard;
-        end;
+      begin
+        FHotKeyTransFromClipboard := FOriginalHotKeyTransFromClipboard;
+        HK := FHotKeyTransFromClipboard;
+      end;
 
       HOTKEY_TRANS_CLIPBOARD:
-        begin
-          FHotKeyTransClipboard := FOriginalHotKeyTransClipboard;
-          HK := FHotKeyTransClipboard;
-        end;
+      begin
+        FHotKeyTransClipboard := FOriginalHotKeyTransClipboard;
+        HK := FHotKeyTransClipboard;
+      end;
 
       HOTKEY_TRANS_FROM_CONTROL:
-        begin
-          FHotKeyTransFromControl := FOriginalHotKeyTransFromControl;
-          HK := FHotKeyTransFromControl;
-        end;
+      begin
+        FHotKeyTransFromControl := FOriginalHotKeyTransFromControl;
+        HK := FHotKeyTransFromControl;
+      end;
 
       HOTKEY_TRANS_CONTROL:
-        begin
-          FHotKeyTransControl := FOriginalHotKeyTransControl;
-          HK := FHotKeyTransControl;
-        end;
+      begin
+        FHotKeyTransControl := FOriginalHotKeyTransControl;
+        HK := FHotKeyTransControl;
+      end;
     end;
 
     Edit.Text := HotKeyToText(HK);

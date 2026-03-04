@@ -333,12 +333,12 @@ msgstr ""
 
 #: tformsettingstrayslator.edittransclipboard.hint
 msgctxt "tformsettingstrayslator.edittransclipboard.hint"
-msgid "Default: Ctrl+Shift+C"
+msgid "Default: Ctrl+Shift+R"
 msgstr ""
 
 #: tformsettingstrayslator.edittranscontrol.hint
 msgctxt "tformsettingstrayslator.edittranscontrol.hint"
-msgid "Default: Ctrl+Shift+X"
+msgid "Default: Ctrl+Shift+V"
 msgstr ""
 
 #: tformsettingstrayslator.edittransfromclipboard.hint
@@ -348,7 +348,7 @@ msgstr ""
 
 #: tformsettingstrayslator.edittransfromcontrol.hint
 msgctxt "tformsettingstrayslator.edittransfromcontrol.hint"
-msgid "Default: Ctrl+Shift+Z"
+msgid "Default: Ctrl+Shift+C"
 msgstr ""
 
 #: tformsettingstrayslator.edittransswap.hint
@@ -485,7 +485,9 @@ msgstr ""
 
 #: tformtrayslator.atranslate.hint
 msgctxt "tformtrayslator.atranslate.hint"
-msgid "Translate"
+msgid ""
+"Translate\n"
+"Ctrl ¦ Shift ¦ Enter + Enter"
 msgstr ""
 
 #: tformtrayslator.caption
@@ -498,11 +500,5 @@ msgstr ""
 
 #: tformtrayslator.menuhelp.caption
 msgid "Help"
-msgstr ""
-
-#: tformtrayslator.sbtranslate.hint
-msgid ""
-"Translate\n"
-"(Ctrl+Enter)"
 msgstr ""
 

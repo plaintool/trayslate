@@ -15,11 +15,11 @@ object formSettingsTrayslator: TformSettingsTrayslator
     Height = 465
     Top = 5
     Width = 400
-    ActivePage = PageHotkeys
+    ActivePage = PageInterface
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 0
     object PageInterface: TTabSheet
       Caption = 'Interface'
@@ -195,7 +195,7 @@ object formSettingsTrayslator: TformSettingsTrayslator
           Width = 122
           Alignment = taCenter
           Anchors = [akTop, akLeft, akRight]
-          Color = clBtnFace
+          Color = clWindow
           ParentShowHint = False
           ReadOnly = True
           ShowHint = True
@@ -235,7 +235,7 @@ object formSettingsTrayslator: TformSettingsTrayslator
           Width = 122
           Alignment = taCenter
           Anchors = [akTop, akLeft, akRight]
-          Color = clBtnFace
+          Color = clWindow
           ParentShowHint = False
           ReadOnly = True
           ShowHint = True
@@ -275,7 +275,7 @@ object formSettingsTrayslator: TformSettingsTrayslator
           Width = 122
           Alignment = taCenter
           Anchors = [akTop, akLeft, akRight]
-          Color = clBtnFace
+          Color = clWindow
           ParentShowHint = False
           ReadOnly = True
           ShowHint = True
@@ -310,12 +310,12 @@ object formSettingsTrayslator: TformSettingsTrayslator
           Tag = 4
           Left = 240
           Height = 23
-          Hint = 'Default: Ctrl+Shift+C'
+          Hint = 'Default: Ctrl+Shift+R'
           Top = 8
           Width = 122
           Alignment = taCenter
           Anchors = [akTop, akLeft, akRight]
-          Color = clBtnFace
+          Color = clWindow
           ParentShowHint = False
           ReadOnly = True
           ShowHint = True
@@ -350,12 +350,12 @@ object formSettingsTrayslator: TformSettingsTrayslator
           Tag = 5
           Left = 240
           Height = 23
-          Hint = 'Default: Ctrl+Shift+Z'
+          Hint = 'Default: Ctrl+Shift+C'
           Top = 8
           Width = 122
           Alignment = taCenter
           Anchors = [akTop, akLeft, akRight]
-          Color = clBtnFace
+          Color = clWindow
           ParentShowHint = False
           ReadOnly = True
           ShowHint = True
@@ -390,12 +390,12 @@ object formSettingsTrayslator: TformSettingsTrayslator
           Tag = 6
           Left = 240
           Height = 23
-          Hint = 'Default: Ctrl+Shift+X'
+          Hint = 'Default: Ctrl+Shift+V'
           Top = 8
           Width = 122
           Alignment = taCenter
           Anchors = [akTop, akLeft, akRight]
-          Color = clBtnFace
+          Color = clWindow
           ParentShowHint = False
           ReadOnly = True
           ShowHint = True
@@ -424,6 +424,7 @@ object formSettingsTrayslator: TformSettingsTrayslator
     Top = 476
     Width = 75
     Anchors = [akRight, akBottom]
+    Cancel = True
     Caption = 'Cancel'
     TabOrder = 2
     OnClick = BtnCancelClick
