@@ -651,6 +651,9 @@ end;
 procedure TformTrayslator.TrayIconMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
 begin
   FLeftButton := Button = mbLeft;
+
+  if Button = mbMiddle then
+    aSwap.Execute;
 end;
 
 procedure TformTrayslator.TrayIconClick(Sender: TObject);

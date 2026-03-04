@@ -159,7 +159,30 @@ end;
 procedure TformSettingsTrayslator.EditKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 var
   HK: THotKeyData;
+  Edit: TEdit;
 begin
+  Edit := TEdit(Sender);
+
+  // If only DEL pressed → clear hotkey
+  if (Key = VK_DELETE) and (Shift = []) then
+  begin
+    HK.Modifiers := 0;
+    HK.Key := 0;
+
+    case Edit.Tag of
+      HOTKEY_APP: FHotKeyApp := HK;
+      HOTKEY_TRANS_SWAP: FHotKeyTransSwap := HK;
+      HOTKEY_TRANS_FROM_CLIPBOARD: FHotKeyTransFromClipboard := HK;
+      HOTKEY_TRANS_CLIPBOARD: FHotKeyTransClipboard := HK;
+      HOTKEY_TRANS_FROM_CONTROL: FHotKeyTransFromControl := HK;
+      HOTKEY_TRANS_CONTROL: FHotKeyTransControl := HK;
+    end;
+
+    Edit.Text := '';
+    Key := 0; // block default delete behavior
+    Exit;
+  end;
+
   // Initialize
   HK.Modifiers := 0;
   HK.Key := 0;
@@ -178,12 +201,11 @@ begin
   if (Key <> VK_CONTROL) and (Key <> VK_SHIFT) and (Key <> VK_MENU) then
   begin
     HK.Key := Key;
-    // Block default processing only for real key
-    Key := 0;
+    Key := 0; // block default processing
   end;
 
-  // Update the corresponding hotkey
-  case TEdit(Sender).Tag of
+  // Update hotkey
+  case Edit.Tag of
     HOTKEY_APP: FHotKeyApp := HK;
     HOTKEY_TRANS_SWAP: FHotKeyTransSwap := HK;
     HOTKEY_TRANS_FROM_CLIPBOARD: FHotKeyTransFromClipboard := HK;
@@ -193,7 +215,7 @@ begin
   end;
 
   // Update Edit text
-  TEdit(Sender).Text := HotKeyToText(HK);
+  Edit.Text := HotKeyToText(HK);
 end;
 
 procedure TformSettingsTrayslator.BtnOkClick(Sender: TObject);

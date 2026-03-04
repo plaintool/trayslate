@@ -311,31 +311,37 @@ msgid "  Two languages"
 msgstr ""
 
 #: tformsettingstrayslator.editapp.hint
-msgid "Shows or hides the main application window"
+msgctxt "tformsettingstrayslator.editapp.hint"
+msgid "Default Ctrl+Shift+A"
 msgstr ""
 
 #: tformsettingstrayslator.edittransclipboard.hint
-msgid "Translates the current text and copies the result to the clipboard"
+msgctxt "tformsettingstrayslator.edittransclipboard.hint"
+msgid "Default: Ctrl+Shift+C"
 msgstr ""
 
 #: tformsettingstrayslator.edittranscontrol.hint
-msgid "Replaces the selected text in the active application with the translation"
+msgctxt "tformsettingstrayslator.edittranscontrol.hint"
+msgid "Default: Ctrl+Shift+X"
 msgstr ""
 
 #: tformsettingstrayslator.edittransfromclipboard.hint
-msgid "Translates the current text from the clipboard"
+msgctxt "tformsettingstrayslator.edittransfromclipboard.hint"
+msgid "Default: Ctrl+Shift+T"
 msgstr ""
 
 #: tformsettingstrayslator.edittransfromcontrol.hint
-msgid "Translates the selected text from the active application"
+msgctxt "tformsettingstrayslator.edittransfromcontrol.hint"
+msgid "Default: Ctrl+Shift+Z"
 msgstr ""
 
 #: tformsettingstrayslator.edittransswap.hint
-msgid "Swaps the source and target languages"
+msgctxt "tformsettingstrayslator.edittransswap.hint"
+msgid "Default: Ctrl+Shift+S"
 msgstr ""
 
 #: tformsettingstrayslator.groupapp.caption
-msgid "Toggle Application"
+msgid "Toggle Application (Tray Icon Click)"
 msgstr ""
 
 #: tformsettingstrayslator.groupautostart.caption
@@ -348,7 +354,7 @@ msgid "Font"
 msgstr ""
 
 #: tformsettingstrayslator.grouptransclipboard.caption
-msgid "Translate To Clipboard"
+msgid "Translate Clipboard to Clipboard"
 msgstr ""
 
 #: tformsettingstrayslator.grouptranscontrol.caption
@@ -356,7 +362,7 @@ msgid "Translate In Active Application Selection"
 msgstr ""
 
 #: tformsettingstrayslator.grouptransfromclipboard.caption
-msgid "Translate From Clipboard"
+msgid "Translate From Clipboard (Tray Icon Double-Click)"
 msgstr ""
 
 #: tformsettingstrayslator.grouptransfromcontrol.caption
@@ -365,7 +371,7 @@ msgstr ""
 
 #: tformsettingstrayslator.grouptransswap.caption
 msgctxt "tformsettingstrayslator.grouptransswap.caption"
-msgid "Swap Languages"
+msgid "Swap Languages (Tray Icon Middle Click)"
 msgstr ""
 
 #: tformsettingstrayslator.grouptrayicon.caption
@@ -373,7 +379,8 @@ msgid "Tray Icon"
 msgstr ""
 
 #: tformsettingstrayslator.labelapp.caption
-msgid "Default Ctrl+Shift+A"
+msgctxt "tformsettingstrayslator.labelapp.caption"
+msgid "Shows or hides the main application window"
 msgstr ""
 
 #: tformsettingstrayslator.labeliconbackground.caption
@@ -385,23 +392,28 @@ msgid "Font Color"
 msgstr ""
 
 #: tformsettingstrayslator.labeltransclipboard.caption
-msgid "Default: Ctrl+Shift+C"
+msgctxt "tformsettingstrayslator.labeltransclipboard.caption"
+msgid "Translates the current text in clipboard and copies the result to the clipboard"
 msgstr ""
 
 #: tformsettingstrayslator.labeltranscontrol.caption
-msgid "Default: Ctrl+Shift+X"
+msgctxt "tformsettingstrayslator.labeltranscontrol.caption"
+msgid "Replaces the selected text in the active application with the translation"
 msgstr ""
 
 #: tformsettingstrayslator.labeltransfromclipboard.caption
-msgid "Default: Ctrl+Shift+T"
+msgctxt "tformsettingstrayslator.labeltransfromclipboard.caption"
+msgid "Translates the current text from the clipboard"
 msgstr ""
 
 #: tformsettingstrayslator.labeltransfromcontrol.caption
-msgid "Default: Ctrl+Shift+Z"
+msgctxt "tformsettingstrayslator.labeltransfromcontrol.caption"
+msgid "Translates the selected text from the active application"
 msgstr ""
 
 #: tformsettingstrayslator.labeltransswap.caption
-msgid "Default: Ctrl+Shift+S"
+msgctxt "tformsettingstrayslator.labeltransswap.caption"
+msgid "Swaps the source and target languages"
 msgstr ""
 
 #: tformsettingstrayslator.pagehotkeys.caption
