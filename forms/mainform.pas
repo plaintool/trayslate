@@ -435,9 +435,11 @@ begin
 
   formSettingsTrayslator := TformSettingsTrayslator.Create(nil);
   try
+    UnregisterHotKeys;
     formSettingsTrayslator.ShowModal;
   finally
     FreeAndNil(formSettingsTrayslator);
+    RegisterHotKeys;
   end;
 end;
 

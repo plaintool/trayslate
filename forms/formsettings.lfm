@@ -201,8 +201,8 @@ object formSettingsTrayslator: TformSettingsTrayslator
           ShowHint = True
           TabOrder = 0
           OnChange = SettingChange
-          OnClick = EditClick
           OnKeyDown = EditKeyDown
+          OnMouseMove = EditMouseMove
         end
       end
       object GroupTransSwap: TGroupBox
@@ -241,8 +241,8 @@ object formSettingsTrayslator: TformSettingsTrayslator
           ShowHint = True
           TabOrder = 0
           OnChange = SettingChange
-          OnClick = EditClick
           OnKeyDown = EditKeyDown
+          OnMouseMove = EditMouseMove
         end
       end
       object GroupTransFromClipboard: TGroupBox
@@ -281,8 +281,8 @@ object formSettingsTrayslator: TformSettingsTrayslator
           ShowHint = True
           TabOrder = 0
           OnChange = SettingChange
-          OnClick = EditClick
           OnKeyDown = EditKeyDown
+          OnMouseMove = EditMouseMove
         end
       end
       object GroupTransClipboard: TGroupBox
@@ -321,8 +321,8 @@ object formSettingsTrayslator: TformSettingsTrayslator
           ShowHint = True
           TabOrder = 0
           OnChange = SettingChange
-          OnClick = EditClick
           OnKeyDown = EditKeyDown
+          OnMouseMove = EditMouseMove
         end
       end
       object GroupTransFromControl: TGroupBox
@@ -361,8 +361,8 @@ object formSettingsTrayslator: TformSettingsTrayslator
           ShowHint = True
           TabOrder = 0
           OnChange = SettingChange
-          OnClick = EditClick
           OnKeyDown = EditKeyDown
+          OnMouseMove = EditMouseMove
         end
       end
       object GroupTransControl: TGroupBox
@@ -401,8 +401,8 @@ object formSettingsTrayslator: TformSettingsTrayslator
           ShowHint = True
           TabOrder = 0
           OnChange = SettingChange
-          OnClick = EditClick
           OnKeyDown = EditKeyDown
+          OnMouseMove = EditMouseMove
         end
       end
     end

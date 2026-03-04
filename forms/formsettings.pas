@@ -75,7 +75,7 @@ type
     procedure BtnFontClick(Sender: TObject);
     procedure BtnOkClick(Sender: TObject);
     procedure BtnResetClick(Sender: TObject);
-    procedure EditClick(Sender: TObject);
+    procedure EditMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
     procedure SettingChange(Sender: TObject);
     procedure EditKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
@@ -146,9 +146,10 @@ begin
   BtnReset.Enabled := False;
 end;
 
-procedure TformSettingsTrayslator.EditClick(Sender: TObject);
+procedure TformSettingsTrayslator.EditMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
 begin
-  (Sender as TEdit).SelectAll;
+  if (Sender as TEdit).Visible and (Sender as TEdit).CanFocus and not (Sender as TEdit).Focused then
+    (Sender as TEdit).SetFocus;
 end;
 
 procedure TformSettingsTrayslator.SettingChange(Sender: TObject);
@@ -178,8 +179,53 @@ begin
       HOTKEY_TRANS_CONTROL: FHotKeyTransControl := HK;
     end;
 
-    Edit.Text := '';
+    Edit.Text := string.Empty;
     Key := 0; // block default delete behavior
+    Exit;
+  end
+  else
+  if (Key = VK_ESCAPE) and (Shift = []) then
+  begin
+    case Edit.Tag of
+      HOTKEY_APP:
+        begin
+          FHotKeyApp := FOriginalHotKeyApp;
+          HK := FHotKeyApp;
+        end;
+
+      HOTKEY_TRANS_SWAP:
+        begin
+          FHotKeyTransSwap := FOriginalHotKeyTransSwap;
+          HK := FHotKeyTransSwap;
+        end;
+
+      HOTKEY_TRANS_FROM_CLIPBOARD:
+        begin
+          FHotKeyTransFromClipboard := FOriginalHotKeyTransFromClipboard;
+          HK := FHotKeyTransFromClipboard;
+        end;
+
+      HOTKEY_TRANS_CLIPBOARD:
+        begin
+          FHotKeyTransClipboard := FOriginalHotKeyTransClipboard;
+          HK := FHotKeyTransClipboard;
+        end;
+
+      HOTKEY_TRANS_FROM_CONTROL:
+        begin
+          FHotKeyTransFromControl := FOriginalHotKeyTransFromControl;
+          HK := FHotKeyTransFromControl;
+        end;
+
+      HOTKEY_TRANS_CONTROL:
+        begin
+          FHotKeyTransControl := FOriginalHotKeyTransControl;
+          HK := FHotKeyTransControl;
+        end;
+    end;
+
+    Edit.Text := HotKeyToText(HK);
+    Key := 0;
     Exit;
   end;
 
@@ -331,7 +377,6 @@ begin
   formTrayslator.HotKeyTransClipboard := FHotKeyTransClipboard;
   formTrayslator.HotKeyTransFromControl := FHotKeyTransFromControl;
   formTrayslator.HotKeyTransControl := FHotKeyTransControl;
-  formTrayslator.RegisterHotKeys;
   Reset;
 end;
 
