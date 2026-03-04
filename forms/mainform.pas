@@ -781,12 +781,13 @@ procedure TformTrayslator.LoadConfig;
 var
   List: TStringList;
 begin
-  // Form caption with config file name
-  Caption := 'Trayslator - ' + ExtractFileName(FConfigFile);
   UpdateCheckConfigMenu;
 
   // Load settings from INI
   LoadIniSettings(Trans, FConfigFile);
+
+  // Form caption with config file name
+  Caption := 'Trayslator - ' + ifthen(Trans.ServiceName <> string.Empty, Trans.ServiceName, ExtractFileName(FConfigFile));
 
   // Init language lists
   FLanguages.Clear;
