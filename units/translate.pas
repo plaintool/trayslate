@@ -185,7 +185,7 @@ begin
     Data := FPostData;
 
     if FTextToTranslate <> string.Empty then
-      Data := StringReplace(Data, '{text}', FTextToTranslate, [rfReplaceAll])
+      Data := StringReplace(Data, '{text}', EncodeURLElement(FTextToTranslate), [rfReplaceAll])
     else
       Data := StringReplace(Data, '{text}', string.Empty, [rfReplaceAll]);
 
