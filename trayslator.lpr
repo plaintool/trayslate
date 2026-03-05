@@ -16,6 +16,7 @@ uses
   Interfaces, // this includes the LCL widgetset
   Forms,
   SysUtils,
+  opensslsockets,
   mainform,
   systemtool
   {$IFDEF WINDOWS}
