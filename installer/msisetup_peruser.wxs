@@ -49,8 +49,10 @@
                         <!-- Files to be installed -->
                         <File Id="$(var.ExeNameUpper)" Name="$(var.ExeName)" Source="..\$(var.ExeName)" />
                         <File Id="LICENSE" Name="LICENSE" Source="..\LICENSE" />
-						<File Id="CONFIG" Name="google.ini" Source="..\config\google.ini" />
-						<File Id="LIBCRYPTO"
+                        <File Id="CONFIG1" Name="google-get.ini" Source="..\config\google-get.ini" />
+                        <File Id="CONFIG2" Name="google-post.ini" Source="..\config\google-post.ini" />
+                        <File Id="CONFIG3" Name="mymemory.ini" Source="..\config\mymemory.ini" />
+                        <File Id="CONFIG4" Name="simplytranslate-google.ini" Source="..\config\simplytranslate-google.ini" />						<File Id="LIBCRYPTO"
 							  Name="$(var.LibCryptoName)"
 							  Source="$(var.OpenSslDir)\$(var.LibCryptoName)" />
 						<File Id="LIBSSL"

@@ -33,6 +33,7 @@ type
     ActionList: TActionList;
     BtnClose: TButton;
     BtnSave: TButton;
+    CheckEncryptText: TCheckBox;
     ComboMethod: TComboBox;
     ComboConfig: TComboBox;
     ComboResponseParser: TComboBox;
@@ -290,6 +291,7 @@ begin
       ComboResponseParser.ItemIndex := 1;
     EditRegexp.Text := Regexp;
     EditJsonPointer.Text := JsonPointer;
+    CheckEncryptText.Checked := EncryptText;
     MemoLanguages.Lines.Assign(Languages);
     MemoLanguagesTarget.Lines.Assign(LanguagesTarget);
     MemoHeaders.Lines.Assign(Headers);
@@ -320,6 +322,7 @@ begin
         ResponseParser := rpRegEx;
       Regexp := EditRegexp.Text;
       JsonPointer := EditJsonPointer.Text;
+      EncryptText := CheckEncryptText.Checked;
       Languages.Assign(MemoLanguages.Lines);
       LanguagesTarget.Assign(MemoLanguagesTarget.Lines);
       Headers.Assign(HeadersFromMemo(MemoHeaders));

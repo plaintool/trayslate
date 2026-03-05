@@ -70,6 +70,10 @@ msgstr ""
 msgid "Config Editor"
 msgstr ""
 
+#: tformconfigtrayslator.checkencrypttext.caption
+msgid "URL-encode {text} parameter"
+msgstr ""
+
 #: tformconfigtrayslator.combomethod.text
 msgid "GET"
 msgstr ""

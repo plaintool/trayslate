@@ -364,6 +364,9 @@ begin
     if Trim(Translate.Accept) <> string.Empty then
       Ini.WriteString('Request', 'Accept', Translate.Accept);
 
+    Ini.DeleteKey('Request', 'EncryptText');
+    Ini.WriteBool('Request', 'EncryptText', Translate.EncryptText);
+
     if Translate.ResponseParser = rpJson then
       Ini.WriteString('Response', 'ParserType', 'Json')
     else
@@ -432,6 +435,8 @@ begin
     Translate.PostData := StringReplace(PostDataEscaped, '\r\n', LineEnding, [rfReplaceAll]);
 
     Translate.Accept := Ini.ReadString('Request', 'Accept', string.Empty);
+
+    Translate.EncryptText := Ini.ReadBool('Request', 'EncryptText', True);
 
     Method := Ini.ReadString('Response', 'ParserType', 'Json');
     if SameText(Method, 'Json') then

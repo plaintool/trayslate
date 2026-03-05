@@ -338,7 +338,7 @@ object formConfigTrayslator: TformConfigTrayslator
           end
           object MemoPostData: TMemo
             Left = 120
-            Height = 136
+            Height = 100
             Top = 192
             Width = 378
             Anchors = [akTop, akLeft, akRight]
@@ -350,7 +350,7 @@ object formConfigTrayslator: TformConfigTrayslator
           object EditAccept: TEdit
             Left = 120
             Height = 23
-            Top = 336
+            Top = 304
             Width = 378
             Anchors = [akTop, akLeft, akRight]
             TabOrder = 5
@@ -359,11 +359,20 @@ object formConfigTrayslator: TformConfigTrayslator
           object LabelAccept: TLabel
             Left = 8
             Height = 23
-            Top = 336
+            Top = 304
             Width = 104
             Alignment = taRightJustify
             AutoSize = False
             Caption = 'Accept'
+          end
+          object CheckEncryptText: TCheckBox
+            Left = 120
+            Height = 19
+            Top = 337
+            Width = 171
+            Caption = 'URL-encode {text} parameter'
+            TabOrder = 6
+            OnChange = ValueChange
           end
         end
         object GroupBoxService: TGroupBox

@@ -15,6 +15,7 @@ uses
   Forms,
   SysUtils,
   RegExpr,
+  StrUtils,
   Controls,
   fphttpclient,
   fpjson,
@@ -27,19 +28,21 @@ type
   { TTranslate }
   TTranslate = class
   private
+    FLangSource: string;
+    FLangTarget: string;
+    FTextToTranslate: string;
+
     FServiceName: string;
     FWebMethod: TWebMethod;
     FResponseParser: TResponseParser;
     FUrl: string;
+    FPostData: string;
     FUserAgent: string;
     FContentType: string;
+    FAccept: string;
     FRegexp: string;
     FJsonPointer: string;
-    FTextToTranslate: string;
-    FPostData: string;
-    FAccept: string;
-    FLangSource: string;
-    FLangTarget: string;
+    FEncryptText: boolean;
     FLanguages: TStringList;
     FLanguagesTarget: TStringList;
     FHeaders: TStringList;
@@ -62,12 +65,13 @@ type
     property WebMethod: TWebMethod read FWebMethod write FWebMethod;
     property ResponseParser: TResponseParser read FResponseParser write FResponseParser;
     property Url: string read FUrl write FUrl;
+    property PostData: string read FPostData write FPostData;
     property UserAgent: string read FUserAgent write FUserAgent;
     property ContentType: string read FContentType write FContentType;
+    property Accept: string read FAccept write FAccept;
     property Regexp: string read FRegexp write FRegexp;
     property JsonPointer: string read FJsonPointer write FJsonPointer;
-    property PostData: string read FPostData write FPostData;
-    property Accept: string read FAccept write FAccept;
+    property EncryptText: boolean read FEncryptText write FEncryptText;
     property Languages: TStringList read FLanguages write FLanguages;
     property LanguagesTarget: TStringList read FLanguagesTarget write FLanguagesTarget;
     property Headers: TStringList read FHeaders write FHeaders;
@@ -111,6 +115,7 @@ begin
   FAccept := 'application/json';
   FLangSource := Language;
   FRegexp := '\[\["(.*?)"';
+  FEncryptText := True;
   FLanguages := TStringList.Create;
   FLanguages.TrailingLineBreak := False;
   FLanguagesTarget := TStringList.Create;
@@ -141,15 +146,18 @@ begin
     tarUrl := FUrl;
     http.AllowRedirect := True;
     http.RequestHeaders.Clear;
-    http.AddHeader('User-Agent', FUserAgent);
-    http.AddHeader('Content-Type', FContentType);
-    http.AddHeader('Accept', FAccept);
+    if (FUserAgent <> string.Empty) then
+      http.AddHeader('User-Agent', FUserAgent);
+    if (FContentType <> string.Empty) then
+      http.AddHeader('Content-Type', FContentType);
+    if (FAccept <> string.Empty) then
+      http.AddHeader('Accept', FAccept);
     if Assigned(Headers) then
       for i := 0 to Headers.Count - 1 do
         http.AddHeader(Headers.Names[i], Headers.ValueFromIndex[i]);
 
     if FTextToTranslate <> string.Empty then
-      tarUrl := StringReplace(tarUrl, '{text}', EncodeURLElement(FTextToTranslate), [rfReplaceAll])
+      tarUrl := StringReplace(tarUrl, '{text}', ifthen(FEncryptText, EncodeURLElement(FTextToTranslate), FTextToTranslate), [rfReplaceAll])
     else
       tarUrl := StringReplace(tarUrl, '{text}', string.Empty, [rfReplaceAll]);
 
@@ -185,7 +193,7 @@ begin
     Data := FPostData;
 
     if FTextToTranslate <> string.Empty then
-      Data := StringReplace(Data, '{text}', EncodeURLElement(FTextToTranslate), [rfReplaceAll])
+      Data := StringReplace(Data, '{text}', ifthen(FEncryptText, EncodeURLElement(FTextToTranslate), FTextToTranslate), [rfReplaceAll])
     else
       Data := StringReplace(Data, '{text}', string.Empty, [rfReplaceAll]);
 
@@ -203,9 +211,12 @@ begin
     try
       http.AllowRedirect := True;
       http.RequestHeaders.Clear;
-      http.AddHeader('User-Agent', FUserAgent);
-      http.AddHeader('Content-Type', FContentType);
-      http.AddHeader('Accept', FAccept);
+      if FUserAgent <> string.Empty then
+        http.AddHeader('User-Agent', FUserAgent);
+      if FContentType <> string.Empty then
+        http.AddHeader('Content-Type', FContentType);
+      if FAccept <> string.Empty then
+        http.AddHeader('Accept', FAccept);
       if Assigned(Headers) then
         for i := 0 to Headers.Count - 1 do
           http.AddHeader(Headers.Names[i], Headers.ValueFromIndex[i]);
