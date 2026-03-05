@@ -16,6 +16,10 @@ msgctxt "formconfig.rcaption"
 msgid "Config Editor"
 msgstr ""
 
+#: formconfig.rclearlanguages
+msgid "The list is already filled. Do you want to clear it?"
+msgstr ""
+
 #: formconfig.rcopyquestion
 msgctxt "formconfig.rcopyquestion"
 msgid "Enter new config file name:"
@@ -27,6 +31,11 @@ msgstr ""
 
 #: mainform.noconfig
 msgid "Configuration file not found! Create it in the configuration editor."
+msgstr ""
+
+#: mainform.rtrayslator
+msgctxt "mainform.rtrayslator"
+msgid "Trayslator"
 msgstr ""
 
 #: systemtool.newversion
@@ -134,6 +143,10 @@ msgstr ""
 #: tformconfigtrayslator.labelcontenttype.caption
 msgctxt "tformconfigtrayslator.labelcontenttype.caption"
 msgid "Content Type"
+msgstr ""
+
+#: tformconfigtrayslator.labelfilllanguages.caption
+msgid "Fill with default"
 msgstr ""
 
 #: tformconfigtrayslator.labelheaders.caption
@@ -510,6 +523,7 @@ msgid "Translate Clipboard"
 msgstr ""
 
 #: tformtrayslator.caption
+msgctxt "tformtrayslator.caption"
 msgid "Trayslator"
 msgstr ""
 

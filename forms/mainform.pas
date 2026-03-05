@@ -204,7 +204,8 @@ const
   DOUBLE_ENTER_INTERVAL = 200; // ms
 
 resourcestring
-  NoConfig = 'Configuration file not found! Create it in the configuration editor.';
+  rtrayslator = 'Trayslator';
+  noconfig = 'Configuration file not found! Create it in the configuration editor.';
 
 implementation
 
@@ -282,7 +283,10 @@ begin
     if FConfigFiles.Count > 0 then
       FConfigFile := FConfigFiles[0]
     else
-      ShowMessage(NoConfig);
+    begin
+      FConfigFile := string.Empty;
+      ShowMessage(noconfig);
+    end;
   end;
 
   // Load current config
@@ -305,6 +309,8 @@ end;
 
 procedure TformTrayslator.FormDestroy(Sender: TObject);
 begin
+  if Assigned(formConfigTrayslator) then
+    FreeAndNil(formConfigTrayslator);
   {$IFDEF WINDOWS}
   UnregisterHotKeys;
   {$ENDIF}
@@ -410,7 +416,7 @@ end;
 
 procedure TformTrayslator.ApplicationOnException(Sender: TObject; E: Exception);
 begin
-  MessageDlg('Trayslator', E.Message, mtWarning, [mbOK], 0);
+  MessageDlg(rtrayslator, E.Message, mtWarning, [mbOK], 0);
 end;
 
 {Actions Events}
@@ -777,6 +783,7 @@ begin
     ifthen(FIconTwoLang, UpperCase(Trans.LangTarget), string.Empty), FIconBackgroundColor, FIconFontColor);
   try
     TrayIcon.Icon.Assign(Ico);
+    TrayIcon.Visible := True;
   finally
     Ico.Free;
   end;
@@ -792,7 +799,8 @@ begin
   LoadIniSettings(Trans, FConfigFile);
 
   // Form caption with config file name
-  Caption := 'Trayslator - ' + ifthen(Trans.ServiceName <> string.Empty, Trans.ServiceName, ExtractFileName(FConfigFile));
+  Caption := rtrayslator + ifthen(Trans.ServiceName <> string.Empty, ' - ' + Trans.ServiceName,
+    ifthen(FConfigFile <> string.Empty, ' - ' + ExtractFileName(FConfigFile), string.Empty));
 
   // Init language lists
   FLanguages.Clear;
@@ -869,6 +877,7 @@ var
   Ini: TIniFile;
 begin
   MenuConfig.Clear;
+  MenuConfig.Visible := FConfigFiles.Count > 0;
 
   for i := 0 to FConfigFiles.Count - 1 do
   begin
@@ -1132,7 +1141,7 @@ end;
 procedure TformTrayslator.SetAutoStart(Value: boolean);
 begin
   FAutoStart := Value;
-  RegAutoStart(FAutoStart, 'Trayslator');
+  RegAutoStart(FAutoStart, rtrayslator);
 end;
 
 procedure TformTrayslator.DoRealign(Data: PtrInt);

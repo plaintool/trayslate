@@ -51,6 +51,7 @@ type
     GroupLanguages: TGroupBox;
     LabelAccept: TLabel;
     LabelLanguagesTarget: TLabel;
+    LabelFillLanguages: TLabel;
     LabelMethod: TLabel;
     LabelLanguages: TLabel;
     LabelParemeters2: TLabel;
@@ -88,6 +89,7 @@ type
     procedure BtnCloseClick(Sender: TObject);
     procedure ComboConfigChange(Sender: TObject);
     procedure ComboConfigKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+    procedure LabelFillLanguagesClick(Sender: TObject);
     procedure MemoKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure ValueChange(Sender: TObject);
     procedure SbCopyConfigClick(Sender: TObject);
@@ -107,11 +109,12 @@ var
 resourcestring
   rcopyquestion = 'Enter new config file name:';
   rneedsave = 'The configuration was modified. Save changes?';
+  rclearlanguages = 'The list is already filled. Do you want to clear it?';
   rcaption = 'Config Editor';
 
 implementation
 
-uses mainform, translate, settings, formattool, langtool;
+uses mainform, translate, settings, formattool, langtool, languages;
 
   {$R *.lfm}
 
@@ -179,6 +182,26 @@ begin
     Clipboard.AsText := ComboConfig.Text;
 end;
 
+procedure TformConfigTrayslator.LabelFillLanguagesClick(Sender: TObject);
+var
+  List: TStringList;
+begin
+  if MemoLanguages.Lines.Count > 0 then
+  begin
+    if MessageDlg(rclearlanguages, mtConfirmation, [mbYes, mbNo], 0) = mrNo then
+      Exit;
+
+    MemoLanguages.Clear;
+  end;
+
+  List := GetLanguageCodePairList;
+  try
+    MemoLanguages.Lines.Assign(List);
+  finally
+    List.Free;
+  end;
+end;
+
 procedure TformConfigTrayslator.MemoKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
   if (ssCtrl in Shift) and (Key = VK_V) then // Ctrl + V
@@ -201,7 +224,7 @@ end;
 
 procedure TformConfigTrayslator.SbCopyConfigClick(Sender: TObject);
 begin
-CopyConfig;
+  CopyConfig;
 end;
 
 function TformConfigTrayslator.TestChanges: boolean;
@@ -231,7 +254,7 @@ var
   SourceFile: string;
   DestFile: string;
 begin
-  if not TestChanges then exit;
+  if (ComboConfig.Text <> string.Empty) and (not TestChanges) then exit;
 
   NewName := ExtractFileName(ComboConfig.Text);
 
@@ -244,7 +267,7 @@ begin
     Exit;
 
   // Add .ini extension if missing
-  if ExtractFileExt(NewName) = string.Empty then
+  if not SameText(ExtractFileExt(NewName), '.ini') then
     NewName := NewName + '.ini';
 
   if NewName = ExtractFileName(ComboConfig.Text) then
@@ -253,9 +276,22 @@ begin
   SourceFile := ComboConfig.Text;
   DestFile := IncludeTrailingPathDelimiter(GetSettingsDirectory) + NewName;
 
-  // Copy config file
   try
-    CopyFile(SourceFile, DestFile, [], True);
+    if SourceFile = string.Empty then
+    begin
+      // Create empty file
+      with TFileStream.Create(DestFile, fmCreate) do
+        Free;
+
+      // Save Current Data
+      formTrayslator.ConfigFile := DestFile;
+      SaveConfig;
+    end
+    else
+    begin
+      // Copy config file
+      CopyFile(SourceFile, DestFile, [], True);
+    end;
   except
     on E: Exception do
     begin
@@ -311,6 +347,12 @@ procedure TformConfigTrayslator.SaveConfig;
 var
   TempHeaders: TStringList;
 begin
+  if (formTrayslator.ConfigFile = string.Empty) then
+    CopyConfig;
+
+  if (formTrayslator.ConfigFile = string.Empty) then
+    exit;
+
   Screen.Cursor := crHourGlass;
   try
     with formTrayslator.Trans do

@@ -324,6 +324,7 @@ var
   L: TAppLanguage;
 begin
   Result := TStringList.Create;
+  Result.TrailingLineBreak := False;
   try
     Langs := GetLanguages;
     for L in Langs do

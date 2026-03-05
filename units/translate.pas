@@ -146,6 +146,8 @@ var
   i: integer;
 begin
   Result := string.Empty;
+  if FUrl = string.Empty then exit;
+
   http := TFPHTTPClient.Create(nil);
   response := TStringStream.Create(string.Empty);
   try
@@ -193,6 +195,8 @@ var
   i: integer;
 begin
   Result := string.Empty;
+  if FUrl = string.Empty then exit;
+
   http := TFPHTTPClient.Create(nil);
   response := TStringStream.Create(string.Empty);
   try

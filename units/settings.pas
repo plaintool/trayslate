@@ -462,7 +462,6 @@ function IsValidIni(const FileName: string): boolean;
 var
   Ini: TIniFile;
   Method: string;
-  Url: string;
   ParserType: string;
 begin
   Result := False;
@@ -473,14 +472,11 @@ begin
   Ini := TIniFile.Create(FileName);
   try
     // Check required keys
-    Method := Ini.ReadString('Request', 'Method', '');
-    Url := Ini.ReadString('Request', 'Url', '');
-    ParserType := Ini.ReadString('Response', 'ParserType', '');
+    Method := Ini.ReadString('Request', 'Method', string.Empty);
+    ParserType := Ini.ReadString('Response', 'ParserType', string.Empty);
 
-    if (Method <> '') and ((Method = 'GET') or (Method = 'POST')) and (Url <> '') and
-      ((ParserType = 'Json') or (ParserType = 'Regexp')) then
+    if ((Method = 'GET') or (Method = 'POST')) and ((ParserType = 'Json') or (ParserType = 'Regexp')) then
       Result := True;
-
   finally
     Ini.Free;
   end;
