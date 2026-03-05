@@ -45,24 +45,25 @@
         <Directory Id="TARGETDIR" Name="SourceDir">
             <Directory Id="LocalAppDataFolder">
                 <Directory Id="INSTALLDIR" Name="Trayslator">
-                    <Component Id="TrayslatorFiles" DiskId="1" Guid="C3D9A1F5-7E2B-4A8C-9F1D-6B0E3C4D7A5F" Win64="$(var.Win64Value)">
-                        <!-- Files to be installed -->
-                        <File Id="$(var.ExeNameUpper)" Name="$(var.ExeName)" Source="..\$(var.ExeName)" />
-                        <File Id="LICENSE" Name="LICENSE" Source="..\LICENSE" />
-                        <File Id="CONFIG1" Name="google-get.ini" Source="..\config\google-get.ini" />
-                        <File Id="CONFIG2" Name="google-post.ini" Source="..\config\google-post.ini" />
-                        <File Id="CONFIG3" Name="mymemory.ini" Source="..\config\mymemory.ini" />
-                        <File Id="CONFIG4" Name="simplytranslate-google.ini" Source="..\config\simplytranslate-google.ini" />						<File Id="LIBCRYPTO"
-							  Name="$(var.LibCryptoName)"
-							  Source="$(var.OpenSslDir)\$(var.LibCryptoName)" />
-						<File Id="LIBSSL"
-							  Name="$(var.LibSslName)"
-							  Source="$(var.OpenSslDir)\$(var.LibSslName)" />
-                        <!-- Registry KeyPath to satisfy ICE38 -->
-                        <RegistryValue Root="HKCU" Key="Software\Alexander Tverskoy\Trayslator" Name="InstallPath" Type="string" Value="[INSTALLDIR]" KeyPath="yes" />
-                        <!-- Remove INSTALLDIR on uninstall -->
-                        <RemoveFolder Id="RemoveINSTALLDIR" Directory="INSTALLDIR" On="uninstall" />
-                    </Component>
+					<Directory Id="CONFIGDIR" Name="config">
+						<Component Id="ConfigFiles" Guid="D4A1B2C3-5678-4E9A-ABCD-1234567890AB" Win64="$(var.Win64Value)">
+							<File Id="CONFIG1" Name="google-get-apis.ini" Source="..\config\google-get-apis.ini" />
+							<File Id="CONFIG2" Name="google-get-clients5.ini" Source="..\config\google-get-clients5.ini" />
+							<File Id="CONFIG3" Name="google-post.ini" Source="..\config\google-post.ini" />
+							<File Id="CONFIG4" Name="mymemory.ini" Source="..\config\mymemory.ini" />
+							<File Id="CONFIG5" Name="simplytranslate-google.ini" Source="..\config\simplytranslate-google.ini" />
+							<!-- Registry KeyPath to satisfy ICE38 -->
+							<RegistryValue Root="HKLM" Key="Software\Alexander Tverskoy\Trayslator" Name="ConfigPath" Type="string" Value="[CONFIGDIR]" KeyPath="yes" />
+						</Component>
+					</Directory>
+					<Component Id="TrayslatorFiles" DiskId="1" Guid="C3D9A1F5-7E2B-4A8C-9F1D-6B0E3C4D7A5F" Win64="$(var.Win64Value)">
+						<File Id="$(var.ExeNameUpper)" Name="$(var.ExeName)" Source="..\$(var.ExeName)" />
+						<File Id="LICENSE" Name="LICENSE" Source="..\LICENSE" />
+						<File Id="LIBCRYPTO" Name="$(var.LibCryptoName)" Source="$(var.OpenSslDir)\$(var.LibCryptoName)" />
+						<File Id="LIBSSL" Name="$(var.LibSslName)" Source="$(var.OpenSslDir)\$(var.LibSslName)" />
+						<RegistryValue Root="HKLM" Key="Software\Alexander Tverskoy\Trayslator" Name="InstallPath" Type="string" Value="[INSTALLDIR]" KeyPath="yes" />
+						<RemoveFolder Id="RemoveINSTALLDIR" Directory="INSTALLDIR" On="uninstall" />
+					</Component>
                 </Directory>
             </Directory>
             <Directory Id="DesktopFolder" />
@@ -83,6 +84,7 @@
         </Directory>
         <Feature Id="DefaultFeature" Title="Main Feature" Level="1">
             <ComponentRef Id="TrayslatorFiles" />
+			<ComponentRef Id="ConfigFiles" />
             <ComponentRef Id="TrayslatorShortcuts" />
             <ComponentRef Id="StartMenuShortcuts" />
         </Feature>

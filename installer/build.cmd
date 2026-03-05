@@ -98,21 +98,23 @@ if not "%CERTFILE%"=="" (
 :: --- Portable ---
 if "%BUILD_PORTABLE%"=="1" (
     powershell -NoProfile -Command ^
+    "$tmp='%~dp0temp_dist';" ^
     "$exe64='%~dp0..\\trayslator.exe';" ^
     "$exe32='%~dp0..\\trayslator32.exe';" ^
     "$settings='%~dp0form_settings.json';" ^
     "$license='%~dp0LICENSE.rtf';" ^
-    "$config1='%~dp0..\\config\\google-get.ini';" ^
-    "$config2='%~dp0..\\config\\google-post.ini';" ^
-    "$config3='%~dp0..\\config\\mymemory.ini';" ^
-    "$config4='%~dp0..\\config\\simplytranslate-google.ini';" ^
-    "$dll1='%~dp0..\\libcrypto-1_1-x64.dll';" ^
-    "$dll2='%~dp0..\\libssl-1_1-x64.dll';" ^
-    "$dll3='%~dp0..\\libcrypto-1_1.dll';" ^
-    "$dll4='%~dp0..\\libssl-1_1.dll';" ^
-    "if ((Test-Path $exe64) -and (Test-Path $exe32) -and (Test-Path $settings) -and (Test-Path $license) -and (Test-Path $config1) -and (Test-Path $config2) -and (Test-Path $config3) -and (Test-Path $config4) -and (Test-Path $dll1) -and (Test-Path $dll2) -and (Test-Path $dll3) -and (Test-Path $dll4)) {" ^
-    "Compress-Archive -Force -Path $exe64,$exe32,$settings,$license,$config1,$config2,$config3,$config4,$dll1,$dll2,$dll3,$dll4 -DestinationPath '%~dp0trayslator-%VERSION%-x86-x64-portable.zip'}" ^
-    "else { Write-Error 'Portable inputs missing'; exit 1 }"
+    "$dlls=@('%~dp0..\\libcrypto-1_1-x64.dll','%~dp0..\\libssl-1_1-x64.dll','%~dp0..\\libcrypto-1_1.dll','%~dp0..\\libssl-1_1.dll');" ^
+    "$configDir='%~dp0..\\config';" ^
+    "$destZip='%~dp0trayslator-%VERSION%-x86-x64-portable.zip';" ^
+    "if ((Test-Path $exe64) -and (Test-Path $exe32) -and (Test-Path $configDir)) {" ^
+    "  if (Test-Path $tmp) { Remove-Item -Recurse -Force $tmp };" ^
+    "  New-Item -ItemType Directory -Path \"$tmp/config\" -Force | Out-Null;" ^
+    "  Copy-Item $exe64, $exe32, $settings, $license -Destination $tmp;" ^
+    "  Copy-Item $dlls -Destination $tmp;" ^
+    "  Copy-Item \"$configDir\\*.ini\" -Destination \"$tmp/config\";" ^
+    "  Compress-Archive -Force -Path \"$tmp\\*\" -DestinationPath $destZip;" ^
+    "  Remove-Item -Recurse -Force $tmp;" ^
+    "} else { Write-Error 'Portable inputs missing'; exit 1 }"
 )
 
 echo Build and signing completed successfully!

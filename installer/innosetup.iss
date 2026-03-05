@@ -70,11 +70,12 @@ Source: "..\libcrypto-1_1.dll"; DestDir: "{app}"; Check: not Is64BitInstallMode;
 Source: "..\libssl-1_1.dll"; DestDir: "{app}"; Check: not Is64BitInstallMode; Flags: ignoreversion
 ; License
 Source: "..\LICENSE"; DestDir: "{app}"; Flags: ignoreversion
-; Congig
-Source: "..\config\google-get.ini"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\config\google-post.ini"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\config\mymemory.ini"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\config\simplytranslate-google.ini"; DestDir: "{app}"; Flags: ignoreversion
+; Config files in a subfolder
+Source: "..\config\google-get-apis.ini";        DestDir: "{app}\config"; Flags: ignoreversion
+Source: "..\config\google-get-clients5.ini"; DestDir: "{app}\config"; Flags: ignoreversion
+Source: "..\config\google-post.ini";       DestDir: "{app}\config"; Flags: ignoreversion
+Source: "..\config\mymemory.ini";         DestDir: "{app}\config"; Flags: ignoreversion
+Source: "..\config\simplytranslate-google.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
