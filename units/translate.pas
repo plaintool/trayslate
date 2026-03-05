@@ -109,13 +109,19 @@ begin
   inherited Create;
   FServiceName := 'default';
   FWebMethod := wmGet;
-  FResponseParser := rpJson;
-  FUserAgent := 'Mozilla/5.0';
+  FUserAgent := 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:148.0) Gecko/20100101 Firefox/148.0';
   FContentType := 'application/json';
+  FUrl := string.Empty;
+  FPostData := string.Empty;
   FAccept := 'application/json';
-  FLangSource := Language;
-  FRegexp := '\[\["(.*?)"';
   FEncryptText := True;
+  FResponseParser := rpJson;
+  FJsonPointer := '/0/*/0';
+  FRegexp := string.Empty;
+  FEncryptText := True;
+
+  FLangSource := defaultlang;
+  FLangTarget := Language;
   FLanguages := TStringList.Create;
   FLanguages.TrailingLineBreak := False;
   FLanguagesTarget := TStringList.Create;

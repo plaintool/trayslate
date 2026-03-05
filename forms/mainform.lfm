@@ -144,7 +144,7 @@ object formTrayslator: TformTrayslator
       Action = aShow
     end
     object MenuShowTranslate: TMenuItem
-      Action = aClipboard
+      Action = aTranslateClipboard
     end
     object Separator2: TMenuItem
       Caption = '-'
@@ -198,10 +198,10 @@ object formTrayslator: TformTrayslator
       Caption = 'Show'
       OnExecute = aShowExecute
     end
-    object aClipboard: TAction
+    object aTranslateClipboard: TAction
       Category = 'Tray'
-      Caption = 'Translate clipboard'
-      OnExecute = aClipboardExecute
+      Caption = 'Translate Clipboard'
+      OnExecute = aTranslateClipboardExecute
     end
     object aSettings: TAction
       Category = 'Tray'
@@ -210,17 +210,17 @@ object formTrayslator: TformTrayslator
     end
     object aConfigEditor: TAction
       Category = 'Tray'
-      Caption = 'Config editor...'
+      Caption = 'Config Editor...'
       OnExecute = aConfigEditorExecute
     end
     object aDonate: TAction
       Category = 'Tray'
-      Caption = 'Buy me a coffee...'
+      Caption = 'Buy Me a Coffee...'
       OnExecute = aDonateExecute
     end
     object aCheckForUpdates: TAction
       Category = 'Tray'
-      Caption = 'Check for updates'
+      Caption = 'Check For Updates'
       OnExecute = aCheckForUpdatesExecute
     end
     object aAbout: TAction

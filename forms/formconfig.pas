@@ -95,6 +95,7 @@ type
     FLastConfig: integer;
   public
     function TestChanges: boolean;
+    procedure CopyConfig;
     procedure UpdateConfigList;
     procedure UpdateConfig;
     procedure SaveConfig;
@@ -199,6 +200,32 @@ begin
 end;
 
 procedure TformConfigTrayslator.SbCopyConfigClick(Sender: TObject);
+begin
+CopyConfig;
+end;
+
+function TformConfigTrayslator.TestChanges: boolean;
+var
+  res: TModalResult;
+begin
+  Result := True;
+  if (aSave.Enabled) then
+  begin
+    res := MessageDlg(rneedsave, mtConfirmation, [mbYes, mbNo, mbCancel], 0);
+    if res = mrYes then
+    begin
+      SaveConfig;
+      Exit;
+    end
+    else
+    if res = mrCancel then
+      Result := False
+    else if res = mrNo then
+      UpdateConfig;
+  end;
+end;
+
+procedure TformConfigTrayslator.CopyConfig;
 var
   NewName: string;
   SourceFile: string;
@@ -242,27 +269,6 @@ begin
   formTrayslator.LoadConfig;
   UpdateConfigList;
   UpdateConfig;
-end;
-
-function TformConfigTrayslator.TestChanges: boolean;
-var
-  res: TModalResult;
-begin
-  Result := True;
-  if (aSave.Enabled) then
-  begin
-    res := MessageDlg(rneedsave, mtConfirmation, [mbYes, mbNo, mbCancel], 0);
-    if res = mrYes then
-    begin
-      SaveConfig;
-      Exit;
-    end
-    else
-    if res = mrCancel then
-      Result := False
-    else if res = mrNo then
-      UpdateConfig;
-  end;
 end;
 
 procedure TformConfigTrayslator.UpdateConfigList;

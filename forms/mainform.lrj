@@ -5,11 +5,11 @@
 {"hash":372096,"name":"tformtrayslator.aswap.hint","sourcebytes":[83,119,97,112],"value":"Swap"},
 {"hash":35744530,"name":"tformtrayslator.atranslate.hint","sourcebytes":[84,114,97,110,115,108,97,116,101,13,10,67,116,114,108,32,194,166,32,83,104,105,102,116,32,194,166,32,69,110,116,101,114,32,43,32,69,110,116,101,114],"value":"Translate\r\nCtrl \u00A6 Shift \u00A6 Enter + Enter"},
 {"hash":368487,"name":"tformtrayslator.ashow.caption","sourcebytes":[83,104,111,119],"value":"Show"},
-{"hash":55078116,"name":"tformtrayslator.aclipboard.caption","sourcebytes":[84,114,97,110,115,108,97,116,101,32,99,108,105,112,98,111,97,114,100],"value":"Translate clipboard"},
+{"hash":55069924,"name":"tformtrayslator.atranslateclipboard.caption","sourcebytes":[84,114,97,110,115,108,97,116,101,32,67,108,105,112,98,111,97,114,100],"value":"Translate Clipboard"},
 {"hash":1551550,"name":"tformtrayslator.asettings.caption","sourcebytes":[83,101,116,116,105,110,103,115,46,46,46],"value":"Settings..."},
-{"hash":208379646,"name":"tformtrayslator.aconfigeditor.caption","sourcebytes":[67,111,110,102,105,103,32,101,100,105,116,111,114,46,46,46],"value":"Config editor..."},
-{"hash":255115374,"name":"tformtrayslator.adonate.caption","sourcebytes":[66,117,121,32,109,101,32,97,32,99,111,102,102,101,101,46,46,46],"value":"Buy me a coffee..."},
-{"hash":21759267,"name":"tformtrayslator.acheckforupdates.caption","sourcebytes":[67,104,101,99,107,32,102,111,114,32,117,112,100,97,116,101,115],"value":"Check for updates"},
+{"hash":208387838,"name":"tformtrayslator.aconfigeditor.caption","sourcebytes":[67,111,110,102,105,103,32,69,100,105,116,111,114,46,46,46],"value":"Config Editor..."},
+{"hash":255106670,"name":"tformtrayslator.adonate.caption","sourcebytes":[66,117,121,32,77,101,32,97,32,67,111,102,102,101,101,46,46,46],"value":"Buy Me a Coffee..."},
+{"hash":23856387,"name":"tformtrayslator.acheckforupdates.caption","sourcebytes":[67,104,101,99,107,32,70,111,114,32,85,112,100,97,116,101,115],"value":"Check For Updates"},
 {"hash":158102910,"name":"tformtrayslator.aabout.caption","sourcebytes":[65,98,111,117,116,46,46,46],"value":"About..."},
 {"hash":315140,"name":"tformtrayslator.aexit.caption","sourcebytes":[69,120,105,116],"value":"Exit"}
 ]}

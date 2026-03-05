@@ -26,7 +26,7 @@ msgid "The configuration was modified. Save changes?"
 msgstr ""
 
 #: mainform.noconfig
-msgid "Configuration file not found!"
+msgid "Configuration file not found! Create it in the configuration editor."
 msgstr ""
 
 #: systemtool.newversion
@@ -471,20 +471,15 @@ msgid "About..."
 msgstr ""
 
 #: tformtrayslator.acheckforupdates.caption
-msgid "Check for updates"
-msgstr ""
-
-#: tformtrayslator.aclipboard.caption
-msgctxt "tformtrayslator.aclipboard.caption"
-msgid "Translate clipboard"
+msgid "Check For Updates"
 msgstr ""
 
 #: tformtrayslator.aconfigeditor.caption
-msgid "Config editor..."
+msgid "Config Editor..."
 msgstr ""
 
 #: tformtrayslator.adonate.caption
-msgid "Buy me a coffee..."
+msgid "Buy Me a Coffee..."
 msgstr ""
 
 #: tformtrayslator.aexit.caption
@@ -508,6 +503,10 @@ msgctxt "tformtrayslator.atranslate.hint"
 msgid ""
 "Translate\n"
 "Ctrl ¦ Shift ¦ Enter + Enter"
+msgstr ""
+
+#: tformtrayslator.atranslateclipboard.caption
+msgid "Translate Clipboard"
 msgstr ""
 
 #: tformtrayslator.caption

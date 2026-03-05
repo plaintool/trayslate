@@ -45,7 +45,7 @@ type
     aConfigEditor: TAction;
     aCheckForUpdates: TAction;
     aSettings: TAction;
-    aClipboard: TAction;
+    aTranslateClipboard: TAction;
     aSwap: TAction;
     aTranslate: TAction;
     aShow: TAction;
@@ -90,7 +90,7 @@ type
     procedure ApplicationOnException(Sender: TObject; E: Exception);
     procedure aConfigEditorExecute(Sender: TObject);
     procedure aSettingsExecute(Sender: TObject);
-    procedure aClipboardExecute(Sender: TObject);
+    procedure aTranslateClipboardExecute(Sender: TObject);
     procedure aSwapExecute(Sender: TObject);
     procedure aShowExecute(Sender: TObject);
     procedure aDonateExecute(Sender: TObject);
@@ -204,7 +204,7 @@ const
   DOUBLE_ENTER_INTERVAL = 200; // ms
 
 resourcestring
-  NoConfig = 'Configuration file not found!';
+  NoConfig = 'Configuration file not found! Create it in the configuration editor.';
 
 implementation
 
@@ -282,10 +282,7 @@ begin
     if FConfigFiles.Count > 0 then
       FConfigFile := FConfigFiles[0]
     else
-    begin
       ShowMessage(NoConfig);
-      aExit.Execute;
-    end;
   end;
 
   // Load current config
@@ -429,7 +426,7 @@ begin
     Show;
 end;
 
-procedure TformTrayslator.aClipboardExecute(Sender: TObject);
+procedure TformTrayslator.aTranslateClipboardExecute(Sender: TObject);
 begin
   TranslateFromClipboard;
 end;
@@ -729,7 +726,7 @@ begin
 
   if not Visible then
   begin
-    aClipboard.Execute;
+    aTranslateClipboard.Execute;
   end
   else
   begin
