@@ -30,6 +30,8 @@ function IsJson(const S: string): boolean;
 
 procedure PasteWithLineEnding(AMemo: TMemo);
 
+function FindInStringList(List: TStringList; const SubText: string): Integer;
+
 implementation
 
 {TColor}
@@ -136,6 +138,19 @@ begin
 
     AMemo.SelText := s;
   end;
+end;
+
+function FindInStringList(List: TStringList; const SubText: string): Integer;
+var
+  i: Integer;
+begin
+  Result := -1;
+  for i := 0 to List.Count - 1 do
+    if Pos(SubText, List[i]) > 0 then
+    begin
+      Result := i;
+      Exit;
+    end;
 end;
 
 end.

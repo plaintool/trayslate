@@ -18,8 +18,8 @@ object formTrayslator: TformTrayslator
   OnWindowStateChange = FormWindowStateChange
   object MemoSource: TMemo
     Left = 3
-    Height = 199
-    Top = 38
+    Height = 182
+    Top = 55
     Width = 506
     Align = alClient
     BorderSpacing.Around = 3
@@ -50,7 +50,7 @@ object formTrayslator: TformTrayslator
     Width = 512
     Align = alTop
     AutoSize = True
-    BorderSpacing.Bottom = 5
+    BorderSpacing.Bottom = 3
     BevelOuter = bvNone
     ClientHeight = 33
     ClientWidth = 512
@@ -126,6 +126,33 @@ object formTrayslator: TformTrayslator
     Color = clBtnFace
     ParentColor = False
     ResizeAnchor = akBottom
+  end
+  object PanelPairsWrap: TPanel
+    Left = 0
+    Height = 16
+    Top = 36
+    Width = 512
+    Align = alTop
+    AutoSize = True
+    BevelOuter = bvNone
+    ClientHeight = 16
+    ClientWidth = 512
+    TabOrder = 4
+    Visible = False
+    object PanelPairs: TPanel
+      AnchorSideLeft.Control = PanelPairsWrap
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = PanelPairsWrap
+      AnchorSideTop.Side = asrCenter
+      AnchorSideBottom.Side = asrBottom
+      Left = 151
+      Height = 16
+      Top = 0
+      Width = 211
+      BevelOuter = bvNone
+      ParentBackground = False
+      TabOrder = 0
+    end
   end
   object TrayIcon: TTrayIcon
     PopUpMenu = PopupTray

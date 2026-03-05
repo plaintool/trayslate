@@ -369,13 +369,13 @@ begin
       // Process each entry in the input code map
       for i := 0 to ACodeMap.Count - 1 do
       begin
-        if Trim(ACodeMap[i]) = '' then
+        if Trim(ACodeMap[i]) = string.Empty then
           Continue; // Skip empty lines
 
         Key := Trim(ACodeMap.Names[i]);               // Left part (language code)
         ApiValue := Trim(ACodeMap.ValueFromIndex[i]); // Right part (API code)
 
-        if (Key = '') or (ApiValue = '') then
+        if (Key = string.Empty) or (ApiValue = string.Empty) then
           Continue; // Skip malformed lines
 
         // Look up the key using IndexOfName (linear search, acceptable for ~250 items)

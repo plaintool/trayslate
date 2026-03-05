@@ -382,6 +382,8 @@ begin
   formTrayslator.HotKeyTransFromControl := FHotKeyTransFromControl;
   formTrayslator.HotKeyTransControl := FHotKeyTransControl;
   Reset;
+  formTrayslator.RebuildLangPairsPanel(0);
+  formTrayslator.DoRealign(0);
 end;
 
 procedure TformSettingsTrayslator.Reset;

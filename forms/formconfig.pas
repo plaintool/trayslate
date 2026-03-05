@@ -114,7 +114,7 @@ resourcestring
 
 implementation
 
-uses mainform, translate, settings, formattool, langtool, languages;
+uses mainform, translate, settings, formattool, langtool, languages, systemtool;
 
   {$R *.lfm}
 
@@ -123,6 +123,7 @@ uses mainform, translate, settings, formattool, langtool, languages;
 procedure TformConfigTrayslator.FormCreate(Sender: TObject);
 begin
   Pages.PageIndex := 0;
+  LabelFillLanguages.Font.Color := ThemeColor(clBlue, clSkyBlue);
 end;
 
 procedure TformConfigTrayslator.FormShow(Sender: TObject);

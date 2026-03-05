@@ -82,8 +82,9 @@ end;
 procedure SaveFormSettings(Form: TformTrayslator);
 var
   JSONObj: TJSONObject;
+  arrPairs: TJSONArray;
   FileName: string;
-  DPI: integer;
+  DPI, i: integer;
 begin
   DPI := Screen.PixelsPerInch;
   FileName := GetSettingsDirectory('form_settings.json'); // Get settings file name
@@ -152,6 +153,11 @@ begin
     JSONObj.Add('HotKeyTransControl_Modifiers', Form.HotKeyTransControl.Modifiers);
     JSONObj.Add('HotKeyTransControl_Key', Form.HotKeyTransControl.Key);
 
+    arrPairs := TJSONArray.Create;
+    for i := 0 to Form.LangPairs.Count - 1 do
+      arrPairs.Add(Form.LangPairs[i]);
+    JSONObj.Add('RecentLangPairs', arrPairs);
+
     // Write to file
     with TStringList.Create do
     try
@@ -169,11 +175,12 @@ function LoadFormSettings(Form: TformTrayslator): boolean;
 var
   JSONData: TJSONData;
   JSONObj: TJSONObject;
+  arrPairs: TJSONArray;
   FileName: string;
   FileStream: TFileStream;
   FileContent: string;
   HK: THotKeyData;
-  DPI: integer;
+  DPI, i: integer;
 begin
   Result := False;
   DPI := Screen.PixelsPerInch;
@@ -312,6 +319,15 @@ begin
       if JSONObj.FindPath('HotKeyTransControl_Key') <> nil then
         HK.Key := JSONObj.FindPath('HotKeyTransControl_Key').AsInteger;
       Form.HotKeyTransControl := HK;
+
+      // Load recent language pairs
+      Form.LangPairs.Clear;
+      if JSONObj.FindPath('RecentLangPairs') <> nil then
+      begin
+        arrPairs := JSONObj.FindPath('RecentLangPairs') as TJSONArray;
+        for i := 0 to arrPairs.Count - 1 do
+          Form.LangPairs.Add(arrPairs.Items[i].AsString);
+      end;
 
       Result := True;
     finally

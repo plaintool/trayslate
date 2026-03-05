@@ -67,6 +67,8 @@ type
     MenuAbout: TMenuItem;
     MenuShow: TMenuItem;
     MenuShowTranslate: TMenuItem;
+    PanelPairs: TPanel;
+    PanelPairsWrap: TPanel;
     PanelLang: TPanel;
     PopupTray: TPopupMenu;
     Separator1: TMenuItem;
@@ -107,11 +109,14 @@ type
     procedure MemoTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure ConfigItemClick(Sender: TObject);
     procedure PanelLangResize(Sender: TObject);
+    procedure TrayIconMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
     procedure TrayIconClick(Sender: TObject);
     procedure TrayIconDblClick(Sender: TObject);
     procedure TimerClickTimer(Sender: TObject);
     procedure TimerActiveTimer(Sender: TObject);
-    procedure TrayIconMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
+    procedure LabelMouseEnter(Sender: TObject);
+    procedure LabelMouseLeave(Sender: TObject);
+    procedure LabelLangMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
   private
     FTrans: TTranslate;
     FTopMost: boolean;
@@ -120,6 +125,7 @@ type
     FLeftButton: boolean;
     FLastEnterTime: DWORD;
     FMemoSourceCaretPos: integer;
+    FLangPairs: TStringList;
     FLanguages: TStringList;
     FLanguagesSorted: TStringList;
     FLanguagesTarget: TStringList;
@@ -153,9 +159,11 @@ type
     procedure TranslateFromControl(Data: PtrInt);
     procedure TranslateControl(Data: PtrInt);
 
+    procedure ChangeSourceLang(NewLang: string);
+    procedure ChangeTargetLang(NewLang: string);
     procedure ProcessMessages;
     procedure SetAutoStart(Value: boolean);
-    procedure DoRealign(Data: PtrInt);
+    procedure AddLangPair(const Pair: string);
   protected
     {$IFDEF WINDOWS}
     procedure WMActivate(var Message: TLMActivate); message LM_ACTIVATE;
@@ -166,6 +174,8 @@ type
     procedure LoadConfig;
     procedure BuildConfigMenu;
     procedure UpdateCheckConfigMenu;
+    procedure DoRealign(Data: PtrInt);
+    procedure RebuildLangPairsPanel(Data: PtrInt);
     {$IFDEF WINDOWS}
     procedure RegisterHotKeys;
     procedure UnregisterHotKeys;
@@ -177,13 +187,13 @@ type
     // Settings properties
     property ConfigFile: string read FConfigFile write FConfigFile;
     property ConfigFiles: TStringList read FConfigFiles write FConfigFiles;
+    property AutoStart: boolean read FAutoStart write SetAutoStart;
     property IconBackgroundColor: TColor read FIconBackgroundColor write FIconBackgroundColor;
     property IconFontColor: TColor read FIconFontColor write FIconFontColor;
     property IconTwoLang: boolean read FIconTwoLang write FIconTwoLang;
     property LangSource: string read FLangSource write FLangSource;
     property LangTarget: string read FLangTarget write FLangTarget;
-    property AutoStart: boolean read FAutoStart write SetAutoStart;
-
+    property LangPairs: TStringList read FLangPairs write FLangPairs;
     property FormConfigLeft: integer read FFormConfigLeft write FFormConfigLeft;
     property FormConfigTop: integer read FFormConfigTop write FFormConfigTop;
     property FormConfigWidth: integer read FFormConfigWidth write FFormConfigWidth;
@@ -269,6 +279,7 @@ begin
   FLanguagesSorted := TStringList.Create;
   FLanguagesTarget := TStringList.Create;
   FLanguagesTargetSorted := TStringList.Create;
+  FLangPairs := TStringList.Create;
 
   // Load form settings
   LoadFormSettings(Self);
@@ -291,6 +302,9 @@ begin
 
   // Load current config
   LoadConfig;
+
+  // Build Recent Lang Pairs Panel
+  Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
 
   // Set tray icon
   SetIcon;
@@ -485,8 +499,8 @@ begin
   srcIndex := ComboSource.ItemIndex;
   ComboSource.ItemIndex := ComboTarget.ItemIndex;
   ComboTarget.ItemIndex := srcIndex;
-  ComboSourceChange(Self);
-  ComboTargetChange(Self);
+  ChangeSourceLang(ComboSource.Text);
+  ChangeTargetLang(ComboTarget.Text);
 
   if (MemoSource.Text <> string.Empty) and (MemoTarget.Text <> string.Empty) then
   begin
@@ -530,49 +544,13 @@ end;
 {Control Events}
 
 procedure TformTrayslator.ComboSourceChange(Sender: TObject);
-var
-  idx, idnative: integer;
 begin
-  // try to find typed text in items
-  idx := ComboSource.Items.IndexOf(ComboSource.Text);
-  idnative := FLanguages.IndexOf(ComboSource.Text);
-  if idx < 0 then Exit;
-
-  // assign the found index
-  ComboSource.ItemIndex := idx;
-
-  // now safe to use ItemIndex
-  FLangSource := Trans.Languages.ValueFromIndex[idnative];
-  Trans.LangSource := FLangSource;
-
-  if FIconTwoLang then  SetIcon;
+  ChangeSourceLang(ComboSource.Text);
 end;
 
 procedure TformTrayslator.ComboTargetChange(Sender: TObject);
-var
-  idx, idnative: integer;
 begin
-  // try to find typed text in items
-  idx := ComboTarget.Items.IndexOf(ComboTarget.Text);
-  if FLanguagesTarget.Count > 0 then
-    idnative := FLanguagesTarget.IndexOf(ComboTarget.Text)
-  else
-    idnative := FLanguages.IndexOf(ComboTarget.Text);
-  if idx < 0 then Exit;
-
-  // assign the found index
-  ComboTarget.ItemIndex := idx;
-
-  // now safe to use ItemIndex
-  if (idnative >= 0) then
-  begin
-    if FLanguagesTarget.Count > 0 then
-      FLangTarget := Trans.LanguagesTarget.ValueFromIndex[idnative]
-    else
-      FLangTarget := Trans.Languages.ValueFromIndex[idnative];
-  end;
-  Trans.LangTarget := FLangTarget;
-  SetIcon;
+  ChangeTargetLang(ComboTarget.Text);
 end;
 
 procedure TformTrayslator.ComboSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
@@ -773,6 +751,66 @@ begin
     FTopMost := False;
 end;
 
+procedure TformTrayslator.LabelMouseEnter(Sender: TObject);
+begin
+  (Sender as TLabel).Font.Style := [fsUnderline];
+  (Sender as TLabel).Font.Color := ThemeColor(clBlue, clSkyBlue);
+end;
+
+procedure TformTrayslator.LabelMouseLeave(Sender: TObject);
+begin
+  (Sender as TLabel).Font.Style := [];
+  (Sender as TLabel).Font.Color := Font.Color;
+  (Sender as TLabel).ParentFont := True;
+end;
+
+procedure TformTrayslator.LabelLangMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
+var
+  pair: string;
+  fromLang, toLang: string;
+  p, idxnative: integer;
+begin
+  if Button = mbMiddle then
+  begin
+    // Remove pair from list
+    FLangPairs.Delete((Sender as TLabel).Tag);
+    // Rebuild panel
+    Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
+    Exit;
+  end;
+
+  pair := (Sender as TLabel).Caption;
+
+  p := Pos(':', pair);
+  if p > 0 then
+  begin
+    fromLang := Copy(pair, 1, p - 1);
+    toLang := Copy(pair, p + 1, Length(pair));
+  end
+  else
+  begin
+    fromLang := string.Empty;
+    toLang := string.Empty;
+  end;
+
+  idxnative := FindInStringList(FLanguages, '(' + fromLang + ')');
+  if idxnative >= 0 then
+    ChangeSourceLang(FLanguages[idxnative]);
+
+  if FLanguagesTarget.Count > 0 then
+  begin
+    idxnative := FindInStringList(FLanguagesTarget, '(' + toLang + ')');
+    if idxnative >= 0 then
+      ChangeTargetLang(FLanguagesTarget[idxnative]);
+  end
+  else
+  begin
+    idxnative := FindInStringList(FLanguages, '(' + toLang + ')');
+    if idxnative >= 0 then
+      ChangeTargetLang(FLanguages[idxnative]);
+  end;
+end;
+
 {Methods}
 
 procedure TformTrayslator.SetIcon;
@@ -925,6 +963,98 @@ begin
       MenuConfig.Items[i].Checked := True
     else
       MenuConfig.Items[i].Checked := False;
+  end;
+end;
+
+procedure TformTrayslator.DoRealign(Data: PtrInt);
+var
+  Available, Border: integer;
+begin
+  Border := 3;
+
+  PanelLang.DisableAlign;
+  try
+    Available := PanelLang.ClientWidth - sbSwap.Width - sbTranslate.Width - 15;
+
+    // Fix Top to Border, not ComboSource.Top
+    ComboSource.SetBounds(
+      0,
+      Border,
+      Available div 2,
+      ComboSource.Height);
+
+    sbSwap.SetBounds(
+      ComboSource.Width + Border,
+      Border,
+      sbSwap.Width,
+      ComboSource.Height);
+
+    ComboTarget.SetBounds(
+      sbSwap.Left + sbSwap.Width + Border,
+      Border,
+      Available - ComboSource.Width,
+      ComboTarget.Height);
+
+    sbTranslate.SetBounds(
+      PanelLang.ClientWidth - sbTranslate.Width - Border * 2,
+      Border,
+      sbTranslate.Width,
+      ComboTarget.Height);
+
+  finally
+    PanelLang.EnableAlign;
+    PanelLang.Tag := 0;
+  end;
+end;
+
+procedure TformTrayslator.RebuildLangPairsPanel(Data: PtrInt);
+var
+  i: integer;
+  lbl: TLabel;
+  rightPos: integer;
+  totalWidth: integer;
+begin
+  // Remove only labels
+  for i := PanelPairs.ControlCount - 1 downto 0 do
+    if PanelPairs.Controls[i] is TLabel then
+      PanelPairs.Controls[i].Free;
+
+  // Hide panel if no pairs
+  if FLangPairs.Count = 0 then
+  begin
+    PanelPairsWrap.Visible := False;
+    Exit;
+  end;
+
+  PanelPairsWrap.Visible := True;
+  PanelPairs.AutoSize := True;
+
+  // Calculate total width
+  totalWidth := 0;
+  for i := 0 to FLangPairs.Count - 1 do
+    totalWidth := totalWidth + Canvas.TextWidth(FLangPairs[i]) + 10;
+
+  PanelPairs.Width := totalWidth;
+
+  rightPos := PanelPairs.Width;
+
+  for i := FLangPairs.Count - 1 downto 0 do
+  begin
+    lbl := TLabel.Create(PanelPairs);
+    lbl.Parent := PanelPairs;
+    lbl.Caption := FLangPairs[i];
+    lbl.Cursor := crHandPoint;
+    lbl.Tag := i;
+    lbl.AutoSize := True;
+
+    lbl.Left := rightPos - lbl.Width;
+    lbl.Top := (PanelPairs.Height - lbl.Height) div 2;
+
+    lbl.OnMouseEnter := @LabelMouseEnter;
+    lbl.OnMouseLeave := @LabelMouseLeave;
+    lbl.OnMouseDown := @LabelLangMouseDown;
+
+    rightPos := lbl.Left - 10;
   end;
 end;
 
@@ -1131,6 +1261,73 @@ begin
   end;
 end;
 
+procedure TformTrayslator.ChangeSourceLang(NewLang: string);
+var
+  idx, idnative: integer;
+begin
+  // try to find typed text in items
+  idx := ComboSource.Items.IndexOf(NewLang);
+  idnative := FLanguages.IndexOf(NewLang);
+  if idx < 0 then Exit;
+
+  // assign the found index
+  ComboSource.ItemIndex := idx;
+
+  // now safe to use ItemIndex
+  NewLang := Trans.Languages.ValueFromIndex[idnative];
+  if NewLang <> FLangSource then
+  begin
+    FLangSource := NewLang;
+
+    if (FLangSource <> string.Empty) and (FLangTarget <> string.Empty) and (FLangSource <> FLangTarget) then
+    begin
+      AddLangPair(FLangSource + ':' + FLangTarget);
+      Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
+    end;
+
+    Trans.LangSource := FLangSource;
+    if FIconTwoLang then SetIcon;
+  end;
+end;
+
+procedure TformTrayslator.ChangeTargetLang(NewLang: string);
+var
+  idx, idnative: integer;
+begin
+  // try to find typed text in items
+  idx := ComboTarget.Items.IndexOf(NewLang);
+  if FLanguagesTarget.Count > 0 then
+    idnative := FLanguagesTarget.IndexOf(NewLang)
+  else
+    idnative := FLanguages.IndexOf(NewLang);
+  if idx < 0 then Exit;
+
+  // assign the found index
+  ComboTarget.ItemIndex := idx;
+
+  // now safe to use ItemIndex
+  if (idnative >= 0) then
+  begin
+    if FLanguagesTarget.Count > 0 then
+      NewLang := Trans.LanguagesTarget.ValueFromIndex[idnative]
+    else
+      NewLang := Trans.Languages.ValueFromIndex[idnative];
+  end;
+  if NewLang <> FLangTarget then
+  begin
+    FLangTarget := NewLang;
+
+    if (FLangSource <> string.Empty) and (FLangTarget <> string.Empty) and (FLangSource <> FLangTarget) then
+    begin
+      AddLangPair(FLangSource + ':' + FLangTarget);
+      Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
+    end;
+
+    Trans.LangTarget := FLangTarget;
+    SetIcon;
+  end;
+end;
+
 procedure TformTrayslator.ProcessMessages;
 begin
   Application.ProcessMessages;
@@ -1144,45 +1341,22 @@ begin
   RegAutoStart(FAutoStart, rtrayslator);
 end;
 
-procedure TformTrayslator.DoRealign(Data: PtrInt);
+procedure TformTrayslator.AddLangPair(const Pair: string);
 var
-  Available, Border: integer;
+  idx: integer;
 begin
-  Border := 3;
+  idx := FLangPairs.IndexOf(Pair);
 
-  PanelLang.DisableAlign;
-  try
-    Available := PanelLang.ClientWidth - sbSwap.Width - sbTranslate.Width - 15;
+  // Remove if already exists
+  if idx >= 0 then
+    FLangPairs.Delete(idx);
 
-    // Fix Top to Border, not ComboSource.Top
-    ComboSource.SetBounds(
-      0,
-      Border,
-      Available div 2,
-      ComboSource.Height);
+  // Insert as first
+  FLangPairs.Insert(0, Pair);
 
-    sbSwap.SetBounds(
-      ComboSource.Width + Border,
-      Border,
-      sbSwap.Width,
-      ComboSource.Height);
-
-    ComboTarget.SetBounds(
-      sbSwap.Left + sbSwap.Width + Border,
-      Border,
-      Available - ComboSource.Width,
-      ComboTarget.Height);
-
-    sbTranslate.SetBounds(
-      PanelLang.ClientWidth - sbTranslate.Width - Border * 2,
-      Border,
-      sbTranslate.Width,
-      ComboTarget.Height);
-
-  finally
-    PanelLang.EnableAlign;
-    PanelLang.Tag := 0;
-  end;
+  // Limit to 10 items
+  while FLangPairs.Count > 10 do
+    FLangPairs.Delete(FLangPairs.Count - 1);
 end;
 
 end.
