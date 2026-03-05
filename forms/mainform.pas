@@ -302,6 +302,8 @@ begin
   {$IFDEF WINDOWS}
   RegisterHotKeys;
   {$ENDIF}
+
+  FTopMost := False;
 end;
 
 procedure TformTrayslator.FormDestroy(Sender: TObject);
@@ -730,7 +732,10 @@ begin
     aClipboard.Execute;
   end
   else
+  begin
     Hide;
+    FTopMost := False;
+  end;
 end;
 
 procedure TformTrayslator.TimerClickTimer(Sender: TObject);
@@ -746,7 +751,10 @@ begin
       FTopMost := True;
     end
     else
+    begin
       Hide;
+      FTopMost := False;
+    end;
   end
   else
   begin
