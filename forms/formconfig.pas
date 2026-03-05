@@ -106,6 +106,7 @@ var
 resourcestring
   rcopyquestion = 'Enter new config file name:';
   rneedsave = 'The configuration was modified. Save changes?';
+  rcaption = 'Config Editor';
 
 implementation
 
@@ -189,7 +190,7 @@ end;
 procedure TformConfigTrayslator.ValueChange(Sender: TObject);
 begin
   aSave.Enabled := True;
-  Caption := '*Config Editor';
+  Caption := '*' + rcaption;
 end;
 
 procedure TformConfigTrayslator.BtnCloseClick(Sender: TObject);
@@ -297,10 +298,12 @@ begin
     MemoHeaders.Lines.Assign(Headers);
   end;
   aSave.Enabled := False;
-  Caption := 'Config Editor';
+  Caption := rcaption;
 end;
 
 procedure TformConfigTrayslator.SaveConfig;
+var
+  TempHeaders: TStringList;
 begin
   Screen.Cursor := crHourGlass;
   try
@@ -325,14 +328,19 @@ begin
       EncryptText := CheckEncryptText.Checked;
       Languages.Assign(MemoLanguages.Lines);
       LanguagesTarget.Assign(MemoLanguagesTarget.Lines);
-      Headers.Assign(HeadersFromMemo(MemoHeaders));
+      TempHeaders := HeadersFromMemo(MemoHeaders);
+      try
+        Headers.Assign(TempHeaders);
+      finally
+        TempHeaders.Free;
+      end;
     end;
     SaveIniSettings(formTrayslator.Trans, formTrayslator.ConfigFile);
+    aSave.Enabled := False;
     formTrayslator.LoadConfig;
   finally
-    aSave.Enabled := False;
     Screen.Cursor := crDefault;
-    Caption := 'Config Editor';
+    Caption := rcaption;
   end;
 end;
 

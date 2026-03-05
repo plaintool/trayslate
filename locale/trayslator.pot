@@ -1,6 +1,11 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8"
 
+#: formconfig.rcaption
+msgctxt "formconfig.rcaption"
+msgid "Config Editor"
+msgstr ""
+
 #: formconfig.rcopyquestion
 msgctxt "formconfig.rcopyquestion"
 msgid "Enter new config file name:"
@@ -67,6 +72,7 @@ msgid "Close"
 msgstr ""
 
 #: tformconfigtrayslator.caption
+msgctxt "tformconfigtrayslator.caption"
 msgid "Config Editor"
 msgstr ""
 
