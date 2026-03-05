@@ -166,6 +166,7 @@ var
   Edit: TEdit;
 begin
   Edit := TEdit(Sender);
+  HK := Default(THotKeyData);
 
   // If only DEL pressed → clear hotkey
   if (Key = VK_DELETE) and (Shift = []) then
