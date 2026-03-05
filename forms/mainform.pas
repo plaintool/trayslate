@@ -219,7 +219,7 @@ uses formdonate, formabout, formsettings, formconfig, settings, languages, syste
 procedure TformTrayslator.FormCreate(Sender: TObject);
 begin
   // Default values
-  FConfigFile := GetIniDirectory('google.ini');
+  FConfigFile := string.Empty;
   FIconBackgroundColor := $00FF9E2B;
   FIconFontColor := clWhite;
   FIconTwoLang := True;
