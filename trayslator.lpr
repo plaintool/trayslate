@@ -30,8 +30,8 @@ uses
 begin
   RequireDerivedFormResource := True;
   Language := GetOSLanguage;
-  Application.Title:='Trayslator';
-  Application.Scaled:=True;
+  Application.Title := 'Trayslator';
+  Application.Scaled := True;
   Application.Initialize;
   {$IFDEF WINDOWS}
   ApplyDarkStyle;

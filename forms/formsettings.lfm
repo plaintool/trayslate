@@ -175,7 +175,7 @@ object formSettingsTrayslator: TformSettingsTrayslator
           Height = 23
           Top = 9
           Width = 190
-          MaxValue = 1000
+          MaxValue = 100
           TabOrder = 0
           Value = 10
         end

@@ -54,7 +54,7 @@ type
     ActionList: TActionList;
     ComboSource: TComboBox;
     ComboTarget: TComboBox;
-    PanelPairs: TFlowPanel;
+    FlowPairs: TFlowPanel;
     ImageButtons: TImageList;
     MemoSource: TMemo;
     MemoTarget: TMemo;
@@ -1012,43 +1012,48 @@ var
   totalWidth: integer;
   i: integer;
 begin
-  // Remove only labels
-  for i := PanelPairs.ControlCount - 1 downto 0 do
-    if PanelPairs.Controls[i] is TLabel then
-      PanelPairs.Controls[i].Free;
+  FlowPairs.AutoSize := False;
+  try
+    // Remove only labels
+    for i := FlowPairs.ControlCount - 1 downto 0 do
+      if FlowPairs.Controls[i] is TLabel then
+        FlowPairs.Controls[i].Free;
 
-  // Hide panel if no pairs
-  if (FLangPairs.Count = 0) or (FMaxLangPairs <= 0) then
-  begin
-    PanelPairs.Visible := False;
-    Exit;
+    // Hide panel if no pairs
+    if (FLangPairs.Count = 0) or (FMaxLangPairs <= 0) then
+    begin
+      FlowPairs.Visible := False;
+      Exit;
+    end
+    else
+    if not FlowPairs.Visible then
+      FlowPairs.Visible := True;
+
+    // Calculate total width
+    totalWidth := 0;
+    for i := 0 to FLangPairs.Count - 1 do
+      totalWidth := totalWidth + FlowPairs.Canvas.TextWidth(FLangPairs[i]) + 10;
+    FlowPairs.Width := totalWidth;
+
+    for i := 0 to FLangPairs.Count - 1 do
+    begin
+      lbl := TLabel.Create(FlowPairs);
+      lbl.Parent := FlowPairs;
+      lbl.Caption := FLangPairs[i];
+      lbl.Cursor := crHandPoint;
+      lbl.Font.Color := ThemeColor(clBlue, clSkyBlue);
+      lbl.Tag := i;
+      lbl.AutoSize := True;
+      lbl.BorderSpacing.Right := 10;
+
+      lbl.OnMouseEnter := @LabelMouseEnter;
+      lbl.OnMouseLeave := @LabelMouseLeave;
+      lbl.OnMouseDown := @LabelLangMouseDown;
+    end;
+  finally
+    FlowPairs.AutoSize := True;
+    Repaint;
   end;
-
-  PanelPairs.Visible := True;
-  PanelPairs.AutoSize := True;
-
-  // Calculate total width
-  totalWidth := 0;
-  for i := 0 to FLangPairs.Count - 1 do
-    totalWidth := totalWidth + PanelPairs.Canvas.TextWidth(FLangPairs[i]) + 10;
-  PanelPairs.Width := totalWidth;
-
-  for i := 0 to FLangPairs.Count - 1 do
-  begin
-    lbl := TLabel.Create(PanelPairs);
-    lbl.Parent := PanelPairs;
-    lbl.Caption := FLangPairs[i];
-    lbl.Cursor := crHandPoint;
-    lbl.Font.Color := ThemeColor(clBlue, clSkyBlue);
-    lbl.Tag := i;
-    lbl.AutoSize := True;
-    lbl.BorderSpacing.Right := 10;
-
-    lbl.OnMouseEnter := @LabelMouseEnter;
-    lbl.OnMouseLeave := @LabelMouseLeave;
-    lbl.OnMouseDown := @LabelLangMouseDown;
-  end;
-  Repaint;
 end;
 
 {$IFDEF WINDOWS}
