@@ -236,7 +236,7 @@ procedure TformTrayslator.FormCreate(Sender: TObject);
 begin
   // Default values
   FConfigFile := string.Empty;
-  FIconBackgroundColor := $00FF9E2B;
+  FIconBackgroundColor := $00C07000;
   FIconFontColor := clWhite;
   FIconTwoLang := True;
   FMaxLangPairs := 10;

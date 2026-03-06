@@ -354,6 +354,7 @@ begin
   AColorBox.Items.AddObject('Royal Blue', TObject(PtrUInt($00E16941)));
   AColorBox.Items.AddObject('Sky', TObject(PtrUInt($00FFBF00)));
   AColorBox.Items.AddObject('Ocean', TObject(PtrUInt($00B06000)));
+  AColorBox.Items.AddObject('Ocean Deep', TObject(PtrUInt($00905000)));
   AColorBox.Items.AddObject('Midnight', TObject(PtrUInt($00800000)));
   AColorBox.Items.AddObject('Indigo', TObject(PtrUInt($0082004B)));
 

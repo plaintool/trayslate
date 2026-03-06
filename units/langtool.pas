@@ -44,8 +44,8 @@ const
 
 {$ENDIF}
 
-function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = ''; ABackgroundColor: TColor = $00FF9628;
-  AFontColor: TColor = $00DCDCDC): TIcon;
+function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = ''; ABackgroundColor: TColor = $00C07000;
+  AFontColor: TColor = clWhite): TIcon;
 
 procedure SetComboBoxByCode(ComboBox: TComboBox; const Code: string);
 
@@ -59,8 +59,8 @@ implementation
 
 uses languages;
 
-function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = ''; ABackgroundColor: TColor = $00FF9628;
-  AFontColor: TColor = $00DCDCDC): TIcon;
+function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = ''; ABackgroundColor: TColor = $00C07000;
+  AFontColor: TColor = clWhite): TIcon;
 var
   bmp: TBitmap;
   rect, rect1, rect2: TRect;

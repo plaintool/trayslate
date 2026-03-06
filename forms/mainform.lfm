@@ -19,8 +19,8 @@ object formTrayslator: TformTrayslator
   OnWindowStateChange = FormWindowStateChange
   object MemoSource: TMemo
     Left = 3
-    Height = 201
-    Top = 36
+    Height = 196
+    Top = 41
     Width = 506
     Align = alClient
     BorderSpacing.Around = 3
@@ -129,7 +129,7 @@ object formTrayslator: TformTrayslator
   end
   object FlowPairs: TFlowPanel
     Left = 0
-    Height = 0
+    Height = 5
     Top = 33
     Width = 512
     Align = alTop
@@ -137,6 +137,7 @@ object formTrayslator: TformTrayslator
     BevelOuter = bvNone
     BorderSpacing.Bottom = 2
     Color = clBtnFace
+    Constraints.MinHeight = 5
     ControlList = <>
     FlowLayout = tlTop
     FlowStyle = fsLeftRightTopBottom
