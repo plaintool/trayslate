@@ -14,10 +14,10 @@ uses
   {$IFDEF WINDOWS}
   Windows,
   {$ENDIF}
+  Forms,
   Classes,
   SysUtils,
   StrUtils,
-  Forms,
   Controls,
   Graphics,
   Dialogs,
@@ -392,8 +392,8 @@ begin
   formTrayslator.ComboTarget.SelLength := 0;
 
   Reset;
-  formTrayslator.RebuildLangPairsPanel(0);
   formTrayslator.DoRealign(0);
+  Application.QueueAsyncCall(@formTrayslator.RebuildLangPairsPanel, 0);
 end;
 
 procedure TformSettingsTrayslator.Reset;

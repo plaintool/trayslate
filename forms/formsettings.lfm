@@ -166,7 +166,7 @@ object formSettingsTrayslator: TformSettingsTrayslator
         Top = 309
         Width = 392
         Align = alTop
-        Caption = 'Language Pairs History'
+        Caption = 'Recent Language Pairs'
         ClientHeight = 39
         ClientWidth = 388
         TabOrder = 3

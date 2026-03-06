@@ -404,7 +404,7 @@ msgstr ""
 
 #: tformsettingstrayslator.grouplangpairs.caption
 msgctxt "tformsettingstrayslator.grouplangpairs.caption"
-msgid "Language Pairs History"
+msgid "Recent Language Pairs"
 msgstr ""
 
 #: tformsettingstrayslator.grouptransclipboard.caption
@@ -543,5 +543,9 @@ msgstr ""
 
 #: tformtrayslator.menuhelp.caption
 msgid "Help"
+msgstr ""
+
+#: tformtrayslator.menulangpairs.caption
+msgid "Recent Pairs"
 msgstr ""
 

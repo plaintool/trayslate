@@ -66,6 +66,7 @@ type
     MenuDonate: TMenuItem;
     MenuCheckForUpdates: TMenuItem;
     MenuAbout: TMenuItem;
+    MenuLangPairs: TMenuItem;
     MenuShow: TMenuItem;
     MenuShowTranslate: TMenuItem;
     PanelLang: TPanel;
@@ -84,6 +85,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormActivate(Sender: TObject);
+    procedure FormResize(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure FormWindowStateChange(Sender: TObject);
     procedure ApplicationOnActivate(Sender: TObject);
@@ -116,6 +118,7 @@ type
     procedure LabelMouseEnter(Sender: TObject);
     procedure LabelMouseLeave(Sender: TObject);
     procedure LabelLangMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
+    procedure MenuPairClick(Sender: TObject);
   private
     FTrans: TTranslate;
     FTopMost: boolean;
@@ -164,6 +167,7 @@ type
     procedure ProcessMessages;
     procedure SetAutoStart(Value: boolean);
     procedure AddLangPair(const Pair: string);
+    procedure SelectPair(const Pair: string);
   protected
     {$IFDEF WINDOWS}
     procedure WMActivate(var Message: TLMActivate); message LM_ACTIVATE;
@@ -350,6 +354,23 @@ begin
   FTopMost := True;
 end;
 
+procedure TformTrayslator.FormResize(Sender: TObject);
+begin
+  PanelLang.Top := 0;
+end;
+
+procedure TformTrayslator.FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+begin
+  if Key = VK_ESCAPE then
+    Hide;
+end;
+
+procedure TformTrayslator.FormWindowStateChange(Sender: TObject);
+begin
+  if WindowState = wsMinimized then
+    WindowState := wsNormal;
+end;
+
 {$IFDEF WINDOWS}
 
 procedure TformTrayslator.WMActivate(var Message: TLMActivate);
@@ -405,18 +426,6 @@ begin
 end;
 
 {$ENDIF}
-
-procedure TformTrayslator.FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
-begin
-  if Key = VK_ESCAPE then
-    Hide;
-end;
-
-procedure TformTrayslator.FormWindowStateChange(Sender: TObject);
-begin
-  if WindowState = wsMinimized then
-    WindowState := wsNormal;
-end;
 
 {Application Events}
 
@@ -764,10 +773,6 @@ begin
 end;
 
 procedure TformTrayslator.LabelLangMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
-var
-  pair: string;
-  fromLang, toLang: string;
-  p, idxnative: integer;
 begin
   if Button = mbMiddle then
   begin
@@ -778,36 +783,12 @@ begin
     Exit;
   end;
 
-  pair := (Sender as TLabel).Caption;
+  SelectPair((Sender as TLabel).Caption);
+end;
 
-  p := Pos(':', pair);
-  if p > 0 then
-  begin
-    fromLang := Copy(pair, 1, p - 1);
-    toLang := Copy(pair, p + 1, Length(pair));
-  end
-  else
-  begin
-    fromLang := string.Empty;
-    toLang := string.Empty;
-  end;
-
-  idxnative := FindInStringList(FLanguages, '(' + fromLang + ')');
-  if idxnative >= 0 then
-    ChangeSourceLang(FLanguages[idxnative]);
-
-  if FLanguagesTarget.Count > 0 then
-  begin
-    idxnative := FindInStringList(FLanguagesTarget, '(' + toLang + ')');
-    if idxnative >= 0 then
-      ChangeTargetLang(FLanguagesTarget[idxnative]);
-  end
-  else
-  begin
-    idxnative := FindInStringList(FLanguages, '(' + toLang + ')');
-    if idxnative >= 0 then
-      ChangeTargetLang(FLanguages[idxnative]);
-  end;
+procedure TformTrayslator.MenuPairClick(Sender: TObject);
+begin
+  SelectPair((Sender as TMenuItem).Caption);
 end;
 
 {Methods}
@@ -1009,25 +990,32 @@ end;
 procedure TformTrayslator.RebuildLangPairsPanel(Data: PtrInt);
 var
   lbl: TLabel;
+  mi: TMenuItem;
   totalWidth: integer;
   i: integer;
 begin
-  FlowPairs.AutoSize := False;
+  FlowPairs.DisableAlign;
   try
-    // Remove only labels
+    // Clear FlowPairs
     for i := FlowPairs.ControlCount - 1 downto 0 do
       if FlowPairs.Controls[i] is TLabel then
         FlowPairs.Controls[i].Free;
 
-    // Hide panel if no pairs
+    // Clear MenuLangPairs
+    MenuLangPairs.Clear;
+
+    // Hide panel and menu if no pairs
     if (FLangPairs.Count = 0) or (FMaxLangPairs <= 0) then
     begin
       FlowPairs.Visible := False;
+      MenuLangPairs.Visible := False;
       Exit;
     end
     else
-    if not FlowPairs.Visible then
+    begin
       FlowPairs.Visible := True;
+      MenuLangPairs.Visible := True;
+    end;
 
     // Calculate total width
     totalWidth := 0;
@@ -1035,8 +1023,10 @@ begin
       totalWidth := totalWidth + FlowPairs.Canvas.TextWidth(FLangPairs[i]) + 10;
     FlowPairs.Width := totalWidth;
 
+    // Create Labels and Menu Items
     for i := 0 to FLangPairs.Count - 1 do
     begin
+      // FlowPairs Label
       lbl := TLabel.Create(FlowPairs);
       lbl.Parent := FlowPairs;
       lbl.Caption := FLangPairs[i];
@@ -1044,14 +1034,23 @@ begin
       lbl.Font.Color := ThemeColor(clBlue, clSkyBlue);
       lbl.Tag := i;
       lbl.AutoSize := True;
+      lbl.BorderSpacing.Left := 3;
       lbl.BorderSpacing.Right := 10;
+      lbl.BorderSpacing.Bottom := 5;
 
       lbl.OnMouseEnter := @LabelMouseEnter;
       lbl.OnMouseLeave := @LabelMouseLeave;
       lbl.OnMouseDown := @LabelLangMouseDown;
+
+      // MenuLangPairs Item
+      mi := TMenuItem.Create(MenuLangPairs);
+      mi.Caption := FLangPairs[i];
+      mi.Tag := i; // same index as label
+      mi.OnClick := @MenuPairClick; // separate handler for menu click
+      MenuLangPairs.Add(mi);
     end;
   finally
-    FlowPairs.AutoSize := True;
+    FlowPairs.EnableAlign;
     Repaint;
   end;
 end;
@@ -1355,6 +1354,41 @@ begin
   // Limit to 10 items
   while FLangPairs.Count > FMaxLangPairs do
     FLangPairs.Delete(FLangPairs.Count - 1);
+end;
+
+procedure TformTrayslator.SelectPair(const Pair: string);
+var
+  fromLang, toLang: string;
+  p, idxnative: integer;
+begin
+  p := Pos(':', Pair);
+  if p > 0 then
+  begin
+    fromLang := Copy(Pair, 1, p - 1);
+    toLang := Copy(Pair, p + 1, Length(Pair));
+  end
+  else
+  begin
+    fromLang := string.Empty;
+    toLang := string.Empty;
+  end;
+
+  idxnative := FindInStringList(FLanguages, '(' + fromLang + ')');
+  if idxnative >= 0 then
+    ChangeSourceLang(FLanguages[idxnative]);
+
+  if FLanguagesTarget.Count > 0 then
+  begin
+    idxnative := FindInStringList(FLanguagesTarget, '(' + toLang + ')');
+    if idxnative >= 0 then
+      ChangeTargetLang(FLanguagesTarget[idxnative]);
+  end
+  else
+  begin
+    idxnative := FindInStringList(FLanguages, '(' + toLang + ')');
+    if idxnative >= 0 then
+      ChangeTargetLang(FLanguages[idxnative]);
+  end;
 end;
 
 end.

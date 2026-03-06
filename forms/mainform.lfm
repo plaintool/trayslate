@@ -15,11 +15,12 @@ object formTrayslator: TformTrayslator
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
+  OnResize = FormResize
   OnWindowStateChange = FormWindowStateChange
   object MemoSource: TMemo
     Left = 3
-    Height = 179
-    Top = 58
+    Height = 201
+    Top = 36
     Width = 506
     Align = alClient
     BorderSpacing.Around = 3
@@ -50,7 +51,6 @@ object formTrayslator: TformTrayslator
     Width = 512
     Align = alTop
     AutoSize = True
-    BorderSpacing.Bottom = 2
     BevelOuter = bvNone
     ClientHeight = 33
     ClientWidth = 512
@@ -128,17 +128,19 @@ object formTrayslator: TformTrayslator
     ResizeAnchor = akBottom
   end
   object FlowPairs: TFlowPanel
-    Left = 2
-    Height = 20
-    Top = 35
-    Width = 508
+    Left = 0
+    Height = 0
+    Top = 33
+    Width = 512
     Align = alTop
+    AutoSize = True
     BevelOuter = bvNone
-    BorderSpacing.Left = 2
-    BorderSpacing.Right = 2
+    BorderSpacing.Bottom = 2
+    Color = clBtnFace
     ControlList = <>
-    FlowLayout = tlCenter
-    FlowStyle = fsRightLeftTopBottom
+    FlowLayout = tlTop
+    FlowStyle = fsLeftRightTopBottom
+    ParentColor = False
     TabOrder = 4
   end
   object TrayIcon: TTrayIcon
@@ -158,6 +160,9 @@ object formTrayslator: TformTrayslator
     end
     object MenuShowTranslate: TMenuItem
       Action = aTranslateClipboard
+    end
+    object MenuLangPairs: TMenuItem
+      Caption = 'Recent Pairs'
     end
     object Separator2: TMenuItem
       Caption = '-'
