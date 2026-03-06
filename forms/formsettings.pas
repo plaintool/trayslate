@@ -381,6 +381,10 @@ begin
   formTrayslator.HotKeyTransClipboard := FHotKeyTransClipboard;
   formTrayslator.HotKeyTransFromControl := FHotKeyTransFromControl;
   formTrayslator.HotKeyTransControl := FHotKeyTransControl;
+
+  formTrayslator.ComboSource.SelLength := 0;
+  formTrayslator.ComboTarget.SelLength := 0;
+
   Reset;
   formTrayslator.RebuildLangPairsPanel(0);
   formTrayslator.DoRealign(0);

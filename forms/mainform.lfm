@@ -137,6 +137,7 @@ object formTrayslator: TformTrayslator
     BevelOuter = bvNone
     ClientHeight = 16
     ClientWidth = 512
+    ParentBackground = False
     TabOrder = 4
     Visible = False
     object PanelPairs: TPanel
@@ -145,10 +146,10 @@ object formTrayslator: TformTrayslator
       AnchorSideTop.Control = PanelPairsWrap
       AnchorSideTop.Side = asrCenter
       AnchorSideBottom.Side = asrBottom
-      Left = 151
+      Left = 156
       Height = 16
       Top = 0
-      Width = 211
+      Width = 200
       BevelOuter = bvNone
       ParentBackground = False
       TabOrder = 0

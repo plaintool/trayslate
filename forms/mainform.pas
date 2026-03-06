@@ -754,14 +754,11 @@ end;
 procedure TformTrayslator.LabelMouseEnter(Sender: TObject);
 begin
   (Sender as TLabel).Font.Style := [fsUnderline];
-  (Sender as TLabel).Font.Color := ThemeColor(clBlue, clSkyBlue);
 end;
 
 procedure TformTrayslator.LabelMouseLeave(Sender: TObject);
 begin
   (Sender as TLabel).Font.Style := [];
-  (Sender as TLabel).Font.Color := Font.Color;
-  (Sender as TLabel).ParentFont := True;
 end;
 
 procedure TformTrayslator.LabelLangMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
@@ -1013,6 +1010,7 @@ var
   lbl: TLabel;
   rightPos: integer;
   totalWidth: integer;
+  w: integer;
 begin
   // Remove only labels
   for i := PanelPairs.ControlCount - 1 downto 0 do
@@ -1032,14 +1030,15 @@ begin
   // Calculate total width
   totalWidth := 0;
   for i := 0 to FLangPairs.Count - 1 do
-    totalWidth := totalWidth + Canvas.TextWidth(FLangPairs[i]) + 10;
+    totalWidth := totalWidth + PanelPairs.Canvas.TextWidth(FLangPairs[i]) + 10;
 
   PanelPairs.Width := totalWidth;
-
   rightPos := PanelPairs.Width;
 
   for i := FLangPairs.Count - 1 downto 0 do
   begin
+    w := PanelPairs.Canvas.TextWidth(FLangPairs[i]);
+
     lbl := TLabel.Create(PanelPairs);
     lbl.Parent := PanelPairs;
     lbl.Caption := FLangPairs[i];
@@ -1047,8 +1046,10 @@ begin
     lbl.Tag := i;
     lbl.AutoSize := True;
 
-    lbl.Left := rightPos - lbl.Width;
+    lbl.Left := rightPos - w;
     lbl.Top := (PanelPairs.Height - lbl.Height) div 2;
+
+    lbl.Font.Color := ThemeColor(clBlue, clSkyBlue);
 
     lbl.OnMouseEnter := @LabelMouseEnter;
     lbl.OnMouseLeave := @LabelMouseLeave;
