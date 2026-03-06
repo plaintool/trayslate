@@ -25,6 +25,7 @@ uses
   StdCtrls,
   ExtCtrls,
   ColorBox,
+  Spin,
   langtool;
 
 type
@@ -49,6 +50,7 @@ type
     EditTransSwap: TEdit;
     EditTransFromClipboard: TEdit;
     FontDialog: TFontDialog;
+    GroupLangPairs: TGroupBox;
     GroupTransSwap: TGroupBox;
     GroupTransFromControl: TGroupBox;
     GroupTransFromClipboard: TGroupBox;
@@ -58,6 +60,7 @@ type
     GroupTransClipboard: TGroupBox;
     GroupTransControl: TGroupBox;
     GroupTrayIcon: TGroupBox;
+    LabelMaxLangPairs: TLabel;
     LabelTransClipboard: TLabel;
     LabelTransFromControl: TLabel;
     LabelTransControl: TLabel;
@@ -70,6 +73,7 @@ type
     PanelFont: TPanel;
     PageInterface: TTabSheet;
     PageHotkeys: TTabSheet;
+    SpinMaxLangPairs: TSpinEdit;
     procedure BtnApplyClick(Sender: TObject);
     procedure BtnCancelClick(Sender: TObject);
     procedure BtnFontClick(Sender: TObject);
@@ -80,11 +84,12 @@ type
     procedure EditKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
   private
+    FOriginalAutoStart: boolean;
     FOriginalFont: TFont;
     FOriginalIconBackgroundColor: TColor;
     FOriginalIconFontColor: TColor;
     FOriginalIconTwoLang: boolean;
-    FOriginalAutoStart: boolean;
+    FOriginalMaxLangPairs: integer;
     FOriginalHotKeyApp: THotKeyData;
     FOriginalHotKeyTransSwap: THotKeyData;
     FOriginalHotKeyTransFromClipboard: THotKeyData;
@@ -122,6 +127,7 @@ begin
   PagesSettings.PageIndex := 0;
   BtnCancel.Cancel := True;
   BtnOk.Default := True;
+  BtnReset.Enabled := True;
 
   AddTrayColors(ColorIconBackground);
   AddTrayColors(ColorIconFont);
@@ -136,17 +142,15 @@ begin
     PanelFont.Font.Assign(FontDialog.Font);
     SetPanelFont(FontDialog.Font);
 
-    BtnReset.Enabled := True;
     BtnApply.Enabled := True;
   end;
 end;
 
 procedure TformSettingsTrayslator.BtnResetClick(Sender: TObject);
 begin
-  PanelFont.Font.Assign(FOriginalFont);
-  SetPanelFont(FOriginalFont);
-
-  BtnReset.Enabled := False;
+  PanelFont.Font.SetDefault;
+  SetPanelFont(PanelFont.Font);
+  SettingChange(Self);
 end;
 
 procedure TformSettingsTrayslator.EditMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
@@ -369,6 +373,8 @@ end;
 procedure TformSettingsTrayslator.Apply;
 begin
   formTrayslator.AutoStart := CheckAutostart.Checked;
+  formTrayslator.MaxLangPairs := SpinMaxLangPairs.Value;
+
   formTrayslator.Font.Assign(PanelFont.Font);
   formTrayslator.IconBackgroundColor := ColorIconBackground.Selected;
   formTrayslator.IconFontColor := ColorIconFont.Selected;
@@ -392,11 +398,12 @@ end;
 
 procedure TformSettingsTrayslator.Reset;
 begin
+  FOriginalAutoStart := formTrayslator.AutoStart;
+  FOriginalMaxLangPairs := formTrayslator.MaxLangPairs;
   FOriginalFont := formTrayslator.Font;
   FOriginalIconBackgroundColor := formTrayslator.IconBackgroundColor;
   FOriginalIconFontColor := formTrayslator.IconFontColor;
   FOriginalIconTwoLang := formTrayslator.IconTwoLang;
-  FOriginalAutoStart := formTrayslator.AutoStart;
   FOriginalHotKeyApp := formTrayslator.HotKeyApp;
   FOriginalHotKeyTransSwap := formTrayslator.HotKeyTransSwap;
   FOriginalHotKeyTransFromClipboard := formTrayslator.HotKeyTransFromClipboard;
@@ -410,12 +417,13 @@ begin
   FHotKeyTransFromControl := formTrayslator.HotKeyTransFromControl;
   FHotKeyTransControl := formTrayslator.HotKeyTransControl;
 
+  CheckAutostart.Checked := FOriginalAutoStart;
+  SpinMaxLangPairs.Value := FOriginalMaxLangPairs;
   PanelFont.Font.Assign(FOriginalFont);
   SetPanelFont(FOriginalFont);
   ColorIconBackground.Selected := FOriginalIconBackgroundColor;
   ColorIconFont.Selected := FOriginalIconFontColor;
   CheckTwoLang.Checked := FOriginalIconTwoLang;
-  CheckAutostart.Checked := FOriginalAutoStart;
   EditApp.Text := HotKeyToText(FOriginalHotKeyApp);
   EditTransSwap.Text := HotKeyToText(FOriginalHotKeyTransSwap);
   EditTransFromClipboard.Text := HotKeyToText(FOriginalHotKeyTransFromClipboard);
@@ -424,7 +432,6 @@ begin
   EditTransControl.Text := HotKeyToText(FOriginalHotKeyTransControl);
 
   BtnApply.Enabled := False;
-  BtnReset.Enabled := False;
 end;
 
 end.

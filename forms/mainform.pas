@@ -68,7 +68,6 @@ type
     MenuShow: TMenuItem;
     MenuShowTranslate: TMenuItem;
     PanelPairs: TPanel;
-    PanelPairsWrap: TPanel;
     PanelLang: TPanel;
     PopupTray: TPopupMenu;
     Separator1: TMenuItem;
@@ -136,6 +135,7 @@ type
     FConfigFiles: TStringList;
     FLangSource: string;
     FLangTarget: string;
+    FMaxLangPairs: integer;
     FFormConfigLeft: integer;
     FFormConfigTop: integer;
     FFormConfigWidth: integer;
@@ -148,10 +148,10 @@ type
     FHotKeyTransControl: THotKeyData;
 
     // TrayIcon
+    FAutoStart: boolean;
     FIconBackgroundColor: TColor;
     FIconFontColor: TColor;
     FIconTwoLang: boolean;
-    FAutoStart: boolean;
 
     procedure Translate;
     procedure TranslateFromClipboard;
@@ -194,6 +194,7 @@ type
     property LangSource: string read FLangSource write FLangSource;
     property LangTarget: string read FLangTarget write FLangTarget;
     property LangPairs: TStringList read FLangPairs write FLangPairs;
+    property MaxLangPairs: integer read FMaxLangPairs write FMaxLangPairs;
     property FormConfigLeft: integer read FFormConfigLeft write FFormConfigLeft;
     property FormConfigTop: integer read FFormConfigTop write FFormConfigTop;
     property FormConfigWidth: integer read FFormConfigWidth write FFormConfigWidth;
@@ -234,6 +235,7 @@ begin
   FIconBackgroundColor := $00FF9E2B;
   FIconFontColor := clWhite;
   FIconTwoLang := True;
+  FMaxLangPairs := 10;
   FAutoStart := True;
   FLangTarget := Language;
   FFormConfigLeft := 0;
@@ -1018,13 +1020,13 @@ begin
       PanelPairs.Controls[i].Free;
 
   // Hide panel if no pairs
-  if FLangPairs.Count = 0 then
+  if (FLangPairs.Count = 0) or (FMaxLangPairs <= 0) then
   begin
-    PanelPairsWrap.Visible := False;
+    PanelPairs.Visible := False;
     Exit;
   end;
 
-  PanelPairsWrap.Visible := True;
+  PanelPairs.Visible := True;
   PanelPairs.AutoSize := True;
 
   // Calculate total width
@@ -1035,7 +1037,7 @@ begin
   PanelPairs.Width := totalWidth;
   rightPos := PanelPairs.Width;
 
-  for i := FLangPairs.Count - 1 downto 0 do
+  for i := 0 to FLangPairs.Count - 1 do
   begin
     w := PanelPairs.Canvas.TextWidth(FLangPairs[i]);
 
@@ -1356,7 +1358,7 @@ begin
   FLangPairs.Insert(0, Pair);
 
   // Limit to 10 items
-  while FLangPairs.Count > 10 do
+  while FLangPairs.Count > FMaxLangPairs do
     FLangPairs.Delete(FLangPairs.Count - 1);
 end;
 

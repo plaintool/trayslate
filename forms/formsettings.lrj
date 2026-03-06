@@ -11,6 +11,8 @@
 {"hash":105813298,"name":"tformsettingstrayslator.labeliconfont.caption","sourcebytes":[70,111,110,116,32,67,111,108,111,114],"value":"Font Color"},
 {"hash":191553620,"name":"tformsettingstrayslator.groupautostart.caption","sourcebytes":[65,117,116,111,115,116,97,114,116],"value":"Autostart"},
 {"hash":88245648,"name":"tformsettingstrayslator.checkautostart.caption","sourcebytes":[32,32,76,97,117,110,99,104,32,97,116,32,115,121,115,116,101,109,32,115,116,97,114,116,117,112],"value":"  Launch at system startup"},
+{"hash":131652809,"name":"tformsettingstrayslator.grouplangpairs.caption","sourcebytes":[76,97,110,103,117,97,103,101,32,80,97,105,114,115,32,72,105,115,116,111,114,121],"value":"Language Pairs History"},
+{"hash":173421331,"name":"tformsettingstrayslator.labelmaxlangpairs.caption","sourcebytes":[77,97,120,32,80,97,105,114,115],"value":"Max Pairs"},
 {"hash":238249891,"name":"tformsettingstrayslator.pagehotkeys.caption","sourcebytes":[71,108,111,98,97,108,32,72,111,116,107,101,121,115],"value":"Global Hotkeys"},
 {"hash":44417593,"name":"tformsettingstrayslator.groupapp.caption","sourcebytes":[84,111,103,103,108,101,32,65,112,112,108,105,99,97,116,105,111,110,32,40,84,114,97,121,32,73,99,111,110,32,67,108,105,99,107,41],"value":"Toggle Application (Tray Icon Click)"},
 {"hash":29415895,"name":"tformsettingstrayslator.labelapp.caption","sourcebytes":[83,104,111,119,115,32,111,114,32,104,105,100,101,115,32,116,104,101,32,109,97,105,110,32,97,112,112,108,105,99,97,116,105,111,110,32,119,105,110,100,111,119],"value":"Shows or hides the main application window"},

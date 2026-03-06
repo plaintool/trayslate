@@ -133,6 +133,7 @@ begin
     JSONObj.Add('IconTwoLang', Form.IconTwoLang);
     JSONObj.Add('LangSource', Form.LangSource);
     JSONObj.Add('LangTarget', Form.LangTarget);
+    JSONObj.Add('MaxLangPairs', Form.MaxLangPairs);
 
     // Save hotkeys
     JSONObj.Add('HotKeyApp_Modifiers', Form.HotKeyApp.Modifiers);
@@ -270,6 +271,9 @@ begin
 
       if (JSONObj.FindPath('LangTarget') <> nil) and (JSONObj.FindPath('LangTarget').AsString <> string.Empty) then
         Form.LangTarget := JSONObj.FindPath('LangTarget').AsString;
+
+      if (JSONObj.FindPath('MaxLangPairs') <> nil) then
+        Form.MaxLangPairs := JSONObj.FindPath('MaxLangPairs').AsInteger;
 
       // Load HotKeys
       // HotKeyApp
