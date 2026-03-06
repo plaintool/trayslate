@@ -18,8 +18,8 @@ object formTrayslator: TformTrayslator
   OnWindowStateChange = FormWindowStateChange
   object MemoSource: TMemo
     Left = 3
-    Height = 179
-    Top = 58
+    Height = 170
+    Top = 67
     Width = 506
     Align = alClient
     BorderSpacing.Around = 3
@@ -127,18 +127,18 @@ object formTrayslator: TformTrayslator
     ParentColor = False
     ResizeAnchor = akBottom
   end
-  object PanelPairs: TPanel
-    Left = 3
-    Height = 20
+  object PanelPairs: TFlowPanel
+    Left = 2
+    Height = 29
     Top = 35
-    Width = 506
+    Width = 508
     Align = alTop
-    BorderSpacing.Left = 3
-    BorderSpacing.Right = 3
     BevelOuter = bvNone
-    ChildSizing.EnlargeHorizontal = crsHomogenousSpaceResize
-    ChildSizing.Layout = cclTopToBottomThenLeftToRight
-    ParentBackground = False
+    BorderSpacing.Left = 2
+    BorderSpacing.Right = 2
+    ControlList = <>
+    FlowLayout = tlCenter
+    FlowStyle = fsRightLeftTopBottom
     TabOrder = 4
   end
   object TrayIcon: TTrayIcon

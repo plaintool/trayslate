@@ -54,6 +54,7 @@ type
     ActionList: TActionList;
     ComboSource: TComboBox;
     ComboTarget: TComboBox;
+    PanelPairs: TFlowPanel;
     ImageButtons: TImageList;
     MemoSource: TMemo;
     MemoTarget: TMemo;
@@ -67,7 +68,6 @@ type
     MenuAbout: TMenuItem;
     MenuShow: TMenuItem;
     MenuShowTranslate: TMenuItem;
-    PanelPairs: TPanel;
     PanelLang: TPanel;
     PopupTray: TPopupMenu;
     Separator1: TMenuItem;
@@ -1008,11 +1008,9 @@ end;
 
 procedure TformTrayslator.RebuildLangPairsPanel(Data: PtrInt);
 var
-  i: integer;
   lbl: TLabel;
-  rightPos: integer;
   totalWidth: integer;
-  w: integer;
+  i: integer;
 begin
   // Remove only labels
   for i := PanelPairs.ControlCount - 1 downto 0 do
@@ -1033,32 +1031,24 @@ begin
   totalWidth := 0;
   for i := 0 to FLangPairs.Count - 1 do
     totalWidth := totalWidth + PanelPairs.Canvas.TextWidth(FLangPairs[i]) + 10;
-
   PanelPairs.Width := totalWidth;
-  rightPos := PanelPairs.Width;
 
   for i := 0 to FLangPairs.Count - 1 do
   begin
-    w := PanelPairs.Canvas.TextWidth(FLangPairs[i]);
-
     lbl := TLabel.Create(PanelPairs);
     lbl.Parent := PanelPairs;
     lbl.Caption := FLangPairs[i];
     lbl.Cursor := crHandPoint;
+    lbl.Font.Color := ThemeColor(clBlue, clSkyBlue);
     lbl.Tag := i;
     lbl.AutoSize := True;
-
-    lbl.Left := rightPos - w;
-    lbl.Top := (PanelPairs.Height - lbl.Height) div 2;
-
-    lbl.Font.Color := ThemeColor(clBlue, clSkyBlue);
+    lbl.BorderSpacing.Right := 10;
 
     lbl.OnMouseEnter := @LabelMouseEnter;
     lbl.OnMouseLeave := @LabelMouseLeave;
     lbl.OnMouseDown := @LabelLangMouseDown;
-
-    rightPos := lbl.Left - 10;
   end;
+  Repaint;
 end;
 
 {$IFDEF WINDOWS}

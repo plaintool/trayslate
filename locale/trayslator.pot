@@ -387,13 +387,14 @@ msgstr ""
 msgid "Autostart"
 msgstr ""
 
-#: tformsettingstrayslator.groupbox1.caption
-msgid "Language Pairs History"
-msgstr ""
-
 #: tformsettingstrayslator.groupfont.caption
 msgctxt "tformsettingstrayslator.groupfont.caption"
 msgid "Font"
+msgstr ""
+
+#: tformsettingstrayslator.grouplangpairs.caption
+msgctxt "tformsettingstrayslator.grouplangpairs.caption"
+msgid "Language Pairs History"
 msgstr ""
 
 #: tformsettingstrayslator.grouptransclipboard.caption
@@ -434,7 +435,8 @@ msgstr ""
 msgid "Font Color"
 msgstr ""
 
-#: tformsettingstrayslator.labeliconfont1.caption
+#: tformsettingstrayslator.labelmaxlangpairs.caption
+msgctxt "tformsettingstrayslator.labelmaxlangpairs.caption"
 msgid "Max Pairs"
 msgstr ""
 
