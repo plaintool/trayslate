@@ -139,6 +139,7 @@ type
     FLangSource: string;
     FLangTarget: string;
     FMaxLangPairs: integer;
+    FSwapTranslate: boolean;
     FFormConfigLeft: integer;
     FFormConfigTop: integer;
     FFormConfigWidth: integer;
@@ -199,6 +200,7 @@ type
     property LangTarget: string read FLangTarget write FLangTarget;
     property LangPairs: TStringList read FLangPairs write FLangPairs;
     property MaxLangPairs: integer read FMaxLangPairs write FMaxLangPairs;
+    property SwapTranslate: boolean read FSwapTranslate write FSwapTranslate;
     property FormConfigLeft: integer read FFormConfigLeft write FFormConfigLeft;
     property FormConfigTop: integer read FFormConfigTop write FFormConfigTop;
     property FormConfigWidth: integer read FFormConfigWidth write FFormConfigWidth;
@@ -240,6 +242,7 @@ begin
   FIconFontColor := clWhite;
   FIconTwoLang := True;
   FMaxLangPairs := 10;
+  FSwapTranslate := True;
   FAutoStart := True;
   FLangTarget := Language;
   FFormConfigLeft := 0;
@@ -513,7 +516,7 @@ begin
   ChangeSourceLang(ComboSource.Text);
   ChangeTargetLang(ComboTarget.Text);
 
-  if (MemoSource.Text <> string.Empty) and (MemoTarget.Text <> string.Empty) then
+  if (FSwapTranslate) and ((MemoSource.Text <> string.Empty) or (MemoTarget.Text <> string.Empty)) then
   begin
     srcText := MemoSource.Text;
     MemoSource.Text := MemoTarget.Text;

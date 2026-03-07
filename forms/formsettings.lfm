@@ -89,7 +89,7 @@ object formSettingsTrayslator: TformSettingsTrayslator
           Top = 80
           Width = 104
           AutoSize = False
-          Caption = '  Two languages'
+          Caption = 'Two languages'
           TabOrder = 2
           OnChange = SettingChange
         end
@@ -155,7 +155,7 @@ object formSettingsTrayslator: TformSettingsTrayslator
           Top = 0
           Width = 233
           AutoSize = False
-          Caption = '  Launch at system startup'
+          Caption = 'Launch at system startup'
           TabOrder = 0
           OnChange = SettingChange
         end
@@ -187,6 +187,27 @@ object formSettingsTrayslator: TformSettingsTrayslator
           Alignment = taRightJustify
           AutoSize = False
           Caption = 'Max Pairs'
+        end
+      end
+      object GroupSwapLanguages: TGroupBox
+        Left = 0
+        Height = 56
+        Top = 368
+        Width = 392
+        Align = alTop
+        Caption = 'Swap Languages'
+        ClientHeight = 36
+        ClientWidth = 388
+        TabOrder = 4
+        object CheckSwapTranslate: TCheckBox
+          Left = 26
+          Height = 24
+          Top = 8
+          Width = 350
+          AutoSize = False
+          Caption = 'Swap source and translation when swapping languages'
+          TabOrder = 0
+          OnChange = SettingChange
         end
       end
     end

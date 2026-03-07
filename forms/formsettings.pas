@@ -40,6 +40,7 @@ type
     BtnOk: TButton;
     CheckTwoLang: TCheckBox;
     CheckAutostart: TCheckBox;
+    CheckSwapTranslate: TCheckBox;
     ColorIconBackground: TColorBox;
     ColorIconFont: TColorBox;
     ColorDialog: TColorDialog;
@@ -50,6 +51,7 @@ type
     EditTransSwap: TEdit;
     EditTransFromClipboard: TEdit;
     FontDialog: TFontDialog;
+    GroupSwapLanguages: TGroupBox;
     GroupLangPairs: TGroupBox;
     GroupTransSwap: TGroupBox;
     GroupTransFromControl: TGroupBox;
@@ -90,6 +92,7 @@ type
     FOriginalIconFontColor: TColor;
     FOriginalIconTwoLang: boolean;
     FOriginalMaxLangPairs: integer;
+    FOriginalSwapTranslate: boolean;
     FOriginalHotKeyApp: THotKeyData;
     FOriginalHotKeyTransSwap: THotKeyData;
     FOriginalHotKeyTransFromClipboard: THotKeyData;
@@ -375,6 +378,7 @@ procedure TformSettingsTrayslator.Apply;
 begin
   formTrayslator.AutoStart := CheckAutostart.Checked;
   formTrayslator.MaxLangPairs := SpinMaxLangPairs.Value;
+  formTrayslator.SwapTranslate := CheckSwapTranslate.Checked;
 
   formTrayslator.Font.Assign(PanelFont.Font);
   formTrayslator.IconBackgroundColor := ColorIconBackground.Selected;
@@ -401,6 +405,7 @@ procedure TformSettingsTrayslator.Reset;
 begin
   FOriginalAutoStart := formTrayslator.AutoStart;
   FOriginalMaxLangPairs := formTrayslator.MaxLangPairs;
+  FOriginalSwapTranslate := formTrayslator.SwapTranslate;
   FOriginalFont := formTrayslator.Font;
   FOriginalIconBackgroundColor := formTrayslator.IconBackgroundColor;
   FOriginalIconFontColor := formTrayslator.IconFontColor;
@@ -420,6 +425,7 @@ begin
 
   CheckAutostart.Checked := FOriginalAutoStart;
   SpinMaxLangPairs.Value := FOriginalMaxLangPairs;
+  CheckSwapTranslate.Checked := FOriginalSwapTranslate;
   PanelFont.Font.Assign(FOriginalFont);
   SetPanelFont(FOriginalFont);
   ColorIconBackground.Selected := FOriginalIconBackgroundColor;

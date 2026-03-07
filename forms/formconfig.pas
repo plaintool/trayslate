@@ -73,6 +73,7 @@ type
     Pages: TPageControl;
     PanelTop: TPanel;
     SbCopyConfig: TSpeedButton;
+    SbNewConfig: TSpeedButton;
     ScrollBoxConfig: TScrollBox;
     PageService: TTabSheet;
     PageHeaders: TTabSheet;
@@ -91,15 +92,17 @@ type
     procedure ComboConfigKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure LabelFillLanguagesClick(Sender: TObject);
     procedure MemoKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+    procedure SbNewConfigClick(Sender: TObject);
     procedure ValueChange(Sender: TObject);
     procedure SbCopyConfigClick(Sender: TObject);
   private
     FLastConfig: integer;
   public
     function TestChanges: boolean;
-    procedure CopyConfig;
+    procedure CreateConfig(ACopy: boolean = False);
     procedure UpdateConfigList;
     procedure UpdateConfig;
+    procedure ClearConfig;
     procedure SaveConfig;
   end;
 
@@ -123,6 +126,7 @@ uses mainform, translate, settings, formattool, langtool, languages, systemtool;
 procedure TformConfigTrayslator.FormCreate(Sender: TObject);
 begin
   Pages.PageIndex := 0;
+  BtnClose.Cancel := True;
   LabelFillLanguages.Font.Color := ThemeColor(clBlue, clSkyBlue);
 end;
 
@@ -223,9 +227,14 @@ begin
   Close;
 end;
 
+procedure TformConfigTrayslator.SbNewConfigClick(Sender: TObject);
+begin
+  CreateConfig;
+end;
+
 procedure TformConfigTrayslator.SbCopyConfigClick(Sender: TObject);
 begin
-  CopyConfig;
+  CreateConfig(True);
 end;
 
 function TformConfigTrayslator.TestChanges: boolean;
@@ -249,13 +258,13 @@ begin
   end;
 end;
 
-procedure TformConfigTrayslator.CopyConfig;
+procedure TformConfigTrayslator.CreateConfig(ACopy: boolean = False);
 var
   NewName: string;
   SourceFile: string;
   DestFile: string;
 begin
-  if (ComboConfig.Text <> string.Empty) and (not TestChanges) then exit;
+  if (ComboConfig.Text <> string.Empty) and (not TestChanges) then Exit;
 
   NewName := ExtractFileName(ComboConfig.Text);
 
@@ -264,33 +273,42 @@ begin
     Exit; // user pressed Cancel
 
   NewName := Trim(NewName);
-  if NewName = string.Empty then
-    Exit;
+  if NewName = string.Empty then Exit;
 
   // Add .ini extension if missing
   if not SameText(ExtractFileExt(NewName), '.ini') then
     NewName := NewName + '.ini';
 
-  if NewName = ExtractFileName(ComboConfig.Text) then
-    Exit;
+  if NewName = ExtractFileName(ComboConfig.Text) then Exit;
 
   SourceFile := ComboConfig.Text;
   DestFile := IncludeTrailingPathDelimiter(GetSettingsDirectory) + NewName;
 
   try
-    if SourceFile = string.Empty then
+    if (SourceFile = string.Empty) then
     begin
-      // Create empty file
+      // Create new empty config
       with TFileStream.Create(DestFile, fmCreate) do
         Free;
 
-      // Save Current Data
+      // Save current data to the new file
       formTrayslator.ConfigFile := DestFile;
+      SaveConfig;
+    end else
+    if (not ACopy)  then
+    begin
+      // Create new empty config
+      with TFileStream.Create(DestFile, fmCreate) do
+        Free;
+
+      // Save current data to the new file
+      formTrayslator.ConfigFile := DestFile;
+      ClearConfig;
       SaveConfig;
     end
     else
     begin
-      // Copy config file
+      // Copy existing config file
       CopyFile(SourceFile, DestFile, [], True);
     end;
   except
@@ -344,12 +362,52 @@ begin
   Caption := rcaption;
 end;
 
+procedure TformConfigTrayslator.ClearConfig;
+begin
+  with formTrayslator.Trans do
+  begin
+    ServiceName := string.Empty;
+    WebMethod := wmGet;
+    UserAgent := string.Empty;
+    ContentType := string.Empty;
+    Url := string.Empty;
+    PostData := string.Empty;
+    Accept := string.Empty;
+    ResponseParser := rpJson;
+    Regexp := string.Empty;
+    JsonPointer := string.Empty;
+    EncryptText := False;
+    Languages.Clear;
+    LanguagesTarget.Clear;
+    Headers.Clear;
+
+    // Clear controls
+    EditServiceName.Text := string.Empty;
+    ComboMethod.ItemIndex := 0;
+    EditUserAgent.Text := string.Empty;
+    EditContentType.Text := string.Empty;
+    MemoUrl.Clear;
+    MemoPostData.Clear;
+    EditAccept.Text := string.Empty;
+    ComboResponseParser.ItemIndex := 0;
+    EditRegexp.Text := string.Empty;
+    EditJsonPointer.Text := string.Empty;
+    CheckEncryptText.Checked := False;
+    MemoLanguages.Clear;
+    MemoLanguagesTarget.Clear;
+    MemoHeaders.Clear;
+  end;
+
+  aSave.Enabled := False;
+  Caption := rcaption;
+end;
+
 procedure TformConfigTrayslator.SaveConfig;
 var
   TempHeaders: TStringList;
 begin
   if (formTrayslator.ConfigFile = string.Empty) then
-    CopyConfig;
+    CreateConfig;
 
   if (formTrayslator.ConfigFile = string.Empty) then
     exit;

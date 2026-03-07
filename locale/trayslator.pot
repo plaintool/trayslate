@@ -227,6 +227,10 @@ msgstr ""
 msgid "Copy configuration"
 msgstr ""
 
+#: tformconfigtrayslator.sbnewconfig.hint
+msgid "New configuration"
+msgstr ""
+
 #: tformdonatetrayslator.buttonok.caption
 msgctxt "tformdonatetrayslator.buttonok.caption"
 msgid "OK"
@@ -342,11 +346,15 @@ msgid "Settings"
 msgstr ""
 
 #: tformsettingstrayslator.checkautostart.caption
-msgid "  Launch at system startup"
+msgid "Launch at system startup"
+msgstr ""
+
+#: tformsettingstrayslator.checkswaptranslate.caption
+msgid "Swap source and translation when swapping languages"
 msgstr ""
 
 #: tformsettingstrayslator.checktwolang.caption
-msgid "  Two languages"
+msgid "Two languages"
 msgstr ""
 
 #: tformsettingstrayslator.editapp.hint
@@ -395,6 +403,10 @@ msgstr ""
 #: tformsettingstrayslator.grouplangpairs.caption
 msgctxt "tformsettingstrayslator.grouplangpairs.caption"
 msgid "Recent Language Pairs"
+msgstr ""
+
+#: tformsettingstrayslator.groupswaplanguages.caption
+msgid "Swap Languages"
 msgstr ""
 
 #: tformsettingstrayslator.grouptransclipboard.caption

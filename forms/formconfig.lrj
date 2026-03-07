@@ -2,6 +2,7 @@
 {"hash":249546418,"name":"tformconfigtrayslator.caption","sourcebytes":[67,111,110,102,105,103,32,69,100,105,116,111,114],"value":"Config Editor"},
 {"hash":4863637,"name":"tformconfigtrayslator.btnclose.caption","sourcebytes":[67,108,111,115,101],"value":"Close"},
 {"hash":59383006,"name":"tformconfigtrayslator.sbcopyconfig.hint","sourcebytes":[67,111,112,121,32,99,111,110,102,105,103,117,114,97,116,105,111,110],"value":"Copy configuration"},
+{"hash":110668510,"name":"tformconfigtrayslator.sbnewconfig.hint","sourcebytes":[78,101,119,32,99,111,110,102,105,103,117,114,97,116,105,111,110],"value":"New configuration"},
 {"hash":164220869,"name":"tformconfigtrayslator.pageservice.caption","sourcebytes":[83,101,114,118,105,99,101],"value":"Service"},
 {"hash":212295701,"name":"tformconfigtrayslator.groupresponse.caption","sourcebytes":[82,101,115,112,111,110,115,101],"value":"Response"},
 {"hash":158394613,"name":"tformconfigtrayslator.labelresponseparser.caption","sourcebytes":[80,97,114,115,101,32,84,121,112,101],"value":"Parse Type"},
