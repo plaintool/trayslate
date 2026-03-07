@@ -38,6 +38,7 @@ type
     BtnApply: TButton;
     BtnCancel: TButton;
     BtnOk: TButton;
+    CheckTranslateAsYouType: TCheckBox;
     CheckTwoLang: TCheckBox;
     CheckAutostart: TCheckBox;
     CheckSwapTranslate: TCheckBox;
@@ -51,12 +52,11 @@ type
     EditTransSwap: TEdit;
     EditTransFromClipboard: TEdit;
     FontDialog: TFontDialog;
-    GroupSwapLanguages: TGroupBox;
     GroupLangPairs: TGroupBox;
     GroupTransSwap: TGroupBox;
     GroupTransFromControl: TGroupBox;
     GroupTransFromClipboard: TGroupBox;
-    GroupAutostart: TGroupBox;
+    GroupOptions: TGroupBox;
     GroupApp: TGroupBox;
     GroupFont: TGroupBox;
     GroupTransClipboard: TGroupBox;
@@ -93,6 +93,7 @@ type
     FOriginalIconTwoLang: boolean;
     FOriginalMaxLangPairs: integer;
     FOriginalSwapTranslate: boolean;
+    FOriginalTranslateAsYouType: boolean;
     FOriginalHotKeyApp: THotKeyData;
     FOriginalHotKeyTransSwap: THotKeyData;
     FOriginalHotKeyTransFromClipboard: THotKeyData;
@@ -379,7 +380,7 @@ begin
   formTrayslator.AutoStart := CheckAutostart.Checked;
   formTrayslator.MaxLangPairs := SpinMaxLangPairs.Value;
   formTrayslator.SwapTranslate := CheckSwapTranslate.Checked;
-
+  formTrayslator.TranslateAsYouType := CheckTranslateAsYouType.Checked;
   formTrayslator.Font.Assign(PanelFont.Font);
   formTrayslator.IconBackgroundColor := ColorIconBackground.Selected;
   formTrayslator.IconFontColor := ColorIconFont.Selected;
@@ -406,6 +407,7 @@ begin
   FOriginalAutoStart := formTrayslator.AutoStart;
   FOriginalMaxLangPairs := formTrayslator.MaxLangPairs;
   FOriginalSwapTranslate := formTrayslator.SwapTranslate;
+  FOriginalTranslateAsYouType := formTrayslator.TranslateAsYouType;
   FOriginalFont := formTrayslator.Font;
   FOriginalIconBackgroundColor := formTrayslator.IconBackgroundColor;
   FOriginalIconFontColor := formTrayslator.IconFontColor;
@@ -426,6 +428,7 @@ begin
   CheckAutostart.Checked := FOriginalAutoStart;
   SpinMaxLangPairs.Value := FOriginalMaxLangPairs;
   CheckSwapTranslate.Checked := FOriginalSwapTranslate;
+  CheckTranslateAsYouType.Checked := FOriginalTranslateAsYouType;
   PanelFont.Font.Assign(FOriginalFont);
   SetPanelFont(FOriginalFont);
   ColorIconBackground.Selected := FOriginalIconBackgroundColor;

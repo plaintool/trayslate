@@ -363,6 +363,10 @@ msgstr ""
 msgid "Swap source and translation when swapping languages"
 msgstr ""
 
+#: tformsettingstrayslator.checktranslateasyoutype.caption
+msgid "Translate as you type"
+msgstr ""
+
 #: tformsettingstrayslator.checktwolang.caption
 msgid "Two languages"
 msgstr ""
@@ -401,10 +405,6 @@ msgstr ""
 msgid "Toggle Application (Tray Icon Click)"
 msgstr ""
 
-#: tformsettingstrayslator.groupautostart.caption
-msgid "Autostart"
-msgstr ""
-
 #: tformsettingstrayslator.groupfont.caption
 msgctxt "tformsettingstrayslator.groupfont.caption"
 msgid "Font"
@@ -415,8 +415,8 @@ msgctxt "tformsettingstrayslator.grouplangpairs.caption"
 msgid "Recent Language Pairs"
 msgstr ""
 
-#: tformsettingstrayslator.groupswaplanguages.caption
-msgid "Swap Languages"
+#: tformsettingstrayslator.groupoptions.caption
+msgid "Options"
 msgstr ""
 
 #: tformsettingstrayslator.grouptransclipboard.caption

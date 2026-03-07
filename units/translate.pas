@@ -14,6 +14,7 @@ uses
   Classes,
   Forms,
   SysUtils,
+  StdCtrls,
   RegExpr,
   StrUtils,
   Controls,
@@ -81,6 +82,7 @@ type
   TTranslateThread = class(TThread)
   private
     FTrans: TTranslate;
+    FMemo: TMemo;
     FSourceText: string;
     FResultText: string;
     FResultTextSync: string;
@@ -89,7 +91,7 @@ type
     procedure Execute; override;
     procedure UpdateUI;
   public
-    constructor Create(ATrans: TTranslate);
+    constructor Create(ATrans: TTranslate; AMemo: TMemo = nil);
     property ExceptionObj: Exception read FException;
     property ResultText: string read FResultText;
     property ResultTextSync: string read FResultTextSync;
@@ -314,12 +316,13 @@ end;
 
 { TTranslateThread }
 
-constructor TTranslateThread.Create(ATrans: TTranslate);
+constructor TTranslateThread.Create(ATrans: TTranslate; AMemo: TMemo = nil);
 begin
   inherited Create(True);
   FreeOnTerminate := True;
 
   FTrans := ATrans;
+  if Assigned(AMemo) then FMemo := AMemo;
   FSourceText := FTrans.TextToTranslate;
 
   Start;
@@ -354,7 +357,10 @@ begin
     FreeAndNil(FException); // free manually
   end
   else
+  begin
+    if Assigned(FMemo) then FMemo.Text := FResultText;
     FResultTextSync := FResultText;
+  end;
 end;
 
 end.

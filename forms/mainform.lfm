@@ -27,6 +27,7 @@ object formTrayslator: TformTrayslator
     BorderStyle = bsNone
     ScrollBars = ssAutoBoth
     TabOrder = 0
+    OnChange = MemoSourceChange
     OnEnter = MemoSourceEnter
     OnKeyDown = MemoSourceKeyDown
   end

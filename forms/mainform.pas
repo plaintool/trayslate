@@ -104,6 +104,7 @@ type
     procedure ComboTargetChange(Sender: TObject);
     procedure ComboSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure ComboTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+    procedure MemoSourceChange(Sender: TObject);
     procedure MemoSourceEnter(Sender: TObject);
     procedure MemoTargetEnter(Sender: TObject);
     procedure MemoSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
@@ -140,6 +141,7 @@ type
     FLangTarget: string;
     FMaxLangPairs: integer;
     FSwapTranslate: boolean;
+    FTranslateAsYouType: boolean;
     FFormConfigLeft: integer;
     FFormConfigTop: integer;
     FFormConfigWidth: integer;
@@ -201,6 +203,7 @@ type
     property LangPairs: TStringList read FLangPairs write FLangPairs;
     property MaxLangPairs: integer read FMaxLangPairs write FMaxLangPairs;
     property SwapTranslate: boolean read FSwapTranslate write FSwapTranslate;
+    property TranslateAsYouType: boolean read FTranslateAsYouType write FTranslateAsYouType;
     property FormConfigLeft: integer read FFormConfigLeft write FFormConfigLeft;
     property FormConfigTop: integer read FFormConfigTop write FFormConfigTop;
     property FormConfigWidth: integer read FFormConfigWidth write FFormConfigWidth;
@@ -243,6 +246,7 @@ begin
   FIconTwoLang := True;
   FMaxLangPairs := 10;
   FSwapTranslate := True;
+  FTranslateAsYouType := False;
   FAutoStart := True;
   FLangTarget := Language;
   FFormConfigLeft := 0;
@@ -338,6 +342,7 @@ begin
   UnregisterHotKeys;
   {$ENDIF}
   SaveFormSettings(Self);
+  FLangPairs.Free;
   FLanguages.Free;
   FLanguagesSorted.Free;
   FLanguagesTarget.Free;
@@ -575,6 +580,16 @@ end;
 procedure TformTrayslator.ComboTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
   if (Key = VK_RETURN) then ComboTargetChange(Self);
+end;
+
+procedure TformTrayslator.MemoSourceChange(Sender: TObject);
+begin
+  if FTranslateAsYouType then
+  begin
+    Translate;
+    if MemoSource.Text = string.Empty then
+      MemoTarget.Clear;
+  end;
 end;
 
 procedure TformTrayslator.MemoSourceEnter(Sender: TObject);
@@ -1098,8 +1113,6 @@ end;
 {$ENDIF}
 
 procedure TformTrayslator.Translate;
-var
-  Th: TTranslateThread;
 begin
   if Trim(MemoSource.Text) = string.Empty then Exit;
 
@@ -1107,19 +1120,7 @@ begin
   try
     // Create translation thread (it will handle exceptions itself)
     Trans.TextToTranslate := MemoSource.Text;
-    Th := TTranslateThread.Create(Trans);
-    try
-      Th.FreeOnTerminate := False;
-
-      // Wait for thread to finish
-      while not Th.Finished do
-        Application.ProcessMessages;
-
-      // Set translated text to memo
-      MemoTarget.Text := Th.ResultTextSync;
-    finally
-      Th.Free;
-    end;
+    TTranslateThread.Create(Trans, MemoTarget);
   finally
     Screen.Cursor := crDefault;
   end;
