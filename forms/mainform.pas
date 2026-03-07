@@ -113,7 +113,6 @@ type
     procedure PanelLangResize(Sender: TObject);
     procedure TrayIconMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
     procedure TrayIconClick(Sender: TObject);
-    procedure TrayIconDblClick(Sender: TObject);
     procedure TimerClickTimer(Sender: TObject);
     procedure TimerActiveTimer(Sender: TObject);
     procedure LabelMouseEnter(Sender: TObject);
@@ -123,8 +122,6 @@ type
   private
     FTrans: TTranslate;
     FTopMost: boolean;
-    FClicked: boolean;
-    FDoubleClicked: boolean;
     FLeftButton: boolean;
     FLastEnterTime: DWORD;
     FMemoSourceCaretPos: integer;
@@ -702,69 +699,61 @@ procedure TformTrayslator.TrayIconClick(Sender: TObject);
 begin
   if not FLeftButton then exit;
 
-  TimerClick.Enabled := False;
-  FClicked := False;
-  if FDoubleClicked then
+  // DblClick
+  if TimerClick.Enabled or (TimerClick.Tag = 1) then
   begin
-    FDoubleClicked := False;
+    TimerClick.Enabled := False; // cancel single click action
+    TimerClick.Tag := 0;
+    FTopMost := True;
+
+    MemoSource.OnChange := nil;
+    try
+      aTranslateClipboard.Execute;
+    finally
+      MemoSource.OnChange := @MemoSourceChange;
+    end;
     Exit;
   end;
 
-  if Showing then
+  TimerClick.Enabled := False;
+  if Visible and Showing then
   begin
     if FTopMost then
-      Hide
+    begin
+      TimerClick.Enabled := True;
+      TimerClick.Tag := 0;
+    end
     else
     begin
       BringToFront;
       FTopMost := True;
+      TimerClick.Tag := 1;
+      TimerClick.Enabled := True;
     end;
-    FClicked := True;
-  end
-  else
-    TimerClick.Enabled := True; // start delay
-end;
-
-procedure TformTrayslator.TrayIconDblClick(Sender: TObject);
-begin
-  if not FLeftButton then exit;
-
-  TimerClick.Enabled := False; // cancel single click action
-  FDoubleClicked := True;
-  if FClicked then
-  begin
-    FClicked := False;
-    Exit;
-  end;
-
-  if not Visible then
-  begin
-    aTranslateClipboard.Execute;
   end
   else
   begin
-    Hide;
-    FTopMost := False;
+    Show;
+    FTopMost := True;
+    TimerClick.Enabled := True;
+    TimerClick.Tag := 1;
   end;
 end;
 
 procedure TformTrayslator.TimerClickTimer(Sender: TObject);
 begin
   TimerClick.Enabled := False;
+  if (TimerClick.Tag = 1) then
+  begin
+    TimerClick.Tag := 0;
+    exit;
+  end;
 
   // Single click action
-  if Showing then
+  if Visible and Showing then
   begin
-    if not FTopMost then
-    begin
-      BringToFront;
-      FTopMost := True;
-    end
-    else
-    begin
-      Hide;
-      FTopMost := False;
-    end;
+    Hide;
+    FTopMost := False;
   end
   else
   begin
@@ -776,7 +765,8 @@ end;
 procedure TformTrayslator.TimerActiveTimer(Sender: TObject);
 begin
   TimerActive.Enabled := False;
-  if (not FClicked) and (not FDoubleClicked) then
+
+  if (not TimerClick.Enabled) and (not TimerClick.Tag = 1) then
     FTopMost := False;
 end;
 

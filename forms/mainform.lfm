@@ -149,7 +149,6 @@ object formTrayslator: TformTrayslator
     PopUpMenu = PopupTray
     Hint = 'Trayslator'
     OnClick = TrayIconClick
-    OnDblClick = TrayIconDblClick
     OnMouseDown = TrayIconMouseDown
     Left = 168
     Top = 328
@@ -261,13 +260,6 @@ object formTrayslator: TformTrayslator
     Left = 231
     Top = 328
   end
-  object TimerActive: TTimer
-    Enabled = False
-    Interval = 300
-    OnTimer = TimerActiveTimer
-    Left = 304
-    Top = 328
-  end
   object ImageButtons: TImageList
     Left = 40
     Top = 400
@@ -290,5 +282,12 @@ object formTrayslator: TformTrayslator
       F1DD9BD6A0058EE0ACB197177D0DFC800E988301E3150DEE6C559FEF8D677C4B
       9BE678F23979650EB4C3F8FFFF018C3AA645
     }
+  end
+  object TimerActive: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = TimerActiveTimer
+    Left = 304
+    Top = 328
   end
 end
