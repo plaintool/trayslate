@@ -76,6 +76,7 @@ Source: "..\config\google-get-clients5.ini"; DestDir: "{app}\config"; Flags: ign
 Source: "..\config\google-post.ini";       DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\mymemory.ini";         DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\simplytranslate-google.ini"; DestDir: "{app}\config"; Flags: ignoreversion
+Source: "..\config\languagedetect.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

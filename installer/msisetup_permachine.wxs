@@ -53,6 +53,7 @@
 							<File Id="CONFIG3" Name="google-post.ini" Source="..\config\google-post.ini" />
 							<File Id="CONFIG4" Name="mymemory.ini" Source="..\config\mymemory.ini" />
 							<File Id="CONFIG5" Name="simplytranslate-google.ini" Source="..\config\simplytranslate-google.ini" />
+							<File Id="CONFIG6" Name="languagedetect.ini" Source="..\config\languagedetect.ini" />
 							<!-- Registry KeyPath to satisfy ICE38 -->
 							<RegistryValue Root="HKLM" Key="Software\Alexander Tverskoy\Trayslate" Name="ConfigPath" Type="string" Value="[CONFIGDIR]" KeyPath="yes" />
 						</Component>
