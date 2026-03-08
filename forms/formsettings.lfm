@@ -74,11 +74,11 @@ object formSettingsTrayslate: TformSettingsTrayslate
         ClientWidth = 378
         TabOrder = 1
         object ComboLangDetect: TComboBox
-          Left = 136
+          Left = 152
           Height = 23
           Hint = 'Config that auto-detects the target language for the selected language pair'
           Top = 40
-          Width = 219
+          Width = 203
           ItemHeight = 15
           ParentShowHint = False
           ShowHint = True
@@ -86,10 +86,10 @@ object formSettingsTrayslate: TformSettingsTrayslate
           TabOrder = 0
         end
         object LabelIconBackground1: TLabel
-          Left = 0
+          Left = 21
           Height = 32
           Top = 40
-          Width = 120
+          Width = 115
           Alignment = taRightJustify
           AutoSize = False
           Caption = 'Language Detection Config'
@@ -208,10 +208,10 @@ object formSettingsTrayslate: TformSettingsTrayslate
           OnChange = SettingChange
         end
         object ColorIconBackground: TColorBox
-          Left = 136
+          Left = 152
           Height = 22
           Top = 8
-          Width = 219
+          Width = 203
           Style = [cbCustomColor, cbCustomColors]
           ColorDialog = ColorDialog
           Anchors = [akTop, akLeft, akRight]
@@ -221,28 +221,28 @@ object formSettingsTrayslate: TformSettingsTrayslate
           OnChange = SettingChange
         end
         object LabelIconBackground: TLabel
-          Left = 16
+          Left = 24
           Height = 32
           Top = 8
-          Width = 104
+          Width = 112
           Alignment = taRightJustify
           AutoSize = False
           Caption = 'Background Color'
         end
         object LabelIconFont: TLabel
-          Left = 16
+          Left = 24
           Height = 26
           Top = 40
-          Width = 104
+          Width = 112
           Alignment = taRightJustify
           AutoSize = False
           Caption = 'Font Color'
         end
         object ColorIconFont: TColorBox
-          Left = 136
+          Left = 152
           Height = 22
           Top = 40
-          Width = 219
+          Width = 203
           Style = [cbCustomColor, cbCustomColors]
           ColorDialog = ColorDialog
           Anchors = [akTop, akLeft, akRight]
@@ -263,19 +263,19 @@ object formSettingsTrayslate: TformSettingsTrayslate
         ClientWidth = 388
         TabOrder = 2
         object SpinMaxLangPairs: TSpinEdit
-          Left = 141
+          Left = 152
           Height = 23
           Top = 9
-          Width = 219
+          Width = 203
           MaxValue = 100
           TabOrder = 0
           Value = 10
         end
         object LabelMaxLangPairs: TLabel
-          Left = 21
+          Left = 29
           Height = 26
           Top = 9
-          Width = 104
+          Width = 112
           Alignment = taRightJustify
           AutoSize = False
           Caption = 'Max Pairs'
