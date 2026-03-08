@@ -102,6 +102,7 @@ type
     FOriginalSwapTranslate: boolean;
     FOriginalTranslateAsYouType: boolean;
     FOriginalAutoSwap: boolean;
+    FOriginalConfigLangDetect: string;
     FOriginalHotKeyApp: THotKeyData;
     FOriginalHotKeyTransSwap: THotKeyData;
     FOriginalHotKeyTransFromClipboard: THotKeyData;
@@ -398,6 +399,7 @@ begin
   formTrayslate.SwapTranslate := CheckSwapTranslate.Checked;
   formTrayslate.TranslateAsYouType := CheckTranslateAsYouType.Checked;
   formTrayslate.AutoSwap := CheckAutoSwap.Checked;
+  formTrayslate.ConfigLangDetect := formTrayslate.ConfigFiles[ComboLangDetect.ItemIndex];
   formTrayslate.Font.Assign(PanelFont.Font);
   formTrayslate.IconBackgroundColor := ColorIconBackground.Selected;
   formTrayslate.IconFontColor := ColorIconFont.Selected;
@@ -415,6 +417,7 @@ begin
   formTrayslate.ComboTarget.SelLength := 0;
 
   Reset;
+  formTrayslate.LoadConfig;
   formTrayslate.DoRealign(0);
   Application.QueueAsyncCall(@formTrayslate.RebuildLangPairsPanel, 0);
 end;
@@ -426,6 +429,7 @@ begin
   FOriginalSwapTranslate := formTrayslate.SwapTranslate;
   FOriginalTranslateAsYouType := formTrayslate.TranslateAsYouType;
   FOriginalAutoSwap := formTrayslate.AutoSwap;
+  FOriginalConfigLangDetect := formTrayslate.ConfigLangDetect;
   FOriginalFont := formTrayslate.Font;
   FOriginalIconBackgroundColor := formTrayslate.IconBackgroundColor;
   FOriginalIconFontColor := formTrayslate.IconFontColor;
@@ -448,6 +452,7 @@ begin
   CheckSwapTranslate.Checked := FOriginalSwapTranslate;
   CheckTranslateAsYouType.Checked := FOriginalTranslateAsYouType;
   CheckAutoSwap.Checked := FOriginalAutoSwap;
+  ComboLangDetect.ItemIndex := formTrayslate.ConfigFiles.IndexOf(FOriginalConfigLangDetect);
   PanelFont.Font.Assign(FOriginalFont);
   SetPanelFont(FOriginalFont);
   ColorIconBackground.Selected := FOriginalIconBackgroundColor;

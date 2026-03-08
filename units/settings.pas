@@ -129,6 +129,7 @@ begin
 
     // Save config
     JSONObj.Add('ConfigFile', Form.ConfigFile);
+    JSONObj.Add('ConfigLangDetect', Form.ConfigLangDetect);
     JSONObj.Add('AutoStart', Form.AutoStart);
     JSONObj.Add('IconBackgroundColor', Form.IconBackgroundColor);
     JSONObj.Add('IconFontColor', Form.IconFontColor);
@@ -258,6 +259,9 @@ begin
       // Load config
       if JSONObj.FindPath('ConfigFile') <> nil then
         Form.ConfigFile := JSONObj.FindPath('ConfigFile').AsString;
+
+      if JSONObj.FindPath('ConfigLangDetect') <> nil then
+        Form.ConfigLangDetect := JSONObj.FindPath('ConfigLangDetect').AsString;
 
       if JSONObj.FindPath('AutoStart') <> nil then
         Form.AutoStart := JSONObj.FindPath('AutoStart').AsBoolean;
@@ -575,7 +579,7 @@ end;
 
 function GetConfigFullPath(const ConfigName: string; ConfigFiles: TStringList): string;
 var
-  i: Integer;
+  i: integer;
   NameOnly: string;
 begin
   // Initialize result as empty string
