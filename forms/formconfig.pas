@@ -134,6 +134,7 @@ procedure TformConfigTrayslate.FormShow(Sender: TObject);
 begin
   UpdateConfigList;
   UpdateConfig;
+  formTrayslate.TopMost := False;
 end;
 
 procedure TformConfigTrayslate.FormDestroy(Sender: TObject);
@@ -294,8 +295,9 @@ begin
       // Save current data to the new file
       formTrayslate.ConfigFile := DestFile;
       SaveConfig;
-    end else
-    if (not ACopy)  then
+    end
+    else
+    if (not ACopy) then
     begin
       // Create new empty config
       with TFileStream.Create(DestFile, fmCreate) do

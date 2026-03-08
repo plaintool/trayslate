@@ -83,6 +83,7 @@ type
     procedure BtnOkClick(Sender: TObject);
     procedure BtnResetClick(Sender: TObject);
     procedure EditMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
+    procedure FormShow(Sender: TObject);
     procedure SettingChange(Sender: TObject);
     procedure EditKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
@@ -138,6 +139,11 @@ begin
   AddTrayColors(ColorIconBackground);
   AddTrayColors(ColorIconFont);
   Reset;
+end;
+
+procedure TformSettingsTrayslate.FormShow(Sender: TObject);
+begin
+  formTrayslate.TopMost:=False;
 end;
 
 procedure TformSettingsTrayslate.BtnFontClick(Sender: TObject);

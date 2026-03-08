@@ -10,6 +10,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
   Position = poDesktopCenter
   LCLVersion = '4.4.0.0'
   OnCreate = FormCreate
+  OnShow = FormShow
   object PagesSettings: TPageControl
     Left = 5
     Height = 465

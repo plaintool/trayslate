@@ -190,6 +190,7 @@ type
 
     // Base properties
     property Trans: TTranslate read FTrans write FTrans;
+    property TopMost: boolean read FTopMost write FTopMost;
 
     // Settings properties
     property ConfigFile: string read FConfigFile write FConfigFile;

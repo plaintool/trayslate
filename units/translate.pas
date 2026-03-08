@@ -262,19 +262,24 @@ begin
   content := Request;
 
   try
-    regex := TRegExpr.Create;
-    try
-      regex.Expression := FRegexp;
-      if regex.Exec(content) then
-      begin
-        Result := regex.Match[1];
-        Result := UnescapeUnicode(Result);
-      end
-      else
-        Result := content;
-    finally
-      regex.Free;
-    end;
+    if (FRegexp <> string.Empty) then
+    begin
+      regex := TRegExpr.Create;
+      try
+        regex.Expression := FRegexp;
+        if regex.Exec(content) then
+        begin
+          Result := regex.Match[1];
+          Result := UnescapeUnicode(Result);
+        end
+        else
+          Result := content;
+      finally
+        regex.Free;
+      end;
+    end
+    else
+      Result := content;
   except
     on E: Exception do
     begin
@@ -295,7 +300,9 @@ begin
 
   try
     // Use universal path parser. JsonKeys is a field, e.g. '\responseData\translatedText' or '\matches\0\translation'
-    Result := ParseJsonByPointer(jsonStr, JsonPointer);
+    if (JsonPointer <> string.Empty) then
+      Result := ParseJsonByPointer(jsonStr, JsonPointer);
+
     if (Result <> string.Empty) then
       Result := UnescapeUnicode(Result)
     else
