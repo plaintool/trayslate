@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------------
-//  Trayslator © 2024 by Alexander Tverskoy
+//  Trayslate © 2024 by Alexander Tverskoy
 //  Licensed under the GNU General Public License, Version 3 (GPL-3.0)
 //  You may obtain a copy of the License at https://www.gnu.org/licenses/gpl-3.0.html
 //-----------------------------------------------------------------------------------
@@ -62,9 +62,9 @@ function IsSystemKey(Key: word): boolean;
 
 function GetAppVersion: string;
 
-function CheckGithubLatestVersion(const Repo: string = 'plaintool/trayslator'): boolean;
+function CheckGithubLatestVersion(const Repo: string = 'plaintool/trayslate'): boolean;
 
-procedure RegAutoStart(const AEnable: boolean; const AppName: string = 'Trayslator');
+procedure RegAutoStart(const AEnable: boolean; const AppName: string = 'Trayslate');
 
 var
   Language: string;
@@ -144,12 +144,12 @@ begin
 
       // Try to load the language resource file
       try
-        Res := TResourceStream.Create(HInstance, 'trayslator.' + LangToUse, RT_RCDATA);
+        Res := TResourceStream.Create(HInstance, 'trayslate.' + LangToUse, RT_RCDATA);
         LangFound := True;
       except
         // If language resource not found, fall back to English
         LangToUse := 'en';
-        Res := TResourceStream.Create(HInstance, 'trayslator.en', RT_RCDATA);
+        Res := TResourceStream.Create(HInstance, 'trayslate.en', RT_RCDATA);
         LangFound := False;
       end;
 
@@ -318,12 +318,12 @@ begin
     // Create a key for the file extension
     if Reg.OpenKey(Ext, True) then
     begin
-      Reg.WriteString('', 'trayslator'); // Assign the class name
+      Reg.WriteString('', 'trayslate'); // Assign the class name
       Reg.CloseKey;
     end;
 
-    // Create a key for Trayslator
-    if Reg.OpenKey('trayslator\DefaultIcon', True) then
+    // Create a key for Trayslate
+    if Reg.OpenKey('trayslate\DefaultIcon', True) then
     begin
       IconPath := Format('%s,%d', [AppPath, IconIndex]);
       Reg.WriteString('', IconPath); // Set the icon path
@@ -331,7 +331,7 @@ begin
     end;
 
     // Create a key for opening the file
-    if Reg.OpenKey('trayslator\shell\open\command', True) then
+    if Reg.OpenKey('trayslate\shell\open\command', True) then
     begin
       Reg.WriteString('', Format('"%s" "%%1"', [AppPath])); // Command to open the file
       Reg.CloseKey;
@@ -351,7 +351,7 @@ begin
   {$IFDEF Linux}
   try
     AppPath := Application.ExeName;
-    MimeType := 'application/x-trayslator';
+    MimeType := 'application/x-trayslate';
     UserHome := GetEnvironmentVariable('HOME');
 
     // Create necessary directories if they do not exist
@@ -376,12 +376,12 @@ begin
     //CloseFile(ThemeFile);
 
     // Create a .xml file for MIME type
-    AssignFile(MimeFile, UserHome + '/.local/share/mime/packages/x-trayslator.xml');
+    AssignFile(MimeFile, UserHome + '/.local/share/mime/packages/x-trayslate.xml');
     Rewrite(MimeFile);
     Writeln(MimeFile, '<?xml version="1.0" encoding="UTF-8"?>');
     Writeln(MimeFile, '<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">');
     Writeln(MimeFile, '  <mime-type type="', MimeType, '">');
-    Writeln(MimeFile, '    <comment>Trayslator file</comment>');
+    Writeln(MimeFile, '    <comment>Trayslate file</comment>');
     Writeln(MimeFile, '    <glob pattern="*', Ext, '"/>');
     //Writeln(MimeFile, '    <icon name="x-taskdoc"/>');
     Writeln(MimeFile, '  </mime-type>');
@@ -389,21 +389,21 @@ begin
     CloseFile(MimeFile);
 
     // Create a .desktop file
-    AssignFile(DesktopFile, UserHome + '/.local/share/applications/x-trayslator.desktop');
+    AssignFile(DesktopFile, UserHome + '/.local/share/applications/x-trayslate.desktop');
     Rewrite(DesktopFile);
     Writeln(DesktopFile, '[Desktop Entry]');
-    Writeln(DesktopFile, 'Name=Trayslator');
+    Writeln(DesktopFile, 'Name=Trayslate');
     Writeln(DesktopFile, 'Exec=', AppPath, ' %f');
     Writeln(DesktopFile, 'Type=Application');
     Writeln(DesktopFile, 'MimeType=', MimeType);
     CloseFile(DesktopFile);
 
     // Update MIME database
-    if (FpSystem('xdg-mime install --mode user ' + UserHome + '/.local/share/mime/packages/x-trayslator.xml') = 0) and
+    if (FpSystem('xdg-mime install --mode user ' + UserHome + '/.local/share/mime/packages/x-trayslate.xml') = 0) and
        (FpSystem('xdg-icon-resource install --context mimetypes --size 48 ' + UserHome + '/.local/share/icons/hicolor/48x48/mimetypes/x-taskdoc.png x-taskdoc') = 0) and
        (FpSystem('update-mime-database ' + UserHome + '/.local/share/mime') = 0) and
        (FpSystem('gtk-update-icon-cache '+UserHome+'/.local/share/icons/hicolor -f') = 0) and
-       (FpSystem('xdg-desktop-menu install --mode user ' + UserHome + '/.local/share/applications/x-trayslator.desktop') = 0)
+       (FpSystem('xdg-desktop-menu install --mode user ' + UserHome + '/.local/share/applications/x-trayslate.desktop') = 0)
        then
     begin
       Result := True; // Indicate success
@@ -426,14 +426,14 @@ begin
   try
     AppPath := Application.ExeName;
     UserHome := GetEnvironmentVariable('HOME');
-    BundlePath := UserHome + '/Library/Application Support/Trayslator'; // Define a bundle path for the app
+    BundlePath := UserHome + '/Library/Application Support/Trayslate'; // Define a bundle path for the app
 
     // Create directory for app support if it does not exist
     if not DirectoryExists(BundlePath) then
       CreateDir(BundlePath);
 
     // Create a .plist file for the application
-    AssignFile(PlistFile, BundlePath + '/com.example.trayslator.plist'); // Adjust the bundle identifier as needed
+    AssignFile(PlistFile, BundlePath + '/com.example.trayslate.plist'); // Adjust the bundle identifier as needed
     Rewrite(PlistFile);
     Writeln(PlistFile, '<?xml version="1.0" encoding="UTF-8"?>');
     Writeln(PlistFile, '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">');
@@ -443,7 +443,7 @@ begin
     Writeln(PlistFile, '  <array>');
     Writeln(PlistFile, '    <dict>');
     Writeln(PlistFile, '      <key>CFBundleTypeName</key>');
-    Writeln(PlistFile, '      <string>Trayslator file</string>');
+    Writeln(PlistFile, '      <string>Trayslate file</string>');
     Writeln(PlistFile, '      <key>CFBundleTypeRole</key>');
     Writeln(PlistFile, '      <string>Editor</string>');
     Writeln(PlistFile, '      <key>LSItemContentTypes</key>');
@@ -462,7 +462,7 @@ begin
 
 
     // Associate the file extension with the application
-    FpSystem(Format('duti -s com.example.trayslator .%s public.data', [Ext])); // Adjust the bundle identifier as needed
+    FpSystem(Format('duti -s com.example.trayslate .%s public.data', [Ext])); // Adjust the bundle identifier as needed
 
     Result := True; // Set result to true if all operations succeeded
   except
@@ -522,7 +522,7 @@ begin
   end;
 end;
 
-function CheckGithubLatestVersion(const Repo: string = 'plaintool/trayslator'): boolean;
+function CheckGithubLatestVersion(const Repo: string = 'plaintool/trayslate'): boolean;
 var
   JsonData: TJSONData;
   LatestVersion, Msg: string;
@@ -543,7 +543,7 @@ var
       Buffer[I] := #0;
 
     Result := '';
-    hInet := InternetOpen('TrayslatorVersionChecker', INTERNET_OPEN_TYPE_PRECONFIG, nil, nil, 0);
+    hInet := InternetOpen('TrayslateVersionChecker', INTERNET_OPEN_TYPE_PRECONFIG, nil, nil, 0);
     if hInet = nil then
       Exit;
 
@@ -585,7 +585,7 @@ var
       Process.Parameters.Add('-s');
       Process.Parameters.Add('-L');
       Process.Parameters.Add('-H');
-      Process.Parameters.Add('User-Agent: TrayslatorVersionChecker');
+      Process.Parameters.Add('User-Agent: TrayslateVersionChecker');
       Process.Parameters.Add(AUrl);
 
       Process.Options := [poUsePipes, poNoConsole];
@@ -658,7 +658,7 @@ var
       Process.Parameters.Add('-q');
       Process.Parameters.Add('-O');
       Process.Parameters.Add('-');
-      Process.Parameters.Add('--header=User-Agent: TrayslatorVersionChecker');
+      Process.Parameters.Add('--header=User-Agent: TrayslateVersionChecker');
       Process.Parameters.Add(AUrl);
 
       Process.Options := [poUsePipes, poNoConsole];
@@ -720,7 +720,7 @@ begin
     try
       with TFPHttpClient.Create(nil) do
       try
-        AddHeader('User-Agent', 'TrayslatorVersionChecker');
+        AddHeader('User-Agent', 'TrayslateVersionChecker');
         ResponseContent := Get(Url);
       finally
         Free;
@@ -789,7 +789,7 @@ begin
   end;
 end;
 
-procedure RegAutoStart(const AEnable: boolean; const AppName: string = 'Trayslator');
+procedure RegAutoStart(const AEnable: boolean; const AppName: string = 'Trayslate');
 var
   Reg: TRegistry;
   ExeName: string;

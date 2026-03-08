@@ -1,4 +1,4 @@
-object formConfigTrayslator: TformConfigTrayslator
+object formConfigTrayslate: TformConfigTrayslate
   Left = 318
   Height = 585
   Top = 250

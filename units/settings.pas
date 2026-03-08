@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------------
-//  Trayslator © 2024 by Alexander Tverskoy
+//  Trayslate © 2024 by Alexander Tverskoy
 //  Licensed under the GNU General Public License, Version 3 (GPL-3.0)
 //  You may obtain a copy of the License at https://www.gnu.org/licenses/gpl-3.0.html
 //-----------------------------------------------------------------------------------
@@ -26,9 +26,9 @@ function GetSettingsDirectory(fileName: string = string.Empty): string;
 
 function GetIniDirectory(fileName: string = string.Empty): string;
 
-procedure SaveFormSettings(Form: TformTrayslator);
+procedure SaveFormSettings(Form: TformTrayslate);
 
-function LoadFormSettings(Form: TformTrayslator): boolean;
+function LoadFormSettings(Form: TformTrayslate): boolean;
 
 procedure SaveIniSettings(Translate: TTranslate; AFileName: string);
 
@@ -63,10 +63,10 @@ begin
   if baseDir = '' then
     baseDir := GetEnvironmentVariable('APPDATA');
 
-  Result := IncludeTrailingPathDelimiter(baseDir) + 'trayslator\' + fileName;
+  Result := IncludeTrailingPathDelimiter(baseDir) + 'trayslate\' + fileName;
   {$ELSE}
-  // Unix-like systems: use ~/.config/trayslator
-  Result := IncludeTrailingPathDelimiter(GetUserDir) + '.config/trayslator/' + fileName;
+  // Unix-like systems: use ~/.config/trayslate
+  Result := IncludeTrailingPathDelimiter(GetUserDir) + '.config/trayslate/' + fileName;
   {$ENDIF}
 end;
 
@@ -75,11 +75,11 @@ begin
   {$IFDEF Windows}
   Result := ExtractFilePath(ParamStr(0)) + fileName;
   {$ELSE}
-  Result := IncludeTrailingPathDelimiter(GetUserDir) + '.config/trayslator/' + filename;
+  Result := IncludeTrailingPathDelimiter(GetUserDir) + '.config/trayslate/' + filename;
   {$ENDIF}
 end;
 
-procedure SaveFormSettings(Form: TformTrayslator);
+procedure SaveFormSettings(Form: TformTrayslate);
 var
   JSONObj: TJSONObject;
   arrPairs: TJSONArray;
@@ -174,7 +174,7 @@ begin
   end;
 end;
 
-function LoadFormSettings(Form: TformTrayslator): boolean;
+function LoadFormSettings(Form: TformTrayslate): boolean;
 var
   JSONData: TJSONData;
   JSONObj: TJSONObject;

@@ -1,10 +1,10 @@
 //-----------------------------------------------------------------------------------
-//  Trayslator © 2024 by Alexander Tverskoy
+//  Trayslate © 2024 by Alexander Tverskoy
 //  Licensed under the GNU General Public License, Version 3 (GPL-3.0)
 //  You may obtain a copy of the License at https://www.gnu.org/licenses/gpl-3.0.html
 //-----------------------------------------------------------------------------------
 
-program trayslator;
+program trayslate;
 
 {$mode objfpc}{$H+}
 {$codepage utf8}
@@ -30,14 +30,14 @@ uses
 begin
   RequireDerivedFormResource := True;
   Language := GetOSLanguage;
-  Application.Title:='Trayslator';
-  Application.Scaled:=True;
+  Application.Title := 'Trayslate';
+  Application.Scaled := True;
   Application.Initialize;
   {$IFDEF WINDOWS}
   ApplyDarkStyle;
   {$ENDIF}
   Application.ShowMainForm := False;
-  Application.CreateForm(TformTrayslator, formTrayslator);
+  Application.CreateForm(TformTrayslate, formTrayslate);
   ApplicationTranslate(Language);
   Application.Run;
 end.

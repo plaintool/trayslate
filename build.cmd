@@ -1,8 +1,8 @@
 @echo off
 setlocal
 
-::Build Lazarus project "trayslator" using lazbuild
-SET "PROJECT_PATH=trayslator.lpi"
+::Build Lazarus project "trayslate" using lazbuild
+SET "PROJECT_PATH=trayslate.lpi"
 SET "BUILD_MODE=Release"
 
 SET "LAZARUS_DIR=%LAZARUS_DIR%"
@@ -45,8 +45,8 @@ IF "%CERTFILE%"=="" (
         SET "CERTFILE=%~dp0installer\AlexanderT.pfx"
     ) ELSE (
         IF NOT "%CERT_PFX%"=="" (
-            SET "CERTFILE=%TEMP%\trayslator-cert.pfx"
-            powershell -NoProfile -Command "[IO.File]::WriteAllBytes('%TEMP%\\trayslator-cert.pfx',[Convert]::FromBase64String($env:CERT_PFX))"
+            SET "CERTFILE=%TEMP%\trayslate-cert.pfx"
+            powershell -NoProfile -Command "[IO.File]::WriteAllBytes('%TEMP%\\trayslate-cert.pfx',[Convert]::FromBase64String($env:CERT_PFX))"
         ) ELSE (
             SET "CERTFILE="
         )
@@ -56,12 +56,12 @@ SET "CERTPASS=1234"
 SET "TIMESTAMP_URL=http://timestamp.digicert.com"
 
 ::Sign the executable in the same folder
-if exist "trayslator.exe" (
+if exist "trayslate.exe" (
     if not "%CERTFILE%"=="" (
         if exist "%CERTFILE%" (
             if exist "%SIGNTOOL%" (
                 echo Signing executable...
-                "%SIGNTOOL%" sign /f "%CERTFILE%" /p "%CERTPASS%" /fd SHA256 /tr %TIMESTAMP_URL% /td SHA256 "trayslator.exe"
+                "%SIGNTOOL%" sign /f "%CERTFILE%" /p "%CERTPASS%" /fd SHA256 /tr %TIMESTAMP_URL% /td SHA256 "trayslate.exe"
                 IF %ERRORLEVEL% EQU 0 (
                     echo Signing completed successfully
                 ) else (

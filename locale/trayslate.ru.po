@@ -1,0 +1,563 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.5\n"
+
+#: formconfig.rcaption
+msgctxt "formconfig.rcaption"
+msgid "Config Editor"
+msgstr ""
+
+#: formconfig.rclearlanguages
+msgid "The list is already filled. Do you want to clear it?"
+msgstr ""
+
+#: formconfig.rcopyquestion
+msgctxt "formconfig.rcopyquestion"
+msgid "Enter new config file name:"
+msgstr ""
+
+#: formconfig.rneedsave
+msgid "The configuration was modified. Save changes?"
+msgstr ""
+
+#: mainform.noconfig
+msgid "Configuration file not found! Create it in the configuration editor."
+msgstr ""
+
+#: mainform.rtrayslate
+msgctxt "mainform.rtrayslate"
+msgid "Trayslate"
+msgstr ""
+
+#: systemtool.newversion
+#, object-pascal-format
+msgid "New version available: %s. Open GitHub page to download?"
+msgstr ""
+
+#: systemtool.newversioncheckerror
+msgid "Error checking version:"
+msgstr ""
+
+#: systemtool.newversionuptodate
+msgid "Your version is up to date."
+msgstr ""
+
+#: tformabouttrayslate.buttonok.caption
+msgctxt "tformabouttrayslate.buttonok.caption"
+msgid "OK"
+msgstr ""
+
+#: tformabouttrayslate.caption
+msgid "About"
+msgstr ""
+
+#: tformabouttrayslate.labelby.caption
+msgid "by Alexander Tverskoy is licensed under"
+msgstr ""
+
+#: tformabouttrayslate.labelby1.caption
+msgid "the GNU General Public License, Version 3 "
+msgstr ""
+
+#: tformabouttrayslate.labellic.caption
+msgid "For questions or feedback, contact me at"
+msgstr ""
+
+#: tformabouttrayslate.labellicurl.caption
+msgid "mailto:astverskoy@gmail.com"
+msgstr ""
+
+#: tformabouttrayslate.labelname.caption
+msgid "Trayslator © 2026"
+msgstr ""
+
+#: tformconfigtrayslate.asave.caption
+msgctxt "tformconfigtrayslate.asave.caption"
+msgid "Save"
+msgstr ""
+
+#: tformconfigtrayslate.btnclose.caption
+msgctxt "tformconfigtrayslate.btnclose.caption"
+msgid "Close"
+msgstr ""
+
+#: tformconfigtrayslate.caption
+msgctxt "tformconfigtrayslate.caption"
+msgid "Config Editor"
+msgstr ""
+
+#: tformconfigtrayslate.checkencrypttext.caption
+msgid "URL-encode {text} parameter"
+msgstr ""
+
+#: tformconfigtrayslate.combomethod.text
+msgid "GET"
+msgstr ""
+
+#: tformconfigtrayslate.comboresponseparser.text
+msgctxt "tformconfigtrayslate.comboresponseparser.text"
+msgid "JSON"
+msgstr ""
+
+#: tformconfigtrayslate.groupboxservice.caption
+msgctxt "tformconfigtrayslate.groupboxservice.caption"
+msgid "Service"
+msgstr ""
+
+#: tformconfigtrayslate.groupheaders.caption
+msgctxt "tformconfigtrayslate.groupheaders.caption"
+msgid "Headers"
+msgstr ""
+
+#: tformconfigtrayslate.grouplanguages.caption
+msgctxt "tformconfigtrayslate.grouplanguages.caption"
+msgid "Languages"
+msgstr ""
+
+#: tformconfigtrayslate.grouplanguagestarget.caption
+msgctxt "tformconfigtrayslate.grouplanguagestarget.caption"
+msgid "Target Languages"
+msgstr ""
+
+#: tformconfigtrayslate.grouprequest.caption
+msgid "Request"
+msgstr ""
+
+#: tformconfigtrayslate.groupresponse.caption
+msgid "Response"
+msgstr ""
+
+#: tformconfigtrayslate.labelaccept.caption
+msgid "Accept"
+msgstr ""
+
+#: tformconfigtrayslate.labelcontenttype.caption
+msgctxt "tformconfigtrayslate.labelcontenttype.caption"
+msgid "Content Type"
+msgstr ""
+
+#: tformconfigtrayslate.labelfilllanguages.caption
+msgid "Fill with default"
+msgstr ""
+
+#: tformconfigtrayslate.labelheaders.caption
+msgid "Additional request headers in key=value format, key: value is also supported"
+msgstr ""
+
+#: tformconfigtrayslate.labeljsonpointer.caption
+msgid "Json Pointer"
+msgstr ""
+
+#: tformconfigtrayslate.labellanguages.caption
+msgctxt "tformconfigtrayslate.labellanguages.caption"
+msgid "Supported languages e.g. en=en-US, en - internal, en-US - service code."
+msgstr ""
+
+#: tformconfigtrayslate.labellanguagestarget.caption
+msgid ""
+"Target languages e.g. en=en-US, en - internal, en-US - service code.\n"
+"If not specified, both source and target languages are taken from the languages section."
+msgstr ""
+
+#: tformconfigtrayslate.labelmethod.caption
+msgctxt "tformconfigtrayslate.labelmethod.caption"
+msgid "Method"
+msgstr ""
+
+#: tformconfigtrayslate.labelparemeters.caption
+msgctxt "tformconfigtrayslate.labelparemeters.caption"
+msgid "Use parameters  {text} – input text, {source} – source language, {target} – target language"
+msgstr ""
+
+#: tformconfigtrayslate.labelparemeters2.caption
+msgctxt "tformconfigtrayslate.labelparemeters2.caption"
+msgid ""
+"In Json Pointer use / to separate levels, strings for object keys, numbers for array indexes, * for all array items, *#10 for all items joined by newline.\n"
+"Examples: /0/*/0, responseData/translatedText, matches/*#10/translation"
+msgstr ""
+
+#: tformconfigtrayslate.labelpostdata.caption
+msgid "Post Data"
+msgstr ""
+
+#: tformconfigtrayslate.labelregexp.caption
+msgctxt "tformconfigtrayslate.labelregexp.caption"
+msgid "RegExp"
+msgstr ""
+
+#: tformconfigtrayslate.labelresponseparser.caption
+msgctxt "tformconfigtrayslate.labelresponseparser.caption"
+msgid "Parse Type"
+msgstr ""
+
+#: tformconfigtrayslate.labelservicename.caption
+msgid "Name"
+msgstr ""
+
+#: tformconfigtrayslate.labelurl.caption
+msgctxt "tformconfigtrayslate.labelurl.caption"
+msgid "URL"
+msgstr ""
+
+#: tformconfigtrayslate.labeluseragent.caption
+msgctxt "tformconfigtrayslate.labeluseragent.caption"
+msgid "User Agent"
+msgstr ""
+
+#: tformconfigtrayslate.pageheaders.caption
+msgctxt "tformconfigtrayslate.pageheaders.caption"
+msgid "Headers"
+msgstr ""
+
+#: tformconfigtrayslate.pagelanguages.caption
+msgctxt "tformconfigtrayslate.pagelanguages.caption"
+msgid "Languages"
+msgstr ""
+
+#: tformconfigtrayslate.pagelanguagestarget.caption
+msgctxt "tformconfigtrayslate.pagelanguagestarget.caption"
+msgid "Target Languages"
+msgstr ""
+
+#: tformconfigtrayslate.pageservice.caption
+msgctxt "tformconfigtrayslate.pageservice.caption"
+msgid "Service"
+msgstr ""
+
+#: tformconfigtrayslate.sbcopyconfig.hint
+msgid "Copy configuration"
+msgstr ""
+
+#: tformconfigtrayslate.sbnewconfig.hint
+msgid "New configuration"
+msgstr ""
+
+#: tformdonatetrayslate.buttonok.caption
+msgctxt "tformdonatetrayslate.buttonok.caption"
+msgid "OK"
+msgstr ""
+
+#: tformdonatetrayslate.caption
+msgid "Buy me a coffee"
+msgstr ""
+
+#: tformdonatetrayslate.editwallet1.text
+msgid "bc1qp8m5j75yd58zhf9hl0a753shay093j2548f84e"
+msgstr ""
+
+#: tformdonatetrayslate.editwallet2.text
+msgctxt "tformdonatetrayslate.editwallet2.text"
+msgid "0x328e689E961c3Abb143835f8677947Fa9eaF9f6F"
+msgstr ""
+
+#: tformdonatetrayslate.editwallet3.text
+msgctxt "tformdonatetrayslate.editwallet3.text"
+msgid "0x328e689E961c3Abb143835f8677947Fa9eaF9f6F"
+msgstr ""
+
+#: tformdonatetrayslate.editwallet4.text
+msgid "TYSJJHjpu6aqr8UsGaCTLxDyh6HKWoNQ8k"
+msgstr ""
+
+#: tformdonatetrayslate.label1.caption
+msgid "Hey there! Fuel this passion project with a little caffeine boost! Every donation helps keep the code rolling and the coffee brewing. Thanks for supporting the work and the developer behind it!"
+msgstr ""
+
+#: tformdonatetrayslate.label10.caption
+msgid "Feel free to make a donation through any exchange, for example:"
+msgstr ""
+
+#: tformdonatetrayslate.label2.caption
+msgid "BTC"
+msgstr ""
+
+#: tformdonatetrayslate.label3.caption
+msgid "Bitcoin (BTC)"
+msgstr ""
+
+#: tformdonatetrayslate.label4.caption
+msgid "ETH"
+msgstr ""
+
+#: tformdonatetrayslate.label5.caption
+msgid "Ethereum (ERC20)"
+msgstr ""
+
+#: tformdonatetrayslate.label6.caption
+msgctxt "tformdonatetrayslate.label6.caption"
+msgid "USDT"
+msgstr ""
+
+#: tformdonatetrayslate.label7.caption
+msgid "ETH Ethereum (ERC20), BSC Binance Smart Chain (BEP20)"
+msgstr ""
+
+#: tformdonatetrayslate.label8.caption
+msgid "TRX Tron (TRC20)"
+msgstr ""
+
+#: tformdonatetrayslate.label9.caption
+msgctxt "tformdonatetrayslate.label9.caption"
+msgid "USDT"
+msgstr ""
+
+#: tformdonatetrayslate.labelurl.caption
+msgctxt "tformdonatetrayslate.labelurl.caption"
+msgid "Changelly.com"
+msgstr ""
+
+#: tformdonatetrayslate.labelurl.hint
+msgctxt "tformdonatetrayslate.labelurl.hint"
+msgid "https://changelly.com/buy-crypto?amount=15&from=usd"
+msgstr ""
+
+#: tformdonatetrayslate.labelurl1.caption
+msgid "How to do it easily"
+msgstr ""
+
+#: tformdonatetrayslate.labelurl1.hint
+msgid "https://plaintool.github.io/notetask/donate.htm"
+msgstr ""
+
+#: tformsettingstrayslate.btnapply.caption
+msgid "Apply"
+msgstr ""
+
+#: tformsettingstrayslate.btncancel.caption
+msgid "Cancel"
+msgstr ""
+
+#: tformsettingstrayslate.btnfont.caption
+msgctxt "tformsettingstrayslate.btnfont.caption"
+msgid "Font..."
+msgstr ""
+
+#: tformsettingstrayslate.btnok.caption
+msgctxt "tformsettingstrayslate.btnok.caption"
+msgid "OK"
+msgstr ""
+
+#: tformsettingstrayslate.btnreset.caption
+msgctxt "tformsettingstrayslate.btnreset.caption"
+msgid "Reset"
+msgstr ""
+
+#: tformsettingstrayslate.caption
+msgid "Settings"
+msgstr ""
+
+#: tformsettingstrayslate.checkautostart.caption
+msgid "Launch at system startup"
+msgstr ""
+
+#: tformsettingstrayslate.checkswaptranslate.caption
+msgid "Swap source and translation when swapping languages"
+msgstr ""
+
+#: tformsettingstrayslate.checktranslateasyoutype.caption
+msgid "Translate as you type"
+msgstr ""
+
+#: tformsettingstrayslate.checktwolang.caption
+msgid "Two languages"
+msgstr ""
+
+#: tformsettingstrayslate.editapp.hint
+msgctxt "tformsettingstrayslate.editapp.hint"
+msgid "Default Ctrl+Shift+A"
+msgstr ""
+
+#: tformsettingstrayslate.edittransclipboard.hint
+msgctxt "tformsettingstrayslate.edittransclipboard.hint"
+msgid "Default: Ctrl+Shift+R"
+msgstr ""
+
+#: tformsettingstrayslate.edittranscontrol.hint
+msgctxt "tformsettingstrayslate.edittranscontrol.hint"
+msgid "Default: Ctrl+Shift+V"
+msgstr ""
+
+#: tformsettingstrayslate.edittransfromclipboard.hint
+msgctxt "tformsettingstrayslate.edittransfromclipboard.hint"
+msgid "Default: Ctrl+Shift+T"
+msgstr ""
+
+#: tformsettingstrayslate.edittransfromcontrol.hint
+msgctxt "tformsettingstrayslate.edittransfromcontrol.hint"
+msgid "Default: Ctrl+Shift+C"
+msgstr ""
+
+#: tformsettingstrayslate.edittransswap.hint
+msgctxt "tformsettingstrayslate.edittransswap.hint"
+msgid "Default: Ctrl+Shift+S"
+msgstr ""
+
+#: tformsettingstrayslate.groupapp.caption
+msgid "Toggle Application (Tray Icon Click)"
+msgstr ""
+
+#: tformsettingstrayslate.groupfont.caption
+msgctxt "tformsettingstrayslate.groupfont.caption"
+msgid "Font"
+msgstr ""
+
+#: tformsettingstrayslate.grouplangpairs.caption
+msgctxt "tformsettingstrayslate.grouplangpairs.caption"
+msgid "Recent Language Pairs"
+msgstr ""
+
+#: tformsettingstrayslate.groupoptions.caption
+msgid "Options"
+msgstr ""
+
+#: tformsettingstrayslate.grouptransclipboard.caption
+msgid "Translate Clipboard to Clipboard"
+msgstr ""
+
+#: tformsettingstrayslate.grouptranscontrol.caption
+msgid "Translate In Active Application Selection"
+msgstr ""
+
+#: tformsettingstrayslate.grouptransfromclipboard.caption
+msgid "Translate From Clipboard (Tray Icon Double-Click)"
+msgstr ""
+
+#: tformsettingstrayslate.grouptransfromcontrol.caption
+msgid "Translate From Active Application Selection"
+msgstr ""
+
+#: tformsettingstrayslate.grouptransswap.caption
+msgctxt "tformsettingstrayslate.grouptransswap.caption"
+msgid "Swap Languages (Tray Icon Middle Click)"
+msgstr ""
+
+#: tformsettingstrayslate.grouptrayicon.caption
+msgid "Tray Icon"
+msgstr ""
+
+#: tformsettingstrayslate.labelapp.caption
+msgctxt "tformsettingstrayslate.labelapp.caption"
+msgid "Shows or hides the main application window"
+msgstr ""
+
+#: tformsettingstrayslate.labeliconbackground.caption
+msgid "Background Color"
+msgstr ""
+
+#: tformsettingstrayslate.labeliconfont.caption
+msgid "Font Color"
+msgstr ""
+
+#: tformsettingstrayslate.labelmaxlangpairs.caption
+msgctxt "tformsettingstrayslate.labelmaxlangpairs.caption"
+msgid "Max Pairs"
+msgstr ""
+
+#: tformsettingstrayslate.labeltransclipboard.caption
+msgctxt "tformsettingstrayslate.labeltransclipboard.caption"
+msgid "Translates the current text in clipboard and copies the result to the clipboard"
+msgstr ""
+
+#: tformsettingstrayslate.labeltranscontrol.caption
+msgctxt "tformsettingstrayslate.labeltranscontrol.caption"
+msgid "Replaces the selected text in the active application with the translation"
+msgstr ""
+
+#: tformsettingstrayslate.labeltransfromclipboard.caption
+msgctxt "tformsettingstrayslate.labeltransfromclipboard.caption"
+msgid "Translates the current text from the clipboard"
+msgstr ""
+
+#: tformsettingstrayslate.labeltransfromcontrol.caption
+msgctxt "tformsettingstrayslate.labeltransfromcontrol.caption"
+msgid "Translates the selected text from the active application"
+msgstr ""
+
+#: tformsettingstrayslate.labeltransswap.caption
+msgctxt "tformsettingstrayslate.labeltransswap.caption"
+msgid "Swaps the source and target languages"
+msgstr ""
+
+#: tformsettingstrayslate.pagehotkeys.caption
+msgid "Global Hotkeys"
+msgstr ""
+
+#: tformsettingstrayslate.pageinterface.caption
+msgctxt "tformsettingstrayslate.pageinterface.caption"
+msgid "Interface"
+msgstr ""
+
+#: tformsettingstrayslate.panelfont.caption
+msgctxt "tformsettingstrayslate.panelfont.caption"
+msgid "Default, 0"
+msgstr ""
+
+#: tformtrayslate.aabout.caption
+msgid "About..."
+msgstr ""
+
+#: tformtrayslate.acheckforupdates.caption
+msgid "Check For Updates"
+msgstr ""
+
+#: tformtrayslate.aconfigeditor.caption
+msgid "Config Editor..."
+msgstr ""
+
+#: tformtrayslate.adonate.caption
+msgid "Buy Me a Coffee..."
+msgstr ""
+
+#: tformtrayslate.aexit.caption
+msgid "Exit"
+msgstr ""
+
+#: tformtrayslate.asettings.caption
+msgid "Settings..."
+msgstr ""
+
+#: tformtrayslate.ashow.caption
+msgid "Show"
+msgstr ""
+
+#: tformtrayslate.aswap.hint
+msgid "Swap"
+msgstr ""
+
+#: tformtrayslate.atranslate.hint
+msgctxt "tformtrayslate.atranslate.hint"
+msgid ""
+"Translate\n"
+"Ctrl ¦ Shift ¦ Enter + Enter"
+msgstr ""
+
+#: tformtrayslate.atranslateclipboard.caption
+msgid "Translate Clipboard"
+msgstr ""
+
+#: tformtrayslate.caption
+msgctxt "tformtrayslate.caption"
+msgid "Trayslator"
+msgstr ""
+
+#: tformtrayslate.menuconfig.caption
+msgid "Config"
+msgstr ""
+
+#: tformtrayslate.menuhelp.caption
+msgid "Help"
+msgstr ""
+
+#: tformtrayslate.menulangpairs.caption
+msgid "Recent Pairs"
+msgstr ""
+

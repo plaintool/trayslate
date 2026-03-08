@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------------
-//  Trayslator © 2024 by Alexander Tverskoy
+//  Trayslate © 2024 by Alexander Tverskoy
 //  Licensed under the GNU General Public License, Version 3 (GPL-3.0)
 //  You may obtain a copy of the License at https://www.gnu.org/licenses/gpl-3.0.html
 //-----------------------------------------------------------------------------------
@@ -38,9 +38,9 @@ uses
 
 type
 
-  { TformTrayslator }
+  { TformTrayslate }
 
-  TformTrayslator = class(TForm)
+  TformTrayslate = class(TForm)
     aAbout: TAction;
     aConfigEditor: TAction;
     aCheckForUpdates: TAction;
@@ -215,13 +215,13 @@ type
   end;
 
 var
-  formTrayslator: TformTrayslator;
+  formTrayslate: TformTrayslate;
 
 const
   DOUBLE_ENTER_INTERVAL = 200; // ms
 
 resourcestring
-  rtrayslator = 'Trayslator';
+  rtrayslate = 'Trayslate';
   noconfig = 'Configuration file not found! Create it in the configuration editor.';
 
 implementation
@@ -230,11 +230,11 @@ uses formdonate, formabout, formsettings, formconfig, settings, languages, syste
 
   {$R *.lfm}
 
-  { TformTrayslator }
+  { TformTrayslate }
 
   {Form Events}
 
-procedure TformTrayslator.FormCreate(Sender: TObject);
+procedure TformTrayslate.FormCreate(Sender: TObject);
 begin
   // Default values
   FConfigFile := string.Empty;
@@ -331,10 +331,10 @@ begin
   FTopMost := False;
 end;
 
-procedure TformTrayslator.FormDestroy(Sender: TObject);
+procedure TformTrayslate.FormDestroy(Sender: TObject);
 begin
-  if Assigned(formConfigTrayslator) then
-    FreeAndNil(formConfigTrayslator);
+  if Assigned(formConfigTrayslate) then
+    FreeAndNil(formConfigTrayslate);
   {$IFDEF WINDOWS}
   UnregisterHotKeys;
   {$ENDIF}
@@ -348,29 +348,29 @@ begin
   Trans.Free;
 end;
 
-procedure TformTrayslator.FormCloseQuery(Sender: TObject; var CanClose: boolean);
+procedure TformTrayslate.FormCloseQuery(Sender: TObject; var CanClose: boolean);
 begin
   CanClose := False;
   Hide;
 end;
 
-procedure TformTrayslator.FormActivate(Sender: TObject);
+procedure TformTrayslate.FormActivate(Sender: TObject);
 begin
   FTopMost := True;
 end;
 
-procedure TformTrayslator.FormResize(Sender: TObject);
+procedure TformTrayslate.FormResize(Sender: TObject);
 begin
   PanelLang.Top := 0;
 end;
 
-procedure TformTrayslator.FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+procedure TformTrayslate.FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
   if Key = VK_ESCAPE then
     Hide;
 end;
 
-procedure TformTrayslator.FormWindowStateChange(Sender: TObject);
+procedure TformTrayslate.FormWindowStateChange(Sender: TObject);
 begin
   if WindowState = wsMinimized then
     WindowState := wsNormal;
@@ -378,14 +378,14 @@ end;
 
 {$IFDEF WINDOWS}
 
-procedure TformTrayslator.WMActivate(var Message: TLMActivate);
+procedure TformTrayslate.WMActivate(var Message: TLMActivate);
 begin
   inherited;
   if Message.Active <> WA_INACTIVE then
     FTopMost := True;
 end;
 
-procedure TformTrayslator.WndProc(var TheMessage: TLMessage);
+procedure TformTrayslate.WndProc(var TheMessage: TLMessage);
 begin
   if TheMessage.msg = WM_HOTKEY then
   begin
@@ -434,24 +434,24 @@ end;
 
 {Application Events}
 
-procedure TformTrayslator.ApplicationOnActivate(Sender: TObject);
+procedure TformTrayslate.ApplicationOnActivate(Sender: TObject);
 begin
   FTopMost := True;
 end;
 
-procedure TformTrayslator.ApplicationOnDeactivate(Sender: TObject);
+procedure TformTrayslate.ApplicationOnDeactivate(Sender: TObject);
 begin
   TimerActive.Enabled := True;
 end;
 
-procedure TformTrayslator.ApplicationOnException(Sender: TObject; E: Exception);
+procedure TformTrayslate.ApplicationOnException(Sender: TObject; E: Exception);
 begin
-  MessageDlg(rtrayslator, E.Message, mtWarning, [mbOK], 0);
+  MessageDlg(rtrayslate, E.Message, mtWarning, [mbOK], 0);
 end;
 
 {Actions Events}
 
-procedure TformTrayslator.aShowExecute(Sender: TObject);
+procedure TformTrayslate.aShowExecute(Sender: TObject);
 begin
   if Showing then
   begin
@@ -462,52 +462,52 @@ begin
     Show;
 end;
 
-procedure TformTrayslator.aTranslateClipboardExecute(Sender: TObject);
+procedure TformTrayslate.aTranslateClipboardExecute(Sender: TObject);
 begin
   TranslateFromClipboard;
 end;
 
-procedure TformTrayslator.aTranslateExecute(Sender: TObject);
+procedure TformTrayslate.aTranslateExecute(Sender: TObject);
 begin
   Translate;
 end;
 
-procedure TformTrayslator.aSettingsExecute(Sender: TObject);
+procedure TformTrayslate.aSettingsExecute(Sender: TObject);
 begin
-  if Assigned(formSettingsTrayslator) then
+  if Assigned(formSettingsTrayslate) then
   begin
-    if formSettingsTrayslator.Visible and formSettingsTrayslator.CanSetFocus then
-      formSettingsTrayslator.SetFocus;
+    if formSettingsTrayslate.Visible and formSettingsTrayslate.CanSetFocus then
+      formSettingsTrayslate.SetFocus;
     exit;
   end;
 
-  formSettingsTrayslator := TformSettingsTrayslator.Create(nil);
+  formSettingsTrayslate := TformSettingsTrayslate.Create(nil);
   try
     UnregisterHotKeys;
-    formSettingsTrayslator.ShowModal;
+    formSettingsTrayslate.ShowModal;
   finally
-    FreeAndNil(formSettingsTrayslator);
+    FreeAndNil(formSettingsTrayslate);
     RegisterHotKeys;
   end;
 end;
 
-procedure TformTrayslator.aConfigEditorExecute(Sender: TObject);
+procedure TformTrayslate.aConfigEditorExecute(Sender: TObject);
 begin
-  if not Assigned(formConfigTrayslator) then
-    formConfigTrayslator := TformConfigTrayslator.Create(nil);
+  if not Assigned(formConfigTrayslate) then
+    formConfigTrayslate := TformConfigTrayslate.Create(nil);
   if FormConfigLeft > 0 then
-    formConfigTrayslator.Left := FormConfigLeft;
+    formConfigTrayslate.Left := FormConfigLeft;
   if FormConfigTop > 0 then
-    formConfigTrayslator.Top := FormConfigTop;
+    formConfigTrayslate.Top := FormConfigTop;
   if FormConfigWidth > 0 then
-    formConfigTrayslator.Width := FormConfigWidth;
+    formConfigTrayslate.Width := FormConfigWidth;
   if FormConfigHeight > 0 then
-    formConfigTrayslator.Height := FormConfigHeight;
-  formConfigTrayslator.Show;
-  formConfigTrayslator.BringToFront;
+    formConfigTrayslate.Height := FormConfigHeight;
+  formConfigTrayslate.Show;
+  formConfigTrayslate.BringToFront;
 end;
 
-procedure TformTrayslator.aSwapExecute(Sender: TObject);
+procedure TformTrayslate.aSwapExecute(Sender: TObject);
 var
   srcIndex: integer;
   srcText: string;
@@ -527,59 +527,59 @@ begin
   end;
 end;
 
-procedure TformTrayslator.aCheckForUpdatesExecute(Sender: TObject);
+procedure TformTrayslate.aCheckForUpdatesExecute(Sender: TObject);
 begin
   CheckGithubLatestVersion();
 end;
 
-procedure TformTrayslator.aDonateExecute(Sender: TObject);
+procedure TformTrayslate.aDonateExecute(Sender: TObject);
 begin
-  formDonateTrayslator := TformDonateTrayslator.Create(nil);
+  formDonateTrayslate := TformDonateTrayslate.Create(nil);
   try
-    formDonateTrayslator.ShowModal;
+    formDonateTrayslate.ShowModal;
   finally
-    formDonateTrayslator.Free;
+    formDonateTrayslate.Free;
   end;
 end;
 
-procedure TformTrayslator.aAboutExecute(Sender: TObject);
+procedure TformTrayslate.aAboutExecute(Sender: TObject);
 begin
-  formAboutTrayslator := TformAboutTrayslator.Create(nil);
+  formAboutTrayslate := TformAboutTrayslate.Create(nil);
   try
-    formAboutTrayslator.ShowModal;
+    formAboutTrayslate.ShowModal;
   finally
-    formAboutTrayslator.Free;
+    formAboutTrayslate.Free;
   end;
 end;
 
-procedure TformTrayslator.aExitExecute(Sender: TObject);
+procedure TformTrayslate.aExitExecute(Sender: TObject);
 begin
   Application.Terminate;
 end;
 
 {Control Events}
 
-procedure TformTrayslator.ComboSourceChange(Sender: TObject);
+procedure TformTrayslate.ComboSourceChange(Sender: TObject);
 begin
   ChangeSourceLang(ComboSource.Text);
 end;
 
-procedure TformTrayslator.ComboTargetChange(Sender: TObject);
+procedure TformTrayslate.ComboTargetChange(Sender: TObject);
 begin
   ChangeTargetLang(ComboTarget.Text);
 end;
 
-procedure TformTrayslator.ComboSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+procedure TformTrayslate.ComboSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
   if (Key = VK_RETURN) then ComboSourceChange(Self);
 end;
 
-procedure TformTrayslator.ComboTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+procedure TformTrayslate.ComboTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
   if (Key = VK_RETURN) then ComboTargetChange(Self);
 end;
 
-procedure TformTrayslator.MemoSourceChange(Sender: TObject);
+procedure TformTrayslate.MemoSourceChange(Sender: TObject);
 begin
   if FTranslateAsYouType then
   begin
@@ -589,20 +589,20 @@ begin
   end;
 end;
 
-procedure TformTrayslator.MemoSourceEnter(Sender: TObject);
+procedure TformTrayslate.MemoSourceEnter(Sender: TObject);
 begin
   //MemoSource.SelStart := 0;
   //MemoSource.SelLength := Length(MemoSource.Text);
 end;
 
-procedure TformTrayslator.MemoTargetEnter(Sender: TObject);
+procedure TformTrayslate.MemoTargetEnter(Sender: TObject);
 begin
   MemoTarget.SelStart := 0;
   MemoTarget.SelLength := Length(MemoTarget.Text);
   Clipboard.AsText := MemoTarget.Text;
 end;
 
-procedure TformTrayslator.MemoTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+procedure TformTrayslate.MemoTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
   if (ssCtrl in Shift) and (Key = VK_V) then // Ctrl + V
   begin
@@ -611,7 +611,7 @@ begin
   end;
 end;
 
-procedure TformTrayslator.MemoSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+procedure TformTrayslate.MemoSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 var
   NowTime: DWORD;
 begin
@@ -659,11 +659,11 @@ begin
   end;
 end;
 
-procedure TFormTrayslator.ConfigItemClick(Sender: TObject);
+procedure TFormTrayslate.ConfigItemClick(Sender: TObject);
 var
   Item: TMenuItem;
 begin
-  if (Assigned(formConfigTrayslator)) and (formConfigTrayslator.Showing) and (not formConfigTrayslator.TestChanges) then
+  if (Assigned(formConfigTrayslate)) and (formConfigTrayslate.Showing) and (not formConfigTrayslate.TestChanges) then
     Exit;
 
   Item := TMenuItem(Sender);
@@ -672,14 +672,14 @@ begin
   FConfigFile := FConfigFiles[Item.Tag];
   LoadConfig;
 
-  if (Assigned(formConfigTrayslator)) and (formConfigTrayslator.Showing) then
+  if (Assigned(formConfigTrayslate)) and (formConfigTrayslate.Showing) then
   begin
-    formConfigTrayslator.UpdateConfigList;
-    formConfigTrayslator.UpdateConfig;
+    formConfigTrayslate.UpdateConfigList;
+    formConfigTrayslate.UpdateConfig;
   end;
 end;
 
-procedure TformTrayslator.PanelLangResize(Sender: TObject);
+procedure TformTrayslate.PanelLangResize(Sender: TObject);
 begin
   if PanelLang.Tag = 1 then Exit;
   PanelLang.Tag := 1;
@@ -687,7 +687,7 @@ begin
   Application.QueueAsyncCall(@DoRealign, 0);
 end;
 
-procedure TformTrayslator.TrayIconMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
+procedure TformTrayslate.TrayIconMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
 begin
   FLeftButton := Button = mbLeft;
 
@@ -695,7 +695,7 @@ begin
     aSwap.Execute;
 end;
 
-procedure TformTrayslator.TrayIconClick(Sender: TObject);
+procedure TformTrayslate.TrayIconClick(Sender: TObject);
 begin
   if not FLeftButton then exit;
 
@@ -740,7 +740,7 @@ begin
   end;
 end;
 
-procedure TformTrayslator.TimerClickTimer(Sender: TObject);
+procedure TformTrayslate.TimerClickTimer(Sender: TObject);
 begin
   TimerClick.Enabled := False;
   if (TimerClick.Tag = 1) then
@@ -762,7 +762,7 @@ begin
   end;
 end;
 
-procedure TformTrayslator.TimerActiveTimer(Sender: TObject);
+procedure TformTrayslate.TimerActiveTimer(Sender: TObject);
 begin
   TimerActive.Enabled := False;
 
@@ -770,17 +770,17 @@ begin
     FTopMost := False;
 end;
 
-procedure TformTrayslator.LabelMouseEnter(Sender: TObject);
+procedure TformTrayslate.LabelMouseEnter(Sender: TObject);
 begin
   (Sender as TLabel).Font.Style := [fsUnderline];
 end;
 
-procedure TformTrayslator.LabelMouseLeave(Sender: TObject);
+procedure TformTrayslate.LabelMouseLeave(Sender: TObject);
 begin
   (Sender as TLabel).Font.Style := [];
 end;
 
-procedure TformTrayslator.LabelLangMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
+procedure TformTrayslate.LabelLangMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
 begin
   if Button = mbMiddle then
   begin
@@ -794,14 +794,14 @@ begin
   SelectPair((Sender as TLabel).Caption);
 end;
 
-procedure TformTrayslator.MenuPairClick(Sender: TObject);
+procedure TformTrayslate.MenuPairClick(Sender: TObject);
 begin
   SelectPair((Sender as TMenuItem).Caption);
 end;
 
 {Methods}
 
-procedure TformTrayslator.SetIcon;
+procedure TformTrayslate.SetIcon;
 var
   Ico: TIcon;
 begin
@@ -815,7 +815,7 @@ begin
   end;
 end;
 
-procedure TformTrayslator.LoadConfig;
+procedure TformTrayslate.LoadConfig;
 var
   List: TStringList;
 begin
@@ -825,7 +825,7 @@ begin
   LoadIniSettings(Trans, FConfigFile);
 
   // Form caption with config file name
-  Caption := rtrayslator + ifthen(Trans.ServiceName <> string.Empty, ' - ' + Trans.ServiceName,
+  Caption := rtrayslate + ifthen(Trans.ServiceName <> string.Empty, ' - ' + Trans.ServiceName,
     ifthen(FConfigFile <> string.Empty, ' - ' + ExtractFileName(FConfigFile), string.Empty));
 
   // Init language lists
@@ -895,7 +895,7 @@ begin
     ComboTarget.Text := string.Empty;
 end;
 
-procedure TFormTrayslator.BuildConfigMenu;
+procedure TFormTrayslate.BuildConfigMenu;
 var
   i: integer;
   Item: TMenuItem;
@@ -941,7 +941,7 @@ begin
   end;
 end;
 
-procedure TFormTrayslator.UpdateCheckConfigMenu;
+procedure TFormTrayslate.UpdateCheckConfigMenu;
 var
   i: integer;
 begin
@@ -954,7 +954,7 @@ begin
   end;
 end;
 
-procedure TformTrayslator.DoRealign(Data: PtrInt);
+procedure TformTrayslate.DoRealign(Data: PtrInt);
 var
   Available, Border: integer;
 begin
@@ -995,7 +995,7 @@ begin
   end;
 end;
 
-procedure TformTrayslator.RebuildLangPairsPanel(Data: PtrInt);
+procedure TformTrayslate.RebuildLangPairsPanel(Data: PtrInt);
 var
   lbl: TLabel;
   mi: TMenuItem;
@@ -1065,7 +1065,7 @@ end;
 
 {$IFDEF WINDOWS}
 
-procedure TformTrayslator.UnregisterHotKeys;
+procedure TformTrayslate.UnregisterHotKeys;
 begin
   UnregisterHotKey(Handle, HOTKEY_APP);
   UnregisterHotKey(Handle, HOTKEY_TRANS_SWAP);
@@ -1075,7 +1075,7 @@ begin
   UnregisterHotKey(Handle, HOTKEY_TRANS_CONTROL);
 end;
 
-procedure TformTrayslator.RegisterHotKeys;
+procedure TformTrayslate.RegisterHotKeys;
 begin
   // Unregister first to avoid duplicate registration
   UnregisterHotKeys;
@@ -1102,7 +1102,7 @@ end;
 
 {$ENDIF}
 
-procedure TformTrayslator.Translate;
+procedure TformTrayslate.Translate;
 begin
   if Trim(MemoSource.Text) = string.Empty then Exit;
 
@@ -1116,7 +1116,7 @@ begin
   end;
 end;
 
-procedure TformTrayslator.TranslateFromClipboard;
+procedure TformTrayslate.TranslateFromClipboard;
 begin
   if not Showing then
     Show;
@@ -1130,7 +1130,7 @@ begin
   end;
 end;
 
-procedure TformTrayslator.TranslateClipboard;
+procedure TformTrayslate.TranslateClipboard;
 var
   Th: TTranslateThread;
 begin
@@ -1159,7 +1159,7 @@ begin
   end;
 end;
 
-procedure TformTrayslator.TranslateFromControl(Data: PtrInt);
+procedure TformTrayslate.TranslateFromControl(Data: PtrInt);
 var
   OriginalClip, SelectedText: string;
 begin
@@ -1194,7 +1194,7 @@ begin
   end;
 end;
 
-procedure TformTrayslator.TranslateControl(Data: PtrInt);
+procedure TformTrayslate.TranslateControl(Data: PtrInt);
 var
   OriginalClip: string;
   Th: TTranslateThread;
@@ -1252,7 +1252,7 @@ begin
   end;
 end;
 
-procedure TformTrayslator.ChangeSourceLang(NewLang: string);
+procedure TformTrayslate.ChangeSourceLang(NewLang: string);
 var
   idx, idnative: integer;
 begin
@@ -1281,7 +1281,7 @@ begin
   end;
 end;
 
-procedure TformTrayslator.ChangeTargetLang(NewLang: string);
+procedure TformTrayslate.ChangeTargetLang(NewLang: string);
 var
   idx, idnative: integer;
 begin
@@ -1319,20 +1319,20 @@ begin
   end;
 end;
 
-procedure TformTrayslator.ProcessMessages;
+procedure TformTrayslate.ProcessMessages;
 begin
   Application.ProcessMessages;
   Repaint;
   Application.ProcessMessages;
 end;
 
-procedure TformTrayslator.SetAutoStart(Value: boolean);
+procedure TformTrayslate.SetAutoStart(Value: boolean);
 begin
   FAutoStart := Value;
-  RegAutoStart(FAutoStart, rtrayslator);
+  RegAutoStart(FAutoStart, rtrayslate);
 end;
 
-procedure TformTrayslator.AddLangPair(const Pair: string);
+procedure TformTrayslate.AddLangPair(const Pair: string);
 var
   idx: integer;
 begin
@@ -1350,7 +1350,7 @@ begin
     FLangPairs.Delete(FLangPairs.Count - 1);
 end;
 
-procedure TformTrayslator.SelectPair(const Pair: string);
+procedure TformTrayslate.SelectPair(const Pair: string);
 var
   fromLang, toLang: string;
   p, idxnative: integer;

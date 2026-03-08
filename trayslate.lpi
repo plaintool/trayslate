@@ -5,20 +5,20 @@
     <PathDelim Value="\"/>
     <General>
       <SessionStorage Value="InProjectDir"/>
-      <Title Value="Trayslator"/>
+      <Title Value="Trayslate"/>
       <Scaled Value="True"/>
-      <NSPrincipalClass Value="trayslator"/>
+      <NSPrincipalClass Value="trayslate"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
       <XPManifest>
         <DpiAware Value="True"/>
-        <TextName Value="trayslator"/>
+        <TextName Value="trayslate"/>
         <TextDesc Value=""/>
       </XPManifest>
       <Icon Value="0"/>
       <Resources Count="2">
-        <Resource_0 FileName="locale\trayslator.en.po" Type="RCDATA" ResourceName="TRAYSLATOR.EN"/>
-        <Resource_1 FileName="locale\trayslator.ru.po" Type="RCDATA" ResourceName="TRAYSLATOR.RU"/>
+        <Resource_0 FileName="locale\trayslate.en.po" Type="RCDATA" ResourceName="TRAYSLATE.EN"/>
+        <Resource_1 FileName="locale\trayslate.ru.po" Type="RCDATA" ResourceName="TRAYSLATE.RU"/>
       </Resources>
     </General>
     <i18n>
@@ -28,7 +28,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="1"/>
-      <StringTable CompanyName="plaintool" FileDescription="Trayslator" LegalCopyright="Alexander Tverskoy" ProductName="Trayslator" ProductVersion="1.0.0"/>
+      <StringTable CompanyName="plaintool" FileDescription="Trayslate" LegalCopyright="Alexander Tverskoy" ProductName="Trayslate" ProductVersion="1.0.0"/>
     </VersionInfo>
     <BuildModes>
       <Item Name="Debug" Default="True"/>
@@ -37,7 +37,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="trayslator"/>
+            <Filename Value="trayslate"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -87,7 +87,7 @@
     </RequiredPackages>
     <Units>
       <Unit>
-        <Filename Value="trayslator.lpr"/>
+        <Filename Value="trayslate.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
@@ -101,35 +101,35 @@
       <Unit>
         <Filename Value="forms\mainform.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="formTrayslator"/>
+        <ComponentName Value="formTrayslate"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
         <Filename Value="forms\formsettings.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="formSettingsTrayslator"/>
+        <ComponentName Value="formSettingsTrayslate"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
         <Filename Value="forms\formconfig.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="formConfigTrayslator"/>
+        <ComponentName Value="formConfigTrayslate"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
         <Filename Value="forms\formdonate.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="formDonateTrayslator"/>
+        <ComponentName Value="formDonateTrayslate"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
         <Filename Value="forms\formabout.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="formAboutTrayslator"/>
+        <ComponentName Value="formAboutTrayslate"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
@@ -178,7 +178,7 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="trayslator"/>
+      <Filename Value="trayslate"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>

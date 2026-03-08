@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------------
-//  Trayslator © 2024 by Alexander Tverskoy
+//  Trayslate © 2024 by Alexander Tverskoy
 //  Licensed under the GNU General Public License, Version 3 (GPL-3.0)
 //  You may obtain a copy of the License at https://www.gnu.org/licenses/gpl-3.0.html
 //-----------------------------------------------------------------------------------
@@ -19,9 +19,9 @@ uses
 
 type
 
-  { TformAboutTrayslator }
+  { TformAboutTrayslate }
 
-  TformAboutTrayslator = class(TForm)
+  TformAboutTrayslate = class(TForm)
     buttonOk: TButton;
     imageLogo: TImage;
     labelBy: TLabel;
@@ -39,7 +39,7 @@ type
   end;
 
 var
-  formAboutTrayslator: TformAboutTrayslator;
+  formAboutTrayslate: TformAboutTrayslate;
 
 implementation
 
@@ -47,15 +47,15 @@ uses systemtool;
 
   {$R *.lfm}
 
-  { TformAboutTrayslator }
+  { TformAboutTrayslate }
 
-procedure TformAboutTrayslator.FormCreate(Sender: TObject);
+procedure TformAboutTrayslate.FormCreate(Sender: TObject);
 begin
-  labelName.Caption := 'Trayslator © ' + GetAppVersion;
+  labelName.Caption := 'Trayslate © ' + GetAppVersion;
   LabelLicUrl.Font.Color := ThemeColor(clBlue, clSkyBlue);
 end;
 
-procedure TformAboutTrayslator.LabelLicUrlClick(Sender: TObject);
+procedure TformAboutTrayslate.LabelLicUrlClick(Sender: TObject);
 begin
   OpenUrl(labelLicUrl.Caption);
 end;

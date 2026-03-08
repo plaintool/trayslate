@@ -29,17 +29,17 @@ IF NOT "%PLATFORM%"=="x64" IF NOT "%PLATFORM%"=="x86" (
 :: --- Build peruser ---
 echo Compiling msisetup_peruser.wxs with candle for %PLATFORM%...
 candle -nologo "%SOURCE_DIR%\msisetup_peruser.wxs" -out "%SOURCE_DIR%\peruser.wixobj" -ext WixUIExtension -dPlatform=%PLATFORM% -dVersion=%VERSION%
-echo Linking peruser.wixobj into trayslator-%VERSION%-%PLATFORM%.msi with light...
-light -nologo "%SOURCE_DIR%\peruser.wixobj" -out "%SOURCE_DIR%\trayslator-%VERSION%-%PLATFORM%.msi" -ext WixUIExtension
-echo File created: trayslator-%VERSION%-%PLATFORM%.msi
+echo Linking peruser.wixobj into trayslate-%VERSION%-%PLATFORM%.msi with light...
+light -nologo "%SOURCE_DIR%\peruser.wixobj" -out "%SOURCE_DIR%\trayslate-%VERSION%-%PLATFORM%.msi" -ext WixUIExtension
+echo File created: trayslate-%VERSION%-%PLATFORM%.msi
 echo.
 
 :: --- Build permachine ---
 echo Compiling msisetup_permachine.wxs with candle for %PLATFORM%...
 candle -nologo "%SOURCE_DIR%\msisetup_permachine.wxs" -out "%SOURCE_DIR%\permachine.wixobj" -ext WixUIExtension -dPlatform=%PLATFORM% -dVersion=%VERSION%
-echo Linking permachine.wixobj into trayslator-%VERSION%-%PLATFORM%-allusers.msi with light...
-light -nologo "%SOURCE_DIR%\permachine.wixobj" -out "%SOURCE_DIR%\trayslator-%VERSION%-%PLATFORM%-allusers.msi" -ext WixUIExtension
-echo File created: trayslator-%VERSION%-%PLATFORM%-allusers.msi
+echo Linking permachine.wixobj into trayslate-%VERSION%-%PLATFORM%-allusers.msi with light...
+light -nologo "%SOURCE_DIR%\permachine.wixobj" -out "%SOURCE_DIR%\trayslate-%VERSION%-%PLATFORM%-allusers.msi" -ext WixUIExtension
+echo File created: trayslate-%VERSION%-%PLATFORM%-allusers.msi
 echo.
 
 :: --- Clean temporary files ---
@@ -58,8 +58,8 @@ IF "%CERTFILE%"=="" (
         SET "CERTFILE=%SOURCE_DIR%AlexanderT.pfx"
     ) ELSE (
         IF NOT "%CERT_PFX%"=="" (
-            SET "CERTFILE=%TEMP%\trayslator-cert.pfx"
-            powershell -NoProfile -Command "[IO.File]::WriteAllBytes('%TEMP%\\trayslator-cert.pfx',[Convert]::FromBase64String($env:CERT_PFX))"
+            SET "CERTFILE=%TEMP%\trayslate-cert.pfx"
+            powershell -NoProfile -Command "[IO.File]::WriteAllBytes('%TEMP%\\trayslate-cert.pfx',[Convert]::FromBase64String($env:CERT_PFX))"
         ) ELSE (
             SET "CERTFILE="
         )
@@ -72,18 +72,18 @@ if not "%CERTFILE%"=="" (
     if exist "%CERTFILE%" (
         if exist "%SIGNTOOL%" (
             echo Signing MSI files...
-            "%SIGNTOOL%" sign /f "%CERTFILE%" /p "%CERTPASS%" /fd SHA256 /tr %TIMESTAMP_URL% /td SHA256 "%SOURCE_DIR%\trayslator-%VERSION%-%PLATFORM%.msi"
+            "%SIGNTOOL%" sign /f "%CERTFILE%" /p "%CERTPASS%" /fd SHA256 /tr %TIMESTAMP_URL% /td SHA256 "%SOURCE_DIR%\trayslate-%VERSION%-%PLATFORM%.msi"
             IF %ERRORLEVEL% EQU 0 (
-                echo Signing of trayslator-%VERSION%-%PLATFORM%.msi completed successfully
+                echo Signing of trayslate-%VERSION%-%PLATFORM%.msi completed successfully
             ) else (
-                echo Signing failed for trayslator-%VERSION%-%PLATFORM%.msi
+                echo Signing failed for trayslate-%VERSION%-%PLATFORM%.msi
             )
 
-            "%SIGNTOOL%" sign /f "%CERTFILE%" /p "%CERTPASS%" /fd SHA256 /tr %TIMESTAMP_URL% /td SHA256 "%SOURCE_DIR%\trayslator-%VERSION%-%PLATFORM%-allusers.msi"
+            "%SIGNTOOL%" sign /f "%CERTFILE%" /p "%CERTPASS%" /fd SHA256 /tr %TIMESTAMP_URL% /td SHA256 "%SOURCE_DIR%\trayslate-%VERSION%-%PLATFORM%-allusers.msi"
             IF %ERRORLEVEL% EQU 0 (
-                echo Signing of trayslator-%VERSION%-%PLATFORM%-allusers.msi completed successfully
+                echo Signing of trayslate-%VERSION%-%PLATFORM%-allusers.msi completed successfully
             ) else (
-                echo Signing failed for trayslator-%VERSION%-%PLATFORM%-allusers.msi
+                echo Signing failed for trayslate-%VERSION%-%PLATFORM%-allusers.msi
             )
         ) else (
             echo Skipping signing: signtool not found.
@@ -99,13 +99,13 @@ if not "%CERTFILE%"=="" (
 if "%BUILD_PORTABLE%"=="1" (
     powershell -NoProfile -Command ^
     "$tmp='%~dp0temp_dist';" ^
-    "$exe64='%~dp0..\\trayslator.exe';" ^
-    "$exe32='%~dp0..\\trayslator32.exe';" ^
+    "$exe64='%~dp0..\\trayslate.exe';" ^
+    "$exe32='%~dp0..\\trayslate32.exe';" ^
     "$settings='%~dp0form_settings.json';" ^
     "$license='%~dp0LICENSE.rtf';" ^
     "$dlls=@('%~dp0..\\libcrypto-1_1-x64.dll','%~dp0..\\libssl-1_1-x64.dll','%~dp0..\\libcrypto-1_1.dll','%~dp0..\\libssl-1_1.dll');" ^
     "$configDir='%~dp0..\\config';" ^
-    "$destZip='%~dp0trayslator-%VERSION%-x86-x64-portable.zip';" ^
+    "$destZip='%~dp0trayslate-%VERSION%-x86-x64-portable.zip';" ^
     "if ((Test-Path $exe64) -and (Test-Path $exe32) -and (Test-Path $configDir)) {" ^
     "  if (Test-Path $tmp) { Remove-Item -Recurse -Force $tmp };" ^
     "  New-Item -ItemType Directory -Path \"$tmp/config\" -Force | Out-Null;" ^

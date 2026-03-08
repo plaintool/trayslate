@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------------
-//  Trayslator © 2024 by Alexander Tverskoy
+//  Trayslate © 2024 by Alexander Tverskoy
 //  Licensed under the GNU General Public License, Version 3 (GPL-3.0)
 //  You may obtain a copy of the License at https://www.gnu.org/licenses/gpl-3.0.html
 //-----------------------------------------------------------------------------------
@@ -26,9 +26,9 @@ uses
 
 type
 
-  { TformConfigTrayslator }
+  { TformConfigTrayslate }
 
-  TformConfigTrayslator = class(TForm)
+  TformConfigTrayslate = class(TForm)
     aSave: TAction;
     ActionList: TActionList;
     BtnClose: TButton;
@@ -107,7 +107,7 @@ type
   end;
 
 var
-  formConfigTrayslator: TformConfigTrayslator;
+  formConfigTrayslate: TformConfigTrayslate;
 
 resourcestring
   rcopyquestion = 'Enter new config file name:';
@@ -121,73 +121,73 @@ uses mainform, translate, settings, formattool, langtool, languages, systemtool;
 
   {$R *.lfm}
 
-  { TformConfigTrayslator }
+  { TformConfigTrayslate }
 
-procedure TformConfigTrayslator.FormCreate(Sender: TObject);
+procedure TformConfigTrayslate.FormCreate(Sender: TObject);
 begin
   Pages.PageIndex := 0;
   BtnClose.Cancel := True;
   LabelFillLanguages.Font.Color := ThemeColor(clBlue, clSkyBlue);
 end;
 
-procedure TformConfigTrayslator.FormShow(Sender: TObject);
+procedure TformConfigTrayslate.FormShow(Sender: TObject);
 begin
   UpdateConfigList;
   UpdateConfig;
 end;
 
-procedure TformConfigTrayslator.FormDestroy(Sender: TObject);
+procedure TformConfigTrayslate.FormDestroy(Sender: TObject);
 begin
-  formConfigTrayslator := nil;
+  formConfigTrayslate := nil;
 end;
 
-procedure TformConfigTrayslator.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+procedure TformConfigTrayslate.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   CloseAction := caFree;
 end;
 
-procedure TformConfigTrayslator.FormCloseQuery(Sender: TObject; var CanClose: boolean);
+procedure TformConfigTrayslate.FormCloseQuery(Sender: TObject; var CanClose: boolean);
 begin
   CanClose := TestChanges;
 end;
 
-procedure TformConfigTrayslator.FormResize(Sender: TObject);
+procedure TformConfigTrayslate.FormResize(Sender: TObject);
 begin
-  formTrayslator.FormConfigWidth := Width;
-  formTrayslator.FormConfigHeight := Height;
+  formTrayslate.FormConfigWidth := Width;
+  formTrayslate.FormConfigHeight := Height;
 end;
 
-procedure TformConfigTrayslator.FormChangeBounds(Sender: TObject);
+procedure TformConfigTrayslate.FormChangeBounds(Sender: TObject);
 begin
-  formTrayslator.FormConfigLeft := Left;
-  formTrayslator.FormConfigTop := Top;
+  formTrayslate.FormConfigLeft := Left;
+  formTrayslate.FormConfigTop := Top;
 end;
 
-procedure TformConfigTrayslator.aSaveExecute(Sender: TObject);
+procedure TformConfigTrayslate.aSaveExecute(Sender: TObject);
 begin
   SaveConfig;
 end;
 
-procedure TformConfigTrayslator.ComboConfigChange(Sender: TObject);
+procedure TformConfigTrayslate.ComboConfigChange(Sender: TObject);
 begin
   if not TestChanges then
   begin
     ComboConfig.ItemIndex := FLastConfig;
     exit;
   end;
-  formTrayslator.ConfigFile := ComboConfig.Text;
-  formTrayslator.LoadConfig;
+  formTrayslate.ConfigFile := ComboConfig.Text;
+  formTrayslate.LoadConfig;
   UpdateConfig;
   FLastConfig := ComboConfig.ItemIndex;
 end;
 
-procedure TformConfigTrayslator.ComboConfigKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+procedure TformConfigTrayslate.ComboConfigKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
   if (ssCtrl in shift) and (Key = VK_C) then
     Clipboard.AsText := ComboConfig.Text;
 end;
 
-procedure TformConfigTrayslator.LabelFillLanguagesClick(Sender: TObject);
+procedure TformConfigTrayslate.LabelFillLanguagesClick(Sender: TObject);
 var
   List: TStringList;
 begin
@@ -207,7 +207,7 @@ begin
   end;
 end;
 
-procedure TformConfigTrayslator.MemoKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+procedure TformConfigTrayslate.MemoKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
   if (ssCtrl in Shift) and (Key = VK_V) then // Ctrl + V
   begin
@@ -216,28 +216,28 @@ begin
   end;
 end;
 
-procedure TformConfigTrayslator.ValueChange(Sender: TObject);
+procedure TformConfigTrayslate.ValueChange(Sender: TObject);
 begin
   aSave.Enabled := True;
   Caption := '*' + rcaption;
 end;
 
-procedure TformConfigTrayslator.BtnCloseClick(Sender: TObject);
+procedure TformConfigTrayslate.BtnCloseClick(Sender: TObject);
 begin
   Close;
 end;
 
-procedure TformConfigTrayslator.SbNewConfigClick(Sender: TObject);
+procedure TformConfigTrayslate.SbNewConfigClick(Sender: TObject);
 begin
   CreateConfig;
 end;
 
-procedure TformConfigTrayslator.SbCopyConfigClick(Sender: TObject);
+procedure TformConfigTrayslate.SbCopyConfigClick(Sender: TObject);
 begin
   CreateConfig(True);
 end;
 
-function TformConfigTrayslator.TestChanges: boolean;
+function TformConfigTrayslate.TestChanges: boolean;
 var
   res: TModalResult;
 begin
@@ -258,7 +258,7 @@ begin
   end;
 end;
 
-procedure TformConfigTrayslator.CreateConfig(ACopy: boolean = False);
+procedure TformConfigTrayslate.CreateConfig(ACopy: boolean = False);
 var
   NewName: string;
   SourceFile: string;
@@ -292,7 +292,7 @@ begin
         Free;
 
       // Save current data to the new file
-      formTrayslator.ConfigFile := DestFile;
+      formTrayslate.ConfigFile := DestFile;
       SaveConfig;
     end else
     if (not ACopy)  then
@@ -302,7 +302,7 @@ begin
         Free;
 
       // Save current data to the new file
-      formTrayslator.ConfigFile := DestFile;
+      formTrayslate.ConfigFile := DestFile;
       ClearConfig;
       SaveConfig;
     end
@@ -319,23 +319,23 @@ begin
     end;
   end;
 
-  formTrayslator.ConfigFiles.Add(DestFile);
-  formTrayslator.ConfigFile := DestFile;
-  formTrayslator.LoadConfig;
+  formTrayslate.ConfigFiles.Add(DestFile);
+  formTrayslate.ConfigFile := DestFile;
+  formTrayslate.LoadConfig;
   UpdateConfigList;
   UpdateConfig;
 end;
 
-procedure TformConfigTrayslator.UpdateConfigList;
+procedure TformConfigTrayslate.UpdateConfigList;
 begin
-  ComboConfig.Items.Assign(formTrayslator.ConfigFiles);
-  ComboConfig.ItemIndex := ComboConfig.Items.IndexOf(formTrayslator.ConfigFile);
+  ComboConfig.Items.Assign(formTrayslate.ConfigFiles);
+  ComboConfig.ItemIndex := ComboConfig.Items.IndexOf(formTrayslate.ConfigFile);
   FLastConfig := ComboConfig.ItemIndex;
 end;
 
-procedure TformConfigTrayslator.UpdateConfig;
+procedure TformConfigTrayslate.UpdateConfig;
 begin
-  with formTrayslator.Trans do
+  with formTrayslate.Trans do
   begin
     EditServiceName.Text := ServiceName;
     if WebMethod = wmGet then
@@ -362,9 +362,9 @@ begin
   Caption := rcaption;
 end;
 
-procedure TformConfigTrayslator.ClearConfig;
+procedure TformConfigTrayslate.ClearConfig;
 begin
-  with formTrayslator.Trans do
+  with formTrayslate.Trans do
   begin
     ServiceName := string.Empty;
     WebMethod := wmGet;
@@ -402,19 +402,19 @@ begin
   Caption := rcaption;
 end;
 
-procedure TformConfigTrayslator.SaveConfig;
+procedure TformConfigTrayslate.SaveConfig;
 var
   TempHeaders: TStringList;
 begin
-  if (formTrayslator.ConfigFile = string.Empty) then
+  if (formTrayslate.ConfigFile = string.Empty) then
     CreateConfig;
 
-  if (formTrayslator.ConfigFile = string.Empty) then
+  if (formTrayslate.ConfigFile = string.Empty) then
     exit;
 
   Screen.Cursor := crHourGlass;
   try
-    with formTrayslator.Trans do
+    with formTrayslate.Trans do
     begin
       ServiceName := EditServiceName.Text;
       if ComboMethod.ItemIndex = 0 then
@@ -442,9 +442,9 @@ begin
         TempHeaders.Free;
       end;
     end;
-    SaveIniSettings(formTrayslator.Trans, formTrayslator.ConfigFile);
+    SaveIniSettings(formTrayslate.Trans, formTrayslate.ConfigFile);
     aSave.Enabled := False;
-    formTrayslator.LoadConfig;
+    formTrayslate.LoadConfig;
   finally
     Screen.Cursor := crDefault;
     Caption := rcaption;

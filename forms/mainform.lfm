@@ -1,10 +1,10 @@
-object formTrayslator: TformTrayslator
+object formTrayslate: TformTrayslate
   Left = 334
   Height = 480
   Top = 250
   Width = 512
   BorderIcons = [biSystemMenu, biMaximize]
-  Caption = 'Trayslator'
+  Caption = 'Trayslate'
   ClientHeight = 480
   ClientWidth = 512
   Color = clWindow
@@ -147,7 +147,7 @@ object formTrayslator: TformTrayslator
   end
   object TrayIcon: TTrayIcon
     PopUpMenu = PopupTray
-    Hint = 'Trayslator'
+    Hint = 'Trayslate'
     OnClick = TrayIconClick
     OnMouseDown = TrayIconMouseDown
     Left = 168

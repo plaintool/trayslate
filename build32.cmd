@@ -1,8 +1,8 @@
 @echo off
 setlocal
 
-::Build 32-bit Lazarus project "trayslator" using lazbuild
-SET "PROJECT_PATH=trayslator.lpi"
+::Build 32-bit Lazarus project "trayslate" using lazbuild
+SET "PROJECT_PATH=trayslate.lpi"
 SET "BUILD_MODE=Release"
 
 SET "LAZARUS_DIR=%LAZARUS_DIR%"
@@ -33,10 +33,10 @@ if not exist "%FPC32%" (
     exit /b 1
 )
 
-::Rename existing 64-bit exe to trayslator64.exe to avoid overwriting
-if exist "trayslator.exe" (
+::Rename existing 64-bit exe to trayslate64.exe to avoid overwriting
+if exist "trayslate.exe" (
     echo Renaming existing 64-bit executable...
-    ren "trayslator.exe" "trayslator64.exe"
+    ren "trayslate.exe" "trayslate64.exe"
 )
 
 echo Building 32-bit project: %PROJECT_PATH%
@@ -45,22 +45,22 @@ echo Building 32-bit project: %PROJECT_PATH%
 IF %ERRORLEVEL% NEQ 0 (
     echo 32-bit build failed!
     ::Restore 64-bit exe back
-    if exist "trayslator64.exe" ren "trayslator64.exe" "trayslator.exe"
+    if exist "trayslate64.exe" ren "trayslate64.exe" "trayslate.exe"
     exit /b %ERRORLEVEL%
 )
 
-::Rename output to trayslator32.exe to distinguish from 64-bit
-if exist "trayslator.exe" (
+::Rename output to trayslate32.exe to distinguish from 64-bit
+if exist "trayslate.exe" (
     echo Renaming 32-bit executable...
-    if exist "trayslator32.exe" del /F /Q "trayslator32.exe"
-    ren "trayslator.exe" "trayslator32.exe"
+    if exist "trayslate32.exe" del /F /Q "trayslate32.exe"
+    ren "trayslate.exe" "trayslate32.exe"
 )
 
 ::Restore 64-bit exe back to original name
-if exist "trayslator64.exe" (
+if exist "trayslate64.exe" (
     echo Restoring 64-bit executable name...
-    if exist "trayslator.exe" del /F /Q "trayslator.exe"
-    ren "trayslator64.exe" "trayslator.exe"
+    if exist "trayslate.exe" del /F /Q "trayslate.exe"
+    ren "trayslate64.exe" "trayslate.exe"
 )
 
 echo 32-bit build completed successfully
@@ -81,8 +81,8 @@ IF "%CERTFILE%"=="" (
         SET "CERTFILE=%~dp0installer\AlexanderT.pfx"
     ) ELSE (
         IF NOT "%CERT_PFX%"=="" (
-            SET "CERTFILE=%TEMP%\trayslator-cert.pfx"
-            powershell -NoProfile -Command "[IO.File]::WriteAllBytes('%TEMP%\\trayslator-cert.pfx',[Convert]::FromBase64String($env:CERT_PFX))"
+            SET "CERTFILE=%TEMP%\trayslate-cert.pfx"
+            powershell -NoProfile -Command "[IO.File]::WriteAllBytes('%TEMP%\\trayslate-cert.pfx',[Convert]::FromBase64String($env:CERT_PFX))"
         ) ELSE (
             SET "CERTFILE="
         )
@@ -92,12 +92,12 @@ SET "CERTPASS=1234"
 SET "TIMESTAMP_URL=http://timestamp.digicert.com"
 
 ::Sign the 32-bit executable
-if exist "trayslator32.exe" (
+if exist "trayslate32.exe" (
     if not "%CERTFILE%"=="" (
         if exist "%CERTFILE%" (
             if exist "%SIGNTOOL%" (
                 echo Signing 32-bit executable...
-                "%SIGNTOOL%" sign /f "%CERTFILE%" /p "%CERTPASS%" /fd SHA256 /tr %TIMESTAMP_URL% /td SHA256 "trayslator32.exe"
+                "%SIGNTOOL%" sign /f "%CERTFILE%" /p "%CERTPASS%" /fd SHA256 /tr %TIMESTAMP_URL% /td SHA256 "trayslate32.exe"
                 IF %ERRORLEVEL% EQU 0 (
                     echo Signing completed successfully
                 ) else (

@@ -1,10 +1,10 @@
-# Makefile for building the trayslator Lazarus project in Release mode
+# Makefile for building the trayslate Lazarus project in Release mode
 
 # Path to lazbuild
 LAZBUILD = lazbuild
 
 # Lazarus project file
-PROJECT = trayslator.lpi
+PROJECT = trayslate.lpi
 
 # Target build mode
 MODE = Release
@@ -18,5 +18,5 @@ all:
 clean:
 	@echo "Cleaning up compiled units..."
 	find . -type f \( -name "*.o" -o -name "*.ppu" -o -name "*.compiled" \) -delete
-	rm -f trayslator
+	rm -f trayslate
 

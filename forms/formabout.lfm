@@ -1,4 +1,4 @@
-object formAboutTrayslator: TformAboutTrayslator
+object formAboutTrayslate: TformAboutTrayslate
   Left = 318
   Height = 282
   Top = 250
@@ -201,7 +201,7 @@ object formAboutTrayslator: TformAboutTrayslator
     Height = 55
     Top = 12
     Width = 319
-    Caption = 'Trayslator © 2026'
+    Caption = 'Trayslate © 2026'
     Font.Height = -41
     ParentFont = False
   end
@@ -234,7 +234,7 @@ object formAboutTrayslator: TformAboutTrayslator
     Anchors = [akLeft, akBottom]
     Color = clBtnFace
     Lines.Strings = (
-      'Trayslator is a tray application for translating text. You can translate text from the clipboard or by typing it into the input window. The translation source is configurable, you can change the service used.'
+      'Trayslate is a tray application for translating text. You can translate text from the clipboard or by typing it into the input window. The translation source is configurable, you can change the service used.'
     )
     ScrollBars = ssVertical
     TabOrder = 1

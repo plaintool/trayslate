@@ -18,7 +18,7 @@ xcopy "%source%\*" "%destination%\" /y /i /s
 
 :: --- Build inno setup ---
 "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "%SOURCE_DIR%\innosetup.iss"
-echo File created: trayslator-any-x86-x64.exe
+echo File created: trayslate-any-x86-x64.exe
 echo.
 
 ::Wait 2 seconds to ensure file is free
@@ -33,8 +33,8 @@ IF "%CERTFILE%"=="" (
         SET "CERTFILE=%SOURCE_DIR%AlexanderT.pfx"
     ) ELSE (
         IF NOT "%CERT_PFX%"=="" (
-            SET "CERTFILE=%TEMP%\trayslator-cert.pfx"
-            powershell -NoProfile -Command "[IO.File]::WriteAllBytes('%TEMP%\\trayslator-cert.pfx',[Convert]::FromBase64String($env:CERT_PFX))"
+            SET "CERTFILE=%TEMP%\trayslate-cert.pfx"
+            powershell -NoProfile -Command "[IO.File]::WriteAllBytes('%TEMP%\\trayslate-cert.pfx',[Convert]::FromBase64String($env:CERT_PFX))"
         ) ELSE (
             SET "CERTFILE="
         )
@@ -47,11 +47,11 @@ if not "%CERTFILE%"=="" (
     if exist "%CERTFILE%" (
         if exist "%SIGNTOOL%" (
             echo Signing file...
-            "%SIGNTOOL%" sign /f "%CERTFILE%" /p "%CERTPASS%" /fd SHA256 /tr %TIMESTAMP_URL% /td SHA256 "%SOURCE_DIR%\trayslator-%VERSION%-any-x86-x64.exe"
+            "%SIGNTOOL%" sign /f "%CERTFILE%" /p "%CERTPASS%" /fd SHA256 /tr %TIMESTAMP_URL% /td SHA256 "%SOURCE_DIR%\trayslate-%VERSION%-any-x86-x64.exe"
             IF %ERRORLEVEL% EQU 0 (
-                echo Signing of trayslator-%VERSION%-any-x86-x64.exe completed successfully
+                echo Signing of trayslate-%VERSION%-any-x86-x64.exe completed successfully
             ) else (
-                echo Signing failed for trayslator-%VERSION%-any-x86-x64.exe
+                echo Signing failed for trayslate-%VERSION%-any-x86-x64.exe
             )
         ) else (
             echo Skipping signing: signtool not found.
@@ -63,4 +63,4 @@ if not "%CERTFILE%"=="" (
     echo Skipping signing: CERTFILE not set.
 )
 
-echo Build and signing trayslator-%VERSION%-any-x86-x64.exe completed successfully!
+echo Build and signing trayslate-%VERSION%-any-x86-x64.exe completed successfully!

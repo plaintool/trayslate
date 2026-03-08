@@ -1,12 +1,12 @@
-#define MyAppName "Trayslator"
+#define MyAppName "Trayslate"
 #define FileHandle FileOpen("..\VERSION")
 #define MyAppVersion Trim(FileRead(FileHandle))
 #if FileHandle
   #expr FileClose(FileHandle)
 #endif
 #define MyAppPublisher "Alexander Tverskoy"
-#define MyAppURL "https://github.com/plaintool/trayslator"
-#define MyAppExeName "trayslator.exe"
+#define MyAppURL "https://github.com/plaintool/trayslate"
+#define MyAppExeName "trayslate.exe"
 
 [Setup]
 AppId={{D1E4B5C2-8F9A-4B6D-AB12-3F7C9E4D8A21}
@@ -16,7 +16,7 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-UninstallDisplayIcon={app}\trayslator.exe
+UninstallDisplayIcon={app}\trayslate.exe
 DefaultDirName={autopf}\{#MyAppName}
 ArchitecturesAllowed=x64compatible x86 arm64
 ArchitecturesInstallIn64BitMode=x64compatible arm64
@@ -24,7 +24,7 @@ DisableProgramGroupPage=yes
 LicenseFile=..\LICENSE
 PrivilegesRequiredOverridesAllowed=dialog
 OutputDir=.\
-OutputBaseFilename=trayslator-{#MyAppVersion}-any-x86-x64
+OutputBaseFilename=trayslate-{#MyAppVersion}-any-x86-x64
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -65,7 +65,7 @@ Source: "..\{#MyAppExeName}"; DestDir: "{app}"; DestName: "{#MyAppExeName}"; Che
 Source: "..\libcrypto-1_1-x64.dll"; DestDir: "{app}"; Check: Is64BitInstallMode; Flags: ignoreversion
 Source: "..\libssl-1_1-x64.dll"; DestDir: "{app}"; Check: Is64BitInstallMode; Flags: ignoreversion
 ; 32-bit
-Source: "..\trayslator32.exe"; DestDir: "{app}"; DestName: "{#MyAppExeName}"; Check: not Is64BitInstallMode; Flags: ignoreversion
+Source: "..\trayslate32.exe"; DestDir: "{app}"; DestName: "{#MyAppExeName}"; Check: not Is64BitInstallMode; Flags: ignoreversion
 Source: "..\libcrypto-1_1.dll"; DestDir: "{app}"; Check: not Is64BitInstallMode; Flags: ignoreversion
 Source: "..\libssl-1_1.dll"; DestDir: "{app}"; Check: not Is64BitInstallMode; Flags: ignoreversion
 ; License

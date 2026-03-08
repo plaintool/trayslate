@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------------
-//  Trayslator © 2024 by Alexander Tverskoy
+//  Trayslate © 2024 by Alexander Tverskoy
 //  Licensed under the GNU General Public License, Version 3 (GPL-3.0)
 //  You may obtain a copy of the License at https://www.gnu.org/licenses/gpl-3.0.html
 //-----------------------------------------------------------------------------------
@@ -30,9 +30,9 @@ uses
 
 type
 
-  { TformSettingsTrayslator }
+  { TformSettingsTrayslate }
 
-  TformSettingsTrayslator = class(TForm)
+  TformSettingsTrayslate = class(TForm)
     BtnFont: TButton;
     BtnReset: TButton;
     BtnApply: TButton;
@@ -116,7 +116,7 @@ type
   end;
 
 var
-  formSettingsTrayslator: TformSettingsTrayslator;
+  formSettingsTrayslate: TformSettingsTrayslate;
 
 implementation
 
@@ -124,9 +124,9 @@ uses mainform;
 
   {$R *.lfm}
 
-  { TformSettingsTrayslator }
+  { TformSettingsTrayslate }
 
-procedure TformSettingsTrayslator.FormCreate(Sender: TObject);
+procedure TformSettingsTrayslate.FormCreate(Sender: TObject);
 begin
   PagesSettings.PageIndex := 0;
   BtnCancel.Cancel := True;
@@ -138,7 +138,7 @@ begin
   Reset;
 end;
 
-procedure TformSettingsTrayslator.BtnFontClick(Sender: TObject);
+procedure TformSettingsTrayslate.BtnFontClick(Sender: TObject);
 begin
   FontDialog.Font.Assign(PanelFont.Font);
   if FontDialog.Execute then
@@ -150,25 +150,25 @@ begin
   end;
 end;
 
-procedure TformSettingsTrayslator.BtnResetClick(Sender: TObject);
+procedure TformSettingsTrayslate.BtnResetClick(Sender: TObject);
 begin
   PanelFont.Font.SetDefault;
   SetPanelFont(PanelFont.Font);
   SettingChange(Self);
 end;
 
-procedure TformSettingsTrayslator.EditMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
+procedure TformSettingsTrayslate.EditMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
 begin
   if (Sender as TEdit).Visible and (Sender as TEdit).CanFocus and not (Sender as TEdit).Focused then
     (Sender as TEdit).SetFocus;
 end;
 
-procedure TformSettingsTrayslator.SettingChange(Sender: TObject);
+procedure TformSettingsTrayslate.SettingChange(Sender: TObject);
 begin
   BtnApply.Enabled := True;
 end;
 
-procedure TformSettingsTrayslator.EditKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+procedure TformSettingsTrayslate.EditKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 var
   HK: THotKeyData;
   Edit: TEdit;
@@ -276,30 +276,30 @@ begin
   Edit.Text := HotKeyToText(HK);
 end;
 
-procedure TformSettingsTrayslator.BtnOkClick(Sender: TObject);
+procedure TformSettingsTrayslate.BtnOkClick(Sender: TObject);
 begin
   Apply;
   ModalResult := mrOk;
 end;
 
-procedure TformSettingsTrayslator.BtnCancelClick(Sender: TObject);
+procedure TformSettingsTrayslate.BtnCancelClick(Sender: TObject);
 begin
   Reset;
   ModalResult := mrCancel;
 end;
 
-procedure TformSettingsTrayslator.BtnApplyClick(Sender: TObject);
+procedure TformSettingsTrayslate.BtnApplyClick(Sender: TObject);
 begin
   Apply;
 end;
 
-procedure TformSettingsTrayslator.SetPanelFont(const AFont: TFont);
+procedure TformSettingsTrayslate.SetPanelFont(const AFont: TFont);
 begin
   PanelFont.Caption := ifthen((Trim(AFont.Name) = string.Empty) or (LowerCase(AFont.Name) = 'default'), 'Default', AFont.Name) +
     ',' + IntToStr(AFont.Size);
 end;
 
-procedure TformSettingsTrayslator.AddTrayColors(AColorBox: TColorBox);
+procedure TformSettingsTrayslate.AddTrayColors(AColorBox: TColorBox);
 begin
   AColorBox.Style := AColorBox.Style + [cbCustomColor];
 
@@ -375,55 +375,55 @@ begin
   AColorBox.Items.AddObject('Magenta', TObject(PtrUInt($00FF00FF)));
 end;
 
-procedure TformSettingsTrayslator.Apply;
+procedure TformSettingsTrayslate.Apply;
 begin
-  formTrayslator.AutoStart := CheckAutostart.Checked;
-  formTrayslator.MaxLangPairs := SpinMaxLangPairs.Value;
-  formTrayslator.SwapTranslate := CheckSwapTranslate.Checked;
-  formTrayslator.TranslateAsYouType := CheckTranslateAsYouType.Checked;
-  formTrayslator.Font.Assign(PanelFont.Font);
-  formTrayslator.IconBackgroundColor := ColorIconBackground.Selected;
-  formTrayslator.IconFontColor := ColorIconFont.Selected;
-  formTrayslator.IconTwoLang := CheckTwoLang.Checked;
-  formTrayslator.SetIcon;
+  formTrayslate.AutoStart := CheckAutostart.Checked;
+  formTrayslate.MaxLangPairs := SpinMaxLangPairs.Value;
+  formTrayslate.SwapTranslate := CheckSwapTranslate.Checked;
+  formTrayslate.TranslateAsYouType := CheckTranslateAsYouType.Checked;
+  formTrayslate.Font.Assign(PanelFont.Font);
+  formTrayslate.IconBackgroundColor := ColorIconBackground.Selected;
+  formTrayslate.IconFontColor := ColorIconFont.Selected;
+  formTrayslate.IconTwoLang := CheckTwoLang.Checked;
+  formTrayslate.SetIcon;
 
-  formTrayslator.HotKeyApp := FHotKeyApp;
-  formTrayslator.HotKeyTransSwap := FHotKeyTransSwap;
-  formTrayslator.HotKeyTransFromClipboard := FHotKeyTransFromClipboard;
-  formTrayslator.HotKeyTransClipboard := FHotKeyTransClipboard;
-  formTrayslator.HotKeyTransFromControl := FHotKeyTransFromControl;
-  formTrayslator.HotKeyTransControl := FHotKeyTransControl;
+  formTrayslate.HotKeyApp := FHotKeyApp;
+  formTrayslate.HotKeyTransSwap := FHotKeyTransSwap;
+  formTrayslate.HotKeyTransFromClipboard := FHotKeyTransFromClipboard;
+  formTrayslate.HotKeyTransClipboard := FHotKeyTransClipboard;
+  formTrayslate.HotKeyTransFromControl := FHotKeyTransFromControl;
+  formTrayslate.HotKeyTransControl := FHotKeyTransControl;
 
-  formTrayslator.ComboSource.SelLength := 0;
-  formTrayslator.ComboTarget.SelLength := 0;
+  formTrayslate.ComboSource.SelLength := 0;
+  formTrayslate.ComboTarget.SelLength := 0;
 
   Reset;
-  formTrayslator.DoRealign(0);
-  Application.QueueAsyncCall(@formTrayslator.RebuildLangPairsPanel, 0);
+  formTrayslate.DoRealign(0);
+  Application.QueueAsyncCall(@formTrayslate.RebuildLangPairsPanel, 0);
 end;
 
-procedure TformSettingsTrayslator.Reset;
+procedure TformSettingsTrayslate.Reset;
 begin
-  FOriginalAutoStart := formTrayslator.AutoStart;
-  FOriginalMaxLangPairs := formTrayslator.MaxLangPairs;
-  FOriginalSwapTranslate := formTrayslator.SwapTranslate;
-  FOriginalTranslateAsYouType := formTrayslator.TranslateAsYouType;
-  FOriginalFont := formTrayslator.Font;
-  FOriginalIconBackgroundColor := formTrayslator.IconBackgroundColor;
-  FOriginalIconFontColor := formTrayslator.IconFontColor;
-  FOriginalIconTwoLang := formTrayslator.IconTwoLang;
-  FOriginalHotKeyApp := formTrayslator.HotKeyApp;
-  FOriginalHotKeyTransSwap := formTrayslator.HotKeyTransSwap;
-  FOriginalHotKeyTransFromClipboard := formTrayslator.HotKeyTransFromClipboard;
-  FOriginalHotKeyTransClipboard := formTrayslator.HotKeyTransClipboard;
-  FOriginalHotKeyTransFromControl := formTrayslator.HotKeyTransFromControl;
-  FOriginalHotKeyTransControl := formTrayslator.HotKeyTransControl;
-  FHotKeyApp := formTrayslator.HotKeyApp;
-  FHotKeyTransSwap := formTrayslator.HotKeyTransSwap;
-  FHotKeyTransFromClipboard := formTrayslator.HotKeyTransFromClipboard;
-  FHotKeyTransClipboard := formTrayslator.HotKeyTransClipboard;
-  FHotKeyTransFromControl := formTrayslator.HotKeyTransFromControl;
-  FHotKeyTransControl := formTrayslator.HotKeyTransControl;
+  FOriginalAutoStart := formTrayslate.AutoStart;
+  FOriginalMaxLangPairs := formTrayslate.MaxLangPairs;
+  FOriginalSwapTranslate := formTrayslate.SwapTranslate;
+  FOriginalTranslateAsYouType := formTrayslate.TranslateAsYouType;
+  FOriginalFont := formTrayslate.Font;
+  FOriginalIconBackgroundColor := formTrayslate.IconBackgroundColor;
+  FOriginalIconFontColor := formTrayslate.IconFontColor;
+  FOriginalIconTwoLang := formTrayslate.IconTwoLang;
+  FOriginalHotKeyApp := formTrayslate.HotKeyApp;
+  FOriginalHotKeyTransSwap := formTrayslate.HotKeyTransSwap;
+  FOriginalHotKeyTransFromClipboard := formTrayslate.HotKeyTransFromClipboard;
+  FOriginalHotKeyTransClipboard := formTrayslate.HotKeyTransClipboard;
+  FOriginalHotKeyTransFromControl := formTrayslate.HotKeyTransFromControl;
+  FOriginalHotKeyTransControl := formTrayslate.HotKeyTransControl;
+  FHotKeyApp := formTrayslate.HotKeyApp;
+  FHotKeyTransSwap := formTrayslate.HotKeyTransSwap;
+  FHotKeyTransFromClipboard := formTrayslate.HotKeyTransFromClipboard;
+  FHotKeyTransClipboard := formTrayslate.HotKeyTransClipboard;
+  FHotKeyTransFromControl := formTrayslate.HotKeyTransFromControl;
+  FHotKeyTransControl := formTrayslate.HotKeyTransControl;
 
   CheckAutostart.Checked := FOriginalAutoStart;
   SpinMaxLangPairs.Value := FOriginalMaxLangPairs;
