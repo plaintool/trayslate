@@ -136,6 +136,7 @@ begin
     JSONObj.Add('MaxLangPairs', Form.MaxLangPairs);
     JSONObj.Add('SwapTranslate', Form.SwapTranslate);
     JSONObj.Add('TranslateAsYouType', Form.TranslateAsYouType);
+    JSONObj.Add('AutoSwap', Form.AutoSwap);
 
     // Save hotkeys
     JSONObj.Add('HotKeyApp_Modifiers', Form.HotKeyApp.Modifiers);
@@ -282,6 +283,9 @@ begin
 
       if (JSONObj.FindPath('TranslateAsYouType') <> nil) then
         Form.TranslateAsYouType := JSONObj.FindPath('TranslateAsYouType').AsBoolean;
+
+      if (JSONObj.FindPath('AutoSwap') <> nil) then
+        Form.AutoSwap := JSONObj.FindPath('AutoSwap').AsBoolean;
 
       // Load HotKeys
       // HotKeyApp

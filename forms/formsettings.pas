@@ -39,6 +39,7 @@ type
     BtnCancel: TButton;
     BtnOk: TButton;
     CheckTranslateAsYouType: TCheckBox;
+    CheckAutoSwap: TCheckBox;
     CheckTwoLang: TCheckBox;
     CheckAutostart: TCheckBox;
     CheckSwapTranslate: TCheckBox;
@@ -94,6 +95,7 @@ type
     FOriginalMaxLangPairs: integer;
     FOriginalSwapTranslate: boolean;
     FOriginalTranslateAsYouType: boolean;
+    FOriginalAutoSwap: boolean;
     FOriginalHotKeyApp: THotKeyData;
     FOriginalHotKeyTransSwap: THotKeyData;
     FOriginalHotKeyTransFromClipboard: THotKeyData;
@@ -381,6 +383,7 @@ begin
   formTrayslate.MaxLangPairs := SpinMaxLangPairs.Value;
   formTrayslate.SwapTranslate := CheckSwapTranslate.Checked;
   formTrayslate.TranslateAsYouType := CheckTranslateAsYouType.Checked;
+  formTrayslate.AutoSwap := CheckAutoSwap.Checked;
   formTrayslate.Font.Assign(PanelFont.Font);
   formTrayslate.IconBackgroundColor := ColorIconBackground.Selected;
   formTrayslate.IconFontColor := ColorIconFont.Selected;
@@ -408,6 +411,7 @@ begin
   FOriginalMaxLangPairs := formTrayslate.MaxLangPairs;
   FOriginalSwapTranslate := formTrayslate.SwapTranslate;
   FOriginalTranslateAsYouType := formTrayslate.TranslateAsYouType;
+  FOriginalAutoSwap := formTrayslate.AutoSwap;
   FOriginalFont := formTrayslate.Font;
   FOriginalIconBackgroundColor := formTrayslate.IconBackgroundColor;
   FOriginalIconFontColor := formTrayslate.IconFontColor;
@@ -429,6 +433,7 @@ begin
   SpinMaxLangPairs.Value := FOriginalMaxLangPairs;
   CheckSwapTranslate.Checked := FOriginalSwapTranslate;
   CheckTranslateAsYouType.Checked := FOriginalTranslateAsYouType;
+  CheckAutoSwap.Checked := FOriginalAutoSwap;
   PanelFont.Font.Assign(FOriginalFont);
   SetPanelFont(FOriginalFont);
   ColorIconBackground.Selected := FOriginalIconBackgroundColor;

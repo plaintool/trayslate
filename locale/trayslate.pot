@@ -349,16 +349,40 @@ msgstr ""
 msgid "Launch at system startup"
 msgstr ""
 
+#: tformsettingstrayslate.checkautostart.hint
+msgid "Start the application automatically when the computer boots"
+msgstr ""
+
+#: tformsettingstrayslate.checkautoswap.caption
+msgid "Auto-swap language pair"
+msgstr ""
+
+#: tformsettingstrayslate.checkautoswap.hint
+msgid "Automatically detect input language and swap pair if needed"
+msgstr ""
+
 #: tformsettingstrayslate.checkswaptranslate.caption
-msgid "Swap source and translation when swapping languages"
+msgid "Swap text with languages"
+msgstr ""
+
+#: tformsettingstrayslate.checkswaptranslate.hint
+msgid "When you press the Swap button, both source and translated text are switched"
 msgstr ""
 
 #: tformsettingstrayslate.checktranslateasyoutype.caption
 msgid "Translate as you type"
 msgstr ""
 
+#: tformsettingstrayslate.checktranslateasyoutype.hint
+msgid "Automatically translate text while typing"
+msgstr ""
+
 #: tformsettingstrayslate.checktwolang.caption
-msgid "Two languages"
+msgid "Show two languages"
+msgstr ""
+
+#: tformsettingstrayslate.checktwolang.hint
+msgid "Display source and/or target language on the tray icon"
 msgstr ""
 
 #: tformsettingstrayslate.editapp.hint

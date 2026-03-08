@@ -139,6 +139,7 @@ type
     FMaxLangPairs: integer;
     FSwapTranslate: boolean;
     FTranslateAsYouType: boolean;
+    FAutoSwap: boolean;
     FFormConfigLeft: integer;
     FFormConfigTop: integer;
     FFormConfigWidth: integer;
@@ -203,6 +204,7 @@ type
     property MaxLangPairs: integer read FMaxLangPairs write FMaxLangPairs;
     property SwapTranslate: boolean read FSwapTranslate write FSwapTranslate;
     property TranslateAsYouType: boolean read FTranslateAsYouType write FTranslateAsYouType;
+    property AutoSwap: boolean read FAutoSwap write FAutoSwap;
     property FormConfigLeft: integer read FFormConfigLeft write FFormConfigLeft;
     property FormConfigTop: integer read FFormConfigTop write FFormConfigTop;
     property FormConfigWidth: integer read FFormConfigWidth write FFormConfigWidth;
@@ -246,6 +248,7 @@ begin
   FMaxLangPairs := 10;
   FSwapTranslate := True;
   FTranslateAsYouType := False;
+  FAutoSwap := False;
   FAutoStart := True;
   FLangTarget := Language;
   FFormConfigLeft := 0;
