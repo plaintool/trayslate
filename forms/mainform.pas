@@ -161,6 +161,8 @@ type
     procedure TranslateClipboard;
     procedure TranslateFromControl(Data: PtrInt);
     procedure TranslateControl(Data: PtrInt);
+    procedure GlobalCtrlC;
+    procedure GlobalCtrlV;
 
     procedure ChangeSourceLang(NewLang: string; AddPairs: boolean = True);
     procedure ChangeTargetLang(NewLang: string; AddPairs: boolean = True);
@@ -1167,16 +1169,10 @@ begin
   try
     // Save current clipboard to restore later
     OriginalClip := Clipboard.AsText;
+    Clipboard.AsText := string.Empty;
 
     // Copy selection from active window (Ctrl+C)
-    Sleep(250);
-    KeyInput.Apply([ssCtrl]);
-    Sleep(10);
-    KeyInput.Down(Ord('C'));
-    Sleep(10);
-    KeyInput.Up(Ord('C'));
-    Sleep(10);
-    KeyInput.Unapply([ssCtrl]);
+    GlobalCtrlC;
 
     SelectedText := Clipboard.AsText;
 
@@ -1199,20 +1195,19 @@ var
   OriginalClip: string;
   Th: TTranslateThread;
 begin
+  {$IFDEF WINDOWS}
+  SetSystemCursor(LoadCursor(0, IDC_APPSTARTING), OCR_IBEAM);
+  Application.ProcessMessages;
+  {$ELSE}
   Screen.Cursor := crAppStart;
+  {$ENDIF}
   try
     // Save current clipboard to restore later
     OriginalClip := Clipboard.AsText;
+    Clipboard.AsText := string.Empty;
 
     // Copy selection from active window (Ctrl+C)
-    Sleep(250);
-    KeyInput.Apply([ssCtrl]);
-    Sleep(10);
-    KeyInput.Down(Ord('C'));
-    Sleep(10);
-    KeyInput.Up(Ord('C'));
-    Sleep(10);
-    KeyInput.Unapply([ssCtrl]);
+    GlobalCtrlC;
 
     // Create translation thread (it will handle exceptions itself)
     Trans.TextToTranslate := Clipboard.AsText;
@@ -1235,21 +1230,46 @@ begin
       end;
 
       // Paste clipboard to active window (Ctrl+V)
-      Sleep(10);
-      KeyInput.Apply([ssCtrl]);
-      Sleep(10);
-      KeyInput.Down(Ord('V'));
-      Sleep(10);
-      KeyInput.Up(Ord('V'));
-      Sleep(10);
-      KeyInput.Unapply([ssCtrl]);
+      GlobalCtrlV;
     end;
 
     // Restore original clipboard
     Clipboard.AsText := OriginalClip;
   finally
+    {$IFDEF WINDOWS}
+    SystemParametersInfo(SPI_SETCURSORS, 0, nil, 0);
+    {$ELSE}
     Screen.Cursor := crDefault;
+    {$ENDIF}
   end;
+end;
+
+procedure TformTrayslate.GlobalCtrlC;
+begin
+  Sleep(250);
+  KeyInput.Unapply([ssCtrl, ssShift, ssAlt]);
+  Sleep(5);
+  KeyInput.Apply([ssCtrl]);
+  Sleep(5);
+  KeyInput.Down(Ord('C'));
+  Sleep(5);
+  KeyInput.Up(Ord('C'));
+  Sleep(5);
+  KeyInput.Unapply([ssCtrl]);
+end;
+
+procedure TformTrayslate.GlobalCtrlV;
+begin
+  Sleep(5);
+  KeyInput.Unapply([ssCtrl, ssShift, ssAlt]);
+  Sleep(5);
+  KeyInput.Apply([ssCtrl]);
+  Sleep(5);
+  KeyInput.Down(Ord('V'));
+  Sleep(5);
+  KeyInput.Up(Ord('V'));
+  Sleep(5);
+  KeyInput.Unapply([ssCtrl]);
 end;
 
 procedure TformTrayslate.ChangeSourceLang(NewLang: string; AddPairs: boolean = True);
