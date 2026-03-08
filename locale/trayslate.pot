@@ -536,7 +536,11 @@ msgstr ""
 
 #: tformtrayslate.caption
 msgctxt "tformtrayslate.caption"
-msgid "Trayslator"
+msgid "Trayslate"
+msgstr ""
+
+#: tformtrayslate.flowpairs.hint
+msgid "Middle-click to remove pair"
 msgstr ""
 
 #: tformtrayslate.menuconfig.caption

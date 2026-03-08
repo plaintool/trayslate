@@ -131,6 +131,7 @@ object formTrayslate: TformTrayslate
   object FlowPairs: TFlowPanel
     Left = 0
     Height = 5
+    Hint = 'Middle-click to remove pair'
     Top = 33
     Width = 512
     Align = alTop
@@ -143,6 +144,8 @@ object formTrayslate: TformTrayslate
     FlowLayout = tlTop
     FlowStyle = fsLeftRightTopBottom
     ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
     TabOrder = 4
   end
   object TrayIcon: TTrayIcon

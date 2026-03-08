@@ -1,5 +1,6 @@
 {"version":1,"strings":[
-{"hash":10957810,"name":"tformtrayslate.caption","sourcebytes":[84,114,97,121,115,108,97,116,111,114],"value":"Trayslate"},
+{"hash":151679781,"name":"tformtrayslate.caption","sourcebytes":[84,114,97,121,115,108,97,116,101],"value":"Trayslate"},
+{"hash":88343426,"name":"tformtrayslate.flowpairs.hint","sourcebytes":[77,105,100,100,108,101,45,99,108,105,99,107,32,116,111,32,114,101,109,111,118,101,32,112,97,105,114],"value":"Middle-click to remove pair"},
 {"hash":64879811,"name":"tformtrayslate.menulangpairs.caption","sourcebytes":[82,101,99,101,110,116,32,80,97,105,114,115],"value":"Recent Pairs"},
 {"hash":78007543,"name":"tformtrayslate.menuconfig.caption","sourcebytes":[67,111,110,102,105,103],"value":"Config"},
 {"hash":322608,"name":"tformtrayslate.menuhelp.caption","sourcebytes":[72,101,108,112],"value":"Help"},

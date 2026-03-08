@@ -162,8 +162,8 @@ type
     procedure TranslateFromControl(Data: PtrInt);
     procedure TranslateControl(Data: PtrInt);
 
-    procedure ChangeSourceLang(NewLang: string);
-    procedure ChangeTargetLang(NewLang: string);
+    procedure ChangeSourceLang(NewLang: string; AddPairs: boolean = True);
+    procedure ChangeTargetLang(NewLang: string; AddPairs: boolean = True);
     procedure ProcessMessages;
     procedure SetAutoStart(Value: boolean);
     procedure AddLangPair(const Pair: string);
@@ -515,8 +515,8 @@ begin
   srcIndex := ComboSource.ItemIndex;
   ComboSource.ItemIndex := ComboTarget.ItemIndex;
   ComboTarget.ItemIndex := srcIndex;
-  ChangeSourceLang(ComboSource.Text);
-  ChangeTargetLang(ComboTarget.Text);
+  ChangeSourceLang(ComboSource.Text, False);
+  ChangeTargetLang(ComboTarget.Text, True);
 
   if (FSwapTranslate) and ((MemoSource.Text <> string.Empty) or (MemoTarget.Text <> string.Empty)) then
   begin
@@ -1252,7 +1252,7 @@ begin
   end;
 end;
 
-procedure TformTrayslate.ChangeSourceLang(NewLang: string);
+procedure TformTrayslate.ChangeSourceLang(NewLang: string; AddPairs: boolean = True);
 var
   idx, idnative: integer;
 begin
@@ -1270,7 +1270,7 @@ begin
   begin
     FLangSource := NewLang;
 
-    if (FLangSource <> string.Empty) and (FLangTarget <> string.Empty) and (FLangSource <> FLangTarget) then
+    if (AddPairs) and (FLangSource <> string.Empty) and (FLangTarget <> string.Empty) and (FLangSource <> FLangTarget) then
     begin
       AddLangPair(FLangSource + ':' + FLangTarget);
       Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
@@ -1281,7 +1281,7 @@ begin
   end;
 end;
 
-procedure TformTrayslate.ChangeTargetLang(NewLang: string);
+procedure TformTrayslate.ChangeTargetLang(NewLang: string; AddPairs: boolean = True);
 var
   idx, idnative: integer;
 begin
@@ -1308,7 +1308,7 @@ begin
   begin
     FLangTarget := NewLang;
 
-    if (FLangSource <> string.Empty) and (FLangTarget <> string.Empty) and (FLangSource <> FLangTarget) then
+    if (AddPairs) and (FLangSource <> string.Empty) and (FLangTarget <> string.Empty) and (FLangSource <> FLangTarget) then
     begin
       AddLangPair(FLangSource + ':' + FLangTarget);
       Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
@@ -1369,19 +1369,19 @@ begin
 
   idxnative := FindInStringList(FLanguages, '(' + fromLang + ')');
   if idxnative >= 0 then
-    ChangeSourceLang(FLanguages[idxnative]);
+    ChangeSourceLang(FLanguages[idxnative], False);
 
   if FLanguagesTarget.Count > 0 then
   begin
     idxnative := FindInStringList(FLanguagesTarget, '(' + toLang + ')');
     if idxnative >= 0 then
-      ChangeTargetLang(FLanguagesTarget[idxnative]);
+      ChangeTargetLang(FLanguagesTarget[idxnative], False);
   end
   else
   begin
     idxnative := FindInStringList(FLanguages, '(' + toLang + ')');
     if idxnative >= 0 then
-      ChangeTargetLang(FLanguages[idxnative]);
+      ChangeTargetLang(FLanguages[idxnative], False);
   end;
 end;
 
