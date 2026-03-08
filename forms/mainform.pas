@@ -525,8 +525,9 @@ begin
     srcText := MemoSource.Text;
     MemoSource.Text := MemoTarget.Text;
     MemoTarget.Text := srcText;
-    Translate;
   end;
+
+  Translate;
 end;
 
 procedure TformTrayslate.aCheckForUpdatesExecute(Sender: TObject);
@@ -1403,6 +1404,8 @@ begin
     if idxnative >= 0 then
       ChangeTargetLang(FLanguages[idxnative], False);
   end;
+
+  Translate;
 end;
 
 end.
