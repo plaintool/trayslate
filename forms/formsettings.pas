@@ -46,6 +46,7 @@ type
     ColorIconBackground: TColorBox;
     ColorIconFont: TColorBox;
     ColorDialog: TColorDialog;
+    ComboLangDetect: TComboBox;
     EditApp: TEdit;
     EditTransClipboard: TEdit;
     EditTransFromControl: TEdit;
@@ -53,16 +54,19 @@ type
     EditTransSwap: TEdit;
     EditTransFromClipboard: TEdit;
     FontDialog: TFontDialog;
+    GroupAutoSwap: TGroupBox;
+    GroupAutostart: TGroupBox;
     GroupLangPairs: TGroupBox;
     GroupTransSwap: TGroupBox;
     GroupTransFromControl: TGroupBox;
     GroupTransFromClipboard: TGroupBox;
-    GroupOptions: TGroupBox;
+    GroupSettings: TGroupBox;
     GroupApp: TGroupBox;
     GroupFont: TGroupBox;
     GroupTransClipboard: TGroupBox;
     GroupTransControl: TGroupBox;
     GroupTrayIcon: TGroupBox;
+    LabelIconBackground1: TLabel;
     LabelMaxLangPairs: TLabel;
     LabelTransClipboard: TLabel;
     LabelTransFromControl: TLabel;
@@ -77,6 +81,7 @@ type
     PageInterface: TTabSheet;
     PageHotkeys: TTabSheet;
     SpinMaxLangPairs: TSpinEdit;
+    PageGeneral: TTabSheet;
     procedure BtnApplyClick(Sender: TObject);
     procedure BtnCancelClick(Sender: TObject);
     procedure BtnFontClick(Sender: TObject);
@@ -136,6 +141,9 @@ begin
   BtnOk.Default := True;
   BtnReset.Enabled := True;
 
+  ComboLangDetect.Items.Assign(formTrayslate.ConfigFileTitles);
+  ComboLangDetect.ItemIndex := formTrayslate.ConfigFiles.IndexOf(formTrayslate.ConfigLangDetect);
+
   AddTrayColors(ColorIconBackground);
   AddTrayColors(ColorIconFont);
   Reset;
@@ -143,7 +151,7 @@ end;
 
 procedure TformSettingsTrayslate.FormShow(Sender: TObject);
 begin
-  formTrayslate.TopMost:=False;
+  formTrayslate.TopMost := False;
 end;
 
 procedure TformSettingsTrayslate.BtnFontClick(Sender: TObject);

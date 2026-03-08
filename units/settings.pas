@@ -36,6 +36,8 @@ procedure LoadIniSettings(Translate: TTranslate; AFileName: string);
 
 procedure GetIniFiles(List: TStrings);
 
+function GetConfigFullPath(const ConfigName: string; ConfigFiles: TStringList): string;
+
 implementation
 
 uses systemtool, langtool;
@@ -569,6 +571,30 @@ begin
   SettingsDir := GetSettingsDirectory('');
   if CompareText(ExcludeTrailingPathDelimiter(ExeDir), ExcludeTrailingPathDelimiter(SettingsDir)) <> 0 then
     FindIniFiles(SettingsDir, List);
+end;
+
+function GetConfigFullPath(const ConfigName: string; ConfigFiles: TStringList): string;
+var
+  i: Integer;
+  NameOnly: string;
+begin
+  // Initialize result as empty string
+  Result := string.Empty;
+
+  // Extract only the file name in case ConfigName contains a full path
+  NameOnly := ExtractFileName(ConfigName);
+
+  // Iterate through all config file paths
+  for i := 0 to ConfigFiles.Count - 1 do
+  begin
+    // Compare only the file name, case-insensitive
+    if SameText(ExtractFileName(ConfigFiles[i]), NameOnly) then
+    begin
+      Result := ConfigFiles[i]; // return full path
+      Exit;
+    end;
+  end;
+  // If not found, Result remains empty
 end;
 
 end.

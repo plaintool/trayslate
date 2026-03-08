@@ -121,6 +121,7 @@ type
     procedure MenuPairClick(Sender: TObject);
   private
     FTrans: TTranslate;
+    FTransDetect: TTranslate;
     FTopMost: boolean;
     FLeftButton: boolean;
     FLastEnterTime: DWORD;
@@ -134,6 +135,8 @@ type
     // Settings
     FConfigFile: string;
     FConfigFiles: TStringList;
+    FConfigFileTitles: TStringList;
+    FConfigLangDetect: string;
     FLangSource: string;
     FLangTarget: string;
     FMaxLangPairs: integer;
@@ -157,18 +160,21 @@ type
     FIconFontColor: TColor;
     FIconTwoLang: boolean;
 
-    procedure Translate;
+    procedure DetectLanguage(AText: string);
+    function TranslateThread(ATrans: TTranslate; AText: string): string;
+    procedure Translate(AInstant: boolean = False);
     procedure TranslateFromClipboard;
     procedure TranslateClipboard;
     procedure TranslateFromControl(Data: PtrInt);
     procedure TranslateControl(Data: PtrInt);
     procedure GlobalCtrlC;
     procedure GlobalCtrlV;
+    procedure ProcessMessages;
+    procedure SetAutoStart(Value: boolean);
 
     procedure ChangeSourceLang(NewLang: string; AddPairs: boolean = True);
     procedure ChangeTargetLang(NewLang: string; AddPairs: boolean = True);
-    procedure ProcessMessages;
-    procedure SetAutoStart(Value: boolean);
+    procedure SwapLanguages(ASwapTranslate: boolean = True);
     procedure AddLangPair(const Pair: string);
     procedure SelectPair(const Pair: string);
   protected
@@ -190,11 +196,14 @@ type
 
     // Base properties
     property Trans: TTranslate read FTrans write FTrans;
+    property TransDetect: TTranslate read FTransDetect write FTransDetect;
     property TopMost: boolean read FTopMost write FTopMost;
 
     // Settings properties
     property ConfigFile: string read FConfigFile write FConfigFile;
     property ConfigFiles: TStringList read FConfigFiles write FConfigFiles;
+    property ConfigFileTitles: TStringList read FConfigFileTitles write FConfigFileTitles;
+    property ConfigLangDetect: string read FConfigLangDetect write FConfigLangDetect;
     property AutoStart: boolean read FAutoStart write SetAutoStart;
     property IconBackgroundColor: TColor read FIconBackgroundColor write FIconBackgroundColor;
     property IconFontColor: TColor read FIconFontColor write FIconFontColor;
@@ -243,6 +252,7 @@ procedure TformTrayslate.FormCreate(Sender: TObject);
 begin
   // Default values
   FConfigFile := string.Empty;
+  FConfigLangDetect := 'languagedetect.ini';
   FIconBackgroundColor := $00C07000;
   FIconFontColor := clWhite;
   FIconTwoLang := True;
@@ -290,7 +300,8 @@ begin
   SbSwap.ImageIndex := ThemeValue(0, 1);
   SbTranslate.ImageIndex := ThemeValue(2, 3);
 
-  Trans := TTranslate.Create;
+  FTrans := TTranslate.Create;
+  FTransDetect := TTranslate.Create;
   FLanguages := TStringList.Create;
   FLanguagesSorted := TStringList.Create;
   FLanguagesTarget := TStringList.Create;
@@ -302,8 +313,10 @@ begin
 
   // Load config files
   FConfigFiles := TStringList.Create;
+  FConfigFileTitles := TStringList.Create;
   GetIniFiles(FConfigFiles);
   BuildConfigMenu;
+  FConfigLangDetect := GetConfigFullPath(FConfigLangDetect, FConfigFiles);
 
   if (FConfigFiles.IndexOf(FConfigFile) < 0) then
   begin
@@ -351,7 +364,9 @@ begin
   FLanguagesTarget.Free;
   FLanguagesTargetSorted.Free;
   FConfigFiles.Free;
-  Trans.Free;
+  FConfigFileTitles.Free;
+  FTrans.Free;
+  FTransDetect.Free;
 end;
 
 procedure TformTrayslate.FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -514,23 +529,8 @@ begin
 end;
 
 procedure TformTrayslate.aSwapExecute(Sender: TObject);
-var
-  srcIndex: integer;
-  srcText: string;
 begin
-  srcIndex := ComboSource.ItemIndex;
-  ComboSource.ItemIndex := ComboTarget.ItemIndex;
-  ComboTarget.ItemIndex := srcIndex;
-  ChangeSourceLang(ComboSource.Text, False);
-  ChangeTargetLang(ComboTarget.Text, True);
-
-  if (FSwapTranslate) and ((MemoSource.Text <> string.Empty) or (MemoTarget.Text <> string.Empty)) then
-  begin
-    srcText := MemoSource.Text;
-    MemoSource.Text := MemoTarget.Text;
-    MemoTarget.Text := srcText;
-  end;
-
+  SwapLanguages;
   Translate;
 end;
 
@@ -590,7 +590,7 @@ procedure TformTrayslate.MemoSourceChange(Sender: TObject);
 begin
   if FTranslateAsYouType then
   begin
-    Translate;
+    Translate(True);
     if MemoSource.Text = string.Empty then
       MemoTarget.Clear;
   end;
@@ -829,7 +829,10 @@ begin
   UpdateCheckConfigMenu;
 
   // Load settings from INI
-  LoadIniSettings(Trans, FConfigFile);
+  LoadIniSettings(FTrans, FConfigFile);
+
+  if (FConfigLangDetect <> string.Empty) then
+    LoadIniSettings(FTransDetect, FConfigLangDetect);
 
   // Form caption with config file name
   Caption := rtrayslate + ifthen(Trans.ServiceName <> string.Empty, ' - ' + Trans.ServiceName,
@@ -928,6 +931,8 @@ begin
         Ini.Free;
       end;
     end;
+
+    FConfigFileTitles.Add(ServiceName);
 
     Item := TMenuItem.Create(MenuConfig);
 
@@ -1109,12 +1114,56 @@ end;
 
 {$ENDIF}
 
-procedure TformTrayslate.Translate;
+procedure TformTrayslate.DetectLanguage(AText: string);
+var
+  langSrc, langTar, langDetect: string;
+begin
+  if (not FAutoSwap) or (not Assigned(FTransDetect)) then exit;
+
+  // Detect language in source memo
+  langDetect := TranslateThread(TransDetect, AText);
+
+  // Check selected languages
+  langSrc := Trans.Languages.ValueFromIndex[FLanguages.IndexOf(ComboSource.Text)];
+  langTar := Trans.Languages.ValueFromIndex[FLanguages.IndexOf(ComboTarget.Text)];
+
+  // Swap if needed
+  if (LowerCase(langSrc) <> LowerCase(langDetect)) and (LowerCase(langTar) = LowerCase(langDetect)) then
+    SwapLanguages(False);
+end;
+
+function TformTrayslate.TranslateThread(ATrans: TTranslate; AText: string): string;
+var
+  Th: TTranslateThread;
+begin
+  Result := string.Empty;
+
+  // Create translation thread (it will handle exceptions itself)
+  ATrans.TextToTranslate := AText;
+  Th := TTranslateThread.Create(ATrans);
+  try
+    Th.FreeOnTerminate := False;
+
+    // Wait for thread to finish
+    while not Th.Finished do
+      Application.ProcessMessages;
+
+    // Set translated text to clipboard
+    if Th.ResultTextSync <> string.Empty then
+      Result := Th.ResultTextSync;
+  finally
+    Th.Free;
+  end;
+end;
+
+procedure TformTrayslate.Translate(AInstant: boolean = False);
 begin
   if Trim(MemoSource.Text) = string.Empty then Exit;
 
   Screen.Cursor := crAppStart;
   try
+    if (not AInstant) then DetectLanguage(MemoSource.Text);
+
     // Create translation thread (it will handle exceptions itself)
     Trans.TextToTranslate := MemoSource.Text;
     TTranslateThread.Create(Trans, MemoTarget);
@@ -1138,29 +1187,14 @@ begin
 end;
 
 procedure TformTrayslate.TranslateClipboard;
-var
-  Th: TTranslateThread;
 begin
   Screen.Cursor := crAppStart;
   try
     if Clipboard.AsText = string.Empty then Exit;
 
-    // Create translation thread (it will handle exceptions itself)
-    Trans.TextToTranslate := Clipboard.AsText;
-    Th := TTranslateThread.Create(Trans);
-    try
-      Th.FreeOnTerminate := False;
+    DetectLanguage(Clipboard.AsText);
 
-      // Wait for thread to finish
-      while not Th.Finished do
-        Application.ProcessMessages;
-
-      // Set translated text to clipboard
-      if Th.ResultTextSync <> string.Empty then
-        Clipboard.AsText := Th.ResultTextSync;
-    finally
-      Th.Free;
-    end;
+    Clipboard.AsText := TranslateThread(Trans, Clipboard.AsText);
   finally
     Screen.Cursor := crDefault;
   end;
@@ -1198,7 +1232,6 @@ end;
 procedure TformTrayslate.TranslateControl(Data: PtrInt);
 var
   OriginalClip: string;
-  Th: TTranslateThread;
 begin
   {$IFDEF WINDOWS}
   SetSystemCursor(LoadCursor(0, IDC_APPSTARTING), OCR_IBEAM);
@@ -1214,25 +1247,11 @@ begin
     // Copy selection from active window (Ctrl+C)
     GlobalCtrlC;
 
-    // Create translation thread (it will handle exceptions itself)
-    Trans.TextToTranslate := Clipboard.AsText;
-
-    if Trans.TextToTranslate <> string.Empty then
+    if Clipboard.AsText <> string.Empty then
     begin
-      Th := TTranslateThread.Create(Trans);
-      try
-        Th.FreeOnTerminate := False;
+      DetectLanguage(Clipboard.AsText);
 
-        // Wait for thread to finish
-        while not Th.Finished do
-          Application.ProcessMessages;
-
-        // Set translated text to clipboard
-        if Th.ResultTextSync <> string.Empty then
-          Clipboard.AsText := Th.ResultTextSync;
-      finally
-        Th.Free;
-      end;
+      Clipboard.AsText := TranslateThread(Trans, Clipboard.AsText);
 
       // Paste clipboard to active window (Ctrl+V)
       GlobalCtrlV;
@@ -1275,6 +1294,19 @@ begin
   KeyInput.Up(Ord('V'));
   Sleep(5);
   KeyInput.Unapply([ssCtrl]);
+end;
+
+procedure TformTrayslate.ProcessMessages;
+begin
+  Application.ProcessMessages;
+  Repaint;
+  Application.ProcessMessages;
+end;
+
+procedure TformTrayslate.SetAutoStart(Value: boolean);
+begin
+  FAutoStart := Value;
+  RegAutoStart(FAutoStart, rtrayslate);
 end;
 
 procedure TformTrayslate.ChangeSourceLang(NewLang: string; AddPairs: boolean = True);
@@ -1344,17 +1376,23 @@ begin
   end;
 end;
 
-procedure TformTrayslate.ProcessMessages;
+procedure TformTrayslate.SwapLanguages(ASwapTranslate: boolean = True);
+var
+  srcIndex: integer;
+  srcText: string;
 begin
-  Application.ProcessMessages;
-  Repaint;
-  Application.ProcessMessages;
-end;
+  srcIndex := ComboSource.ItemIndex;
+  ComboSource.ItemIndex := ComboTarget.ItemIndex;
+  ComboTarget.ItemIndex := srcIndex;
+  ChangeSourceLang(ComboSource.Text, False);
+  ChangeTargetLang(ComboTarget.Text, True);
 
-procedure TformTrayslate.SetAutoStart(Value: boolean);
-begin
-  FAutoStart := Value;
-  RegAutoStart(FAutoStart, rtrayslate);
+  if ASwapTranslate and FSwapTranslate and ((MemoSource.Text <> string.Empty) or (MemoTarget.Text <> string.Empty)) then
+  begin
+    srcText := MemoSource.Text;
+    MemoSource.Text := MemoTarget.Text;
+    MemoTarget.Text := srcText;
+  end;
 end;
 
 procedure TformTrayslate.AddLangPair(const Pair: string);

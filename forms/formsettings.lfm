@@ -16,12 +16,123 @@ object formSettingsTrayslate: TformSettingsTrayslate
     Height = 465
     Top = 5
     Width = 400
-    ActivePage = PageInterface
+    ActivePage = PageGeneral
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
     TabIndex = 0
     TabOrder = 0
+    object PageGeneral: TTabSheet
+      Caption = 'General'
+      ClientHeight = 437
+      ClientWidth = 392
+      object GroupSettings: TGroupBox
+        Left = 5
+        Height = 91
+        Top = 173
+        Width = 382
+        Align = alTop
+        BorderSpacing.Around = 5
+        Caption = 'Settings'
+        ClientHeight = 71
+        ClientWidth = 378
+        TabOrder = 0
+        object CheckSwapTranslate: TCheckBox
+          Left = 21
+          Height = 19
+          Hint = 'When you press the Swap button, both source and translated text are switched'
+          Top = 40
+          Width = 152
+          Caption = 'Swap text with languages'
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 0
+          OnChange = SettingChange
+        end
+        object CheckTranslateAsYouType: TCheckBox
+          Left = 21
+          Height = 19
+          Hint = 'Automatically translate text while typing'
+          Top = 8
+          Width = 128
+          Caption = 'Translate as you type'
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 1
+          OnChange = SettingChange
+        end
+      end
+      object GroupAutoSwap: TGroupBox
+        Left = 5
+        Height = 99
+        Top = 69
+        Width = 382
+        Align = alTop
+        BorderSpacing.Around = 5
+        Caption = 'Auto Swap Languages'
+        ClientHeight = 79
+        ClientWidth = 378
+        TabOrder = 1
+        object ComboLangDetect: TComboBox
+          Left = 136
+          Height = 23
+          Hint = 'Config that auto-detects the target language for the selected language pair'
+          Top = 40
+          Width = 219
+          ItemHeight = 15
+          ParentShowHint = False
+          ShowHint = True
+          Style = csDropDownList
+          TabOrder = 0
+        end
+        object LabelIconBackground1: TLabel
+          Left = 0
+          Height = 32
+          Top = 40
+          Width = 120
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Language Detection Config'
+          WordWrap = True
+        end
+        object CheckAutoSwap: TCheckBox
+          Left = 21
+          Height = 19
+          Hint = 'Automatically detect input language and swap pair if needed, does not work during Translate as you type'
+          Top = 8
+          Width = 151
+          Caption = 'Auto-swap language pair'
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 1
+          OnChange = SettingChange
+        end
+      end
+      object GroupAutostart: TGroupBox
+        Left = 5
+        Height = 59
+        Top = 5
+        Width = 382
+        Align = alTop
+        BorderSpacing.Around = 5
+        Caption = 'Autostart'
+        ClientHeight = 39
+        ClientWidth = 378
+        TabOrder = 2
+        object CheckAutostart: TCheckBox
+          Left = 21
+          Height = 19
+          Hint = 'Start the application automatically when the computer boots'
+          Top = 8
+          Width = 150
+          Caption = 'Launch at system startup'
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 0
+          OnChange = SettingChange
+        end
+      end
+    end
     object PageInterface: TTabSheet
       Caption = 'Interface'
       ClientHeight = 437
@@ -29,14 +140,14 @@ object formSettingsTrayslate: TformSettingsTrayslate
       object GroupFont: TGroupBox
         Left = 5
         Height = 99
-        Top = 141
+        Top = 5
         Width = 382
         Align = alTop
         BorderSpacing.Around = 5
         Caption = 'Font'
         ClientHeight = 79
         ClientWidth = 378
-        TabOrder = 1
+        TabOrder = 0
         object PanelFont: TPanel
           Left = 16
           Height = 57
@@ -76,16 +187,16 @@ object formSettingsTrayslate: TformSettingsTrayslate
       object GroupTrayIcon: TGroupBox
         Left = 5
         Height = 123
-        Top = 245
+        Top = 109
         Width = 382
         Align = alTop
         BorderSpacing.Around = 5
         Caption = 'Tray Icon'
         ClientHeight = 103
         ClientWidth = 378
-        TabOrder = 2
+        TabOrder = 1
         object CheckTwoLang: TCheckBox
-          Left = 21
+          Left = 24
           Height = 19
           Hint = 'Display source and/or target language on the tray icon'
           Top = 72
@@ -100,7 +211,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Left = 136
           Height = 22
           Top = 8
-          Width = 190
+          Width = 219
           Style = [cbCustomColor, cbCustomColors]
           ColorDialog = ColorDialog
           Anchors = [akTop, akLeft, akRight]
@@ -131,7 +242,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Left = 136
           Height = 22
           Top = 40
-          Width = 190
+          Width = 219
           Style = [cbCustomColor, cbCustomColors]
           ColorDialog = ColorDialog
           Anchors = [akTop, akLeft, akRight]
@@ -141,81 +252,21 @@ object formSettingsTrayslate: TformSettingsTrayslate
           OnChange = SettingChange
         end
       end
-      object GroupOptions: TGroupBox
-        Left = 5
-        Height = 131
-        Top = 5
-        Width = 382
-        Align = alTop
-        BorderSpacing.Around = 5
-        Caption = 'Options'
-        ClientHeight = 111
-        ClientWidth = 378
-        TabOrder = 0
-        object CheckAutostart: TCheckBox
-          Left = 21
-          Height = 19
-          Hint = 'Start the application automatically when the computer boots'
-          Top = 8
-          Width = 150
-          Caption = 'Launch at system startup'
-          ParentShowHint = False
-          ShowHint = True
-          TabOrder = 0
-          OnChange = SettingChange
-        end
-        object CheckSwapTranslate: TCheckBox
-          Left = 21
-          Height = 19
-          Hint = 'When you press the Swap button, both source and translated text are switched'
-          Top = 80
-          Width = 152
-          Caption = 'Swap text with languages'
-          ParentShowHint = False
-          ShowHint = True
-          TabOrder = 1
-          OnChange = SettingChange
-        end
-        object CheckTranslateAsYouType: TCheckBox
-          Left = 21
-          Height = 19
-          Hint = 'Automatically translate text while typing'
-          Top = 32
-          Width = 128
-          Caption = 'Translate as you type'
-          ParentShowHint = False
-          ShowHint = True
-          TabOrder = 2
-          OnChange = SettingChange
-        end
-        object CheckAutoSwap: TCheckBox
-          Left = 21
-          Height = 19
-          Hint = 'Automatically detect input language and swap pair if needed'
-          Top = 56
-          Width = 151
-          Caption = 'Auto-swap language pair'
-          ParentShowHint = False
-          ShowHint = True
-          TabOrder = 3
-          OnChange = SettingChange
-        end
-      end
       object GroupLangPairs: TGroupBox
         Left = 0
         Height = 59
-        Top = 373
+        Top = 237
         Width = 392
         Align = alTop
         Caption = 'Recent Language Pairs'
         ClientHeight = 39
         ClientWidth = 388
-        TabOrder = 3
+        TabOrder = 2
         object SpinMaxLangPairs: TSpinEdit
           Left = 141
           Height = 23
           Top = 9
-          Width = 190
+          Width = 219
           MaxValue = 100
           TabOrder = 0
           Value = 10

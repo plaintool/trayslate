@@ -447,6 +447,7 @@ begin
     SaveIniSettings(formTrayslate.Trans, formTrayslate.ConfigFile);
     aSave.Enabled := False;
     formTrayslate.LoadConfig;
+    formTrayslate.BuildConfigMenu;
   finally
     Screen.Cursor := crDefault;
     Caption := rcaption;

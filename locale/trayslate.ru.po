@@ -352,6 +352,7 @@ msgid "Reset"
 msgstr ""
 
 #: tformsettingstrayslate.caption
+msgctxt "tformsettingstrayslate.caption"
 msgid "Settings"
 msgstr ""
 
@@ -368,7 +369,7 @@ msgid "Auto-swap language pair"
 msgstr ""
 
 #: tformsettingstrayslate.checkautoswap.hint
-msgid "Automatically detect input language and swap pair if needed"
+msgid "Automatically detect input language and swap pair if needed, does not work during Translate as you type"
 msgstr ""
 
 #: tformsettingstrayslate.checkswaptranslate.caption
@@ -393,6 +394,10 @@ msgstr ""
 
 #: tformsettingstrayslate.checktwolang.hint
 msgid "Display source and/or target language on the tray icon"
+msgstr ""
+
+#: tformsettingstrayslate.combolangdetect.hint
+msgid "Config that auto-detects the target language for the selected language pair"
 msgstr ""
 
 #: tformsettingstrayslate.editapp.hint
@@ -429,6 +434,14 @@ msgstr ""
 msgid "Toggle Application (Tray Icon Click)"
 msgstr ""
 
+#: tformsettingstrayslate.groupautostart.caption
+msgid "Autostart"
+msgstr ""
+
+#: tformsettingstrayslate.groupautoswap.caption
+msgid "Auto Swap Languages"
+msgstr ""
+
 #: tformsettingstrayslate.groupfont.caption
 msgctxt "tformsettingstrayslate.groupfont.caption"
 msgid "Font"
@@ -439,8 +452,9 @@ msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
 msgstr ""
 
-#: tformsettingstrayslate.groupoptions.caption
-msgid "Options"
+#: tformsettingstrayslate.groupsettings.caption
+msgctxt "tformsettingstrayslate.groupsettings.caption"
+msgid "Settings"
 msgstr ""
 
 #: tformsettingstrayslate.grouptransclipboard.caption
@@ -477,6 +491,11 @@ msgstr ""
 msgid "Background Color"
 msgstr ""
 
+#: tformsettingstrayslate.labeliconbackground1.caption
+msgctxt "tformsettingstrayslate.labeliconbackground1.caption"
+msgid "Language Detection Config"
+msgstr ""
+
 #: tformsettingstrayslate.labeliconfont.caption
 msgid "Font Color"
 msgstr ""
@@ -509,6 +528,10 @@ msgstr ""
 #: tformsettingstrayslate.labeltransswap.caption
 msgctxt "tformsettingstrayslate.labeltransswap.caption"
 msgid "Swaps the source and target languages"
+msgstr ""
+
+#: tformsettingstrayslate.pagegeneral.caption
+msgid "General"
 msgstr ""
 
 #: tformsettingstrayslate.pagehotkeys.caption
