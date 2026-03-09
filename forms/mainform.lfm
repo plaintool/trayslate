@@ -260,7 +260,7 @@ object formTrayslate: TformTrayslate
     end
     object aTranslate: TAction
       Category = 'Form'
-      Hint = 'Translate'#13#10'Ctrl ¦ Shift ¦ Enter + Enter'
+      Hint = 'Translate (Ctrl ¦ Shift ¦ Enter + Enter)'
       OnExecute = aTranslateExecute
     end
     object aShow: TAction
@@ -305,7 +305,7 @@ object formTrayslate: TformTrayslate
     end
     object aNewTranslate: TAction
       Category = 'Form'
-      Hint = 'New Translate (Ctrl+N)'
+      Hint = 'New Translate'
       ShortCut = 16462
       OnExecute = aNewTranslateExecute
     end

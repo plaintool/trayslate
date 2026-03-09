@@ -23,6 +23,11 @@ msgstr ""
 msgid "Configuration file not found! Create it in the configuration editor."
 msgstr ""
 
+#: mainform.rswap
+msgctxt "mainform.rswap"
+msgid "Swap"
+msgstr ""
+
 #: mainform.rtrayslate
 msgctxt "mainform.rtrayslate"
 msgid "Trayslate"
@@ -559,7 +564,7 @@ msgid "Exit"
 msgstr ""
 
 #: tformtrayslate.anewtranslate.hint
-msgid "New Translate (Ctrl+N)"
+msgid "New Translate"
 msgstr ""
 
 #: tformtrayslate.asettings.caption
@@ -571,14 +576,13 @@ msgid "Show"
 msgstr ""
 
 #: tformtrayslate.aswap.hint
+msgctxt "tformtrayslate.aswap.hint"
 msgid "Swap"
 msgstr ""
 
 #: tformtrayslate.atranslate.hint
 msgctxt "tformtrayslate.atranslate.hint"
-msgid ""
-"Translate\n"
-"Ctrl ¦ Shift ¦ Enter + Enter"
+msgid "Translate (Ctrl ¦ Shift ¦ Enter + Enter)"
 msgstr ""
 
 #: tformtrayslate.atranslateclipboard.caption

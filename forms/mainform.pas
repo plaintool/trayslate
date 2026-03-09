@@ -239,6 +239,7 @@ const
 
 resourcestring
   rtrayslate = 'Trayslate';
+  rswap = 'Swap';
   noconfig = 'Configuration file not found! Create it in the configuration editor.';
 
 implementation
@@ -300,6 +301,7 @@ begin
   Left := Screen.WorkAreaRect.Right - Width - 30;
   Top := Screen.WorkAreaRect.Bottom - Height - 50;
 
+  aSwap.Hint := rswap + ' (' + HotKeyToText(HotKeyTransSwap) + ')';
   SbSwap.ImageIndex := ThemeValue(0, 1);
   SbTranslate.ImageIndex := ThemeValue(2, 3);
 
@@ -507,6 +509,7 @@ begin
   finally
     FreeAndNil(formSettingsTrayslate);
     RegisterHotKeys;
+    aSwap.Hint := rswap + ' (' + HotKeyToText(HotKeyTransSwap) + ')';
   end;
 end;
 
