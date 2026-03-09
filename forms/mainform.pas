@@ -83,6 +83,8 @@ type
     TimerActive: TTimer;
     TrayIcon: TTrayIcon;
     procedure aCheckForUpdatesExecute(Sender: TObject);
+    procedure ComboSourceCloseUp(Sender: TObject);
+    procedure ComboTargetCloseUp(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -103,10 +105,6 @@ type
     procedure aDonateExecute(Sender: TObject);
     procedure aAboutExecute(Sender: TObject);
     procedure aExitExecute(Sender: TObject);
-    procedure ComboSourceChange(Sender: TObject);
-    procedure ComboTargetChange(Sender: TObject);
-    procedure ComboSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
-    procedure ComboTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure MemoSourceChange(Sender: TObject);
     procedure MemoSourceEnter(Sender: TObject);
     procedure MemoTargetEnter(Sender: TObject);
@@ -578,24 +576,14 @@ end;
 
 {Control Events}
 
-procedure TformTrayslate.ComboSourceChange(Sender: TObject);
+procedure TformTrayslate.ComboSourceCloseUp(Sender: TObject);
 begin
   ChangeSourceLang(ComboSource.Text);
 end;
 
-procedure TformTrayslate.ComboTargetChange(Sender: TObject);
+procedure TformTrayslate.ComboTargetCloseUp(Sender: TObject);
 begin
   ChangeTargetLang(ComboTarget.Text);
-end;
-
-procedure TformTrayslate.ComboSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
-begin
-  if (Key = VK_RETURN) then ComboSourceChange(Self);
-end;
-
-procedure TformTrayslate.ComboTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
-begin
-  if (Key = VK_RETURN) then ComboTargetChange(Self);
 end;
 
 procedure TformTrayslate.MemoSourceChange(Sender: TObject);
@@ -901,7 +889,7 @@ begin
   else
   begin
     ComboSource.ItemIndex := 0; // First item as default
-    ComboSourceChange(Self);
+    ComboSourceCloseUp(Self);
   end;
 
   if LangTarget <> string.Empty then
