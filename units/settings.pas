@@ -382,6 +382,9 @@ begin
     if Trim(Translate.UserAgent) <> string.Empty then
       Ini.WriteString('Request', 'UserAgent', Translate.UserAgent);
 
+    Ini.DeleteKey('Request', 'EncryptText');
+    Ini.WriteBool('Request', 'EncryptText', Translate.EncryptText);
+
     Ini.DeleteKey('Request', 'Url');
     if Trim(Translate.Url) <> string.Empty then
       Ini.WriteString('Request', 'Url', Translate.Url);
@@ -402,21 +405,18 @@ begin
     if Trim(Translate.Accept) <> string.Empty then
       Ini.WriteString('Request', 'Accept', Translate.Accept);
 
-    Ini.DeleteKey('Request', 'EncryptText');
-    Ini.WriteBool('Request', 'EncryptText', Translate.EncryptText);
-
     if Translate.ResponseParser = rpJson then
       Ini.WriteString('Response', 'ParserType', 'Json')
     else
       Ini.WriteString('Response', 'ParserType', 'Regexp');
 
-    Ini.DeleteKey('Response', 'Regexp');
-    if Trim(Translate.Regexp) <> string.Empty then
-      Ini.WriteString('Response', 'Regexp', Translate.Regexp);
-
     Ini.DeleteKey('Response', 'JsonPointer');
     if Trim(Translate.JsonPointer) <> string.Empty then
       Ini.WriteString('Response', 'JsonPointer', Translate.JsonPointer);
+
+    Ini.DeleteKey('Response', 'Regexp');
+    if Trim(Translate.Regexp) <> string.Empty then
+      Ini.WriteString('Response', 'Regexp', Translate.Regexp);
 
     // Save headers
     Ini.EraseSection('Headers'); // Clear previous entries
@@ -425,6 +425,30 @@ begin
         Ini.WriteString('Headers',
           Translate.Headers.Names[i],
           Translate.Headers.ValueFromIndex[i]);
+
+    Ini.DeleteKey('Initial Request', 'UserAgent');
+    if Trim(Translate.InitUserAgent) <> string.Empty then
+      Ini.WriteString('Initial Request', 'UserAgent', Translate.InitUserAgent);
+
+    Ini.DeleteKey('Initial Request', 'Url');
+    if Trim(Translate.InitUrl) <> string.Empty then
+      Ini.WriteString('Initial Request', 'Url', Translate.InitUrl);
+
+    // Save initial headers
+    Ini.EraseSection('Initial Headers'); // Clear previous entries
+    if Assigned(Translate.InitHeaders) then
+      for i := 0 to Translate.InitHeaders.Count - 1 do
+        Ini.WriteString('Initial Headers',
+          Translate.InitHeaders.Names[i],
+          Translate.InitHeaders.ValueFromIndex[i]);
+
+    // Save initial parameters
+    Ini.EraseSection('Initial Parameters'); // Clear previous entries
+    if Assigned(Translate.InitParameters) then
+      for i := 0 to Translate.InitParameters.Count - 1 do
+        Ini.WriteString('Initial Parameters',
+          Translate.InitParameters.Names[i],
+          Translate.InitParameters.ValueFromIndex[i]);
 
     // Save language mappings (code=apiCode)
     Ini.EraseSection('Languages'); // Clear previous entries
@@ -463,34 +487,36 @@ begin
       Translate.WebMethod := wmGet;
 
     Translate.UserAgent := Ini.ReadString('Request', 'UserAgent', string.Empty);
-
+    Translate.EncryptText := Ini.ReadBool('Request', 'EncryptText', True);
     Translate.Url := Ini.ReadString('Request', 'Url', string.Empty);
 
     Translate.ContentType := Ini.ReadString('Request', 'ContentType', string.Empty);
-
     // Restore line breaks from \r\n
     PostDataEscaped := Ini.ReadString('Request', 'PostData', string.Empty);
     Translate.PostData := StringReplace(PostDataEscaped, '\r\n', LineEnding, [rfReplaceAll]);
-
     Translate.Accept := Ini.ReadString('Request', 'Accept', string.Empty);
-
-    Translate.EncryptText := Ini.ReadBool('Request', 'EncryptText', True);
 
     Method := Ini.ReadString('Response', 'ParserType', 'Json');
     if SameText(Method, 'Json') then
       Translate.ResponseParser := rpJson
     else
       Translate.ResponseParser := rpRegEx;
-
-    Translate.Regexp := Ini.ReadString('Response', 'Regexp', string.Empty);
     Translate.JsonPointer := Ini.ReadString('Response', 'JsonPointer', string.Empty);
+    Translate.Regexp := Ini.ReadString('Response', 'Regexp', string.Empty);
+    Translate.Headers.Clear;
+    Ini.ReadSectionValues('Headers', Translate.Headers);
+
+    Translate.InitUserAgent := Ini.ReadString('Initial Request', 'UserAgent', string.Empty);
+    Translate.InitUrl := Ini.ReadString('Initial Request', 'Url', string.Empty);
+    Translate.InitHeaders.Clear;
+    Ini.ReadSectionValues('Initial Headers', Translate.InitHeaders);
+    Translate.InitParameters.Clear;
+    Ini.ReadSectionValues('Initial Parameters', Translate.InitParameters);
 
     Translate.Languages.Clear;
     Ini.ReadSectionValues('Languages', Translate.Languages);
     Translate.LanguagesTarget.Clear;
     Ini.ReadSectionValues('LanguagesTarget', Translate.LanguagesTarget);
-    Translate.Headers.Clear;
-    Ini.ReadSectionValues('Headers', Translate.Headers);
   finally
     Ini.Free;
   end;

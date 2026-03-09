@@ -23,7 +23,9 @@ uses
   ExtCtrls,
   FileUtil,
   Buttons,
-  LCLType, ActnList, ComCtrls;
+  ActnList,
+  ComCtrls,
+  LCLType;
 
 type
 
@@ -44,21 +46,29 @@ type
     EditContentType: TEdit;
     EditRegexp: TEdit;
     EditServiceName: TEdit;
+    EditInitUserAgent: TEdit;
     GroupBoxService: TGroupBox;
-    GroupHeaders: TGroupBox;
+    GroupInitParameters: TGroupBox;
     GroupLanguagesTarget: TGroupBox;
     GroupRequest: TGroupBox;
     GroupResponse: TGroupBox;
     GroupLanguages: TGroupBox;
     LabelAccept: TLabel;
+    LabelInitHeaders: TLabel;
+    LabelInitParameters: TLabel;
     LabelLanguagesTarget: TLabel;
     LabelFillLanguages: TLabel;
     LabelMethod: TLabel;
     LabelLanguages: TLabel;
+    LabelInitParemeters: TLabel;
     LabelParemeters2: TLabel;
     LabelHeaders: TLabel;
     LabelPostData: TLabel;
     LabelJsonPointer: TLabel;
+    LabelPostData1: TLabel;
+    LabelInitParameters2: TLabel;
+    LabelInitHeaders2: TLabel;
+    LabelInitUrl: TLabel;
     LabelUserAgent: TLabel;
     LabelContentType: TLabel;
     LabelUrl: TLabel;
@@ -66,18 +76,22 @@ type
     LabelResponseParser: TLabel;
     LabelRegexp: TLabel;
     LabelServiceName: TLabel;
+    LabelInitUserAgent: TLabel;
+    MemoInitHeaders: TMemo;
     MemoLanguages: TMemo;
     MemoHeaders: TMemo;
     MemoLanguagesTarget: TMemo;
+    MemoInitParameters: TMemo;
     MemoURL: TMemo;
     MemoPostData: TMemo;
+    MemoInitURL: TMemo;
     Pages: TPageControl;
     PanelTop: TPanel;
     SbCopyConfig: TSpeedButton;
     SbNewConfig: TSpeedButton;
     ScrollBoxConfig: TScrollBox;
     PageService: TTabSheet;
-    PageHeaders: TTabSheet;
+    PageParameters: TTabSheet;
     PageLanguages: TTabSheet;
     PageLanguagesTarget: TTabSheet;
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -346,20 +360,25 @@ begin
     else
       ComboMethod.ItemIndex := 1;
     EditUserAgent.Text := UserAgent;
-    EditContentType.Text := ContentType;
+    MemoHeaders.Lines.Assign(Headers);
+    CheckEncryptText.Checked := EncryptText;
     MemoUrl.Text := Url;
+    EditContentType.Text := ContentType;
     MemoPostData.Text := PostData;
     EditAccept.Text := Accept;
     if ResponseParser = rpJson then
       ComboResponseParser.ItemIndex := 0
     else
       ComboResponseParser.ItemIndex := 1;
-    EditRegexp.Text := Regexp;
     EditJsonPointer.Text := JsonPointer;
-    CheckEncryptText.Checked := EncryptText;
+    EditRegexp.Text := Regexp;
     MemoLanguages.Lines.Assign(Languages);
     MemoLanguagesTarget.Lines.Assign(LanguagesTarget);
-    MemoHeaders.Lines.Assign(Headers);
+
+    EditInitUserAgent.Text := InitUserAgent;
+    MemoInitHeaders.Lines.Assign(InitHeaders);
+    MemoInitUrl.Text := InitUrl;
+    MemoInitParameters.Lines.Assign(InitParameters);
   end;
   aSave.Enabled := False;
   Caption := rcaption;
@@ -372,17 +391,22 @@ begin
     ServiceName := string.Empty;
     WebMethod := wmGet;
     UserAgent := string.Empty;
-    ContentType := string.Empty;
+    Headers.Clear;
+    EncryptText := False;
     Url := string.Empty;
+    ContentType := string.Empty;
     PostData := string.Empty;
     Accept := string.Empty;
     ResponseParser := rpJson;
-    Regexp := string.Empty;
     JsonPointer := string.Empty;
-    EncryptText := False;
+    Regexp := string.Empty;
     Languages.Clear;
     LanguagesTarget.Clear;
-    Headers.Clear;
+
+    InitUserAgent := string.Empty;
+    InitHeaders.Clear;
+    InitUrl := string.Empty;
+    InitParameters.Clear;
 
     // Clear controls
     EditServiceName.Text := string.Empty;
@@ -425,25 +449,35 @@ begin
       else
         WebMethod := wmPost;
       UserAgent := EditUserAgent.Text;
-      ContentType := EditContentType.Text;
-      Accept := EditAccept.Text;
-      Url := MemoUrl.Text;
-      PostData := MemoPostData.Text;
-      if ComboResponseParser.ItemIndex = 0 then
-        ResponseParser := rpJson
-      else
-        ResponseParser := rpRegEx;
-      Regexp := EditRegexp.Text;
-      JsonPointer := EditJsonPointer.Text;
       EncryptText := CheckEncryptText.Checked;
-      Languages.Assign(MemoLanguages.Lines);
-      LanguagesTarget.Assign(MemoLanguagesTarget.Lines);
       TempHeaders := HeadersFromMemo(MemoHeaders);
       try
         Headers.Assign(TempHeaders);
       finally
         TempHeaders.Free;
       end;
+      Url := MemoUrl.Text;
+      ContentType := EditContentType.Text;
+      PostData := MemoPostData.Text;
+      Accept := EditAccept.Text;
+      if ComboResponseParser.ItemIndex = 0 then
+        ResponseParser := rpJson
+      else
+        ResponseParser := rpRegEx;
+      JsonPointer := EditJsonPointer.Text;
+      Regexp := EditRegexp.Text;
+      Languages.Assign(MemoLanguages.Lines);
+      LanguagesTarget.Assign(MemoLanguagesTarget.Lines);
+
+      InitUserAgent := EditInitUserAgent.Text;
+      TempHeaders := HeadersFromMemo(MemoInitHeaders);
+      try
+        InitHeaders.Assign(TempHeaders);
+      finally
+        TempHeaders.Free;
+      end;
+      InitUrl := MemoInitUrl.Text;
+      InitParameters.Assign(MemoInitParameters.Lines);
     end;
     SaveIniSettings(formTrayslate.Trans, formTrayslate.ConfigFile);
     aSave.Enabled := False;

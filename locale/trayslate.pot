@@ -91,7 +91,7 @@ msgid "Config Editor"
 msgstr ""
 
 #: tformconfigtrayslate.checkencrypttext.caption
-msgid "URL-encode {text} parameter"
+msgid "Encode {text} parameter"
 msgstr ""
 
 #: tformconfigtrayslate.combomethod.text
@@ -108,9 +108,8 @@ msgctxt "tformconfigtrayslate.groupboxservice.caption"
 msgid "Service"
 msgstr ""
 
-#: tformconfigtrayslate.groupheaders.caption
-msgctxt "tformconfigtrayslate.groupheaders.caption"
-msgid "Headers"
+#: tformconfigtrayslate.groupinitparameters.caption
+msgid "Initial Request"
 msgstr ""
 
 #: tformconfigtrayslate.grouplanguages.caption
@@ -146,6 +145,38 @@ msgstr ""
 
 #: tformconfigtrayslate.labelheaders.caption
 msgid "Additional request headers in key=value format, key: value is also supported"
+msgstr ""
+
+#: tformconfigtrayslate.labelinitheaders.caption
+msgid "Additional initial request headers in key=value format, key: value is also supported"
+msgstr ""
+
+#: tformconfigtrayslate.labelinitheaders2.caption
+msgctxt "tformconfigtrayslate.labelinitheaders2.caption"
+msgid "Headers"
+msgstr ""
+
+#: tformconfigtrayslate.labelinitparameters.caption
+msgid "Parameters name=regexp are extracted from the response and used by name in requests"
+msgstr ""
+
+#: tformconfigtrayslate.labelinitparameters2.caption
+msgctxt "tformconfigtrayslate.labelinitparameters2.caption"
+msgid "Parameters"
+msgstr ""
+
+#: tformconfigtrayslate.labelinitparemeters.caption
+msgid "Initial GET request to obtain required parameters."
+msgstr ""
+
+#: tformconfigtrayslate.labeliniturl.caption
+msgctxt "tformconfigtrayslate.labeliniturl.caption"
+msgid "URL"
+msgstr ""
+
+#: tformconfigtrayslate.labelinituseragent.caption
+msgctxt "tformconfigtrayslate.labelinituseragent.caption"
+msgid "User Agent"
 msgstr ""
 
 #: tformconfigtrayslate.labeljsonpointer.caption
@@ -184,6 +215,11 @@ msgstr ""
 msgid "Post Data"
 msgstr ""
 
+#: tformconfigtrayslate.labelpostdata1.caption
+msgctxt "tformconfigtrayslate.labelpostdata1.caption"
+msgid "Headers"
+msgstr ""
+
 #: tformconfigtrayslate.labelregexp.caption
 msgctxt "tformconfigtrayslate.labelregexp.caption"
 msgid "RegExp"
@@ -208,11 +244,6 @@ msgctxt "tformconfigtrayslate.labeluseragent.caption"
 msgid "User Agent"
 msgstr ""
 
-#: tformconfigtrayslate.pageheaders.caption
-msgctxt "tformconfigtrayslate.pageheaders.caption"
-msgid "Headers"
-msgstr ""
-
 #: tformconfigtrayslate.pagelanguages.caption
 msgctxt "tformconfigtrayslate.pagelanguages.caption"
 msgid "Languages"
@@ -221,6 +252,11 @@ msgstr ""
 #: tformconfigtrayslate.pagelanguagestarget.caption
 msgctxt "tformconfigtrayslate.pagelanguagestarget.caption"
 msgid "Target Languages"
+msgstr ""
+
+#: tformconfigtrayslate.pageparameters.caption
+msgctxt "tformconfigtrayslate.pageparameters.caption"
+msgid "Parameters"
 msgstr ""
 
 #: tformconfigtrayslate.pageservice.caption

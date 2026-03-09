@@ -35,22 +35,32 @@ type
 
     FServiceName: string;
     FWebMethod: TWebMethod;
-    FResponseParser: TResponseParser;
-    FUrl: string;
-    FPostData: string;
     FUserAgent: string;
-    FContentType: string;
-    FAccept: string;
-    FRegexp: string;
-    FJsonPointer: string;
+    FHeaders: TStringList;
     FEncryptText: boolean;
+    FUrl: string;
+    FContentType: string;
+    FPostData: string;
+    FAccept: string;
+    FResponseParser: TResponseParser;
+    FJsonPointer: string;
+    FRegexp: string;
     FLanguages: TStringList;
     FLanguagesTarget: TStringList;
-    FHeaders: TStringList;
+
+    FInitUserAgent: string;
+    FInitHeaders: TStringList;
+    FInitUrl: string;
+    FInitParameters: TStringList;
+    FParameterValues: TStringList;
   public
     constructor Create;
     destructor Destroy; override;
 
+    function InitGet: string;
+    procedure GetParameters(Data: string);
+    function SetParameters(Data: string): string;
+    procedure SetParametersList(Strings: TStrings);
     function Get: string;
     function Post: string;
     function Request: string;
@@ -64,18 +74,23 @@ type
 
     property ServiceName: string read FServiceName write FServiceName;
     property WebMethod: TWebMethod read FWebMethod write FWebMethod;
-    property ResponseParser: TResponseParser read FResponseParser write FResponseParser;
-    property Url: string read FUrl write FUrl;
-    property PostData: string read FPostData write FPostData;
     property UserAgent: string read FUserAgent write FUserAgent;
-    property ContentType: string read FContentType write FContentType;
-    property Accept: string read FAccept write FAccept;
-    property Regexp: string read FRegexp write FRegexp;
-    property JsonPointer: string read FJsonPointer write FJsonPointer;
+    property Headers: TStringList read FHeaders write FHeaders;
     property EncryptText: boolean read FEncryptText write FEncryptText;
+    property Url: string read FUrl write FUrl;
+    property ContentType: string read FContentType write FContentType;
+    property PostData: string read FPostData write FPostData;
+    property Accept: string read FAccept write FAccept;
+    property ResponseParser: TResponseParser read FResponseParser write FResponseParser;
+    property JsonPointer: string read FJsonPointer write FJsonPointer;
+    property Regexp: string read FRegexp write FRegexp;
     property Languages: TStringList read FLanguages write FLanguages;
     property LanguagesTarget: TStringList read FLanguagesTarget write FLanguagesTarget;
-    property Headers: TStringList read FHeaders write FHeaders;
+
+    property InitUserAgent: string read FInitUserAgent write FInitUserAgent;
+    property InitHeaders: TStringList read FInitHeaders write FInitHeaders;
+    property InitUrl: string read FInitUrl write FInitUrl;
+    property InitParameters: TStringList read FInitParameters write FInitParameters;
   end;
 
   { TTranslateThread }
@@ -112,48 +127,186 @@ begin
   FServiceName := 'default';
   FWebMethod := wmGet;
   FUserAgent := 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:148.0) Gecko/20100101 Firefox/148.0';
-  FContentType := 'application/json';
+  FHeaders := TStringList.Create;
+  FHeaders.TrailingLineBreak := False;
+  FEncryptText := True;
   FUrl := string.Empty;
+  FContentType := 'application/json';
   FPostData := string.Empty;
   FAccept := 'application/json';
-  FEncryptText := True;
   FResponseParser := rpJson;
   FJsonPointer := '/0/*/0';
   FRegexp := string.Empty;
-  FEncryptText := True;
-
-  FLangSource := defaultlang;
-  FLangTarget := Language;
   FLanguages := TStringList.Create;
   FLanguages.TrailingLineBreak := False;
   FLanguagesTarget := TStringList.Create;
   FLanguagesTarget.TrailingLineBreak := False;
-  FHeaders := TStringList.Create;
-  FHeaders.TrailingLineBreak := False;
+
+  FInitUserAgent := 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:148.0) Gecko/20100101 Firefox/148.0';
+  FInitHeaders := TStringList.Create;
+  FInitHeaders.TrailingLineBreak := False;
+  FInitUrl := string.Empty;
+  FInitParameters := TStringList.Create;
+  FInitParameters.TrailingLineBreak := False;
+  FParameterValues := TStringList.Create;
+  FParameterValues.TrailingLineBreak := False;
+
+  FLangSource := defaultlang;
+  FLangTarget := Language;
 end;
 
 destructor TTranslate.Destroy;
 begin
+  FHeaders.Free;
   FLanguages.Free;
   FLanguagesTarget.Free;
-  FHeaders.Free;
+
+  FInitHeaders.Free;
+  FInitParameters.Free;
+  FParameterValues.Free;
   inherited Destroy;
+end;
+
+function TTranslate.InitGet: string;
+var
+  http: TFPHTTPClient;
+  response: TStringStream;
+  i: integer;
+  header: string;
+begin
+  Result := string.Empty;
+  if FInitUrl = string.Empty then exit;
+
+  http := TFPHTTPClient.Create(nil);
+  response := TStringStream.Create(string.Empty);
+  try
+    http.AllowRedirect := True;
+    http.RequestHeaders.Clear;
+    if (FInitUserAgent <> string.Empty) then
+      http.AddHeader('User-Agent', FInitUserAgent);
+    if Assigned(InitHeaders) then
+      for i := 0 to InitHeaders.Count - 1 do
+        http.AddHeader(InitHeaders.Names[i], InitHeaders.ValueFromIndex[i]);
+
+    http.Get(FInitUrl, response);
+
+    header := string.Empty;
+    for i := 0 to http.ResponseHeaders.Count - 1 do
+      header := header + http.ResponseHeaders[i] + LineEnding;
+    // Combine headers and body
+    Result := header + LineEnding + response.DataString;
+  finally
+    response.Free;
+    http.Free;
+  end;
+end;
+
+procedure TTranslate.GetParameters(Data: string);
+var
+  i: integer;
+  ParamName: string;
+  RegExpStr: string;
+  R: TRegExpr;
+  Value: string;
+begin
+  FParameterValues.Clear;
+
+  if FTextToTranslate <> string.Empty then
+    FParameterValues.Add('text=' + IfThen(FEncryptText, EncodeURLElement(FTextToTranslate), FTextToTranslate))
+  else
+    FParameterValues.Add('text=');
+
+  if FLangSource <> string.Empty then
+    FParameterValues.Add('source=' + FLangSource)
+  else
+    FParameterValues.Add('source=' + defaultlang);
+
+  if FLangTarget <> string.Empty then
+    FParameterValues.Add('target=' + FLangTarget)
+  else
+    FParameterValues.Add('target=' + Language);
+
+  // Extract additional parameters using regex
+  if not Assigned(FInitParameters) or (Data = string.Empty) then
+    Exit;
+
+  R := TRegExpr.Create;
+  try
+    for i := 0 to FInitParameters.Count - 1 do
+    begin
+      ParamName := FInitParameters.Names[i];
+      RegExpStr := FInitParameters.ValueFromIndex[i];
+
+      R.Expression := RegExpStr;
+
+      if R.Exec(Data) then
+      begin
+        // Use first captured group if exists, otherwise full match
+        if R.SubExprMatchCount >= 1 then
+          Value := R.Match[1]
+        else
+          Value := R.Match[0];
+
+        // Only add parameter if value is not empty
+        if Value <> string.Empty then
+          FParameterValues.Values[ParamName] := Value;
+      end;
+    end;
+  finally
+    R.Free;
+  end;
+end;
+
+function TTranslate.SetParameters(Data: string): string;
+var
+  i: integer;
+  ParamName: string;
+  ParamValue: string;
+begin
+  Result := Data;
+
+  if not Assigned(FParameterValues) then
+    Exit;
+
+  for i := 0 to FParameterValues.Count - 1 do
+  begin
+    ParamName := FParameterValues.Names[i];
+    ParamValue := FParameterValues.ValueFromIndex[i];
+
+    // Replace all occurrences of {name} with value
+    Result := StringReplace(Result, '{' + ParamName + '}', ParamValue, [rfReplaceAll]);
+  end;
+end;
+
+procedure TTranslate.SetParametersList(Strings: TStrings);
+var
+  i: integer;
+begin
+  if not Assigned(Strings) then Exit;
+
+  for i := 0 to Strings.Count - 1 do
+    Strings[i] := SetParameters(Strings[i]);
 end;
 
 function TTranslate.Get: string;
 var
   http: TFPHTTPClient;
   response: TStringStream;
-  tarUrl: string;
+  TempUrl: string;
+  TempHeaders: TStringList;
   i: integer;
 begin
   Result := string.Empty;
   if FUrl = string.Empty then exit;
 
+  GetParameters(InitGet);
+
   http := TFPHTTPClient.Create(nil);
   response := TStringStream.Create(string.Empty);
   try
-    tarUrl := FUrl;
+    TempUrl := FUrl;
+    TempUrl := SetParameters(TempUrl);
+
     http.AllowRedirect := True;
     http.RequestHeaders.Clear;
     if (FUserAgent <> string.Empty) then
@@ -163,25 +316,20 @@ begin
     if (FAccept <> string.Empty) then
       http.AddHeader('Accept', FAccept);
     if Assigned(Headers) then
-      for i := 0 to Headers.Count - 1 do
-        http.AddHeader(Headers.Names[i], Headers.ValueFromIndex[i]);
+    begin
+      TempHeaders := TStringList.Create;
+      try
+        TempHeaders.Assign(Headers);
+        SetParametersList(TempHeaders);
+        for i := 0 to TempHeaders.Count - 1 do
+          http.AddHeader(TempHeaders.Names[i], TempHeaders.ValueFromIndex[i]);
+      finally
+        TempHeaders.Free;
+      end;
+    end;
 
-    if FTextToTranslate <> string.Empty then
-      tarUrl := StringReplace(tarUrl, '{text}', ifthen(FEncryptText, EncodeURLElement(FTextToTranslate), FTextToTranslate), [rfReplaceAll])
-    else
-      tarUrl := StringReplace(tarUrl, '{text}', string.Empty, [rfReplaceAll]);
+    http.Get(TempUrl, response);
 
-    if FLangSource <> string.Empty then
-      tarUrl := StringReplace(tarUrl, '{source}', FLangSource, [rfReplaceAll])
-    else
-      tarUrl := StringReplace(tarUrl, '{source}', defaultlang, [rfReplaceAll]);
-
-    if FLangTarget <> string.Empty then
-      tarUrl := StringReplace(tarUrl, '{target}', FLangTarget, [rfReplaceAll])
-    else
-      tarUrl := StringReplace(tarUrl, '{target}', Language, [rfReplaceAll]);
-
-    http.Get(tarUrl, response);
     Result := response.DataString;
   finally
     response.Free;
@@ -194,30 +342,25 @@ var
   http: TFPHTTPClient;
   response, postStream: TStringStream;
   Data: string;
+  TempUrl: string;
+  TempHeaders: TStringList;
   i: integer;
+  TempGet: string;
 begin
   Result := string.Empty;
   if FUrl = string.Empty then exit;
 
+  TempGet := InitGet;
+  GetParameters(TempGet);
+
   http := TFPHTTPClient.Create(nil);
   response := TStringStream.Create(string.Empty);
   try
+    TempUrl := FUrl;
+    TempUrl := SetParameters(TempUrl);
+
     Data := FPostData;
-
-    if FTextToTranslate <> string.Empty then
-      Data := StringReplace(Data, '{text}', ifthen(FEncryptText, EncodeURLElement(FTextToTranslate), FTextToTranslate), [rfReplaceAll])
-    else
-      Data := StringReplace(Data, '{text}', string.Empty, [rfReplaceAll]);
-
-    if FLangSource <> string.Empty then
-      Data := StringReplace(Data, '{source}', FLangSource, [rfReplaceAll])
-    else
-      Data := StringReplace(Data, '{source}', Language, [rfReplaceAll]);
-
-    if FLangTarget <> string.Empty then
-      Data := StringReplace(Data, '{target}', FLangTarget, [rfReplaceAll])
-    else
-      Data := StringReplace(Data, '{target}', defaultlang, [rfReplaceAll]);
+    Data := SetParameters(Data);
 
     postStream := TStringStream.Create(Data, TEncoding.UTF8);
     try
@@ -230,11 +373,20 @@ begin
       if FAccept <> string.Empty then
         http.AddHeader('Accept', FAccept);
       if Assigned(Headers) then
-        for i := 0 to Headers.Count - 1 do
-          http.AddHeader(Headers.Names[i], Headers.ValueFromIndex[i]);
+      begin
+        TempHeaders := TStringList.Create;
+        try
+          TempHeaders.Assign(Headers);
+          SetParametersList(TempHeaders);
+          for i := 0 to TempHeaders.Count - 1 do
+            http.AddHeader(TempHeaders.Names[i], TempHeaders.ValueFromIndex[i]);
+        finally
+          TempHeaders.Free;
+        end;
+      end;
 
       http.RequestBody := postStream;
-      http.Post(FUrl, response);
+      http.Post(TempUrl, response);
     finally
       postStream.Free;
     end;

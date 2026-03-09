@@ -30,7 +30,9 @@ function IsJson(const S: string): boolean;
 
 procedure PasteWithLineEnding(AMemo: TMemo);
 
-function FindInStringList(List: TStringList; const SubText: string): Integer;
+function FindInStringList(List: TStringList; const SubText: string): integer;
+
+procedure SaveStringToFile(const FileName, Data: string);
 
 implementation
 
@@ -140,9 +142,9 @@ begin
   end;
 end;
 
-function FindInStringList(List: TStringList; const SubText: string): Integer;
+function FindInStringList(List: TStringList; const SubText: string): integer;
 var
-  i: Integer;
+  i: integer;
 begin
   Result := -1;
   for i := 0 to List.Count - 1 do
@@ -151,6 +153,19 @@ begin
       Result := i;
       Exit;
     end;
+end;
+
+procedure SaveStringToFile(const FileName, Data: string);
+var
+  SL: TStringList;
+begin
+  SL := TStringList.Create;
+  try
+    SL.Text := Data;
+    SL.SaveToFile(FileName, TEncoding.UTF8);
+  finally
+    SL.Free;
+  end;
 end;
 
 end.
