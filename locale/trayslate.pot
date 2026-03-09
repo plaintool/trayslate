@@ -10,8 +10,8 @@ msgstr ""
 msgid "The list is already filled. Do you want to clear it?"
 msgstr ""
 
-#: formconfig.rcopyquestion
-msgctxt "formconfig.rcopyquestion"
+#: formconfig.rnamequestion
+msgctxt "formconfig.rnamequestion"
 msgid "Enter new config file name:"
 msgstr ""
 
@@ -556,6 +556,10 @@ msgstr ""
 
 #: tformtrayslate.aexit.caption
 msgid "Exit"
+msgstr ""
+
+#: tformtrayslate.anewtranslate.hint
+msgid "New Translate (Ctrl+N)"
 msgstr ""
 
 #: tformtrayslate.asettings.caption

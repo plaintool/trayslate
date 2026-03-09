@@ -44,6 +44,7 @@ type
     aAbout: TAction;
     aConfigEditor: TAction;
     aCheckForUpdates: TAction;
+    aNewTranslate: TAction;
     aSettings: TAction;
     aTranslateClipboard: TAction;
     aSwap: TAction;
@@ -71,6 +72,7 @@ type
     MenuShowTranslate: TMenuItem;
     PanelLang: TPanel;
     PopupTray: TPopupMenu;
+    SbNewTranslate: TSpeedButton;
     Separator1: TMenuItem;
     Separator2: TMenuItem;
     SbSwap: TSpeedButton;
@@ -94,12 +96,13 @@ type
     procedure aConfigEditorExecute(Sender: TObject);
     procedure aSettingsExecute(Sender: TObject);
     procedure aTranslateClipboardExecute(Sender: TObject);
+    procedure aNewTranslateExecute(Sender: TObject);
+    procedure aTranslateExecute(Sender: TObject);
     procedure aSwapExecute(Sender: TObject);
     procedure aShowExecute(Sender: TObject);
     procedure aDonateExecute(Sender: TObject);
     procedure aAboutExecute(Sender: TObject);
     procedure aExitExecute(Sender: TObject);
-    procedure aTranslateExecute(Sender: TObject);
     procedure ComboSourceChange(Sender: TObject);
     procedure ComboTargetChange(Sender: TObject);
     procedure ComboSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
@@ -162,7 +165,7 @@ type
 
     procedure DetectLanguage(AText: string);
     function TranslateThread(ATrans: TTranslate; AText: string): string;
-    procedure Translate(AInstant: boolean = False);
+    procedure Translate(ADetectLanguage: boolean = False);
     procedure TranslateFromClipboard;
     procedure TranslateClipboard;
     procedure TranslateFromControl(Data: PtrInt);
@@ -488,11 +491,6 @@ begin
   TranslateFromClipboard;
 end;
 
-procedure TformTrayslate.aTranslateExecute(Sender: TObject);
-begin
-  Translate;
-end;
-
 procedure TformTrayslate.aSettingsExecute(Sender: TObject);
 begin
   if Assigned(formSettingsTrayslate) then
@@ -528,10 +526,21 @@ begin
   formConfigTrayslate.BringToFront;
 end;
 
+procedure TformTrayslate.aNewTranslateExecute(Sender: TObject);
+begin
+  MemoSource.Clear;
+  MemoTarget.Clear;
+end;
+
+procedure TformTrayslate.aTranslateExecute(Sender: TObject);
+begin
+  Translate;
+end;
+
 procedure TformTrayslate.aSwapExecute(Sender: TObject);
 begin
   SwapLanguages;
-  Translate;
+  Translate(True);
 end;
 
 procedure TformTrayslate.aCheckForUpdatesExecute(Sender: TObject);
@@ -974,17 +983,22 @@ begin
 
   PanelLang.DisableAlign;
   try
-    Available := PanelLang.ClientWidth - sbSwap.Width - sbTranslate.Width - 15;
+    Available := PanelLang.ClientWidth - sbSwap.Width - sbTranslate.Width - SbNewTranslate.Width - 15;
 
-    // Fix Top to Border, not ComboSource.Top
-    ComboSource.SetBounds(
+    sbNewTranslate.SetBounds(
       0,
+      Border,
+      sbNewTranslate.Width,
+      ComboSource.Height);
+
+    ComboSource.SetBounds(
+      SbNewTranslate.Width + Border,
       Border,
       Available div 2,
       ComboSource.Height);
 
     sbSwap.SetBounds(
-      ComboSource.Width + Border,
+      ComboSource.Left + ComboSource.Width + Border,
       Border,
       sbSwap.Width,
       ComboSource.Height);
@@ -992,7 +1006,7 @@ begin
     ComboTarget.SetBounds(
       sbSwap.Left + sbSwap.Width + Border,
       Border,
-      Available - ComboSource.Width,
+      Available - ComboSource.Width - Border * 2,
       ComboTarget.Height);
 
     sbTranslate.SetBounds(
@@ -1156,13 +1170,13 @@ begin
   end;
 end;
 
-procedure TformTrayslate.Translate(AInstant: boolean = False);
+procedure TformTrayslate.Translate(ADetectLanguage: boolean = False);
 begin
   if Trim(MemoSource.Text) = string.Empty then Exit;
 
   Screen.Cursor := crAppStart;
   try
-    if (not AInstant) then DetectLanguage(MemoSource.Text);
+    if (not ADetectLanguage) then DetectLanguage(MemoSource.Text);
 
     // Create translation thread (it will handle exceptions itself)
     Trans.TextToTranslate := MemoSource.Text;

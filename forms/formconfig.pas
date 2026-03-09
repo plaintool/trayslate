@@ -13,6 +13,7 @@ interface
 uses
   Classes,
   SysUtils,
+  StrUtils,
   Forms,
   Controls,
   Graphics,
@@ -110,7 +111,7 @@ var
   formConfigTrayslate: TformConfigTrayslate;
 
 resourcestring
-  rcopyquestion = 'Enter new config file name:';
+  rnamequestion = 'Enter new config file name:';
   rneedsave = 'The configuration was modified. Save changes?';
   rclearlanguages = 'The list is already filled. Do you want to clear it?';
   rcaption = 'Config Editor';
@@ -270,7 +271,7 @@ begin
   NewName := ExtractFileName(ComboConfig.Text);
 
   // Ask user for new config name
-  if not InputQuery(SbCopyConfig.Hint, rcopyquestion, NewName) then
+  if not InputQuery(ifthen(ACopy, SbCopyConfig.Hint, SbNewConfig.Hint), rnamequestion, NewName) then
     Exit; // user pressed Cancel
 
   NewName := Trim(NewName);

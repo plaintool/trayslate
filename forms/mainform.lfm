@@ -2,11 +2,11 @@ object formTrayslate: TformTrayslate
   Left = 334
   Height = 480
   Top = 250
-  Width = 512
+  Width = 518
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Trayslate'
   ClientHeight = 480
-  ClientWidth = 512
+  ClientWidth = 518
   Color = clWindow
   KeyPreview = True
   LCLVersion = '4.4.0.0'
@@ -21,7 +21,7 @@ object formTrayslate: TformTrayslate
     Left = 3
     Height = 196
     Top = 41
-    Width = 506
+    Width = 512
     Align = alClient
     BorderSpacing.Around = 3
     BorderStyle = bsNone
@@ -35,7 +35,7 @@ object formTrayslate: TformTrayslate
     Left = 3
     Height = 229
     Top = 248
-    Width = 506
+    Width = 512
     Align = alBottom
     BorderSpacing.Around = 3
     BorderStyle = bsNone
@@ -49,19 +49,19 @@ object formTrayslate: TformTrayslate
     Left = 0
     Height = 33
     Top = 0
-    Width = 512
+    Width = 518
     Align = alTop
     AutoSize = True
     BevelOuter = bvNone
     ClientHeight = 33
-    ClientWidth = 512
+    ClientWidth = 518
     Color = clBtnFace
     ParentBackground = False
     ParentColor = False
     TabOrder = 2
     OnResize = PanelLangResize
     object ComboTarget: TComboBox
-      Left = 257
+      Left = 264
       Height = 23
       Top = 4
       Width = 225
@@ -76,10 +76,10 @@ object formTrayslate: TformTrayslate
       OnKeyDown = ComboTargetKeyDown
     end
     object ComboSource: TComboBox
-      Left = 3
+      Left = 32
       Height = 23
       Top = 4
-      Width = 225
+      Width = 209
       AutoComplete = True
       AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
       AutoDropDown = True
@@ -91,7 +91,7 @@ object formTrayslate: TformTrayslate
       OnKeyDown = ComboSourceKeyDown
     end
     object SbSwap: TSpeedButton
-      Left = 231
+      Left = 240
       Height = 26
       Top = 3
       Width = 24
@@ -104,7 +104,7 @@ object formTrayslate: TformTrayslate
       ParentShowHint = False
     end
     object SbTranslate: TSpeedButton
-      Left = 485
+      Left = 488
       Height = 26
       Top = 4
       Width = 24
@@ -116,13 +116,61 @@ object formTrayslate: TformTrayslate
       ShowHint = True
       ParentShowHint = False
     end
+    object SbNewTranslate: TSpeedButton
+      Left = 3
+      Height = 26
+      Top = 3
+      Width = 24
+      Action = aNewTranslate
+      BorderSpacing.Around = 3
+      Flat = True
+      Glyph.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        2000000000000004000064000000640000000000000000000000FF00FFFFFF00
+        FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+        FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+        FFFFFF00FFFF7F7F7FFF7F7F7FFF7F7F7FFF7F7F7FFF7F7F7FFF7F7F7FFF7F7F
+        7FFF7F7F7FFF7F7F7FFF7F7F7FFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+        FFFFFF00FFFF7F7F7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFF7F7F7FFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+        FFFFFF00FFFF7F7F7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFF7F7F7FFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+        FFFFFF00FFFF7F7F7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFF7F7F7FFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+        FFFFFF00FFFF7F7F7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFF7F7F7FFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+        FFFFFF00FFFF7F7F7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFF7F7F7FFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+        FFFFFF00FFFF7F7F7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFF7F7F7FFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+        FFFFFF00FFFF7F7F7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFF7F7F7FFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+        FFFFFF00FFFF7F7F7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFF7F7F7FFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+        FFFFFF00FFFF7F7F7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFF7F7F7FFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+        FFFFFF00FFFF7F7F7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7F7F
+        7FFF7F7F7FFF7F7F7FFF7F7F7FFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+        FFFFFF00FFFF7F7F7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7F7F
+        7FFFFFFFFFFFFFFFFFFF7F7F7FFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+        FFFFFF00FFFF7F7F7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7F7F
+        7FFFFFFFFFFF7F7F7FFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+        FFFFFF00FFFF7F7F7FFF7F7F7FFF7F7F7FFF7F7F7FFF7F7F7FFF7F7F7FFF7F7F
+        7FFF7F7F7FFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+        FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+        FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      }
+      ImageIndex = 2
+      ShowHint = True
+      ParentShowHint = False
+    end
   end
   object SplitterMemo: TSplitter
     Cursor = crVSplit
     Left = 0
     Height = 5
     Top = 240
-    Width = 512
+    Width = 518
     Align = alBottom
     Color = clBtnFace
     ParentColor = False
@@ -133,7 +181,7 @@ object formTrayslate: TformTrayslate
     Height = 5
     Hint = 'Middle-click to remove pair'
     Top = 33
-    Width = 512
+    Width = 518
     Align = alTop
     AutoSize = True
     BevelOuter = bvNone
@@ -254,6 +302,12 @@ object formTrayslate: TformTrayslate
       Category = 'Tray'
       Caption = 'Exit'
       OnExecute = aExitExecute
+    end
+    object aNewTranslate: TAction
+      Category = 'Form'
+      Hint = 'New Translate (Ctrl+N)'
+      ShortCut = 16462
+      OnExecute = aNewTranslateExecute
     end
   end
   object TimerClick: TTimer
