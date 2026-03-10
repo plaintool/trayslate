@@ -405,6 +405,14 @@ begin
     if Trim(Translate.Accept) <> string.Empty then
       Ini.WriteString('Request', 'Accept', Translate.Accept);
 
+    // Save headers
+    Ini.EraseSection('Headers'); // Clear previous entries
+    if Assigned(Translate.Headers) then
+      for i := 0 to Translate.Headers.Count - 1 do
+        Ini.WriteString('Headers',
+          Translate.Headers.Names[i],
+          Translate.Headers.ValueFromIndex[i]);
+
     if Translate.ResponseParser = rpJson then
       Ini.WriteString('Response', 'ParserType', 'Json')
     else
@@ -418,14 +426,6 @@ begin
     if Trim(Translate.Regexp) <> string.Empty then
       Ini.WriteString('Response', 'Regexp', Translate.Regexp);
 
-    // Save headers
-    Ini.EraseSection('Headers'); // Clear previous entries
-    if Assigned(Translate.Headers) then
-      for i := 0 to Translate.Headers.Count - 1 do
-        Ini.WriteString('Headers',
-          Translate.Headers.Names[i],
-          Translate.Headers.ValueFromIndex[i]);
-
     Ini.DeleteKey('Initial Request', 'UserAgent');
     if Trim(Translate.InitUserAgent) <> string.Empty then
       Ini.WriteString('Initial Request', 'UserAgent', Translate.InitUserAgent);
@@ -433,6 +433,7 @@ begin
     Ini.DeleteKey('Initial Request', 'Url');
     if Trim(Translate.InitUrl) <> string.Empty then
       Ini.WriteString('Initial Request', 'Url', Translate.InitUrl);
+
     Ini.DeleteKey('Initial Request', 'LiveTime');
     if Translate.InitLiveTime > 0 then
       Ini.WriteInteger('Initial Request', 'LiveTime', Translate.InitLiveTime);
@@ -499,6 +500,9 @@ begin
     Translate.PostData := StringReplace(PostDataEscaped, '\r\n', LineEnding, [rfReplaceAll]);
     Translate.Accept := Ini.ReadString('Request', 'Accept', string.Empty);
 
+    Translate.Headers.Clear;
+    Ini.ReadSectionValues('Headers', Translate.Headers);
+
     Method := Ini.ReadString('Response', 'ParserType', 'Json');
     if SameText(Method, 'Json') then
       Translate.ResponseParser := rpJson
@@ -506,8 +510,6 @@ begin
       Translate.ResponseParser := rpRegEx;
     Translate.JsonPointer := Ini.ReadString('Response', 'JsonPointer', string.Empty);
     Translate.Regexp := Ini.ReadString('Response', 'Regexp', string.Empty);
-    Translate.Headers.Clear;
-    Ini.ReadSectionValues('Headers', Translate.Headers);
 
     Translate.InitUserAgent := Ini.ReadString('Initial Request', 'UserAgent', string.Empty);
     Translate.InitUrl := Ini.ReadString('Initial Request', 'Url', string.Empty);
