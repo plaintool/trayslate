@@ -176,6 +176,13 @@ begin
   finally
     JSONObj.Free;
   end;
+
+  try
+    Form.MemoSource.Lines.SaveToFile(GetSettingsDirectory('source.txt'));
+    Form.MemoTarget.Lines.SaveToFile(GetSettingsDirectory('target.txt'));
+  except
+    // Do nothing if can't save current text files
+  end;
 end;
 
 function LoadFormSettings(Form: TformTrayslate): boolean;
@@ -358,6 +365,13 @@ begin
   finally
     FileStream.Free;
   end;
+
+  FileName := GetSettingsDirectory('source.txt');
+  if FileExists(FileName) then
+    Form.MemoSource.Lines.LoadFromFile(FileName);
+  FileName := GetSettingsDirectory('target.txt');
+  if FileExists(FileName) then
+    Form.MemoTarget.Lines.LoadFromFile(FileName);
 end;
 
 procedure SaveIniSettings(Translate: TTranslate; AFileName: string);
