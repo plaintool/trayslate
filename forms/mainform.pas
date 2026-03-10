@@ -83,9 +83,6 @@ type
     TimerClick: TTimer;
     TimerActive: TTimer;
     TrayIcon: TTrayIcon;
-    procedure aCheckForUpdatesExecute(Sender: TObject);
-    procedure ComboSourceCloseUp(Sender: TObject);
-    procedure ComboTargetCloseUp(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -103,20 +100,24 @@ type
     procedure aTranslateExecute(Sender: TObject);
     procedure aSwapExecute(Sender: TObject);
     procedure aShowExecute(Sender: TObject);
+    procedure aCheckForUpdatesExecute(Sender: TObject);
     procedure aDonateExecute(Sender: TObject);
     procedure aAboutExecute(Sender: TObject);
     procedure aExitExecute(Sender: TObject);
+    procedure ComboSourceCloseUp(Sender: TObject);
+    procedure ComboTargetCloseUp(Sender: TObject);
     procedure MemoSourceKeyUp(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure MemoTargetEnter(Sender: TObject);
     procedure MemoSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure MemoTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure ConfigItemClick(Sender: TObject);
     procedure PanelLangResize(Sender: TObject);
+    procedure SbSwapMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
+    procedure TimerClickTimer(Sender: TObject);
+    procedure TimerActiveTimer(Sender: TObject);
     procedure TimerTranslateTimer(Sender: TObject);
     procedure TrayIconMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
     procedure TrayIconClick(Sender: TObject);
-    procedure TimerClickTimer(Sender: TObject);
-    procedure TimerActiveTimer(Sender: TObject);
     procedure LabelMouseEnter(Sender: TObject);
     procedure LabelMouseLeave(Sender: TObject);
     procedure LabelLangMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
@@ -142,8 +143,8 @@ type
     FLangSource: string;
     FLangTarget: string;
     FMaxLangPairs: integer;
-    FSwapTranslate: boolean;
-    FTranslateAsYouType: boolean;
+    FRealTime: boolean;
+    FRealTimeDelay: integer;
     FAutoSwap: boolean;
     FFormConfigLeft: integer;
     FFormConfigTop: integer;
@@ -176,7 +177,7 @@ type
 
     procedure ChangeSourceLang(NewLang: string; AddPairs: boolean = True);
     procedure ChangeTargetLang(NewLang: string; AddPairs: boolean = True);
-    procedure SwapLanguages(ASwapTranslate: boolean = True);
+    procedure SwapLanguages(ASwapTranslate: boolean = False);
     procedure AddLangPair(const Pair: string);
     procedure SelectPair(const Pair: string);
   protected
@@ -214,8 +215,8 @@ type
     property LangTarget: string read FLangTarget write FLangTarget;
     property LangPairs: TStringList read FLangPairs write FLangPairs;
     property MaxLangPairs: integer read FMaxLangPairs write FMaxLangPairs;
-    property SwapTranslate: boolean read FSwapTranslate write FSwapTranslate;
-    property TranslateAsYouType: boolean read FTranslateAsYouType write FTranslateAsYouType;
+    property RealTime: boolean read FRealTime write FRealTime;
+    property RealTimeDelay: integer read FRealTimeDelay write FRealTimeDelay;
     property AutoSwap: boolean read FAutoSwap write FAutoSwap;
     property FormConfigLeft: integer read FFormConfigLeft write FFormConfigLeft;
     property FormConfigTop: integer read FFormConfigTop write FFormConfigTop;
@@ -235,10 +236,11 @@ var
 
 const
   DOUBLE_ENTER_INTERVAL = 200; // ms
+  MIDDLE_MOUSE = 'Middle Mouse';
 
 resourcestring
   rtrayslate = 'Trayslate';
-  rswap = 'Swap';
+  rswap = 'Swap (%s) with text (%s)';
   noconfig = 'Configuration file not found! Create it in the configuration editor.';
 
 implementation
@@ -260,8 +262,8 @@ begin
   FIconFontColor := clWhite;
   FIconTwoLang := True;
   FMaxLangPairs := 10;
-  FSwapTranslate := True;
-  FTranslateAsYouType := False;
+  FRealTime := False;
+  FRealTimeDelay := 1000;
   FAutoSwap := False;
   FAutoStart := True;
   FLangTarget := Language;
@@ -300,7 +302,7 @@ begin
   Left := Screen.WorkAreaRect.Right - Width - 30;
   Top := Screen.WorkAreaRect.Bottom - Height - 50;
 
-  aSwap.Hint := rswap + ' (' + HotKeyToText(HotKeyTransSwap) + ')';
+  aSwap.Hint := Format(rswap, [HotKeyToText(HotKeyTransSwap), MIDDLE_MOUSE]);
   SbSwap.ImageIndex := ThemeValue(0, 1);
   SbTranslate.ImageIndex := ThemeValue(2, 3);
 
@@ -314,6 +316,9 @@ begin
 
   // Load form settings
   LoadFormSettings(Self);
+
+  // Components config after load settings
+  TimerTranslate.Interval := Max(RealTimeDelay, 1);
 
   // Load config files
   FConfigFiles := TStringList.Create;
@@ -508,7 +513,7 @@ begin
   finally
     FreeAndNil(formSettingsTrayslate);
     RegisterHotKeys;
-    aSwap.Hint := rswap + ' (' + HotKeyToText(HotKeyTransSwap) + ')';
+    aSwap.Hint := Format(rswap, [HotKeyToText(HotKeyTransSwap), MIDDLE_MOUSE]);
   end;
 end;
 
@@ -589,7 +594,7 @@ end;
 
 procedure TformTrayslate.MemoSourceKeyUp(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
-  if FTranslateAsYouType then
+  if FRealTime then
   begin
     if TimerTranslate.Enabled then
       TimerTranslate.Enabled := False;
@@ -602,15 +607,6 @@ begin
   MemoTarget.SelStart := 0;
   MemoTarget.SelLength := Length(MemoTarget.Text);
   Clipboard.AsText := MemoTarget.Text;
-end;
-
-procedure TformTrayslate.MemoTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
-begin
-  if (ssCtrl in Shift) and (Key = VK_V) then // Ctrl + V
-  begin
-    PasteWithLineEnding(Sender as TMemo);
-    Key := 0;
-  end;
 end;
 
 procedure TformTrayslate.MemoSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
@@ -661,6 +657,15 @@ begin
   end;
 end;
 
+procedure TformTrayslate.MemoTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+begin
+  if (ssCtrl in Shift) and (Key = VK_V) then // Ctrl + V
+  begin
+    PasteWithLineEnding(Sender as TMemo);
+    Key := 0;
+  end;
+end;
+
 procedure TFormTrayslate.ConfigItemClick(Sender: TObject);
 var
   Item: TMenuItem;
@@ -687,6 +692,56 @@ begin
   PanelLang.Tag := 1;
 
   Application.QueueAsyncCall(@DoRealign, 0);
+end;
+
+procedure TformTrayslate.SbSwapMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
+begin
+  if Button = mbMiddle then
+  begin
+    SwapLanguages(True);
+    TranslateMemo(False);
+  end;
+end;
+
+procedure TformTrayslate.TimerClickTimer(Sender: TObject);
+begin
+  TimerClick.Enabled := False;
+  if (TimerClick.Tag = 1) then
+  begin
+    TimerClick.Tag := 0;
+    exit;
+  end;
+
+  // Single click action
+  if Visible and Showing then
+  begin
+    Hide;
+    FTopMost := False;
+  end
+  else
+  begin
+    Show;
+    FTopMost := True;
+  end;
+end;
+
+procedure TformTrayslate.TimerActiveTimer(Sender: TObject);
+begin
+  TimerActive.Enabled := False;
+
+  if (not TimerClick.Enabled) and (not TimerClick.Tag = 1) then
+    FTopMost := False;
+end;
+
+procedure TformTrayslate.TimerTranslateTimer(Sender: TObject);
+begin
+  TimerTranslate.Enabled := False;
+  if FRealTime then
+  begin
+    TranslateMemo(False);
+    if MemoSource.Text = string.Empty then
+      MemoTarget.Clear;
+  end;
 end;
 
 procedure TformTrayslate.TrayIconMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
@@ -734,47 +789,6 @@ begin
     FTopMost := True;
     TimerClick.Enabled := True;
     TimerClick.Tag := 1;
-  end;
-end;
-
-procedure TformTrayslate.TimerClickTimer(Sender: TObject);
-begin
-  TimerClick.Enabled := False;
-  if (TimerClick.Tag = 1) then
-  begin
-    TimerClick.Tag := 0;
-    exit;
-  end;
-
-  // Single click action
-  if Visible and Showing then
-  begin
-    Hide;
-    FTopMost := False;
-  end
-  else
-  begin
-    Show;
-    FTopMost := True;
-  end;
-end;
-
-procedure TformTrayslate.TimerActiveTimer(Sender: TObject);
-begin
-  TimerActive.Enabled := False;
-
-  if (not TimerClick.Enabled) and (not TimerClick.Tag = 1) then
-    FTopMost := False;
-end;
-
-procedure TformTrayslate.TimerTranslateTimer(Sender: TObject);
-begin
-  TimerTranslate.Enabled := False;
-  if FTranslateAsYouType then
-  begin
-    TranslateMemo(False);
-    if MemoSource.Text = string.Empty then
-      MemoTarget.Clear;
   end;
 end;
 
@@ -1166,7 +1180,7 @@ begin
 
   // Swap if needed
   if (LowerCase(langSrc) <> LowerCase(langDetect)) and (LowerCase(langTar) = LowerCase(langDetect)) then
-    SwapLanguages(False);
+    SwapLanguages;
 end;
 
 procedure TformTrayslate.TranslateMemo(ADetectLanguage: boolean = True);
@@ -1393,7 +1407,7 @@ begin
   end;
 end;
 
-procedure TformTrayslate.SwapLanguages(ASwapTranslate: boolean = True);
+procedure TformTrayslate.SwapLanguages(ASwapTranslate: boolean = False);
 var
   srcIndex: integer;
   srcText: string;
@@ -1404,7 +1418,7 @@ begin
   ChangeSourceLang(ComboSource.Text, False);
   ChangeTargetLang(ComboTarget.Text, True);
 
-  if ASwapTranslate and FSwapTranslate and ((MemoSource.Text <> string.Empty) or (MemoTarget.Text <> string.Empty)) then
+  if ASwapTranslate and ((MemoSource.Text <> string.Empty) or (MemoTarget.Text <> string.Empty)) then
   begin
     srcText := MemoSource.Text;
     MemoSource.Text := MemoTarget.Text;

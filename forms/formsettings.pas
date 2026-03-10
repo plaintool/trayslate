@@ -38,11 +38,10 @@ type
     BtnApply: TButton;
     BtnCancel: TButton;
     BtnOk: TButton;
-    CheckTranslateAsYouType: TCheckBox;
+    CheckRealTime: TCheckBox;
     CheckAutoSwap: TCheckBox;
     CheckTwoLang: TCheckBox;
     CheckAutostart: TCheckBox;
-    CheckSwapTranslate: TCheckBox;
     ColorIconBackground: TColorBox;
     ColorIconFont: TColorBox;
     ColorDialog: TColorDialog;
@@ -60,7 +59,7 @@ type
     GroupTransSwap: TGroupBox;
     GroupTransFromControl: TGroupBox;
     GroupTransFromClipboard: TGroupBox;
-    GroupSettings: TGroupBox;
+    GroupRealTime: TGroupBox;
     GroupApp: TGroupBox;
     GroupFont: TGroupBox;
     GroupTransClipboard: TGroupBox;
@@ -68,6 +67,7 @@ type
     GroupTrayIcon: TGroupBox;
     LabelIconBackground1: TLabel;
     LabelMaxLangPairs: TLabel;
+    LabelRealTimeDelay: TLabel;
     LabelTransClipboard: TLabel;
     LabelTransFromControl: TLabel;
     LabelTransControl: TLabel;
@@ -82,16 +82,18 @@ type
     PageHotkeys: TTabSheet;
     SpinMaxLangPairs: TSpinEdit;
     PageGeneral: TTabSheet;
+    SpinRealTimeDelay: TSpinEdit;
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure SpinRealTimeDelayChange(Sender: TObject);
     procedure BtnApplyClick(Sender: TObject);
     procedure BtnCancelClick(Sender: TObject);
     procedure BtnFontClick(Sender: TObject);
     procedure BtnOkClick(Sender: TObject);
     procedure BtnResetClick(Sender: TObject);
     procedure EditMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
-    procedure FormShow(Sender: TObject);
     procedure SettingChange(Sender: TObject);
     procedure EditKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
-    procedure FormCreate(Sender: TObject);
   private
     FOriginalAutoStart: boolean;
     FOriginalFont: TFont;
@@ -99,8 +101,8 @@ type
     FOriginalIconFontColor: TColor;
     FOriginalIconTwoLang: boolean;
     FOriginalMaxLangPairs: integer;
-    FOriginalSwapTranslate: boolean;
-    FOriginalTranslateAsYouType: boolean;
+    FOriginalRealTime: boolean;
+    FOriginalRealTimeDelay: integer;
     FOriginalAutoSwap: boolean;
     FOriginalConfigLangDetect: string;
     FOriginalHotKeyApp: THotKeyData;
@@ -153,6 +155,14 @@ end;
 procedure TformSettingsTrayslate.FormShow(Sender: TObject);
 begin
   formTrayslate.TopMost := False;
+end;
+
+procedure TformSettingsTrayslate.SpinRealTimeDelayChange(Sender: TObject);
+begin
+  if (Sender as TSpinEdit).Value < 0 then
+    (Sender as TSpinEdit).Value := 0;
+
+  BtnApply.Enabled := True;
 end;
 
 procedure TformSettingsTrayslate.BtnFontClick(Sender: TObject);
@@ -396,8 +406,8 @@ procedure TformSettingsTrayslate.Apply;
 begin
   formTrayslate.AutoStart := CheckAutostart.Checked;
   formTrayslate.MaxLangPairs := SpinMaxLangPairs.Value;
-  formTrayslate.SwapTranslate := CheckSwapTranslate.Checked;
-  formTrayslate.TranslateAsYouType := CheckTranslateAsYouType.Checked;
+  formTrayslate.RealTime := CheckRealTime.Checked;
+  formTrayslate.RealTimeDelay := SpinRealTimeDelay.Value;
   formTrayslate.AutoSwap := CheckAutoSwap.Checked;
   formTrayslate.ConfigLangDetect := formTrayslate.ConfigFiles[ComboLangDetect.ItemIndex];
   formTrayslate.Font.Assign(PanelFont.Font);
@@ -417,6 +427,7 @@ begin
   formTrayslate.ComboTarget.SelLength := 0;
 
   Reset;
+  formTrayslate.TimerTranslate.Interval := Max(formTrayslate.RealTimeDelay, 1);
   formTrayslate.LoadConfig;
   formTrayslate.DoRealign(0);
   Application.QueueAsyncCall(@formTrayslate.RebuildLangPairsPanel, 0);
@@ -426,8 +437,8 @@ procedure TformSettingsTrayslate.Reset;
 begin
   FOriginalAutoStart := formTrayslate.AutoStart;
   FOriginalMaxLangPairs := formTrayslate.MaxLangPairs;
-  FOriginalSwapTranslate := formTrayslate.SwapTranslate;
-  FOriginalTranslateAsYouType := formTrayslate.TranslateAsYouType;
+  FOriginalRealTime := formTrayslate.RealTime;
+  FOriginalRealTimeDelay := formTrayslate.RealTimeDelay;
   FOriginalAutoSwap := formTrayslate.AutoSwap;
   FOriginalConfigLangDetect := formTrayslate.ConfigLangDetect;
   FOriginalFont := formTrayslate.Font;
@@ -449,8 +460,8 @@ begin
 
   CheckAutostart.Checked := FOriginalAutoStart;
   SpinMaxLangPairs.Value := FOriginalMaxLangPairs;
-  CheckSwapTranslate.Checked := FOriginalSwapTranslate;
-  CheckTranslateAsYouType.Checked := FOriginalTranslateAsYouType;
+  CheckRealTime.Checked := FOriginalRealTime;
+  SpinRealTimeDelay.Value := FOriginalRealTimeDelay;
   CheckAutoSwap.Checked := FOriginalAutoSwap;
   ComboLangDetect.ItemIndex := formTrayslate.ConfigFiles.IndexOf(FOriginalConfigLangDetect);
   PanelFont.Font.Assign(FOriginalFont);

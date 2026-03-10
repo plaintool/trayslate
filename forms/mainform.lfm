@@ -99,6 +99,7 @@ object formTrayslate: TformTrayslate
       ImageIndex = 0
       ShowHint = True
       ParentShowHint = False
+      OnMouseDown = SbSwapMouseDown
     end
     object SbTranslate: TSpeedButton
       Left = 488
@@ -348,7 +349,7 @@ object formTrayslate: TformTrayslate
     Enabled = False
     Interval = 700
     OnTimer = TimerTranslateTimer
-    Left = 384
+    Left = 376
     Top = 328
   end
 end

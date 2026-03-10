@@ -26,30 +26,18 @@ object formSettingsTrayslate: TformSettingsTrayslate
       Caption = 'General'
       ClientHeight = 437
       ClientWidth = 392
-      object GroupSettings: TGroupBox
+      object GroupRealTime: TGroupBox
         Left = 5
         Height = 91
         Top = 173
         Width = 382
         Align = alTop
         BorderSpacing.Around = 5
-        Caption = 'Settings'
+        Caption = 'Real-Time Translation'
         ClientHeight = 71
         ClientWidth = 378
         TabOrder = 0
-        object CheckSwapTranslate: TCheckBox
-          Left = 21
-          Height = 19
-          Hint = 'When you press the Swap button, both source and translated text are switched'
-          Top = 40
-          Width = 152
-          Caption = 'Swap text with languages'
-          ParentShowHint = False
-          ShowHint = True
-          TabOrder = 0
-          OnChange = SettingChange
-        end
-        object CheckTranslateAsYouType: TCheckBox
+        object CheckRealTime: TCheckBox
           Left = 21
           Height = 19
           Hint = 'Automatically translate text while typing'
@@ -58,8 +46,26 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Caption = 'Translate as you type'
           ParentShowHint = False
           ShowHint = True
-          TabOrder = 1
+          TabOrder = 0
           OnChange = SettingChange
+        end
+        object LabelRealTimeDelay: TLabel
+          Left = 24
+          Height = 26
+          Top = 40
+          Width = 112
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Translation Delay'
+        end
+        object SpinRealTimeDelay: TSpinEdit
+          Left = 152
+          Height = 23
+          Top = 40
+          Width = 203
+          TabOrder = 1
+          Value = 1000
+          OnChange = SpinRealTimeDelayChange
         end
       end
       object GroupAutoSwap: TGroupBox
@@ -586,12 +592,12 @@ object formSettingsTrayslate: TformSettingsTrayslate
       'ColorT=A4A0A0'
     )
     Left = 32
-    Top = 456
+    Top = 408
   end
   object FontDialog: TFontDialog
     MinFontSize = 0
     MaxFontSize = 0
-    Left = 96
-    Top = 456
+    Left = 104
+    Top = 408
   end
 end

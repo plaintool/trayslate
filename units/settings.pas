@@ -137,8 +137,8 @@ begin
     JSONObj.Add('LangSource', Form.LangSource);
     JSONObj.Add('LangTarget', Form.LangTarget);
     JSONObj.Add('MaxLangPairs', Form.MaxLangPairs);
-    JSONObj.Add('SwapTranslate', Form.SwapTranslate);
-    JSONObj.Add('TranslateAsYouType', Form.TranslateAsYouType);
+    JSONObj.Add('RealTime', Form.RealTime);
+    JSONObj.Add('RealTimeDelay', Form.RealTimeDelay);
     JSONObj.Add('AutoSwap', Form.AutoSwap);
 
     // Save hotkeys
@@ -291,11 +291,11 @@ begin
       if (JSONObj.FindPath('MaxLangPairs') <> nil) then
         Form.MaxLangPairs := JSONObj.FindPath('MaxLangPairs').AsInteger;
 
-      if (JSONObj.FindPath('SwapTranslate') <> nil) then
-        Form.SwapTranslate := JSONObj.FindPath('SwapTranslate').AsBoolean;
+      if (JSONObj.FindPath('RealTime') <> nil) then
+        Form.RealTime := JSONObj.FindPath('RealTime').AsBoolean;
 
-      if (JSONObj.FindPath('TranslateAsYouType') <> nil) then
-        Form.TranslateAsYouType := JSONObj.FindPath('TranslateAsYouType').AsBoolean;
+      if (JSONObj.FindPath('RealTimeDelay') <> nil) then
+        Form.RealTimeDelay := JSONObj.FindPath('RealTimeDelay').AsInteger;
 
       if (JSONObj.FindPath('AutoSwap') <> nil) then
         Form.AutoSwap := JSONObj.FindPath('AutoSwap').AsBoolean;

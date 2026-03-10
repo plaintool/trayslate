@@ -34,8 +34,9 @@ msgid "Configuration file not found! Create it in the configuration editor."
 msgstr ""
 
 #: mainform.rswap
+#, object-pascal-format
 msgctxt "mainform.rswap"
-msgid "Swap"
+msgid "Swap (%s) with text (%s)"
 msgstr ""
 
 #: mainform.rtrayslate
@@ -422,19 +423,13 @@ msgstr ""
 msgid "Automatically detect input language and swap pair if needed, does not work during Translate as you type"
 msgstr ""
 
-#: tformsettingstrayslate.checkswaptranslate.caption
-msgid "Swap text with languages"
-msgstr ""
-
-#: tformsettingstrayslate.checkswaptranslate.hint
-msgid "When you press the Swap button, both source and translated text are switched"
-msgstr ""
-
-#: tformsettingstrayslate.checktranslateasyoutype.caption
+#: tformsettingstrayslate.checkrealtime.caption
+msgctxt "tformsettingstrayslate.checkrealtime.caption"
 msgid "Translate as you type"
 msgstr ""
 
-#: tformsettingstrayslate.checktranslateasyoutype.hint
+#: tformsettingstrayslate.checkrealtime.hint
+msgctxt "tformsettingstrayslate.checkrealtime.hint"
 msgid "Automatically translate text while typing"
 msgstr ""
 
@@ -502,9 +497,8 @@ msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
 msgstr ""
 
-#: tformsettingstrayslate.groupsettings.caption
-msgctxt "tformsettingstrayslate.groupsettings.caption"
-msgid "Settings"
+#: tformsettingstrayslate.grouprealtime.caption
+msgid "Real-Time Translation"
 msgstr ""
 
 #: tformsettingstrayslate.grouptransclipboard.caption
@@ -553,6 +547,10 @@ msgstr ""
 #: tformsettingstrayslate.labelmaxlangpairs.caption
 msgctxt "tformsettingstrayslate.labelmaxlangpairs.caption"
 msgid "Max Pairs"
+msgstr ""
+
+#: tformsettingstrayslate.labelrealtimedelay.caption
+msgid "Translation Delay"
 msgstr ""
 
 #: tformsettingstrayslate.labeltransclipboard.caption
