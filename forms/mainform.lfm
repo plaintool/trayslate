@@ -40,7 +40,7 @@ object formTrayslate: TformTrayslate
     BorderStyle = bsNone
     Constraints.MinHeight = 30
     ScrollBars = ssAutoBoth
-    TabOrder = 1
+    TabOrder = 2
     OnEnter = MemoTargetEnter
     OnKeyDown = MemoTargetKeyDown
   end
@@ -57,7 +57,7 @@ object formTrayslate: TformTrayslate
     Color = clBtnFace
     ParentBackground = False
     ParentColor = False
-    TabOrder = 2
+    TabOrder = 3
     OnResize = PanelLangResize
     object ComboTarget: TComboBox
       Left = 264

@@ -16,11 +16,11 @@ object formSettingsTrayslate: TformSettingsTrayslate
     Height = 465
     Top = 5
     Width = 400
-    ActivePage = PageGeneral
+    ActivePage = PageHotkeys
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
-    TabIndex = 0
+    TabIndex = 2
     TabOrder = 0
     object PageGeneral: TTabSheet
       Caption = 'General'
@@ -36,7 +36,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
         Caption = 'Real-Time Translation'
         ClientHeight = 71
         ClientWidth = 378
-        TabOrder = 0
+        TabOrder = 2
         object CheckRealTime: TCheckBox
           Left = 21
           Height = 19
@@ -89,7 +89,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           ParentShowHint = False
           ShowHint = True
           Style = csDropDownList
-          TabOrder = 0
+          TabOrder = 1
         end
         object LabelIconBackground1: TLabel
           Left = 21
@@ -110,7 +110,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Caption = 'Auto-swap language pair'
           ParentShowHint = False
           ShowHint = True
-          TabOrder = 1
+          TabOrder = 0
           OnChange = SettingChange
         end
       end
@@ -124,7 +124,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
         Caption = 'Autostart'
         ClientHeight = 39
         ClientWidth = 378
-        TabOrder = 2
+        TabOrder = 0
         object CheckAutostart: TCheckBox
           Left = 21
           Height = 19
@@ -542,7 +542,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
     Anchors = [akRight, akBottom]
     Caption = 'Apply'
     Enabled = False
-    TabOrder = 1
+    TabOrder = 3
     OnClick = BtnApplyClick
   end
   object BtnCancel: TButton
@@ -564,7 +564,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
     Anchors = [akRight, akBottom]
     Caption = 'OK'
     Default = True
-    TabOrder = 3
+    TabOrder = 1
     OnClick = BtnOkClick
   end
   object ColorDialog: TColorDialog

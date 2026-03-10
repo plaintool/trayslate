@@ -164,11 +164,11 @@ object formConfigTrayslate: TformConfigTrayslate
     Height = 575
     Top = 41
     Width = 557
-    ActivePage = PageParameters
+    ActivePage = PageService
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 1
     object PageService: TTabSheet
       Caption = 'Service'
@@ -349,7 +349,7 @@ object formConfigTrayslate: TformConfigTrayslate
             Top = 328
             Width = 378
             Anchors = [akTop, akLeft, akRight]
-            TabOrder = 3
+            TabOrder = 5
             OnChange = ValueChange
           end
           object LabelUrl: TLabel
@@ -368,7 +368,7 @@ object formConfigTrayslate: TformConfigTrayslate
             Width = 378
             Anchors = [akTop, akLeft, akRight]
             ScrollBars = ssVertical
-            TabOrder = 2
+            TabOrder = 4
             WantReturns = False
             OnChange = ValueChange
           end
@@ -399,7 +399,7 @@ object formConfigTrayslate: TformConfigTrayslate
             Width = 378
             Anchors = [akTop, akLeft, akRight]
             ScrollBars = ssVertical
-            TabOrder = 4
+            TabOrder = 6
             OnChange = ValueChange
             OnKeyDown = MemoKeyDown
           end
@@ -409,7 +409,7 @@ object formConfigTrayslate: TformConfigTrayslate
             Top = 472
             Width = 378
             Anchors = [akTop, akLeft, akRight]
-            TabOrder = 5
+            TabOrder = 7
             OnChange = ValueChange
           end
           object LabelAccept: TLabel
@@ -427,7 +427,7 @@ object formConfigTrayslate: TformConfigTrayslate
             Top = 224
             Width = 145
             Caption = 'Encode {text} parameter'
-            TabOrder = 6
+            TabOrder = 3
             OnChange = ValueChange
           end
           object MemoHeaders: TMemo
@@ -440,7 +440,7 @@ object formConfigTrayslate: TformConfigTrayslate
             BorderSpacing.Right = 15
             BorderSpacing.Around = 5
             ScrollBars = ssVertical
-            TabOrder = 7
+            TabOrder = 2
             OnChange = ValueChange
             OnKeyDown = MemoKeyDown
           end
@@ -549,7 +549,7 @@ object formConfigTrayslate: TformConfigTrayslate
           Width = 378
           Anchors = [akTop, akLeft, akRight]
           ScrollBars = ssVertical
-          TabOrder = 1
+          TabOrder = 2
           WantReturns = False
           OnChange = ValueChange
         end
@@ -569,7 +569,7 @@ object formConfigTrayslate: TformConfigTrayslate
           Width = 378
           Anchors = [akTop, akLeft, akRight]
           ScrollBars = ssVertical
-          TabOrder = 2
+          TabOrder = 3
           OnChange = ValueChange
           OnKeyDown = MemoKeyDown
         end
@@ -592,7 +592,7 @@ object formConfigTrayslate: TformConfigTrayslate
           BorderSpacing.Right = 15
           BorderSpacing.Around = 5
           ScrollBars = ssVertical
-          TabOrder = 3
+          TabOrder = 1
           OnChange = ValueChange
           OnKeyDown = MemoKeyDown
         end
