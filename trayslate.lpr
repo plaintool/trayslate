@@ -16,6 +16,7 @@ uses
   Interfaces, // this includes the LCL widgetset
   Forms,
   SysUtils,
+  openssl,
   opensslsockets,
   mainform,
   systemtool
@@ -33,6 +34,7 @@ begin
   Application.Title:='Trayslate';
   Application.Scaled:=True;
   Application.Initialize;
+  InitSSLInterface;
   {$IFDEF WINDOWS}
   ApplyDarkStyle;
   {$ENDIF}

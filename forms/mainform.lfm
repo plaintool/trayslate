@@ -27,9 +27,8 @@ object formTrayslate: TformTrayslate
     BorderStyle = bsNone
     ScrollBars = ssAutoBoth
     TabOrder = 0
-    OnChange = MemoSourceChange
-    OnEnter = MemoSourceEnter
     OnKeyDown = MemoSourceKeyDown
+    OnKeyUp = MemoSourceKeyUp
   end
   object MemoTarget: TMemo
     Left = 3
@@ -343,6 +342,13 @@ object formTrayslate: TformTrayslate
     Interval = 300
     OnTimer = TimerActiveTimer
     Left = 304
+    Top = 328
+  end
+  object TimerTranslate: TTimer
+    Enabled = False
+    Interval = 700
+    OnTimer = TimerTranslateTimer
+    Left = 384
     Top = 328
   end
 end

@@ -486,10 +486,12 @@ constructor TTranslateThread.Create(ATrans: TTranslate; AMemo: TMemo = nil);
 begin
   inherited Create(True);
   FreeOnTerminate := True;
-  Screen.Cursor := crAppStart;
+
+  if Assigned(AMemo) then
+    Screen.Cursor := crAppStart;
 
   FTrans := ATrans;
-  if Assigned(AMemo) then FMemo := AMemo;
+  FMemo := AMemo;
   FSourceText := FTrans.TextToTranslate;
 
   Start;
@@ -530,7 +532,8 @@ begin
       FResultTextSync := FResultText;
     end;
   finally
-    Screen.Cursor := crDefault;
+    if Assigned(FMemo) then
+      Screen.Cursor := crDefault;
   end;
 end;
 

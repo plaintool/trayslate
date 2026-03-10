@@ -79,6 +79,7 @@ type
     SbTranslate: TSpeedButton;
     Separator3: TMenuItem;
     SplitterMemo: TSplitter;
+    TimerTranslate: TTimer;
     TimerClick: TTimer;
     TimerActive: TTimer;
     TrayIcon: TTrayIcon;
@@ -105,13 +106,13 @@ type
     procedure aDonateExecute(Sender: TObject);
     procedure aAboutExecute(Sender: TObject);
     procedure aExitExecute(Sender: TObject);
-    procedure MemoSourceChange(Sender: TObject);
-    procedure MemoSourceEnter(Sender: TObject);
+    procedure MemoSourceKeyUp(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure MemoTargetEnter(Sender: TObject);
     procedure MemoSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure MemoTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure ConfigItemClick(Sender: TObject);
     procedure PanelLangResize(Sender: TObject);
+    procedure TimerTranslateTimer(Sender: TObject);
     procedure TrayIconMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
     procedure TrayIconClick(Sender: TObject);
     procedure TimerClickTimer(Sender: TObject);
@@ -161,9 +162,9 @@ type
     FIconFontColor: TColor;
     FIconTwoLang: boolean;
 
+    function TranslateThread(ATrans: TTranslate; AText: string; AMemo: TMemo = nil): string;
     procedure DetectLanguage(AText: string);
-    function TranslateThread(ATrans: TTranslate; AText: string): string;
-    procedure Translate(ADetectLanguage: boolean = False);
+    procedure TranslateMemo(ADetectLanguage: boolean = True);
     procedure TranslateFromClipboard;
     procedure TranslateClipboard;
     procedure TranslateFromControl(Data: PtrInt);
@@ -535,13 +536,13 @@ end;
 
 procedure TformTrayslate.aTranslateExecute(Sender: TObject);
 begin
-  Translate;
+  TranslateMemo;
 end;
 
 procedure TformTrayslate.aSwapExecute(Sender: TObject);
 begin
   SwapLanguages;
-  Translate(True);
+  TranslateMemo(False);
 end;
 
 procedure TformTrayslate.aCheckForUpdatesExecute(Sender: TObject);
@@ -586,20 +587,14 @@ begin
   ChangeTargetLang(ComboTarget.Text);
 end;
 
-procedure TformTrayslate.MemoSourceChange(Sender: TObject);
+procedure TformTrayslate.MemoSourceKeyUp(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
   if FTranslateAsYouType then
   begin
-    Translate(True);
-    if MemoSource.Text = string.Empty then
-      MemoTarget.Clear;
+    if TimerTranslate.Enabled then
+      TimerTranslate.Enabled := False;
+    TimerTranslate.Enabled := True;
   end;
-end;
-
-procedure TformTrayslate.MemoSourceEnter(Sender: TObject);
-begin
-  //MemoSource.SelStart := 0;
-  //MemoSource.SelLength := Length(MemoSource.Text);
 end;
 
 procedure TformTrayslate.MemoTargetEnter(Sender: TObject);
@@ -650,7 +645,7 @@ begin
         MemoSource.SelStart := FMemoSourceCaretPos - 2;
         MemoSource.SelLength := 2;
         if MemoSource.SelText = sLineBreak then
-          MemoSource.SelText := ''; // remove the line break
+          MemoSource.SelText := string.Empty; // remove the line break
       end;
 
       // restore caret to original position
@@ -713,12 +708,7 @@ begin
     TimerClick.Tag := 0;
     FTopMost := True;
 
-    MemoSource.OnChange := nil;
-    try
-      aTranslateClipboard.Execute;
-    finally
-      MemoSource.OnChange := @MemoSourceChange;
-    end;
+    aTranslateClipboard.Execute;
     Exit;
   end;
 
@@ -775,6 +765,17 @@ begin
 
   if (not TimerClick.Enabled) and (not TimerClick.Tag = 1) then
     FTopMost := False;
+end;
+
+procedure TformTrayslate.TimerTranslateTimer(Sender: TObject);
+begin
+  TimerTranslate.Enabled := False;
+  if FTranslateAsYouType then
+  begin
+    TranslateMemo(False);
+    if MemoSource.Text = string.Empty then
+      MemoTarget.Clear;
+  end;
 end;
 
 procedure TformTrayslate.LabelMouseEnter(Sender: TObject);
@@ -1119,11 +1120,42 @@ end;
 
 {$ENDIF}
 
+function TformTrayslate.TranslateThread(ATrans: TTranslate; AText: string; AMemo: TMemo = nil): string;
+var
+  Th: TTranslateThread;
+begin
+  Result := string.Empty;
+
+  // Create translation thread (it will handle exceptions itself)
+  ATrans.TextToTranslate := AText;
+  Th := TTranslateThread.Create(ATrans, AMemo);
+  if not Assigned(AMemo) then
+  begin
+    try
+      Th.FreeOnTerminate := False;
+
+      // Wait for thread to finish
+      while not Th.Finished do
+        Application.ProcessMessages;
+
+      // Set translated text to clipboard
+      if Th.ResultTextSync <> string.Empty then
+        Result := Th.ResultTextSync;
+    finally
+      Th.Free;
+      if ATrans <> TransDetect then
+        Screen.Cursor := crDefault;
+    end;
+  end;
+end;
+
 procedure TformTrayslate.DetectLanguage(AText: string);
 var
   langSrc, langTar, langDetect: string;
 begin
   if (not FAutoSwap) or (not Assigned(FTransDetect)) then exit;
+
+  Screen.Cursor := crAppStart;
 
   // Detect language in source memo
   langDetect := TranslateThread(TransDetect, AText);
@@ -1137,41 +1169,15 @@ begin
     SwapLanguages(False);
 end;
 
-function TformTrayslate.TranslateThread(ATrans: TTranslate; AText: string): string;
-var
-  Th: TTranslateThread;
-begin
-  Result := string.Empty;
-  Screen.Cursor := crAppStart;
-
-  // Create translation thread (it will handle exceptions itself)
-  ATrans.TextToTranslate := AText;
-  Th := TTranslateThread.Create(ATrans);
-  try
-    Th.FreeOnTerminate := False;
-
-    // Wait for thread to finish
-    while not Th.Finished do
-      Application.ProcessMessages;
-
-    // Set translated text to clipboard
-    if Th.ResultTextSync <> string.Empty then
-      Result := Th.ResultTextSync;
-  finally
-    Th.Free;
-    Screen.Cursor := crDefault;
-  end;
-end;
-
-procedure TformTrayslate.Translate(ADetectLanguage: boolean = False);
+procedure TformTrayslate.TranslateMemo(ADetectLanguage: boolean = True);
 begin
   if Trim(MemoSource.Text) = string.Empty then Exit;
 
-  if (not ADetectLanguage) then DetectLanguage(MemoSource.Text);
+  if (ADetectLanguage) then
+    DetectLanguage(MemoSource.Text);
 
   // Create translation thread (it will handle exceptions itself)
-  Trans.TextToTranslate := MemoSource.Text;
-  TTranslateThread.Create(Trans, MemoTarget);
+  TranslateThread(Trans, MemoSource.Text, MemoTarget);
 end;
 
 procedure TformTrayslate.TranslateFromClipboard;
@@ -1184,13 +1190,18 @@ begin
   if (Clipboard.AsText <> string.empty) then
   begin
     MemoSource.Text := Clipboard.AsText;
-    Translate;
+    TranslateMemo;
   end;
 end;
 
 procedure TformTrayslate.TranslateClipboard;
 begin
+  {$IFDEF WINDOWS}
+  SetSystemCursor(LoadCursor(0, IDC_APPSTARTING), OCR_IBEAM);
+  Application.ProcessMessages;
+  {$ELSE}
   Screen.Cursor := crAppStart;
+  {$ENDIF}
   try
     if Clipboard.AsText = string.Empty then Exit;
 
@@ -1198,7 +1209,11 @@ begin
 
     Clipboard.AsText := TranslateThread(Trans, Clipboard.AsText);
   finally
+    {$IFDEF WINDOWS}
+    SystemParametersInfo(SPI_SETCURSORS, 0, nil, 0);
+    {$ELSE}
     Screen.Cursor := crDefault;
+    {$ENDIF}
   end;
 end;
 
@@ -1222,7 +1237,7 @@ begin
     FTopMost := True;
     ProcessMessages;
     MemoSource.Text := SelectedText;
-    Translate;
+    TranslateMemo;
 
     // Restore original clipboard
     Clipboard.AsText := OriginalClip;
@@ -1449,7 +1464,7 @@ begin
       ChangeTargetLang(FLanguages[idxnative], False);
   end;
 
-  Translate;
+  TranslateMemo;
 end;
 
 end.
