@@ -433,6 +433,9 @@ begin
     Ini.DeleteKey('Initial Request', 'Url');
     if Trim(Translate.InitUrl) <> string.Empty then
       Ini.WriteString('Initial Request', 'Url', Translate.InitUrl);
+    Ini.DeleteKey('Initial Request', 'LiveTime');
+    if Translate.InitLiveTime > 0 then
+      Ini.WriteInteger('Initial Request', 'LiveTime', Translate.InitLiveTime);
 
     // Save initial headers
     Ini.EraseSection('Initial Headers'); // Clear previous entries
@@ -508,6 +511,7 @@ begin
 
     Translate.InitUserAgent := Ini.ReadString('Initial Request', 'UserAgent', string.Empty);
     Translate.InitUrl := Ini.ReadString('Initial Request', 'Url', string.Empty);
+    Translate.InitLiveTime := Ini.ReadInteger('Initial Request', 'LiveTime', 0);
     Translate.InitHeaders.Clear;
     Ini.ReadSectionValues('Initial Headers', Translate.InitHeaders);
     Translate.InitParameters.Clear;

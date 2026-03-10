@@ -166,8 +166,17 @@ msgctxt "tformconfigtrayslate.labelinitheaders2.caption"
 msgid "Headers"
 msgstr ""
 
+#: tformconfigtrayslate.labelinitlivetime.caption
+msgctxt "tformconfigtrayslate.labelinitlivetime.caption"
+msgid "Live time"
+msgstr ""
+
 #: tformconfigtrayslate.labelinitparameters.caption
 msgid "Parameters name=regexp are extracted from the response and used by name in requests"
+msgstr ""
+
+#: tformconfigtrayslate.labelinitparameters1.caption
+msgid "Time in seconds to refresh parameters with a new request (0 = every request)"
 msgstr ""
 
 #: tformconfigtrayslate.labelinitparameters2.caption

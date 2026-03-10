@@ -18,6 +18,7 @@ uses
   RegExpr,
   StrUtils,
   Controls,
+  DateUtils,
   fphttpclient,
   fpjson,
   jsonparser;
@@ -52,7 +53,10 @@ type
     FInitHeaders: TStringList;
     FInitUrl: string;
     FInitParameters: TStringList;
+    FInitLiveTime: integer;
     FParameterValues: TStringList;
+
+    FParametersAge: TDateTime;
   public
     constructor Create;
     destructor Destroy; override;
@@ -91,6 +95,7 @@ type
     property InitHeaders: TStringList read FInitHeaders write FInitHeaders;
     property InitUrl: string read FInitUrl write FInitUrl;
     property InitParameters: TStringList read FInitParameters write FInitParameters;
+    property InitLiveTime: integer read FInitLiveTime write FInitLiveTime;
   end;
 
   { TTranslateThread }
@@ -150,6 +155,7 @@ begin
   FInitParameters.TrailingLineBreak := False;
   FParameterValues := TStringList.Create;
   FParameterValues.TrailingLineBreak := False;
+  FInitLiveTime := 60;
 
   FLangSource := defaultlang;
   FLangTarget := Language;
@@ -175,7 +181,10 @@ var
   header: string;
 begin
   Result := string.Empty;
-  if FInitUrl = string.Empty then exit;
+  if FInitUrl = string.Empty then Exit;
+
+  if SecondsBetween(Now, FParametersAge) < FInitLiveTime then Exit;
+  FParameterValues.Clear;
 
   http := TFPHTTPClient.Create(nil);
   response := TStringStream.Create(string.Empty);
@@ -209,25 +218,23 @@ var
   R: TRegExpr;
   Value: string;
 begin
-  FParameterValues.Clear;
-
   if FTextToTranslate <> string.Empty then
-    FParameterValues.Add('text=' + IfThen(FEncryptText, EncodeURLElement(FTextToTranslate), FTextToTranslate))
+    FParameterValues.Values['text'] := IfThen(FEncryptText, EncodeURLElement(FTextToTranslate), FTextToTranslate)
   else
-    FParameterValues.Add('text=');
+    FParameterValues.Values['text'] := string.Empty;
 
   if FLangSource <> string.Empty then
-    FParameterValues.Add('source=' + FLangSource)
+    FParameterValues.Values['source'] := FLangSource
   else
-    FParameterValues.Add('source=' + defaultlang);
+    FParameterValues.Values['source'] := defaultlang;
 
   if FLangTarget <> string.Empty then
-    FParameterValues.Add('target=' + FLangTarget)
+    FParameterValues.Values['target'] := FLangTarget
   else
-    FParameterValues.Add('target=' + Language);
+    FParameterValues.Values['target'] := Language;
 
   // Extract additional parameters using regex
-  if not Assigned(FInitParameters) or (Data = string.Empty) then
+  if not Assigned(FInitParameters) or (Data = string.Empty) or (SecondsBetween(Now, FParametersAge) < FInitLiveTime) then
     Exit;
 
   R := TRegExpr.Create;
@@ -254,6 +261,7 @@ begin
     end;
   finally
     R.Free;
+    FParametersAge := Now;
   end;
 end;
 
@@ -299,6 +307,7 @@ begin
   Result := string.Empty;
   if FUrl = string.Empty then exit;
 
+  // Get parameters from base + initial get
   GetParameters(InitGet);
 
   http := TFPHTTPClient.Create(nil);
@@ -345,13 +354,11 @@ var
   TempUrl: string;
   TempHeaders: TStringList;
   i: integer;
-  TempGet: string;
 begin
   Result := string.Empty;
   if FUrl = string.Empty then exit;
 
-  TempGet := InitGet;
-  GetParameters(TempGet);
+  GetParameters(InitGet);
 
   http := TFPHTTPClient.Create(nil);
   response := TStringStream.Create(string.Empty);
@@ -479,6 +486,7 @@ constructor TTranslateThread.Create(ATrans: TTranslate; AMemo: TMemo = nil);
 begin
   inherited Create(True);
   FreeOnTerminate := True;
+  Screen.Cursor := crAppStart;
 
   FTrans := ATrans;
   if Assigned(AMemo) then FMemo := AMemo;
@@ -505,20 +513,24 @@ end;
 
 procedure TTranslateThread.UpdateUI;
 begin
-  // Handle exception in main thread if occurred
-  if Assigned(FException) then
-  begin
-    if Assigned(Application.OnException) then
-      Application.OnException(Self, FException)
-    else
-      Application.ShowException(FException);
+  try
+    // Handle exception in main thread if occurred
+    if Assigned(FException) then
+    begin
+      if Assigned(Application.OnException) then
+        Application.OnException(Self, FException)
+      else
+        Application.ShowException(FException);
 
-    FreeAndNil(FException); // free manually
-  end
-  else
-  begin
-    if Assigned(FMemo) then FMemo.Text := FResultText;
-    FResultTextSync := FResultText;
+      FreeAndNil(FException); // free manually
+    end
+    else
+    begin
+      if Assigned(FMemo) then FMemo.Text := FResultText;
+      FResultTextSync := FResultText;
+    end;
+  finally
+    Screen.Cursor := crDefault;
   end;
 end;
 

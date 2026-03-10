@@ -25,7 +25,7 @@ uses
   Buttons,
   ActnList,
   ComCtrls,
-  LCLType;
+  LCLType, Spin;
 
 type
 
@@ -56,8 +56,10 @@ type
     LabelAccept: TLabel;
     LabelInitHeaders: TLabel;
     LabelInitParameters: TLabel;
+    LabelInitParameters1: TLabel;
     LabelLanguagesTarget: TLabel;
     LabelFillLanguages: TLabel;
+    LabelInitLiveTime: TLabel;
     LabelMethod: TLabel;
     LabelLanguages: TLabel;
     LabelInitParemeters: TLabel;
@@ -94,6 +96,7 @@ type
     PageParameters: TTabSheet;
     PageLanguages: TTabSheet;
     PageLanguagesTarget: TTabSheet;
+    SpinInitLiveTime: TSpinEdit;
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -379,6 +382,7 @@ begin
     MemoInitHeaders.Lines.Assign(InitHeaders);
     MemoInitUrl.Text := InitUrl;
     MemoInitParameters.Lines.Assign(InitParameters);
+    SpinInitLiveTime.Value := InitLiveTime;
   end;
   aSave.Enabled := False;
   Caption := rcaption;
@@ -407,6 +411,7 @@ begin
     InitHeaders.Clear;
     InitUrl := string.Empty;
     InitParameters.Clear;
+    SpinInitLiveTime.Value := 0;
 
     // Clear controls
     EditServiceName.Text := string.Empty;
@@ -478,6 +483,7 @@ begin
       end;
       InitUrl := MemoInitUrl.Text;
       InitParameters.Assign(MemoInitParameters.Lines);
+      InitLiveTime := SpinInitLiveTime.Value;
     end;
     SaveIniSettings(formTrayslate.Trans, formTrayslate.ConfigFile);
     aSave.Enabled := False;

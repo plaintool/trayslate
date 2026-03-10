@@ -1142,6 +1142,7 @@ var
   Th: TTranslateThread;
 begin
   Result := string.Empty;
+  Screen.Cursor := crAppStart;
 
   // Create translation thread (it will handle exceptions itself)
   ATrans.TextToTranslate := AText;
@@ -1158,6 +1159,7 @@ begin
       Result := Th.ResultTextSync;
   finally
     Th.Free;
+    Screen.Cursor := crDefault;
   end;
 end;
 
@@ -1165,16 +1167,11 @@ procedure TformTrayslate.Translate(ADetectLanguage: boolean = False);
 begin
   if Trim(MemoSource.Text) = string.Empty then Exit;
 
-  Screen.Cursor := crAppStart;
-  try
-    if (not ADetectLanguage) then DetectLanguage(MemoSource.Text);
+  if (not ADetectLanguage) then DetectLanguage(MemoSource.Text);
 
-    // Create translation thread (it will handle exceptions itself)
-    Trans.TextToTranslate := MemoSource.Text;
-    TTranslateThread.Create(Trans, MemoTarget);
-  finally
-    Screen.Cursor := crDefault;
-  end;
+  // Create translation thread (it will handle exceptions itself)
+  Trans.TextToTranslate := MemoSource.Text;
+  TTranslateThread.Create(Trans, MemoTarget);
 end;
 
 procedure TformTrayslate.TranslateFromClipboard;
