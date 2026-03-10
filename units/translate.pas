@@ -75,6 +75,8 @@ type
     property LangSource: string read FLangSource write FLangSource;
     property LangTarget: string read FLangTarget write FLangTarget;
     property TextToTranslate: string read FTextToTranslate write FTextToTranslate;
+    property ParametersAge: TDateTime read FParametersAge write FParametersAge;
+    property ParameterValues: TStringList read FParameterValues write FParameterValues;
 
     property ServiceName: string read FServiceName write FServiceName;
     property WebMethod: TWebMethod read FWebMethod write FWebMethod;

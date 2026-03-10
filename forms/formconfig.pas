@@ -35,6 +35,7 @@ type
     aSave: TAction;
     ActionList: TActionList;
     BtnClose: TButton;
+    BtnInitParametersTest: TSpeedButton;
     BtnSave: TButton;
     CheckEncryptText: TCheckBox;
     ComboMethod: TComboBox;
@@ -96,15 +97,18 @@ type
     PageParameters: TTabSheet;
     PageLanguages: TTabSheet;
     PageLanguagesTarget: TTabSheet;
+    BtnInitUrlTest: TSpeedButton;
     SpinInitLiveTime: TSpinEdit;
-    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormResize(Sender: TObject);
     procedure FormChangeBounds(Sender: TObject);
-    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure aSaveExecute(Sender: TObject);
+    procedure BtnInitParametersTestClick(Sender: TObject);
+    procedure BtnInitUrlTestClick(Sender: TObject);
     procedure BtnCloseClick(Sender: TObject);
     procedure ComboConfigChange(Sender: TObject);
     procedure ComboConfigKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
@@ -185,6 +189,28 @@ end;
 procedure TformConfigTrayslate.aSaveExecute(Sender: TObject);
 begin
   SaveConfig;
+end;
+
+procedure TformConfigTrayslate.BtnInitUrlTestClick(Sender: TObject);
+begin
+  if (MemoInitUrl.Text = string.empty) or not TestChanges then exit;
+  with formTrayslate.Trans do
+  begin
+    ParametersAge := Now + 3650;
+    OpenStringInTextEditor(InitGet);
+  end;
+end;
+
+procedure TformConfigTrayslate.BtnInitParametersTestClick(Sender: TObject);
+begin
+  if (MemoInitUrl.Text = string.empty) or (MemoInitParameters.Text = string.empty) or not TestChanges then exit;
+
+  with formTrayslate.Trans do
+  begin
+    ParametersAge := Now + 3650;
+    GetParameters(InitGet);
+    OpenStringInTextEditor(ParameterValues.Text);
+  end;
 end;
 
 procedure TformConfigTrayslate.ComboConfigChange(Sender: TObject);

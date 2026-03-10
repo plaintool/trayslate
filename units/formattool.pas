@@ -16,7 +16,8 @@ uses
   SysUtils,
   StdCtrls,
   Clipbrd,
-  Graphics;
+  Graphics,
+  LCLIntf;
 
   {TColor}
 
@@ -33,6 +34,8 @@ procedure PasteWithLineEnding(AMemo: TMemo);
 function FindInStringList(List: TStringList; const SubText: string): integer;
 
 procedure SaveStringToFile(const FileName, Data: string);
+
+procedure OpenStringInTextEditor(const S: string);
 
 implementation
 
@@ -166,6 +169,25 @@ begin
   finally
     SL.Free;
   end;
+end;
+
+procedure OpenStringInTextEditor(const S: string);
+var
+  SL: TStringList;
+  FileName: string;
+begin
+  FileName := GetTempFileName(GetTempDir, 'txt_') + '.txt';
+
+  SL := TStringList.Create;
+  try
+    SL.Text := S;
+    SL.SaveToFile(FileName); // save string to temp file
+  finally
+    SL.Free;
+  end;
+
+  // open with associated editor
+  OpenDocument(FileName);
 end;
 
 end.

@@ -96,6 +96,14 @@ msgctxt "tformconfigtrayslate.btnclose.caption"
 msgid "Close"
 msgstr ""
 
+#: tformconfigtrayslate.btninitparameterstest.hint
+msgid "Execute request and view the parameters"
+msgstr ""
+
+#: tformconfigtrayslate.btniniturltest.hint
+msgid "Execute request and view the result"
+msgstr ""
+
 #: tformconfigtrayslate.caption
 msgctxt "tformconfigtrayslate.caption"
 msgid "Config Editor"
