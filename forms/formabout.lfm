@@ -200,7 +200,7 @@ object formAboutTrayslate: TformAboutTrayslate
     Left = 136
     Height = 55
     Top = 12
-    Width = 319
+    Width = 302
     Caption = 'Trayslate © 2026'
     Font.Height = -41
     ParentFont = False

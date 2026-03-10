@@ -40,7 +40,7 @@ object formTrayslate: TformTrayslate
     BorderStyle = bsNone
     Constraints.MinHeight = 30
     ScrollBars = ssAutoBoth
-    TabOrder = 2
+    TabOrder = 1
     OnEnter = MemoTargetEnter
     OnKeyDown = MemoTargetKeyDown
   end

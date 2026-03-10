@@ -31,7 +31,7 @@
   License along with this program. If not, see <http://www.gnu.org/licenses/>.
 
   -------------------------------------------------------------------------
-  Modified for use in Notetask © 2024 by Alexander Tverskoy
+  Modified for use in Trayslate © 2026 by Alexander Tverskoy
       - Added Dark style for CheckBox List
       - Added Dark style for hints
       - Added Dark style for the calendar
