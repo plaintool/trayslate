@@ -93,6 +93,7 @@ type
     procedure ApplicationOnActivate(Sender: TObject);
     procedure ApplicationOnDeactivate(Sender: TObject);
     procedure ApplicationOnException(Sender: TObject; E: Exception);
+    procedure ScreenActiveFormChanged(Sender: TObject);
     procedure aConfigEditorExecute(Sender: TObject);
     procedure aSettingsExecute(Sender: TObject);
     procedure aTranslateClipboardExecute(Sender: TObject);
@@ -359,6 +360,7 @@ begin
   Application.OnDeactivate := @ApplicationOnDeactivate;
   Application.OnActivate := @ApplicationOnActivate;
   Application.OnException := @ApplicationOnException;
+  Screen.OnActiveFormChange := @ScreenActiveFormChanged;
 
   {$IFDEF WINDOWS}
   RegisterHotKeys;
@@ -475,6 +477,8 @@ end;
 procedure TformTrayslate.ApplicationOnActivate(Sender: TObject);
 begin
   FTopMost := True;
+  if Assigned(formConfigTrayslate) then
+    formConfigTrayslate.Invalidate;
 end;
 
 procedure TformTrayslate.ApplicationOnDeactivate(Sender: TObject);
@@ -485,6 +489,12 @@ end;
 procedure TformTrayslate.ApplicationOnException(Sender: TObject; E: Exception);
 begin
   MessageDlg(rtrayslate, E.Message, mtWarning, [mbOK], 0);
+end;
+
+procedure TformTrayslate.ScreenActiveFormChanged(Sender: TObject);
+begin
+  if Assigned(formConfigTrayslate) and (Screen.ActiveForm = formConfigTrayslate) then
+    formConfigTrayslate.Invalidate;
 end;
 
 {Actions Events}
@@ -781,7 +791,7 @@ procedure TformTrayslate.TimerActiveTimer(Sender: TObject);
 begin
   TimerActive.Enabled := False;
 
-  if (not TimerClick.Enabled) and (not TimerClick.Tag = 1) then
+  if (not TimerClick.Enabled) and (TimerClick.Tag = 0) then
     FTopMost := False;
 end;
 
@@ -825,7 +835,6 @@ begin
   begin
     TimerClick.Enabled := False;
     TimerClick.Tag := 0;
-    FTopMost := True;
   end;
 
   if Visible and Showing then
