@@ -43,6 +43,8 @@ procedure SaveStringToFile(const FileName, Data: string);
 
 procedure OpenStringInTextEditor(const S: string);
 
+function RemoveTrailingLineBreak(const S: string): string;
+
 implementation
 
 {TColor}
@@ -166,8 +168,8 @@ end;
 
 procedure RemoveEmptyValues(Strings: TStringList);
 var
-  i: Integer;
-  EqualPos: Integer;
+  i: integer;
+  EqualPos: integer;
 begin
   // Traverse the list backwards so that deletions don't affect subsequent indices
   for i := Strings.Count - 1 downto 0 do
@@ -186,7 +188,7 @@ var
   JsonData: TJSONData;
   JsonObj, ParamsObj, LangObjJson: TJSONObject;
   LangObj: TJSONData;
-  I: Integer;
+  I: integer;
   Params: TStringList;
 begin
   Result := AInput;
@@ -217,8 +219,7 @@ begin
 
             // Remove other empty string fields in params
             for I := ParamsObj.Count - 1 downto 0 do
-              if (ParamsObj.Items[I].JSONType = jtString) and
-                 (ParamsObj.Items[I].AsString = string.Empty) then
+              if (ParamsObj.Items[I].JSONType = jtString) and (ParamsObj.Items[I].AsString = string.Empty) then
                 ParamsObj.Delete(I);
           end;
 
@@ -240,9 +241,9 @@ begin
     Params.StrictDelimiter := True;
     Params.DelimitedText := AInput;
 
-    for I := Params.Count-1 downto 0 do
+    for I := Params.Count - 1 downto 0 do
       if Pos('=', Params[I]) > 0 then
-        if Copy(Params[I], Pos('=', Params[I])+1, MaxInt) = string.Empty then
+        if Copy(Params[I], Pos('=', Params[I]) + 1, MaxInt) = string.Empty then
           Params.Delete(I);
 
     // Rebuild URL string with &
@@ -287,6 +288,15 @@ begin
 
   // open with associated editor
   OpenDocument(FileName);
+end;
+
+function RemoveTrailingLineBreak(const S: string): string;
+begin
+  Result := S;
+  if (Length(Result) >= 2) and (Copy(Result, Length(Result) - 1, 2) = sLineBreak) then
+    Result := Copy(Result, 1, Length(Result) - 2)
+  else if (Length(Result) >= 1) and ((Result[Length(Result)] = #10) or (Result[Length(Result)] = #13)) then
+    Result := Copy(Result, 1, Length(Result) - 1);
 end;
 
 end.

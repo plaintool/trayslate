@@ -19,6 +19,7 @@ uses
   StrUtils,
   Controls,
   DateUtils,
+  LazUTF8,
   fphttpclient,
   fpjson,
   jsonparser;
@@ -68,8 +69,8 @@ type
     function Get: string;
     function Post: string;
     function Request: string;
-    function TransRegEx: string;
-    function TransJson: string;
+    function TransRegEx(content: string): string;
+    function TransJson(content: string): string;
     function Translate: string;
 
     property LangSource: string read FLangSource write FLangSource;
@@ -222,7 +223,7 @@ var
   Value: string;
 begin
   if FTextToTranslate <> string.Empty then
-    FParameterValues.Values['text'] := IfThen(FEncryptText, EncodeURLElement(FTextToTranslate), FTextToTranslate)
+    FParameterValues.Values['text'] := FTextToTranslate
   else
     FParameterValues.Values['text'] := string.Empty;
 
@@ -273,6 +274,15 @@ var
   i: integer;
   ParamName: string;
   ParamValue: string;
+
+  function Encrypt(AName, AValue: string): string;
+  begin
+    if (FEncryptText) and (Lowercase(AName) = 'text') then
+      Result := EncodeURLElement(AValue)
+    else
+      Result := AValue;
+  end;
+
 begin
   Result := Data;
 
@@ -282,10 +292,16 @@ begin
   for i := 0 to FParameterValues.Count - 1 do
   begin
     ParamName := FParameterValues.Names[i];
-    ParamValue := FParameterValues.ValueFromIndex[i];
+    ParamValue := RemoveTrailingLineBreak(FParameterValues.ValueFromIndex[i]);
 
     // Replace all occurrences of {name} with value
-    Result := StringReplace(Result, '{' + ParamName + '}', ParamValue, [rfReplaceAll]);
+    Result := StringReplace(Result, '{' + ParamName + '}', Encrypt(ParamName, ParamValue), [rfReplaceAll]);
+
+    // lowercase {!param}
+    Result := StringReplace(Result, '{!' + ParamName + '}', Encrypt(ParamName, UTF8LowerCase(ParamValue)), [rfReplaceAll]);
+
+    // UPPERCASE {^param}
+    Result := StringReplace(Result, '{^' + ParamName + '}', Encrypt(ParamName, UTF8UpperCase(ParamValue)), [rfReplaceAll]);
   end;
 end;
 
@@ -424,14 +440,11 @@ begin
     Result := Get;
 end;
 
-function TTranslate.TransRegEx: string;
+function TTranslate.TransRegEx(content: string): string;
 var
   regex: TRegExpr;
-  content: string;
 begin
   Result := string.Empty;
-  content := Request;
-
   try
     if (FRegexp <> string.Empty) then
     begin
@@ -444,7 +457,7 @@ begin
           Result := UnescapeUnicode(Result);
         end
         else
-          Result := content;
+          Result := string.Empty;
       finally
         regex.Free;
       end;
@@ -453,43 +466,43 @@ begin
       Result := content;
   except
     on E: Exception do
-    begin
-      raise Exception.Create(E.Message + #10 + content);
-    end;
+      Result := E.Message + #10 + content;
   end;
 end;
 
-function TTranslate.TransJson: string;
-var
-  jsonStr: string;
+function TTranslate.TransJson(content: string): string;
 begin
   Result := string.Empty;
 
-  jsonStr := Request;
-  if Trim(jsonStr) = string.Empty then Exit;
-  if not IsJson(jsonStr) then Exit(jsonstr);
+  if Trim(content) = string.Empty then Exit;
+  if not IsJson(content) then Exit(content);
 
   try
     // Use universal path parser. JsonKeys is a field, e.g. '\responseData\translatedText' or '\matches\0\translation'
     if (JsonPointer <> string.Empty) then
-      Result := ParseJsonByPointer(jsonStr, JsonPointer);
+      Result := ParseJsonByPointer(content, JsonPointer)
+    else
+      Result := content;
 
     if (Result <> string.Empty) then
       Result := UnescapeUnicode(Result)
     else
-      Result := jsonStr;
+      Result := string.Empty;
   except
     on E: Exception do
-      raise Exception.Create(E.Message + #10 + Request);
+      Result := E.Message + #10 + content;
   end;
 end;
 
 function TTranslate.Translate: string;
+var
+  content: string;
 begin
+  content := Request;
   if FResponseParser = rpJson then
-    Result := TransJson
+    Result := TransJson(content)
   else
-    Result := TransRegEx;
+    Result := TransRegEx(content);
 end;
 
 { TTranslateThread }

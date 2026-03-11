@@ -44,7 +44,7 @@ const
 
 {$ENDIF}
 
-function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = ''; ABackgroundColor: TColor = $00C07000;
+function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = string.Empty; ABackgroundColor: TColor = $00C07000;
   AFontColor: TColor = clWhite): TIcon;
 
 procedure SetComboBoxByCode(ComboBox: TComboBox; const Code: string);
@@ -59,7 +59,7 @@ implementation
 
 uses languages;
 
-function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = ''; ABackgroundColor: TColor = $00C07000;
+function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = string.Empty; ABackgroundColor: TColor = $00C07000;
   AFontColor: TColor = clWhite): TIcon;
 var
   bmp: TBitmap;
@@ -166,7 +166,7 @@ begin
   for i := 0 to AMemo.Lines.Count - 1 do
   begin
     line := Trim(AMemo.Lines[i]);
-    if line = '' then
+    if line = string.Empty then
       Continue;
 
     pColon := Pos(':', line);
@@ -185,7 +185,7 @@ begin
     Key := Trim(Copy(line, 1, p - 1));
     Value := Trim(Copy(line, p + 1, MaxInt));
 
-    if Key <> '' then
+    if Key <> string.Empty then
       Result.Values[Key] := Value;  // stored as Key=Value internally
   end;
 end;
@@ -194,7 +194,6 @@ function ParseJsonByPointer(const JsonStr, JsonPointer: string): string;
 var
   Data: TJSONData;
 
-// Recursive traversal of JSON according to path parts
   function Traverse(Data: TJSONData; PathParts: TStringList; Level: integer): string;
   var
     Key: string;
@@ -207,11 +206,11 @@ var
     Result := string.Empty;
     if Data = nil then Exit;
 
-    // If we've reached the end of the path, return string or number
+    // If we have reached the end of the path, return the value
     if Level >= PathParts.Count then
     begin
       case Data.JSONType of
-        jtString, jtNumber: Result := Data.AsString;
+        jtString, jtNumber, jtBoolean: Result := Data.AsString;
         jtArray:
         begin
           Arr := TJSONArray(Data);
@@ -226,13 +225,14 @@ var
             end;
           end;
         end;
+        // You can add jtObject processing here if you need to dump the entire object
       end;
       Exit;
     end;
 
     Key := PathParts[Level];
 
-    // Decode JSON Pointer escape sequences
+    // Decoding special characters JSON Pointer
     Key := StringReplace(Key, '~1', '/', [rfReplaceAll]);
     Key := StringReplace(Key, '~0', '~', [rfReplaceAll]);
 
@@ -240,9 +240,35 @@ var
       jtObject:
       begin
         Obj := TJSONObject(Data);
-        Child := Obj.Find(Key);
-        if Child <> nil then
-          Result := Traverse(Child, PathParts, Level + 1);
+
+        // 1. Processing Wildcard for an object (take all properties)
+        if (Key = '*') or (Key = '*#10') then
+        begin
+          for i := 0 to Obj.Count - 1 do
+          begin
+            SubResult := Traverse(Obj.Items[i], PathParts, Level + 1);
+            if SubResult <> string.Empty then
+            begin
+              if (Result <> string.Empty) and (Key = '*#10') then
+                Result := Result + #10;
+              Result := Result + SubResult;
+            end;
+          end;
+        end
+        else
+        begin
+          // 2. Search by key name
+          Child := Obj.Find(Key);
+          if Child <> nil then
+            Result := Traverse(Child, PathParts, Level + 1)
+          else
+          begin
+            // 3. If you can’t find it by name, try to interpret the key as an index
+            i := StrToIntDef(Key, -1);
+            if (i >= 0) and (i < Obj.Count) then
+              Result := Traverse(Obj.Items[i], PathParts, Level + 1);
+          end;
+        end;
       end;
 
       jtArray:
@@ -250,7 +276,6 @@ var
         Arr := TJSONArray(Data);
         if (Key = '*') or (Key = '*#10') then
         begin
-          // Iterate all elements of the array
           for i := 0 to Arr.Count - 1 do
           begin
             SubResult := Traverse(Arr.Items[i], PathParts, Level + 1);
@@ -264,7 +289,6 @@ var
         end
         else
         begin
-          // Numeric index
           i := StrToIntDef(Key, -1);
           if (i >= 0) and (i < Arr.Count) then
             Result := Traverse(Arr.Items[i], PathParts, Level + 1);
@@ -285,16 +309,18 @@ begin
     PathParts.StrictDelimiter := True;
     PathParts.DelimitedText := JsonPointer;
 
-    // Keep empty parts (they are valid keys in Json Pointer)
-    // Only remove a single leading empty segment if JsonPointer starts with '/'
-    if (PathParts.Count > 0) and (PathParts[0] = '') then
+    if (PathParts.Count > 0) and (PathParts[0] = string.Empty) then
       PathParts.Delete(0);
 
-    Data := fpjson.GetJSON(JsonStr);
     try
-      Result := Traverse(Data, PathParts, 0);
-    finally
-      Data.Free;
+      Data := fpjson.GetJSON(JsonStr);
+      try
+        Result := Traverse(Data, PathParts, 0);
+      finally
+        Data.Free;
+      end;
+    except
+      Result := string.Empty;
     end;
   finally
     PathParts.Free;
