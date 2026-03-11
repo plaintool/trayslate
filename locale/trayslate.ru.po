@@ -109,6 +109,14 @@ msgstr ""
 msgid "Execute request and view the result"
 msgstr ""
 
+#: tformconfigtrayslate.btnpostdatatest.hint
+msgid "Execute post request and view the result"
+msgstr ""
+
+#: tformconfigtrayslate.btnurltest.hint
+msgid "Execute get request and view the result"
+msgstr ""
+
 #: tformconfigtrayslate.caption
 msgctxt "tformconfigtrayslate.caption"
 msgid "Config Editor"
@@ -151,6 +159,7 @@ msgid "Request"
 msgstr ""
 
 #: tformconfigtrayslate.groupresponse.caption
+msgctxt "tformconfigtrayslate.groupresponse.caption"
 msgid "Response"
 msgstr ""
 
@@ -234,7 +243,7 @@ msgstr ""
 
 #: tformconfigtrayslate.labelparemeters.caption
 msgctxt "tformconfigtrayslate.labelparemeters.caption"
-msgid "Use parameters  {text} – input text, {source} – source language, {target} – target language"
+msgid "Use parameters: {text} – input text, {source} – source language, {target} – target language. Prefix the name with ! for lowercase or ^ for uppercase value."
 msgstr ""
 
 #: tformconfigtrayslate.labelparemeters2.caption
@@ -290,6 +299,11 @@ msgstr ""
 #: tformconfigtrayslate.pageparameters.caption
 msgctxt "tformconfigtrayslate.pageparameters.caption"
 msgid "Parameters"
+msgstr ""
+
+#: tformconfigtrayslate.pageresponse.caption
+msgctxt "tformconfigtrayslate.pageresponse.caption"
+msgid "Response"
 msgstr ""
 
 #: tformconfigtrayslate.pageservice.caption

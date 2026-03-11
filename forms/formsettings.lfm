@@ -269,7 +269,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
         ClientWidth = 388
         TabOrder = 2
         object SpinMaxLangPairs: TSpinEdit
-          Left = 152
+          Left = 157
           Height = 23
           Top = 9
           Width = 203

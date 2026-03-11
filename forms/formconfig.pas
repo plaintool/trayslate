@@ -25,7 +25,8 @@ uses
   Buttons,
   ActnList,
   ComCtrls,
-  LCLType, Spin;
+  Spin,
+  LCLType;
 
 type
 
@@ -36,7 +37,9 @@ type
     ActionList: TActionList;
     BtnClose: TButton;
     BtnInitParametersTest: TSpeedButton;
+    BtnUrlTest: TSpeedButton;
     BtnSave: TButton;
+    BtnPostDataTest: TSpeedButton;
     CheckEncryptText: TCheckBox;
     ComboMethod: TComboBox;
     ComboConfig: TComboBox;
@@ -92,13 +95,16 @@ type
     PanelTop: TPanel;
     SbCopyConfig: TSpeedButton;
     SbNewConfig: TSpeedButton;
-    ScrollBoxConfig: TScrollBox;
+    ScrollBoxResponse: TScrollBox;
+    ScrollBoxParameters: TScrollBox;
+    ScrollBoxService: TScrollBox;
     PageService: TTabSheet;
     PageParameters: TTabSheet;
     PageLanguages: TTabSheet;
     PageLanguagesTarget: TTabSheet;
     BtnInitUrlTest: TSpeedButton;
     SpinInitLiveTime: TSpinEdit;
+    PageResponse: TTabSheet;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -107,8 +113,10 @@ type
     procedure FormResize(Sender: TObject);
     procedure FormChangeBounds(Sender: TObject);
     procedure aSaveExecute(Sender: TObject);
-    procedure BtnInitParametersTestClick(Sender: TObject);
+    procedure BtnUrlTestClick(Sender: TObject);
+    procedure BtnPostDataTestClick(Sender: TObject);
     procedure BtnInitUrlTestClick(Sender: TObject);
+    procedure BtnInitParametersTestClick(Sender: TObject);
     procedure BtnCloseClick(Sender: TObject);
     procedure ComboConfigChange(Sender: TObject);
     procedure ComboConfigKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
@@ -191,26 +199,50 @@ begin
   SaveConfig;
 end;
 
+procedure TformConfigTrayslate.BtnUrlTestClick(Sender: TObject);
+begin
+  if (MemoUrl.Text = string.empty) or not TestChanges then exit;
+  with formTrayslate.Trans do
+  begin
+    ParametersAge := Now + 3650;
+    OpenStringInTextEditor(Get(True));
+  end;
+end;
+
+procedure TformConfigTrayslate.BtnPostDataTestClick(Sender: TObject);
+begin
+  if (MemoPostData.Text = string.empty) or not TestChanges then exit;
+  with formTrayslate.Trans do
+  begin
+    ParametersAge := Now + 3650;
+    OpenStringInTextEditor(Post);
+  end;
+end;
+
 procedure TformConfigTrayslate.BtnInitUrlTestClick(Sender: TObject);
 begin
   if (MemoInitUrl.Text = string.empty) or not TestChanges then exit;
   with formTrayslate.Trans do
   begin
     ParametersAge := Now + 3650;
-    OpenStringInTextEditor(InitGet);
+    OpenStringInTextEditor(GetInit);
   end;
 end;
 
 procedure TformConfigTrayslate.BtnInitParametersTestClick(Sender: TObject);
 begin
   if (MemoInitUrl.Text = string.empty) or (MemoInitParameters.Text = string.empty) or not TestChanges then exit;
-
   with formTrayslate.Trans do
   begin
     ParametersAge := Now + 3650;
-    GetParameters(InitGet);
+    GetParameters(GetInit);
     OpenStringInTextEditor(ParameterValues.Text);
   end;
+end;
+
+procedure TformConfigTrayslate.BtnCloseClick(Sender: TObject);
+begin
+  Close;
 end;
 
 procedure TformConfigTrayslate.ComboConfigChange(Sender: TObject);
@@ -265,11 +297,6 @@ procedure TformConfigTrayslate.ValueChange(Sender: TObject);
 begin
   aSave.Enabled := True;
   Caption := '*' + rcaption;
-end;
-
-procedure TformConfigTrayslate.BtnCloseClick(Sender: TObject);
-begin
-  Close;
 end;
 
 procedure TformConfigTrayslate.SbNewConfigClick(Sender: TObject);

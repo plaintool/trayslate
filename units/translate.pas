@@ -62,13 +62,12 @@ type
     constructor Create;
     destructor Destroy; override;
 
-    function InitGet: string;
     procedure GetParameters(Data: string);
     function SetParameters(Data: string): string;
     procedure SetParametersList(Strings: TStrings);
-    function Get: string;
+    function GetInit: string;
+    function Get(ReturnHeaders: boolean = False): string;
     function Post: string;
-    function Request: string;
     function TransRegEx(content: string): string;
     function TransJson(content: string): string;
     function Translate: string;
@@ -177,43 +176,6 @@ begin
   inherited Destroy;
 end;
 
-function TTranslate.InitGet: string;
-var
-  http: TFPHTTPClient;
-  response: TStringStream;
-  i: integer;
-  header: string;
-begin
-  Result := string.Empty;
-  if FInitUrl = string.Empty then Exit;
-
-  if SecondsBetween(Now, FParametersAge) < FInitLiveTime then Exit;
-  FParameterValues.Clear;
-
-  http := TFPHTTPClient.Create(nil);
-  response := TStringStream.Create(string.Empty);
-  try
-    http.AllowRedirect := True;
-    http.RequestHeaders.Clear;
-    if (FInitUserAgent <> string.Empty) then
-      http.AddHeader('User-Agent', FInitUserAgent);
-    if Assigned(InitHeaders) then
-      for i := 0 to InitHeaders.Count - 1 do
-        http.AddHeader(InitHeaders.Names[i], InitHeaders.ValueFromIndex[i]);
-
-    http.Get(FInitUrl, response);
-
-    header := string.Empty;
-    for i := 0 to http.ResponseHeaders.Count - 1 do
-      header := header + http.ResponseHeaders[i] + LineEnding;
-    // Combine headers and body
-    Result := header + LineEnding + response.DataString;
-  finally
-    response.Free;
-    http.Free;
-  end;
-end;
-
 procedure TTranslate.GetParameters(Data: string);
 var
   i: integer;
@@ -315,19 +277,57 @@ begin
     Strings[i] := SetParameters(Strings[i]);
 end;
 
-function TTranslate.Get: string;
+function TTranslate.GetInit: string;
+var
+  http: TFPHTTPClient;
+  response: TStringStream;
+  i: integer;
+  header: string;
+begin
+  Result := string.Empty;
+  if FInitUrl = string.Empty then Exit;
+
+  if SecondsBetween(Now, FParametersAge) < FInitLiveTime then Exit;
+  FParameterValues.Clear;
+
+  http := TFPHTTPClient.Create(nil);
+  response := TStringStream.Create(string.Empty);
+  try
+    http.AllowRedirect := True;
+    http.RequestHeaders.Clear;
+    if (FInitUserAgent <> string.Empty) then
+      http.AddHeader('User-Agent', FInitUserAgent);
+    if Assigned(InitHeaders) then
+      for i := 0 to InitHeaders.Count - 1 do
+        http.AddHeader(InitHeaders.Names[i], InitHeaders.ValueFromIndex[i]);
+
+    http.Get(FInitUrl, response);
+
+    header := string.Empty;
+    for i := 0 to http.ResponseHeaders.Count - 1 do
+      header := header + http.ResponseHeaders[i] + LineEnding;
+    // Combine headers and body
+    Result := header + LineEnding + response.DataString;
+  finally
+    response.Free;
+    http.Free;
+  end;
+end;
+
+function TTranslate.Get(ReturnHeaders: boolean = False): string;
 var
   http: TFPHTTPClient;
   response: TStringStream;
   TempUrl: string;
   TempHeaders: TStringList;
   i: integer;
+  header: string;
 begin
   Result := string.Empty;
   if FUrl = string.Empty then exit;
 
   // Get parameters from base + initial get
-  GetParameters(InitGet);
+  GetParameters(GetInit);
 
   http := TFPHTTPClient.Create(nil);
   response := TStringStream.Create(string.Empty);
@@ -361,7 +361,16 @@ begin
 
     http.Get(TempUrl, response);
 
-    Result := response.DataString;
+    if (ReturnHeaders) then
+    begin
+      header := string.Empty;
+      for i := 0 to http.ResponseHeaders.Count - 1 do
+        header := header + http.ResponseHeaders[i] + LineEnding;
+      // Combine headers and body
+      Result := header + LineEnding + response.DataString;
+    end
+    else
+      Result := response.DataString;
   finally
     response.Free;
     http.Free;
@@ -380,7 +389,7 @@ begin
   Result := string.Empty;
   if FUrl = string.Empty then exit;
 
-  GetParameters(InitGet);
+  GetParameters(GetInit);
 
   http := TFPHTTPClient.Create(nil);
   response := TStringStream.Create(string.Empty);
@@ -430,14 +439,6 @@ begin
     response.Free;
     http.Free;
   end;
-end;
-
-function TTranslate.Request: string;
-begin
-  if FWebMethod = wmPost then
-    Result := Post
-  else
-    Result := Get;
 end;
 
 function TTranslate.TransRegEx(content: string): string;
@@ -498,7 +499,11 @@ function TTranslate.Translate: string;
 var
   content: string;
 begin
-  content := Request;
+  if FWebMethod = wmPost then
+    content := Post
+  else
+    content := Get;
+
   if FResponseParser = rpJson then
     Result := TransJson(content)
   else

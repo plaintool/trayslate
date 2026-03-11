@@ -185,7 +185,7 @@ type
     procedure ChangeTargetLang(NewLang: string; AddPairs: boolean = True);
     function SwapLanguages(ASwapTranslate: boolean = False): boolean;
     procedure AddLangPair(const Pair: string);
-    procedure SelectPair(const Pair: string; AExecTranslate: boolean = True);
+    procedure SelectPair(const Pair: string; RunTranslate: boolean = True);
   protected
     {$IFDEF WINDOWS}
     procedure WMActivate(var Message: TLMActivate); message LM_ACTIVATE;
@@ -734,6 +734,8 @@ begin
     formConfigTrayslate.UpdateConfigList;
     formConfigTrayslate.UpdateConfig;
   end;
+
+  TranslateMemo;
 end;
 
 procedure TformTrayslate.PanelLangResize(Sender: TObject);
@@ -807,17 +809,25 @@ begin
   if not FLeftButton then exit;
 
   // DblClick
-  if TimerClick.Enabled or (TimerClick.Tag = 1) then
+  if Visible and Showing then
   begin
-    TimerClick.Enabled := False; // cancel single click action
+    if TimerClick.Enabled or (TimerClick.Tag = 1) then
+    begin
+      TimerClick.Enabled := False; // cancel single click action
+      TimerClick.Tag := 0;
+      FTopMost := True;
+
+      aTranslateClipboard.Execute;
+      Exit;
+    end;
+  end
+  else
+  begin
+    TimerClick.Enabled := False;
     TimerClick.Tag := 0;
     FTopMost := True;
-
-    aTranslateClipboard.Execute;
-    Exit;
   end;
 
-  TimerClick.Enabled := False;
   if Visible and Showing then
   begin
     if FTopMost then
@@ -828,17 +838,17 @@ begin
     else
     begin
       BringToFront;
-      FTopMost := True;
-      TimerClick.Tag := 1;
       TimerClick.Enabled := True;
+      TimerClick.Tag := 1;
+      FTopMost := True;
     end;
   end
   else
   begin
     Show;
-    FTopMost := True;
     TimerClick.Enabled := True;
     TimerClick.Tag := 1;
+    FTopMost := True;
   end;
 end;
 
@@ -1503,7 +1513,7 @@ begin
     FLangPairs.Delete(FLangPairs.Count - 1);
 end;
 
-procedure TformTrayslate.SelectPair(const Pair: string; AExecTranslate: boolean = True);
+procedure TformTrayslate.SelectPair(const Pair: string; RunTranslate: boolean = True);
 var
   fromLang, toLang: string;
   p, idxnative: integer;
@@ -1536,7 +1546,7 @@ begin
     if idxnative >= 0 then
       ChangeTargetLang(FLanguages[idxnative], False);
   end;
-  if AExecTranslate then
+  if RunTranslate then
     TranslateMemo(False);
 end;
 
