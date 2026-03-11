@@ -17,7 +17,9 @@ uses
   StdCtrls,
   Clipbrd,
   Graphics,
-  LCLIntf;
+  LCLIntf,
+  fpjson,
+  jsonparser;
 
   {TColor}
 
@@ -32,6 +34,10 @@ function IsJson(const S: string): boolean;
 procedure PasteWithLineEnding(AMemo: TMemo);
 
 function FindInStringList(List: TStringList; const SubText: string): integer;
+
+procedure RemoveEmptyValues(Strings: TStringList);
+
+function RemoveEmptyParams(const AInput: string): string;
 
 procedure SaveStringToFile(const FileName, Data: string);
 
@@ -156,6 +162,99 @@ begin
       Result := i;
       Exit;
     end;
+end;
+
+procedure RemoveEmptyValues(Strings: TStringList);
+var
+  i: Integer;
+  EqualPos: Integer;
+begin
+  // Traverse the list backwards so that deletions don't affect subsequent indices
+  for i := Strings.Count - 1 downto 0 do
+  begin
+    // Locate the position of the '=' character in the current line
+    EqualPos := Pos('=', Strings[i]);
+
+    // If '=' exists and there is no text after it, remove the line
+    if (EqualPos > 0) and (Copy(Strings[i], EqualPos + 1, MaxInt) = '') then
+      Strings.Delete(i);
+  end;
+end;
+
+function RemoveEmptyParams(const AInput: string): string;
+var
+  JsonData: TJSONData;
+  JsonObj, ParamsObj, LangObjJson: TJSONObject;
+  LangObj: TJSONData;
+  I: Integer;
+  Params: TStringList;
+begin
+  Result := AInput;
+
+  // Check if input looks like JSON
+  if (Length(AInput) > 0) and (AInput[1] = '{') then
+  begin
+    try
+      JsonData := GetJSON(AInput);
+      try
+        if JsonData.JSONType = jtObject then
+        begin
+          JsonObj := TJSONObject(JsonData);
+
+          if JsonObj.FindPath('params') <> nil then
+          begin
+            ParamsObj := TJSONObject(JsonObj.FindPath('params'));
+
+            // Clean "lang" object
+            LangObj := ParamsObj.FindPath('lang');
+            if (LangObj <> nil) and (LangObj.JSONType = jtObject) then
+            begin
+              LangObjJson := TJSONObject(LangObj);
+              for I := LangObjJson.Count - 1 downto 0 do
+                if LangObjJson.Items[I].AsString = string.Empty then
+                  LangObjJson.Delete(I);
+            end;
+
+            // Remove other empty string fields in params
+            for I := ParamsObj.Count - 1 downto 0 do
+              if (ParamsObj.Items[I].JSONType = jtString) and
+                 (ParamsObj.Items[I].AsString = string.Empty) then
+                ParamsObj.Delete(I);
+          end;
+
+          Result := JsonObj.AsJSON;
+          Exit;
+        end;
+      finally
+        JsonData.Free;
+      end;
+    except
+      // Invalid JSON, fall through to URL processing
+    end;
+  end;
+
+  // Treat as URL parameters
+  Params := TStringList.Create;
+  try
+    Params.Delimiter := '&';
+    Params.StrictDelimiter := True;
+    Params.DelimitedText := AInput;
+
+    for I := Params.Count-1 downto 0 do
+      if Pos('=', Params[I]) > 0 then
+        if Copy(Params[I], Pos('=', Params[I])+1, MaxInt) = string.Empty then
+          Params.Delete(I);
+
+    // Rebuild URL string with &
+    Result := '';
+    for I := 0 to Params.Count - 1 do
+      if I = 0 then
+        Result := Params[I]
+      else
+        Result := Result + '&' + Params[I];
+  finally
+    Params.Free;
+  end;
 end;
 
 procedure SaveStringToFile(const FileName, Data: string);

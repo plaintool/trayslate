@@ -40,7 +40,7 @@ function GetConfigFullPath(const ConfigName: string; ConfigFiles: TStringList): 
 
 implementation
 
-uses systemtool, langtool;
+uses systemtool, langtool, formattool;
 
 function GetSettingsDirectory(fileName: string = string.Empty): string;
   {$IFDEF Windows}
@@ -537,6 +537,9 @@ begin
     Ini.ReadSectionValues('Languages', Translate.Languages);
     Translate.LanguagesTarget.Clear;
     Ini.ReadSectionValues('LanguagesTarget', Translate.LanguagesTarget);
+
+    RemoveEmptyValues(Translate.Languages);
+    RemoveEmptyValues(Translate.LanguagesTarget);
   finally
     Ini.Free;
   end;

@@ -29,7 +29,8 @@ msgstr ""
 msgid "The configuration was modified. Save changes?"
 msgstr ""
 
-#: mainform.noconfig
+#: mainform.rnoconfig
+msgctxt "mainform.rnoconfig"
 msgid "Configuration file not found! Create it in the configuration editor."
 msgstr ""
 
@@ -37,6 +38,10 @@ msgstr ""
 #, object-pascal-format
 msgctxt "mainform.rswap"
 msgid "Swap (%s) with text (%s)"
+msgstr ""
+
+#: mainform.rtoremovepair
+msgid " to remove pair"
 msgstr ""
 
 #: mainform.rtrayslate
@@ -83,7 +88,7 @@ msgid "mailto:astverskoy@gmail.com"
 msgstr ""
 
 #: tformabouttrayslate.labelname.caption
-msgid "Trayslator © 2026"
+msgid "Trayslate © 2026"
 msgstr ""
 
 #: tformconfigtrayslate.asave.caption
@@ -213,7 +218,7 @@ msgstr ""
 
 #: tformconfigtrayslate.labellanguages.caption
 msgctxt "tformconfigtrayslate.labellanguages.caption"
-msgid "Supported languages e.g. en=en-US, en - internal, en-US - service code."
+msgid "Supported languages e.g. en=en-US (en internal, en-US service). \"empty\" means do not send."
 msgstr ""
 
 #: tformconfigtrayslate.labellanguagestarget.caption
@@ -428,7 +433,7 @@ msgid "Auto-swap language pair"
 msgstr ""
 
 #: tformsettingstrayslate.checkautoswap.hint
-msgid "Automatically detect input language and swap pair if needed, does not work during Translate as you type"
+msgid "Automatically detect input language and swap pair if needed, does not work during Real-Time Translation"
 msgstr ""
 
 #: tformsettingstrayslate.checkrealtime.caption
@@ -653,10 +658,6 @@ msgstr ""
 #: tformtrayslate.caption
 msgctxt "tformtrayslate.caption"
 msgid "Trayslate"
-msgstr ""
-
-#: tformtrayslate.flowpairs.hint
-msgid "Middle-click to remove pair"
 msgstr ""
 
 #: tformtrayslate.menuconfig.caption

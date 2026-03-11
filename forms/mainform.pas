@@ -106,6 +106,10 @@ type
     procedure aExitExecute(Sender: TObject);
     procedure ComboSourceCloseUp(Sender: TObject);
     procedure ComboTargetCloseUp(Sender: TObject);
+    procedure ComboSourceDropDown(Sender: TObject);
+    procedure ComboTargetDropDown(Sender: TObject);
+    procedure ComboSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+    procedure ComboTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure MemoSourceKeyUp(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure MemoTargetEnter(Sender: TObject);
     procedure MemoSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
@@ -129,6 +133,8 @@ type
     FLeftButton: boolean;
     FLastEnterTime: DWORD;
     FMemoSourceCaretPos: integer;
+    FPrevSourceText: string;
+    FPrevTargetText: string;
     FLangPairs: TStringList;
     FLanguages: TStringList;
     FLanguagesSorted: TStringList;
@@ -177,9 +183,9 @@ type
 
     procedure ChangeSourceLang(NewLang: string; AddPairs: boolean = True);
     procedure ChangeTargetLang(NewLang: string; AddPairs: boolean = True);
-    procedure SwapLanguages(ASwapTranslate: boolean = False);
+    function SwapLanguages(ASwapTranslate: boolean = False): boolean;
     procedure AddLangPair(const Pair: string);
-    procedure SelectPair(const Pair: string);
+    procedure SelectPair(const Pair: string; AExecTranslate: boolean = True);
   protected
     {$IFDEF WINDOWS}
     procedure WMActivate(var Message: TLMActivate); message LM_ACTIVATE;
@@ -236,12 +242,13 @@ var
 
 const
   DOUBLE_ENTER_INTERVAL = 200; // ms
-  MIDDLE_MOUSE = 'Middle Mouse';
+  MIDDLE_MOUSE = 'Middle-Click';
 
 resourcestring
   rtrayslate = 'Trayslate';
   rswap = 'Swap (%s) with text (%s)';
-  noconfig = 'Configuration file not found! Create it in the configuration editor.';
+  rnoconfig = 'Configuration file not found! Create it in the configuration editor.';
+  rtoremovepair = ' to remove pair';
 
 implementation
 
@@ -303,6 +310,7 @@ begin
   Top := Screen.WorkAreaRect.Bottom - Height - 50;
 
   aSwap.Hint := Format(rswap, [HotKeyToText(HotKeyTransSwap), MIDDLE_MOUSE]);
+  FlowPairs.Hint := MIDDLE_MOUSE + rtoremovepair;
   SbSwap.ImageIndex := ThemeValue(0, 1);
   SbTranslate.ImageIndex := ThemeValue(2, 3);
 
@@ -334,7 +342,7 @@ begin
     else
     begin
       FConfigFile := string.Empty;
-      ShowMessage(noconfig);
+      ShowMessage(rnoconfig);
     end;
   end;
 
@@ -546,8 +554,8 @@ end;
 
 procedure TformTrayslate.aSwapExecute(Sender: TObject);
 begin
-  SwapLanguages;
-  TranslateMemo(False);
+  if SwapLanguages then
+    TranslateMemo(False);
 end;
 
 procedure TformTrayslate.aCheckForUpdatesExecute(Sender: TObject);
@@ -584,12 +592,54 @@ end;
 
 procedure TformTrayslate.ComboSourceCloseUp(Sender: TObject);
 begin
-  ChangeSourceLang(ComboSource.Text);
+  // If value not changed - do nothing
+  if ComboSource.Text = FPrevSourceText then
+    Exit;
+
+  if ComboSource.Items.IndexOf(ComboSource.Text) = -1 then
+    SelectPair(FLangSource + ':' + FLangTarget, False)
+  else
+  begin
+    ChangeSourceLang(ComboSource.Text);
+    TranslateMemo(False);
+  end;
 end;
 
 procedure TformTrayslate.ComboTargetCloseUp(Sender: TObject);
 begin
-  ChangeTargetLang(ComboTarget.Text);
+  // If value not changed - do nothing
+  if ComboTarget.Text = FPrevTargetText then
+    Exit;
+
+  if ComboTarget.Items.IndexOf(ComboTarget.Text) = -1 then
+    SelectPair(FLangSource + ':' + FLangTarget, False)
+  else
+  begin
+    ChangeTargetLang(ComboTarget.Text);
+    TranslateMemo(False);
+  end;
+end;
+
+procedure TformTrayslate.ComboSourceDropDown(Sender: TObject);
+begin
+  FPrevSourceText := ComboSource.Text;
+end;
+
+procedure TformTrayslate.ComboTargetDropDown(Sender: TObject);
+begin
+  FPrevTargetText := ComboTarget.Text;
+end;
+
+procedure TformTrayslate.ComboSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+begin
+  if Key <> VK_RETURN then
+    ComboSource.DroppedDown := True;
+end;
+
+procedure TformTrayslate.ComboTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+begin
+  if Key <> VK_RETURN then
+    ComboTarget.DroppedDown := True;
 end;
 
 procedure TformTrayslate.MemoSourceKeyUp(Sender: TObject; var Key: word; Shift: TShiftState);
@@ -698,8 +748,8 @@ procedure TformTrayslate.SbSwapMouseDown(Sender: TObject; Button: TMouseButton; 
 begin
   if Button = mbMiddle then
   begin
-    SwapLanguages(True);
-    TranslateMemo(False);
+    if SwapLanguages(True) then
+      TranslateMemo(False);
   end;
 end;
 
@@ -882,7 +932,7 @@ begin
   end;
 
   // Check if current ComboSource text is still valid
-  if ComboSource.Items.IndexOf(ComboSource.Text) = -1 then
+  if ComboSource.Items.IndexOf(ComboSource.Text) < 0 then
     ComboSource.Text := string.Empty; // Clear if not in new list
 
   // Fill ComboTarget with display names
@@ -1168,6 +1218,7 @@ var
   langSrc, langTar, langDetect: string;
 begin
   if (not FAutoSwap) or (not Assigned(FTransDetect)) then exit;
+  if (FLanguages.IndexOf(ComboSource.Text) < 0) or (FLanguages.IndexOf(ComboTarget.Text) < 0) then exit;
 
   Screen.Cursor := crAppStart;
 
@@ -1407,23 +1458,31 @@ begin
   end;
 end;
 
-procedure TformTrayslate.SwapLanguages(ASwapTranslate: boolean = False);
+function TformTrayslate.SwapLanguages(ASwapTranslate: boolean = False): boolean;
 var
   srcIndex: integer;
-  srcText: string;
+  tarIndex: integer;
+  srcMemoText: string;
 begin
-  srcIndex := ComboSource.ItemIndex;
-  ComboSource.ItemIndex := ComboTarget.ItemIndex;
-  ComboTarget.ItemIndex := srcIndex;
+  Result := False;
+  srcIndex := ComboSource.Items.IndexOf(ComboTarget.Text);
+  tarIndex := ComboTarget.Items.IndexOf(ComboSource.Text);
+
+  if (srcIndex < 0) or (tarIndex < 0) then Exit;
+
+  ComboSource.ItemIndex := srcIndex;
+  ComboTarget.ItemIndex := tarIndex;
   ChangeSourceLang(ComboSource.Text, False);
   ChangeTargetLang(ComboTarget.Text, True);
 
   if ASwapTranslate and ((MemoSource.Text <> string.Empty) or (MemoTarget.Text <> string.Empty)) then
   begin
-    srcText := MemoSource.Text;
+    srcMemoText := MemoSource.Text;
     MemoSource.Text := MemoTarget.Text;
-    MemoTarget.Text := srcText;
+    MemoTarget.Text := srcMemoText;
   end;
+
+  Result := True;
 end;
 
 procedure TformTrayslate.AddLangPair(const Pair: string);
@@ -1444,7 +1503,7 @@ begin
     FLangPairs.Delete(FLangPairs.Count - 1);
 end;
 
-procedure TformTrayslate.SelectPair(const Pair: string);
+procedure TformTrayslate.SelectPair(const Pair: string; AExecTranslate: boolean = True);
 var
   fromLang, toLang: string;
   p, idxnative: integer;
@@ -1477,8 +1536,8 @@ begin
     if idxnative >= 0 then
       ChangeTargetLang(FLanguages[idxnative], False);
   end;
-
-  TranslateMemo;
+  if AExecTranslate then
+    TranslateMemo(False);
 end;
 
 end.

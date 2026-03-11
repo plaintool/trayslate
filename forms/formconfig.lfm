@@ -791,7 +791,7 @@ object formConfigTrayslate: TformConfigTrayslate
           Top = 8
           Width = 507
           Anchors = [akTop, akLeft, akRight]
-          Caption = 'Supported languages e.g. en=en-US, en - internal, en-US - service code.'
+          Caption = 'Supported languages e.g. en=en-US (en internal, en-US service). "empty" means do not send.'
           Color = clInfoBk
           ParentColor = False
           Transparent = False

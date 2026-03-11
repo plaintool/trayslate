@@ -121,6 +121,7 @@ type
 
 const
   defaultlang = 'en';
+  emptylang = 'empty';
 
 implementation
 
@@ -226,7 +227,7 @@ begin
     FParameterValues.Values['text'] := string.Empty;
 
   if FLangSource <> string.Empty then
-    FParameterValues.Values['source'] := FLangSource
+    FParameterValues.Values['source'] := ifthen(FLangSource = emptylang, string.Empty, FLangSource)
   else
     FParameterValues.Values['source'] := defaultlang;
 
@@ -318,6 +319,9 @@ begin
     TempUrl := FUrl;
     TempUrl := SetParameters(TempUrl);
 
+    if (FLangSource = emptylang) or (FLangSource = emptylang) then
+      TempUrl := RemoveEmptyParams(TempUrl);
+
     http.AllowRedirect := True;
     http.RequestHeaders.Clear;
     if (FUserAgent <> string.Empty) then
@@ -352,7 +356,7 @@ function TTranslate.Post: string;
 var
   http: TFPHTTPClient;
   response, postStream: TStringStream;
-  Data: string;
+  TempData: string;
   TempUrl: string;
   TempHeaders: TStringList;
   i: integer;
@@ -368,10 +372,16 @@ begin
     TempUrl := FUrl;
     TempUrl := SetParameters(TempUrl);
 
-    Data := FPostData;
-    Data := SetParameters(Data);
+    TempData := FPostData;
+    TempData := SetParameters(TempData);
 
-    postStream := TStringStream.Create(Data, TEncoding.UTF8);
+    if (FLangSource = emptylang) or (FLangSource = emptylang) then
+    begin
+      TempUrl := RemoveEmptyParams(TempUrl);
+      TempData := RemoveEmptyParams(TempData);
+    end;
+
+    postStream := TStringStream.Create(TempData, TEncoding.UTF8);
     try
       http.AllowRedirect := True;
       http.RequestHeaders.Clear;

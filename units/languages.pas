@@ -22,6 +22,9 @@ type
 type
   TAppLanguageArray = array of TAppLanguage;
 
+const
+  SpecialCodes: array[0..1] of string = ('auto', 'empty');
+
 function GetLanguages: TAppLanguageArray;
 
 function GetLanguageCodePairList: TStringList;
@@ -36,8 +39,9 @@ implementation
 
 function GetLanguages: TAppLanguageArray;
 const
-  Languages: array[0..257] of TAppLanguage = (
+  Languages: array[0..258] of TAppLanguage = (
     (Code: 'auto'; DisplayName: 'Auto detect'),
+    (Code: 'empty'; DisplayName: 'Auto detect'),
     (Code: 'ab'; DisplayName: 'Abkhazian'),
     (Code: 'awa'; DisplayName: 'Awadhi'),
     (Code: 'av'; DisplayName: 'Avar'),
@@ -350,10 +354,10 @@ function GetDisplayNamesFromCodeMap(ACodeMap: TStringList; Sort: boolean = False
 var
   Langs: array of TAppLanguage;
   LangMap: TStringList;          // List of "code=displayname" for lookup
-  i, idx: integer;
-  Key, ApiValue: string;
-  AutoItem: string;
-  TempList: TStringList;
+  i, j, idx: integer;
+  Key, ApiValue, DisplayString: string;
+  SpecialsList, OthersList: TStringList;
+  IsSpecial: boolean;
 begin
   Result := TStringList.Create;
   try
@@ -366,56 +370,60 @@ begin
       for i := 0 to High(Langs) do
         LangMap.Add(Langs[i].Code + '=' + Langs[i].DisplayName);
 
-      // Process each entry in the input code map
-      for i := 0 to ACodeMap.Count - 1 do
-      begin
-        if Trim(ACodeMap[i]) = string.Empty then
-          Continue; // Skip empty lines
+      // Create temporary lists for special and normal items
+      SpecialsList := TStringList.Create;
+      OthersList := TStringList.Create;
+      try
+        // Process each entry in the input code map
+        for i := 0 to ACodeMap.Count - 1 do
+        begin
+          if Trim(ACodeMap[i]) = string.Empty then
+            Continue; // Skip empty lines
 
-        Key := Trim(ACodeMap.Names[i]);               // Left part (language code)
-        ApiValue := Trim(ACodeMap.ValueFromIndex[i]); // Right part (API code)
+          Key := Trim(ACodeMap.Names[i]);               // Left part (language code)
+          ApiValue := Trim(ACodeMap.ValueFromIndex[i]); // Right part (API code)
 
-        if (Key = string.Empty) or (ApiValue = string.Empty) then
-          Continue; // Skip malformed lines
+          if (Key = string.Empty) or (ApiValue = string.Empty) then
+            Continue; // Skip malformed lines
 
-        // Look up the key using IndexOfName (linear search, acceptable for ~250 items)
-        idx := LangMap.IndexOfName(Key);
-        if idx >= 0 then
-          // Found: add "DisplayName (ApiCode)"
-          Result.Add(LangMap.ValueFromIndex[idx] + ' (' + ApiValue + ')')
-        else
-          // Not found: fallback – just use the API code
-          Result.Add(ApiValue);
-      end;
+          // Look up the key using IndexOfName (linear search, acceptable for ~250 items)
+          idx := LangMap.IndexOfName(Key);
+          if idx >= 0 then
+            // Found: build "DisplayName (ApiCode)"
+            DisplayString := LangMap.ValueFromIndex[idx] + ' (' + ApiValue + ')'
+          else
+            // Not found: fallback – just use the API code
+            DisplayString := ApiValue;
 
-      // Optional sorting: keep "auto" first if present
-      if Sort and (Result.Count > 1) then
-      begin
-        AutoItem := '';
-        TempList := TStringList.Create;
-        try
-          // Separate the "auto" item from the rest
-          for i := 0 to Result.Count - 1 do
-          begin
-            // Detect "auto" by checking if the string ends with "(auto)"
-            if (Length(Result[i]) > 6) and (Copy(Result[i], Length(Result[i]) - 5, 6) = '(auto)') then
-              AutoItem := Result[i]
-            else
-              TempList.Add(Result[i]);
-          end;
+          // Check if the key is in the special codes list
+          IsSpecial := False;
+          for j := Low(SpecialCodes) to High(SpecialCodes) do
+            if SameText(Key, SpecialCodes[j]) then // case-insensitive comparison
+            begin
+              IsSpecial := True;
+              Break;
+            end;
 
-          // Sort the remaining items alphabetically
-          TempList.Sort;
-
-          // Rebuild the result list with auto first, then the sorted items
-          Result.Clear;
-          if AutoItem <> '' then
-            Result.Add(AutoItem);
-          for i := 0 to TempList.Count - 1 do
-            Result.Add(TempList[i]);
-        finally
-          TempList.Free;
+          // Add to appropriate list
+          if IsSpecial then
+            SpecialsList.Add(DisplayString)
+          else
+            OthersList.Add(DisplayString);
         end;
+
+        // Apply sorting if requested
+        if Sort then
+        begin
+          SpecialsList.Sort;
+          OthersList.Sort;
+        end;
+
+        // Combine: specials first, then others
+        Result.Assign(SpecialsList);
+        Result.AddStrings(OthersList);
+      finally
+        SpecialsList.Free;
+        OthersList.Free;
       end;
     finally
       LangMap.Free;

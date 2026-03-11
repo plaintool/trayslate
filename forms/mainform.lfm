@@ -72,6 +72,8 @@ object formTrayslate: TformTrayslate
       ItemHeight = 15
       TabOrder = 1
       OnCloseUp = ComboTargetCloseUp
+      OnDropDown = ComboTargetDropDown
+      OnKeyDown = ComboTargetKeyDown
     end
     object ComboSource: TComboBox
       Left = 32
@@ -86,6 +88,8 @@ object formTrayslate: TformTrayslate
       ItemHeight = 15
       TabOrder = 0
       OnCloseUp = ComboSourceCloseUp
+      OnDropDown = ComboSourceDropDown
+      OnKeyDown = ComboSourceKeyDown
     end
     object SbSwap: TSpeedButton
       Left = 240
@@ -177,7 +181,6 @@ object formTrayslate: TformTrayslate
   object FlowPairs: TFlowPanel
     Left = 0
     Height = 5
-    Hint = 'Middle-click to remove pair'
     Top = 33
     Width = 518
     Align = alTop
