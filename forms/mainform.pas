@@ -321,6 +321,7 @@ begin
   FlowPairs.Hint := MIDDLE_MOUSE + rtoremovepair;
   SbSwap.ImageIndex := ThemeValue(0, 1);
   SbTranslate.ImageIndex := ThemeValue(2, 3);
+  FLeftButton := True;
 
   FTrans := TTranslate.Create;
   FTransDetect := TTranslate.Create;
@@ -815,7 +816,7 @@ begin
   end;
 
   // Single click action
-  if Visible and Showing then
+  if Showing then
   begin
     Hide;
     FTopMost := False;
@@ -840,7 +841,7 @@ begin
   if not FLeftButton then exit;
 
   // DblClick
-  if Visible and Showing then
+  if Showing then
   begin
     if TimerClick.Enabled or (TimerClick.Tag = 1) then
     begin
@@ -860,7 +861,7 @@ begin
     TimerClick.Tag := 0;
   end;
 
-  if Visible and Showing then
+  if Showing then
   begin
     if FTopMost then
     begin
