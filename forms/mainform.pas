@@ -118,9 +118,9 @@ type
     procedure ConfigItemClick(Sender: TObject);
     procedure PanelLangResize(Sender: TObject);
     procedure SbSwapMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
-    procedure TimerClickTimer(Sender: TObject);
     procedure TimerActiveTimer(Sender: TObject);
     procedure TimerTranslateTimer(Sender: TObject);
+    procedure TimerClickTimer(Sender: TObject);
     procedure TrayIconMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
     procedure TrayIconClick(Sender: TObject);
     procedure LabelMouseEnter(Sender: TObject);
@@ -765,6 +765,25 @@ begin
   end;
 end;
 
+procedure TformTrayslate.TimerActiveTimer(Sender: TObject);
+begin
+  TimerActive.Enabled := False;
+
+  if (not TimerClick.Enabled) and (TimerClick.Tag = 0) then
+    FTopMost := False;
+end;
+
+procedure TformTrayslate.TimerTranslateTimer(Sender: TObject);
+begin
+  TimerTranslate.Enabled := False;
+  if FRealTime then
+  begin
+    TranslateMemo(False);
+    if MemoSource.Text = string.Empty then
+      MemoTarget.Clear;
+  end;
+end;
+
 procedure TformTrayslate.TimerClickTimer(Sender: TObject);
 begin
   TimerClick.Enabled := False;
@@ -787,25 +806,6 @@ begin
   end;
 end;
 
-procedure TformTrayslate.TimerActiveTimer(Sender: TObject);
-begin
-  TimerActive.Enabled := False;
-
-  if (not TimerClick.Enabled) and (TimerClick.Tag = 0) then
-    FTopMost := False;
-end;
-
-procedure TformTrayslate.TimerTranslateTimer(Sender: TObject);
-begin
-  TimerTranslate.Enabled := False;
-  if FRealTime then
-  begin
-    TranslateMemo(False);
-    if MemoSource.Text = string.Empty then
-      MemoTarget.Clear;
-  end;
-end;
-
 procedure TformTrayslate.TrayIconMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
 begin
   FLeftButton := Button = mbLeft;
@@ -825,9 +825,11 @@ begin
     begin
       TimerClick.Enabled := False; // cancel single click action
       TimerClick.Tag := 0;
-      FTopMost := True;
 
       aTranslateClipboard.Execute;
+
+      // Important after translation, otherwise changes to false
+      FTopMost := True;
       Exit;
     end;
   end
