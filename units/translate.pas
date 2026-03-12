@@ -19,6 +19,7 @@ uses
   StrUtils,
   Controls,
   DateUtils,
+  ExtCtrls,
   LazUTF8,
   fphttpclient,
   fpjson,
@@ -105,6 +106,7 @@ type
   private
     FTrans: TTranslate;
     FMemo: TMemo;
+    FTimer: TTimer;
     FSourceText: string;
     FResultText: string;
     FResultTextSync: string;
@@ -113,7 +115,7 @@ type
     procedure Execute; override;
     procedure UpdateUI;
   public
-    constructor Create(ATrans: TTranslate; AMemo: TMemo = nil);
+    constructor Create(ATrans: TTranslate; AMemo: TMemo = nil; ATimer: TTimer = nil);
     property ExceptionObj: Exception read FException;
     property ResultText: string read FResultText;
     property ResultTextSync: string read FResultTextSync;
@@ -512,17 +514,21 @@ end;
 
 { TTranslateThread }
 
-constructor TTranslateThread.Create(ATrans: TTranslate; AMemo: TMemo = nil);
+constructor TTranslateThread.Create(ATrans: TTranslate; AMemo: TMemo = nil; ATimer: TTimer = nil);
 begin
   inherited Create(True);
   FreeOnTerminate := True;
 
+  FTrans := ATrans;
+  FMemo := AMemo;
+  FTimer := ATimer;
+  FSourceText := FTrans.TextToTranslate;
+
   if Assigned(AMemo) then
     Screen.Cursor := crAppStart;
 
-  FTrans := ATrans;
-  FMemo := AMemo;
-  FSourceText := FTrans.TextToTranslate;
+  if Assigned(ATimer) then
+    ATimer.Enabled := True;
 
   Start;
 end;
@@ -563,7 +569,12 @@ begin
     end;
   finally
     if Assigned(FMemo) then
+    begin
       Screen.Cursor := crDefault;
+
+      if Assigned(FTimer) then
+        FTimer.Enabled := False;
+    end;
   end;
 end;
 

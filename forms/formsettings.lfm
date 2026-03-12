@@ -212,7 +212,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Caption = 'Show language pair'
           ParentShowHint = False
           ShowHint = True
-          TabOrder = 2
+          TabOrder = 3
           OnChange = SettingChange
         end
         object ColorIconBackground: TColorBox
@@ -276,7 +276,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           DropDownCount = 15
           ItemHeight = 15
           Style = csDropDownList
-          TabOrder = 3
+          TabOrder = 2
           OnChange = SettingChange
         end
       end

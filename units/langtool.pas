@@ -19,6 +19,7 @@ uses
   Classes,
   Graphics,
   Types,
+  Math,
   SysUtils,
   StdCtrls,
   StrUtils,
@@ -44,10 +45,14 @@ const
   HOTKEY_TRANS_FROM_CONTROL = 5;
   HOTKEY_TRANS_CONTROL = 6;
 
+  ICON_SIZE = 16;
+
 {$ENDIF}
 
 function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = string.Empty;
-  ABackgroundColor: TColor = clNone; AFontColor: TColor = clWhite; AFontName:string = string.Empty): TBitmap;
+  ABackgroundColor: TColor = clNone; AFontColor: TColor = clWhite; AFontName: string = string.Empty): TBitmap;
+
+function CreateTrayIconProgress(AAngle: integer; ABackgroundColor: TColor = clNone; APenColor: TColor = clWhite): TBitmap;
 
 procedure SetComboBoxByCode(ComboBox: TComboBox; const Code: string);
 
@@ -62,7 +67,7 @@ implementation
 uses languages;
 
 function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = string.Empty;
-  ABackgroundColor: TColor = clNone; AFontColor: TColor = clWhite; AFontName:string = string.Empty): TBitmap;
+  ABackgroundColor: TColor = clNone; AFontColor: TColor = clWhite; AFontName: string = string.Empty): TBitmap;
 var
   Bmp: TBitmap;
   IntfImg: TLazIntfImage;
@@ -95,10 +100,10 @@ var
   end;
 
 begin
-  IntfImg := TLazIntfImage.Create(16, 16);
+  IntfImg := TLazIntfImage.Create(ICON_SIZE, ICON_SIZE);
   Bmp := TBitmap.Create;
   try
-    Bmp.SetSize(16, 16);  // standard tray icon size
+    Bmp.SetSize(ICON_SIZE, ICON_SIZE);  // standard tray icon size
 
     // set background
     if ABackgroundColor = clNone then
@@ -151,6 +156,69 @@ begin
     Result := Bmp;
   finally
     IntfImg.Free;
+  end;
+end;
+
+function CreateTrayIconProgress(AAngle: integer; ABackgroundColor: TColor = clNone; APenColor: TColor = clWhite): TBitmap;
+var
+  TempIntfImg: TLazIntfImage;
+  ImgHandle, ImgMaskHandle: HBitmap;
+  TempBitmap: Graphics.TBitmap;
+  cx, cy, r: integer;
+  p1x, p1y, p2x, p2y: integer;
+  a1, a2: double;
+begin
+  TempIntfImg := TLazIntfImage.Create(ICON_SIZE, ICON_SIZE);
+  TempBitmap := Graphics.TBitmap.Create;
+
+  try
+    TempBitmap.SetSize(ICON_SIZE, ICON_SIZE);
+
+    // transparent background
+    TempBitmap.Canvas.AntialiasingMode := amOn;
+
+    if ABackgroundColor = clNone then
+    begin
+    TempBitmap.Canvas.Brush.Color := clFuchsia;
+    TempBitmap.Transparent := True;
+    TempBitmap.TransparentColor := clFuchsia;
+    end else
+    TempBitmap.Canvas.Brush.Color := ABackgroundColor;
+
+    TempBitmap.Canvas.FillRect(Rect(0, 0, ICON_SIZE, ICON_SIZE));
+    TempBitmap.Canvas.Pen.Color := APenColor;
+    TempBitmap.Canvas.Pen.Width := 3;
+
+    cx := ICON_SIZE div 2;
+    cy := ICON_SIZE div 2;
+    r := (ICON_SIZE div 2) - 2;
+
+    a1 := DegToRad(AAngle);
+    a2 := DegToRad(AAngle + 180);
+
+    // arc points
+    p1x := cx + Round(r * Cos(a1));
+    p1y := cy + Round(r * Sin(a1));
+
+    p2x := cx + Round(r * Cos(a2));
+    p2y := cy + Round(r * Sin(a2));
+    TempBitmap.Canvas.Arc(
+      cx - r, cy - r,
+      cx + r, cy + r,
+      p1x, p1y,
+      p2x, p2y
+      );
+
+    // create mask through TLazIntfImage
+    TempIntfImg.LoadFromBitmap(TempBitmap.Handle, TempBitmap.MaskHandle);
+    TempIntfImg.CreateBitmaps(ImgHandle, ImgMaskHandle, False);
+
+    TempBitmap.Handle := ImgHandle;
+    TempBitmap.MaskHandle := ImgMaskHandle;
+
+    Result := TempBitmap;
+  finally
+    TempIntfImg.Free;
   end;
 end;
 

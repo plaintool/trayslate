@@ -79,6 +79,7 @@ type
     SbTranslate: TSpeedButton;
     Separator3: TMenuItem;
     SplitterMemo: TSplitter;
+    TimerAnimate: TTimer;
     TimerTranslate: TTimer;
     TimerClick: TTimer;
     TimerActive: TTimer;
@@ -119,6 +120,8 @@ type
     procedure PanelLangResize(Sender: TObject);
     procedure SbSwapMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
     procedure TimerActiveTimer(Sender: TObject);
+    procedure TimerAnimateStopTimer(Sender: TObject);
+    procedure TimerAnimateTimer(Sender: TObject);
     procedure TimerTranslateTimer(Sender: TObject);
     procedure TimerClickTimer(Sender: TObject);
     procedure TrayIconMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
@@ -195,6 +198,7 @@ type
     {$ENDIF}
   public
     procedure SetIcon;
+    procedure SetAnimate(Angle: integer);
     procedure LoadConfig;
     procedure BuildConfigMenu;
     procedure UpdateCheckConfigMenu;
@@ -776,6 +780,20 @@ begin
     FTopMost := False;
 end;
 
+procedure TformTrayslate.TimerAnimateStopTimer(Sender: TObject);
+begin
+  SetIcon;
+end;
+
+procedure TformTrayslate.TimerAnimateTimer(Sender: TObject);
+begin
+  TimerAnimate.Tag := TimerAnimate.Tag + 5;
+  if TimerAnimate.Tag >= 360 then
+    TimerAnimate.Tag := TimerAnimate.Tag - 360;
+
+  SetAnimate(TimerAnimate.Tag);
+end;
+
 procedure TformTrayslate.TimerTranslateTimer(Sender: TObject);
 begin
   TimerTranslate.Enabled := False;
@@ -906,6 +924,20 @@ begin
   try
     TrayIcon.Icon.Assign(Bitmap);
     TrayIcon.Visible := True;
+  finally
+    Bitmap.Free;
+  end;
+end;
+
+procedure TformTrayslate.SetAnimate(Angle: integer);
+var
+  Bitmap: TBitmap;
+begin
+  if not TrayIcon.Visible then Exit;
+
+  Bitmap := CreateTrayIconProgress(Angle, FIconBackgroundColor, FIconFontColor);
+  try
+    TrayIcon.Icon.Assign(Bitmap);
   finally
     Bitmap.Free;
   end;
@@ -1216,7 +1248,7 @@ begin
 
   // Create translation thread (it will handle exceptions itself)
   ATrans.TextToTranslate := AText;
-  Th := TTranslateThread.Create(ATrans, AMemo);
+  Th := TTranslateThread.Create(ATrans, AMemo, TimerAnimate);
   if not Assigned(AMemo) then
   begin
     try
@@ -1232,7 +1264,10 @@ begin
     finally
       Th.Free;
       if ATrans <> TransDetect then
+      begin
         Screen.Cursor := crDefault;
+        TimerAnimate.Enabled := False;
+      end;
     end;
   end;
 end;
@@ -1245,6 +1280,7 @@ begin
   if (FLanguages.IndexOf(ComboSource.Text) < 0) or (FLanguages.IndexOf(ComboTarget.Text) < 0) then exit;
 
   Screen.Cursor := crAppStart;
+  TimerAnimate.Enabled := True;
 
   // Detect language in source memo
   langDetect := TranslateThread(TransDetect, AText);
@@ -1311,28 +1347,26 @@ var
   OriginalClip, SelectedText: string;
 begin
   Screen.Cursor := crAppStart;
-  try
-    // Save current clipboard to restore later
-    OriginalClip := Clipboard.AsText;
-    Clipboard.AsText := string.Empty;
+  TimerAnimate.Enabled := True;
 
-    // Copy selection from active window (Ctrl+C)
-    GlobalCtrlC;
+  // Save current clipboard to restore later
+  OriginalClip := Clipboard.AsText;
+  Clipboard.AsText := string.Empty;
 
-    SelectedText := Clipboard.AsText;
+  // Copy selection from active window (Ctrl+C)
+  GlobalCtrlC;
 
-    Show;
-    BringToFront;
-    FTopMost := True;
-    ProcessMessages;
-    MemoSource.Text := SelectedText;
-    TranslateMemo;
+  SelectedText := Clipboard.AsText;
 
-    // Restore original clipboard
-    Clipboard.AsText := OriginalClip;
-  finally
-    Screen.Cursor := crDefault;
-  end;
+  Show;
+  BringToFront;
+  FTopMost := True;
+  ProcessMessages;
+  MemoSource.Text := SelectedText;
+  TranslateMemo;
+
+  // Restore original clipboard
+  Clipboard.AsText := OriginalClip;
 end;
 
 procedure TformTrayslate.TranslateControl(Data: PtrInt);

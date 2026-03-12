@@ -355,4 +355,12 @@ object formTrayslate: TformTrayslate
     Left = 376
     Top = 328
   end
+  object TimerAnimate: TTimer
+    Enabled = False
+    Interval = 10
+    OnTimer = TimerAnimateTimer
+    OnStopTimer = TimerAnimateStopTimer
+    Left = 231
+    Top = 400
+  end
 end
