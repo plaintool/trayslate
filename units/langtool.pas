@@ -23,6 +23,7 @@ uses
   StdCtrls,
   LCLType,
   LCLIntf,
+  IntfGraphics,
   fpjson,
   jsonparser;
 
@@ -44,8 +45,8 @@ const
 
 {$ENDIF}
 
-function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = string.Empty; ABackgroundColor: TColor = $00C07000;
-  AFontColor: TColor = clWhite): TIcon;
+function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = string.Empty;
+  ABackgroundColor: TColor = clNone; AFontColor: TColor = clWhite): TBitmap;
 
 procedure SetComboBoxByCode(ComboBox: TComboBox; const Code: string);
 
@@ -59,10 +60,12 @@ implementation
 
 uses languages;
 
-function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = string.Empty; ABackgroundColor: TColor = $00C07000;
-  AFontColor: TColor = clWhite): TIcon;
+function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = string.Empty;
+  ABackgroundColor: TColor = clNone; AFontColor: TColor = clWhite): TBitmap;
 var
-  bmp: TBitmap;
+  Bmp: TBitmap;
+  IntfImg: TLazIntfImage;
+  ImgHandle, ImgMaskHandle: HBitmap;
   rect, rect1, rect2: TRect;
   Value: string;
 
@@ -74,46 +77,52 @@ var
       Result := LeftStr(Result, Pos('-', Result + '-') - 1);
 
     if (Length(Result) = 3) then
-      bmp.Canvas.Font.Size := Form.ScaleScreenTo96(5)
+      Bmp.Canvas.Font.Size := Form.ScaleScreenTo96(5)
     else
     begin
       if (LowerCase(Result) = 'auto') then
       begin
-        bmp.Canvas.Font.Size := Form.ScaleScreenTo96(4);
+        Bmp.Canvas.Font.Size := Form.ScaleScreenTo96(4);
         Result := 'AUTO';
       end
       else
       begin
-        bmp.Canvas.Font.Size := Form.ScaleScreenTo96(DefSize);
+        Bmp.Canvas.Font.Size := Form.ScaleScreenTo96(DefSize);
         Result := Result.Substring(0, 2);
       end;
     end;
   end;
 
 begin
-  bmp := TBitmap.Create;
-  Result := TIcon.Create;
+  IntfImg := TLazIntfImage.Create(16, 16);
+  Bmp := TBitmap.Create;
   try
-    bmp.Width := 16;  // standard tray icon size
-    bmp.Height := 16;
-    bmp.PixelFormat := pf32bit;
+    Bmp.SetSize(16, 16);  // standard tray icon size
 
     // set background
-    bmp.Canvas.Brush.Style := bsSolid;
-    bmp.Canvas.Brush.Color := ABackgroundColor;
-    rect := Types.Rect(0, 0, bmp.Width, bmp.Height);
-    bmp.Canvas.FillRect(rect);
+    if ABackgroundColor = clNone then
+    begin
+      Bmp.Canvas.Brush.Color := clFuchsia;
+      Bmp.Canvas.Font.Quality := fqNonAntialiased;
+      Bmp.TransparentColor := clFuchsia;
+      Bmp.Transparent := True;
+    end
+    else
+      Bmp.Canvas.Brush.Color := ABackgroundColor;
+    Bmp.Canvas.Brush.Style := bsSolid;
+    rect := Types.Rect(0, 0, Bmp.Width, Bmp.Height);
+    Bmp.Canvas.FillRect(rect);
 
     // set text style
-    bmp.Canvas.Font.Name := 'Tahoma';
-    bmp.Canvas.Font.Color := AFontColor;
-    bmp.Canvas.Font.Style := [fsBold];
+    Bmp.Canvas.Font.Name := 'Tahoma';
+    Bmp.Canvas.Font.Color := AFontColor;
+    Bmp.Canvas.Font.Style := [fsBold];
 
     if (ALang2 = string.Empty) then
     begin
       // draw text centered
       Value := FormatValue(ALang1);
-      DrawText(bmp.Canvas.Handle, PChar(Value), Length(Value), rect,
+      DrawText(Bmp.Canvas.Handle, PChar(Value), Length(Value), rect,
         DT_CENTER or DT_VCENTER or DT_SINGLELINE);
     end
     else
@@ -121,19 +130,26 @@ begin
       // upper half
       Value := FormatValue(ALang1, 7);
       rect1 := Types.Rect(rect.Left, rect.Top, rect.Right, (rect.Top + rect.Bottom) div 2);
-      DrawText(bmp.Canvas.Handle, PChar(Value), Length(Value), rect1,
+      DrawText(Bmp.Canvas.Handle, PChar(Value), Length(Value), rect1,
         DT_CENTER or DT_VCENTER or DT_SINGLELINE);
 
       // lower half
       Value := FormatValue(ALang2, 7);
       rect2 := Types.Rect(rect.Left, (rect.Top + rect.Bottom) div 2, rect.Right, rect.Bottom);
-      DrawText(bmp.Canvas.Handle, PChar(Value), Length(Value), rect2,
+      DrawText(Bmp.Canvas.Handle, PChar(Value), Length(Value), rect2,
         DT_CENTER or DT_VCENTER or DT_SINGLELINE);
     end;
+
+    IntfImg.LoadFromBitmap(Bmp.Handle, Bmp.MaskHandle);
+    // Copy it to a TBitmap
+    IntfImg.CreateBitmaps(ImgHandle, ImgMaskHandle, False);
+    Bmp.Handle := ImgHandle;
+    Bmp.MaskHandle := ImgMaskHandle;
+
     // create icon from bitmap
-    Result.Assign(bmp);
+    Result := Bmp;
   finally
-    bmp.Free;
+    IntfImg.Free;
   end;
 end;
 

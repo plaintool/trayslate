@@ -16,11 +16,11 @@ object formSettingsTrayslate: TformSettingsTrayslate
     Height = 465
     Top = 5
     Width = 400
-    ActivePage = PageGeneral
+    ActivePage = PageInterface
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
-    TabIndex = 0
+    TabIndex = 1
     TabOrder = 0
     object PageGeneral: TTabSheet
       Caption = 'General'
@@ -218,7 +218,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Height = 22
           Top = 8
           Width = 203
-          Style = [cbCustomColor, cbCustomColors]
+          Style = [cbIncludeNone, cbCustomColor, cbPrettyNames, cbCustomColors]
           ColorDialog = ColorDialog
           Anchors = [akTop, akLeft, akRight]
           DropDownCount = 12
@@ -249,7 +249,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Height = 22
           Top = 40
           Width = 203
-          Style = [cbCustomColor, cbCustomColors]
+          Style = [cbCustomColor, cbPrettyNames, cbCustomColors]
           ColorDialog = ColorDialog
           Anchors = [akTop, akLeft, akRight]
           DropDownCount = 12

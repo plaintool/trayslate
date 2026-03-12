@@ -266,7 +266,7 @@ begin
   // Default values
   FConfigFile := string.Empty;
   FConfigLangDetect := 'languagedetect.ini';
-  FIconBackgroundColor := $00C07000;
+  FIconBackgroundColor := clNone;
   FIconFontColor := clWhite;
   FIconTwoLang := True;
   FMaxLangPairs := 10;
@@ -896,15 +896,15 @@ end;
 
 procedure TformTrayslate.SetIcon;
 var
-  Ico: TIcon;
+  Bitmap: TBitmap;
 begin
-  Ico := CreateTrayIconLang(Self, ifthen(FIconTwoLang, UpperCase(Trans.LangSource), UpperCase(Trans.LangTarget)),
+  Bitmap := CreateTrayIconLang(Self, ifthen(FIconTwoLang, UpperCase(Trans.LangSource), UpperCase(Trans.LangTarget)),
     ifthen(FIconTwoLang, UpperCase(Trans.LangTarget), string.Empty), FIconBackgroundColor, FIconFontColor);
   try
-    TrayIcon.Icon.Assign(Ico);
+    TrayIcon.Icon.Assign(Bitmap);
     TrayIcon.Visible := True;
   finally
-    Ico.Free;
+    Bitmap.Free;
   end;
 end;
 
