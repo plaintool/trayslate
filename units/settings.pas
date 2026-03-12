@@ -133,6 +133,7 @@ begin
     JSONObj.Add('AutoStart', Form.AutoStart);
     JSONObj.Add('IconBackgroundColor', Form.IconBackgroundColor);
     JSONObj.Add('IconFontColor', Form.IconFontColor);
+    JSONObj.Add('IconFontName', Form.IconFontName);
     JSONObj.Add('IconTwoLang', Form.IconTwoLang);
     JSONObj.Add('LangSource', Form.LangSource);
     JSONObj.Add('LangTarget', Form.LangTarget);
@@ -278,6 +279,9 @@ begin
 
       if JSONObj.FindPath('IconFontColor') <> nil then
         Form.IconFontColor := JSONObj.FindPath('IconFontColor').AsInteger;
+
+      if JSONObj.FindPath('IconFontName') <> nil then
+        Form.IconFontName := JSONObj.FindPath('IconFontName').AsString;
 
       if JSONObj.FindPath('IconTwoLang') <> nil then
         Form.IconTwoLang := JSONObj.FindPath('IconTwoLang').AsBoolean;

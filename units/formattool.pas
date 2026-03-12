@@ -12,6 +12,7 @@ unit formattool;
 interface
 
 uses
+  Forms,
   Classes,
   SysUtils,
   StdCtrls,
@@ -44,6 +45,8 @@ procedure SaveStringToFile(const FileName, Data: string);
 procedure OpenStringInTextEditor(const S: string);
 
 function RemoveTrailingLineBreak(const S: string): string;
+
+procedure FillFontCombo(ACombo: TComboBox);
 
 implementation
 
@@ -297,6 +300,20 @@ begin
     Result := Copy(Result, 1, Length(Result) - 2)
   else if (Length(Result) >= 1) and ((Result[Length(Result)] = #10) or (Result[Length(Result)] = #13)) then
     Result := Copy(Result, 1, Length(Result) - 1);
+end;
+
+procedure FillFontCombo(ACombo: TComboBox);
+var
+  i: integer;
+begin
+  ACombo.Items.BeginUpdate;
+  try
+    ACombo.Items.Clear;
+    for i := 0 to Screen.Fonts.Count - 1 do
+      ACombo.Items.Add(Screen.Fonts[i]);
+  finally
+    ACombo.Items.EndUpdate;
+  end;
 end;
 
 end.

@@ -21,6 +21,7 @@ uses
   Types,
   SysUtils,
   StdCtrls,
+  StrUtils,
   LCLType,
   LCLIntf,
   IntfGraphics,
@@ -46,7 +47,7 @@ const
 {$ENDIF}
 
 function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = string.Empty;
-  ABackgroundColor: TColor = clNone; AFontColor: TColor = clWhite): TBitmap;
+  ABackgroundColor: TColor = clNone; AFontColor: TColor = clWhite; AFontName:string = string.Empty): TBitmap;
 
 procedure SetComboBoxByCode(ComboBox: TComboBox; const Code: string);
 
@@ -61,7 +62,7 @@ implementation
 uses languages;
 
 function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = string.Empty;
-  ABackgroundColor: TColor = clNone; AFontColor: TColor = clWhite): TBitmap;
+  ABackgroundColor: TColor = clNone; AFontColor: TColor = clWhite; AFontName:string = string.Empty): TBitmap;
 var
   Bmp: TBitmap;
   IntfImg: TLazIntfImage;
@@ -114,7 +115,7 @@ begin
     Bmp.Canvas.FillRect(rect);
 
     // set text style
-    Bmp.Canvas.Font.Name := 'Tahoma';
+    Bmp.Canvas.Font.Name := ifthen(AFontName = string.Empty, 'Verdana', AFontName);
     Bmp.Canvas.Font.Color := AFontColor;
     Bmp.Canvas.Font.Style := [fsBold];
 

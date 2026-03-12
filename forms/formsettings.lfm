@@ -16,11 +16,11 @@ object formSettingsTrayslate: TformSettingsTrayslate
     Height = 465
     Top = 5
     Width = 400
-    ActivePage = PageInterface
+    ActivePage = PageGeneral
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 0
     object PageGeneral: TTabSheet
       Caption = 'General'
@@ -65,7 +65,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Width = 203
           TabOrder = 1
           Value = 1000
-          OnChange = SpinRealTimeDelayChange
+          OnChange = SettingChange
         end
       end
       object GroupAutoSwap: TGroupBox
@@ -85,11 +85,13 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Hint = 'Config that auto-detects the target language for the selected language pair'
           Top = 40
           Width = 203
+          DropDownCount = 15
           ItemHeight = 15
           ParentShowHint = False
           ShowHint = True
           Style = csDropDownList
           TabOrder = 1
+          OnChange = SettingChange
         end
         object LabelIconBackground1: TLabel
           Left = 21
@@ -192,22 +194,22 @@ object formSettingsTrayslate: TformSettingsTrayslate
       end
       object GroupTrayIcon: TGroupBox
         Left = 5
-        Height = 123
+        Height = 155
         Top = 109
         Width = 382
         Align = alTop
         BorderSpacing.Around = 5
         Caption = 'Tray Icon'
-        ClientHeight = 103
+        ClientHeight = 135
         ClientWidth = 378
         TabOrder = 1
         object CheckTwoLang: TCheckBox
           Left = 24
           Height = 19
           Hint = 'Display source and/or target language on the tray icon'
-          Top = 72
-          Width = 127
-          Caption = 'Show two languages'
+          Top = 104
+          Width = 122
+          Caption = 'Show language pair'
           ParentShowHint = False
           ShowHint = True
           TabOrder = 2
@@ -221,7 +223,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Style = [cbIncludeNone, cbCustomColor, cbPrettyNames, cbCustomColors]
           ColorDialog = ColorDialog
           Anchors = [akTop, akLeft, akRight]
-          DropDownCount = 12
+          DropDownCount = 15
           ItemHeight = 16
           TabOrder = 0
           OnChange = SettingChange
@@ -252,16 +254,36 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Style = [cbCustomColor, cbPrettyNames, cbCustomColors]
           ColorDialog = ColorDialog
           Anchors = [akTop, akLeft, akRight]
-          DropDownCount = 12
+          DropDownCount = 15
           ItemHeight = 16
           TabOrder = 1
+          OnChange = SettingChange
+        end
+        object LabelIconFont1: TLabel
+          Left = 24
+          Height = 26
+          Top = 72
+          Width = 112
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Font Name'
+        end
+        object ComboIconFontName: TComboBox
+          Left = 152
+          Height = 23
+          Top = 72
+          Width = 203
+          DropDownCount = 15
+          ItemHeight = 15
+          Style = csDropDownList
+          TabOrder = 3
           OnChange = SettingChange
         end
       end
       object GroupLangPairs: TGroupBox
         Left = 0
         Height = 59
-        Top = 237
+        Top = 269
         Width = 392
         Align = alTop
         Caption = 'Recent Language Pairs'
@@ -276,6 +298,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           MaxValue = 100
           TabOrder = 0
           Value = 10
+          OnChange = SettingChange
         end
         object LabelMaxLangPairs: TLabel
           Left = 29
@@ -563,7 +586,6 @@ object formSettingsTrayslate: TformSettingsTrayslate
     Width = 75
     Anchors = [akRight, akBottom]
     Caption = 'OK'
-    Default = True
     TabOrder = 1
     OnClick = BtnOkClick
   end

@@ -45,6 +45,7 @@ type
     ColorIconBackground: TColorBox;
     ColorIconFont: TColorBox;
     ColorDialog: TColorDialog;
+    ComboIconFontName: TComboBox;
     ComboLangDetect: TComboBox;
     EditApp: TEdit;
     EditTransClipboard: TEdit;
@@ -66,6 +67,7 @@ type
     GroupTransControl: TGroupBox;
     GroupTrayIcon: TGroupBox;
     LabelIconBackground1: TLabel;
+    LabelIconFont1: TLabel;
     LabelMaxLangPairs: TLabel;
     LabelRealTimeDelay: TLabel;
     LabelTransClipboard: TLabel;
@@ -85,7 +87,6 @@ type
     SpinRealTimeDelay: TSpinEdit;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure SpinRealTimeDelayChange(Sender: TObject);
     procedure BtnApplyClick(Sender: TObject);
     procedure BtnCancelClick(Sender: TObject);
     procedure BtnFontClick(Sender: TObject);
@@ -99,6 +100,7 @@ type
     FOriginalFont: TFont;
     FOriginalIconBackgroundColor: TColor;
     FOriginalIconFontColor: TColor;
+    FOriginalIconFontName: string;
     FOriginalIconTwoLang: boolean;
     FOriginalMaxLangPairs: integer;
     FOriginalRealTime: boolean;
@@ -131,7 +133,7 @@ var
 
 implementation
 
-uses mainform;
+uses mainform, formattool;
 
   {$R *.lfm}
 
@@ -141,7 +143,6 @@ procedure TformSettingsTrayslate.FormCreate(Sender: TObject);
 begin
   PagesSettings.PageIndex := 0;
   BtnCancel.Cancel := True;
-  BtnOk.Default := True;
   BtnReset.Enabled := True;
 
   ComboLangDetect.Items.Assign(formTrayslate.ConfigFileTitles);
@@ -149,20 +150,13 @@ begin
 
   AddTrayColors(ColorIconBackground);
   AddTrayColors(ColorIconFont);
+  FillFontCombo(ComboIconFontName);
   Reset;
 end;
 
 procedure TformSettingsTrayslate.FormShow(Sender: TObject);
 begin
   formTrayslate.TopMost := False;
-end;
-
-procedure TformSettingsTrayslate.SpinRealTimeDelayChange(Sender: TObject);
-begin
-  if (Sender as TSpinEdit).Value < 0 then
-    (Sender as TSpinEdit).Value := 0;
-
-  BtnApply.Enabled := True;
 end;
 
 procedure TformSettingsTrayslate.BtnFontClick(Sender: TObject);
@@ -193,6 +187,22 @@ end;
 procedure TformSettingsTrayslate.SettingChange(Sender: TObject);
 begin
   BtnApply.Enabled := True;
+
+  if (Sender is TSpinEdit) then
+  begin
+    if (Sender as TSpinEdit).Value < 0 then
+      (Sender as TSpinEdit).Value := 0;
+  end
+  else
+  if (Sender = ColorIconBackground) or (Sender = ColorIconFont) or (Sender = ComboIconFontName) or (Sender = CheckTwoLang) then
+  begin
+    // Apply real time properies
+    formTrayslate.IconBackgroundColor := ColorIconBackground.Selected;
+    formTrayslate.IconFontColor := ColorIconFont.Selected;
+    formTrayslate.IconFontName := ComboIconFontName.Text;
+    formTrayslate.IconTwoLang := CheckTwoLang.Checked;
+    formTrayslate.SetIcon;
+  end;
 end;
 
 procedure TformSettingsTrayslate.EditKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
@@ -311,6 +321,13 @@ end;
 
 procedure TformSettingsTrayslate.BtnCancelClick(Sender: TObject);
 begin
+  // Reset real time properies
+  formTrayslate.IconBackgroundColor := FOriginalIconBackgroundColor;
+  formTrayslate.IconFontColor := FOriginalIconFontColor;
+  formTrayslate.IconFontName := FOriginalIconFontName;
+  formTrayslate.IconTwoLang := FOriginalIconTwoLang;
+  formTrayslate.SetIcon;
+
   Reset;
   ModalResult := mrCancel;
 end;
@@ -413,6 +430,7 @@ begin
   formTrayslate.Font.Assign(PanelFont.Font);
   formTrayslate.IconBackgroundColor := ColorIconBackground.Selected;
   formTrayslate.IconFontColor := ColorIconFont.Selected;
+  formTrayslate.IconFontName := ComboIconFontName.Text;
   formTrayslate.IconTwoLang := CheckTwoLang.Checked;
   formTrayslate.SetIcon;
 
@@ -444,6 +462,7 @@ begin
   FOriginalFont := formTrayslate.Font;
   FOriginalIconBackgroundColor := formTrayslate.IconBackgroundColor;
   FOriginalIconFontColor := formTrayslate.IconFontColor;
+  FOriginalIconFontName := formTrayslate.IconFontName;
   FOriginalIconTwoLang := formTrayslate.IconTwoLang;
   FOriginalHotKeyApp := formTrayslate.HotKeyApp;
   FOriginalHotKeyTransSwap := formTrayslate.HotKeyTransSwap;
@@ -468,6 +487,7 @@ begin
   SetPanelFont(FOriginalFont);
   ColorIconBackground.Selected := FOriginalIconBackgroundColor;
   ColorIconFont.Selected := FOriginalIconFontColor;
+  ComboIconFontName.Text := FOriginalIconFontName;
   CheckTwoLang.Checked := FOriginalIconTwoLang;
   EditApp.Text := HotKeyToText(FOriginalHotKeyApp);
   EditTransSwap.Text := HotKeyToText(FOriginalHotKeyTransSwap);

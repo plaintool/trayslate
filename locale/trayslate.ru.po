@@ -461,7 +461,7 @@ msgid "Automatically translate text while typing"
 msgstr ""
 
 #: tformsettingstrayslate.checktwolang.caption
-msgid "Show two languages"
+msgid "Show language pair"
 msgstr ""
 
 #: tformsettingstrayslate.checktwolang.hint
@@ -569,6 +569,10 @@ msgstr ""
 
 #: tformsettingstrayslate.labeliconfont.caption
 msgid "Font Color"
+msgstr ""
+
+#: tformsettingstrayslate.labeliconfont1.caption
+msgid "Font Name"
 msgstr ""
 
 #: tformsettingstrayslate.labelmaxlangpairs.caption

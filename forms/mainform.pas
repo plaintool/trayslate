@@ -168,6 +168,7 @@ type
     FAutoStart: boolean;
     FIconBackgroundColor: TColor;
     FIconFontColor: TColor;
+    FIconFontName: string;
     FIconTwoLang: boolean;
 
     function TranslateThread(ATrans: TTranslate; AText: string; AMemo: TMemo = nil): string;
@@ -217,6 +218,7 @@ type
     property AutoStart: boolean read FAutoStart write SetAutoStart;
     property IconBackgroundColor: TColor read FIconBackgroundColor write FIconBackgroundColor;
     property IconFontColor: TColor read FIconFontColor write FIconFontColor;
+    property IconFontName: string read FIconFontName write FIconFontName;
     property IconTwoLang: boolean read FIconTwoLang write FIconTwoLang;
     property LangSource: string read FLangSource write FLangSource;
     property LangTarget: string read FLangTarget write FLangTarget;
@@ -268,6 +270,7 @@ begin
   FConfigLangDetect := 'languagedetect.ini';
   FIconBackgroundColor := clNone;
   FIconFontColor := clWhite;
+  FIconFontName := 'Verdana';
   FIconTwoLang := True;
   FMaxLangPairs := 10;
   FRealTime := False;
@@ -899,7 +902,7 @@ var
   Bitmap: TBitmap;
 begin
   Bitmap := CreateTrayIconLang(Self, ifthen(FIconTwoLang, UpperCase(Trans.LangSource), UpperCase(Trans.LangTarget)),
-    ifthen(FIconTwoLang, UpperCase(Trans.LangTarget), string.Empty), FIconBackgroundColor, FIconFontColor);
+    ifthen(FIconTwoLang, UpperCase(Trans.LangTarget), string.Empty), FIconBackgroundColor, FIconFontColor, FIconFontName);
   try
     TrayIcon.Icon.Assign(Bitmap);
     TrayIcon.Visible := True;
