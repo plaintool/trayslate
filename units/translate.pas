@@ -545,17 +545,19 @@ end;
 procedure TTranslateThread.Execute;
 begin
   try
-    if Length(Trim(FSourceText)) > 0 then
-      FResultText := FTrans.Translate
-    else
-      FResultText := string.Empty;
-  except
-    on E: Exception do
-      FException := Exception.Create(E.Message);
+    try
+      if Length(Trim(FSourceText)) > 0 then
+        FResultText := FTrans.Translate
+      else
+        FResultText := string.Empty;
+    except
+      on E: Exception do
+        FException := Exception.Create(E.Message);
+    end;
+  finally
+    // Call UpdateUI in main thread to handle exceptions
+    Synchronize(@UpdateUI);
   end;
-
-  // Call UpdateUI in main thread to handle exceptions
-  Synchronize(@UpdateUI);
 end;
 
 procedure TTranslateThread.UpdateUI;

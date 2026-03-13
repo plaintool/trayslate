@@ -116,7 +116,6 @@ type
     procedure MemoTargetEnter(Sender: TObject);
     procedure MemoSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure MemoTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
-    procedure ConfigItemClick(Sender: TObject);
     procedure PanelLangResize(Sender: TObject);
     procedure SbSwapMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
     procedure TimerActiveTimer(Sender: TObject);
@@ -129,6 +128,7 @@ type
     procedure LabelMouseEnter(Sender: TObject);
     procedure LabelMouseLeave(Sender: TObject);
     procedure LabelLangMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
+    procedure MenuConfigItemClick(Sender: TObject);
     procedure MenuPairClick(Sender: TObject);
   private
     FTrans: TTranslate;
@@ -615,7 +615,16 @@ begin
     Exit;
 
   if ComboSource.Items.IndexOf(ComboSource.Text) = -1 then
-    SelectPair(FLangSource + ':' + FLangTarget, False)
+  begin
+    if ComboSource.Text = string.Empty then
+    begin
+      FLangSource := string.Empty;
+      FTrans.LangSource := string.Empty;
+      SetIcon;
+    end
+    else
+      SelectPair(FLangSource + ':' + FLangTarget, False);
+  end
   else
   begin
     ChangeSourceLang(ComboSource.Text);
@@ -630,7 +639,16 @@ begin
     Exit;
 
   if ComboTarget.Items.IndexOf(ComboTarget.Text) = -1 then
-    SelectPair(FLangSource + ':' + FLangTarget, False)
+  begin
+    if ComboTarget.Text = string.Empty then
+    begin
+      FLangTarget := string.Empty;
+      FTrans.LangTarget := string.Empty;
+      SetIcon;
+    end
+    else
+      SelectPair(FLangSource + ':' + FLangTarget, False);
+  end
   else
   begin
     ChangeTargetLang(ComboTarget.Text);
@@ -732,28 +750,6 @@ begin
     PasteWithLineEnding(Sender as TMemo);
     Key := 0;
   end;
-end;
-
-procedure TFormTrayslate.ConfigItemClick(Sender: TObject);
-var
-  Item: TMenuItem;
-begin
-  if (Assigned(formConfigTrayslate)) and (formConfigTrayslate.Showing) and (not formConfigTrayslate.TestChanges) then
-    Exit;
-
-  Item := TMenuItem(Sender);
-
-  // Update current config and load it
-  FConfigFile := FConfigFiles[Item.Tag];
-  LoadConfig;
-
-  if (Assigned(formConfigTrayslate)) and (formConfigTrayslate.Showing) then
-  begin
-    formConfigTrayslate.UpdateConfigList;
-    formConfigTrayslate.UpdateConfig;
-  end;
-
-  TranslateMemo;
 end;
 
 procedure TformTrayslate.PanelLangResize(Sender: TObject);
@@ -909,6 +905,28 @@ begin
   SelectPair((Sender as TLabel).Caption);
 end;
 
+procedure TFormTrayslate.MenuConfigItemClick(Sender: TObject);
+var
+  Item: TMenuItem;
+begin
+  if (Assigned(formConfigTrayslate)) and (formConfigTrayslate.Showing) and (not formConfigTrayslate.TestChanges) then
+    Exit;
+
+  Item := TMenuItem(Sender);
+
+  // Update current config and load it
+  FConfigFile := FConfigFiles[Item.Tag];
+  LoadConfig;
+
+  if (Assigned(formConfigTrayslate)) and (formConfigTrayslate.Showing) then
+  begin
+    formConfigTrayslate.UpdateConfigList;
+    formConfigTrayslate.UpdateConfig;
+  end;
+
+  TranslateMemo;
+end;
+
 procedure TformTrayslate.MenuPairClick(Sender: TObject);
 begin
   SelectPair((Sender as TMenuItem).Caption);
@@ -990,7 +1008,11 @@ begin
 
   // Check if current ComboSource text is still valid
   if ComboSource.Items.IndexOf(ComboSource.Text) < 0 then
+  begin
     ComboSource.Text := string.Empty; // Clear if not in new list
+    LangSource := string.Empty;
+    Trans.LangSource := string.Empty;
+  end;
 
   // Fill ComboTarget with display names
   if (Assigned(Trans.LanguagesTarget)) and (Trans.LanguagesTarget.Count > 0) then
@@ -1005,19 +1027,36 @@ begin
   else
     ComboTarget.Items.Assign(ComboSource.Items); // Use source if target list empty
 
+  // Check if current ComboTarget text is still valid
+  if ComboTarget.Items.IndexOf(ComboTarget.Text) < 0 then
+  begin
+    ComboTarget.Text := string.Empty; // Clear if not in new list
+    LangTarget := string.Empty;
+    Trans.LangTarget := string.Empty;
+  end;
+
   // Set default or saved languages
   if LangSource <> string.Empty then
     Trans.LangSource := LangSource
   else
   begin
     ComboSource.ItemIndex := 0; // First item as default
-    ComboSourceCloseUp(Self);
+    ChangeSourceLang(ComboSource.Text);
   end;
 
   if LangTarget <> string.Empty then
     Trans.LangTarget := LangTarget
   else
-    Trans.LangTarget := Language; // Default system language
+  begin
+    // if system language in lists
+    if (((FLanguagesTarget.Count > 0) and ((FindInStringList(FLanguagesTarget, '(' + Language + ')') >= 0) or
+      (FindInStringList(FLanguagesTarget, Language) >= 0))) or
+      (((FindInStringList(FLanguages, '(' + Language + ')') >= 0) or (FindInStringList(FLanguages, Language) >= 0)))) then
+    begin
+      FTrans.LangTarget := Language; // Default system language
+      FLangTarget := Language;
+    end;
+  end;
 
   // Set combobox selection by language code
   SetComboBoxByCode(ComboSource, Trans.LangSource);
@@ -1066,7 +1105,7 @@ begin
 
     Item.Hint := FullPath;
     Item.Tag := i;
-    Item.OnClick := @ConfigItemClick;
+    Item.OnClick := @MenuConfigItemClick;
 
     // Check the current config
     Item.Checked := SameText(FConfigFiles[i], FConfigFile);
@@ -1246,29 +1285,33 @@ var
   Th: TTranslateThread;
 begin
   Result := string.Empty;
+  try
+    if (LangSource = string.Empty) or (LangTarget = string.Empty) then Exit;
 
-  // Create translation thread (it will handle exceptions itself)
-  ATrans.TextToTranslate := AText;
-  Th := TTranslateThread.Create(ATrans, AMemo, TimerAnimate);
-  if not Assigned(AMemo) then
-  begin
-    try
-      Th.FreeOnTerminate := False;
+    // Create translation thread (it will handle exceptions itself)
+    ATrans.TextToTranslate := AText;
+    Th := TTranslateThread.Create(ATrans, AMemo, TimerAnimate);
+    if not Assigned(AMemo) then
+    begin
+      try
+        Th.FreeOnTerminate := False;
 
-      // Wait for thread to finish
-      while not Th.Finished do
-        Application.ProcessMessages;
+        // Wait for thread to finish
+        while not Th.Finished do
+          Application.ProcessMessages;
 
-      // Set translated text to clipboard
-      if Th.ResultTextSync <> string.Empty then
-        Result := Th.ResultTextSync;
-    finally
-      Th.Free;
-      if ATrans <> TransDetect then
-      begin
-        Screen.Cursor := crDefault;
-        TimerAnimate.Enabled := False;
+        // Set translated text to clipboard
+        if Th.ResultTextSync <> string.Empty then
+          Result := Th.ResultTextSync;
+      finally
+        Th.Free;
       end;
+    end;
+  finally
+    if ATrans <> TransDetect then
+    begin
+      Screen.Cursor := crDefault;
+      TimerAnimate.Enabled := False;
     end;
   end;
 end;
@@ -1580,20 +1623,35 @@ begin
   end;
 
   idxnative := FindInStringList(FLanguages, '(' + fromLang + ')');
+  if idxnative < 0 then
+    idxnative := FindInStringList(FLanguages, fromLang);
+
   if idxnative >= 0 then
-    ChangeSourceLang(FLanguages[idxnative], False);
+    ChangeSourceLang(FLanguages[idxnative], False)
+  else
+    RunTranslate := False;
 
   if FLanguagesTarget.Count > 0 then
   begin
     idxnative := FindInStringList(FLanguagesTarget, '(' + toLang + ')');
+    if idxnative < 0 then
+      idxnative := FindInStringList(FLanguagesTarget, toLang);
+
     if idxnative >= 0 then
-      ChangeTargetLang(FLanguagesTarget[idxnative], False);
+      ChangeTargetLang(FLanguagesTarget[idxnative], False)
+    else
+      RunTranslate := False;
   end
   else
   begin
     idxnative := FindInStringList(FLanguages, '(' + toLang + ')');
+    if idxnative < 0 then
+      idxnative := FindInStringList(FLanguages, toLang);
+
     if idxnative >= 0 then
-      ChangeTargetLang(FLanguages[idxnative], False);
+      ChangeTargetLang(FLanguages[idxnative], False)
+    else
+      RunTranslate := False;
   end;
   if RunTranslate then
     TranslateMemo(False);
