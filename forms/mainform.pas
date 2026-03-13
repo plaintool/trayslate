@@ -140,10 +140,10 @@ type
     FPrevSourceText: string;
     FPrevTargetText: string;
     FLangPairs: TStringList;
+
+    // Non sorted combo named languages
     FLanguages: TStringList;
-    FLanguagesSorted: TStringList;
     FLanguagesTarget: TStringList;
-    FLanguagesTargetSorted: TStringList;
 
     // Settings
     FConfigFile: string;
@@ -328,9 +328,7 @@ begin
   FTrans := TTranslate.Create;
   FTransDetect := TTranslate.Create;
   FLanguages := TStringList.Create;
-  FLanguagesSorted := TStringList.Create;
   FLanguagesTarget := TStringList.Create;
-  FLanguagesTargetSorted := TStringList.Create;
   FLangPairs := TStringList.Create;
 
   // Load form settings
@@ -389,9 +387,7 @@ begin
   SaveFormSettings(Self);
   FLangPairs.Free;
   FLanguages.Free;
-  FLanguagesSorted.Free;
   FLanguagesTarget.Free;
-  FLanguagesTargetSorted.Free;
   FConfigFiles.Free;
   FConfigFileTitles.Free;
   FTrans.Free;
@@ -967,6 +963,7 @@ end;
 procedure TformTrayslate.LoadConfig;
 var
   List: TStringList;
+  Id: integer;
 begin
   UpdateCheckConfigMenu;
 
@@ -1011,6 +1008,12 @@ begin
   // Check if current ComboSource text is still valid
   if ComboSource.Items.IndexOf(ComboSource.Text) < 0 then
   begin
+    Id := Trans.Languages.IndexOfName(LangSource);
+    if (Id >= 0) and (Id < FLanguages.Count) then
+      ComboSource.Text := FLanguages.ValueFromIndex[Id];
+  end;
+  if ComboSource.Items.IndexOf(ComboSource.Text) < 0 then
+  begin
     ComboSource.Text := string.Empty; // Clear if not in new list
     LangSource := string.Empty;
     Trans.LangSource := string.Empty;
@@ -1030,6 +1033,12 @@ begin
     ComboTarget.Items.Assign(ComboSource.Items); // Use source if target list empty
 
   // Check if current ComboTarget text is still valid
+  if ComboTarget.Items.IndexOf(ComboTarget.Text) < 0 then
+  begin
+    Id := Trans.Languages.IndexOfName(LangTarget);
+    if (Id >= 0) and (Id < FLanguages.Count) then
+      ComboTarget.Text := FLanguages.ValueFromIndex[Id];
+  end;
   if ComboTarget.Items.IndexOf(ComboTarget.Text) < 0 then
   begin
     ComboTarget.Text := string.Empty; // Clear if not in new list
@@ -1497,15 +1506,15 @@ end;
 
 procedure TformTrayslate.ChangeSourceLang(NewLang: string; AddPairs: boolean = True);
 var
-  idx, idnative: integer;
+  id, idnative: integer;
 begin
   // try to find typed text in items
-  idx := ComboSource.Items.IndexOf(NewLang);
+  id := ComboSource.Items.IndexOf(NewLang);
   idnative := FLanguages.IndexOf(NewLang);
-  if idx < 0 then Exit;
+  if id < 0 then Exit;
 
   // assign the found index
-  ComboSource.ItemIndex := idx;
+  ComboSource.ItemIndex := id;
 
   // now safe to use ItemIndex
   NewLang := Trans.Languages.ValueFromIndex[idnative];
@@ -1526,18 +1535,18 @@ end;
 
 procedure TformTrayslate.ChangeTargetLang(NewLang: string; AddPairs: boolean = True);
 var
-  idx, idnative: integer;
+  id, idnative: integer;
 begin
   // try to find typed text in items
-  idx := ComboTarget.Items.IndexOf(NewLang);
+  id := ComboTarget.Items.IndexOf(NewLang);
   if FLanguagesTarget.Count > 0 then
     idnative := FLanguagesTarget.IndexOf(NewLang)
   else
     idnative := FLanguages.IndexOf(NewLang);
-  if idx < 0 then Exit;
+  if id < 0 then Exit;
 
   // assign the found index
-  ComboTarget.ItemIndex := idx;
+  ComboTarget.ItemIndex := id;
 
   // now safe to use ItemIndex
   if (idnative >= 0) then

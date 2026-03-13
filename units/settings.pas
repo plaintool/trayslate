@@ -15,6 +15,7 @@ uses
   Forms,
   Classes,
   SysUtils,
+  StrUtils,
   fpjson,
   jsonparser,
   Graphics,
@@ -477,16 +478,19 @@ begin
     if Assigned(Translate.Languages) then
       for i := 0 to Translate.Languages.Count - 1 do
         Ini.WriteString('Languages',
-          Translate.Languages.Names[i],
-          Translate.Languages.ValueFromIndex[i]);
+          IfThen(Translate.Languages.Names[i] = string.Empty, Translate.Languages[i], Translate.Languages.Names[i]),
+          IfThen(Translate.Languages.ValueFromIndex[i] = string.Empty, IfThen(Translate.Languages.Names[i] =
+          string.Empty, Translate.Languages[i], Translate.Languages.Names[i]), Translate.Languages.ValueFromIndex[i]));
 
     // Save language target mappings (code=apiCode)
     Ini.EraseSection('LanguagesTarget'); // Clear previous entries
     if Assigned(Translate.LanguagesTarget) then
       for i := 0 to Translate.LanguagesTarget.Count - 1 do
         Ini.WriteString('LanguagesTarget',
-          Translate.LanguagesTarget.Names[i],
-          Translate.LanguagesTarget.ValueFromIndex[i]);
+          IfThen(Translate.LanguagesTarget.Names[i] = string.Empty, Translate.LanguagesTarget[i], Translate.LanguagesTarget.Names[i]),
+          IfThen(Translate.LanguagesTarget.ValueFromIndex[i] = string.Empty, IfThen(
+          Translate.LanguagesTarget.Names[i] = string.Empty, Translate.LanguagesTarget[i], Translate.LanguagesTarget.Names[i]),
+          Translate.LanguagesTarget.ValueFromIndex[i]));
   finally
     Ini.Free;
   end;

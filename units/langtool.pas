@@ -293,6 +293,7 @@ var
     Obj: TJSONObject;
     SubResult: string;
     Child: TJSONData;
+    ExtValue: extended;
   begin
     Result := string.Empty;
     if Data = nil then Exit;
@@ -301,7 +302,13 @@ var
     if Level >= PathParts.Count then
     begin
       case Data.JSONType of
-        jtString, jtNumber, jtBoolean: Result := Data.AsString;
+        jtString, jtBoolean:
+          Result := Data.AsString;
+        jtNumber:
+        begin
+          ExtValue := TJSONNumber(Data).AsFloat; // get number as Extended
+          Result := Format('%0.*g', [17, ExtValue]); // 17 digits precision
+        end;
         jtArray:
         begin
           Arr := TJSONArray(Data);
