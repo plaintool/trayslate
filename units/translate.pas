@@ -328,95 +328,26 @@ begin
   Result := string.Empty;
   if FUrl = string.Empty then exit;
 
-  // Get parameters from base + initial get
-  GetParameters(GetInit);
-
-  http := TFPHTTPClient.Create(nil);
-  response := TStringStream.Create(string.Empty);
   try
-    TempUrl := FUrl;
-    TempUrl := SetParameters(TempUrl);
+    // Get parameters from base + initial get
+    GetParameters(GetInit);
 
-    if (FLangSource = emptylang) or (FLangSource = emptylang) then
-      TempUrl := RemoveEmptyParams(TempUrl);
-
-    http.AllowRedirect := True;
-    http.RequestHeaders.Clear;
-    if (FUserAgent <> string.Empty) then
-      http.AddHeader('User-Agent', FUserAgent);
-    if (FContentType <> string.Empty) then
-      http.AddHeader('Content-Type', FContentType);
-    if (FAccept <> string.Empty) then
-      http.AddHeader('Accept', FAccept);
-    if Assigned(Headers) then
-    begin
-      TempHeaders := TStringList.Create;
-      try
-        TempHeaders.Assign(Headers);
-        SetParametersList(TempHeaders);
-        for i := 0 to TempHeaders.Count - 1 do
-          http.AddHeader(TempHeaders.Names[i], TempHeaders.ValueFromIndex[i]);
-      finally
-        TempHeaders.Free;
-      end;
-    end;
-
-    http.Get(TempUrl, response);
-
-    if (ReturnHeaders) then
-    begin
-      header := string.Empty;
-      for i := 0 to http.ResponseHeaders.Count - 1 do
-        header := header + http.ResponseHeaders[i] + LineEnding;
-      // Combine headers and body
-      Result := header + LineEnding + response.DataString;
-    end
-    else
-      Result := response.DataString;
-  finally
-    response.Free;
-    http.Free;
-  end;
-end;
-
-function TTranslate.Post: string;
-var
-  http: TFPHTTPClient;
-  response, postStream: TStringStream;
-  TempData: string;
-  TempUrl: string;
-  TempHeaders: TStringList;
-  i: integer;
-begin
-  Result := string.Empty;
-  if FUrl = string.Empty then exit;
-
-  GetParameters(GetInit);
-
-  http := TFPHTTPClient.Create(nil);
-  response := TStringStream.Create(string.Empty);
-  try
-    TempUrl := FUrl;
-    TempUrl := SetParameters(TempUrl);
-
-    TempData := FPostData;
-    TempData := SetParameters(TempData);
-
-    if (FLangSource = emptylang) or (FLangSource = emptylang) then
-    begin
-      TempUrl := RemoveEmptyParams(TempUrl);
-      TempData := RemoveEmptyParams(TempData);
-    end;
-
-    postStream := TStringStream.Create(TempData, TEncoding.UTF8);
+    http := TFPHTTPClient.Create(nil);
+    response := TStringStream.Create(string.Empty);
     try
+      TempUrl := FUrl;
+      TempUrl := SetParameters(TempUrl);
+
+      if (FLangSource = emptylang) or (FLangSource = emptylang) then
+        TempUrl := RemoveEmptyParams(TempUrl);
+
       http.AllowRedirect := True;
       http.RequestHeaders.Clear;
-      if FUserAgent <> string.Empty then
+      if (FUserAgent <> string.Empty) then
         http.AddHeader('User-Agent', FUserAgent);
-      if FContentType <> string.Empty then
+      if (FContentType <> string.Empty) then
         http.AddHeader('Content-Type', FContentType);
-      if FAccept <> string.Empty then
+      if (FAccept <> string.Empty) then
         http.AddHeader('Accept', FAccept);
       if Assigned(Headers) then
       begin
@@ -431,15 +362,93 @@ begin
         end;
       end;
 
-      http.RequestBody := postStream;
-      http.Post(TempUrl, response);
+      http.Get(TempUrl, response);
+
+      if (ReturnHeaders) then
+      begin
+        header := string.Empty;
+        for i := 0 to http.ResponseHeaders.Count - 1 do
+          header := header + http.ResponseHeaders[i] + LineEnding;
+        // Combine headers and body
+        Result := header + LineEnding + response.DataString;
+      end
+      else
+        Result := response.DataString;
     finally
-      postStream.Free;
+      response.Free;
+      http.Free;
     end;
-    Result := response.DataString;
-  finally
-    response.Free;
-    http.Free;
+  except
+    on E: Exception do
+      Result := E.Message;
+  end;
+end;
+
+function TTranslate.Post: string;
+var
+  http: TFPHTTPClient;
+  response, postStream: TStringStream;
+  TempData: string;
+  TempUrl: string;
+  TempHeaders: TStringList;
+  i: integer;
+begin
+  Result := string.Empty;
+  if FUrl = string.Empty then exit;
+  try
+    GetParameters(GetInit);
+
+    http := TFPHTTPClient.Create(nil);
+    response := TStringStream.Create(string.Empty);
+    try
+      TempUrl := FUrl;
+      TempUrl := SetParameters(TempUrl);
+
+      TempData := FPostData;
+      TempData := SetParameters(TempData);
+
+      if (FLangSource = emptylang) or (FLangSource = emptylang) then
+      begin
+        TempUrl := RemoveEmptyParams(TempUrl);
+        TempData := RemoveEmptyParams(TempData);
+      end;
+
+      postStream := TStringStream.Create(TempData, TEncoding.UTF8);
+      try
+        http.AllowRedirect := True;
+        http.RequestHeaders.Clear;
+        if FUserAgent <> string.Empty then
+          http.AddHeader('User-Agent', FUserAgent);
+        if FContentType <> string.Empty then
+          http.AddHeader('Content-Type', FContentType);
+        if FAccept <> string.Empty then
+          http.AddHeader('Accept', FAccept);
+        if Assigned(Headers) then
+        begin
+          TempHeaders := TStringList.Create;
+          try
+            TempHeaders.Assign(Headers);
+            SetParametersList(TempHeaders);
+            for i := 0 to TempHeaders.Count - 1 do
+              http.AddHeader(TempHeaders.Names[i], TempHeaders.ValueFromIndex[i]);
+          finally
+            TempHeaders.Free;
+          end;
+        end;
+
+        http.RequestBody := postStream;
+        http.Post(TempUrl, response);
+      finally
+        postStream.Free;
+      end;
+      Result := response.DataString;
+    finally
+      response.Free;
+      http.Free;
+    end;
+  except
+    on E: Exception do
+      Result := E.Message;
   end;
 end;
 
