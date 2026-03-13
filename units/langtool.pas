@@ -47,6 +47,9 @@ const
 
   ICON_SIZE = 16;
 
+  DEF_FONT = 'Tahoma';
+  DEF_NA = 'N/A';
+
 {$ENDIF}
 
 function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = string.Empty;
@@ -78,6 +81,8 @@ var
   function FormatValue(const Value: string; DefSize: integer = 8): string;
   begin
     Result := Value;
+
+    if Result = string.Empty then Result := DEF_NA;
 
     if Pos('-', Result) > 0 then
       Result := LeftStr(Result, Pos('-', Result + '-') - 1);
@@ -120,7 +125,7 @@ begin
     Bmp.Canvas.FillRect(rect);
 
     // set text style
-    Bmp.Canvas.Font.Name := ifthen(AFontName = string.Empty, 'Verdana', AFontName);
+    Bmp.Canvas.Font.Name := ifthen(AFontName = string.Empty, DEF_FONT, AFontName);
     Bmp.Canvas.Font.Color := AFontColor;
     Bmp.Canvas.Font.Style := [fsBold];
 
@@ -179,11 +184,12 @@ begin
 
     if ABackgroundColor = clNone then
     begin
-    TempBitmap.Canvas.Brush.Color := clFuchsia;
-    TempBitmap.Transparent := True;
-    TempBitmap.TransparentColor := clFuchsia;
-    end else
-    TempBitmap.Canvas.Brush.Color := ABackgroundColor;
+      TempBitmap.Canvas.Brush.Color := clFuchsia;
+      TempBitmap.Transparent := True;
+      TempBitmap.TransparentColor := clFuchsia;
+    end
+    else
+      TempBitmap.Canvas.Brush.Color := ABackgroundColor;
 
     TempBitmap.Canvas.FillRect(Rect(0, 0, ICON_SIZE, ICON_SIZE));
     TempBitmap.Canvas.Pen.Color := APenColor;

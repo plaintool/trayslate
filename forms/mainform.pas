@@ -251,6 +251,8 @@ const
   DOUBLE_ENTER_INTERVAL = 200; // ms
   MIDDLE_MOUSE = 'Middle-Click';
 
+  DEF_LANGDETECT = 'languagedetect.ini';
+
 resourcestring
   rtrayslate = 'Trayslate';
   rswap = 'Swap (%s) with text (%s)';
@@ -271,10 +273,10 @@ procedure TformTrayslate.FormCreate(Sender: TObject);
 begin
   // Default values
   FConfigFile := string.Empty;
-  FConfigLangDetect := 'languagedetect.ini';
+  FConfigLangDetect := DEF_LANGDETECT;
   FIconBackgroundColor := clNone;
   FIconFontColor := clWhite;
-  FIconFontName := 'Verdana';
+  FIconFontName := DEF_FONT;
   FIconTwoLang := True;
   FMaxLangPairs := 10;
   FRealTime := False;
@@ -690,9 +692,9 @@ end;
 
 procedure TformTrayslate.MemoTargetEnter(Sender: TObject);
 begin
-  MemoTarget.SelStart := 0;
-  MemoTarget.SelLength := Length(MemoTarget.Text);
-  Clipboard.AsText := MemoTarget.Text;
+  //MemoTarget.SelStart := 0;
+  //MemoTarget.SelLength := Length(MemoTarget.Text);
+  //Clipboard.AsText := MemoTarget.Text;
 end;
 
 procedure TformTrayslate.MemoSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
