@@ -191,6 +191,7 @@ type
     function SwapLanguages(ASwapTranslate: boolean = False): boolean;
     procedure AddLangPair(const Pair: string);
     procedure SelectPair(const Pair: string; RunTranslate: boolean = True);
+    procedure SelectPairConfig(const Pair: string; RunTranslate: boolean = True);
   protected
     {$IFDEF WINDOWS}
     procedure WMActivate(var Message: TLMActivate); message LM_ACTIVATE;
@@ -199,7 +200,7 @@ type
   public
     procedure SetIcon;
     procedure SetAnimate(Angle: integer);
-    procedure LoadConfig;
+    procedure LoadConfig(SetDefault: boolean = True);
     procedure BuildConfigMenu;
     procedure UpdateCheckConfigMenu;
     procedure DoRealign(Data: PtrInt);
@@ -900,7 +901,7 @@ begin
     Exit;
   end;
 
-  SelectPair((Sender as TLabel).Caption);
+  SelectPairConfig((Sender as TLabel).Caption);
 end;
 
 procedure TFormTrayslate.MenuConfigItemClick(Sender: TObject);
@@ -914,7 +915,7 @@ begin
 
   // Update current config and load it
   FConfigFile := FConfigFiles[Item.Tag];
-  LoadConfig;
+  LoadConfig(False);
 
   if (Assigned(formConfigTrayslate)) and (formConfigTrayslate.Showing) then
   begin
@@ -927,7 +928,7 @@ end;
 
 procedure TformTrayslate.MenuPairClick(Sender: TObject);
 begin
-  SelectPair((Sender as TMenuItem).Caption);
+  SelectPairConfig((Sender as TMenuItem).Caption);
 end;
 
 {Methods}
@@ -960,7 +961,7 @@ begin
   end;
 end;
 
-procedure TformTrayslate.LoadConfig;
+procedure TformTrayslate.LoadConfig(SetDefault: boolean = True);
 var
   List: TStringList;
   Id: integer;
@@ -1046,26 +1047,29 @@ begin
     Trans.LangTarget := string.Empty;
   end;
 
-  // Set default or saved languages
-  if LangSource <> string.Empty then
-    Trans.LangSource := LangSource
-  else
+  if SetDefault then
   begin
-    ComboSource.ItemIndex := 0; // First item as default
-    ChangeSourceLang(ComboSource.Text);
-  end;
-
-  if LangTarget <> string.Empty then
-    Trans.LangTarget := LangTarget
-  else
-  begin
-    // if system language in lists
-    if (((FLanguagesTarget.Count > 0) and ((FindInStringList(FLanguagesTarget, '(' + Language + ')') >= 0) or
-      (FindInStringList(FLanguagesTarget, Language) >= 0))) or
-      (((FindInStringList(FLanguages, '(' + Language + ')') >= 0) or (FindInStringList(FLanguages, Language) >= 0)))) then
+    // Set default or saved languages
+    if LangSource <> string.Empty then
+      Trans.LangSource := LangSource
+    else
     begin
-      FTrans.LangTarget := Language; // Default system language
-      FLangTarget := Language;
+      ComboSource.ItemIndex := 0; // First item as default
+      ChangeSourceLang(ComboSource.Text);
+    end;
+
+    if LangTarget <> string.Empty then
+      Trans.LangTarget := LangTarget
+    else
+    begin
+      // if system language in lists
+      if (((FLanguagesTarget.Count > 0) and ((FindInStringList(FLanguagesTarget, '(' + Language + ')') >= 0) or
+        (FindInStringList(FLanguagesTarget, Language) >= 0))) or
+        (((FindInStringList(FLanguages, '(' + Language + ')') >= 0) or (FindInStringList(FLanguages, Language) >= 0)))) then
+      begin
+        FTrans.LangTarget := Language; // Default system language
+        FLangTarget := Language;
+      end;
     end;
   end;
 
@@ -1217,7 +1221,7 @@ begin
     // Calculate total width
     totalWidth := 0;
     for i := 0 to FLangPairs.Count - 1 do
-      totalWidth := totalWidth + FlowPairs.Canvas.TextWidth(FLangPairs[i]) + 10;
+      totalWidth := totalWidth + FlowPairs.Canvas.TextWidth(FLangPairs.ValueFromIndex[i]) + 10;
     FlowPairs.Width := totalWidth;
 
     // Create Labels and Menu Items
@@ -1226,7 +1230,7 @@ begin
       // FlowPairs Label
       lbl := TLabel.Create(FlowPairs);
       lbl.Parent := FlowPairs;
-      lbl.Caption := FLangPairs[i];
+      lbl.Caption := FLangPairs.ValueFromIndex[i];
       lbl.Cursor := crHandPoint;
       lbl.Font.Color := ThemeColor(clBlue, clSkyBlue);
       lbl.Tag := i;
@@ -1241,7 +1245,7 @@ begin
 
       // MenuLangPairs Item
       mi := TMenuItem.Create(MenuLangPairs);
-      mi.Caption := FLangPairs[i];
+      mi.Caption := FLangPairs.ValueFromIndex[i];
       mi.Tag := i; // same index as label
       mi.OnClick := @MenuPairClick; // separate handler for menu click
       MenuLangPairs.Add(mi);
@@ -1602,14 +1606,14 @@ procedure TformTrayslate.AddLangPair(const Pair: string);
 var
   idx: integer;
 begin
-  idx := FLangPairs.IndexOf(Pair);
+  idx := GetIndexByValue(FLangPairs, Pair);
 
   // Remove if already exists
   if idx >= 0 then
     FLangPairs.Delete(idx);
 
   // Insert as first
-  FLangPairs.Insert(0, Pair);
+  FLangPairs.Insert(0, FConfigFile + '=' + Pair);
 
   // Limit to 10 items
   while FLangPairs.Count > FMaxLangPairs do
@@ -1666,6 +1670,21 @@ begin
   end;
   if RunTranslate then
     TranslateMemo(False);
+end;
+
+procedure TformTrayslate.SelectPairConfig(const Pair: string; RunTranslate: boolean = True);
+var
+  idx: integer;
+  config: string;
+begin
+  idx := GetIndexByValue(FLangPairs, Pair);
+  config := FLangPairs.Names[idx];
+  if FConfigFile <> config then
+  begin
+    FConfigFile := config;
+    LoadConfig(False);
+  end;
+  SelectPair(Pair, RunTranslate);
 end;
 
 end.

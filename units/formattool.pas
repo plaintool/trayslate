@@ -48,6 +48,8 @@ function RemoveTrailingLineBreak(const S: string): string;
 
 procedure FillFontCombo(ACombo: TComboBox);
 
+function GetIndexByValue(SL: TStringList; const AValue: string): Integer;
+
 implementation
 
 {TColor}
@@ -314,6 +316,19 @@ begin
   finally
     ACombo.Items.EndUpdate;
   end;
+end;
+
+function GetIndexByValue(SL: TStringList; const AValue: string): Integer;
+var
+  i: Integer;
+begin
+  Result := -1; // not found
+  for i := 0 to SL.Count - 1 do
+    if SL.ValueFromIndex[i] = AValue then
+    begin
+      Result := i;
+      Exit; // first match
+    end;
 end;
 
 end.
