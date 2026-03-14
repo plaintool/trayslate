@@ -928,7 +928,7 @@ end;
 
 procedure TformTrayslate.MenuPairClick(Sender: TObject);
 begin
-  SelectPairConfig((Sender as TMenuItem).Caption);
+  SelectPairConfig((Sender as TMenuItem).Hint);
 end;
 
 {Methods}
@@ -1108,7 +1108,7 @@ begin
       end;
     end;
 
-    FConfigFileTitles.Add(ServiceName);
+    FConfigFileTitles.Add(FullPath + '=' + ServiceName);
 
     Item := TMenuItem.Create(MenuConfig);
 
@@ -1231,6 +1231,8 @@ begin
       lbl := TLabel.Create(FlowPairs);
       lbl.Parent := FlowPairs;
       lbl.Caption := FLangPairs.ValueFromIndex[i];
+      lbl.Hint := FConfigFileTitles.Values[FLangPairs.Names[i]];
+      lbl.ShowHint := True;
       lbl.Cursor := crHandPoint;
       lbl.Font.Color := ThemeColor(clBlue, clSkyBlue);
       lbl.Tag := i;
@@ -1245,7 +1247,8 @@ begin
 
       // MenuLangPairs Item
       mi := TMenuItem.Create(MenuLangPairs);
-      mi.Caption := FLangPairs.ValueFromIndex[i];
+      mi.Caption := lbl.Caption + ' - ' + lbl.Hint;
+      mi.Hint := lbl.Caption;
       mi.Tag := i; // same index as label
       mi.OnClick := @MenuPairClick; // separate handler for menu click
       MenuLangPairs.Add(mi);
@@ -1609,7 +1612,7 @@ begin
   idx := GetIndexByValue(FLangPairs, Pair);
 
   // Remove if already exists
-  if idx >= 0 then
+  if (idx >= 0) and (FLangPairs.Names[idx] = FConfigFile) then
     FLangPairs.Delete(idx);
 
   // Insert as first
@@ -1678,11 +1681,14 @@ var
   config: string;
 begin
   idx := GetIndexByValue(FLangPairs, Pair);
-  config := FLangPairs.Names[idx];
-  if FConfigFile <> config then
+  if (idx >= 0) and (idx < FLangPairs.Count) then
   begin
-    FConfigFile := config;
-    LoadConfig(False);
+    config := FLangPairs.Names[idx];
+    if FConfigFile <> config then
+    begin
+      FConfigFile := config;
+      LoadConfig(False);
+    end;
   end;
   SelectPair(Pair, RunTranslate);
 end;
