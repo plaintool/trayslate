@@ -74,9 +74,14 @@ Source: "..\LICENSE"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\config\google-get-apis.ini";        DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\google-get-clients5.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\google-post.ini";       DestDir: "{app}\config"; Flags: ignoreversion
+Source: "..\config\microsofttranslator.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\mymemory.ini";         DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\simplytranslate-google.ini"; DestDir: "{app}\config"; Flags: ignoreversion
+Source: "..\config\papago.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\languagedetect.ini"; DestDir: "{app}\config"; Flags: ignoreversion
+Source: "..\config\wiktionary.ini"; DestDir: "{app}\config"; Flags: ignoreversion
+Source: "..\config\marketshost.ini"; DestDir: "{app}\config"; Flags: ignoreversion
+Source: "..\config\coinconvert.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

@@ -667,13 +667,13 @@ end;
 
 procedure TformTrayslate.ComboSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
-  if Key <> VK_RETURN then
+  if not Key in [VK_RETURN, VK_TAB] then
     ComboSource.DroppedDown := True;
 end;
 
 procedure TformTrayslate.ComboTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
-  if Key <> VK_RETURN then
+  if not Key in [VK_RETURN, VK_TAB] then
     ComboTarget.DroppedDown := True;
 end;
 
@@ -1079,6 +1079,8 @@ begin
 
   if ComboTarget.ItemIndex = -1 then
     ComboTarget.Text := string.Empty;
+
+  SetIcon;
 end;
 
 procedure TFormTrayslate.BuildConfigMenu;
