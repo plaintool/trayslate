@@ -391,6 +391,8 @@ begin
     if Trim(Translate.ServiceName) <> string.Empty then
       Ini.WriteString('Service', 'Name', Translate.ServiceName);
 
+    Ini.WriteBool('Service', 'AutoSwapLanguage', Translate.AutoSwap);
+
     // determine method string based on UsePost property
     if Translate.WebMethod = wmPost then
       Ini.WriteString('Request', 'Method', 'POST')
@@ -445,6 +447,7 @@ begin
     if Trim(Translate.Regexp) <> string.Empty then
       Ini.WriteString('Response', 'Regexp', Translate.Regexp);
 
+    Ini.EraseSection('Initial Request');
     Ini.DeleteKey('Initial Request', 'UserAgent');
     if Trim(Translate.InitUserAgent) <> string.Empty then
       Ini.WriteString('Initial Request', 'UserAgent', Translate.InitUserAgent);
@@ -505,6 +508,7 @@ begin
   Ini := TIniFile.Create(AFileName);
   try
     Translate.ServiceName := Ini.ReadString('Service', 'Name', string.Empty);
+    Translate.AutoSwap := Ini.ReadBool('Service', 'AutoSwapLanguage', False);
 
     Method := Ini.ReadString('Request', 'Method', 'GET');
     if SameText(Method, 'POST') then

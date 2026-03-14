@@ -1063,9 +1063,8 @@ begin
     else
     begin
       // if system language in lists
-      if (((FLanguagesTarget.Count > 0) and ((FindInStringList(FLanguagesTarget, '(' + Language + ')') >= 0) or
-        (FindInStringList(FLanguagesTarget, Language) >= 0))) or
-        (((FindInStringList(FLanguages, '(' + Language + ')') >= 0) or (FindInStringList(FLanguages, Language) >= 0)))) then
+      if (((FLanguagesTarget.Count > 0) and (FindInStringList(FLanguagesTarget, '(' + Language + ')') >= 0)) or
+        (FindInStringList(FLanguages, '(' + Language + ')') >= 0)) then
       begin
         FTrans.LangTarget := Language; // Default system language
         FLangTarget := Language;
@@ -1340,7 +1339,7 @@ procedure TformTrayslate.DetectLanguage(AText: string);
 var
   langSrc, langTar, langDetect: string;
 begin
-  if (not FAutoSwap) or (not Assigned(FTransDetect)) then exit;
+  if (not FAutoSwap) or (not Trans.AutoSwap) or (not Assigned(FTransDetect)) then exit;
   if (FLanguages.IndexOf(ComboSource.Text) < 0) or (FLanguages.IndexOf(ComboTarget.Text) < 0) then exit;
 
   Screen.Cursor := crAppStart;

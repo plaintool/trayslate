@@ -122,6 +122,11 @@ msgctxt "tformconfigtrayslate.caption"
 msgid "Config Editor"
 msgstr ""
 
+#: tformconfigtrayslate.checkautoswap.caption
+msgctxt "tformconfigtrayslate.checkautoswap.caption"
+msgid "Auto-swap language pair"
+msgstr ""
+
 #: tformconfigtrayslate.checkencrypttext.caption
 msgid "Encode {text} parameter"
 msgstr ""
@@ -443,6 +448,7 @@ msgid "Start the application automatically when the computer boots"
 msgstr ""
 
 #: tformsettingstrayslate.checkautoswap.caption
+msgctxt "tformsettingstrayslate.checkautoswap.caption"
 msgid "Auto-swap language pair"
 msgstr ""
 

@@ -20,6 +20,7 @@
 {"hash":260644852,"name":"tformconfigtrayslate.btnpostdatatest.hint","sourcebytes":[69,120,101,99,117,116,101,32,112,111,115,116,32,114,101,113,117,101,115,116,32,97,110,100,32,118,105,101,119,32,116,104,101,32,114,101,115,117,108,116],"value":"Execute post request and view the result"},
 {"hash":164220869,"name":"tformconfigtrayslate.groupboxservice.caption","sourcebytes":[83,101,114,118,105,99,101],"value":"Service"},
 {"hash":346165,"name":"tformconfigtrayslate.labelservicename.caption","sourcebytes":[78,97,109,101],"value":"Name"},
+{"hash":198624802,"name":"tformconfigtrayslate.checkautoswap.caption","sourcebytes":[65,117,116,111,45,115,119,97,112,32,108,97,110,103,117,97,103,101,32,112,97,105,114],"value":"Auto-swap language pair"},
 {"hash":138003475,"name":"tformconfigtrayslate.pageparameters.caption","sourcebytes":[80,97,114,97,109,101,116,101,114,115],"value":"Parameters"},
 {"hash":141005476,"name":"tformconfigtrayslate.groupinitparameters.caption","sourcebytes":[73,110,105,116,105,97,108,32,82,101,113,117,101,115,116],"value":"Initial Request"},
 {"hash":71439252,"name":"tformconfigtrayslate.labelinituseragent.caption","sourcebytes":[85,115,101,114,32,65,103,101,110,116],"value":"User Agent"},

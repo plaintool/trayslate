@@ -182,25 +182,25 @@ object formConfigTrayslate: TformConfigTrayslate
         HorzScrollBar.Page = 1
         HorzScrollBar.Visible = False
         VertScrollBar.Increment = 60
-        VertScrollBar.Page = 605
+        VertScrollBar.Page = 607
         VertScrollBar.Smooth = True
         VertScrollBar.Tracking = True
         Align = alClient
         BorderStyle = bsNone
         ClientHeight = 607
-        ClientWidth = 549
+        ClientWidth = 532
         ParentBackground = False
         TabOrder = 0
         object GroupRequest: TGroupBox
           Left = 5
           Height = 541
-          Top = 59
-          Width = 539
+          Top = 93
+          Width = 522
           Align = alTop
           BorderSpacing.Around = 5
           Caption = 'Request'
           ClientHeight = 521
-          ClientWidth = 535
+          ClientWidth = 518
           ParentBackground = False
           TabOrder = 1
           object LabelMethod: TLabel
@@ -216,7 +216,7 @@ object formConfigTrayslate: TformConfigTrayslate
             Left = 120
             Height = 23
             Top = 0
-            Width = 390
+            Width = 373
             Anchors = [akTop, akLeft, akRight]
             ItemHeight = 15
             ItemIndex = 0
@@ -233,7 +233,7 @@ object formConfigTrayslate: TformConfigTrayslate
             Left = 120
             Height = 23
             Top = 33
-            Width = 390
+            Width = 373
             Anchors = [akTop, akLeft, akRight]
             TabOrder = 1
             OnChange = ValueChange
@@ -260,7 +260,7 @@ object formConfigTrayslate: TformConfigTrayslate
             Left = 123
             Height = 23
             Top = 344
-            Width = 390
+            Width = 373
             Anchors = [akTop, akLeft, akRight]
             TabOrder = 5
             OnChange = ValueChange
@@ -278,7 +278,7 @@ object formConfigTrayslate: TformConfigTrayslate
             Left = 123
             Height = 64
             Top = 272
-            Width = 390
+            Width = 373
             Anchors = [akTop, akLeft, akRight]
             ScrollBars = ssVertical
             TabOrder = 4
@@ -289,7 +289,7 @@ object formConfigTrayslate: TformConfigTrayslate
             Left = 8
             Height = 30
             Top = 200
-            Width = 502
+            Width = 485
             Anchors = [akTop, akLeft, akRight]
             Caption = 'Use parameters: {text} – input text, {source} – source language, {target} – target language. Prefix the name with ! for lowercase or ^ for uppercase value.'
             Color = clInfoBk
@@ -310,7 +310,7 @@ object formConfigTrayslate: TformConfigTrayslate
             Left = 123
             Height = 100
             Top = 376
-            Width = 390
+            Width = 373
             Anchors = [akTop, akLeft, akRight]
             ScrollBars = ssVertical
             TabOrder = 6
@@ -321,7 +321,7 @@ object formConfigTrayslate: TformConfigTrayslate
             Left = 123
             Height = 23
             Top = 488
-            Width = 390
+            Width = 373
             Anchors = [akTop, akLeft, akRight]
             TabOrder = 7
             OnChange = ValueChange
@@ -348,7 +348,7 @@ object formConfigTrayslate: TformConfigTrayslate
             Left = 120
             Height = 100
             Top = 88
-            Width = 390
+            Width = 373
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Top = 45
             BorderSpacing.Right = 15
@@ -371,7 +371,7 @@ object formConfigTrayslate: TformConfigTrayslate
             Left = 8
             Height = 15
             Top = 64
-            Width = 502
+            Width = 485
             Anchors = [akTop, akLeft, akRight]
             Caption = 'Additional request headers in key=value format, key: value is also supported'
             Color = clInfoBk
@@ -379,7 +379,7 @@ object formConfigTrayslate: TformConfigTrayslate
             Transparent = False
           end
           object BtnUrlTest: TSpeedButton
-            Left = 512
+            Left = 495
             Height = 22
             Hint = 'Execute get request and view the result'
             Top = 272
@@ -427,7 +427,7 @@ object formConfigTrayslate: TformConfigTrayslate
             OnClick = BtnUrlTestClick
           end
           object BtnPostDataTest: TSpeedButton
-            Left = 512
+            Left = 495
             Height = 22
             Hint = 'Execute post request and view the result'
             Top = 376
@@ -477,14 +477,14 @@ object formConfigTrayslate: TformConfigTrayslate
         end
         object GroupBoxService: TGroupBox
           Left = 5
-          Height = 49
+          Height = 83
           Top = 5
-          Width = 539
+          Width = 522
           Align = alTop
           BorderSpacing.Around = 5
           Caption = 'Service'
-          ClientHeight = 29
-          ClientWidth = 535
+          ClientHeight = 63
+          ClientWidth = 518
           ParentBackground = False
           TabOrder = 0
           object LabelServiceName: TLabel
@@ -500,9 +500,18 @@ object formConfigTrayslate: TformConfigTrayslate
             Left = 120
             Height = 23
             Top = 0
-            Width = 390
+            Width = 373
             Anchors = [akTop, akLeft, akRight]
             TabOrder = 0
+            OnChange = ValueChange
+          end
+          object CheckAutoSwap: TCheckBox
+            Left = 120
+            Height = 19
+            Top = 32
+            Width = 151
+            Caption = 'Auto-swap language pair'
+            TabOrder = 1
             OnChange = ValueChange
           end
         end

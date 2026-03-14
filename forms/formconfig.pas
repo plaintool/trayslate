@@ -41,6 +41,7 @@ type
     BtnSave: TButton;
     BtnPostDataTest: TSpeedButton;
     CheckEncryptText: TCheckBox;
+    CheckAutoSwap: TCheckBox;
     ComboMethod: TComboBox;
     ComboConfig: TComboBox;
     ComboResponseParser: TComboBox;
@@ -411,6 +412,7 @@ begin
   with formTrayslate.Trans do
   begin
     EditServiceName.Text := ServiceName;
+    CheckAutoSwap.Checked := AutoSwap;
     if WebMethod = wmGet then
       ComboMethod.ItemIndex := 0
     else
@@ -446,6 +448,7 @@ begin
   with formTrayslate.Trans do
   begin
     ServiceName := string.Empty;
+    AutoSwap := False;
     WebMethod := wmGet;
     UserAgent := string.Empty;
     Headers.Clear;
@@ -468,6 +471,7 @@ begin
 
     // Clear controls
     EditServiceName.Text := string.Empty;
+    CheckAutoSwap.Checked := False;
     ComboMethod.ItemIndex := 0;
     EditUserAgent.Text := string.Empty;
     EditContentType.Text := string.Empty;
@@ -502,6 +506,7 @@ begin
     with formTrayslate.Trans do
     begin
       ServiceName := EditServiceName.Text;
+      AutoSwap := CheckAutoSwap.Checked;
       if ComboMethod.ItemIndex = 0 then
         WebMethod := wmGet
       else
