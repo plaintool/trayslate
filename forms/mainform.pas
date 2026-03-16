@@ -1064,7 +1064,7 @@ begin
     begin
       // if system language in lists
       if (((FLanguagesTarget.Count > 0) and (FindInStringList(FLanguagesTarget, '(' + Language + ')') >= 0)) or
-        (FindInStringList(FLanguages, '(' + Language + ')') >= 0)) then
+        ((FLanguagesTarget.Count = 0) and (FindInStringList(FLanguages, '(' + Language + ')') >= 0))) then
       begin
         FTrans.LangTarget := Language; // Default system language
         FLangTarget := Language;
