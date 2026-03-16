@@ -389,7 +389,7 @@ end;
 
 procedure TformTrayslate.FormDestroy(Sender: TObject);
 begin
-  if Assigned(formConfigTrayslate) then
+  if Assigned(formConfigTrayslate) and formConfigTrayslate.HandleAllocated then
     FreeAndNil(formConfigTrayslate);
   {$IFDEF WINDOWS}
   UnregisterHotKeys;
@@ -493,7 +493,7 @@ end;
 procedure TformTrayslate.ApplicationOnActivate(Sender: TObject);
 begin
   FTopMost := True;
-  if Assigned(formConfigTrayslate) then
+  if Assigned(formConfigTrayslate) and formConfigTrayslate.HandleAllocated then
     formConfigTrayslate.Invalidate;
 end;
 
@@ -509,7 +509,7 @@ end;
 
 procedure TformTrayslate.ScreenActiveFormChanged(Sender: TObject);
 begin
-  if Assigned(formConfigTrayslate) and (Screen.ActiveForm = formConfigTrayslate) then
+  if Assigned(formConfigTrayslate) and formConfigTrayslate.HandleAllocated and (Screen.ActiveForm = formConfigTrayslate) then
     formConfigTrayslate.Invalidate;
 end;
 
@@ -923,7 +923,8 @@ procedure TFormTrayslate.MenuConfigItemClick(Sender: TObject);
 var
   Item: TMenuItem;
 begin
-  if (Assigned(formConfigTrayslate)) and (formConfigTrayslate.Showing) and (not formConfigTrayslate.TestChanges) then
+  if (Assigned(formConfigTrayslate)) and formConfigTrayslate.HandleAllocated and formConfigTrayslate.Showing and
+    (not formConfigTrayslate.TestChanges) then
     Exit;
 
   Item := TMenuItem(Sender);
@@ -932,7 +933,7 @@ begin
   FConfigFile := FConfigFiles[Item.Tag];
   LoadConfig(False);
 
-  if (Assigned(formConfigTrayslate)) and (formConfigTrayslate.Showing) then
+  if (Assigned(formConfigTrayslate)) and formConfigTrayslate.HandleAllocated and (formConfigTrayslate.Showing) then
   begin
     formConfigTrayslate.UpdateConfigList;
     formConfigTrayslate.UpdateConfig;
