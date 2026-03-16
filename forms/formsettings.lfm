@@ -16,11 +16,11 @@ object formSettingsTrayslate: TformSettingsTrayslate
     Height = 465
     Top = 5
     Width = 400
-    ActivePage = PageGeneral
+    ActivePage = PageInterface
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
-    TabIndex = 0
+    TabIndex = 1
     TabOrder = 0
     object PageGeneral: TTabSheet
       Caption = 'General'
@@ -282,12 +282,12 @@ object formSettingsTrayslate: TformSettingsTrayslate
       end
       object GroupLangPairs: TGroupBox
         Left = 0
-        Height = 59
+        Height = 91
         Top = 269
         Width = 392
         Align = alTop
         Caption = 'Recent Language Pairs'
-        ClientHeight = 39
+        ClientHeight = 71
         ClientWidth = 388
         TabOrder = 2
         object SpinMaxLangPairs: TSpinEdit
@@ -308,6 +308,18 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Alignment = taRightJustify
           AutoSize = False
           Caption = 'Max Pairs'
+        end
+        object CheckAutoAddLangPairs: TCheckBox
+          Left = 29
+          Height = 19
+          Hint = 'Automatically adds a new language pair when you switch languages'
+          Top = 40
+          Width = 151
+          Caption = 'Auto-add on pair change'
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 1
+          OnChange = SettingChange
         end
       end
     end

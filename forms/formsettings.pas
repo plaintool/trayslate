@@ -42,6 +42,7 @@ type
     CheckAutoSwap: TCheckBox;
     CheckTwoLang: TCheckBox;
     CheckAutostart: TCheckBox;
+    CheckAutoAddLangPairs: TCheckBox;
     ColorIconBackground: TColorBox;
     ColorIconFont: TColorBox;
     ColorDialog: TColorDialog;
@@ -103,6 +104,7 @@ type
     FOriginalIconFontName: string;
     FOriginalIconTwoLang: boolean;
     FOriginalMaxLangPairs: integer;
+    FOriginalAutoAddLangPairs: boolean;
     FOriginalRealTime: boolean;
     FOriginalRealTimeDelay: integer;
     FOriginalAutoSwap: boolean;
@@ -423,6 +425,7 @@ procedure TformSettingsTrayslate.Apply;
 begin
   formTrayslate.AutoStart := CheckAutostart.Checked;
   formTrayslate.MaxLangPairs := SpinMaxLangPairs.Value;
+  formTrayslate.AutoAddLangPairs := CheckAutoAddLangPairs.Checked;
   formTrayslate.RealTime := CheckRealTime.Checked;
   formTrayslate.RealTimeDelay := SpinRealTimeDelay.Value;
   formTrayslate.AutoSwap := CheckAutoSwap.Checked;
@@ -455,6 +458,7 @@ procedure TformSettingsTrayslate.Reset;
 begin
   FOriginalAutoStart := formTrayslate.AutoStart;
   FOriginalMaxLangPairs := formTrayslate.MaxLangPairs;
+  FOriginalAutoAddLangPairs := formTrayslate.AutoAddLangPairs;
   FOriginalRealTime := formTrayslate.RealTime;
   FOriginalRealTimeDelay := formTrayslate.RealTimeDelay;
   FOriginalAutoSwap := formTrayslate.AutoSwap;
@@ -479,6 +483,7 @@ begin
 
   CheckAutostart.Checked := FOriginalAutoStart;
   SpinMaxLangPairs.Value := FOriginalMaxLangPairs;
+  CheckAutoAddLangPairs.Checked := FOriginalAutoAddLangPairs;
   CheckRealTime.Checked := FOriginalRealTime;
   SpinRealTimeDelay.Value := FOriginalRealTimeDelay;
   CheckAutoSwap.Checked := FOriginalAutoSwap;

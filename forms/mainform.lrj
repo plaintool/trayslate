@@ -13,5 +13,6 @@
 {"hash":23856387,"name":"tformtrayslate.acheckforupdates.caption","sourcebytes":[67,104,101,99,107,32,70,111,114,32,85,112,100,97,116,101,115],"value":"Check For Updates"},
 {"hash":158102910,"name":"tformtrayslate.aabout.caption","sourcebytes":[65,98,111,117,116,46,46,46],"value":"About..."},
 {"hash":315140,"name":"tformtrayslate.aexit.caption","sourcebytes":[69,120,105,116],"value":"Exit"},
-{"hash":76641141,"name":"tformtrayslate.anewtranslate.hint","sourcebytes":[78,101,119,32,84,114,97,110,115,108,97,116,101],"value":"New Translate"}
+{"hash":76641141,"name":"tformtrayslate.anewtranslate.hint","sourcebytes":[78,101,119,32,84,114,97,110,115,108,97,116,101],"value":"New Translate"},
+{"hash":30246626,"name":"tformtrayslate.aaddpair.hint","sourcebytes":[65,100,100,32,67,117,114,114,101,110,116,32,80,97,105,114],"value":"Add Current Pair"}
 ]}

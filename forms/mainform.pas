@@ -44,6 +44,7 @@ type
     aAbout: TAction;
     aConfigEditor: TAction;
     aCheckForUpdates: TAction;
+    aAddPair: TAction;
     aNewTranslate: TAction;
     aSettings: TAction;
     aTranslateClipboard: TAction;
@@ -73,6 +74,7 @@ type
     PanelLang: TPanel;
     PopupTray: TPopupMenu;
     SbNewTranslate: TSpeedButton;
+    SbAddPair: TSpeedButton;
     Separator1: TMenuItem;
     Separator2: TMenuItem;
     SbSwap: TSpeedButton;
@@ -84,6 +86,7 @@ type
     TimerClick: TTimer;
     TimerActive: TTimer;
     TrayIcon: TTrayIcon;
+    procedure aAddPairExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -153,6 +156,7 @@ type
     FLangSource: string;
     FLangTarget: string;
     FMaxLangPairs: integer;
+    FAutoAddLangPairs: boolean;
     FRealTime: boolean;
     FRealTimeDelay: integer;
     FAutoSwap: boolean;
@@ -229,6 +233,7 @@ type
     property LangTarget: string read FLangTarget write FLangTarget;
     property LangPairs: TStringList read FLangPairs write FLangPairs;
     property MaxLangPairs: integer read FMaxLangPairs write FMaxLangPairs;
+    property AutoAddLangPairs: boolean read FAutoAddLangPairs write FAutoAddLangPairs;
     property RealTime: boolean read FRealTime write FRealTime;
     property RealTimeDelay: integer read FRealTimeDelay write FRealTimeDelay;
     property AutoSwap: boolean read FAutoSwap write FAutoSwap;
@@ -280,6 +285,7 @@ begin
   FIconFontName := DEF_FONT;
   FIconTwoLang := True;
   FMaxLangPairs := 10;
+  FAutoAddLangPairs := True;
   FRealTime := False;
   FRealTimeDelay := 1000;
   FAutoSwap := False;
@@ -324,6 +330,7 @@ begin
   FlowPairs.Hint := MIDDLE_MOUSE + rtoremovepair;
   SbSwap.ImageIndex := ThemeValue(0, 1);
   SbTranslate.ImageIndex := ThemeValue(2, 3);
+  SbAddPair.ImageIndex := ThemeValue(4, 5);
   FLeftButton := True;
 
   FTrans := TTranslate.Create;
@@ -573,6 +580,12 @@ procedure TformTrayslate.aSwapExecute(Sender: TObject);
 begin
   if SwapLanguages then
     TranslateMemo(False);
+end;
+
+procedure TformTrayslate.aAddPairExecute(Sender: TObject);
+begin
+  AddLangPair(FLangSource + ':' + FLangTarget);
+  Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
 end;
 
 procedure TformTrayslate.aCheckForUpdatesExecute(Sender: TObject);
@@ -1559,7 +1572,8 @@ begin
   begin
     FLangSource := NewLang;
 
-    if (AddPairs) and (FLangSource <> string.Empty) and (FLangTarget <> string.Empty) and (FLangSource <> FLangTarget) then
+    if (FAutoAddLangPairs) and (AddPairs) and (FLangSource <> string.Empty) and (FLangTarget <> string.Empty) and
+      (FLangSource <> FLangTarget) then
     begin
       AddLangPair(FLangSource + ':' + FLangTarget);
       Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
@@ -1597,7 +1611,8 @@ begin
   begin
     FLangTarget := NewLang;
 
-    if (AddPairs) and (FLangSource <> string.Empty) and (FLangTarget <> string.Empty) and (FLangSource <> FLangTarget) then
+    if (FAutoAddLangPairs) and (AddPairs) and (FLangSource <> string.Empty) and (FLangTarget <> string.Empty) and
+      (FLangSource <> FLangTarget) then
     begin
       AddLangPair(FLangSource + ':' + FLangTarget);
       Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);

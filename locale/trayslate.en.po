@@ -443,6 +443,14 @@ msgctxt "tformsettingstrayslate.caption"
 msgid "Settings"
 msgstr ""
 
+#: tformsettingstrayslate.checkautoaddlangpairs.caption
+msgid "Auto-add on pair change"
+msgstr ""
+
+#: tformsettingstrayslate.checkautoaddlangpairs.hint
+msgid "Automatically adds a new language pair when you switch languages"
+msgstr ""
+
 #: tformsettingstrayslate.checkautostart.caption
 msgid "Launch at system startup"
 msgstr ""
@@ -639,6 +647,10 @@ msgstr ""
 
 #: tformtrayslate.aabout.caption
 msgid "About..."
+msgstr ""
+
+#: tformtrayslate.aaddpair.hint
+msgid "Add Current Pair"
 msgstr ""
 
 #: tformtrayslate.acheckforupdates.caption
