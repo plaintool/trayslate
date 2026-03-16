@@ -143,6 +143,7 @@ type
     FPrevSourceText: string;
     FPrevTargetText: string;
     FLangPairs: TStringList;
+    FTranslateThread: TTranslateThread;
 
     // Non sorted combo named languages
     FLanguages: TStringList;
@@ -296,6 +297,7 @@ begin
   FFormConfigWidth := 0;
   FFormConfigHeight := 0;
   FLastEnterTime := 0;
+  FTranslateThread := nil;
 
   // HotKeys Initialize
   // Ctrl+Shift+A
@@ -1342,30 +1344,33 @@ end;
 {$ENDIF}
 
 function TformTrayslate.TranslateThread(ATrans: TTranslate; AText: string; AMemo: TMemo = nil): string;
-var
-  Th: TTranslateThread;
 begin
   Result := string.Empty;
   try
     if (LangSource = string.Empty) or (LangTarget = string.Empty) then Exit;
 
+    // Cancel old translation
+    if Assigned(FTranslateThread) then
+      FTranslateThread.Cancel;
+
     // Create translation thread (it will handle exceptions itself)
     ATrans.TextToTranslate := AText;
-    Th := TTranslateThread.Create(ATrans, AMemo, TimerAnimate);
+    FTranslateThread := TTranslateThread.Create(ATrans, AMemo, TimerAnimate, Assigned(AMemo));
     if not Assigned(AMemo) then
     begin
       try
-        Th.FreeOnTerminate := False;
-
         // Wait for thread to finish
-        while not Th.Finished do
+        while not FTranslateThread.Finished do
+        begin
           Application.ProcessMessages;
+          Sleep(1); // reduce CPU usage
+        end;
 
         // Set translated text to clipboard
-        if Th.ResultTextSync <> string.Empty then
-          Result := Th.ResultTextSync;
+        if FTranslateThread.ResultTextSync <> string.Empty then
+          Result := FTranslateThread.ResultTextSync;
       finally
-        Th.Free;
+        FTranslateThread.Free;
       end;
     end;
   finally

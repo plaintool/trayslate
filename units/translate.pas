@@ -115,11 +115,14 @@ type
     FResultText: string;
     FResultTextSync: string;
     FException: Exception;
+    FCancelled: boolean;
   protected
     procedure Execute; override;
-    procedure UpdateUI;
+    procedure BeforeExecute;
+    procedure AfterExecute;
   public
-    constructor Create(ATrans: TTranslate; AMemo: TMemo = nil; ATimer: TTimer = nil);
+    constructor Create(ATrans: TTranslate; AMemo: TMemo = nil; ATimer: TTimer = nil; AFreeOnTerminate: boolean = True);
+    procedure Cancel;
     property ExceptionObj: Exception read FException;
     property ResultText: string read FResultText;
     property ResultTextSync: string read FResultTextSync;
@@ -527,22 +530,17 @@ end;
 
 { TTranslateThread }
 
-constructor TTranslateThread.Create(ATrans: TTranslate; AMemo: TMemo = nil; ATimer: TTimer = nil);
+constructor TTranslateThread.Create(ATrans: TTranslate; AMemo: TMemo = nil; ATimer: TTimer = nil; AFreeOnTerminate: boolean = True);
 begin
   inherited Create(True);
-  FreeOnTerminate := True;
+  FreeOnTerminate := AFreeOnTerminate;
 
   FTrans := ATrans;
   FMemo := AMemo;
   FTimer := ATimer;
   FSourceText := FTrans.TextToTranslate;
-
-  if Assigned(AMemo) then
-    Screen.Cursor := crAppStart;
-
-  if Assigned(ATimer) then
-    ATimer.Enabled := True;
-
+  FCancelled := False;
+  BeforeExecute;
   Start;
 end;
 
@@ -559,14 +557,31 @@ begin
         FException := Exception.Create(E.Message);
     end;
   finally
-    // Call UpdateUI in main thread to handle exceptions
-    Synchronize(@UpdateUI);
+    // Call AfterExecute in main thread to handle exceptions
+    Synchronize(@AfterExecute);
   end;
 end;
 
-procedure TTranslateThread.UpdateUI;
+procedure TTranslateThread.Cancel;
+begin
+  FreeOnTerminate := True;
+  FCancelled := True;
+end;
+
+procedure TTranslateThread.BeforeExecute;
+begin
+  if Assigned(FMemo) then
+    Screen.Cursor := crAppStart;
+
+  if Assigned(FTimer) then
+    FTimer.Enabled := True;
+end;
+
+procedure TTranslateThread.AfterExecute;
 begin
   try
+    if FCancelled then Exit; // check if cancelled
+
     // Handle exception in main thread if occurred
     if Assigned(FException) then
     begin

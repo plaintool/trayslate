@@ -135,7 +135,7 @@ begin
     JSONObj.Add('FontSize', Form.Font.Size);
     JSONObj.Add('FontStyle', integer(Form.Font.Style));  // Convert font style to number
     JSONObj.Add('FontCharset', Form.Font.Charset);
-    JSONObj.Add('FontColor', Form.Font.Color);
+    //JSONObj.Add('FontColor', Form.Font.Color);
     JSONObj.Add('FontPitch', Ord(Form.Font.Pitch));
 
     // Save config
@@ -270,8 +270,8 @@ begin
         Form.Font.Style := TFontStyles(JSONObj.FindPath('FontStyle').AsInteger); // Convert integer back to TFontStyles
       if JSONObj.FindPath('FontCharset') <> nil then
         Form.Font.Charset := JSONObj.FindPath('FontCharset').AsInteger;
-      if JSONObj.FindPath('FontColor') <> nil then
-        Form.Font.Color := JSONObj.FindPath('FontColor').AsInteger;
+      //if JSONObj.FindPath('FontColor') <> nil then
+      //  Form.Font.Color := JSONObj.FindPath('FontColor').AsInteger;
       if JSONObj.FindPath('FontPitch') <> nil then
         Form.Font.Pitch := TFontPitch(JSONObj.FindPath('FontPitch').AsInteger);
 

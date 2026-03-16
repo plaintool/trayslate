@@ -142,12 +142,16 @@ uses mainform, formattool;
   { TformSettingsTrayslate }
 
 procedure TformSettingsTrayslate.FormCreate(Sender: TObject);
+var
+  i: integer;
 begin
   PagesSettings.PageIndex := 0;
   BtnCancel.Cancel := True;
   BtnReset.Enabled := True;
 
-  ComboLangDetect.Items.Assign(formTrayslate.ConfigFileTitles);
+  ComboLangDetect.Items.Clear;
+  for i := 0 to formTrayslate.ConfigFileTitles.Count - 1 do
+    ComboLangDetect.Items.Add(formTrayslate.ConfigFileTitles.ValueFromIndex[i]);
   ComboLangDetect.ItemIndex := formTrayslate.ConfigFiles.IndexOf(formTrayslate.ConfigLangDetect);
 
   AddTrayColors(ColorIconBackground);
