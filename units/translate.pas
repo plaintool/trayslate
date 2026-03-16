@@ -37,6 +37,7 @@ type
     FTextToTranslate: string;
 
     FServiceName: string;
+    FServiceOrder: integer;
     FAutoSwap: boolean;
     FWebMethod: TWebMethod;
     FUserAgent: string;
@@ -81,6 +82,7 @@ type
     property ParameterValues: TStringList read FParameterValues write FParameterValues;
 
     property ServiceName: string read FServiceName write FServiceName;
+    property ServiceOrder: integer read FServiceOrder write FServiceOrder;
     property AutoSwap: boolean read FAutoSwap write FAutoSwap;
     property WebMethod: TWebMethod read FWebMethod write FWebMethod;
     property UserAgent: string read FUserAgent write FUserAgent;

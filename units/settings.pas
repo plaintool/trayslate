@@ -23,6 +23,14 @@ uses
   mainform,
   translate;
 
+type
+  PConfigData = ^TConfigData;
+  TConfigData = record
+    Order: Integer;
+    PathOnly: string;
+    Name: string;
+  end;
+
 function GetSettingsDirectory(fileName: string = string.Empty): string;
 
 function GetIniDirectory(fileName: string = string.Empty): string;
@@ -38,6 +46,8 @@ procedure LoadIniSettings(Translate: TTranslate; AFileName: string);
 procedure GetIniFiles(List: TStrings);
 
 function GetConfigFullPath(const ConfigName: string; ConfigFiles: TStringList): string;
+
+function ConfigSortByOrderPathName(List: TStringList; Index1, Index2: Integer): Integer;
 
 implementation
 
@@ -390,7 +400,7 @@ begin
     Ini.DeleteKey('Service', 'Name');
     if Trim(Translate.ServiceName) <> string.Empty then
       Ini.WriteString('Service', 'Name', Translate.ServiceName);
-
+    Ini.WriteInteger('Service', 'Order', Translate.ServiceOrder);
     Ini.WriteBool('Service', 'AutoSwapLanguage', Translate.AutoSwap);
 
     // determine method string based on UsePost property
@@ -508,6 +518,7 @@ begin
   Ini := TIniFile.Create(AFileName);
   try
     Translate.ServiceName := Ini.ReadString('Service', 'Name', string.Empty);
+    Translate.ServiceOrder := Ini.ReadInteger('Service', 'Order', 0);
     Translate.AutoSwap := Ini.ReadBool('Service', 'AutoSwapLanguage', False);
 
     Method := Ini.ReadString('Request', 'Method', 'GET');
@@ -660,6 +671,34 @@ begin
     end;
   end;
   // If not found, Result remains empty
+end;
+
+function ConfigSortByOrderPathName(List: TStringList; Index1, Index2: Integer): Integer;
+var
+  Data1, Data2: PConfigData;
+  Ord1, Ord2: Integer;
+begin
+  Data1 := PConfigData(List.Objects[Index1]);
+  Data2 := PConfigData(List.Objects[Index2]);
+
+  // Treat Order=0 as "largest" to push it to the bottom
+  if Data1^.Order = 0 then
+    Ord1 := MaxInt
+  else
+    Ord1 := Data1^.Order;
+
+  if Data2^.Order = 0 then
+    Ord2 := MaxInt
+  else
+    Ord2 := Data2^.Order;
+
+  Result := Ord1 - Ord2; // primary sort
+  if Result = 0 then
+  begin
+    Result := CompareText(Data1^.PathOnly, Data2^.PathOnly); // secondary sort
+    if Result = 0 then
+      Result := CompareText(Data1^.Name, Data2^.Name); // tertiary sort
+  end;
 end;
 
 end.

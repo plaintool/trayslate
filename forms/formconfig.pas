@@ -76,6 +76,7 @@ type
     LabelInitParameters2: TLabel;
     LabelInitHeaders2: TLabel;
     LabelInitUrl: TLabel;
+    LabelServiceOrder: TLabel;
     LabelUserAgent: TLabel;
     LabelContentType: TLabel;
     LabelUrl: TLabel;
@@ -106,6 +107,7 @@ type
     BtnInitUrlTest: TSpeedButton;
     SpinInitLiveTime: TSpinEdit;
     PageResponse: TTabSheet;
+    SpinServiceOrder: TSpinEdit;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -412,6 +414,7 @@ begin
   with formTrayslate.Trans do
   begin
     EditServiceName.Text := ServiceName;
+    SpinServiceOrder.Value := ServiceOrder;
     CheckAutoSwap.Checked := AutoSwap;
     if WebMethod = wmGet then
       ComboMethod.ItemIndex := 0
@@ -448,6 +451,7 @@ begin
   with formTrayslate.Trans do
   begin
     ServiceName := string.Empty;
+    ServiceOrder := 0;
     AutoSwap := False;
     WebMethod := wmGet;
     UserAgent := string.Empty;
@@ -471,6 +475,7 @@ begin
 
     // Clear controls
     EditServiceName.Text := string.Empty;
+    SpinServiceOrder.Value := 0;
     CheckAutoSwap.Checked := False;
     ComboMethod.ItemIndex := 0;
     EditUserAgent.Text := string.Empty;
@@ -506,6 +511,7 @@ begin
     with formTrayslate.Trans do
     begin
       ServiceName := EditServiceName.Text;
+      ServiceOrder := SpinServiceOrder.Value;
       AutoSwap := CheckAutoSwap.Checked;
       if ComboMethod.ItemIndex = 0 then
         WebMethod := wmGet
@@ -547,6 +553,7 @@ begin
     aSave.Enabled := False;
     formTrayslate.LoadConfig;
     formTrayslate.BuildConfigMenu;
+    UpdateConfigList;
   finally
     Screen.Cursor := crDefault;
     Caption := rcaption;

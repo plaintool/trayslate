@@ -1086,47 +1086,76 @@ procedure TFormTrayslate.BuildConfigMenu;
 var
   i: integer;
   Item: TMenuItem;
-  FileName, FullPath, ServiceName: string;
+  FileName, ServiceName, FilePath: string;
   Ini: TIniFile;
+  SL: TStringList;
+  Data: PConfigData;
 begin
   MenuConfig.Clear;
   MenuConfig.Visible := FConfigFiles.Count > 0;
 
-  for i := 0 to FConfigFiles.Count - 1 do
-  begin
-    FullPath := FConfigFiles[i];
-    FileName := ExtractFileName(FullPath);
-    ServiceName := '';
-
-    // Try read [Service] Name from ini
-    if FileExists(FullPath) then
+  SL := TStringList.Create;
+  try
+    for i := 0 to FConfigFiles.Count - 1 do
     begin
-      Ini := TIniFile.Create(FullPath);
-      try
-        ServiceName := Trim(Ini.ReadString('Service', 'Name', ''));
-      finally
-        Ini.Free;
-      end;
+      New(Data);
+
+      FilePath := FConfigFiles[i];
+      FileName := ExtractFileName(FilePath);
+      ServiceName := '';
+
+      if FileExists(FilePath) then
+      begin
+        Ini := TIniFile.Create(FilePath);
+        try
+          ServiceName := Trim(Ini.ReadString('Service', 'Name', string.Empty));
+          Data^.Order := Ini.ReadInteger('Service', 'Order', 0);
+        finally
+          Ini.Free;
+        end;
+      end
+      else
+        Data^.Order := 0;
+
+      Data^.Name := ServiceName;
+      Data^.PathOnly := ExtractFilePath(FilePath); // second level of sorting
+      SL.AddObject(FilePath, TObject(Data));
     end;
 
-    FConfigFileTitles.Add(FullPath + '=' + ServiceName);
+    SL.CustomSort(@ConfigSortByOrderPathName);
 
-    Item := TMenuItem.Create(MenuConfig);
+    // Update FConfigFiles in a new order
+    FConfigFiles.Clear;
+    for i := 0 to SL.Count - 1 do
+      FConfigFiles.Add(SL[i]);
 
-    // Use Service Name if exists, otherwise file name
-    if ServiceName <> '' then
-      Item.Caption := ServiceName
-    else
-      Item.Caption := FileName;
+    // Build menu
+    for i := 0 to SL.Count - 1 do
+    begin
+      Data := PConfigData(SL.Objects[i]);
+      FileName := ExtractFileName(SL[i]);
+      ServiceName := Data^.Name;
 
-    Item.Hint := FullPath;
-    Item.Tag := i;
-    Item.OnClick := @MenuConfigItemClick;
+      FConfigFileTitles.Add(SL[i] + '=' + ServiceName);
 
-    // Check the current config
-    Item.Checked := SameText(FConfigFiles[i], FConfigFile);
+      Item := TMenuItem.Create(MenuConfig);
+      if ServiceName <> '' then
+        Item.Caption := ServiceName
+      else
+        Item.Caption := FileName;
 
-    MenuConfig.Add(Item);
+      Item.Hint := SL[i];
+      Item.Tag := i;
+      Item.OnClick := @MenuConfigItemClick;
+      Item.Checked := SameText(SL[i], FConfigFile);
+
+      MenuConfig.Add(Item);
+
+      Dispose(Data);
+      SL.Objects[i] := nil;
+    end;
+  finally
+    SL.Free;
   end;
 end;
 
