@@ -51,14 +51,15 @@
 							<File Id="CONFIG1" Name="google-get-apis.ini" Source="..\config\google-get-apis.ini" />
 							<File Id="CONFIG2" Name="google-get-clients5.ini" Source="..\config\google-get-clients5.ini" />
 							<File Id="CONFIG3" Name="google-post.ini" Source="..\config\google-post.ini" />
-							<File Id="CONFIG4" Name="microsofttranslator.ini" Source="..\config\microsofttranslator.ini" />
-							<File Id="CONFIG5" Name="mymemory.ini" Source="..\config\mymemory.ini" />
-							<File Id="CONFIG6" Name="simplytranslate-google.ini" Source="..\config\simplytranslate-google.ini" />
-							<File Id="CONFIG7" Name="papago.ini" Source="..\config\papago.ini" />
-							<File Id="CONFIG8" Name="languagedetect.ini" Source="..\config\languagedetect.ini" />
-							<File Id="CONFIG9" Name="wiktionary.ini" Source="..\config\wiktionary.ini" />
-							<File Id="CONFIG10" Name="marketshost.ini" Source="..\config\marketshost.ini" />
-							<File Id="CONFIG11" Name="coinconvert.ini" Source="..\config\coinconvert.ini" />
+							<File Id="CONFIG4" Name="google-get-dictionary.ini" Source="..\config\google-get-dictionary.ini" />
+							<File Id="CONFIG5" Name="microsofttranslator.ini" Source="..\config\microsofttranslator.ini" />
+							<File Id="CONFIG6" Name="mymemory.ini" Source="..\config\mymemory.ini" />
+							<File Id="CONFIG7" Name="simplytranslate-google.ini" Source="..\config\simplytranslate-google.ini" />
+							<File Id="CONFIG8" Name="papago.ini" Source="..\config\papago.ini" />
+							<File Id="CONFIG9" Name="languagedetect.ini" Source="..\config\languagedetect.ini" />
+							<File Id="CONFIG10" Name="wiktionary.ini" Source="..\config\wiktionary.ini" />
+							<File Id="CONFIG11" Name="marketshost.ini" Source="..\config\marketshost.ini" />
+							<File Id="CONFIG12" Name="coinconvert.ini" Source="..\config\coinconvert.ini" />
 							<!-- Registry KeyPath to satisfy ICE38 -->
 							<RegistryValue Root="HKLM" Key="Software\Alexander Tverskoy\Trayslate" Name="ConfigPath" Type="string" Value="[CONFIGDIR]" KeyPath="yes" />
 						</Component>
