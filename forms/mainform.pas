@@ -957,6 +957,8 @@ begin
   try
     TrayIcon.Icon.Assign(Bitmap);
     TrayIcon.Visible := True;
+
+    TrayIcon.Hint := rtrayslate + ' - ' + ComboSource.Text + ' : ' + ComboTarget.Text;
   finally
     Bitmap.Free;
   end;
