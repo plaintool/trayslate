@@ -152,6 +152,7 @@ begin
     JSONObj.Add('RealTime', Form.RealTime);
     JSONObj.Add('RealTimeDelay', Form.RealTimeDelay);
     JSONObj.Add('AutoSwap', Form.AutoSwap);
+    JSONObj.Add('AutoAddLangPairs', Form.AutoAddLangPairs);
 
     // Save hotkeys
     JSONObj.Add('HotKeyApp_Modifiers', Form.HotKeyApp.Modifiers);
@@ -314,6 +315,9 @@ begin
 
       if (JSONObj.FindPath('AutoSwap') <> nil) then
         Form.AutoSwap := JSONObj.FindPath('AutoSwap').AsBoolean;
+
+      if (JSONObj.FindPath('AutoAddLangPairs') <> nil) then
+        Form.AutoAddLangPairs := JSONObj.FindPath('AutoAddLangPairs').AsBoolean;
 
       // Load HotKeys
       // HotKeyApp
