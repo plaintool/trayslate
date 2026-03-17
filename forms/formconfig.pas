@@ -279,7 +279,7 @@ begin
     MemoLanguages.Clear;
   end;
 
-  List := GetLanguageCodePairList;
+  List := GetLanguageCodePairList(LANG_COUNT);
   try
     MemoLanguages.Lines.Assign(List);
   finally

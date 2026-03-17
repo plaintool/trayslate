@@ -47,6 +47,8 @@ const
 
   ICON_SIZE = 16;
 
+  LANG_COUNT = 259;
+
   DEF_FONT = 'Tahoma';
   DEF_NA = 'N/A';
 

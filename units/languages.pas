@@ -25,9 +25,9 @@ type
 const
   SpecialCodes: array[0..1] of string = ('auto', 'empty');
 
-function GetLanguages: TAppLanguageArray;
+function GetLanguages(ASort: boolean = True): TAppLanguageArray;
 
-function GetLanguageCodePairList: TStringList;
+function GetLanguageCodePairList(MaxCount: integer = -1): TStringList;
 
 function GetLanguageDisplayStrings: TStringList;
 
@@ -37,7 +37,7 @@ function ExtractCodeFromItem(const ItemText: string): string;
 
 implementation
 
-function GetLanguages: TAppLanguageArray;
+function GetLanguages(ASort: boolean = True): TAppLanguageArray;
 const
   Languages: array[0..558] of TAppLanguage = (
     // Languages
@@ -614,30 +614,41 @@ begin
   for i := 0 to High(Languages) do
     Result[i] := Languages[i];
 
-  for i := 1 to High(Result) do
+  if ASort then
   begin
-    Temp := Result[i];
-    j := i - 1;
-    while (j >= 1) and (Result[j].DisplayName > Temp.DisplayName) do
+    for i := 1 to High(Result) do
     begin
-      Result[j + 1] := Result[j];
-      Dec(j);
+      Temp := Result[i];
+      j := i - 1;
+      while (j >= 1) and (Result[j].DisplayName > Temp.DisplayName) do
+      begin
+        Result[j + 1] := Result[j];
+        Dec(j);
+      end;
+      Result[j + 1] := Temp;
     end;
-    Result[j + 1] := Temp;
   end;
 end;
 
-function GetLanguageCodePairList: TStringList;
+function GetLanguageCodePairList(MaxCount: integer = -1): TStringList;
 var
   Langs: array of TAppLanguage;
-  L: TAppLanguage;
+  i, Count: integer;
 begin
   Result := TStringList.Create;
   Result.TrailingLineBreak := False;
   try
-    Langs := GetLanguages;
-    for L in Langs do
-      Result.Add(L.Code + '=' + L.Code);
+    Langs := GetLanguages(False);
+
+    // Determine how many items to take
+    if (MaxCount < 0) or (MaxCount > Length(Langs)) then
+      Count := Length(Langs)
+    else
+      Count := MaxCount;
+
+    for i := 0 to Count - 1 do
+      Result.Add(Langs[i].Code + '=' + Langs[i].Code);
+
   except
     Result.Free;
     raise;
