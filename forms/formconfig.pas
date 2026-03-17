@@ -44,6 +44,7 @@ type
     CheckAutoSwap: TCheckBox;
     ComboMethod: TComboBox;
     ComboConfig: TComboBox;
+    ComboValueType: TComboBox;
     ComboResponseParser: TComboBox;
     EditAccept: TEdit;
     EditJsonPointer: TEdit;
@@ -62,12 +63,14 @@ type
     LabelInitHeaders: TLabel;
     LabelInitParameters: TLabel;
     LabelInitParameters1: TLabel;
+    LabelLanguages1: TLabel;
     LabelLanguagesTarget: TLabel;
     LabelFillLanguages: TLabel;
     LabelInitLiveTime: TLabel;
     LabelMethod: TLabel;
     LabelLanguages: TLabel;
     LabelInitParemeters: TLabel;
+    LabelValueType: TLabel;
     LabelParemeters2: TLabel;
     LabelHeaders: TLabel;
     LabelPostData: TLabel;
@@ -279,7 +282,7 @@ begin
     MemoLanguages.Clear;
   end;
 
-  List := GetLanguageCodePairList(LANG_COUNT);
+  List := GetLanguageCodePairList(TValueType(ComboValueType.ItemIndex));
   try
     MemoLanguages.Lines.Assign(List);
   finally
@@ -416,10 +419,7 @@ begin
     EditServiceName.Text := ServiceName;
     SpinServiceOrder.Value := ServiceOrder;
     CheckAutoSwap.Checked := AutoSwap;
-    if WebMethod = wmGet then
-      ComboMethod.ItemIndex := 0
-    else
-      ComboMethod.ItemIndex := 1;
+    ComboMethod.ItemIndex := Ord(WebMethod);
     EditUserAgent.Text := UserAgent;
     MemoHeaders.Lines.Assign(Headers);
     CheckEncryptText.Checked := EncryptText;
@@ -427,14 +427,12 @@ begin
     EditContentType.Text := ContentType;
     MemoPostData.Text := PostData;
     EditAccept.Text := Accept;
-    if ResponseParser = rpJson then
-      ComboResponseParser.ItemIndex := 0
-    else
-      ComboResponseParser.ItemIndex := 1;
+    ComboResponseParser.ItemIndex := Ord(ResponseParser);
     EditJsonPointer.Text := JsonPointer;
     EditRegexp.Text := Regexp;
     MemoLanguages.Lines.Assign(Languages);
     MemoLanguagesTarget.Lines.Assign(LanguagesTarget);
+    ComboValueType.ItemIndex := Ord(ValueType);
 
     EditInitUserAgent.Text := InitUserAgent;
     MemoInitHeaders.Lines.Assign(InitHeaders);
@@ -478,6 +476,7 @@ begin
     SpinServiceOrder.Value := 0;
     CheckAutoSwap.Checked := False;
     ComboMethod.ItemIndex := 0;
+    ComboValueType.ItemIndex := 0;
     EditUserAgent.Text := string.Empty;
     EditContentType.Text := string.Empty;
     MemoUrl.Clear;
@@ -513,10 +512,7 @@ begin
       ServiceName := EditServiceName.Text;
       ServiceOrder := SpinServiceOrder.Value;
       AutoSwap := CheckAutoSwap.Checked;
-      if ComboMethod.ItemIndex = 0 then
-        WebMethod := wmGet
-      else
-        WebMethod := wmPost;
+      WebMethod := TWebMethod(ComboMethod.ItemIndex);
       UserAgent := EditUserAgent.Text;
       EncryptText := CheckEncryptText.Checked;
       TempHeaders := HeadersFromMemo(MemoHeaders);
@@ -529,14 +525,12 @@ begin
       ContentType := EditContentType.Text;
       PostData := MemoPostData.Text;
       Accept := EditAccept.Text;
-      if ComboResponseParser.ItemIndex = 0 then
-        ResponseParser := rpJson
-      else
-        ResponseParser := rpRegEx;
+      ResponseParser := TResponseParser(ComboResponseParser.ItemIndex);
       JsonPointer := EditJsonPointer.Text;
       Regexp := EditRegexp.Text;
       Languages.Assign(MemoLanguages.Lines);
       LanguagesTarget.Assign(MemoLanguagesTarget.Lines);
+      ValueType := TValueType(ComboValueType.ItemIndex);
 
       InitUserAgent := EditInitUserAgent.Text;
       TempHeaders := HeadersFromMemo(MemoInitHeaders);

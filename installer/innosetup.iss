@@ -83,6 +83,7 @@ Source: "..\config\languagedetect.ini"; DestDir: "{app}\config"; Flags: ignoreve
 Source: "..\config\wiktionary.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\marketshost.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\coinconvert.ini"; DestDir: "{app}\config"; Flags: ignoreversion
+Source: "..\config\mathjs.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

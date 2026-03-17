@@ -28,6 +28,14 @@ uses
 type
   TWebMethod = (wmGet, wmPost);
   TResponseParser = (rpJson, rpRegEx);
+  TValueType = (
+    vtNone,            // as is
+    vtLanguage,        // languages
+    vtCurrencyAll,     // fiat + crypto
+    vtCurrencyFiat,    // fiat only
+    vtCurrencyCrypto,  // crypto only
+    vtUnit             // units of measure
+    );
 
   { TTranslate }
   TTranslate = class
@@ -52,6 +60,7 @@ type
     FRegexp: string;
     FLanguages: TStringList;
     FLanguagesTarget: TStringList;
+    FValueType: TValueType;
 
     FInitUserAgent: string;
     FInitHeaders: TStringList;
@@ -97,6 +106,7 @@ type
     property Regexp: string read FRegexp write FRegexp;
     property Languages: TStringList read FLanguages write FLanguages;
     property LanguagesTarget: TStringList read FLanguagesTarget write FLanguagesTarget;
+    property ValueType: TValueType read FValueType write FValueType;
 
     property InitUserAgent: string read FInitUserAgent write FInitUserAgent;
     property InitHeaders: TStringList read FInitHeaders write FInitHeaders;
@@ -158,6 +168,7 @@ begin
   FLanguages.TrailingLineBreak := False;
   FLanguagesTarget := TStringList.Create;
   FLanguagesTarget.TrailingLineBreak := False;
+  FValueType := vtLanguage;
 
   FInitUserAgent := 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:148.0) Gecko/20100101 Firefox/148.0';
   FInitHeaders := TStringList.Create;

@@ -140,6 +140,10 @@ msgctxt "tformconfigtrayslate.comboresponseparser.text"
 msgid "JSON"
 msgstr ""
 
+#: tformconfigtrayslate.combovaluetype.text
+msgid "None"
+msgstr ""
+
 #: tformconfigtrayslate.groupboxservice.caption
 msgctxt "tformconfigtrayslate.groupboxservice.caption"
 msgid "Service"
@@ -235,6 +239,10 @@ msgctxt "tformconfigtrayslate.labellanguages.caption"
 msgid "Supported languages e.g. en=en-US (en internal, en-US service). \"empty\" means do not send."
 msgstr ""
 
+#: tformconfigtrayslate.labellanguages1.caption
+msgid "Selects value type for names. If None, values remain unchanged."
+msgstr ""
+
 #: tformconfigtrayslate.labellanguagestarget.caption
 msgid ""
 "Target languages e.g. en=en-US, en - internal, en-US - service code.\n"
@@ -293,6 +301,10 @@ msgstr ""
 #: tformconfigtrayslate.labeluseragent.caption
 msgctxt "tformconfigtrayslate.labeluseragent.caption"
 msgid "User Agent"
+msgstr ""
+
+#: tformconfigtrayslate.labelvaluetype.caption
+msgid "Value Type"
 msgstr ""
 
 #: tformconfigtrayslate.pagelanguages.caption

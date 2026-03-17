@@ -60,6 +60,7 @@
 							<File Id="CONFIG10" Name="wiktionary.ini" Source="..\config\wiktionary.ini" />
 							<File Id="CONFIG11" Name="marketshost.ini" Source="..\config\marketshost.ini" />
 							<File Id="CONFIG12" Name="coinconvert.ini" Source="..\config\coinconvert.ini" />
+							<File Id="CONFIG13" Name="mathjs.ini" Source="..\config\mathjs.ini" />
 							<!-- Registry KeyPath to satisfy ICE38 -->
 							<RegistryValue Root="HKLM" Key="Software\Alexander Tverskoy\Trayslate" Name="ConfigPath" Type="string" Value="[CONFIGDIR]" KeyPath="yes" />
 						</Component>

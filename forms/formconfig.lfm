@@ -936,11 +936,11 @@ object formConfigTrayslate: TformConfigTrayslate
         TabOrder = 0
         object MemoLanguages: TMemo
           Left = 5
-          Height = 522
-          Top = 50
+          Height = 467
+          Top = 105
           Width = 510
           Align = alClient
-          BorderSpacing.Top = 45
+          BorderSpacing.Top = 100
           BorderSpacing.Right = 15
           BorderSpacing.Around = 5
           ScrollBars = ssVertical
@@ -949,9 +949,9 @@ object formConfigTrayslate: TformConfigTrayslate
           OnKeyDown = MemoKeyDown
         end
         object LabelLanguages: TLabel
-          Left = 8
+          Left = 5
           Height = 15
-          Top = 8
+          Top = 64
           Width = 507
           Anchors = [akTop, akLeft, akRight]
           Caption = 'Supported languages e.g. en=en-US (en internal, en-US service). "empty" means do not send.'
@@ -961,9 +961,9 @@ object formConfigTrayslate: TformConfigTrayslate
         end
         object LabelFillLanguages: TLabel
           Cursor = crHandPoint
-          Left = 8
+          Left = 5
           Height = 15
-          Top = 28
+          Top = 84
           Width = 81
           Caption = 'Fill with default'
           Font.Color = clBlue
@@ -971,6 +971,47 @@ object formConfigTrayslate: TformConfigTrayslate
           ParentFont = False
           WordWrap = True
           OnClick = LabelFillLanguagesClick
+        end
+        object LabelLanguages1: TLabel
+          Left = 5
+          Height = 15
+          Top = 8
+          Width = 507
+          Anchors = [akTop, akLeft, akRight]
+          Caption = 'Value type for populating names. None keeps originals; None and Unit are case-sensitive.'
+          Color = clInfoBk
+          ParentColor = False
+          Transparent = False
+        end
+        object ComboValueType: TComboBox
+          Left = 142
+          Height = 23
+          Top = 32
+          Width = 373
+          Anchors = [akTop, akLeft, akRight]
+          ItemHeight = 15
+          ItemIndex = 0
+          Items.Strings = (
+            'None'
+            'Language'
+            'Currency All'
+            'Currency Fiat Only'
+            'Currency Crypto Only'
+            'Measurement Units'
+          )
+          Style = csDropDownList
+          TabOrder = 1
+          Text = 'None'
+          OnChange = ValueChange
+        end
+        object LabelValueType: TLabel
+          Left = 27
+          Height = 23
+          Top = 32
+          Width = 104
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Value Type'
         end
       end
     end

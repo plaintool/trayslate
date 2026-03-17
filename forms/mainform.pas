@@ -697,7 +697,11 @@ begin
   if FRealTime then
   begin
     if TimerTranslate.Enabled then
+    begin
       TimerTranslate.Enabled := False;
+      if Assigned(FTranslateThread) then
+        FTranslateThread.Cancel;
+    end;
     TimerTranslate.Enabled := True;
   end;
 end;
@@ -735,7 +739,7 @@ begin
     NowTime := GetTickCount64;
     if NowTime - FLastEnterTime <= DOUBLE_ENTER_INTERVAL then
     begin
-      // delete the previous Enter inserted
+      // Delete the previous Enter inserted
       if FMemoSourceCaretPos >= 2 then
       begin
         MemoSource.SelStart := FMemoSourceCaretPos - 2;
@@ -744,7 +748,7 @@ begin
           MemoSource.SelText := string.Empty; // remove the line break
       end;
 
-      // restore caret to original position
+      // Restore caret to original position
       MemoSource.SelStart := FMemoSourceCaretPos - 2;
       MemoSource.SelLength := 0;
 
@@ -998,7 +1002,7 @@ begin
 
   // Init language lists
   FLanguages.Clear;
-  List := GetDisplayNamesFromCodeMap(Trans.Languages);
+  List := GetDisplayNamesFromCodeMap(Trans.Languages, Trans.ValueType);
   try
     FLanguages.Assign(List); // Assign available source languages
   finally
@@ -1008,7 +1012,7 @@ begin
   FLanguagesTarget.Clear;
   if (Assigned(Trans.LanguagesTarget)) and (Trans.LanguagesTarget.Count > 0) then
   begin
-    List := GetDisplayNamesFromCodeMap(Trans.LanguagesTarget);
+    List := GetDisplayNamesFromCodeMap(Trans.LanguagesTarget, Trans.ValueType);
     try
       FLanguagesTarget.Assign(List); // Assign available target languages
     finally
@@ -1017,7 +1021,7 @@ begin
   end;
 
   // Fill ComboSource with display names
-  List := GetDisplayNamesFromCodeMap(Trans.Languages, True);
+  List := GetDisplayNamesFromCodeMap(Trans.Languages, Trans.ValueType, True);
   try
     ComboSource.Items.Assign(List); // Text with large letter
   finally
@@ -1041,7 +1045,7 @@ begin
   // Fill ComboTarget with display names
   if (Assigned(Trans.LanguagesTarget)) and (Trans.LanguagesTarget.Count > 0) then
   begin
-    List := GetDisplayNamesFromCodeMap(Trans.LanguagesTarget, True);
+    List := GetDisplayNamesFromCodeMap(Trans.LanguagesTarget, Trans.ValueType, True);
     try
       ComboTarget.Items.Assign(List); // Text with large letter
     finally
@@ -1566,10 +1570,17 @@ procedure TformTrayslate.ChangeSourceLang(NewLang: string; AddPairs: boolean = T
 var
   id, idnative: integer;
 begin
+  if NewLang = string.Empty then
+  begin
+    LangSource := string.Empty;
+    Trans.LangSource := string.Empty;
+    exit;
+  end;
+
   // try to find typed text in items
   id := ComboSource.Items.IndexOf(NewLang);
   idnative := FLanguages.IndexOf(NewLang);
-  if id < 0 then Exit;
+  if (id < 0) or (idnative < 0) then Exit;
 
   // assign the found index
   ComboSource.ItemIndex := id;
@@ -1596,13 +1607,20 @@ procedure TformTrayslate.ChangeTargetLang(NewLang: string; AddPairs: boolean = T
 var
   id, idnative: integer;
 begin
+  if NewLang = string.Empty then
+  begin
+    LangTarget := string.Empty;
+    Trans.LangTarget := string.Empty;
+    exit;
+  end;
+
   // try to find typed text in items
   id := ComboTarget.Items.IndexOf(NewLang);
   if FLanguagesTarget.Count > 0 then
     idnative := FLanguagesTarget.IndexOf(NewLang)
   else
     idnative := FLanguages.IndexOf(NewLang);
-  if id < 0 then Exit;
+  if (id < 0) or (idnative < 0) then Exit;
 
   // assign the found index
   ComboTarget.ItemIndex := id;

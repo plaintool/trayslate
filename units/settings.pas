@@ -25,8 +25,9 @@ uses
 
 type
   PConfigData = ^TConfigData;
+
   TConfigData = record
-    Order: Integer;
+    Order: integer;
     PathOnly: string;
     Name: string;
   end;
@@ -47,7 +48,7 @@ procedure GetIniFiles(List: TStrings);
 
 function GetConfigFullPath(const ConfigName: string; ConfigFiles: TStringList): string;
 
-function ConfigSortByOrderPathName(List: TStringList; Index1, Index2: Integer): Integer;
+function ConfigSortByOrderPathName(List: TStringList; Index1, Index2: integer): integer;
 
 implementation
 
@@ -407,6 +408,15 @@ begin
     Ini.WriteInteger('Service', 'Order', Translate.ServiceOrder);
     Ini.WriteBool('Service', 'AutoSwapLanguage', Translate.AutoSwap);
 
+    case Translate.ValueType of
+      vtNone: Ini.WriteString('Service', 'ValueType', 'None');
+      vtLanguage: Ini.WriteString('Service', 'ValueType', 'Language');
+      vtCurrencyAll: Ini.WriteString('Service', 'ValueType', 'CurrencyAll');
+      vtCurrencyFiat: Ini.WriteString('Service', 'ValueType', 'CurrencyFiat');
+      vtCurrencyCrypto: Ini.WriteString('Service', 'ValueType', 'CurrencyCrypto');
+      vtUnit: Ini.WriteString('Service', 'ValueType', 'Unit');
+    end;
+
     // determine method string based on UsePost property
     if Translate.WebMethod = wmPost then
       Ini.WriteString('Request', 'Method', 'POST')
@@ -495,7 +505,8 @@ begin
     if Assigned(Translate.Languages) then
       for i := 0 to Translate.Languages.Count - 1 do
         Ini.WriteString('Languages',
-          IfThen(Translate.Languages.Names[i] = string.Empty, Translate.Languages[i], Translate.Languages.Names[i]),
+          IfThen(Translate.Languages.Names[i] = string.Empty, Translate.Languages[i] + '_' + IntToStr(i),
+          Translate.Languages.Names[i] + '_' + IntToStr(i)),
           IfThen(Translate.Languages.ValueFromIndex[i] = string.Empty, IfThen(Translate.Languages.Names[i] =
           string.Empty, Translate.Languages[i], Translate.Languages.Names[i]), Translate.Languages.ValueFromIndex[i]));
 
@@ -504,7 +515,8 @@ begin
     if Assigned(Translate.LanguagesTarget) then
       for i := 0 to Translate.LanguagesTarget.Count - 1 do
         Ini.WriteString('LanguagesTarget',
-          IfThen(Translate.LanguagesTarget.Names[i] = string.Empty, Translate.LanguagesTarget[i], Translate.LanguagesTarget.Names[i]),
+          IfThen(Translate.LanguagesTarget.Names[i] = string.Empty, Translate.LanguagesTarget[i] + '_' +
+          IntToStr(i), Translate.LanguagesTarget.Names[i] + '_' + IntToStr(i)),
           IfThen(Translate.LanguagesTarget.ValueFromIndex[i] = string.Empty, IfThen(
           Translate.LanguagesTarget.Names[i] = string.Empty, Translate.LanguagesTarget[i], Translate.LanguagesTarget.Names[i]),
           Translate.LanguagesTarget.ValueFromIndex[i]));
@@ -518,12 +530,62 @@ var
   Ini: TIniFile;
   Method: string;
   PostDataEscaped: string;
+  Value: string;
+
+  procedure LoadSection(const Section: string; Dest: TStrings);
+  var
+    Keys: TStringList;
+    i, Num: integer;
+    Key, Val: string;
+    UnderscorePos: integer;
+  begin
+    Dest.Clear;
+    Keys := TStringList.Create;
+    try
+      Ini.ReadSection(Section, Keys);
+      for i := 0 to Keys.Count - 1 do
+      begin
+        Key := Keys[i];
+        Val := Ini.ReadString(Section, Key, '');
+
+        // remove trailing _number
+        UnderscorePos := LastDelimiter('_', Key);
+        if (UnderscorePos > 0) and TryStrToInt(Copy(Key, UnderscorePos + 1, MaxInt), Num) then
+          Key := Copy(Key, 1, UnderscorePos - 1);
+
+        if Key = string.Empty then
+          Dest.Add(Val)
+        else if Val = string.Empty then
+          Dest.Add(Key)
+        else
+          Dest.Add(Key + '=' + Val);
+      end;
+    finally
+      Keys.Free;
+    end;
+  end;
+
 begin
   Ini := TIniFile.Create(AFileName);
   try
     Translate.ServiceName := Ini.ReadString('Service', 'Name', string.Empty);
     Translate.ServiceOrder := Ini.ReadInteger('Service', 'Order', 0);
     Translate.AutoSwap := Ini.ReadBool('Service', 'AutoSwapLanguage', False);
+    Value := Ini.ReadString('Service', 'ValueType', 'None');
+    if SameText(Value, 'None') then
+      Translate.ValueType := vtNone
+    else if SameText(Value, 'Language') then
+      Translate.ValueType := vtLanguage
+    else if SameText(Value, 'CurrencyAll') then
+      Translate.ValueType := vtCurrencyAll
+    else if SameText(Value, 'CurrencyFiat') then
+      Translate.ValueType := vtCurrencyFiat
+    else if SameText(Value, 'CurrencyCrypto') then
+      Translate.ValueType := vtCurrencyCrypto
+    else if SameText(Value, 'Unit') then
+      Translate.ValueType := vtUnit
+    else
+      Translate.ValueType := vtNone; // default
 
     Method := Ini.ReadString('Request', 'Method', 'GET');
     if SameText(Method, 'POST') then
@@ -560,10 +622,8 @@ begin
     Translate.InitParameters.Clear;
     Ini.ReadSectionValues('Initial Parameters', Translate.InitParameters);
 
-    Translate.Languages.Clear;
-    Ini.ReadSectionValues('Languages', Translate.Languages);
-    Translate.LanguagesTarget.Clear;
-    Ini.ReadSectionValues('LanguagesTarget', Translate.LanguagesTarget);
+    LoadSection('Languages', Translate.Languages);
+    LoadSection('LanguagesTarget', Translate.LanguagesTarget);
 
     RemoveEmptyValues(Translate.Languages);
     RemoveEmptyValues(Translate.LanguagesTarget);
@@ -677,10 +737,10 @@ begin
   // If not found, Result remains empty
 end;
 
-function ConfigSortByOrderPathName(List: TStringList; Index1, Index2: Integer): Integer;
+function ConfigSortByOrderPathName(List: TStringList; Index1, Index2: integer): integer;
 var
   Data1, Data2: PConfigData;
-  Ord1, Ord2: Integer;
+  Ord1, Ord2: integer;
 begin
   Data1 := PConfigData(List.Objects[Index1]);
   Data2 := PConfigData(List.Objects[Index2]);

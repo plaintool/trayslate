@@ -11,35 +11,44 @@ interface
 uses
   Classes,
   SysUtils,
-  StrUtils;
+  StrUtils,
+  translate;
 
 type
-  TAppLanguage = record
+  TAppValue = record
     Code: string;        // ISO code (ru, en, de ...)
     DisplayName: string; // Name shown in UI (English)
   end;
 
 type
-  TAppLanguageArray = array of TAppLanguage;
+  TValueArray = array of TAppValue;
 
 const
   SpecialCodes: array[0..1] of string = ('auto', 'empty');
 
-function GetLanguages(ASort: boolean = True): TAppLanguageArray;
+function GetLanguages: TValueArray;
 
-function GetLanguageCodePairList(MaxCount: integer = -1): TStringList;
+function GetCurrencyFiat: TValueArray;
 
-function GetLanguageDisplayStrings: TStringList;
+function GetCurrencyCrypto: TValueArray;
 
-function GetDisplayNamesFromCodeMap(ACodeMap: TStringList; Sort: boolean = False): TStringList;
+function GetUnits: TValueArray;
+
+function GetValues(AValueType: TValueType = vtNone; ASort: boolean = True): TValueArray;
+
+function GetLanguageCodePairList(AValueType: TValueType): TStringList;
+
+function GetLanguageDisplayStrings(AValueType: TValueType): TStringList;
+
+function GetDisplayNamesFromCodeMap(ACodeMap: TStringList; AValueType: TValueType; Sort: boolean = False): TStringList;
 
 function ExtractCodeFromItem(const ItemText: string): string;
 
 implementation
 
-function GetLanguages(ASort: boolean = True): TAppLanguageArray;
+function GetLanguages: TValueArray;
 const
-  Languages: array[0..558] of TAppLanguage = (
+  Languages: array[0..258] of TAppValue = (
     // Languages
     (Code: 'auto'; DisplayName: 'Auto detect'),
     (Code: 'empty'; DisplayName: 'Auto detect'),
@@ -299,9 +308,20 @@ const
     (Code: 'jv'; DisplayName: 'Javanese'),
     (Code: 'sah'; DisplayName: 'Yakut'),
     (Code: 'jam'; DisplayName: 'Jamaican Creole'),
-    (Code: 'ja'; DisplayName: 'Japanese'),
+    (Code: 'ja'; DisplayName: 'Japanese')
+    );
+var
+  i: integer;
+begin
+  Result := [];
+  SetLength(Result, Length(Languages));
+  for i := 0 to High(Languages) do
+    Result[i] := Languages[i];
+end;
 
-    // Currency
+function GetCurrencyFiat: TValueArray;
+const
+  currency: array[0..149] of TAppValue = (
     (Code: 'AED'; DisplayName: 'United Arab Emirates Dirham'),
     (Code: 'AFN'; DisplayName: 'Afghan Afghani'),
     (Code: 'ALL'; DisplayName: 'Albanian Lek'),
@@ -451,9 +471,20 @@ const
     (Code: 'XPF'; DisplayName: 'CFP Franc'),
     (Code: 'YER'; DisplayName: 'Yemeni Rial'),
     (Code: 'ZAR'; DisplayName: 'South African Rand'),
-    (Code: 'ZMW'; DisplayName: 'Zambian Kwacha'),
+    (Code: 'ZMW'; DisplayName: 'Zambian Kwacha')
+    );
+var
+  i: integer;
+begin
+  Result := [];
+  SetLength(Result, Length(currency));
+  for i := 0 to High(currency) do
+    Result[i] := currency[i];
+end;
 
-    // Cryptocurrency
+function GetCurrencyCrypto: TValueArray;
+const
+  CurrencyCrypto: array[0..149] of TAppValue = (
     (Code: 'BTC'; DisplayName: 'Bitcoin'),
     (Code: 'ETH'; DisplayName: 'Ether'),
     (Code: 'USDT'; DisplayName: 'Tether'),
@@ -606,13 +637,226 @@ const
     (Code: 'ABBC'; DisplayName: 'ABBC')
     );
 var
-  i, j: integer;
-  Temp: TAppLanguage;
+  i: integer;
 begin
   Result := [];
-  SetLength(Result, Length(Languages));
-  for i := 0 to High(Languages) do
-    Result[i] := Languages[i];
+  SetLength(Result, Length(CurrencyCrypto));
+  for i := 0 to High(CurrencyCrypto) do
+    Result[i] := CurrencyCrypto[i];
+end;
+
+function GetUnits: TValueArray;
+const
+  Units: array[0..166] of TAppValue = (
+    (Code: 'acre'; DisplayName: 'acre - area'),
+    (Code: 'angstrom'; DisplayName: 'angstrom - length'),
+    (Code: 'b'; DisplayName: 'bit - information'),
+    (Code: 'B'; DisplayName: 'byte - information'),
+    (Code: 'bbl'; DisplayName: 'beer barrel - volume'),
+    (Code: 'cd'; DisplayName: 'candela - luminous intensity'),
+    (Code: 'ch'; DisplayName: 'chain - length'),
+    (Code: 'cm'; DisplayName: 'centimeter - length'),
+    (Code: 'cm2'; DisplayName: 'square centimeter - area'),
+    (Code: 'cm3'; DisplayName: 'cubic centimeter - volume'),
+    (Code: 'cwt'; DisplayName: 'hundredweight - mass'),
+    (Code: 'cycle'; DisplayName: 'cycle - angle'),
+    (Code: 'day'; DisplayName: 'day - time'),
+    (Code: 'deg'; DisplayName: 'degree - angle'),
+    (Code: 'degC'; DisplayName: 'degree Celsius - temperature'),
+    (Code: 'degF'; DisplayName: 'degree Fahrenheit - temperature'),
+    (Code: 'degR'; DisplayName: 'degree Rankine - temperature'),
+    (Code: 'dL'; DisplayName: 'deciliter - volume'),
+    (Code: 'dm'; DisplayName: 'decimeter - length'),
+    (Code: 'dm2'; DisplayName: 'square decimeter - area'),
+    (Code: 'dm3'; DisplayName: 'cubic decimeter - volume'),
+    (Code: 'dr'; DisplayName: 'dram - mass'),
+    (Code: 'Eb'; DisplayName: 'exabit - information'),
+    (Code: 'EB'; DisplayName: 'exabyte - information'),
+    (Code: 'Eib'; DisplayName: 'exbibit - information'),
+    (Code: 'EiB'; DisplayName: 'exbibyte - information'),
+    (Code: 'fA'; DisplayName: 'femtoampere - current'),
+    (Code: 'fcd'; DisplayName: 'femtocandela - luminous intensity'),
+    (Code: 'fg'; DisplayName: 'femtogram - mass'),
+    (Code: 'fL'; DisplayName: 'femtoliter - volume'),
+    (Code: 'fm'; DisplayName: 'femtometer - length'),
+    (Code: 'fm2'; DisplayName: 'square femtometer - area'),
+    (Code: 'fm3'; DisplayName: 'cubic femtometer - volume'),
+    (Code: 'fmol'; DisplayName: 'femtomole - amount of substance'),
+    (Code: 'fN'; DisplayName: 'femtonewton - force'),
+    (Code: 'fs'; DisplayName: 'femtosecond - time'),
+    (Code: 'ft'; DisplayName: 'foot - length'),
+    (Code: 'g'; DisplayName: 'gram - mass'),
+    (Code: 'gal'; DisplayName: 'gallon - volume'),
+    (Code: 'Gb'; DisplayName: 'gigabit - information'),
+    (Code: 'GB'; DisplayName: 'gigabyte - information'),
+    (Code: 'Gcd'; DisplayName: 'gigacandela - luminous intensity'),
+    (Code: 'Gib'; DisplayName: 'gibibit - information'),
+    (Code: 'GiB'; DisplayName: 'gibibyte - information'),
+    (Code: 'GN'; DisplayName: 'giganewton - force'),
+    (Code: 'Gm'; DisplayName: 'gigameter - length'),
+    (Code: 'Gm2'; DisplayName: 'square gigameter - area'),
+    (Code: 'Gm3'; DisplayName: 'cubic gigameter - volume'),
+    (Code: 'Gmol'; DisplayName: 'gigamole - amount of substance'),
+    (Code: 'grad'; DisplayName: 'gradian - angle'),
+    (Code: 'gr'; DisplayName: 'grain - mass'),
+    (Code: 'gtt'; DisplayName: 'drop - volume'),
+    (Code: 'h'; DisplayName: 'hour - time'),
+    (Code: 'ha'; DisplayName: 'hectare - area'),
+    (Code: 'hL'; DisplayName: 'hectoliter - volume'),
+    (Code: 'hm'; DisplayName: 'hectometer - length'),
+    (Code: 'hm2'; DisplayName: 'square hectometer - area'),
+    (Code: 'hm3'; DisplayName: 'cubic hectometer - volume'),
+    (Code: 'hogshead'; DisplayName: 'hogshead - volume'),
+    (Code: 'in'; DisplayName: 'inch - length'),
+    (Code: 'K'; DisplayName: 'kelvin - temperature'),
+    (Code: 'kA'; DisplayName: 'kiloampere - current'),
+    (Code: 'kb'; DisplayName: 'kilobit - information'),
+    (Code: 'kB'; DisplayName: 'kilobyte - information'),
+    (Code: 'kcd'; DisplayName: 'kilocandela - luminous intensity'),
+    (Code: 'kg'; DisplayName: 'kilogram - mass'),
+    (Code: 'Kib'; DisplayName: 'kibibit - information'),
+    (Code: 'KiB'; DisplayName: 'kibibyte - information'),
+    (Code: 'kL'; DisplayName: 'kiloliter - volume'),
+    (Code: 'km'; DisplayName: 'kilometer - length'),
+    (Code: 'km2'; DisplayName: 'square kilometer - area'),
+    (Code: 'km3'; DisplayName: 'cubic kilometer - volume'),
+    (Code: 'kN'; DisplayName: 'kilonewton - force'),
+    (Code: 'ktonne'; DisplayName: 'kilotonne - mass'),
+    (Code: 'L'; DisplayName: 'liter - volume'),
+    (Code: 'l'; DisplayName: 'liter - volume'),
+    (Code: 'lb'; DisplayName: 'pound - mass'),
+    (Code: 'lbf'; DisplayName: 'pound force - force'),
+    (Code: 'li'; DisplayName: 'link - length'),
+    (Code: 'm'; DisplayName: 'meter - length'),
+    (Code: 'm2'; DisplayName: 'square meter - area'),
+    (Code: 'm3'; DisplayName: 'cubic meter - volume'),
+    (Code: 'mA'; DisplayName: 'milliampere - current'),
+    (Code: 'MA'; DisplayName: 'megaampere - current'),
+    (Code: 'Mb'; DisplayName: 'megabit - information'),
+    (Code: 'MB'; DisplayName: 'megabyte - information'),
+    (Code: 'mcd'; DisplayName: 'millicandela - luminous intensity'),
+    (Code: 'Mcd'; DisplayName: 'megacandela - luminous intensity'),
+    (Code: 'mg'; DisplayName: 'milligram - mass'),
+    (Code: 'Mib'; DisplayName: 'mebibit - information'),
+    (Code: 'MiB'; DisplayName: 'mebibyte - information'),
+    (Code: 'mil'; DisplayName: 'mil - length'),
+    (Code: 'min'; DisplayName: 'minute - time'),
+    (Code: 'mL'; DisplayName: 'milliliter - volume'),
+    (Code: 'mm'; DisplayName: 'millimeter - length'),
+    (Code: 'mm2'; DisplayName: 'square millimeter - area'),
+    (Code: 'mm3'; DisplayName: 'cubic millimeter - volume'),
+    (Code: 'mN'; DisplayName: 'millinewton - force'),
+    (Code: 'MN'; DisplayName: 'meganewton - force'),
+    (Code: 'mol'; DisplayName: 'mole - amount of substance'),
+    (Code: 'ms'; DisplayName: 'millisecond - time'),
+    (Code: 'nA'; DisplayName: 'nanoampere - current'),
+    (Code: 'ncd'; DisplayName: 'nanocandela - luminous intensity'),
+    (Code: 'ng'; DisplayName: 'nanogram - mass'),
+    (Code: 'nL'; DisplayName: 'nanoliter - volume'),
+    (Code: 'nm'; DisplayName: 'nanometer - length'),
+    (Code: 'nm2'; DisplayName: 'square nanometer - area'),
+    (Code: 'nm3'; DisplayName: 'cubic nanometer - volume'),
+    (Code: 'nmol'; DisplayName: 'nanomole - amount of substance'),
+    (Code: 'nN'; DisplayName: 'nanonewton - force'),
+    (Code: 'ns'; DisplayName: 'nanosecond - time'),
+    (Code: 'N'; DisplayName: 'newton - force'),
+    (Code: 'obl'; DisplayName: 'oil barrel - volume'),
+    (Code: 'oz'; DisplayName: 'ounce - mass'),
+    (Code: 'pA'; DisplayName: 'picoampere - current'),
+    (Code: 'Pb'; DisplayName: 'petabit - information'),
+    (Code: 'PB'; DisplayName: 'petabyte - information'),
+    (Code: 'pcd'; DisplayName: 'picocandela - luminous intensity'),
+    (Code: 'Pib'; DisplayName: 'pebibit - information'),
+    (Code: 'PiB'; DisplayName: 'pebibyte - information'),
+    (Code: 'pL'; DisplayName: 'picoliter - volume'),
+    (Code: 'pm'; DisplayName: 'picometer - length'),
+    (Code: 'pm2'; DisplayName: 'square picometer - area'),
+    (Code: 'pm3'; DisplayName: 'cubic picometer - volume'),
+    (Code: 'pmol'; DisplayName: 'picomole - amount of substance'),
+    (Code: 'pN'; DisplayName: 'piconewton - force'),
+    (Code: 'ps'; DisplayName: 'picosecond - time'),
+    (Code: 'pt'; DisplayName: 'pint - volume'),
+    (Code: 'qt'; DisplayName: 'quart - volume'),
+    (Code: 'rad'; DisplayName: 'radian - angle'),
+    (Code: 'rd'; DisplayName: 'rod - length'),
+    (Code: 's'; DisplayName: 'second - time'),
+    (Code: 'sqch'; DisplayName: 'square chain - area'),
+    (Code: 'sqft'; DisplayName: 'square foot - area'),
+    (Code: 'sqin'; DisplayName: 'square inch - area'),
+    (Code: 'sqmi'; DisplayName: 'square mile - area'),
+    (Code: 'sqmil'; DisplayName: 'square mil - area'),
+    (Code: 'sqrd'; DisplayName: 'square rod - area'),
+    (Code: 'sqyd'; DisplayName: 'square yard - area'),
+    (Code: 'stone'; DisplayName: 'stone - mass'),
+    (Code: 'tablespoon'; DisplayName: 'tablespoon - volume'),
+    (Code: 'Tb'; DisplayName: 'terabit - information'),
+    (Code: 'TB'; DisplayName: 'terabyte - information'),
+    (Code: 'teaspoon'; DisplayName: 'teaspoon - volume'),
+    (Code: 'Tib'; DisplayName: 'tebibit - information'),
+    (Code: 'TiB'; DisplayName: 'tebibyte - information'),
+    (Code: 'ton'; DisplayName: 'ton - mass'),
+    (Code: 'tonne'; DisplayName: 'tonne - mass'),
+    (Code: 'uA'; DisplayName: 'microampere - current'),
+    (Code: 'ucd'; DisplayName: 'microcandela - luminous intensity'),
+    (Code: 'ug'; DisplayName: 'microgram - mass'),
+    (Code: 'uL'; DisplayName: 'microliter - volume'),
+    (Code: 'um'; DisplayName: 'micrometer - length'),
+    (Code: 'um2'; DisplayName: 'square micrometer - area'),
+    (Code: 'um3'; DisplayName: 'cubic micrometer - volume'),
+    (Code: 'umol'; DisplayName: 'micromole - amount of substance'),
+    (Code: 'uN'; DisplayName: 'micronewton - force'),
+    (Code: 'us'; DisplayName: 'microsecond - time'),
+    (Code: 'Yb'; DisplayName: 'yottabit - information'),
+    (Code: 'YB'; DisplayName: 'yottabyte - information'),
+    (Code: 'yd'; DisplayName: 'yard - length'),
+    (Code: 'Yib'; DisplayName: 'yobibit - information'),
+    (Code: 'YiB'; DisplayName: 'yobibyte - information'),
+    (Code: 'Zb'; DisplayName: 'zettabit - information'),
+    (Code: 'ZB'; DisplayName: 'zettabyte - information'),
+    (Code: 'Zib'; DisplayName: 'zebibit - information'),
+    (Code: 'ZiB'; DisplayName: 'zebibyte - information')
+    );
+var
+  i: integer;
+begin
+  Result := [];
+  SetLength(Result, Length(Units));
+  for i := 0 to High(Units) do
+    Result[i] := Units[i];
+end;
+
+function GetValues(AValueType: TValueType = vtNone; ASort: boolean = True): TValueArray;
+var
+  i, j: integer;
+  Temp: TAppValue;
+  Fiat, Crypto: TValueArray;
+begin
+  Result := [];
+
+  case AValueType of
+    vtNone:
+      SetLength(Result, 0);
+    vtLanguage:
+      Result := GetLanguages;
+    vtCurrencyAll:
+    begin
+      Fiat := GetCurrencyFiat;
+      Crypto := GetCurrencyCrypto;
+      SetLength(Result, Length(Fiat) + Length(Crypto));
+      for i := 0 to High(Fiat) do
+        Result[i] := Fiat[i];
+      for i := 0 to High(Crypto) do
+        Result[Length(Fiat) + i] := Crypto[i];
+    end;
+    vtCurrencyFiat:
+      Result := GetCurrencyFiat;
+    vtCurrencyCrypto:
+      Result := GetCurrencyCrypto;
+    vtUnit:
+      Result := GetUnits;
+    else
+      SetLength(Result, 0);
+  end;
 
   if ASort then
   begin
@@ -630,23 +874,17 @@ begin
   end;
 end;
 
-function GetLanguageCodePairList(MaxCount: integer = -1): TStringList;
+function GetLanguageCodePairList(AValueType: TValueType): TStringList;
 var
-  Langs: array of TAppLanguage;
-  i, Count: integer;
+  Langs: array of TAppValue;
+  i: integer;
 begin
   Result := TStringList.Create;
   Result.TrailingLineBreak := False;
   try
-    Langs := GetLanguages(False);
+    Langs := GetValues(AValueType, False);
 
-    // Determine how many items to take
-    if (MaxCount < 0) or (MaxCount > Length(Langs)) then
-      Count := Length(Langs)
-    else
-      Count := MaxCount;
-
-    for i := 0 to Count - 1 do
+    for i := 0 to Length(Langs) - 1 do
       Result.Add(Langs[i].Code + '=' + Langs[i].Code);
 
   except
@@ -655,34 +893,38 @@ begin
   end;
 end;
 
-function GetLanguageDisplayStrings: TStringList;
+function GetLanguageDisplayStrings(AValueType: TValueType): TStringList;
 var
-  Langs: array of TAppLanguage;
-  L: TAppLanguage;
+  Langs: array of TAppValue;
+  L: TAppValue;
 begin
   Result := TStringList.Create;
-  Langs := GetLanguages;
+  Langs := GetValues(AValueType);
   for L in Langs do
     Result.Add(L.DisplayName + ' (' + L.Code + ')');
 end;
 
-function GetDisplayNamesFromCodeMap(ACodeMap: TStringList; Sort: boolean = False): TStringList;
+function GetDisplayNamesFromCodeMap(ACodeMap: TStringList; AValueType: TValueType; Sort: boolean = False): TStringList;
 var
-  Langs: array of TAppLanguage;
+  Langs: array of TAppValue;
   LangMap: TStringList;          // List of "code=displayname" for lookup
   i, j, idx: integer;
   Key, ApiValue, DisplayString: string;
   SpecialsList, OthersList: TStringList;
   IsSpecial: boolean;
+  CaseSensitiveSearch: boolean;
 begin
   Result := TStringList.Create;
   try
     // Retrieve the master language list
-    Langs := GetLanguages;
+    Langs := GetValues(AValueType);
 
     // Build a map from language code to display name
     LangMap := TStringList.Create;
     try
+      CaseSensitiveSearch := AValueType in [vtUnit, vtNone];
+      LangMap.CaseSensitive := CaseSensitiveSearch;
+
       for i := 0 to High(Langs) do
         LangMap.Add(Langs[i].Code + '=' + Langs[i].DisplayName);
 
@@ -702,39 +944,38 @@ begin
           if (Key = string.Empty) or (ApiValue = string.Empty) then
             Continue; // Skip malformed lines
 
-          // Look up the key using IndexOfName (linear search, acceptable for ~250 items)
-          idx := LangMap.IndexOfName(Key);
+          // Look up the key using IndexOfName
+          if CaseSensitiveSearch then
+            idx := LangMap.IndexOfName(Key) // case-sensitive for vtUnit
+          else
+            idx := LangMap.IndexOfName(Key); // case-insensitive for others
+
           if idx >= 0 then
-            // Found: build "DisplayName (ApiCode)"
             DisplayString := LangMap.ValueFromIndex[idx] + ' (' + ApiValue + ')'
           else
-            // Not found: fallback – just use the API code
             DisplayString := ApiValue;
 
-          // Check if the key is in the special codes list
+          // Check if the key is in the special codes list (case-insensitive)
           IsSpecial := False;
           for j := Low(SpecialCodes) to High(SpecialCodes) do
-            if SameText(Key, SpecialCodes[j]) then // case-insensitive comparison
+            if SameText(Key, SpecialCodes[j]) then
             begin
               IsSpecial := True;
               Break;
             end;
 
-          // Add to appropriate list
           if IsSpecial then
             SpecialsList.Add(DisplayString)
           else
             OthersList.Add(DisplayString);
         end;
 
-        // Apply sorting if requested
         if Sort then
         begin
           SpecialsList.Sort;
           OthersList.Sort;
         end;
 
-        // Combine: specials first, then others
         Result.Assign(SpecialsList);
         Result.AddStrings(OthersList);
       finally
