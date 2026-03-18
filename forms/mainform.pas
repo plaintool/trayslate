@@ -864,6 +864,7 @@ begin
 
       // Important after translation, otherwise changes to false
       FTopMost := True;
+      TimerActive.Enabled := False;
       Exit;
     end;
   end
