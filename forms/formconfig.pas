@@ -136,7 +136,7 @@ type
   public
     function TestChanges: boolean;
     procedure CreateConfig(ACopy: boolean = False);
-    procedure UpdateConfigList;
+    procedure UpdateConfigList(UpdateItemIndex: boolean = True);
     procedure UpdateConfig;
     procedure ClearConfig;
     procedure SaveConfig;
@@ -405,10 +405,11 @@ begin
   UpdateConfig;
 end;
 
-procedure TformConfigTrayslate.UpdateConfigList;
+procedure TformConfigTrayslate.UpdateConfigList(UpdateItemIndex: boolean = True);
 begin
   ComboConfig.Items.Assign(formTrayslate.ConfigFiles);
-  ComboConfig.ItemIndex := ComboConfig.Items.IndexOf(formTrayslate.ConfigFile);
+  if (UpdateItemIndex) then
+    ComboConfig.ItemIndex := ComboConfig.Items.IndexOf(formTrayslate.ConfigFile);
   FLastConfig := ComboConfig.ItemIndex;
 end;
 
@@ -547,7 +548,7 @@ begin
     aSave.Enabled := False;
     formTrayslate.LoadConfig;
     formTrayslate.BuildConfigMenu;
-    UpdateConfigList;
+    UpdateConfigList(False);
   finally
     Screen.Cursor := crDefault;
     Caption := rcaption;
