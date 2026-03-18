@@ -1186,7 +1186,7 @@ var
 begin
   for i := 0 to MenuConfig.Count - 1 do
   begin
-    if SameText(FConfigFiles[i], FConfigFile) then
+    if (FConfigFiles.Count > i) and SameText(FConfigFiles[i], FConfigFile) then
       MenuConfig.Items[i].Checked := True
     else
       MenuConfig.Items[i].Checked := False;

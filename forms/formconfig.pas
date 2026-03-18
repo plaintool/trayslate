@@ -136,6 +136,7 @@ type
   public
     function TestChanges: boolean;
     procedure CreateConfig(ACopy: boolean = False);
+    procedure DeleteConfig;
     procedure UpdateConfigList(UpdateItemIndex: boolean = True);
     procedure UpdateConfig;
     procedure ClearConfig;
@@ -268,6 +269,9 @@ procedure TformConfigTrayslate.ComboConfigKeyDown(Sender: TObject; var Key: word
 begin
   if (ssCtrl in shift) and (Key = VK_C) then
     Clipboard.AsText := ComboConfig.Text;
+
+  if (ComboConfig.Focused) and (Key = VK_DELETE) then
+    DeleteConfig;
 end;
 
 procedure TformConfigTrayslate.LabelFillLanguagesClick(Sender: TObject);
@@ -402,6 +406,47 @@ begin
   formTrayslate.ConfigFile := DestFile;
   formTrayslate.LoadConfig;
   UpdateConfigList;
+  UpdateConfig;
+end;
+
+procedure TformConfigTrayslate.DeleteConfig;
+var
+  FileName: string;
+  LastIndex: integer;
+begin
+  FileName := ComboConfig.Text;
+  LastIndex := ComboConfig.ItemIndex;
+
+  if FileName = string.Empty then Exit;
+
+  // Ask user for confirmation
+  if MessageDlg('Delete config', 'Are you sure you want to delete config ' + ExtractFileName(FileName) +
+    '?', mtConfirmation, [mbYes, mbNo], 0) <> mrYes then
+    Exit;
+
+  try
+    if FileExists(FileName) then
+      DeleteFile(FileName);
+
+    // Remove from list
+    formTrayslate.ConfigFiles.Delete(
+      formTrayslate.ConfigFiles.IndexOf(FileName));
+
+    // Reset current config
+    formTrayslate.ConfigFile := string.Empty;
+  except
+    on E: Exception do
+    begin
+      ShowMessage(E.Message);
+      Exit;
+    end;
+  end;
+
+  // Reload UI
+  UpdateConfigList;
+  if (LastIndex >= ComboConfig.Items.Count) then Dec(LastIndex);
+  ComboConfig.ItemIndex := LastIndex;
+  ComboConfigChange(Self);
   UpdateConfig;
 end;
 

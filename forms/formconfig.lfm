@@ -528,6 +528,7 @@ object formConfigTrayslate: TformConfigTrayslate
             Height = 23
             Top = 32
             Width = 373
+            Anchors = [akTop, akLeft, akRight]
             TabOrder = 2
             OnChange = ValueChange
           end
