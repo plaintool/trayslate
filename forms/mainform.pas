@@ -86,7 +86,6 @@ type
     TimerClick: TTimer;
     TimerActive: TTimer;
     TrayIcon: TTrayIcon;
-    procedure aAddPairExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -105,6 +104,7 @@ type
     procedure aTranslateExecute(Sender: TObject);
     procedure aSwapExecute(Sender: TObject);
     procedure aShowExecute(Sender: TObject);
+    procedure aAddPairExecute(Sender: TObject);
     procedure aCheckForUpdatesExecute(Sender: TObject);
     procedure aDonateExecute(Sender: TObject);
     procedure aAboutExecute(Sender: TObject);
@@ -680,13 +680,13 @@ end;
 
 procedure TformTrayslate.ComboSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
-  if not Key in [VK_RETURN, VK_TAB] then
+  if not (Key in [VK_RETURN, VK_TAB]) then
     ComboSource.DroppedDown := True;
 end;
 
 procedure TformTrayslate.ComboTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
-  if not Key in [VK_RETURN, VK_TAB] then
+  if not (Key in [VK_RETURN, VK_TAB]) then
     ComboTarget.DroppedDown := True;
 end;
 
