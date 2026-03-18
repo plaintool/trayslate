@@ -240,7 +240,7 @@ msgid "Supported languages e.g. en=en-US (en internal, en-US service). \"empty\"
 msgstr ""
 
 #: tformconfigtrayslate.labellanguages1.caption
-msgid "Selects value type for names. If None, values remain unchanged."
+msgid "Value type for populating names. None keeps originals; None and Unit are case-sensitive."
 msgstr ""
 
 #: tformconfigtrayslate.labellanguagestarget.caption

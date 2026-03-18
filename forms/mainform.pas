@@ -389,8 +389,6 @@ end;
 
 procedure TformTrayslate.FormDestroy(Sender: TObject);
 begin
-  if Assigned(formConfigTrayslate) and formConfigTrayslate.HandleAllocated then
-    FreeAndNil(formConfigTrayslate);
   {$IFDEF WINDOWS}
   UnregisterHotKeys;
   {$ENDIF}
@@ -540,7 +538,7 @@ begin
     exit;
   end;
 
-  formSettingsTrayslate := TformSettingsTrayslate.Create(nil);
+  formSettingsTrayslate := TformSettingsTrayslate.Create(Application);
   try
     UnregisterHotKeys;
     formSettingsTrayslate.ShowModal;
@@ -554,7 +552,7 @@ end;
 procedure TformTrayslate.aConfigEditorExecute(Sender: TObject);
 begin
   if not Assigned(formConfigTrayslate) then
-    formConfigTrayslate := TformConfigTrayslate.Create(nil);
+    formConfigTrayslate := TformConfigTrayslate.Create(Application);
   if FormConfigLeft > 0 then
     formConfigTrayslate.Left := FormConfigLeft;
   if FormConfigTop > 0 then
@@ -597,7 +595,7 @@ end;
 
 procedure TformTrayslate.aDonateExecute(Sender: TObject);
 begin
-  formDonateTrayslate := TformDonateTrayslate.Create(nil);
+  formDonateTrayslate := TformDonateTrayslate.Create(Application);
   try
     formDonateTrayslate.ShowModal;
   finally
@@ -607,7 +605,7 @@ end;
 
 procedure TformTrayslate.aAboutExecute(Sender: TObject);
 begin
-  formAboutTrayslate := TformAboutTrayslate.Create(nil);
+  formAboutTrayslate := TformAboutTrayslate.Create(Application);
   try
     formAboutTrayslate.ShowModal;
   finally

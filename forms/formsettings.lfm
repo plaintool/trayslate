@@ -16,11 +16,11 @@ object formSettingsTrayslate: TformSettingsTrayslate
     Height = 465
     Top = 5
     Width = 400
-    ActivePage = PageInterface
+    ActivePage = PageGeneral
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 0
     object PageGeneral: TTabSheet
       Caption = 'General'
@@ -570,7 +570,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
     end
   end
   object BtnApply: TButton
-    Left = 322
+    Left = 328
     Height = 25
     Top = 476
     Width = 75
@@ -581,7 +581,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
     OnClick = BtnApplyClick
   end
   object BtnCancel: TButton
-    Left = 242
+    Left = 248
     Height = 25
     Top = 476
     Width = 75
@@ -592,7 +592,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
     OnClick = BtnCancelClick
   end
   object BtnOk: TButton
-    Left = 162
+    Left = 168
     Height = 25
     Top = 476
     Width = 75
