@@ -1403,7 +1403,7 @@ begin
       end;
     end;
   finally
-    if ATrans <> TransDetect then
+    if not Assigned(AMemo) and (ATrans <> TransDetect) then
     begin
       Screen.Cursor := crDefault;
       TimerAnimate.Enabled := False;

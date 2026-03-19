@@ -208,42 +208,70 @@ end;
 
 procedure TformConfigTrayslate.BtnUrlTestClick(Sender: TObject);
 begin
-  if (MemoUrl.Text = string.empty) or not TestChanges then exit;
-  with formTrayslate.Trans do
-  begin
-    ParametersAge := Now + 3650;
-    OpenStringInTextEditor(Get(True));
+  Enabled := False;
+  Screen.Cursor := crHourGlass;
+  try
+    if (MemoUrl.Text = string.empty) or not TestChanges then exit;
+    with formTrayslate.Trans do
+    begin
+      ParametersAge := Now + 3650;
+      OpenStringInTextEditor(Get(True));
+    end;
+  finally
+    Enabled := True;
+    Screen.Cursor := crDefault;
   end;
 end;
 
 procedure TformConfigTrayslate.BtnPostDataTestClick(Sender: TObject);
 begin
-  if (MemoPostData.Text = string.empty) or not TestChanges then exit;
-  with formTrayslate.Trans do
-  begin
-    ParametersAge := Now + 3650;
-    OpenStringInTextEditor(Post);
+  Enabled := False;
+  Screen.Cursor := crHourGlass;
+  try
+    if (MemoPostData.Text = string.empty) or not TestChanges then exit;
+    with formTrayslate.Trans do
+    begin
+      ParametersAge := Now + 3650;
+      OpenStringInTextEditor(Post);
+    end;
+  finally
+    Enabled := True;
+    Screen.Cursor := crDefault;
   end;
 end;
 
 procedure TformConfigTrayslate.BtnInitUrlTestClick(Sender: TObject);
 begin
-  if (MemoInitUrl.Text = string.empty) or not TestChanges then exit;
-  with formTrayslate.Trans do
-  begin
-    ParametersAge := Now + 3650;
-    OpenStringInTextEditor(GetInit);
+  Enabled := False;
+  Screen.Cursor := crHourGlass;
+  try
+    if (MemoInitUrl.Text = string.empty) or not TestChanges then exit;
+    with formTrayslate.Trans do
+    begin
+      ParametersAge := Now + 3650;
+      OpenStringInTextEditor(GetInit);
+    end;
+  finally
+    Enabled := True;
+    Screen.Cursor := crDefault;
   end;
 end;
 
 procedure TformConfigTrayslate.BtnInitParametersTestClick(Sender: TObject);
 begin
-  if (MemoInitUrl.Text = string.empty) or (MemoInitParameters.Text = string.empty) or not TestChanges then exit;
-  with formTrayslate.Trans do
-  begin
-    ParametersAge := Now + 3650;
-    GetParameters(GetInit);
-    OpenStringInTextEditor(ParameterValues.Text);
+  Enabled := False;
+  Screen.Cursor := crHourGlass;
+  try
+    if (MemoInitUrl.Text = string.empty) or (MemoInitParameters.Text = string.empty) or not TestChanges then exit;
+    with formTrayslate.Trans do
+    begin
+      ParametersAge := Now + 3650;
+      GetParameters(GetInit);
+      OpenStringInTextEditor(ParameterValues.Text);
+    end;
+  finally
+    Enabled := True;
+    Screen.Cursor := crDefault;
   end;
 end;
 
