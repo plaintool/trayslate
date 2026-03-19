@@ -300,34 +300,62 @@ end;
 function TTranslate.GetInit: string;
 var
   http: TFPHTTPClient;
-  response: TStringStream;
+  response: TMemoryStream;
   i: integer;
   header: string;
+  bodyStream: TStringStream;
+  decompressedStream: TMemoryStream;
+  contentEncoding: string;
 begin
-  Result := string.Empty;
-  if FInitUrl = string.Empty then Exit;
-
+  Result := '';
+  if FInitUrl = '' then Exit;
   if SecondsBetween(Now, FParametersAge) < FInitLiveTime then Exit;
   FParameterValues.Clear;
 
   http := TFPHTTPClient.Create(nil);
-  response := TStringStream.Create(string.Empty);
+  response := TMemoryStream.Create;
   try
     http.AllowRedirect := True;
     http.RequestHeaders.Clear;
-    if (FInitUserAgent <> string.Empty) then
+    if FInitUserAgent <> '' then
       http.AddHeader('User-Agent', FInitUserAgent);
     if Assigned(InitHeaders) then
       for i := 0 to InitHeaders.Count - 1 do
         http.AddHeader(InitHeaders.Names[i], InitHeaders.ValueFromIndex[i]);
 
     http.Get(FInitUrl, response);
+    response.Position := 0;
 
-    header := string.Empty;
+    // form a line with headings
+    header := '';
     for i := 0 to http.ResponseHeaders.Count - 1 do
       header := header + http.ResponseHeaders[i] + LineEnding;
-    // Combine headers and body
-    Result := header + LineEnding + response.DataString;
+
+    bodyStream := TStringStream.Create('', TEncoding.UTF8);
+    try
+      contentEncoding := Trim(http.ResponseHeaders.Values['Content-Encoding']);
+
+      // checking the gzip signature, not just the header
+      if SameText(contentEncoding, 'gzip') and IsGzip(response) then
+      begin
+        decompressedStream := DecompressGzipToStream(response);
+        try
+          bodyStream.CopyFrom(decompressedStream, 0);
+        finally
+          decompressedStream.Free;
+        end;
+      end
+      else
+      begin
+        // plain text
+        bodyStream.CopyFrom(response, 0);
+      end;
+
+      Result := header + LineEnding + bodyStream.DataString;
+    finally
+      bodyStream.Free;
+    end;
+
   finally
     response.Free;
     http.Free;

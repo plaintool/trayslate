@@ -25,6 +25,7 @@ uses
   LCLTranslator,
   LCLIntf,
   Dialogs,
+  PasZLib,
   {$IFDEF Windows}
   Windows,
   Registry,
@@ -65,6 +66,10 @@ function GetAppVersion: string;
 function CheckGithubLatestVersion(const Repo: string = 'plaintool/trayslate'): boolean;
 
 procedure RegAutoStart(const AEnable: boolean; const AppName: string = 'Trayslate');
+
+function IsGzip(Stream: TMemoryStream): boolean;
+
+function DecompressGzipToStream(Compressed: TMemoryStream): TMemoryStream;
 
 var
   Language: string;
@@ -810,6 +815,119 @@ begin
     end;
   finally
     Reg.Free;
+  end;
+end;
+
+function IsGzip(Stream: TMemoryStream): boolean;
+var
+  p: pbyte;
+begin
+  Result := False;
+  if Stream.Size < 2 then Exit;
+  p := Stream.Memory;
+  Result := (p^ = $1F) and ((p + 1)^ = $8B);
+end;
+
+function DecompressGzipToStream(Compressed: TMemoryStream): TMemoryStream;
+var
+  zstream: TZStream;
+  err: integer;
+  outBuffer: array[0..8191] of byte;
+  bytesWritten: longint;
+  p: pbyte;
+  flags: byte;
+  xlen: word;
+  dataPos: integer;
+begin
+  zstream := Default(TZStream);
+
+  // Basic validation: gzip header
+  if Compressed.Size < 10 then
+    raise Exception.Create('Compressed data too small for gzip');
+  p := Compressed.Memory;
+  if (p[0] <> $1F) or (p[1] <> $8B) then
+    raise Exception.Create('Not a gzip stream (invalid ID bytes)');
+
+  // Check compression method (must be deflate, 8)
+  if p[2] <> 8 then
+    raise Exception.Create('Unsupported compression method (not deflate)');
+
+  flags := p[3];
+  dataPos := 10; // start after fixed header (10 bytes)
+
+  // Skip extra field (FEXTRA) if present
+  if (flags and $04) <> 0 then
+  begin
+    if Compressed.Size < dataPos + 2 then
+      raise Exception.Create('Truncated gzip: FEXTRA length missing');
+    xlen := p[dataPos] or (p[dataPos + 1] shl 8);
+    Inc(dataPos, 2 + xlen);
+  end;
+
+  // Skip original filename (FNAME) if present (null-terminated)
+  if (flags and $08) <> 0 then
+  begin
+    while (dataPos < Compressed.Size) and (p[dataPos] <> 0) do
+      Inc(dataPos);
+    Inc(dataPos); // skip null terminator
+  end;
+
+  // Skip file comment (FCOMMENT) if present (null-terminated)
+  if (flags and $10) <> 0 then
+  begin
+    while (dataPos < Compressed.Size) and (p[dataPos] <> 0) do
+      Inc(dataPos);
+    Inc(dataPos);
+  end;
+
+  // Skip header CRC (FHCRC) if present (2 bytes)
+  if (flags and $02) <> 0 then
+    Inc(dataPos, 2);
+
+  if dataPos >= Compressed.Size then
+    raise Exception.Create('No compressed data after gzip header');
+
+  Result := TMemoryStream.Create;
+  try
+    {$PUSH}
+    {$NOTES OFF}
+
+    // Zero out the zstream structure
+    FillChar(zstream, SizeOf(zstream), 0);
+
+    // Initialize for raw deflate decoding (windowBits = -15)
+    err := inflateInit2(zstream, -15);  // uses correct version and size automatically
+    if err <> Z_OK then
+      raise Exception.Create('inflateInit2 error: ' + IntToStr(err));
+
+    try
+      // Point to the compressed data after the header
+      zstream.next_in := p + dataPos;
+      zstream.avail_in := Compressed.Size - dataPos;
+
+      repeat
+        zstream.next_out := @outBuffer;
+        zstream.avail_out := SizeOf(outBuffer);
+
+        err := inflate(zstream, Z_NO_FLUSH);
+        if err < 0 then
+          raise Exception.Create('inflate error: ' + IntToStr(err));
+
+        bytesWritten := SizeOf(outBuffer) - zstream.avail_out;
+        if bytesWritten > 0 then
+          Result.Write(outBuffer, bytesWritten);
+
+      until err = Z_STREAM_END; // End of stream reached
+
+    finally
+      inflateEnd(zstream);
+    end;
+    {$POP}
+
+    Result.Position := 0;
+  except
+    Result.Free;
+    raise;
   end;
 end;
 
