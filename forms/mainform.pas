@@ -115,9 +115,9 @@ type
     procedure ComboTargetDropDown(Sender: TObject);
     procedure ComboSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure ComboTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
-    procedure MemoSourceKeyUp(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure MemoTargetEnter(Sender: TObject);
     procedure MemoSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+    procedure MemoSourceKeyUp(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure MemoTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure PanelLangResize(Sender: TObject);
     procedure SbSwapMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
@@ -180,6 +180,7 @@ type
     FIconTwoLang: boolean;
 
     function TranslateThread(ATrans: TTranslate; AText: string; AMemo: TMemo = nil): string;
+    procedure ThreadDone(Sender: TObject);
     procedure DetectLanguage(AText: string);
     procedure TranslateMemo(ADetectLanguage: boolean = True);
     procedure TranslateFromClipboard;
@@ -393,13 +394,30 @@ begin
   UnregisterHotKeys;
   {$ENDIF}
   SaveFormSettings(Self);
-  FLangPairs.Free;
-  FLanguages.Free;
-  FLanguagesTarget.Free;
-  FConfigFiles.Free;
-  FConfigFileTitles.Free;
-  FTrans.Free;
-  FTransDetect.Free;
+  FreeAndNil(FLangPairs);
+  FreeAndNil(FLanguages);
+  FreeAndNil(FLanguagesTarget);
+  FreeAndNil(FConfigFiles);
+  FreeAndNil(FConfigFileTitles);
+  FreeAndNil(FTrans);
+  FreeAndNil(FTransDetect);
+
+  if Assigned(FTranslateThread) then
+  begin
+    FTranslateThread.Cancel;
+
+    // if thread is NOT auto-free, wait and free it
+    if not FTranslateThread.FreeOnTerminate then
+    begin
+      FTranslateThread.WaitFor;
+      FreeAndNil(FTranslateThread);
+    end
+    else
+    begin
+      // thread will free itself
+      FTranslateThread := nil;
+    end;
+  end;
 end;
 
 procedure TformTrayslate.FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -690,20 +708,6 @@ begin
     ComboTarget.DroppedDown := True;
 end;
 
-procedure TformTrayslate.MemoSourceKeyUp(Sender: TObject; var Key: word; Shift: TShiftState);
-begin
-  if FRealTime then
-  begin
-    if TimerTranslate.Enabled then
-    begin
-      TimerTranslate.Enabled := False;
-      if Assigned(FTranslateThread) then
-        FTranslateThread.Cancel;
-    end;
-    TimerTranslate.Enabled := True;
-  end;
-end;
-
 procedure TformTrayslate.MemoTargetEnter(Sender: TObject);
 begin
   //MemoTarget.SelStart := 0;
@@ -757,6 +761,22 @@ begin
     else
       FLastEnterTime := NowTime;
   end;
+end;
+
+procedure TformTrayslate.MemoSourceKeyUp(Sender: TObject; var Key: word; Shift: TShiftState);
+begin
+  if FRealTime and (Key <> VK_RETURN) then
+  begin
+    if TimerTranslate.Enabled then
+    begin
+      TimerTranslate.Enabled := False;
+      if Assigned(FTranslateThread) then
+        FTranslateThread.Cancel;
+    end;
+    TimerTranslate.Enabled := True;
+  end
+  else
+    TimerTranslate.Enabled := False;
 end;
 
 procedure TformTrayslate.MemoTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
@@ -1362,7 +1382,9 @@ begin
     // Create translation thread (it will handle exceptions itself)
     ATrans.TextToTranslate := AText;
     FTranslateThread := TTranslateThread.Create(ATrans, AMemo, TimerAnimate, Assigned(AMemo));
-    if not Assigned(AMemo) then
+    if Assigned(AMemo) then
+      FTranslateThread.OnTerminate := @ThreadDone
+    else
     begin
       try
         // Wait for thread to finish
@@ -1376,7 +1398,8 @@ begin
         if FTranslateThread.ResultTextSync <> string.Empty then
           Result := FTranslateThread.ResultTextSync;
       finally
-        FTranslateThread.Free;
+        if Assigned(FTranslateThread) then
+          FreeAndNil(FTranslateThread);
       end;
     end;
   finally
@@ -1386,6 +1409,11 @@ begin
       TimerAnimate.Enabled := False;
     end;
   end;
+end;
+
+procedure TformTrayslate.ThreadDone(Sender: TObject);
+begin
+  FTranslateThread := nil;
 end;
 
 procedure TformTrayslate.DetectLanguage(AText: string);

@@ -127,8 +127,8 @@ type
     FException: Exception;
     FCancelled: boolean;
   protected
-    procedure Execute; override;
     procedure BeforeExecute;
+    procedure Execute; override;
     procedure AfterExecute;
   public
     constructor Create(ATrans: TTranslate; AMemo: TMemo = nil; ATimer: TTimer = nil; AFreeOnTerminate: boolean = True);
@@ -555,6 +555,15 @@ begin
   Start;
 end;
 
+procedure TTranslateThread.BeforeExecute;
+begin
+  if Assigned(FMemo) then
+    Screen.Cursor := crAppStart;
+
+  if Assigned(FTimer) then
+    FTimer.Enabled := True;
+end;
+
 procedure TTranslateThread.Execute;
 begin
   try
@@ -577,15 +586,6 @@ procedure TTranslateThread.Cancel;
 begin
   FreeOnTerminate := True;
   FCancelled := True;
-end;
-
-procedure TTranslateThread.BeforeExecute;
-begin
-  if Assigned(FMemo) then
-    Screen.Cursor := crAppStart;
-
-  if Assigned(FTimer) then
-    FTimer.Enabled := True;
 end;
 
 procedure TTranslateThread.AfterExecute;
