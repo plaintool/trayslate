@@ -51,6 +51,7 @@ const
 
   DEF_FONT = 'Tahoma';
   DEF_NA = 'N/A';
+  DEF_AUTO = '*';
 
 {$ENDIF}
 
@@ -95,8 +96,8 @@ var
     begin
       if (LowerCase(Result) = 'auto') then
       begin
-        Bmp.Canvas.Font.Size := Form.ScaleScreenTo96(4);
-        Result := 'AUTO';
+        Bmp.Canvas.Font.Size := Form.ScaleScreenTo96(8);
+        Result := DEF_AUTO;
       end
       else
       begin
