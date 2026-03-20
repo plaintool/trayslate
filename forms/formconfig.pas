@@ -232,7 +232,7 @@ begin
     with formTrayslate.Trans do
     begin
       ParametersAge := Now + 3650;
-      OpenStringInTextEditor(Post);
+      OpenStringInTextEditor(Post(True));
     end;
   finally
     Enabled := True;

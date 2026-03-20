@@ -21,6 +21,7 @@ uses
   DateUtils,
   ExtCtrls,
   LazUTF8,
+  HTTPDefs,
   fphttpclient,
   fpjson,
   jsonparser;
@@ -79,7 +80,7 @@ type
     procedure SetParametersList(Strings: TStrings);
     function GetInit: string;
     function Get(ReturnHeaders: boolean = False): string;
-    function Post: string;
+    function Post(ReturnHeaders: boolean = False): string;
     function TransRegEx(content: string): string;
     function TransJson(content: string): string;
     function Translate: string;
@@ -203,6 +204,7 @@ var
   RegExpStr: string;
   R: TRegExpr;
   Value: string;
+  FullRandom: int64;
 begin
   if FTextToTranslate <> string.Empty then
     FParameterValues.Values['text'] := FTextToTranslate
@@ -218,6 +220,16 @@ begin
     FParameterValues.Values['target'] := FLangTarget
   else
     FParameterValues.Values['target'] := Language;
+
+  // TimeStamp
+  FParameterValues.Values['timestamp'] := GetTimestampNow.ToString;
+
+  // Random
+  FullRandom := GetRandomID(9);
+  FParameterValues.Values['random'] := FullRandom.ToString;
+  FParameterValues.Values['rand'] := FullRandom.ToString;
+  for i := 1 to Length(FullRandom.ToString) do
+    FParameterValues.Values['rand' + IntToStr(i)] := Copy(FullRandom.ToString, 1, i);
 
   // Extract additional parameters using regex
   if not Assigned(FInitParameters) or (Data = string.Empty) or (SecondsBetween(Now, FParametersAge) < FInitLiveTime) then
@@ -259,8 +271,13 @@ var
 
   function Encrypt(AName, AValue: string): string;
   begin
-    if (FEncryptText) and (Lowercase(AName) = 'text') then
-      Result := EncodeURLElement(AValue)
+    if (Lowercase(AName) = 'text') then
+    begin
+      if (FEncryptText) then
+        Result := EncodeURLElement(AValue)
+      else
+        Result := EscapeText(AValue);
+    end
     else
       Result := AValue;
   end;
@@ -307,8 +324,8 @@ var
   decompressedStream: TMemoryStream;
   contentEncoding: string;
 begin
-  Result := '';
-  if FInitUrl = '' then Exit;
+  Result := string.Empty;
+  if FInitUrl = string.Empty then Exit;
   if SecondsBetween(Now, FParametersAge) < FInitLiveTime then Exit;
   FParameterValues.Clear;
 
@@ -317,7 +334,7 @@ begin
   try
     http.AllowRedirect := True;
     http.RequestHeaders.Clear;
-    if FInitUserAgent <> '' then
+    if FInitUserAgent <> string.Empty then
       http.AddHeader('User-Agent', FInitUserAgent);
     if Assigned(InitHeaders) then
       for i := 0 to InitHeaders.Count - 1 do
@@ -327,11 +344,11 @@ begin
     response.Position := 0;
 
     // form a line with headings
-    header := '';
+    header := string.Empty;
     for i := 0 to http.ResponseHeaders.Count - 1 do
       header := header + http.ResponseHeaders[i] + LineEnding;
 
-    bodyStream := TStringStream.Create('', TEncoding.UTF8);
+    bodyStream := TStringStream.Create(string.Empty, TEncoding.UTF8);
     try
       contentEncoding := Trim(http.ResponseHeaders.Values['Content-Encoding']);
 
@@ -365,11 +382,14 @@ end;
 function TTranslate.Get(ReturnHeaders: boolean = False): string;
 var
   http: TFPHTTPClient;
-  response: TStringStream;
+  rawResponse: TMemoryStream;            // raw HTTP response data
+  decompressedStream: TMemoryStream;     // used if decompression is needed
+  bodyStream: TStringStream;             // final string representation (UTF-8)
   TempUrl: string;
   TempHeaders: TStringList;
   i: integer;
   header: string;
+  contentEncoding: string;
 begin
   Result := string.Empty;
   if FUrl = string.Empty then exit;
@@ -379,7 +399,7 @@ begin
     GetParameters(GetInit);
 
     http := TFPHTTPClient.Create(nil);
-    response := TStringStream.Create(string.Empty);
+    rawResponse := TMemoryStream.Create;
     try
       TempUrl := FUrl;
       TempUrl := SetParameters(TempUrl);
@@ -408,20 +428,57 @@ begin
         end;
       end;
 
-      http.Get(TempUrl, response);
+      // Perform the GET request; rawResponse receives the uncompressed data
+      http.Get(TempUrl, rawResponse);
+      rawResponse.Position := 0;
 
-      if (ReturnHeaders) then
+      // Determine if the response is gzip compressed
+      contentEncoding := Trim(http.ResponseHeaders.Values['Content-Encoding']);
+      if SameText(contentEncoding, 'gzip') and IsGzip(rawResponse) then
       begin
-        header := string.Empty;
-        for i := 0 to http.ResponseHeaders.Count - 1 do
-          header := header + http.ResponseHeaders[i] + LineEnding;
-        // Combine headers and body
-        Result := header + LineEnding + response.DataString;
+        decompressedStream := DecompressGzipToStream(rawResponse);
+        try
+          // Convert the decompressed stream to a UTF-8 string
+          bodyStream := TStringStream.Create(string.Empty, TEncoding.UTF8);
+          try
+            bodyStream.CopyFrom(decompressedStream, 0);
+            if ReturnHeaders then
+            begin
+              header := string.Empty;
+              for i := 0 to http.ResponseHeaders.Count - 1 do
+                header := header + http.ResponseHeaders[i] + LineEnding;
+              Result := header + LineEnding + bodyStream.DataString;
+            end
+            else
+              Result := bodyStream.DataString;
+          finally
+            bodyStream.Free;
+          end;
+        finally
+          decompressedStream.Free;
+        end;
       end
       else
-        Result := response.DataString;
+      begin
+        // Plain text response (no decompression)
+        bodyStream := TStringStream.Create(string.Empty, TEncoding.UTF8);
+        try
+          bodyStream.CopyFrom(rawResponse, 0);
+          if ReturnHeaders then
+          begin
+            header := string.Empty;
+            for i := 0 to http.ResponseHeaders.Count - 1 do
+              header := header + http.ResponseHeaders[i] + LineEnding;
+            Result := header + LineEnding + bodyStream.DataString;
+          end
+          else
+            Result := bodyStream.DataString;
+        finally
+          bodyStream.Free;
+        end;
+      end;
     finally
-      response.Free;
+      rawResponse.Free;
       http.Free;
     end;
   except
@@ -430,14 +487,19 @@ begin
   end;
 end;
 
-function TTranslate.Post: string;
+function TTranslate.Post(ReturnHeaders: boolean = False): string;
 var
   http: TFPHTTPClient;
-  response, postStream: TStringStream;
+  rawResponse: TMemoryStream;            // raw HTTP response data
+  decompressedStream: TMemoryStream;     // used if decompression is needed
+  bodyStream: TStringStream;             // final string representation (UTF-8)
+  postStream: TStringStream;
   TempData: string;
   TempUrl: string;
   TempHeaders: TStringList;
   i: integer;
+  header: string;
+  contentEncoding: string;
 begin
   Result := string.Empty;
   if FUrl = string.Empty then exit;
@@ -445,7 +507,7 @@ begin
     GetParameters(GetInit);
 
     http := TFPHTTPClient.Create(nil);
-    response := TStringStream.Create(string.Empty);
+    rawResponse := TMemoryStream.Create;
     try
       TempUrl := FUrl;
       TempUrl := SetParameters(TempUrl);
@@ -483,13 +545,49 @@ begin
         end;
 
         http.RequestBody := postStream;
-        http.Post(TempUrl, response);
+        http.Post(TempUrl, rawResponse);
+        rawResponse.Position := 0;
+
+        // Determine if the response is gzip compressed
+        contentEncoding := Trim(http.ResponseHeaders.Values['Content-Encoding']);
+        if SameText(contentEncoding, 'gzip') and IsGzip(rawResponse) then
+        begin
+          decompressedStream := DecompressGzipToStream(rawResponse);
+          try
+            bodyStream := TStringStream.Create(string.Empty, TEncoding.UTF8);
+            try
+              bodyStream.CopyFrom(decompressedStream, 0);
+              Result := bodyStream.DataString;
+            finally
+              bodyStream.Free;
+            end;
+          finally
+            decompressedStream.Free;
+          end;
+        end
+        else
+        begin
+          bodyStream := TStringStream.Create(string.Empty, TEncoding.UTF8);
+          try
+            bodyStream.CopyFrom(rawResponse, 0);
+            if ReturnHeaders then
+            begin
+              header := string.Empty;
+              for i := 0 to http.ResponseHeaders.Count - 1 do
+                header := header + http.ResponseHeaders[i] + LineEnding;
+              Result := header + LineEnding + bodyStream.DataString;
+            end
+            else
+              Result := bodyStream.DataString;
+          finally
+            bodyStream.Free;
+          end;
+        end;
       finally
         postStream.Free;
       end;
-      Result := response.DataString;
     finally
-      response.Free;
+      rawResponse.Free;
       http.Free;
     end;
   except
@@ -512,7 +610,7 @@ begin
         if regex.Exec(content) then
         begin
           Result := regex.Match[1];
-          Result := UnescapeUnicode(Result);
+          Result := UnescapeUnicode(HTTPDecode(Result));
         end
         else
           Result := string.Empty;
@@ -543,7 +641,7 @@ begin
       Result := content;
 
     if (Result <> string.Empty) then
-      Result := UnescapeUnicode(Result)
+      Result := UnescapeUnicode(HTTPDecode(Result))
     else
       Result := string.Empty;
   except

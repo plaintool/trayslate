@@ -48,7 +48,7 @@ implementation
 
 function GetLanguages: TValueArray;
 const
-  Languages: array[0..258] of TAppValue = (
+  Languages: array[0..260] of TAppValue = (
     // Languages
     (Code: 'auto'; DisplayName: 'Auto detect'),
     (Code: 'empty'; DisplayName: 'Auto detect'),
@@ -62,6 +62,8 @@ const
     (Code: 'alz'; DisplayName: 'Alur'),
     (Code: 'am'; DisplayName: 'Amharic'),
     (Code: 'en'; DisplayName: 'English'),
+    (Code: 'en-gb'; DisplayName: 'English (British)'),
+    (Code: 'en-us'; DisplayName: 'English (American)'),
     (Code: 'ar'; DisplayName: 'Arabic'),
     (Code: 'hy'; DisplayName: 'Armenian'),
     (Code: 'as'; DisplayName: 'Assamese'),

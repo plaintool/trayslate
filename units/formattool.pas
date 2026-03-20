@@ -18,17 +18,23 @@ uses
   StdCtrls,
   Clipbrd,
   Graphics,
+  DateUtils,
+  Math,
   LCLIntf,
   fpjson,
   jsonparser;
-
-  {TColor}
 
 function ColorToHtml(AColor: TColor): string;
 
 function ColorFromHtml(const AHtml: string): TColor;
 
 function UnescapeUnicode(const S: string): string;
+
+function EscapeText(const AText: string): string;
+
+function GetTimestampNow: int64;
+
+function GetRandomID(ALength: integer): int64;
 
 function IsJson(const S: string): boolean;
 
@@ -48,11 +54,9 @@ function RemoveTrailingLineBreak(const S: string): string;
 
 procedure FillFontCombo(ACombo: TComboBox);
 
-function GetIndexByValue(SL: TStringList; const AValue: string): Integer;
+function GetIndexByValue(SL: TStringList; const AValue: string): integer;
 
 implementation
-
-{TColor}
 
 function ColorToHtml(AColor: TColor): string;
 var
@@ -91,7 +95,7 @@ var
   tmp: integer;
 begin
   // Initialize result
-  Result := '';
+  Result := string.Empty;
   i := 1;
 
   // Loop through the input string
@@ -132,13 +136,56 @@ begin
   end;
 end;
 
+function EscapeText(const AText: string): string;
+begin
+  Result := AText;
+
+  // 1. Backslash must be escaped first!
+  Result := StringReplace(Result, '\', '\\', [rfReplaceAll]);
+
+  // 2. Double quotes will break the JSON string if not escaped
+  Result := StringReplace(Result, '"', '\"', [rfReplaceAll]);
+
+  // 3. Line breaks (Enter) must be replaced with \n
+  Result := StringReplace(Result, #13#10, '\n', [rfReplaceAll]);
+  Result := StringReplace(Result, #10, '\n', [rfReplaceAll]);
+  Result := StringReplace(Result, #13, '\r', [rfReplaceAll]);
+
+  // 4. Tabs are also problematic
+  Result := StringReplace(Result, #9, '\t', [rfReplaceAll]);
+end;
+
+function GetTimestampNow: int64;
+begin
+  // DateTimeToUnix returns seconds. False means we use UTC time.
+  // We multiply by 1000 to convert seconds to milliseconds for DeepL.
+  Result := DateTimeToUnix(Now, False) * 1000;
+end;
+
+function GetRandomID(ALength: integer): int64;
+var
+  MinVal, MaxVal: int64;
+begin
+  // Limit length to stay within Int64 boundaries (max ~18 digits)
+  if ALength > 18 then ALength := 18;
+  if ALength < 1 then ALength := 1;
+
+  // Calculate range for the requested length (e.g., 3 digits: 100 to 999)
+  MinVal := Trunc(Power(10, ALength - 1));
+  MaxVal := Trunc(Power(10, ALength)) - 1;
+
+  // Standard random range generation
+  // Note: Ensure Randomize is called once in your FormCreate/Initialization
+  Result := MinVal + RandomRange(0, MaxVal - MinVal + 1);
+end;
+
 function IsJson(const S: string): boolean;
 var
   Trimmed: string;
 begin
   Trimmed := TrimLeft(S);
   // Check first character: { или [ — обычно JSON
-  Result := (Trimmed <> '') and ((Trimmed[1] = '{') or (Trimmed[1] = '['));
+  Result := (Trimmed <> string.Empty) and ((Trimmed[1] = '{') or (Trimmed[1] = '['));
 end;
 
 procedure PasteWithLineEnding(AMemo: TMemo);
@@ -183,7 +230,7 @@ begin
     EqualPos := Pos('=', Strings[i]);
 
     // If '=' exists and there is no text after it, remove the line
-    if (EqualPos > 0) and (Copy(Strings[i], EqualPos + 1, MaxInt) = '') then
+    if (EqualPos > 0) and (Copy(Strings[i], EqualPos + 1, MaxInt) = string.Empty) then
       Strings.Delete(i);
   end;
 end;
@@ -252,7 +299,7 @@ begin
           Params.Delete(I);
 
     // Rebuild URL string with &
-    Result := '';
+    Result := string.Empty;
     for I := 0 to Params.Count - 1 do
       if I = 0 then
         Result := Params[I]
@@ -318,9 +365,9 @@ begin
   end;
 end;
 
-function GetIndexByValue(SL: TStringList; const AValue: string): Integer;
+function GetIndexByValue(SL: TStringList; const AValue: string): integer;
 var
-  i: Integer;
+  i: integer;
 begin
   Result := -1; // not found
   for i := 0 to SL.Count - 1 do
