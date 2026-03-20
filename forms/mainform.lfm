@@ -195,7 +195,7 @@ object formTrayslate: TformTrayslate
         WrapAfter = waAuto
         Index = 0
       end>
-    FlowLayout = tlTop
+    FlowLayout = tlCenter
     FlowStyle = fsLeftRightTopBottom
     ParentColor = False
     ParentShowHint = False
