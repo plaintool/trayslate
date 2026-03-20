@@ -1370,6 +1370,8 @@ end;
 {$ENDIF}
 
 function TformTrayslate.TranslateThread(ATrans: TTranslate; AText: string; AMemo: TMemo = nil): string;
+var
+  Th: TTranslateThread;
 begin
   Result := string.Empty;
   try
@@ -1381,25 +1383,29 @@ begin
 
     // Create translation thread (it will handle exceptions itself)
     ATrans.TextToTranslate := AText;
-    FTranslateThread := TTranslateThread.Create(ATrans, AMemo, TimerAnimate, Assigned(AMemo));
+    Th := TTranslateThread.Create(ATrans, AMemo, TimerAnimate, Assigned(AMemo));
+    FTranslateThread := Th;
+
     if Assigned(AMemo) then
-      FTranslateThread.OnTerminate := @ThreadDone
+      Th.OnTerminate := @ThreadDone
     else
     begin
       try
         // Wait for thread to finish
-        while not FTranslateThread.Finished do
+        while not Th.Finished do
         begin
           Application.ProcessMessages;
           Sleep(1); // reduce CPU usage
         end;
 
         // Set translated text to clipboard
-        if FTranslateThread.ResultTextSync <> string.Empty then
-          Result := FTranslateThread.ResultTextSync;
+        if Th.ResultTextSync <> string.Empty then
+          Result := Th.ResultTextSync;
       finally
-        if Assigned(FTranslateThread) then
-          FreeAndNil(FTranslateThread);
+        if Assigned(Th) then
+          Th.Free;
+        if FTranslateThread = Th then
+          FTranslateThread := nil;
       end;
     end;
   finally

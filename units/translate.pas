@@ -710,7 +710,6 @@ end;
 
 procedure TTranslateThread.Cancel;
 begin
-  FreeOnTerminate := True;
   FCancelled := True;
 end;
 
