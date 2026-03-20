@@ -236,7 +236,7 @@ var
 begin
   for i := 0 to ComboBox.Items.Count - 1 do
   begin
-    if ExtractCodeFromItem(ComboBox.Items[i]) = Code then
+    if SameText(ExtractCodeFromItem(ComboBox.Items[i]), Code) then
     begin
       ComboBox.ItemIndex := i;
       Exit;
