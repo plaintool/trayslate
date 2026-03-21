@@ -458,18 +458,9 @@ begin
           Translate.Headers.Names[i],
           Translate.Headers.ValueFromIndex[i]);
 
-    if Translate.ResponseParser = rpJson then
-      Ini.WriteString('Response', 'ParserType', 'Json')
-    else
-      Ini.WriteString('Response', 'ParserType', 'Regexp');
-
     Ini.DeleteKey('Response', 'JsonPointer');
     if Trim(Translate.JsonPointer) <> string.Empty then
       Ini.WriteString('Response', 'JsonPointer', Translate.JsonPointer);
-
-    Ini.DeleteKey('Response', 'Regexp');
-    if Trim(Translate.Regexp) <> string.Empty then
-      Ini.WriteString('Response', 'Regexp', Translate.Regexp);
 
     Ini.EraseSection('Initial Request');
     Ini.DeleteKey('Initial Request', 'UserAgent');
@@ -605,14 +596,7 @@ begin
 
     Translate.Headers.Clear;
     Ini.ReadSectionValues('Headers', Translate.Headers);
-
-    Method := Ini.ReadString('Response', 'ParserType', 'Json');
-    if SameText(Method, 'Json') then
-      Translate.ResponseParser := rpJson
-    else
-      Translate.ResponseParser := rpRegEx;
     Translate.JsonPointer := Ini.ReadString('Response', 'JsonPointer', string.Empty);
-    Translate.Regexp := Ini.ReadString('Response', 'Regexp', string.Empty);
 
     Translate.InitUserAgent := Ini.ReadString('Initial Request', 'UserAgent', string.Empty);
     Translate.InitUrl := Ini.ReadString('Initial Request', 'Url', string.Empty);
@@ -636,7 +620,6 @@ function IsValidIni(const FileName: string): boolean;
 var
   Ini: TIniFile;
   Method: string;
-  ParserType: string;
 begin
   Result := False;
 
@@ -647,9 +630,9 @@ begin
   try
     // Check required keys
     Method := Ini.ReadString('Request', 'Method', string.Empty);
-    ParserType := Ini.ReadString('Response', 'ParserType', string.Empty);
 
-    if ((Method = 'GET') or (Method = 'POST')) and ((ParserType = 'Json') or (ParserType = 'Regexp')) then
+    if ((Method = 'GET') or (Method = 'POST')) and Ini.ValueExists('Request', 'EncryptText') and
+      Ini.ValueExists('Service', 'Order') then
       Result := True;
   finally
     Ini.Free;

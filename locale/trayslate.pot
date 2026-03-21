@@ -125,11 +125,6 @@ msgstr ""
 msgid "GET"
 msgstr ""
 
-#: tformconfigtrayslate.comboresponseparser.text
-msgctxt "tformconfigtrayslate.comboresponseparser.text"
-msgid "JSON"
-msgstr ""
-
 #: tformconfigtrayslate.combovaluetype.text
 msgid "None"
 msgstr ""
@@ -220,17 +215,15 @@ msgctxt "tformconfigtrayslate.labelinituseragent.caption"
 msgid "User Agent"
 msgstr ""
 
-#: tformconfigtrayslate.labeljsonpointer.caption
-msgid "Json Pointer"
-msgstr ""
-
 #: tformconfigtrayslate.labeljsonpointer2.caption
 msgid ""
-"In Json Pointer use / to separate levels, strings for object keys, numbers for array indexes, * for all array items, *#10 for all items joined by newline. \n"
-"Literal text can be included by enclosing it in {…}. \n"
-"Multiple pointers or text pieces can be specified separated by ';'.\n"
-"Examples: \n"
-"/texts/text; {literal text}; #10; /result/text, responseData/translatedText, matches/*#10/translation"
+"Json Pointer: Use / for levels, keys for objects, numbers for indexes. Use * for all items, *#10 to join items by newline. Separate multiple segments with ;.\n"
+"Literal: Text in {…}. Special tag {#10} for newlines. Use {{regex}} to extract data directly into the text.\n"
+"Logic: If a Pointer in a segment is empty, the whole segment is skipped. If a segment has no Pointer, it uses the full JSON as context.\n"
+"Regex: {prefix {regex} suffix} inside a block. If the regex finds no match, the entire {…} block is removed. Supports {n} quantifiers.\n"
+"Inversion: Start a segment with ! (e.g. !/path{Error}) to show its text ONLY if the Pointer data is missing or JSON is invalid.\n"
+"Examples:\n"
+"responseData/translatedText; matches/*#10/translation; /texts/text; {literal text#10}; /result/text; /text{ ({(\\w+)})}; !/translations{Error: No data!#10}; /translations/0/text"
 msgstr ""
 
 #: tformconfigtrayslate.labellanguages.caption
@@ -265,24 +258,6 @@ msgstr ""
 #: tformconfigtrayslate.labelpostdata1.caption
 msgctxt "tformconfigtrayslate.labelpostdata1.caption"
 msgid "Headers"
-msgstr ""
-
-#: tformconfigtrayslate.labelregexp.caption
-msgctxt "tformconfigtrayslate.labelregexp.caption"
-msgid "RegExp"
-msgstr ""
-
-#: tformconfigtrayslate.labelregexp2.caption
-msgid ""
-"Literal text can be included by enclosing it in {…}. \n"
-"Multiple regexp can be specified separated by '; ' (with space).\n"
-"Examples: \n"
-"\"text\":\"(.*?)\"; #10;  {Literal Text}; #10; \"translation\":\"(.*?)\""
-msgstr ""
-
-#: tformconfigtrayslate.labelresponseparser.caption
-msgctxt "tformconfigtrayslate.labelresponseparser.caption"
-msgid "Parse Type"
 msgstr ""
 
 #: tformconfigtrayslate.labelservicename.caption

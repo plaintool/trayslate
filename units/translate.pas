@@ -28,7 +28,6 @@ uses
 
 type
   TWebMethod = (wmGet, wmPost);
-  TResponseParser = (rpJson, rpRegEx);
   TValueType = (
     vtNone,            // as is
     vtLanguage,        // languages
@@ -56,7 +55,6 @@ type
     FContentType: string;
     FPostData: string;
     FAccept: string;
-    FResponseParser: TResponseParser;
     FJsonPointer: string;
     FRegexp: string;
     FLanguages: TStringList;
@@ -81,7 +79,6 @@ type
     function GetInit: string;
     function Get(ReturnHeaders: boolean = False): string;
     function Post(ReturnHeaders: boolean = False): string;
-    function TransRegEx(content: string): string;
     function TransJson(content: string): string;
     function Translate: string;
 
@@ -102,9 +99,7 @@ type
     property ContentType: string read FContentType write FContentType;
     property PostData: string read FPostData write FPostData;
     property Accept: string read FAccept write FAccept;
-    property ResponseParser: TResponseParser read FResponseParser write FResponseParser;
     property JsonPointer: string read FJsonPointer write FJsonPointer;
-    property Regexp: string read FRegexp write FRegexp;
     property Languages: TStringList read FLanguages write FLanguages;
     property LanguagesTarget: TStringList read FLanguagesTarget write FLanguagesTarget;
     property ValueType: TValueType read FValueType write FValueType;
@@ -162,7 +157,6 @@ begin
   FContentType := 'application/json';
   FPostData := string.Empty;
   FAccept := 'application/json';
-  FResponseParser := rpJson;
   FJsonPointer := '/0/*/0';
   FRegexp := string.Empty;
   FLanguages := TStringList.Create;
@@ -598,143 +592,168 @@ end;
 
 function TTranslate.TransJson(content: string): string;
 var
-  Parts: TStringList;
-  i: integer;
-  Part: string;
-  Value: string;
-begin
-  Result := string.Empty;
-
-  if Trim(content) = string.Empty then Exit;
-  if not IsJson(content) then Exit(content);
-
-  try
-    if (JsonPointer <> string.Empty) then
-    begin
-      Parts := TStringList.Create;
-      try
-        // Split by ';'
-        Parts.Delimiter := ';';
-        Parts.StrictDelimiter := True;
-        Parts.DelimitedText := JsonPointer;
-
-        for i := 0 to Parts.Count - 1 do
-        begin
-          Part := Trim(Parts[i]);
-          if Part = string.Empty then Continue;
-
-          // Literal text support {…}
-          if (Part[1] = '{') and (Part[Length(Part)] = '}') then
-          begin
-            Value := Copy(Part, 2, Length(Part)-2);
-            if (Result <> string.Empty) and (Result[Length(Result)] <> #10) then
-              Result := Result + ' ';
-            Result := Result + Value;
-            Continue;
-          end;
-
-          // Line break support
-          if Part = '#10' then
-          begin
-            if Result <> string.Empty then
-              Result := Result + #10;
-            Continue;
-          end;
-
-          // Parse JSON by pointer
-          Value := ParseJsonByPointer(content, Part);
-
-          if Value <> string.Empty then
-          begin
-            Value := UnescapeUnicode(HTTPDecode(Value));
-
-            if (Result <> string.Empty) and (Result[Length(Result)] <> #10) then
-              Result := Result + ' ';
-
-            Result := Result + Value;
-          end;
-        end;
-      finally
-        Parts.Free;
-      end;
-    end
-    else
-      Result := content;
-  except
-    on E: Exception do
-      Result := E.Message + #10 + content;
-  end;
-end;
-
-function TTranslate.TransRegEx(content: string): string;
-var
-  Parts: TStringList;
+  Segments: TStringList;
   regex: TRegExpr;
-  i: integer;
-  Part: string;
-  Value: string;
+  i, j, k, pStart, pEnd, rStart, rEnd, OpenBrackets, SlashPos: integer;
+  Segment, FinalResult, PointerPath, PointerValue, CurrentContext: string;
+  BlockContent, ProcessedBlock, Prefix, RegexPart, Suffix, MatchRes: string;
+  PointerFound, IsInverted: boolean;
 begin
-  Result := string.Empty;
+  Result := '';
+  if (Trim(content) = '') then Exit;
+  if not IsJson(content) then Exit(content);
+  if (JsonPointer = '') then Exit(content);
 
+  Segments := TStringList.Create;
+  regex := TRegExpr.Create;
+  regex.ModifierStr := 'i';
+  FinalResult := '';
   try
-    if (FRegexp <> string.Empty) then
+    Segments.Delimiter := ';';
+    Segments.StrictDelimiter := True;
+    Segments.DelimitedText := JsonPointer;
+
+    for i := 0 to Segments.Count - 1 do
     begin
-      Parts := TStringList.Create;
-      regex := TRegExpr.Create;
-      try
-        // Split by '; '
-        Parts.Text := StringReplace(FRegexp, '; ', #10, [rfReplaceAll]);
+      Segment := Trim(Segments[i]);
+      if Segment = '' then Continue;
 
-        for i := 0 to Parts.Count - 1 do
-        begin
-          Part := Trim(Parts[i]);
-          if Part = string.Empty then Continue;
+      PointerPath := '';
+      PointerValue := '';
+      PointerFound := False;
+      IsInverted := False;
+      SlashPos := 0;
 
-          // Literal text support {…}
-          if (Part[1] = '{') and (Part[Length(Part)] = '}') then
-          begin
-            Value := Copy(Part, 2, Length(Part)-2);
-            if (Result <> string.Empty) and (Result[Length(Result)] <> #10) then
-              Result := Result + ' ';
-            Result := Result + Value;
-            Continue;
-          end;
-
-          // Line break
-          if Part = '#10' then
-          begin
-            if Result <> string.Empty then
-              Result := Result + #10;
-            Continue;
-          end;
-
-          regex.Expression := Part;
-
-          if regex.Exec(content) then
-          begin
-            Value := regex.Match[1];
-
-            if Value <> string.Empty then
-            begin
-              Value := UnescapeUnicode(HTTPDecode(Value));
-
-              if (Result <> string.Empty) and (Result[Length(Result)] <> #10) then
-                Result := Result + ' ';
-
-              Result := Result + Value;
-            end;
-          end;
-        end;
-      finally
-        regex.Free;
-        Parts.Free;
+      // 1. Check if the segment starts with the inversion marker '!'
+      if (Segment <> '') and (Segment[1] = '!') then
+      begin
+        IsInverted := True;
+        Delete(Segment, 1, 1); // Remove '!' for further processing
       end;
-    end
-    else
-      Result := content;
-  except
-    on E: Exception do
-      Result := E.Message + #10 + content;
+
+      // Locate JSON Pointer
+      OpenBrackets := 0;
+      for j := 1 to Length(Segment) do
+      begin
+        if Segment[j] = '{' then Inc(OpenBrackets)
+        else if Segment[j] = '}' then Dec(OpenBrackets)
+        else if (OpenBrackets = 0) and (Segment[j] = '/') then
+        begin
+          SlashPos := j;
+          Break;
+        end;
+      end;
+
+      if SlashPos > 0 then
+      begin
+        pEnd := SlashPos;
+        while (pEnd <= Length(Segment)) and (Segment[pEnd] <> '{') do Inc(pEnd);
+        PointerPath := Trim(Copy(Segment, SlashPos, pEnd - SlashPos));
+
+        PointerValue := ParseJsonByPointer(content, PointerPath);
+
+        if IsInverted then
+        begin
+          // INVERSION LOGIC:
+          // If data is FOUND, we return empty string to kill the error segment.
+          // If data is NOT found (Empty), we return a placeholder to keep the segment alive.
+          if PointerValue <> '' then
+            Continue // Key exists, so this "Error Segment" should be hidden
+          else
+            PointerValue := ' '; // Key missing, keep segment to show the error text
+        end;
+
+        PointerValue := UnescapeUnicode(HTTPDecode(PointerValue));
+
+        // Rule: If pointer is empty (and not inverted), skip segment
+        if (not IsInverted) and (PointerValue = '') then Continue;
+
+        PointerFound := True;
+        Segment := StringReplace(Segment, PointerPath, PointerValue, [rfReplaceAll]);
+      end;
+
+      if PointerFound then CurrentContext := PointerValue
+      else
+        CurrentContext := content;
+
+      // 2. Process all {blocks}
+      k := 1;
+      while k <= Length(Segment) do
+      begin
+        if Segment[k] = '{' then
+        begin
+          pStart := k;
+          pEnd := pStart + 1;
+          OpenBrackets := 1;
+          while (pEnd <= Length(Segment)) and (OpenBrackets > 0) do
+          begin
+            if Segment[pEnd] = '{' then Inc(OpenBrackets);
+            if Segment[pEnd] = '}' then Dec(OpenBrackets);
+            if OpenBrackets > 0 then Inc(pEnd);
+          end;
+
+          BlockContent := Copy(Segment, pStart + 1, pEnd - pStart - 1);
+          ProcessedBlock := '';
+
+          try
+            if (pStart > 1) and (Segment[pStart - 1] = '{') then
+            begin
+              regex.Expression := BlockContent;
+              if regex.Exec(CurrentContext) then
+              begin
+                if regex.SubExprMatchCount > 0 then MatchRes := regex.Match[1]
+                else
+                  MatchRes := regex.Match[0];
+                ProcessedBlock := UnescapeUnicode(HTTPDecode(MatchRes));
+              end;
+              Dec(pStart);
+              Inc(pEnd);
+            end
+            else
+            begin
+              rStart := Pos('{', BlockContent);
+              if rStart > 0 then
+              begin
+                rEnd := Length(BlockContent);
+                while (rEnd > rStart) and (BlockContent[rEnd] <> '}') do Dec(rEnd);
+                Prefix := Copy(BlockContent, 1, rStart - 1);
+                RegexPart := Copy(BlockContent, rStart + 1, rEnd - rStart - 1);
+                Suffix := Copy(BlockContent, rEnd + 1, Length(BlockContent));
+                regex.Expression := RegexPart;
+                if regex.Exec(CurrentContext) then
+                begin
+                  if regex.SubExprMatchCount > 0 then MatchRes := regex.Match[1]
+                  else
+                    MatchRes := regex.Match[0];
+                  ProcessedBlock := Prefix + UnescapeUnicode(HTTPDecode(MatchRes)) + Suffix;
+                end
+                else
+                  ProcessedBlock := '';
+              end
+              else
+                ProcessedBlock := BlockContent;
+            end;
+          except
+            ProcessedBlock := '';
+          end;
+
+          Delete(Segment, pStart, pEnd - pStart + 1);
+          Insert(ProcessedBlock, Segment, pStart);
+          k := pStart + Length(ProcessedBlock);
+        end
+        else
+          Inc(k);
+      end;
+
+      Segment := StringReplace(Segment, '#10', #10, [rfReplaceAll]);
+      FinalResult := FinalResult + Segment;
+    end;
+
+    Result := FinalResult;
+
+  finally
+    Segments.Free;
+    regex.Free;
   end;
 end;
 
@@ -747,10 +766,7 @@ begin
   else
     content := Get;
 
-  if FResponseParser = rpJson then
-    Result := TransJson(content)
-  else
-    Result := TransRegEx(content);
+  Result := TransJson(content);
 end;
 
 { TTranslateThread }

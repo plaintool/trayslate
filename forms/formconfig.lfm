@@ -675,7 +675,8 @@ object formConfigTrayslate: TformConfigTrayslate
             Left = 120
             Height = 23
             Top = 408
-            Width = 390
+            Width = 406
+            Anchors = [akTop, akLeft, akRight]
             TabOrder = 4
             OnChange = ValueChange
           end
@@ -820,8 +821,8 @@ object formConfigTrayslate: TformConfigTrayslate
         Width = 582
         HorzScrollBar.Page = 1
         HorzScrollBar.Visible = False
-        VertScrollBar.Increment = 39
-        VertScrollBar.Page = 397
+        VertScrollBar.Increment = 25
+        VertScrollBar.Page = 258
         VertScrollBar.Smooth = True
         VertScrollBar.Tracking = True
         Align = alClient
@@ -831,103 +832,42 @@ object formConfigTrayslate: TformConfigTrayslate
         TabOrder = 0
         object GroupResponse: TGroupBox
           Left = 5
-          Height = 387
+          Height = 481
           Top = 5
           Width = 572
-          Align = alTop
+          Align = alClient
           BorderSpacing.Around = 5
           Caption = 'Response'
-          ClientHeight = 367
+          ClientHeight = 461
           ClientWidth = 568
           ParentBackground = False
           TabOrder = 0
-          object LabelResponseParser: TLabel
-            Left = 8
-            Height = 23
-            Top = 8
-            Width = 104
-            Alignment = taRightJustify
-            AutoSize = False
-            Caption = 'Parse Type'
-          end
-          object ComboResponseParser: TComboBox
-            Left = 120
-            Height = 23
-            Top = 7
-            Width = 423
-            Anchors = [akTop, akLeft, akRight]
-            ItemHeight = 15
-            ItemIndex = 0
-            Items.Strings = (
-              'JSON'
-              'REGEXP'
-            )
-            Style = csDropDownList
-            TabOrder = 0
-            Text = 'JSON'
-            OnChange = ValueChange
-          end
-          object LabelRegexp: TLabel
-            Left = 8
-            Height = 23
-            Top = 287
-            Width = 104
-            Alignment = taRightJustify
-            AutoSize = False
-            Caption = 'RegExp'
-          end
-          object LabelJsonPointer: TLabel
-            Left = 8
-            Height = 23
-            Top = 144
-            Width = 104
-            Alignment = taRightJustify
-            AutoSize = False
-            Caption = 'Json Pointer'
-          end
           object LabelJsonPointer2: TLabel
-            Left = 8
-            Height = 90
-            Top = 40
-            Width = 535
-            Anchors = [akTop, akLeft, akRight]
-            Caption = 'In Json Pointer use / to separate levels, strings for object keys, numbers for array indexes, * for all array items, *#10 for all items joined by newline. '#13#10'Literal text can be included by enclosing it in {…}. '#13#10'Multiple pointers or text pieces can be specified separated by '';''.'#13#10'Examples: '#13#10'/texts/text; {literal text}; #10; /result/text, responseData/translatedText, matches/*#10/translation'
-            Color = clInfoBk
-            ParentColor = False
-            Transparent = False
-            WordWrap = True
-          end
-          object LabelRegexp2: TLabel
-            Left = 8
-            Height = 60
-            Top = 216
-            Width = 535
-            Anchors = [akTop, akLeft, akRight]
-            Caption = 'Literal text can be included by enclosing it in {…}. '#13#10'Multiple regexp can be specified separated by ''; '' (with space).'#13#10'Examples: '#13#10'"text":"(.*?)"; #10;  {Literal Text}; #10; "translation":"(.*?)"'
+            Left = 5
+            Height = 180
+            Top = 5
+            Width = 543
+            Align = alTop
+            BorderSpacing.Right = 15
+            BorderSpacing.Bottom = 5
+            BorderSpacing.Around = 5
+            Caption = 'Json Pointer: Use / for levels, keys for objects, numbers for indexes. Use * for all items, *#10 to join items by newline. Separate multiple segments with ;.'#13#10'Literal: Text in {…}. Special tag {#10} for newlines. Use {{regex}} to extract data directly into the text.'#13#10'Logic: If a Pointer in a segment is empty, the whole segment is skipped. If a segment has no Pointer, it uses the full JSON as context.'#13#10'Regex: {prefix {regex} suffix} inside a block. If the regex finds no match, the entire {…} block is removed. Supports {n} quantifiers.'#13#10'Inversion: Start a segment with ! (e.g. !/path{Error}) to show its text ONLY if the Pointer data is missing or JSON is invalid.'#13#10'Examples:'#13#10'responseData/translatedText; matches/*#10/translation; /texts/text; {literal text#10}; /result/text; /text{ ({(\w+)})}; !/translations{Error: No data!#10}; /translations/0/text'
             Color = clInfoBk
             ParentColor = False
             Transparent = False
             WordWrap = True
           end
           object MemoJsonPointer: TMemo
-            Left = 123
-            Height = 64
-            Top = 144
-            Width = 406
-            Anchors = [akTop, akLeft, akRight]
+            Left = 5
+            Height = 256
+            Top = 200
+            Width = 543
+            Align = alClient
+            BorderSpacing.Top = 10
+            BorderSpacing.Right = 15
+            BorderSpacing.Around = 5
             ScrollBars = ssVertical
-            TabOrder = 1
-            WantReturns = False
-            OnChange = ValueChange
-          end
-          object MemoRegexp: TMemo
-            Left = 123
-            Height = 64
-            Top = 287
-            Width = 406
-            Anchors = [akTop, akLeft, akRight]
-            ScrollBars = ssVertical
-            TabOrder = 2
+            TabOrder = 0
             WantReturns = False
             OnChange = ValueChange
           end
