@@ -902,7 +902,8 @@ begin
     end
     else
     begin
-      if Assigned(FMemo) then FMemo.Text := FResultText;
+      if Assigned(FMemo) then
+        FMemo.Text := FResultText;
       FResultTextSync := FResultText;
     end;
   finally

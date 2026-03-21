@@ -390,17 +390,10 @@ end;
 
 procedure TformTrayslate.FormDestroy(Sender: TObject);
 begin
-  {$IFDEF WINDOWS}
-  UnregisterHotKeys;
-  {$ENDIF}
-  SaveFormSettings(Self);
-  FreeAndNil(FLangPairs);
-  FreeAndNil(FLanguages);
-  FreeAndNil(FLanguagesTarget);
-  FreeAndNil(FConfigFiles);
-  FreeAndNil(FConfigFileTitles);
-  FreeAndNil(FTrans);
-  FreeAndNil(FTransDetect);
+  TimerAnimate.Enabled := False;
+  TimerActive.Enabled := False;
+  TimerTranslate.Enabled := False;
+  TimerClick.Enabled := False;
 
   if Assigned(FTranslateThread) then
   begin
@@ -418,6 +411,18 @@ begin
       FTranslateThread := nil;
     end;
   end;
+
+  {$IFDEF WINDOWS}
+  UnregisterHotKeys;
+  {$ENDIF}
+  SaveFormSettings(Self);
+  FreeAndNil(FLangPairs);
+  FreeAndNil(FLanguages);
+  FreeAndNil(FLanguagesTarget);
+  FreeAndNil(FConfigFiles);
+  FreeAndNil(FConfigFileTitles);
+  FreeAndNil(FTrans);
+  FreeAndNil(FTransDetect);
 end;
 
 procedure TformTrayslate.FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -771,10 +776,8 @@ begin
 
   // List of keys that do not modify text content (Navigation, System, Modifiers)
   // We include VK_RETURN here as per your requirement to ignore it for translation triggers
-  if Key in [VK_RETURN, VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN,
-             VK_PRIOR, VK_NEXT, VK_END, VK_HOME,
-             VK_SHIFT, VK_CONTROL, VK_MENU, VK_CAPITAL,
-             VK_INSERT, VK_ESCAPE, VK_LWIN, VK_RWIN] then
+  if Key in [VK_RETURN, VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, VK_PRIOR, VK_NEXT, VK_END, VK_HOME, VK_SHIFT,
+    VK_CONTROL, VK_MENU, VK_CAPITAL, VK_INSERT, VK_ESCAPE, VK_LWIN, VK_RWIN] then
   begin
     TimerTranslate.Enabled := False;
     Exit;

@@ -378,8 +378,8 @@ object formTrayslate: TformTrayslate
     Enabled = False
     Interval = 700
     OnTimer = TimerTranslateTimer
-    Left = 376
-    Top = 328
+    Left = 304
+    Top = 400
   end
   object TimerAnimate: TTimer
     Enabled = False
