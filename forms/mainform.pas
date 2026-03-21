@@ -1094,9 +1094,18 @@ begin
   // Check if current ComboTarget text is still valid
   if ComboTarget.Items.IndexOf(ComboTarget.Text) < 0 then
   begin
-    Id := Trans.Languages.IndexOfName(LangTarget);
-    if (Id >= 0) and (Id < FLanguages.Count) then
-      ComboTarget.Text := FLanguages.ValueFromIndex[Id];
+    if Trans.LanguagesTarget.Count > 0 then
+    begin
+      Id := Trans.LanguagesTarget.IndexOfName(LangTarget);
+      if (Id >= 0) and (Id < FLanguagesTarget.Count) then
+        ComboTarget.Text := FLanguagesTarget.ValueFromIndex[Id];
+    end
+    else
+    begin
+      Id := Trans.Languages.IndexOfName(LangTarget);
+      if (Id >= 0) and (Id < FLanguages.Count) then
+        ComboTarget.Text := FLanguages.ValueFromIndex[Id];
+    end;
   end;
   if ComboTarget.Items.IndexOf(ComboTarget.Text) < 0 then
   begin
