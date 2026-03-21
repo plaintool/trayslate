@@ -10,6 +10,14 @@ msgstr ""
 msgid "The list is already filled. Do you want to clear it?"
 msgstr ""
 
+#: formconfig.rdeleteconfig
+msgid "Are you sure you want to delete config"
+msgstr ""
+
+#: formconfig.rdeleteconfigcaption
+msgid "Delete config"
+msgstr ""
+
 #: formconfig.rnamequestion
 msgctxt "formconfig.rnamequestion"
 msgid "Enter new config file name:"
@@ -17,6 +25,10 @@ msgstr ""
 
 #: formconfig.rneedsave
 msgid "The configuration was modified. Save changes?"
+msgstr ""
+
+#: formsettings.rdefaultfont
+msgid "Default"
 msgstr ""
 
 #: mainform.rnoconfig

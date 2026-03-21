@@ -133,6 +133,9 @@ type
 var
   formSettingsTrayslate: TformSettingsTrayslate;
 
+resourcestring
+  rdefaultfont = 'Default';
+
 implementation
 
 uses mainform, formattool;
@@ -345,7 +348,7 @@ end;
 
 procedure TformSettingsTrayslate.SetPanelFont(const AFont: TFont);
 begin
-  PanelFont.Caption := ifthen((Trim(AFont.Name) = string.Empty) or (LowerCase(AFont.Name) = 'default'), 'Default', AFont.Name) +
+  PanelFont.Caption := ifthen((Trim(AFont.Name) = string.Empty) or (LowerCase(AFont.Name) = 'default'), rdefaultfont, AFont.Name) +
     ',' + IntToStr(AFont.Size);
 end;
 

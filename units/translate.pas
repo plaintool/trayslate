@@ -135,8 +135,9 @@ type
   end;
 
 const
-  defaultlang = 'en';
-  emptylang = 'empty';
+  DEFAULT_LANG = 'en';
+  EMPTY_LANG = 'empty';
+  REGEXP_ERROR = 'REGEX_ERROR: ';
 
 implementation
 
@@ -175,7 +176,7 @@ begin
   FParameterValues.TrailingLineBreak := False;
   FInitLiveTime := 60;
 
-  FLangSource := defaultlang;
+  FLangSource := DEFAULT_LANG;
   FLangTarget := Language;
 end;
 
@@ -206,9 +207,9 @@ begin
     FParameterValues.Values['text'] := string.Empty;
 
   if FLangSource <> string.Empty then
-    FParameterValues.Values['source'] := ifthen(FLangSource = emptylang, string.Empty, FLangSource)
+    FParameterValues.Values['source'] := ifthen(FLangSource = EMPTY_LANG, string.Empty, FLangSource)
   else
-    FParameterValues.Values['source'] := defaultlang;
+    FParameterValues.Values['source'] := DEFAULT_LANG;
 
   if FLangTarget <> string.Empty then
     FParameterValues.Values['target'] := FLangTarget
@@ -398,7 +399,7 @@ begin
       TempUrl := FUrl;
       TempUrl := SetParameters(TempUrl);
 
-      if (FLangSource = emptylang) or (FLangSource = emptylang) then
+      if (FLangSource = EMPTY_LANG) or (FLangSource = EMPTY_LANG) then
         TempUrl := RemoveEmptyParams(TempUrl);
 
       http.AllowRedirect := True;
@@ -509,7 +510,7 @@ begin
       TempData := FPostData;
       TempData := SetParameters(TempData);
 
-      if (FLangSource = emptylang) or (FLangSource = emptylang) then
+      if (FLangSource = EMPTY_LANG) or (FLangSource = EMPTY_LANG) then
       begin
         TempUrl := RemoveEmptyParams(TempUrl);
         TempData := RemoveEmptyParams(TempData);
@@ -771,7 +772,7 @@ begin
                     except
                       on E: Exception do
                       begin
-                        MatchRes := 'REGEX_ERROR: ' + E.Message;
+                        MatchRes := REGEXP_ERROR + E.Message;
                         HasAnyMatch := True; // Show the error, don't hide the block
                       end;
                     end;

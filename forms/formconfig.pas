@@ -146,6 +146,8 @@ resourcestring
   rneedsave = 'The configuration was modified. Save changes?';
   rclearlanguages = 'The list is already filled. Do you want to clear it?';
   rcaption = 'Config Editor';
+  rdeleteconfigcaption = 'Delete config';
+  rdeleteconfig = 'Are you sure you want to delete config';
 
 implementation
 
@@ -443,8 +445,7 @@ begin
   if FileName = string.Empty then Exit;
 
   // Ask user for confirmation
-  if MessageDlg('Delete config', 'Are you sure you want to delete config ' + ExtractFileName(FileName) +
-    '?', mtConfirmation, [mbYes, mbNo], 0) <> mrYes then
+  if MessageDlg(rdeleteconfigcaption, rdeleteconfig + ExtractFileName(FileName) + '?', mtConfirmation, [mbYes, mbNo], 0) <> mrYes then
     Exit;
 
   try
