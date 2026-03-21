@@ -301,6 +301,13 @@ var
     Result := string.Empty;
     if Data = nil then Exit;
 
+    // --- NEW: Handle ~ (Return current branch as JSON string) ---
+    if (Level < PathParts.Count) and (PathParts[Level] = '~') then
+    begin
+      Result := Data.AsJSON;
+      Exit;
+    end;
+
     // If we have reached the end of the path, return the value
     if Level >= PathParts.Count then
     begin
@@ -326,14 +333,15 @@ var
             end;
           end;
         end;
-        // You can add jtObject processing here if you need to dump the entire object
+        // Return object as JSON if path ends on an object
+        jtObject: Result := Data.AsJSON;
       end;
       Exit;
     end;
 
     Key := PathParts[Level];
 
-    // Decoding special characters JSON Pointer
+    // Decoding special characters JSON Pointer (RFC 6901)
     Key := StringReplace(Key, '~1', '/', [rfReplaceAll]);
     Key := StringReplace(Key, '~0', '~', [rfReplaceAll]);
 
@@ -412,6 +420,13 @@ begin
 
     if (PathParts.Count > 0) and (PathParts[0] = string.Empty) then
       PathParts.Delete(0);
+
+    // Root-level dump if pointer is just "~"
+    if (PathParts.Count = 1) and (PathParts[0] = '~') then
+    begin
+      Result := JsonStr;
+      Exit;
+    end;
 
     try
       Data := fpjson.GetJSON(JsonStr);

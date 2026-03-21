@@ -624,14 +624,14 @@ begin
       IsInverted := False;
       SlashPos := 0;
 
-      // 1. Check if the segment starts with the inversion marker '!'
+      // 1. Handle Inversion marker
       if (Segment <> '') and (Segment[1] = '!') then
       begin
         IsInverted := True;
-        Delete(Segment, 1, 1); // Remove '!' for further processing
+        Delete(Segment, 1, 1);
       end;
 
-      // Locate JSON Pointer
+      // 2. Locate JSON Pointer path
       OpenBrackets := 0;
       for j := 1 to Length(Segment) do
       begin
@@ -644,6 +644,7 @@ begin
         end;
       end;
 
+      // 3. Get the value for the Pointer, but DO NOT replace in Segment yet!
       if SlashPos > 0 then
       begin
         pEnd := SlashPos;
@@ -654,29 +655,22 @@ begin
 
         if IsInverted then
         begin
-          // INVERSION LOGIC:
-          // If data is FOUND, we return empty string to kill the error segment.
-          // If data is NOT found (Empty), we return a placeholder to keep the segment alive.
-          if PointerValue <> '' then
-            Continue // Key exists, so this "Error Segment" should be hidden
-          else
-            PointerValue := ' '; // Key missing, keep segment to show the error text
+          if PointerValue <> '' then Continue
+          else PointerValue := ' ';
         end;
 
         PointerValue := UnescapeUnicode(HTTPDecode(PointerValue));
 
-        // Rule: If pointer is empty (and not inverted), skip segment
         if (not IsInverted) and (PointerValue = '') then Continue;
-
         PointerFound := True;
-        Segment := StringReplace(Segment, PointerPath, PointerValue, [rfReplaceAll]);
       end;
 
+      // Set context for Regex (can be JSON dump from /~)
       if PointerFound then CurrentContext := PointerValue
-      else
-        CurrentContext := content;
+      else CurrentContext := content;
 
-      // 2. Process all {blocks}
+      // 4. Process all {blocks} while Segment still contains "/path" string
+      // This prevents JSON brackets inside PointerValue from breaking the logic
       k := 1;
       while k <= Length(Segment) do
       begin
@@ -702,8 +696,7 @@ begin
               if regex.Exec(CurrentContext) then
               begin
                 if regex.SubExprMatchCount > 0 then MatchRes := regex.Match[1]
-                else
-                  MatchRes := regex.Match[0];
+                else MatchRes := regex.Match[0];
                 ProcessedBlock := UnescapeUnicode(HTTPDecode(MatchRes));
               end;
               Dec(pStart);
@@ -723,8 +716,7 @@ begin
                 if regex.Exec(CurrentContext) then
                 begin
                   if regex.SubExprMatchCount > 0 then MatchRes := regex.Match[1]
-                  else
-                    MatchRes := regex.Match[0];
+                  else MatchRes := regex.Match[0];
                   ProcessedBlock := Prefix + UnescapeUnicode(HTTPDecode(MatchRes)) + Suffix;
                 end
                 else
@@ -744,6 +736,11 @@ begin
         else
           Inc(k);
       end;
+
+      // 5. FINAL STEP: Replace the Pointer string with its value
+      // Now it's safe because all {blocks} are already processed
+      if PointerFound and (PointerPath <> '') then
+        Segment := StringReplace(Segment, PointerPath, PointerValue, [rfReplaceAll]);
 
       Segment := StringReplace(Segment, '#10', #10, [rfReplaceAll]);
       FinalResult := FinalResult + Segment;

@@ -765,18 +765,32 @@ end;
 
 procedure TformTrayslate.MemoSourceKeyUp(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
-  if FRealTime and (Key <> VK_RETURN) then
+  // Check if real-time translation is enabled
+  if not FRealTime then
+    Exit;
+
+  // List of keys that do not modify text content (Navigation, System, Modifiers)
+  // We include VK_RETURN here as per your requirement to ignore it for translation triggers
+  if Key in [VK_RETURN, VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN,
+             VK_PRIOR, VK_NEXT, VK_END, VK_HOME,
+             VK_SHIFT, VK_CONTROL, VK_MENU, VK_CAPITAL,
+             VK_INSERT, VK_ESCAPE, VK_LWIN, VK_RWIN] then
   begin
-    if TimerTranslate.Enabled then
-    begin
-      TimerTranslate.Enabled := False;
-      if Assigned(FTranslateThread) then
-        FTranslateThread.Cancel;
-    end;
-    TimerTranslate.Enabled := True;
-  end
-  else
     TimerTranslate.Enabled := False;
+    Exit;
+  end;
+
+  // If a text-modifying key is pressed, reset the translation timer
+  if TimerTranslate.Enabled then
+  begin
+    TimerTranslate.Enabled := False;
+    // Cancel the current translation thread if it is still running
+    if Assigned(FTranslateThread) then
+      FTranslateThread.Cancel;
+  end;
+
+  // Start the timer to trigger translation after a short delay (debounce)
+  TimerTranslate.Enabled := True;
 end;
 
 procedure TformTrayslate.MemoTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
