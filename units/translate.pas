@@ -602,10 +602,50 @@ var
   BlockContent, InnerBlock, MatchRes, MatchGlue, MatchIdxStr: string;
   PointerFound, IsInverted, HasAnyRegex, HasAnyMatch: boolean;
   MatchIdx, CurrentIdx: integer;
+  Expr: string; // Added for pre-processing
 begin
   Result := string.Empty;
   if (Trim(content) = string.Empty) then Exit;
   if (JsonPointer = string.Empty) then Exit(content);
+
+  // Remove /* comments */ only if a closing tag exists
+  Expr := JsonPointer;
+
+  // Optimization: Quick check if both start and end markers even exist
+  if (Pos('/*', Expr) > 0) and (Pos('*/', Expr) > 0) then
+  begin
+    j := 1;
+    while j < Length(Expr) do
+    begin
+      // Check for "/*" starting sequence
+      if (Expr[j] = '/') and (Expr[j + 1] = '*') then
+      begin
+        pStart := j;
+        pEnd := j + 2;
+        PointerFound := False; // Reuse existing boolean to flag if closing '*/' is found
+
+        // Look for closing "*/"
+        while pEnd < Length(Expr) do
+        begin
+          if (Expr[pEnd] = '*') and (Expr[pEnd + 1] = '/') then
+          begin
+            PointerFound := True;
+            Break;
+          end;
+          Inc(pEnd);
+        end;
+
+        if PointerFound then
+        begin
+          // If closed, delete the whole block including markers
+          Delete(Expr, pStart, (pEnd + 2) - pStart);
+          // Do not increment j, check the new character at this position
+          Continue;
+        end;
+      end;
+      Inc(j);
+    end;
+  end;
 
   Segments := TStringList.Create;
   regex := TRegExpr.Create;
@@ -614,7 +654,7 @@ begin
   try
     Segments.Delimiter := ';';
     Segments.StrictDelimiter := True;
-    Segments.DelimitedText := JsonPointer;
+    Segments.DelimitedText := Expr;
 
     for i := 0 to Segments.Count - 1 do
     begin
@@ -627,7 +667,7 @@ begin
       IsInverted := False;
       SlashPos := 0;
 
-      // 1 & 2. SEGMENT SCAN
+      // 1 & 2. Segment Scan
       OpenBrackets := 0;
       j := 1;
       while j <= Length(Segment) do
@@ -648,7 +688,7 @@ begin
         Inc(j);
       end;
 
-      // 3. POINTER PROCESSING
+      // 3. Pointer processing
       if SlashPos > 0 then
       begin
         pEnd := SlashPos;
@@ -671,7 +711,7 @@ begin
         PointerFound := True;
       end;
 
-      // 4. BLOCK PROCESSING
+      // 4. Block processing
       k := 1;
       while k <= Length(Segment) do
       begin
@@ -788,7 +828,7 @@ begin
               Inc(innerStart);
             end;
 
-            // If we had regexes but NONE of them found anything (and no errors occurred), hide block
+            // If we had regexes but none of them found anything (and no errors occurred), hide block
             if HasAnyRegex and not HasAnyMatch then BlockContent := string.Empty;
 
             Delete(Segment, pStart, pEnd - pStart + 1);
