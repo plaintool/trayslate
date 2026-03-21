@@ -70,7 +70,7 @@ function HotKeyToText(const AHotKey: THotKeyData): string;
 
 implementation
 
-uses languages;
+uses languages, formattool;
 
 function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = string.Empty;
   ABackgroundColor: TColor = clNone; AFontColor: TColor = clWhite; AFontName: string = string.Empty): TBitmap;
@@ -411,6 +411,8 @@ var
 begin
   Result := string.Empty;
   if Trim(JsonStr) = string.Empty then Exit;
+  if (JsonPointer = '~') or (JsonPointer = '/~') then Exit(JsonStr);
+  if not IsJson(JsonStr) then Exit;
 
   PathParts := TStringList.Create;
   try

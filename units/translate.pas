@@ -79,7 +79,7 @@ type
     function GetInit: string;
     function Get(ReturnHeaders: boolean = False): string;
     function Post(ReturnHeaders: boolean = False): string;
-    function TransJson(content: string): string;
+    function ParseResponse(content: string): string;
     function Translate: string;
 
     property LangSource: string read FLangSource write FLangSource;
@@ -590,24 +590,26 @@ begin
   end;
 end;
 
-function TTranslate.TransJson(content: string): string;
+function TTranslate.ParseResponse(content: string): string;
 var
   Segments: TStringList;
   regex: TRegExpr;
-  i, j, k, pStart, pEnd, rStart, rEnd, OpenBrackets, SlashPos: integer;
-  Segment, FinalResult, PointerPath, PointerValue, CurrentContext: string;
-  BlockContent, ProcessedBlock, Prefix, RegexPart, Suffix, MatchRes: string;
-  PointerFound, IsInverted: boolean;
+  i, j, k, pStart, pEnd, innerStart, innerEnd, OpenBrackets, SlashPos: integer;
+  rStart, rEnd: integer;
+  MatchResPart: string;
+  Segment, FinalResult, PointerPath, PointerValue: string;
+  BlockContent, InnerBlock, MatchRes, MatchGlue, MatchIdxStr: string;
+  PointerFound, IsInverted, HasAnyRegex, HasAnyMatch: boolean;
+  MatchIdx, CurrentIdx: integer;
 begin
-  Result := '';
-  if (Trim(content) = '') then Exit;
-  if not IsJson(content) then Exit(content);
-  if (JsonPointer = '') then Exit(content);
+  Result := string.Empty;
+  if (Trim(content) = string.Empty) then Exit;
+  if (JsonPointer = string.Empty) then Exit(content);
 
   Segments := TStringList.Create;
   regex := TRegExpr.Create;
-  regex.ModifierStr := 'i';
-  FinalResult := '';
+  regex.ModifierStr := 'is';
+  FinalResult := string.Empty;
   try
     Segments.Delimiter := ';';
     Segments.StrictDelimiter := True;
@@ -616,138 +618,201 @@ begin
     for i := 0 to Segments.Count - 1 do
     begin
       Segment := Trim(Segments[i]);
-      if Segment = '' then Continue;
+      if Segment = string.Empty then Continue;
 
-      PointerPath := '';
-      PointerValue := '';
+      PointerPath := string.Empty;
+      PointerValue := string.Empty;
       PointerFound := False;
       IsInverted := False;
       SlashPos := 0;
 
-      // 1. Handle Inversion marker
-      if (Segment <> '') and (Segment[1] = '!') then
-      begin
-        IsInverted := True;
-        Delete(Segment, 1, 1);
-      end;
-
-      // 2. Locate JSON Pointer path
+      // 1 & 2. SEGMENT SCAN
       OpenBrackets := 0;
-      for j := 1 to Length(Segment) do
+      j := 1;
+      while j <= Length(Segment) do
       begin
         if Segment[j] = '{' then Inc(OpenBrackets)
         else if Segment[j] = '}' then Dec(OpenBrackets)
-        else if (OpenBrackets = 0) and (Segment[j] = '/') then
+        else if (OpenBrackets = 0) then
         begin
-          SlashPos := j;
-          Break;
+          if Segment[j] = '!' then
+          begin
+            IsInverted := True;
+            Delete(Segment, j, 1);
+            Continue;
+          end;
+          if (SlashPos = 0) and ((Segment[j] = '/') or (Segment[j] = '~')) then
+            SlashPos := j;
         end;
+        Inc(j);
       end;
 
-      // 3. Get the value for the Pointer, but DO NOT replace in Segment yet!
+      // 3. POINTER PROCESSING
       if SlashPos > 0 then
       begin
         pEnd := SlashPos;
         while (pEnd <= Length(Segment)) and (Segment[pEnd] <> '{') do Inc(pEnd);
         PointerPath := Trim(Copy(Segment, SlashPos, pEnd - SlashPos));
 
-        PointerValue := ParseJsonByPointer(content, PointerPath);
+        if PointerPath = '~' then PointerValue := content
+        else
+          PointerValue := ParseJsonByPointer(content, PointerPath);
 
         if IsInverted then
         begin
-          if PointerValue <> '' then Continue
-          else PointerValue := ' ';
+          if PointerValue <> string.Empty then Continue
+          else
+            PointerValue := ' ';
         end;
 
         PointerValue := UnescapeUnicode(HTTPDecode(PointerValue));
-
-        if (not IsInverted) and (PointerValue = '') then Continue;
+        if (not IsInverted) and (PointerValue = string.Empty) then Continue;
         PointerFound := True;
       end;
 
-      // Set context for Regex (can be JSON dump from /~)
-      if PointerFound then CurrentContext := PointerValue
-      else CurrentContext := content;
-
-      // 4. Process all {blocks} while Segment still contains "/path" string
-      // This prevents JSON brackets inside PointerValue from breaking the logic
+      // 4. BLOCK PROCESSING
       k := 1;
       while k <= Length(Segment) do
       begin
         if Segment[k] = '{' then
         begin
           pStart := k;
-          pEnd := pStart + 1;
+          pEnd := k + 1;
           OpenBrackets := 1;
           while (pEnd <= Length(Segment)) and (OpenBrackets > 0) do
           begin
-            if Segment[pEnd] = '{' then Inc(OpenBrackets);
-            if Segment[pEnd] = '}' then Dec(OpenBrackets);
+            if Segment[pEnd] = '{' then Inc(OpenBrackets)
+            else if Segment[pEnd] = '}' then Dec(OpenBrackets);
             if OpenBrackets > 0 then Inc(pEnd);
           end;
 
-          BlockContent := Copy(Segment, pStart + 1, pEnd - pStart - 1);
-          ProcessedBlock := '';
+          if (pEnd <= Length(Segment)) and (Segment[pEnd] = '}') then
+          begin
+            BlockContent := Copy(Segment, pStart + 1, pEnd - pStart - 1);
+            HasAnyRegex := False;
+            HasAnyMatch := False;
 
-          try
-            if (pStart > 1) and (Segment[pStart - 1] = '{') then
+            innerStart := 1;
+            while innerStart <= Length(BlockContent) do
             begin
-              regex.Expression := BlockContent;
-              if regex.Exec(CurrentContext) then
+              if BlockContent[innerStart] = '{' then
               begin
-                if regex.SubExprMatchCount > 0 then MatchRes := regex.Match[1]
-                else MatchRes := regex.Match[0];
-                ProcessedBlock := UnescapeUnicode(HTTPDecode(MatchRes));
+                innerEnd := innerStart + 1;
+                OpenBrackets := 1;
+                while (innerEnd <= Length(BlockContent)) and (OpenBrackets > 0) do
+                begin
+                  if BlockContent[innerEnd] = '{' then Inc(OpenBrackets)
+                  else if BlockContent[innerEnd] = '}' then Dec(OpenBrackets);
+                  if OpenBrackets > 0 then Inc(innerEnd);
+                end;
+
+                if (innerEnd <= Length(BlockContent)) and (BlockContent[innerEnd] = '}') then
+                begin
+                  InnerBlock := Copy(BlockContent, innerStart + 1, innerEnd - innerStart - 1);
+                  MatchRes := string.Empty;
+
+                  if InnerBlock = '~' then
+                  begin
+                    MatchRes := content;
+                    HasAnyMatch := True;
+                  end
+                  else
+                  begin
+                    HasAnyRegex := True;
+                    MatchGlue := string.Empty;
+                    MatchIdx := -1;
+                    if (Length(InnerBlock) > 2) and (InnerBlock[Length(InnerBlock)] = ']') then
+                    begin
+                      rEnd := Length(InnerBlock) - 1;
+                      rStart := rEnd;
+                      while (rStart > 1) and (InnerBlock[rStart] <> '[') do Dec(rStart);
+                      if InnerBlock[rStart] = '[' then
+                      begin
+                        MatchIdxStr := Copy(InnerBlock, rStart + 1, rEnd - rStart);
+                        if MatchIdxStr = '*' then MatchGlue := ' '
+                        else if MatchIdxStr = '*#10' then MatchGlue := #10
+                        else if TryStrToInt(MatchIdxStr, MatchIdx) then
+                        begin
+                        end;
+
+                        if (MatchGlue <> string.Empty) or (MatchIdx <> -1) then
+                          InnerBlock := Copy(InnerBlock, 1, rStart - 1);
+                      end;
+                    end;
+
+                    try
+                      regex.Expression := InnerBlock;
+                      CurrentIdx := 0;
+                      if regex.Exec(content) then
+                      begin
+                        HasAnyMatch := True;
+                        repeat
+                          if regex.SubExprMatchCount > 0 then MatchResPart := regex.Match[1]
+                          else
+                            MatchResPart := regex.Match[0];
+
+                          if MatchIdx <> -1 then
+                          begin
+                            if CurrentIdx = MatchIdx then
+                            begin
+                              MatchRes := MatchResPart;
+                              Break;
+                            end;
+                          end
+                          else
+                          begin
+                            if MatchRes <> string.Empty then MatchRes := MatchRes + MatchGlue;
+                            MatchRes := MatchRes + MatchResPart;
+                            if MatchGlue = string.Empty then Break;
+                          end;
+                          Inc(CurrentIdx);
+                        until not regex.ExecNext;
+                      end;
+                    except
+                      on E: Exception do
+                      begin
+                        MatchRes := 'REGEX_ERROR: ' + E.Message;
+                        HasAnyMatch := True; // Show the error, don't hide the block
+                      end;
+                    end;
+                  end;
+
+                  MatchRes := UnescapeUnicode(HTTPDecode(MatchRes));
+                  Delete(BlockContent, innerStart, innerEnd - innerStart + 1);
+                  Insert(MatchRes, BlockContent, innerStart);
+                  innerStart := innerStart + Length(MatchRes);
+                  Continue;
+                end;
               end;
-              Dec(pStart);
-              Inc(pEnd);
+              Inc(innerStart);
+            end;
+
+            // If we had regexes but NONE of them found anything (and no errors occurred), hide block
+            if HasAnyRegex and not HasAnyMatch then BlockContent := string.Empty;
+
+            Delete(Segment, pStart, pEnd - pStart + 1);
+            if BlockContent <> string.Empty then
+            begin
+              Insert(BlockContent, Segment, pStart);
+              k := pStart + Length(BlockContent);
             end
             else
-            begin
-              rStart := Pos('{', BlockContent);
-              if rStart > 0 then
-              begin
-                rEnd := Length(BlockContent);
-                while (rEnd > rStart) and (BlockContent[rEnd] <> '}') do Dec(rEnd);
-                Prefix := Copy(BlockContent, 1, rStart - 1);
-                RegexPart := Copy(BlockContent, rStart + 1, rEnd - rStart - 1);
-                Suffix := Copy(BlockContent, rEnd + 1, Length(BlockContent));
-                regex.Expression := RegexPart;
-                if regex.Exec(CurrentContext) then
-                begin
-                  if regex.SubExprMatchCount > 0 then MatchRes := regex.Match[1]
-                  else MatchRes := regex.Match[0];
-                  ProcessedBlock := Prefix + UnescapeUnicode(HTTPDecode(MatchRes)) + Suffix;
-                end
-                else
-                  ProcessedBlock := '';
-              end
-              else
-                ProcessedBlock := BlockContent;
-            end;
-          except
-            ProcessedBlock := '';
-          end;
-
-          Delete(Segment, pStart, pEnd - pStart + 1);
-          Insert(ProcessedBlock, Segment, pStart);
-          k := pStart + Length(ProcessedBlock);
+              k := pStart;
+          end
+          else
+            Inc(k);
         end
         else
           Inc(k);
       end;
 
-      // 5. FINAL STEP: Replace the Pointer string with its value
-      // Now it's safe because all {blocks} are already processed
-      if PointerFound and (PointerPath <> '') then
+      if PointerFound and (PointerPath <> string.Empty) then
         Segment := StringReplace(Segment, PointerPath, PointerValue, [rfReplaceAll]);
 
       Segment := StringReplace(Segment, '#10', #10, [rfReplaceAll]);
       FinalResult := FinalResult + Segment;
     end;
-
     Result := FinalResult;
-
   finally
     Segments.Free;
     regex.Free;
@@ -758,12 +823,18 @@ function TTranslate.Translate: string;
 var
   content: string;
 begin
+  Result := string.Empty;
+
   if FWebMethod = wmPost then
     content := Post
   else
     content := Get;
 
-  Result := TransJson(content);
+  if content <> string.Empty then
+    Result := ParseResponse(content);
+
+  if (Trim(Result) = string.Empty) then
+    Result := content;
 end;
 
 { TTranslateThread }
