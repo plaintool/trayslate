@@ -47,10 +47,8 @@ type
     ComboValueType: TComboBox;
     ComboResponseParser: TComboBox;
     EditAccept: TEdit;
-    EditJsonPointer: TEdit;
     EditUserAgent: TEdit;
     EditContentType: TEdit;
-    EditRegexp: TEdit;
     EditServiceName: TEdit;
     EditInitUserAgent: TEdit;
     GroupBoxService: TGroupBox;
@@ -70,8 +68,9 @@ type
     LabelMethod: TLabel;
     LabelLanguages: TLabel;
     LabelInitParemeters: TLabel;
+    LabelRegexp2: TLabel;
     LabelValueType: TLabel;
-    LabelParemeters2: TLabel;
+    LabelJsonPointer2: TLabel;
     LabelHeaders: TLabel;
     LabelPostData: TLabel;
     LabelJsonPointer: TLabel;
@@ -89,6 +88,7 @@ type
     LabelServiceName: TLabel;
     LabelInitUserAgent: TLabel;
     MemoInitHeaders: TMemo;
+    MemoRegexp: TMemo;
     MemoLanguages: TMemo;
     MemoHeaders: TMemo;
     MemoLanguagesTarget: TMemo;
@@ -96,6 +96,7 @@ type
     MemoURL: TMemo;
     MemoPostData: TMemo;
     MemoInitURL: TMemo;
+    MemoJsonPointer: TMemo;
     Pages: TPageControl;
     PanelTop: TPanel;
     SbCopyConfig: TSpeedButton;
@@ -502,8 +503,8 @@ begin
     MemoPostData.Text := PostData;
     EditAccept.Text := Accept;
     ComboResponseParser.ItemIndex := Ord(ResponseParser);
-    EditJsonPointer.Text := JsonPointer;
-    EditRegexp.Text := Regexp;
+    MemoJsonPointer.Text := JsonPointer;
+    MemoRegexp.Text := Regexp;
     MemoLanguages.Lines.Assign(Languages);
     MemoLanguagesTarget.Lines.Assign(LanguagesTarget);
     ComboValueType.ItemIndex := Ord(ValueType);
@@ -557,8 +558,8 @@ begin
     MemoPostData.Clear;
     EditAccept.Text := string.Empty;
     ComboResponseParser.ItemIndex := 0;
-    EditRegexp.Text := string.Empty;
-    EditJsonPointer.Text := string.Empty;
+    MemoRegexp.Text := string.Empty;
+    MemoJsonPointer.Text := string.Empty;
     CheckEncryptText.Checked := False;
     MemoLanguages.Clear;
     MemoLanguagesTarget.Clear;
@@ -600,8 +601,8 @@ begin
       PostData := MemoPostData.Text;
       Accept := EditAccept.Text;
       ResponseParser := TResponseParser(ComboResponseParser.ItemIndex);
-      JsonPointer := EditJsonPointer.Text;
-      Regexp := EditRegexp.Text;
+      JsonPointer := MemoJsonPointer.Text;
+      Regexp := MemoRegexp.Text;
       Languages.Assign(MemoLanguages.Lines);
       LanguagesTarget.Assign(MemoLanguagesTarget.Lines);
       ValueType := TValueType(ComboValueType.ItemIndex);

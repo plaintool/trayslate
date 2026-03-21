@@ -596,26 +596,66 @@ begin
   end;
 end;
 
-function TTranslate.TransRegEx(content: string): string;
+function TTranslate.TransJson(content: string): string;
 var
-  regex: TRegExpr;
+  Parts: TStringList;
+  i: integer;
+  Part: string;
+  Value: string;
 begin
   Result := string.Empty;
+
+  if Trim(content) = string.Empty then Exit;
+  if not IsJson(content) then Exit(content);
+
   try
-    if (FRegexp <> string.Empty) then
+    if (JsonPointer <> string.Empty) then
     begin
-      regex := TRegExpr.Create;
+      Parts := TStringList.Create;
       try
-        regex.Expression := FRegexp;
-        if regex.Exec(content) then
+        // Split by ';'
+        Parts.Delimiter := ';';
+        Parts.StrictDelimiter := True;
+        Parts.DelimitedText := JsonPointer;
+
+        for i := 0 to Parts.Count - 1 do
         begin
-          Result := regex.Match[1];
-          Result := UnescapeUnicode(HTTPDecode(Result));
-        end
-        else
-          Result := string.Empty;
+          Part := Trim(Parts[i]);
+          if Part = string.Empty then Continue;
+
+          // Literal text support {…}
+          if (Part[1] = '{') and (Part[Length(Part)] = '}') then
+          begin
+            Value := Copy(Part, 2, Length(Part)-2);
+            if (Result <> string.Empty) and (Result[Length(Result)] <> #10) then
+              Result := Result + ' ';
+            Result := Result + Value;
+            Continue;
+          end;
+
+          // Line break support
+          if Part = '#10' then
+          begin
+            if Result <> string.Empty then
+              Result := Result + #10;
+            Continue;
+          end;
+
+          // Parse JSON by pointer
+          Value := ParseJsonByPointer(content, Part);
+
+          if Value <> string.Empty then
+          begin
+            Value := UnescapeUnicode(HTTPDecode(Value));
+
+            if (Result <> string.Empty) and (Result[Length(Result)] <> #10) then
+              Result := Result + ' ';
+
+            Result := Result + Value;
+          end;
+        end;
       finally
-        regex.Free;
+        Parts.Free;
       end;
     end
     else
@@ -626,24 +666,72 @@ begin
   end;
 end;
 
-function TTranslate.TransJson(content: string): string;
+function TTranslate.TransRegEx(content: string): string;
+var
+  Parts: TStringList;
+  regex: TRegExpr;
+  i: integer;
+  Part: string;
+  Value: string;
 begin
   Result := string.Empty;
 
-  if Trim(content) = string.Empty then Exit;
-  if not IsJson(content) then Exit(content);
-
   try
-    // Use universal path parser. JsonKeys is a field, e.g. '\responseData\translatedText' or '\matches\0\translation'
-    if (JsonPointer <> string.Empty) then
-      Result := ParseJsonByPointer(content, JsonPointer)
+    if (FRegexp <> string.Empty) then
+    begin
+      Parts := TStringList.Create;
+      regex := TRegExpr.Create;
+      try
+        // Split by '; '
+        Parts.Text := StringReplace(FRegexp, '; ', #10, [rfReplaceAll]);
+
+        for i := 0 to Parts.Count - 1 do
+        begin
+          Part := Trim(Parts[i]);
+          if Part = string.Empty then Continue;
+
+          // Literal text support {…}
+          if (Part[1] = '{') and (Part[Length(Part)] = '}') then
+          begin
+            Value := Copy(Part, 2, Length(Part)-2);
+            if (Result <> string.Empty) and (Result[Length(Result)] <> #10) then
+              Result := Result + ' ';
+            Result := Result + Value;
+            Continue;
+          end;
+
+          // Line break
+          if Part = '#10' then
+          begin
+            if Result <> string.Empty then
+              Result := Result + #10;
+            Continue;
+          end;
+
+          regex.Expression := Part;
+
+          if regex.Exec(content) then
+          begin
+            Value := regex.Match[1];
+
+            if Value <> string.Empty then
+            begin
+              Value := UnescapeUnicode(HTTPDecode(Value));
+
+              if (Result <> string.Empty) and (Result[Length(Result)] <> #10) then
+                Result := Result + ' ';
+
+              Result := Result + Value;
+            end;
+          end;
+        end;
+      finally
+        regex.Free;
+        Parts.Free;
+      end;
+    end
     else
       Result := content;
-
-    if (Result <> string.Empty) then
-      Result := UnescapeUnicode(HTTPDecode(Result))
-    else
-      Result := string.Empty;
   except
     on E: Exception do
       Result := E.Message + #10 + content;

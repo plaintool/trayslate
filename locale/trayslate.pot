@@ -224,6 +224,15 @@ msgstr ""
 msgid "Json Pointer"
 msgstr ""
 
+#: tformconfigtrayslate.labeljsonpointer2.caption
+msgid ""
+"In Json Pointer use / to separate levels, strings for object keys, numbers for array indexes, * for all array items, *#10 for all items joined by newline. \n"
+"Literal text can be included by enclosing it in {…}. \n"
+"Multiple pointers or text pieces can be specified separated by ';'.\n"
+"Examples: \n"
+"/texts/text; {literal text}; #10; /result/text, responseData/translatedText, matches/*#10/translation"
+msgstr ""
+
 #: tformconfigtrayslate.labellanguages.caption
 msgctxt "tformconfigtrayslate.labellanguages.caption"
 msgid "Supported languages e.g. en=en-US (en internal, en-US service). \"empty\" means do not send."
@@ -249,13 +258,6 @@ msgctxt "tformconfigtrayslate.labelparemeters.caption"
 msgid "Use parameters: {text} – input text, {source} – source language, {target} – target language. Prefix the name with ! for lowercase or ^ for uppercase value. Also supported {timestamp}, {rand}."
 msgstr ""
 
-#: tformconfigtrayslate.labelparemeters2.caption
-msgctxt "tformconfigtrayslate.labelparemeters2.caption"
-msgid ""
-"In Json Pointer use / to separate levels, strings for object keys, numbers for array indexes, * for all array items, *#10 for all items joined by newline.\n"
-"Examples: /0/*/0, responseData/translatedText, matches/*#10/translation"
-msgstr ""
-
 #: tformconfigtrayslate.labelpostdata.caption
 msgid "Post Data"
 msgstr ""
@@ -268,6 +270,14 @@ msgstr ""
 #: tformconfigtrayslate.labelregexp.caption
 msgctxt "tformconfigtrayslate.labelregexp.caption"
 msgid "RegExp"
+msgstr ""
+
+#: tformconfigtrayslate.labelregexp2.caption
+msgid ""
+"Literal text can be included by enclosing it in {…}. \n"
+"Multiple regexp can be specified separated by '; ' (with space).\n"
+"Examples: \n"
+"\"text\":\"(.*?)\"; #10;  {Literal Text}; #10; \"translation\":\"(.*?)\""
 msgstr ""
 
 #: tformconfigtrayslate.labelresponseparser.caption
