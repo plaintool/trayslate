@@ -56,13 +56,16 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Width = 112
           Alignment = taRightJustify
           AutoSize = False
-          Caption = 'Translation Delay'
+          Caption = 'Translation Delay, ms'
         end
         object SpinRealTimeDelay: TSpinEdit
           Left = 152
           Height = 23
+          Hint = 'Translation Delay in milliseconds'
           Top = 40
           Width = 203
+          ParentShowHint = False
+          ShowHint = True
           TabOrder = 1
           Value = 1000
           OnChange = SettingChange
@@ -293,9 +296,12 @@ object formSettingsTrayslate: TformSettingsTrayslate
         object SpinMaxLangPairs: TSpinEdit
           Left = 157
           Height = 23
+          Hint = 'Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel'
           Top = 9
           Width = 203
           MaxValue = 100
+          ParentShowHint = False
+          ShowHint = True
           TabOrder = 0
           Value = 10
           OnChange = SettingChange

@@ -645,6 +645,10 @@ msgctxt "tformsettingstrayslate.panelfont.caption"
 msgid "Default, 0"
 msgstr ""
 
+#: tformsettingstrayslate.spinrealtimedelay.hint
+msgid "Translation Delay in milliseconds"
+msgstr ""
+
 #: tformtrayslate.aabout.caption
 msgid "About..."
 msgstr ""
