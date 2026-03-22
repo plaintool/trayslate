@@ -1121,17 +1121,26 @@ end;
 procedure TformTrayslate.SetIcon;
 var
   Bitmap: TBitmap;
+  hintText: string;
 begin
   Bitmap := CreateTrayIconLang(Self, ifthen(FIconTwoLang, UpperCase(Trans.LangSource), UpperCase(Trans.LangTarget)),
     ifthen(FIconTwoLang, UpperCase(Trans.LangTarget), string.Empty), FIconBackgroundColor, FIconFontColor, FIconFontName);
   try
     TrayIcon.Icon.Assign(Bitmap);
     TrayIcon.Visible := True;
-
-    TrayIcon.Hint := rtrayslate + ' - ' + ComboSource.Text + ' : ' + ComboTarget.Text;
   finally
     Bitmap.Free;
   end;
+
+  // Set tray icon hint
+  hintText := rtrayslate;
+  if ComboSource.Text <> string.Empty then
+    hintText := hintText + ' - ' + ComboSource.Text;
+  if ComboTarget.Text <> string.Empty then
+    hintText := hintText + ' : ' + ComboTarget.Text;
+  if FConfigFileTitles.Values[FConfigFile] <> string.Empty then
+    hintText := hintText + sLineBreak + FConfigFileTitles.Values[FConfigFile];
+  TrayIcon.Hint := hintText;
 end;
 
 procedure TformTrayslate.SetAnimate(Angle: integer);
