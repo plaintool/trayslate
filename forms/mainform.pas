@@ -179,6 +179,16 @@ type
     FIconFontName: string;
     FIconTwoLang: boolean;
 
+    procedure ProcessMessages;
+    procedure SetAutoStart(Value: boolean);
+    procedure ChangeSourceLang(NewLang: string; AddPairs: boolean = True);
+    procedure ChangeTargetLang(NewLang: string; AddPairs: boolean = True);
+    function SwapLanguages(ASwapTranslate: boolean = False): boolean;
+    procedure AddLangPair(const Pair: string);
+    procedure SelectPair(const Pair: string; RunTranslate: boolean = True);
+    procedure SelectPairConfig(const Pair: string; RunTranslate: boolean = True);
+    procedure GlobalCtrlC;
+    procedure GlobalCtrlV;
     function TranslateThread(ATrans: TTranslate; AText: string; AMemo: TMemo = nil): string;
     procedure ThreadDone(Sender: TObject);
     procedure DetectLanguage(AText: string);
@@ -187,26 +197,15 @@ type
     procedure TranslateClipboard;
     procedure TranslateFromControl(Data: PtrInt);
     procedure TranslateControl(Data: PtrInt);
-    procedure GlobalCtrlC;
-    procedure GlobalCtrlV;
-    procedure ProcessMessages;
-    procedure SetAutoStart(Value: boolean);
-
-    procedure ChangeSourceLang(NewLang: string; AddPairs: boolean = True);
-    procedure ChangeTargetLang(NewLang: string; AddPairs: boolean = True);
-    function SwapLanguages(ASwapTranslate: boolean = False): boolean;
-    procedure AddLangPair(const Pair: string);
-    procedure SelectPair(const Pair: string; RunTranslate: boolean = True);
-    procedure SelectPairConfig(const Pair: string; RunTranslate: boolean = True);
   protected
     {$IFDEF WINDOWS}
     procedure WMActivate(var Message: TLMActivate); message LM_ACTIVATE;
     procedure WndProc(var TheMessage: TLMessage); override;
     {$ENDIF}
   public
+    procedure LoadConfig(SetDefault: boolean = True);
     procedure SetIcon;
     procedure SetAnimate(Angle: integer);
-    procedure LoadConfig(SetDefault: boolean = True);
     procedure BuildConfigMenu;
     procedure UpdateCheckConfigMenu;
     procedure DoRealign(Data: PtrInt);
@@ -989,36 +988,6 @@ end;
 
 {Methods}
 
-procedure TformTrayslate.SetIcon;
-var
-  Bitmap: TBitmap;
-begin
-  Bitmap := CreateTrayIconLang(Self, ifthen(FIconTwoLang, UpperCase(Trans.LangSource), UpperCase(Trans.LangTarget)),
-    ifthen(FIconTwoLang, UpperCase(Trans.LangTarget), string.Empty), FIconBackgroundColor, FIconFontColor, FIconFontName);
-  try
-    TrayIcon.Icon.Assign(Bitmap);
-    TrayIcon.Visible := True;
-
-    TrayIcon.Hint := rtrayslate + ' - ' + ComboSource.Text + ' : ' + ComboTarget.Text;
-  finally
-    Bitmap.Free;
-  end;
-end;
-
-procedure TformTrayslate.SetAnimate(Angle: integer);
-var
-  Bitmap: TBitmap;
-begin
-  if not TrayIcon.Visible then Exit;
-
-  Bitmap := CreateTrayIconProgress(Angle, FIconBackgroundColor, FIconFontColor);
-  try
-    TrayIcon.Icon.Assign(Bitmap);
-  finally
-    Bitmap.Free;
-  end;
-end;
-
 procedure TformTrayslate.LoadConfig(SetDefault: boolean = True);
 var
   List: TStringList;
@@ -1147,6 +1116,36 @@ begin
     ComboTarget.Text := string.Empty;
 
   SetIcon;
+end;
+
+procedure TformTrayslate.SetIcon;
+var
+  Bitmap: TBitmap;
+begin
+  Bitmap := CreateTrayIconLang(Self, ifthen(FIconTwoLang, UpperCase(Trans.LangSource), UpperCase(Trans.LangTarget)),
+    ifthen(FIconTwoLang, UpperCase(Trans.LangTarget), string.Empty), FIconBackgroundColor, FIconFontColor, FIconFontName);
+  try
+    TrayIcon.Icon.Assign(Bitmap);
+    TrayIcon.Visible := True;
+
+    TrayIcon.Hint := rtrayslate + ' - ' + ComboSource.Text + ' : ' + ComboTarget.Text;
+  finally
+    Bitmap.Free;
+  end;
+end;
+
+procedure TformTrayslate.SetAnimate(Angle: integer);
+var
+  Bitmap: TBitmap;
+begin
+  if not TrayIcon.Visible then Exit;
+
+  Bitmap := CreateTrayIconProgress(Angle, FIconBackgroundColor, FIconFontColor);
+  try
+    TrayIcon.Icon.Assign(Bitmap);
+  finally
+    Bitmap.Free;
+  end;
 end;
 
 procedure TFormTrayslate.BuildConfigMenu;
@@ -1395,223 +1394,6 @@ end;
 
 {$ENDIF}
 
-function TformTrayslate.TranslateThread(ATrans: TTranslate; AText: string; AMemo: TMemo = nil): string;
-var
-  Th: TTranslateThread;
-begin
-  Result := string.Empty;
-  try
-    if (LangSource = string.Empty) or (LangTarget = string.Empty) then Exit;
-
-    // Cancel old translation
-    if Assigned(FTranslateThread) then
-      FTranslateThread.Cancel;
-
-    // Create translation thread (it will handle exceptions itself)
-    ATrans.TextToTranslate := AText;
-    Th := TTranslateThread.Create(ATrans, AMemo, TimerAnimate, Assigned(AMemo));
-    FTranslateThread := Th;
-
-    if Assigned(AMemo) then
-      Th.OnTerminate := @ThreadDone
-    else
-    begin
-      try
-        // Wait for thread to finish
-        while not Th.Finished do
-        begin
-          Application.ProcessMessages;
-          Sleep(1); // reduce CPU usage
-        end;
-
-        // Set translated text to clipboard
-        if Th.ResultTextSync <> string.Empty then
-          Result := Th.ResultTextSync;
-      finally
-        if Assigned(Th) then
-          Th.Free;
-        if FTranslateThread = Th then
-          FTranslateThread := nil;
-      end;
-    end;
-  finally
-    if not Assigned(AMemo) and (ATrans <> TransDetect) then
-    begin
-      Screen.Cursor := crDefault;
-      TimerAnimate.Enabled := False;
-    end;
-  end;
-end;
-
-procedure TformTrayslate.ThreadDone(Sender: TObject);
-begin
-  FTranslateThread := nil;
-end;
-
-procedure TformTrayslate.DetectLanguage(AText: string);
-var
-  langSrc, langTar, langDetect: string;
-begin
-  if (not FAutoSwap) or (not Trans.AutoSwap) or (not Assigned(FTransDetect)) then exit;
-  if (FLanguages.IndexOf(ComboSource.Text) < 0) or (FLanguages.IndexOf(ComboTarget.Text) < 0) then exit;
-
-  Screen.Cursor := crAppStart;
-  TimerAnimate.Enabled := True;
-
-  // Detect language in source memo
-  langDetect := TranslateThread(TransDetect, AText);
-
-  // Check selected languages
-  langSrc := Trans.Languages.ValueFromIndex[FLanguages.IndexOf(ComboSource.Text)];
-  langTar := Trans.Languages.ValueFromIndex[FLanguages.IndexOf(ComboTarget.Text)];
-
-  // Swap if needed
-  if (LowerCase(langSrc) <> LowerCase(langDetect)) and (LowerCase(langTar) = LowerCase(langDetect)) then
-    SwapLanguages;
-end;
-
-procedure TformTrayslate.TranslateMemo(ADetectLanguage: boolean = True);
-begin
-  if Trim(MemoSource.Text) = string.Empty then Exit;
-
-  if (ADetectLanguage) then
-    DetectLanguage(MemoSource.Text);
-
-  // Create translation thread (it will handle exceptions itself)
-  TranslateThread(Trans, MemoSource.Text, MemoTarget);
-end;
-
-procedure TformTrayslate.TranslateFromClipboard;
-begin
-  if not Showing then
-    Show;
-  BringToFront;
-  FTopMost := True;
-  ProcessMessages;
-  if (Clipboard.AsText <> string.empty) then
-  begin
-    MemoSource.Text := Clipboard.AsText;
-    TranslateMemo;
-  end;
-end;
-
-procedure TformTrayslate.TranslateClipboard;
-begin
-  {$IFDEF WINDOWS}
-  SetSystemCursor(LoadCursor(0, IDC_APPSTARTING), OCR_IBEAM);
-  Application.ProcessMessages;
-  {$ELSE}
-  Screen.Cursor := crAppStart;
-  {$ENDIF}
-  try
-    if Clipboard.AsText = string.Empty then Exit;
-
-    DetectLanguage(Clipboard.AsText);
-
-    Clipboard.AsText := TranslateThread(Trans, Clipboard.AsText);
-  finally
-    {$IFDEF WINDOWS}
-    SystemParametersInfo(SPI_SETCURSORS, 0, nil, 0);
-    {$ELSE}
-    Screen.Cursor := crDefault;
-    {$ENDIF}
-  end;
-end;
-
-procedure TformTrayslate.TranslateFromControl(Data: PtrInt);
-var
-  OriginalClip, SelectedText: string;
-begin
-  Screen.Cursor := crAppStart;
-  TimerAnimate.Enabled := True;
-
-  // Save current clipboard to restore later
-  OriginalClip := Clipboard.AsText;
-  Clipboard.AsText := string.Empty;
-
-  // Copy selection from active window (Ctrl+C)
-  GlobalCtrlC;
-
-  SelectedText := Clipboard.AsText;
-
-  Show;
-  BringToFront;
-  FTopMost := True;
-  ProcessMessages;
-  MemoSource.Text := SelectedText;
-  TranslateMemo;
-
-  // Restore original clipboard
-  Clipboard.AsText := OriginalClip;
-end;
-
-procedure TformTrayslate.TranslateControl(Data: PtrInt);
-var
-  OriginalClip: string;
-begin
-  {$IFDEF WINDOWS}
-  SetSystemCursor(LoadCursor(0, IDC_APPSTARTING), OCR_IBEAM);
-  Application.ProcessMessages;
-  {$ELSE}
-  Screen.Cursor := crAppStart;
-  {$ENDIF}
-  try
-    // Save current clipboard to restore later
-    OriginalClip := Clipboard.AsText;
-    Clipboard.AsText := string.Empty;
-
-    // Copy selection from active window (Ctrl+C)
-    GlobalCtrlC;
-
-    if Clipboard.AsText <> string.Empty then
-    begin
-      DetectLanguage(Clipboard.AsText);
-
-      Clipboard.AsText := TranslateThread(Trans, Clipboard.AsText);
-
-      // Paste clipboard to active window (Ctrl+V)
-      GlobalCtrlV;
-    end;
-
-    // Restore original clipboard
-    Clipboard.AsText := OriginalClip;
-  finally
-    {$IFDEF WINDOWS}
-    SystemParametersInfo(SPI_SETCURSORS, 0, nil, 0);
-    {$ELSE}
-    Screen.Cursor := crDefault;
-    {$ENDIF}
-  end;
-end;
-
-procedure TformTrayslate.GlobalCtrlC;
-begin
-  Sleep(250);
-  KeyInput.Unapply([ssCtrl, ssShift, ssAlt]);
-  Sleep(5);
-  KeyInput.Apply([ssCtrl]);
-  Sleep(5);
-  KeyInput.Down(Ord('C'));
-  Sleep(5);
-  KeyInput.Up(Ord('C'));
-  Sleep(5);
-  KeyInput.Unapply([ssCtrl]);
-end;
-
-procedure TformTrayslate.GlobalCtrlV;
-begin
-  Sleep(5);
-  KeyInput.Unapply([ssCtrl, ssShift, ssAlt]);
-  Sleep(5);
-  KeyInput.Apply([ssCtrl]);
-  Sleep(5);
-  KeyInput.Down(Ord('V'));
-  Sleep(5);
-  KeyInput.Up(Ord('V'));
-  Sleep(5);
-  KeyInput.Unapply([ssCtrl]);
-end;
-
 procedure TformTrayslate.ProcessMessages;
 begin
   Application.ProcessMessages;
@@ -1821,6 +1603,235 @@ begin
     end;
   end;
   SelectPair(Pair, RunTranslate);
+end;
+
+procedure TformTrayslate.GlobalCtrlC;
+begin
+  Sleep(250);
+  KeyInput.Unapply([ssCtrl, ssShift, ssAlt]);
+  Sleep(5);
+  KeyInput.Apply([ssCtrl]);
+  Sleep(5);
+  KeyInput.Down(Ord('C'));
+  Sleep(5);
+  KeyInput.Up(Ord('C'));
+  Sleep(5);
+  KeyInput.Unapply([ssCtrl]);
+end;
+
+procedure TformTrayslate.GlobalCtrlV;
+begin
+  Sleep(5);
+  KeyInput.Unapply([ssCtrl, ssShift, ssAlt]);
+  Sleep(5);
+  KeyInput.Apply([ssCtrl]);
+  Sleep(5);
+  KeyInput.Down(Ord('V'));
+  Sleep(5);
+  KeyInput.Up(Ord('V'));
+  Sleep(5);
+  KeyInput.Unapply([ssCtrl]);
+end;
+
+{Methods Translate}
+
+function TformTrayslate.TranslateThread(ATrans: TTranslate; AText: string; AMemo: TMemo = nil): string;
+var
+  Th: TTranslateThread;
+begin
+  Result := string.Empty;
+  try
+    if (LangSource = string.Empty) or (LangTarget = string.Empty) then Exit;
+
+    // Cancel old translation
+    if Assigned(FTranslateThread) then
+      FTranslateThread.Cancel;
+
+    // Create translation thread (it will handle exceptions itself)
+    ATrans.TextToTranslate := AText;
+    Th := TTranslateThread.Create(ATrans, AMemo, TimerAnimate, Assigned(AMemo));
+    FTranslateThread := Th;
+
+    if Assigned(AMemo) then
+      Th.OnTerminate := @ThreadDone
+    else
+    begin
+      try
+        // Wait for thread to finish
+        while not Th.Finished do
+        begin
+          Application.ProcessMessages;
+          Sleep(1); // reduce CPU usage
+        end;
+
+        // Set translated text to clipboard
+        if Th.ResultTextSync <> string.Empty then
+          Result := Th.ResultTextSync;
+      finally
+        if Assigned(Th) then
+          Th.Free;
+        if FTranslateThread = Th then
+          FTranslateThread := nil;
+      end;
+    end;
+  finally
+    if not Assigned(AMemo) and (ATrans <> TransDetect) then
+    begin
+      Screen.Cursor := crDefault;
+      TimerAnimate.Enabled := False;
+    end;
+  end;
+end;
+
+procedure TformTrayslate.ThreadDone(Sender: TObject);
+begin
+  FTranslateThread := nil;
+end;
+
+procedure TformTrayslate.DetectLanguage(AText: string);
+var
+  langSrc, langTar, langDetect: string;
+begin
+  if (not FAutoSwap) or (not Trans.AutoSwap) or (not Assigned(FTransDetect)) then exit;
+  if (FLanguages.IndexOf(ComboSource.Text) < 0) or (FLanguages.IndexOf(ComboTarget.Text) < 0) then exit;
+
+  Screen.Cursor := crAppStart;
+  TimerAnimate.Enabled := True;
+
+  // Detect language in source memo
+  langDetect := TranslateThread(TransDetect, AText);
+
+  // Check selected languages
+  langSrc := Trans.Languages.ValueFromIndex[FLanguages.IndexOf(ComboSource.Text)];
+  langTar := Trans.Languages.ValueFromIndex[FLanguages.IndexOf(ComboTarget.Text)];
+
+  // Swap if needed
+  if (LowerCase(langSrc) <> LowerCase(langDetect)) and (LowerCase(langTar) = LowerCase(langDetect)) then
+    SwapLanguages;
+end;
+
+procedure TformTrayslate.TranslateMemo(ADetectLanguage: boolean = True);
+begin
+  if (Trim(MemoSource.Text) = string.Empty) then Exit;
+
+  if (ADetectLanguage) then
+    DetectLanguage(MemoSource.Text);
+
+  // Create translation thread (it will handle exceptions itself)
+  TranslateThread(Trans, MemoSource.Text, MemoTarget);
+end;
+
+procedure TformTrayslate.TranslateFromClipboard;
+begin
+  if not Showing then
+    Show;
+  BringToFront;
+  FTopMost := True;
+  ProcessMessages;
+  if (Clipboard.AsText <> string.empty) then
+  begin
+    MemoSource.Text := Clipboard.AsText;
+    TranslateMemo;
+  end;
+end;
+
+procedure TformTrayslate.TranslateClipboard;
+var
+  TranslatedText: string;
+begin
+  {$IFDEF WINDOWS}
+  SetSystemCursor(LoadCursor(0, IDC_APPSTARTING), OCR_IBEAM);
+  Application.ProcessMessages;
+  {$ELSE}
+  Screen.Cursor := crAppStart;
+  {$ENDIF}
+  try
+    if Clipboard.AsText = string.Empty then Exit;
+
+    DetectLanguage(Clipboard.AsText);
+
+    TranslatedText := TranslateThread(Trans, Clipboard.AsText);
+
+    if Trim(TranslatedText) <> string.Empty then
+      Clipboard.AsText := TranslatedText;
+  finally
+    {$IFDEF WINDOWS}
+    SystemParametersInfo(SPI_SETCURSORS, 0, nil, 0);
+    {$ELSE}
+    Screen.Cursor := crDefault;
+    {$ENDIF}
+  end;
+end;
+
+procedure TformTrayslate.TranslateFromControl(Data: PtrInt);
+var
+  OriginalClip, SelectedText: string;
+begin
+  Screen.Cursor := crAppStart;
+  TimerAnimate.Enabled := True;
+
+  // Save current clipboard to restore later
+  OriginalClip := Clipboard.AsText;
+  Clipboard.AsText := string.Empty;
+
+  // Copy selection from active window (Ctrl+C)
+  GlobalCtrlC;
+
+  SelectedText := Clipboard.AsText;
+
+  Show;
+  BringToFront;
+  FTopMost := True;
+  ProcessMessages;
+  MemoSource.Text := SelectedText;
+  TranslateMemo;
+
+  // Restore original clipboard
+  Clipboard.AsText := OriginalClip;
+end;
+
+procedure TformTrayslate.TranslateControl(Data: PtrInt);
+var
+  OriginalClip: string;
+  TranslatedText: string;
+begin
+  {$IFDEF WINDOWS}
+  SetSystemCursor(LoadCursor(0, IDC_APPSTARTING), OCR_IBEAM);
+  Application.ProcessMessages;
+  {$ELSE}
+  Screen.Cursor := crAppStart;
+  {$ENDIF}
+  try
+    // Save current clipboard to restore later
+    OriginalClip := Clipboard.AsText;
+    Clipboard.AsText := string.Empty;
+
+    // Copy selection from active window (Ctrl+C)
+    GlobalCtrlC;
+
+    if Clipboard.AsText <> string.Empty then
+    begin
+      DetectLanguage(Clipboard.AsText);
+
+      TranslatedText := TranslateThread(Trans, Clipboard.AsText);
+      if Trim(TranslatedText) <> string.Empty then
+      begin
+        Clipboard.AsText := TranslatedText;
+
+        // Paste clipboard to active window (Ctrl+V)
+        GlobalCtrlV;
+      end;
+    end;
+
+    // Restore original clipboard
+    Clipboard.AsText := OriginalClip;
+  finally
+    {$IFDEF WINDOWS}
+    SystemParametersInfo(SPI_SETCURSORS, 0, nil, 0);
+    {$ELSE}
+    Screen.Cursor := crDefault;
+    {$ENDIF}
+  end;
 end;
 
 end.
