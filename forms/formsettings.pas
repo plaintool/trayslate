@@ -94,6 +94,8 @@ type
     procedure BtnOkClick(Sender: TObject);
     procedure BtnResetClick(Sender: TObject);
     procedure EditMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
+    procedure EditMouseLeave(Sender: TObject);
+    procedure PagesSettingsChange(Sender: TObject);
     procedure SettingChange(Sender: TObject);
     procedure EditKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
   private
@@ -191,6 +193,18 @@ procedure TformSettingsTrayslate.EditMouseMove(Sender: TObject; Shift: TShiftSta
 begin
   if (Sender as TEdit).Visible and (Sender as TEdit).CanFocus and not (Sender as TEdit).Focused then
     (Sender as TEdit).SetFocus;
+end;
+
+procedure TformSettingsTrayslate.EditMouseLeave(Sender: TObject);
+begin
+  PagesSettings.SetFocus;
+  (Sender as TEdit).SelLength := 0;
+end;
+
+procedure TformSettingsTrayslate.PagesSettingsChange(Sender: TObject);
+begin
+  if PagesSettings.ActivePage = PageHotkeys then
+    PagesSettings.SetFocus;
 end;
 
 procedure TformSettingsTrayslate.SettingChange(Sender: TObject);

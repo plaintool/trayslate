@@ -16,12 +16,13 @@ object formSettingsTrayslate: TformSettingsTrayslate
     Height = 465
     Top = 5
     Width = 400
-    ActivePage = PageGeneral
+    ActivePage = PageHotkeys
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
-    TabIndex = 0
+    TabIndex = 2
     TabOrder = 0
+    OnChange = PagesSettingsChange
     object PageGeneral: TTabSheet
       Caption = 'General'
       ClientHeight = 437
@@ -370,6 +371,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           TabOrder = 0
           OnChange = SettingChange
           OnKeyDown = EditKeyDown
+          OnMouseLeave = EditMouseLeave
           OnMouseMove = EditMouseMove
         end
       end
@@ -380,7 +382,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
         Width = 382
         Align = alTop
         BorderSpacing.Around = 5
-        Caption = 'Swap Languages (Tray Icon Middle Click)'
+        Caption = 'Swap Languages (Tray Icon Middle-Click)'
         ClientHeight = 47
         ClientWidth = 378
         TabOrder = 1
@@ -410,6 +412,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           TabOrder = 0
           OnChange = SettingChange
           OnKeyDown = EditKeyDown
+          OnMouseLeave = EditMouseLeave
           OnMouseMove = EditMouseMove
         end
       end
@@ -450,6 +453,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           TabOrder = 0
           OnChange = SettingChange
           OnKeyDown = EditKeyDown
+          OnMouseLeave = EditMouseLeave
           OnMouseMove = EditMouseMove
         end
       end
@@ -490,6 +494,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           TabOrder = 0
           OnChange = SettingChange
           OnKeyDown = EditKeyDown
+          OnMouseLeave = EditMouseLeave
           OnMouseMove = EditMouseMove
         end
       end
@@ -530,6 +535,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           TabOrder = 0
           OnChange = SettingChange
           OnKeyDown = EditKeyDown
+          OnMouseLeave = EditMouseLeave
           OnMouseMove = EditMouseMove
         end
       end
@@ -570,6 +576,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           TabOrder = 0
           OnChange = SettingChange
           OnKeyDown = EditKeyDown
+          OnMouseLeave = EditMouseLeave
           OnMouseMove = EditMouseMove
         end
       end

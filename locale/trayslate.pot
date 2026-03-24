@@ -564,7 +564,7 @@ msgstr ""
 
 #: tformsettingstrayslate.grouptransswap.caption
 msgctxt "tformsettingstrayslate.grouptransswap.caption"
-msgid "Swap Languages (Tray Icon Middle Click)"
+msgid "Swap Languages (Tray Icon Middle-Click)"
 msgstr ""
 
 #: tformsettingstrayslate.grouptrayicon.caption
@@ -599,7 +599,7 @@ msgid "Max Pairs"
 msgstr ""
 
 #: tformsettingstrayslate.labelrealtimedelay.caption
-msgid "Translation Delay"
+msgid "Translation Delay, ms"
 msgstr ""
 
 #: tformsettingstrayslate.labeltransclipboard.caption
@@ -643,6 +643,10 @@ msgstr ""
 #: tformsettingstrayslate.panelfont.caption
 msgctxt "tformsettingstrayslate.panelfont.caption"
 msgid "Default, 0"
+msgstr ""
+
+#: tformsettingstrayslate.spinmaxlangpairs.hint
+msgid "Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel"
 msgstr ""
 
 #: tformsettingstrayslate.spinrealtimedelay.hint
