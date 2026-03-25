@@ -234,7 +234,7 @@ object formAboutTrayslate: TformAboutTrayslate
     Anchors = [akLeft, akBottom]
     Color = clBtnFace
     Lines.Strings = (
-      'Trayslate is a tray application for translating text. You can translate text from the clipboard or by typing it into the input window. The translation source is configurable, you can change the service used.'
+      'Trayslate is a tray app for translation services. You can enter text directly, translate text from your clipboard, or from a selection in another app. It''s possible to replace text in another app with its translation using a hotkey. The app lets you choose and fully configure the source used for translations.'
     )
     ScrollBars = ssVertical
     TabOrder = 1
