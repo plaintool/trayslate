@@ -1,10 +1,10 @@
 object formConfigTrayslate: TformConfigTrayslate
   Left = 318
-  Height = 600
+  Height = 595
   Top = 250
   Width = 600
   Caption = 'Config Editor'
-  ClientHeight = 600
+  ClientHeight = 595
   ClientWidth = 600
   ShowInTaskBar = stAlways
   LCLVersion = '4.4.0.0'
@@ -18,7 +18,7 @@ object formConfigTrayslate: TformConfigTrayslate
   object BtnClose: TButton
     Left = 520
     Height = 25
-    Top = 567
+    Top = 562
     Width = 75
     Anchors = [akRight, akBottom]
     Caption = 'Close'
@@ -153,7 +153,7 @@ object formConfigTrayslate: TformConfigTrayslate
   object BtnSave: TButton
     Left = 441
     Height = 25
-    Top = 567
+    Top = 562
     Width = 75
     Action = aSave
     Anchors = [akRight, akBottom]
@@ -161,7 +161,7 @@ object formConfigTrayslate: TformConfigTrayslate
   end
   object Pages: TPageControl
     Left = 5
-    Height = 519
+    Height = 514
     Top = 41
     Width = 590
     ActivePage = PageService
@@ -172,22 +172,22 @@ object formConfigTrayslate: TformConfigTrayslate
     TabOrder = 1
     object PageService: TTabSheet
       Caption = 'Service'
-      ClientHeight = 491
+      ClientHeight = 486
       ClientWidth = 582
       object ScrollBoxService: TScrollBox
         Left = 0
-        Height = 491
+        Height = 486
         Top = 0
         Width = 582
         HorzScrollBar.Page = 1
         HorzScrollBar.Visible = False
-        VertScrollBar.Increment = 49
-        VertScrollBar.Page = 491
+        VertScrollBar.Increment = 48
+        VertScrollBar.Page = 486
         VertScrollBar.Smooth = True
         VertScrollBar.Tracking = True
         Align = alClient
         BorderStyle = bsNone
-        ClientHeight = 491
+        ClientHeight = 486
         ClientWidth = 565
         ParentBackground = False
         TabOrder = 0
@@ -313,7 +313,7 @@ object formConfigTrayslate: TformConfigTrayslate
             Width = 406
             Anchors = [akTop, akLeft, akRight]
             ScrollBars = ssVertical
-            TabOrder = 6
+            TabOrder = 7
             OnChange = ValueChange
             OnKeyDown = MemoKeyDown
           end
@@ -323,7 +323,7 @@ object formConfigTrayslate: TformConfigTrayslate
             Top = 385
             Width = 406
             Anchors = [akTop, akLeft, akRight]
-            TabOrder = 7
+            TabOrder = 6
             OnChange = ValueChange
           end
           object LabelAccept: TLabel
@@ -511,7 +511,7 @@ object formConfigTrayslate: TformConfigTrayslate
             Top = 64
             Width = 151
             Caption = 'Auto-swap language pair'
-            TabOrder = 1
+            TabOrder = 2
             OnChange = ValueChange
           end
           object LabelServiceOrder: TLabel
@@ -529,7 +529,7 @@ object formConfigTrayslate: TformConfigTrayslate
             Top = 32
             Width = 406
             Anchors = [akTop, akLeft, akRight]
-            TabOrder = 2
+            TabOrder = 1
             OnChange = ValueChange
           end
         end
@@ -537,22 +537,22 @@ object formConfigTrayslate: TformConfigTrayslate
     end
     object PageParameters: TTabSheet
       Caption = 'Parameters'
-      ClientHeight = 491
+      ClientHeight = 486
       ClientWidth = 582
       object ScrollBoxParameters: TScrollBox
         Left = 0
-        Height = 491
+        Height = 486
         Top = 0
         Width = 582
         HorzScrollBar.Page = 1
         HorzScrollBar.Visible = False
-        VertScrollBar.Increment = 49
-        VertScrollBar.Page = 491
+        VertScrollBar.Increment = 48
+        VertScrollBar.Page = 486
         VertScrollBar.Smooth = True
         VertScrollBar.Tracking = True
         Align = alClient
         BorderStyle = bsNone
-        ClientHeight = 491
+        ClientHeight = 486
         ClientWidth = 565
         TabOrder = 0
         object GroupInitParameters: TGroupBox
@@ -812,11 +812,11 @@ object formConfigTrayslate: TformConfigTrayslate
     end
     object PageResponse: TTabSheet
       Caption = 'Response'
-      ClientHeight = 491
+      ClientHeight = 486
       ClientWidth = 582
       object ScrollBoxResponse: TScrollBox
         Left = 0
-        Height = 491
+        Height = 486
         Top = 0
         Width = 582
         HorzScrollBar.Page = 1
@@ -827,18 +827,18 @@ object formConfigTrayslate: TformConfigTrayslate
         VertScrollBar.Tracking = True
         Align = alClient
         BorderStyle = bsNone
-        ClientHeight = 491
+        ClientHeight = 486
         ClientWidth = 582
         TabOrder = 0
         object GroupResponse: TGroupBox
           Left = 5
-          Height = 481
+          Height = 476
           Top = 5
           Width = 572
           Align = alClient
           BorderSpacing.Around = 5
           Caption = 'Response'
-          ClientHeight = 461
+          ClientHeight = 456
           ClientWidth = 568
           ParentBackground = False
           TabOrder = 0
@@ -859,7 +859,7 @@ object formConfigTrayslate: TformConfigTrayslate
           end
           object MemoJsonPointer: TMemo
             Left = 5
-            Height = 196
+            Height = 191
             Top = 260
             Width = 543
             Align = alClient
@@ -876,23 +876,23 @@ object formConfigTrayslate: TformConfigTrayslate
     end
     object PageLanguages: TTabSheet
       Caption = 'Languages'
-      ClientHeight = 491
+      ClientHeight = 486
       ClientWidth = 582
       object GroupLanguages: TGroupBox
         Left = 5
-        Height = 481
+        Height = 476
         Top = 5
         Width = 572
         Align = alClient
         BorderSpacing.Around = 5
         Caption = 'Languages'
-        ClientHeight = 461
+        ClientHeight = 456
         ClientWidth = 568
         ParentBackground = False
         TabOrder = 0
         object MemoLanguages: TMemo
           Left = 5
-          Height = 351
+          Height = 346
           Top = 105
           Width = 543
           Align = alClient
@@ -900,7 +900,7 @@ object formConfigTrayslate: TformConfigTrayslate
           BorderSpacing.Right = 15
           BorderSpacing.Around = 5
           ScrollBars = ssVertical
-          TabOrder = 0
+          TabOrder = 1
           OnChange = ValueChange
           OnKeyDown = MemoKeyDown
         end
@@ -956,7 +956,7 @@ object formConfigTrayslate: TformConfigTrayslate
             'Measurement Units'
           )
           Style = csDropDownList
-          TabOrder = 1
+          TabOrder = 0
           Text = 'None'
           OnChange = ValueChange
         end
@@ -973,23 +973,23 @@ object formConfigTrayslate: TformConfigTrayslate
     end
     object PageLanguagesTarget: TTabSheet
       Caption = 'Target Languages'
-      ClientHeight = 491
+      ClientHeight = 486
       ClientWidth = 582
       object GroupLanguagesTarget: TGroupBox
         Left = 5
-        Height = 481
+        Height = 476
         Top = 5
         Width = 572
         Align = alClient
         BorderSpacing.Around = 5
         Caption = 'Target Languages'
-        ClientHeight = 461
+        ClientHeight = 456
         ClientWidth = 568
         ParentBackground = False
         TabOrder = 0
         object MemoLanguagesTarget: TMemo
           Left = 5
-          Height = 406
+          Height = 401
           Top = 50
           Width = 543
           Align = alClient

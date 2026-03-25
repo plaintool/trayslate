@@ -299,7 +299,10 @@ begin
     Edit.Text := HotKeyToText(HK);
     Key := 0;
     Exit;
-  end;
+  end
+  else
+  if (Key = VK_TAB) and (Shift = []) then
+    Exit;
 
   // Initialize
   HK.Modifiers := 0;
