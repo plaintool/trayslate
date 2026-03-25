@@ -287,11 +287,11 @@ object formConfigTrayslate: TformConfigTrayslate
           end
           object LabelParemeters: TLabel
             Left = 8
-            Height = 30
+            Height = 45
             Top = 200
             Width = 518
             Anchors = [akTop, akLeft, akRight]
-            Caption = 'Use parameters: {text} – input text, {source} – source language, {target} – target language. Prefix the name with ! for lowercase or ^ for uppercase value. Also supported {timestamp}, {rand}.'
+            Caption = 'Use parameters: {text} – input text, {source} – source language, {target} – target language. Prefix the name with ! for lowercase or ^ for uppercase value. Also supported {timestamp}, {rand}. Use {parameter} from the parameters page.'
             Color = clInfoBk
             ParentColor = False
             Transparent = False
@@ -338,7 +338,7 @@ object formConfigTrayslate: TformConfigTrayslate
           object CheckEncryptText: TCheckBox
             Left = 123
             Height = 19
-            Top = 248
+            Top = 256
             Width = 145
             Caption = 'Encode {text} parameter'
             TabOrder = 3
@@ -851,7 +851,7 @@ object formConfigTrayslate: TformConfigTrayslate
             BorderSpacing.Right = 15
             BorderSpacing.Bottom = 5
             BorderSpacing.Around = 5
-            Caption = 'Json Pointer: Use / for levels, keys for objects, numbers for indexes. Use * for all items, *#10 to join items by newline. Separate multiple segments with ;. Use ~ at the end of path to return raw JSON branch.'#13#10'Literal: Text block in {…}. Special tag #10 for newlines. Use {{regex}} inside to extract data directly into the text.'#13#10'Logic: If a Pointer in a segment is empty, the whole segment is skipped. If a segment has no Pointer, it uses the full json as context.'#13#10'Regex: {prefix {regex[index]} suffix} inside a text block. If no [index] is specified, the first match is used. Index can be a number, [*] (join by space), or [*#10] (join by newline). If the regex finds no match, the entire {…} block is removed. Using ~ inside a regex returns the entire text.'#13#10'Inversion: Start a segment with ! (e.g. !/path{Error}) to show its text only if the Pointer data is missing or json is invalid.'#13#10'Commenting: /* text */ comments are stripped from the entire expression before any processing.'#13#10'Examples:'#13#10'responseData/translatedText; matches/*#10/translation; /texts/text; {literal text#10}; /result/text; /text{ ({(\w+)})}; !/translations{Error: No data!#10}; /translations/0/text'
+            Caption = 'Json Pointer: Use / for levels, keys for objects, and numbers for indexes. Use * for all items, *#10 to join items by newline. Separate multiple segments with ;. Use ~ at the end of the path to return the raw JSON branch.'#13#10'Literal: Text block in {…}. Special tag #10 for newlines. Use {{regex}} inside to extract data directly into the text.'#13#10'Logic: If a Pointer in a segment is empty, the whole segment is skipped. If a segment has no Pointer, it uses the full JSON as context.'#13#10'Regex: {prefix {regex[index]} suffix} inside a text block. If no [index] is specified, the first match is used. Index can be a number, [*] (join by space), or [*#10] (join by newline). If the regex finds no match, the entire {…} block is removed. Using ~ inside a regex returns the entire text.'#13#10'Inversion: Start a segment with ! (e.g. !/path{Error}) to show its text only if the Pointer data is missing or the JSON is invalid.'#13#10'Commenting: /* text */ comments are stripped from the entire expression before any processing.'#13#10'Examples:'#13#10'responseData/translatedText; matches/*#10/translation; /texts/text; {literal text#10}; /result/text; /text{ ({(\w+)})}; !/translations{Error: No data!#10}; /translations/0/text'
             Color = clInfoBk
             ParentColor = False
             Transparent = False

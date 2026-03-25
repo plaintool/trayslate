@@ -16,11 +16,11 @@ object formSettingsTrayslate: TformSettingsTrayslate
     Height = 465
     Top = 5
     Width = 400
-    ActivePage = PageHotkeys
+    ActivePage = PageGeneral
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
-    TabIndex = 2
+    TabIndex = 0
     TabOrder = 0
     OnChange = PagesSettingsChange
     object PageGeneral: TTabSheet
@@ -43,18 +43,18 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Height = 19
           Hint = 'Automatically translate text while typing'
           Top = 8
-          Width = 128
-          Caption = 'Translate as you type'
+          Width = 133
+          Caption = 'Translate As You Type'
           ParentShowHint = False
           ShowHint = True
           TabOrder = 0
           OnChange = SettingChange
         end
         object LabelRealTimeDelay: TLabel
-          Left = 24
+          Left = 21
           Height = 26
           Top = 40
-          Width = 112
+          Width = 115
           Alignment = taRightJustify
           AutoSize = False
           Caption = 'Translation Delay, ms'
@@ -104,7 +104,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Width = 115
           Alignment = taRightJustify
           AutoSize = False
-          Caption = 'Language Detection Config'
+          Caption = 'Lang Detect Config'
           WordWrap = True
         end
         object CheckAutoSwap: TCheckBox
@@ -112,8 +112,8 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Height = 19
           Hint = 'Automatically detect input language and swap pair if needed, does not work during Real-Time Translation'
           Top = 8
-          Width = 151
-          Caption = 'Auto-swap language pair'
+          Width = 155
+          Caption = 'Auto-Swap Language Pair'
           ParentShowHint = False
           ShowHint = True
           TabOrder = 0
@@ -136,8 +136,8 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Height = 19
           Hint = 'Start the application automatically when the computer boots'
           Top = 8
-          Width = 150
-          Caption = 'Launch at system startup'
+          Width = 154
+          Caption = 'Launch At System Startup'
           ParentShowHint = False
           ShowHint = True
           TabOrder = 0
@@ -212,8 +212,8 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Height = 19
           Hint = 'Display source and/or target language on the tray icon'
           Top = 104
-          Width = 122
-          Caption = 'Show language pair'
+          Width = 125
+          Caption = 'Show Language Pair'
           ParentShowHint = False
           ShowHint = True
           TabOrder = 3
@@ -321,8 +321,8 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Height = 19
           Hint = 'Automatically adds a new language pair when you switch languages'
           Top = 40
-          Width = 151
-          Caption = 'Auto-add on pair change'
+          Width = 157
+          Caption = 'Auto-Add On Pair Change'
           ParentShowHint = False
           ShowHint = True
           TabOrder = 1
