@@ -229,9 +229,9 @@ msgstr ""
 
 #: tformconfigtrayslate.labeljsonpointer2.caption
 msgid ""
-"Json Pointer: Use / for levels, keys for objects, and numbers for indexes. Use * for all items, *#10 to join items by newline. Separate multiple segments with ;. Use ~ at the end of the path to return the raw JSON branch.\n"
+"Json Pointer: Use / for levels, keys for objects, and numbers for indexes. Use * for all items, *#10 to join items by newline. Use ~ at the end of the path to return the raw JSON branch. Separate multiple segments with semicolon ;.\n"
 "Literal: Text block in {…}. Special tag #10 for newlines. Use {{regex}} inside to extract data directly into the text.\n"
-"Logic: If a Pointer in a segment is empty, the whole segment is skipped. If a segment has no Pointer, it uses the full JSON as context.\n"
+"Logic: If a Pointer in a segment is empty, the whole segment is skipped. If a segment has no Pointer, only literal text blocks with embedded regular expressions are processed.\n"
 "Regex: {prefix {regex[index]} suffix} inside a text block. If no [index] is specified, the first match is used. Index can be a number, [*] (join by space), or [*#10] (join by newline). If the regex finds no match, the entire {…} block is removed. Using ~ inside a regex returns the entire text.\n"
 "Inversion: Start a segment with ! (e.g. !/path{Error}) to show its text only if the Pointer data is missing or the JSON is invalid.\n"
 "Commenting: /* text */ comments are stripped from the entire expression before any processing.\n"
