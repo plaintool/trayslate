@@ -3,7 +3,6 @@ object formTrayslate: TformTrayslate
   Height = 480
   Top = 250
   Width = 518
-  BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Trayslate'
   ClientHeight = 480
   ClientWidth = 518

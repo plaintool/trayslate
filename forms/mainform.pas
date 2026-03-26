@@ -449,7 +449,10 @@ end;
 procedure TformTrayslate.FormWindowStateChange(Sender: TObject);
 begin
   if WindowState = wsMinimized then
+  begin
+    if TopMost then Hide;
     WindowState := wsNormal;
+  end;
 end;
 
 {$IFDEF WINDOWS}
