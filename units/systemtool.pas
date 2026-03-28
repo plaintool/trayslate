@@ -55,6 +55,12 @@ function ThemeColor(LightColor, DarkColor: TColor): TColor;
 
 function ThemeValue(LightValue, DarkValue: integer): integer;
 
+{$IFDEF WINDOWS}
+
+function IsTaskbarDark: boolean;
+
+{$ENDIF}
+
 function SetCursorTo(Control: TControl; const ResName: string; CursorIndex: integer = 1001): boolean;
 
 function SetFileTypeIcon(const Ext: string; IconIndex: integer): boolean;
@@ -235,6 +241,36 @@ begin
   Result := LightValue;
   {$ENDIF}
 end;
+
+{$IFDEF WINDOWS}
+
+function IsTaskbarDark: boolean;
+var
+  Reg: TRegistry;
+begin
+  // Default to dark mode, as it is the standard for Windows 10 and 11
+  Result := True;
+  Reg := TRegistry.Create(KEY_READ);
+  try
+    Reg.RootKey := HKEY_CURRENT_USER;
+    // Open the registry key where theme personalization settings are stored
+    if Reg.OpenKeyReadOnly('Software\Microsoft\Windows\CurrentVersion\Themes\Personalize') then
+    begin
+      if Reg.ValueExists('SystemUsesLightTheme') then
+      begin
+        // SystemUsesLightTheme = 0 means the taskbar is DARK
+        // SystemUsesLightTheme = 1 means it is LIGHT
+        // We return True if it is dark (0)
+        Result := Reg.ReadInteger('SystemUsesLightTheme') = 0;
+      end;
+      Reg.CloseKey;
+    end;
+  finally
+    Reg.Free;
+  end;
+end;
+
+{$ENDIF}
 
 function SetCursorTo(Control: TControl; const ResName: string; CursorIndex: integer = 1001): boolean;
 var

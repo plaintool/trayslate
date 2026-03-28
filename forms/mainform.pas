@@ -358,7 +358,14 @@ begin
   FConfigFile := string.Empty;
   FConfigLangDetect := DEF_LANGDETECT;
   FIconBackgroundColor := clNone;
+  {$IFDEF WINDOWS}
+  if IsTaskbarDark then
+    FIconFontColor := clWhite
+  else
+    FIconFontColor := clBlack;
+  {$ELSE}
   FIconFontColor := clWhite;
+  {$ENDIF}
   FIconFontName := DEF_FONT;
   FIconTwoLang := True;
   FMaxLangPairs := 10;
