@@ -252,6 +252,87 @@ object formTrayslate: TformTrayslate
     end
     object MenuHelp: TMenuItem
       Caption = 'Help'
+      object menuLanguage: TMenuItem
+        Caption = 'Language'
+        object menuArabic: TMenuItem
+          Action = aLangArabic
+        end
+        object menuBelarusian: TMenuItem
+          Action = aLangBelarusian
+        end
+        object menuChinese: TMenuItem
+          Action = aLangChinese
+        end
+        object MenuItem3: TMenuItem
+          Action = aLangCzech
+        end
+        object MenuItem4: TMenuItem
+          Action = aLangDanish
+        end
+        object MenuItem5: TMenuItem
+          Action = aLangDutch
+        end
+        object menuEnglish: TMenuItem
+          Action = aLangEnglish
+        end
+        object MenuItem6: TMenuItem
+          Action = aLangFinnish
+        end
+        object menuFrench: TMenuItem
+          Action = aLangFrench
+        end
+        object menuGerman: TMenuItem
+          Action = aLangGerman
+        end
+        object MenuItem7: TMenuItem
+          Action = aLangGreek
+        end
+        object MenuItem8: TMenuItem
+          Action = aLangHebrew
+        end
+        object menuHindi: TMenuItem
+          Action = aLangHindi
+        end
+        object MenuItem9: TMenuItem
+          Action = aLangIndonesian
+        end
+        object menuItalian: TMenuItem
+          Action = aLangItalian
+        end
+        object menuJapanese: TMenuItem
+          Action = aLangJapanese
+        end
+        object menuKorean: TMenuItem
+          Action = aLangKorean
+        end
+        object MenuItem10: TMenuItem
+          Action = aLangPolish
+        end
+        object menuPortuguese: TMenuItem
+          Action = aLangPortuguese
+        end
+        object MenuItem11: TMenuItem
+          Action = aLangRomanian
+        end
+        object menuRussian: TMenuItem
+          Action = aLangRussian
+        end
+        object menuSpanish: TMenuItem
+          Action = aLangSpanish
+        end
+        object MenuItem12: TMenuItem
+          Action = aLangSwedish
+        end
+        object MenuItem13: TMenuItem
+          Action = aLangTurkish
+        end
+        object menuUkrainian: TMenuItem
+          Action = aLangUkrainian
+        end
+      end
+      object Separator9: TMenuItem
+        Caption = '-'
+      end
       object MenuDonate: TMenuItem
         Action = aDonate
       end
@@ -333,6 +414,131 @@ object formTrayslate: TformTrayslate
       Hint = 'Add Current Pair'
       ShortCut = 16454
       OnExecute = aAddPairExecute
+    end
+    object aLangArabic: TAction
+      Category = 'Language'
+      Caption = 'Arabic'
+      OnExecute = aLangArabicExecute
+    end
+    object aLangBelarusian: TAction
+      Category = 'Language'
+      Caption = 'Belarusian'
+      OnExecute = aLangBelarusianExecute
+    end
+    object aLangChinese: TAction
+      Category = 'Language'
+      Caption = 'Chinese'
+      OnExecute = aLangChineseExecute
+    end
+    object aLangCzech: TAction
+      Category = 'Language'
+      Caption = 'Czech'
+      OnExecute = aLangCzechExecute
+    end
+    object aLangDanish: TAction
+      Category = 'Language'
+      Caption = 'Danish'
+      OnExecute = aLangDanishExecute
+    end
+    object aLangDutch: TAction
+      Category = 'Language'
+      Caption = 'Dutch'
+      OnExecute = aLangDutchExecute
+    end
+    object aLangEnglish: TAction
+      Category = 'Language'
+      Caption = 'English'
+      OnExecute = aLangEnglishExecute
+    end
+    object aLangFinnish: TAction
+      Category = 'Language'
+      Caption = 'Finnish'
+      OnExecute = aLangFinnishExecute
+    end
+    object aLangFrench: TAction
+      Category = 'Language'
+      Caption = 'French'
+      OnExecute = aLangFrenchExecute
+    end
+    object aLangGerman: TAction
+      Category = 'Language'
+      Caption = 'German'
+      OnExecute = aLangGermanExecute
+    end
+    object aLangGreek: TAction
+      Category = 'Language'
+      Caption = 'Greek'
+      OnExecute = aLangGreekExecute
+    end
+    object aLangHebrew: TAction
+      Category = 'Language'
+      Caption = 'Hebrew'
+      OnExecute = aLangHebrewExecute
+    end
+    object aLangHindi: TAction
+      Category = 'Language'
+      Caption = 'Hindi'
+      OnExecute = aLangHindiExecute
+    end
+    object aLangIndonesian: TAction
+      Category = 'Language'
+      Caption = 'Indonesian'
+      OnExecute = aLangIndonesianExecute
+    end
+    object aLangItalian: TAction
+      Category = 'Language'
+      Caption = 'Italian'
+      OnExecute = aLangItalianExecute
+    end
+    object aLangJapanese: TAction
+      Category = 'Language'
+      Caption = 'Japanese'
+      OnExecute = aLangJapaneseExecute
+    end
+    object aLangKorean: TAction
+      Category = 'Language'
+      Caption = 'Korean'
+      OnExecute = aLangKoreanExecute
+    end
+    object aLangPolish: TAction
+      Category = 'Language'
+      Caption = 'Polish'
+      OnExecute = aLangPolishExecute
+    end
+    object aLangPortuguese: TAction
+      Category = 'Language'
+      Caption = 'Portuguese'
+      OnExecute = aLangPortugueseExecute
+    end
+    object aLangRomanian: TAction
+      Category = 'Language'
+      Caption = 'Romanian'
+      OnExecute = aLangRomanianExecute
+    end
+    object aLangRussian: TAction
+      Category = 'Language'
+      Caption = 'Russian'
+      OnExecute = aLangRussianExecute
+    end
+    object aLangSpanish: TAction
+      Category = 'Language'
+      Caption = 'Spanish'
+      OnExecute = aLangSpanishExecute
+    end
+    object aLangSwedish: TAction
+      Category = 'Language'
+      Caption = 'Swedish'
+      OnExecute = aLangSwedishExecute
+    end
+    object aLangTurkish: TAction
+      Category = 'Language'
+      Caption = 'Turkish'
+      OnExecute = aLangTurkishExecute
+    end
+    object aLangUkrainian: TAction
+      Category = 'Language'
+      Caption = 'Ukrainian'
+      OnExecute = aLangUkrainianExecute
     end
   end
   object TimerClick: TTimer

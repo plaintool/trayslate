@@ -86,6 +86,56 @@ type
     TimerClick: TTimer;
     TimerActive: TTimer;
     TrayIcon: TTrayIcon;
+    aLangTurkish: TAction;
+    aLangGreek: TAction;
+    aLangHebrew: TAction;
+    aLangIndonesian: TAction;
+    aLangPolish: TAction;
+    aLangRomanian: TAction;
+    aLangSwedish: TAction;
+    aLangCzech: TAction;
+    aLangDanish: TAction;
+    aLangDutch: TAction;
+    aLangFinnish: TAction;
+    aLangEnglish: TAction;
+    aLangRussian: TAction;
+    aLangGerman: TAction;
+    aLangSpanish: TAction;
+    aLangFrench: TAction;
+    aLangItalian: TAction;
+    aLangPortuguese: TAction;
+    aLangJapanese: TAction;
+    aLangKorean: TAction;
+    aLangChinese: TAction;
+    aLangArabic: TAction;
+    aLangUkrainian: TAction;
+    aLangBelarusian: TAction;
+    aLangHindi: TAction;
+    menuTurkish: TMenuItem;
+    menuGreek: TMenuItem;
+    menuHebrew: TMenuItem;
+    menuIndonesian: TMenuItem;
+    menuPolish: TMenuItem;
+    menuRomanian: TMenuItem;
+    menuSwedish: TMenuItem;
+    menuCzech: TMenuItem;
+    menuDanish: TMenuItem;
+    menuDutch: TMenuItem;
+    menuFinnish: TMenuItem;
+    menuEnglish: TMenuItem;
+    menuRussian: TMenuItem;
+    menuGerman: TMenuItem;
+    menuSpanish: TMenuItem;
+    menuFrench: TMenuItem;
+    menuItalian: TMenuItem;
+    menuPortuguese: TMenuItem;
+    menuJapanese: TMenuItem;
+    menuKorean: TMenuItem;
+    menuChinese: TMenuItem;
+    menuArabic: TMenuItem;
+    menuUkrainian: TMenuItem;
+    menuBelarusian: TMenuItem;
+    menuHindi: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -133,6 +183,31 @@ type
     procedure LabelLangMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
     procedure MenuConfigItemClick(Sender: TObject);
     procedure MenuPairClick(Sender: TObject);
+    procedure aLangTurkishExecute(Sender: TObject);
+    procedure aLangGreekExecute(Sender: TObject);
+    procedure aLangHebrewExecute(Sender: TObject);
+    procedure aLangIndonesianExecute(Sender: TObject);
+    procedure aLangPolishExecute(Sender: TObject);
+    procedure aLangRomanianExecute(Sender: TObject);
+    procedure aLangSwedishExecute(Sender: TObject);
+    procedure aLangCzechExecute(Sender: TObject);
+    procedure aLangDanishExecute(Sender: TObject);
+    procedure aLangDutchExecute(Sender: TObject);
+    procedure aLangFinnishExecute(Sender: TObject);
+    procedure aLangEnglishExecute(Sender: TObject);
+    procedure aLangRussianExecute(Sender: TObject);
+    procedure aLangGermanExecute(Sender: TObject);
+    procedure aLangSpanishExecute(Sender: TObject);
+    procedure aLangFrenchExecute(Sender: TObject);
+    procedure aLangItalianExecute(Sender: TObject);
+    procedure aLangPortugueseExecute(Sender: TObject);
+    procedure aLangJapaneseExecute(Sender: TObject);
+    procedure aLangKoreanExecute(Sender: TObject);
+    procedure aLangChineseExecute(Sender: TObject);
+    procedure aLangArabicExecute(Sender: TObject);
+    procedure aLangUkrainianExecute(Sender: TObject);
+    procedure aLangBelarusianExecute(Sender: TObject);
+    procedure aLangHindiExecute(Sender: TObject);
   private
     FTrans: TTranslate;
     FTransDetect: TTranslate;
@@ -197,6 +272,7 @@ type
     procedure TranslateClipboard;
     procedure TranslateFromControl(Data: PtrInt);
     procedure TranslateControl(Data: PtrInt);
+    procedure SetLanguage(aLanguage: string = string.Empty);
   protected
     {$IFDEF WINDOWS}
     procedure WMActivate(var Message: TLMActivate); message LM_ACTIVATE;
@@ -383,6 +459,9 @@ begin
   {$IFDEF WINDOWS}
   RegisterHotKeys;
   {$ENDIF}
+
+  // Set language
+  SetLanguage(Language);
 
   FTopMost := False;
 end;
@@ -1844,6 +1923,199 @@ begin
     Screen.Cursor := crDefault;
     {$ENDIF}
   end;
+end;
+
+{Action Languages}
+
+procedure TformTrayslate.SetLanguage(aLanguage: string = string.Empty);
+begin
+  aLangArabic.Checked := False;
+  aLangBelarusian.Checked := False;
+  aLangChinese.Checked := False;
+  aLangCzech.Checked := False;
+  aLangDanish.Checked := False;
+  aLangDutch.Checked := False;
+  aLangEnglish.Checked := False;
+  aLangFinnish.Checked := False;
+  aLangFrench.Checked := False;
+  aLangGerman.Checked := False;
+  aLangGreek.Checked := False;
+  aLangHebrew.Checked := False;
+  aLangHindi.Checked := False;
+  aLangIndonesian.Checked := False;
+  aLangItalian.Checked := False;
+  aLangJapanese.Checked := False;
+  aLangKorean.Checked := False;
+  aLangPolish.Checked := False;
+  aLangPortuguese.Checked := False;
+  aLangRomanian.Checked := False;
+  aLangRussian.Checked := False;
+  aLangSpanish.Checked := False;
+  aLangSwedish.Checked := False;
+  aLangTurkish.Checked := False;
+  aLangUkrainian.Checked := False;
+
+  if (aLanguage <> string.Empty) then
+  begin
+    Language := aLanguage;
+    if not ApplicationTranslate(Language) then
+      Language := 'en';
+  end;
+
+  case Language of
+    'ar': aLangArabic.Checked := True;
+    'be': aLangBelarusian.Checked := True;
+    'zh': aLangChinese.Checked := True;
+    'cs': aLangCzech.Checked := True;
+    'da': aLangDanish.Checked := True;
+    'nl': aLangDutch.Checked := True;
+    'en': aLangEnglish.Checked := True;
+    'fi': aLangFinnish.Checked := True;
+    'fr': aLangFrench.Checked := True;
+    'de': aLangGerman.Checked := True;
+    'el': aLangGreek.Checked := True;
+    'he': aLangHebrew.Checked := True;
+    'hi': aLangHindi.Checked := True;
+    'id': aLangIndonesian.Checked := True;
+    'it': aLangItalian.Checked := True;
+    'ja': aLangJapanese.Checked := True;
+    'ko': aLangKorean.Checked := True;
+    'pl': aLangPolish.Checked := True;
+    'pt': aLangPortuguese.Checked := True;
+    'ro': aLangRomanian.Checked := True;
+    'ru': aLangRussian.Checked := True;
+    'es': aLangSpanish.Checked := True;
+    'sv': aLangSwedish.Checked := True;
+    'tr': aLangTurkish.Checked := True;
+    'uk': aLangUkrainian.Checked := True;
+    else
+    // nolang
+  end;
+end;
+
+procedure TformTrayslate.aLangArabicExecute(Sender: TObject);
+begin
+  SetLanguage('ar');
+end;
+
+procedure TformTrayslate.aLangBelarusianExecute(Sender: TObject);
+begin
+  SetLanguage('be');
+end;
+
+procedure TformTrayslate.aLangChineseExecute(Sender: TObject);
+begin
+  SetLanguage('zh');
+end;
+
+procedure TformTrayslate.aLangCzechExecute(Sender: TObject);
+begin
+  SetLanguage('cs');
+end;
+
+procedure TformTrayslate.aLangDanishExecute(Sender: TObject);
+begin
+  SetLanguage('da');
+end;
+
+procedure TformTrayslate.aLangDutchExecute(Sender: TObject);
+begin
+  SetLanguage('nl');
+end;
+
+procedure TformTrayslate.aLangEnglishExecute(Sender: TObject);
+begin
+  SetLanguage('en');
+end;
+
+procedure TformTrayslate.aLangFinnishExecute(Sender: TObject);
+begin
+  SetLanguage('fi');
+end;
+
+procedure TformTrayslate.aLangFrenchExecute(Sender: TObject);
+begin
+  SetLanguage('fr');
+end;
+
+procedure TformTrayslate.aLangGermanExecute(Sender: TObject);
+begin
+  SetLanguage('de');
+end;
+
+procedure TformTrayslate.aLangGreekExecute(Sender: TObject);
+begin
+  SetLanguage('el');
+end;
+
+procedure TformTrayslate.aLangHebrewExecute(Sender: TObject);
+begin
+  SetLanguage('he');
+end;
+
+procedure TformTrayslate.aLangHindiExecute(Sender: TObject);
+begin
+  SetLanguage('hi');
+end;
+
+procedure TformTrayslate.aLangIndonesianExecute(Sender: TObject);
+begin
+  SetLanguage('id');
+end;
+
+procedure TformTrayslate.aLangItalianExecute(Sender: TObject);
+begin
+  SetLanguage('it');
+end;
+
+procedure TformTrayslate.aLangJapaneseExecute(Sender: TObject);
+begin
+  SetLanguage('ja');
+end;
+
+procedure TformTrayslate.aLangKoreanExecute(Sender: TObject);
+begin
+  SetLanguage('ko');
+end;
+
+procedure TformTrayslate.aLangPolishExecute(Sender: TObject);
+begin
+  SetLanguage('pl');
+end;
+
+procedure TformTrayslate.aLangPortugueseExecute(Sender: TObject);
+begin
+  SetLanguage('pt');
+end;
+
+procedure TformTrayslate.aLangRomanianExecute(Sender: TObject);
+begin
+  SetLanguage('ro');
+end;
+
+procedure TformTrayslate.aLangRussianExecute(Sender: TObject);
+begin
+  SetLanguage('ru');
+end;
+
+procedure TformTrayslate.aLangSpanishExecute(Sender: TObject);
+begin
+  SetLanguage('es');
+end;
+
+procedure TformTrayslate.aLangSwedishExecute(Sender: TObject);
+begin
+  SetLanguage('sv');
+end;
+
+procedure TformTrayslate.aLangTurkishExecute(Sender: TObject);
+begin
+  SetLanguage('tr');
+end;
+
+procedure TformTrayslate.aLangUkrainianExecute(Sender: TObject);
+begin
+  SetLanguage('uk');
 end;
 
 end.

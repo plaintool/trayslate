@@ -687,6 +687,106 @@ msgstr ""
 msgid "Exit"
 msgstr ""
 
+#: tformtrayslate.alangarabic.caption
+msgid "Arabic"
+msgstr ""
+
+#: tformtrayslate.alangbelarusian.caption
+msgid "Belarusian"
+msgstr ""
+
+#: tformtrayslate.alangchinese.caption
+msgid "Chinese"
+msgstr ""
+
+#: tformtrayslate.alangczech.caption
+msgid "Czech"
+msgstr ""
+
+#: tformtrayslate.alangdanish.caption
+msgid "Danish"
+msgstr ""
+
+#: tformtrayslate.alangdutch.caption
+msgid "Dutch"
+msgstr ""
+
+#: tformtrayslate.alangenglish.caption
+msgid "English"
+msgstr ""
+
+#: tformtrayslate.alangfinnish.caption
+msgid "Finnish"
+msgstr ""
+
+#: tformtrayslate.alangfrench.caption
+msgid "French"
+msgstr ""
+
+#: tformtrayslate.alanggerman.caption
+msgid "German"
+msgstr ""
+
+#: tformtrayslate.alanggreek.caption
+msgid "Greek"
+msgstr ""
+
+#: tformtrayslate.alanghebrew.caption
+msgid "Hebrew"
+msgstr ""
+
+#: tformtrayslate.alanghindi.caption
+msgid "Hindi"
+msgstr ""
+
+#: tformtrayslate.alangindonesian.caption
+msgid "Indonesian"
+msgstr ""
+
+#: tformtrayslate.alangitalian.caption
+msgid "Italian"
+msgstr ""
+
+#: tformtrayslate.alangjapanese.caption
+msgid "Japanese"
+msgstr ""
+
+#: tformtrayslate.alangkorean.caption
+msgid "Korean"
+msgstr ""
+
+#: tformtrayslate.alangpolish.caption
+msgid "Polish"
+msgstr ""
+
+#: tformtrayslate.alangportuguese.caption
+msgid "Portuguese"
+msgstr ""
+
+#: tformtrayslate.alangromanian.caption
+msgid "Romanian"
+msgstr ""
+
+#: tformtrayslate.alangrussian.caption
+msgid "Russian"
+msgstr ""
+
+#: tformtrayslate.alangspanish.caption
+msgid "Spanish"
+msgstr ""
+
+#: tformtrayslate.alangswedish.caption
+msgid "Swedish"
+msgstr ""
+
+#: tformtrayslate.alangturkish.caption
+msgid "Turkish"
+msgstr ""
+
+#: tformtrayslate.alangukrainian.caption
+msgid "Ukrainian"
+msgstr ""
+
 #: tformtrayslate.anewtranslate.hint
 msgid "New Translate"
 msgstr ""
@@ -728,5 +828,9 @@ msgstr ""
 
 #: tformtrayslate.menulangpairs.caption
 msgid "Recent Pairs"
+msgstr ""
+
+#: tformtrayslate.menulanguage.caption
+msgid "Language"
 msgstr ""
 
