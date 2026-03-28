@@ -251,7 +251,7 @@ msgstr ""
 
 #: tformconfigtrayslate.labellanguages.caption
 msgctxt "tformconfigtrayslate.labellanguages.caption"
-msgid "Supported languages e.g. en=en-US (en internal, en-US service). \"empty\" means do not send."
+msgid "Supported languages e.g. en=en-US (en - internal, en-US - service). \"empty\" - do not send."
 msgstr ""
 
 #: tformconfigtrayslate.labellanguages1.caption
@@ -507,27 +507,27 @@ msgstr ""
 
 #: tformsettingstrayslate.edittransclipboard.hint
 msgctxt "tformsettingstrayslate.edittransclipboard.hint"
-msgid "Default: Ctrl+Shift+R"
+msgid "Default Ctrl+Shift+R"
 msgstr ""
 
 #: tformsettingstrayslate.edittranscontrol.hint
 msgctxt "tformsettingstrayslate.edittranscontrol.hint"
-msgid "Default: Ctrl+Shift+V"
+msgid "Default Ctrl+Shift+V"
 msgstr ""
 
 #: tformsettingstrayslate.edittransfromclipboard.hint
 msgctxt "tformsettingstrayslate.edittransfromclipboard.hint"
-msgid "Default: Ctrl+Shift+T"
+msgid "Default Ctrl+Shift+T"
 msgstr ""
 
 #: tformsettingstrayslate.edittransfromcontrol.hint
 msgctxt "tformsettingstrayslate.edittransfromcontrol.hint"
-msgid "Default: Ctrl+Shift+C"
+msgid "Default Ctrl+Shift+C"
 msgstr ""
 
 #: tformsettingstrayslate.edittransswap.hint
 msgctxt "tformsettingstrayslate.edittransswap.hint"
-msgid "Default: Ctrl+Shift+S"
+msgid "Default Ctrl+Shift+S"
 msgstr ""
 
 #: tformsettingstrayslate.groupapp.caption
@@ -539,7 +539,7 @@ msgid "Autostart"
 msgstr ""
 
 #: tformsettingstrayslate.groupautoswap.caption
-msgid "Auto Swap Languages"
+msgid "Auto-Swap Languages"
 msgstr ""
 
 #: tformsettingstrayslate.groupfont.caption
@@ -797,11 +797,6 @@ msgstr ""
 
 #: tformtrayslate.ashow.caption
 msgid "Show"
-msgstr ""
-
-#: tformtrayslate.aswap.hint
-msgctxt "tformtrayslate.aswap.hint"
-msgid "Swap"
 msgstr ""
 
 #: tformtrayslate.atranslate.hint

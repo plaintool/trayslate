@@ -159,6 +159,8 @@ uses mainform, translate, settings, formattool, langtool, languages, systemtool;
 
 procedure TformConfigTrayslate.FormCreate(Sender: TObject);
 begin
+  ApplicationTranslate(language, self);
+
   Pages.PageIndex := 0;
   BtnClose.Cancel := True;
   LabelFillLanguages.Font.Color := ThemeColor(clBlue, clSkyBlue);

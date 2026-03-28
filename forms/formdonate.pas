@@ -75,6 +75,7 @@ uses systemtool;
 procedure TformDonateTrayslate.FormCreate(Sender: TObject);
 begin
   ApplicationTranslate(language, self);
+
   LabelUrl.Font.Color := ThemeColor(clBlue, clSkyBlue);
   LabelUrl1.Font.Color := ThemeColor(clBlue, clSkyBlue);
 end;

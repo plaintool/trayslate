@@ -140,7 +140,7 @@ resourcestring
 
 implementation
 
-uses mainform, formattool;
+uses mainform, formattool, systemtool;
 
   {$R *.lfm}
 
@@ -150,6 +150,8 @@ procedure TformSettingsTrayslate.FormCreate(Sender: TObject);
 var
   i: integer;
 begin
+  ApplicationTranslate(language, self);
+
   PagesSettings.PageIndex := 0;
   BtnCancel.Cancel := True;
   BtnReset.Enabled := True;

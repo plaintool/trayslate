@@ -164,11 +164,11 @@ object formConfigTrayslate: TformConfigTrayslate
     Height = 514
     Top = 41
     Width = 590
-    ActivePage = PageResponse
+    ActivePage = PageService
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
-    TabIndex = 2
+    TabIndex = 0
     TabOrder = 1
     object PageService: TTabSheet
       Caption = 'Service'
@@ -910,7 +910,7 @@ object formConfigTrayslate: TformConfigTrayslate
           Top = 64
           Width = 540
           Anchors = [akTop, akLeft, akRight]
-          Caption = 'Supported languages e.g. en=en-US (en internal, en-US service). "empty" means do not send.'
+          Caption = 'Supported languages e.g. en=en-US (en - internal, en-US - service). "empty" - do not send.'
           Color = clInfoBk
           ParentColor = False
           Transparent = False

@@ -355,7 +355,6 @@ object formTrayslate: TformTrayslate
     Top = 328
     object aSwap: TAction
       Category = 'Form'
-      Hint = 'Swap'
       OnExecute = aSwapExecute
     end
     object aTranslate: TAction

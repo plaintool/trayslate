@@ -51,10 +51,10 @@ object formSettingsTrayslate: TformSettingsTrayslate
           OnChange = SettingChange
         end
         object LabelRealTimeDelay: TLabel
-          Left = 21
+          Left = 8
           Height = 26
           Top = 40
-          Width = 115
+          Width = 128
           Alignment = taRightJustify
           AutoSize = False
           Caption = 'Translation Delay, ms'
@@ -79,7 +79,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
         Width = 382
         Align = alTop
         BorderSpacing.Around = 5
-        Caption = 'Auto Swap Languages'
+        Caption = 'Auto-Swap Languages'
         ClientHeight = 79
         ClientWidth = 378
         TabOrder = 1
@@ -98,10 +98,10 @@ object formSettingsTrayslate: TformSettingsTrayslate
           OnChange = SettingChange
         end
         object LabelIconBackground1: TLabel
-          Left = 21
+          Left = 8
           Height = 32
           Top = 40
-          Width = 115
+          Width = 128
           Alignment = taRightJustify
           AutoSize = False
           Caption = 'Lang Detect Config'
@@ -400,7 +400,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Tag = 2
           Left = 240
           Height = 23
-          Hint = 'Default: Ctrl+Shift+S'
+          Hint = 'Default Ctrl+Shift+S'
           Top = 8
           Width = 122
           Alignment = taCenter
@@ -441,7 +441,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Tag = 3
           Left = 240
           Height = 23
-          Hint = 'Default: Ctrl+Shift+T'
+          Hint = 'Default Ctrl+Shift+T'
           Top = 8
           Width = 122
           Alignment = taCenter
@@ -482,7 +482,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Tag = 4
           Left = 240
           Height = 23
-          Hint = 'Default: Ctrl+Shift+R'
+          Hint = 'Default Ctrl+Shift+R'
           Top = 8
           Width = 122
           Alignment = taCenter
@@ -523,7 +523,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Tag = 5
           Left = 240
           Height = 23
-          Hint = 'Default: Ctrl+Shift+C'
+          Hint = 'Default Ctrl+Shift+C'
           Top = 8
           Width = 122
           Alignment = taCenter
@@ -564,7 +564,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Tag = 6
           Left = 240
           Height = 23
-          Hint = 'Default: Ctrl+Shift+V'
+          Hint = 'Default Ctrl+Shift+V'
           Top = 8
           Width = 122
           Alignment = taCenter
