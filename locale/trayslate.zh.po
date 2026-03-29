@@ -5,7 +5,7 @@ msgstr ""
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: en\n"
+"Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,28 +14,28 @@ msgstr ""
 #: formconfig.rcaption
 msgctxt "formconfig.rcaption"
 msgid "Config Editor"
-msgstr "Config Editor"
+msgstr "配置编辑器"
 
 #: formconfig.rclearlanguages
 msgid "The list is already filled. Do you want to clear it?"
-msgstr "The list is already filled. Do you want to clear it?"
+msgstr "列表已满。要清空吗？"
 
 #: formconfig.rdeleteconfig
 msgid "Are you sure you want to delete config"
-msgstr "Are you sure you want to delete config"
+msgstr "确定要删除配置"
 
 #: formconfig.rdeleteconfigcaption
 msgid "Delete config"
-msgstr "Delete config"
+msgstr "删除配置"
 
 #: formconfig.rnamequestion
 msgctxt "formconfig.rnamequestion"
 msgid "Enter new config file name:"
-msgstr "Enter new config file name:"
+msgstr "输入新配置文件名："
 
 #: formconfig.rneedsave
 msgid "The configuration was modified. Save changes?"
-msgstr "The configuration was modified. Save changes?"
+msgstr "配置已被修改。保存更改吗？"
 
 #: formsettings.rdefaultfont
 msgid "Default"
@@ -44,44 +44,44 @@ msgstr ""
 #: mainform.rnoconfig
 msgctxt "mainform.rnoconfig"
 msgid "Configuration file not found! Create it in the configuration editor."
-msgstr "Configuration file not found! Create it in the configuration editor."
+msgstr "找不到配置文件！请在配置编辑器中创建。"
 
 #: mainform.rswap
 #, object-pascal-format
 msgctxt "mainform.rswap"
 msgid "Swap (%s) with text (%s)"
-msgstr "Swap (%s) with text (%s)"
+msgstr "交换 (%s) 与文本 (%s)"
 
 #: mainform.rtoremovepair
 msgid " to remove pair"
-msgstr " to remove pair"
+msgstr " 以移除配对"
 
 #: mainform.rtrayslate
 msgctxt "mainform.rtrayslate"
 msgid "Trayslate"
-msgstr "Trayslate"
+msgstr ""
 
 #: systemtool.newversion
 #, object-pascal-format
 msgid "New version available: %s. Open GitHub page to download?"
-msgstr "New version available: %s. Open GitHub page to download?"
+msgstr "新版本可用：%s。打开 GitHub 页面下载？"
 
 #: systemtool.newversioncheckerror
 msgid "Error checking version:"
-msgstr "Error checking version:"
+msgstr "检查版本时出错："
 
 #: systemtool.newversionuptodate
 msgid "Your version is up to date."
-msgstr "Your version is up to date."
+msgstr "您的版本已是最新。"
 
 #: tformabouttrayslate.buttonok.caption
 msgctxt "tformabouttrayslate.buttonok.caption"
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 #: tformabouttrayslate.caption
 msgid "About"
-msgstr "About"
+msgstr "关于"
 
 #: tformabouttrayslate.labelby.caption
 msgid "by Alexander Tverskoy is licensed under"
@@ -106,42 +106,42 @@ msgstr ""
 #: tformconfigtrayslate.asave.caption
 msgctxt "tformconfigtrayslate.asave.caption"
 msgid "Save"
-msgstr "Save"
+msgstr "保存"
 
 #: tformconfigtrayslate.btnclose.caption
 msgctxt "tformconfigtrayslate.btnclose.caption"
 msgid "Close"
-msgstr "Close"
+msgstr "关闭"
 
 #: tformconfigtrayslate.btninitparameterstest.hint
 msgid "Execute request and view the parameters"
-msgstr "Execute request and view the parameters"
+msgstr "执行请求并查看参数"
 
 #: tformconfigtrayslate.btniniturltest.hint
 msgid "Execute request and view the result"
-msgstr "Execute request and view the result"
+msgstr "执行请求并查看结果"
 
 #: tformconfigtrayslate.btnpostdatatest.hint
 msgid "Execute post request and view the result"
-msgstr "Execute post request and view the result"
+msgstr "执行 POST 请求并查看结果"
 
 #: tformconfigtrayslate.btnurltest.hint
 msgid "Execute get request and view the result"
-msgstr "Execute get request and view the result"
+msgstr "执行 GET 请求并查看结果"
 
 #: tformconfigtrayslate.caption
 msgctxt "tformconfigtrayslate.caption"
 msgid "Config Editor"
-msgstr "Config Editor"
+msgstr "配置编辑器"
 
 #: tformconfigtrayslate.checkautoswap.caption
 msgctxt "tformconfigtrayslate.checkautoswap.caption"
 msgid "Auto-swap language pair"
-msgstr "Auto-swap language pair"
+msgstr "自动交换语言对"
 
 #: tformconfigtrayslate.checkencrypttext.caption
 msgid "Encode {text} parameter"
-msgstr "Encode {text} parameter"
+msgstr "编码 {text} 参数"
 
 #: tformconfigtrayslate.combomethod.text
 msgid "GET"
@@ -149,35 +149,35 @@ msgstr ""
 
 #: tformconfigtrayslate.combovaluetype.text
 msgid "None"
-msgstr "None"
+msgstr ""
 
 #: tformconfigtrayslate.groupboxservice.caption
 msgctxt "tformconfigtrayslate.groupboxservice.caption"
 msgid "Service"
-msgstr "Service"
+msgstr "服务"
 
 #: tformconfigtrayslate.groupinitparameters.caption
 msgid "Initial Request"
-msgstr "Initial Request"
+msgstr "初始请求"
 
 #: tformconfigtrayslate.grouplanguages.caption
 msgctxt "tformconfigtrayslate.grouplanguages.caption"
 msgid "Languages"
-msgstr "Languages"
+msgstr "语言"
 
 #: tformconfigtrayslate.grouplanguagestarget.caption
 msgctxt "tformconfigtrayslate.grouplanguagestarget.caption"
 msgid "Target Languages"
-msgstr "Target Languages"
+msgstr "目标语言"
 
 #: tformconfigtrayslate.grouprequest.caption
 msgid "Request"
-msgstr "Request"
+msgstr "请求"
 
 #: tformconfigtrayslate.groupresponse.caption
 msgctxt "tformconfigtrayslate.groupresponse.caption"
 msgid "Response"
-msgstr "Response"
+msgstr "响应"
 
 #: tformconfigtrayslate.labelaccept.caption
 msgid "Accept"
@@ -190,42 +190,42 @@ msgstr ""
 
 #: tformconfigtrayslate.labelfilllanguages.caption
 msgid "Fill with default"
-msgstr "Fill with default"
+msgstr "用默认值填充"
 
 #: tformconfigtrayslate.labelheaders.caption
 msgid "Additional request headers in key=value format, key: value is also supported"
-msgstr "Additional request headers in key=value format, key: value is also supported"
+msgstr "额外的请求头，格式为 key=value，也支持 key: value"
 
 #: tformconfigtrayslate.labelinitheaders.caption
 msgid "Additional initial request headers in key=value format, key: value is also supported"
-msgstr "Additional initial request headers in key=value format, key: value is also supported"
+msgstr "额外的初始请求头，格式为 key=value，也支持 key: value"
 
 #: tformconfigtrayslate.labelinitheaders2.caption
 msgctxt "tformconfigtrayslate.labelinitheaders2.caption"
 msgid "Headers"
-msgstr "Headers"
+msgstr ""
 
 #: tformconfigtrayslate.labelinitlivetime.caption
 msgctxt "tformconfigtrayslate.labelinitlivetime.caption"
 msgid "Live time"
-msgstr "Live time"
+msgstr "存活时间"
 
 #: tformconfigtrayslate.labelinitparameters.caption
 msgid "Parameters name=regexp are extracted from the response and used by name in requests"
-msgstr "Parameters name=regexp are extracted from the response and used by name in requests"
+msgstr "参数 name=regexp 从响应中提取，并在请求中按名称使用"
 
 #: tformconfigtrayslate.labelinitparameters1.caption
 msgid "Time in seconds to refresh parameters with a new request (0 = every request)"
-msgstr "Time in seconds to refresh parameters with a new request (0 = every request)"
+msgstr "通过新请求刷新参数的时间（秒），0 = 每个请求都刷新"
 
 #: tformconfigtrayslate.labelinitparameters2.caption
 msgctxt "tformconfigtrayslate.labelinitparameters2.caption"
 msgid "Parameters"
-msgstr "Parameters"
+msgstr "参数"
 
 #: tformconfigtrayslate.labelinitparemeters.caption
 msgid "Initial GET request to obtain required parameters."
-msgstr "Initial GET request to obtain required parameters."
+msgstr "用于获取所需参数的初始 GET 请求。"
 
 #: tformconfigtrayslate.labeliniturl.caption
 msgctxt "tformconfigtrayslate.labeliniturl.caption"
@@ -248,41 +248,41 @@ msgid ""
 "Examples:\n"
 "responseData/translatedText; matches/*#10/translation; /texts/text; {literal text#10}; /result/text; /text{ ({(\\w+)})}; !/translations{Error: No data!#10}; /translations/0/text"
 msgstr ""
-"Json Pointer: Use / for levels, keys for objects, and numbers for indexes. Use * for all items, *#10 to join items by newline. Use ~ at the end of the path to return the raw JSON branch. Separate multiple segments with semicolon ;.\n"
-"Literal: Text block in {…}. Special tag #10 for newlines. Use {{regex}} inside to extract data directly into the text.\n"
-"Logic: If a Pointer in a segment is empty, the whole segment is skipped. If a segment has no Pointer, only literal text blocks with embedded regular expressions are processed.\n"
-"Regex: {prefix {regex[index]} suffix} inside a text block. If no [index] is specified, the first match is used. Index can be a number, [*] (join by space), or [*#10] (join by newline). If the regex finds no match, the entire {…} block is removed. Using ~ inside a regex returns the entire text.\n"
-"Inversion: Start a segment with ! (e.g. !/path{Error}) to show its text only if the Pointer data is missing or the JSON is invalid.\n"
-"Commenting: /* text */ comments are stripped from the entire expression before any processing.\n"
-"Examples:\n"
+"Json Pointer：使用 / 表示层级，键表示对象，数字表示索引。使用 * 表示所有项，*#10 表示用换行连接项。在路径末尾使用 ~ 返回原始 JSON 分支。多个段用分号 ; 分隔。\n"
+"字面量：{…} 中的文本块。特殊标记 #10 表示换行。内部使用 {{regex}} 直接将数据提取到文本中。\n"
+"逻辑：如果段中的 Pointer 为空，则跳过整个段。如果段没有 Pointer，则仅处理带有嵌入正则表达式的字面文本块。\n"
+"正则表达式：文本块中的 {前缀 {正则表达式[索引]} 后缀}。如果未指定 [索引]，则使用第一个匹配项。索引可以是数字、[*]（用空格连接）或 [*#10]（用换行连接）。如果正则表达式未找到匹配项，则删除整个 {…} 块。在正则表达式中使用 ~ 返回整个文本。\n"
+"反转：以 ! 开头段（例如 !/path{Error}），仅当 Pointer 数据缺失或 JSON 无效时才显示其文本。\n"
+"注释：/* 文本 */ 注释在处理前会从整个表达式中删除。\n"
+"示例：\n"
 "responseData/translatedText; matches/*#10/translation; /texts/text; {literal text#10}; /result/text; /text{ ({(\\w+)})}; !/translations{Error: No data!#10}; /translations/0/text"
 
 #: tformconfigtrayslate.labellanguages.caption
 msgctxt "tformconfigtrayslate.labellanguages.caption"
 msgid "Supported languages e.g. en=en-US (en - internal, en-US - service). \"empty\" - do not send."
-msgstr "Supported languages e.g. en=en-US (en - internal, en-US - service). \"empty\" - do not send."
+msgstr "支持的语言，例如 en=en-US（en - 内部，en-US - 服务）。\"empty\" - 不发送。"
 
 #: tformconfigtrayslate.labellanguages1.caption
 msgid "Value type for populating names. None keeps originals; None and Unit are case-sensitive."
-msgstr "Value type for populating names. None keeps originals; None and Unit are case-sensitive."
+msgstr "填充名称的值类型。None 保留原始值；None 和 Unit 区分大小写。"
 
 #: tformconfigtrayslate.labellanguagestarget.caption
 msgid ""
 "Target languages e.g. en=en-US, en - internal, en-US - service code.\n"
 "If not specified, both source and target languages are taken from the languages section."
 msgstr ""
-"Target languages e.g. en=en-US, en - internal, en-US - service code.\n"
-"If not specified, both source and target languages are taken from the languages section."
+"目标语言，例如 en=en-US，en - 内部，en-US - 服务代码。\n"
+"如果未指定，源语言和目标语言均从语言部分获取。"
 
 #: tformconfigtrayslate.labelmethod.caption
 msgctxt "tformconfigtrayslate.labelmethod.caption"
 msgid "Method"
-msgstr "Method"
+msgstr "方法"
 
 #: tformconfigtrayslate.labelparemeters.caption
 msgctxt "tformconfigtrayslate.labelparemeters.caption"
 msgid "Use parameters: {text} – input text, {source} – source language, {target} – target language. Prefix the name with ! for lowercase or ^ for uppercase value. Also supported {timestamp}, {rand}. Use {parameter} from the parameters page."
-msgstr "Use parameters: {text} – input text, {source} – source language, {target} – target language. Prefix the name with ! for lowercase or ^ for uppercase value. Also supported {timestamp}, {rand}. Use {parameter} from the parameters page."
+msgstr "使用参数：{text} – 输入文本，{source} – 源语言，{target} – 目标语言。名称前加 ! 表示小写值，加 ^ 表示大写值。还支持 {timestamp}、{rand}。使用参数页中的 {parameter}。"
 
 #: tformconfigtrayslate.labelpostdata.caption
 msgid "Post Data"
@@ -291,15 +291,15 @@ msgstr ""
 #: tformconfigtrayslate.labelpostdata1.caption
 msgctxt "tformconfigtrayslate.labelpostdata1.caption"
 msgid "Headers"
-msgstr "Headers"
+msgstr ""
 
 #: tformconfigtrayslate.labelservicename.caption
 msgid "Name"
-msgstr "Name"
+msgstr "名称"
 
 #: tformconfigtrayslate.labelserviceorder.caption
 msgid "Order"
-msgstr "Order"
+msgstr "顺序"
 
 #: tformconfigtrayslate.labelurl.caption
 msgctxt "tformconfigtrayslate.labelurl.caption"
@@ -313,49 +313,49 @@ msgstr ""
 
 #: tformconfigtrayslate.labelvaluetype.caption
 msgid "Value Type"
-msgstr "Value Type"
+msgstr "值类型"
 
 #: tformconfigtrayslate.pagelanguages.caption
 msgctxt "tformconfigtrayslate.pagelanguages.caption"
 msgid "Languages"
-msgstr "Languages"
+msgstr "语言"
 
 #: tformconfigtrayslate.pagelanguagestarget.caption
 msgctxt "tformconfigtrayslate.pagelanguagestarget.caption"
 msgid "Target Languages"
-msgstr "Target Languages"
+msgstr "目标语言"
 
 #: tformconfigtrayslate.pageparameters.caption
 msgctxt "tformconfigtrayslate.pageparameters.caption"
 msgid "Parameters"
-msgstr "Parameters"
+msgstr "参数"
 
 #: tformconfigtrayslate.pageresponse.caption
 msgctxt "tformconfigtrayslate.pageresponse.caption"
 msgid "Response"
-msgstr "Response"
+msgstr "响应"
 
 #: tformconfigtrayslate.pageservice.caption
 msgctxt "tformconfigtrayslate.pageservice.caption"
 msgid "Service"
-msgstr "Service"
+msgstr "服务"
 
 #: tformconfigtrayslate.sbcopyconfig.hint
 msgid "Copy configuration"
-msgstr "Copy configuration"
+msgstr "复制配置"
 
 #: tformconfigtrayslate.sbnewconfig.hint
 msgid "New configuration"
-msgstr "New configuration"
+msgstr "新建配置"
 
 #: tformdonatetrayslate.buttonok.caption
 msgctxt "tformdonatetrayslate.buttonok.caption"
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 #: tformdonatetrayslate.caption
 msgid "Buy me a coffee"
-msgstr "Buy me a coffee"
+msgstr "支持项目"
 
 #: tformdonatetrayslate.editwallet1.text
 msgid "bc1qp8m5j75yd58zhf9hl0a753shay093j2548f84e"
@@ -377,11 +377,11 @@ msgstr ""
 
 #: tformdonatetrayslate.label1.caption
 msgid "Hey there! Fuel this passion project with a little caffeine boost! Every donation helps keep the code rolling and the coffee brewing. Thanks for supporting the work and the developer behind it!"
-msgstr "Hey there! Fuel this passion project with a little caffeine boost! Every donation helps keep the code rolling and the coffee brewing. Thanks for supporting the work and the developer behind it!"
+msgstr "嗨！用一点咖啡因来支持这个热情的项目吧！每一笔捐赠都有助于代码滚动和咖啡冲泡。感谢您支持这项工作及其背后的开发者！"
 
 #: tformdonatetrayslate.label10.caption
 msgid "Feel free to make a donation through any exchange, for example:"
-msgstr "Feel free to make a donation through any exchange, for example:"
+msgstr "您可以通过任何交易所进行捐赠，例如："
 
 #: tformdonatetrayslate.label2.caption
 msgid "BTC"
@@ -429,7 +429,7 @@ msgstr ""
 
 #: tformdonatetrayslate.labelurl1.caption
 msgid "How to do it easily"
-msgstr "How to do it easily"
+msgstr "如何轻松完成"
 
 #: tformdonatetrayslate.labelurl1.hint
 msgid "https://plaintool.github.io/notetask/donate.htm"
@@ -437,404 +437,404 @@ msgstr ""
 
 #: tformsettingstrayslate.btnapply.caption
 msgid "Apply"
-msgstr "Apply"
+msgstr "应用"
 
 #: tformsettingstrayslate.btncancel.caption
 msgid "Cancel"
-msgstr "Cancel"
+msgstr "取消"
 
 #: tformsettingstrayslate.btnfont.caption
 msgctxt "tformsettingstrayslate.btnfont.caption"
 msgid "Font..."
-msgstr "Font..."
+msgstr "字体..."
 
 #: tformsettingstrayslate.btnok.caption
 msgctxt "tformsettingstrayslate.btnok.caption"
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 #: tformsettingstrayslate.btnreset.caption
 msgctxt "tformsettingstrayslate.btnreset.caption"
 msgid "Reset"
-msgstr "Reset"
+msgstr "重置"
 
 #: tformsettingstrayslate.caption
 msgctxt "tformsettingstrayslate.caption"
 msgid "Settings"
-msgstr "Settings"
+msgstr "设置"
 
 #: tformsettingstrayslate.checkautoaddlangpairs.caption
 msgid "Auto-Add On Pair Change"
-msgstr "Auto-Add On Pair Change"
+msgstr "切换语言对时自动添加"
 
 #: tformsettingstrayslate.checkautoaddlangpairs.hint
 msgid "Automatically adds a new language pair when you switch languages"
-msgstr "Automatically adds a new language pair when you switch languages"
+msgstr "切换语言时自动添加新的语言对"
 
 #: tformsettingstrayslate.checkautostart.caption
 msgid "Launch At System Startup"
-msgstr "Launch At System Startup"
+msgstr "系统启动时运行"
 
 #: tformsettingstrayslate.checkautostart.hint
 msgid "Start the application automatically when the computer boots"
-msgstr "Start the application automatically when the computer boots"
+msgstr "计算机启动时自动启动应用程序"
 
 #: tformsettingstrayslate.checkautoswap.caption
 msgctxt "tformsettingstrayslate.checkautoswap.caption"
 msgid "Auto-Swap Language Pair"
-msgstr "Auto-Swap Language Pair"
+msgstr "自动交换语言对"
 
 #: tformsettingstrayslate.checkautoswap.hint
 msgid "Automatically detect input language and swap pair if needed, does not work during Real-Time Translation"
-msgstr "Automatically detect input language and swap pair if needed, does not work during Real-Time Translation"
+msgstr "自动检测输入语言并在需要时交换语言对，在实时翻译期间不起作用"
 
 #: tformsettingstrayslate.checkrealtime.caption
 msgctxt "tformsettingstrayslate.checkrealtime.caption"
 msgid "Translate As You Type"
-msgstr "Translate As You Type"
+msgstr "边输入边翻译"
 
 #: tformsettingstrayslate.checkrealtime.hint
 msgctxt "tformsettingstrayslate.checkrealtime.hint"
 msgid "Automatically translate text while typing"
-msgstr "Automatically translate text while typing"
+msgstr "输入时自动翻译文本"
 
 #: tformsettingstrayslate.checktwolang.caption
 msgid "Show Language Pair"
-msgstr "Show Language Pair"
+msgstr "显示语言对"
 
 #: tformsettingstrayslate.checktwolang.hint
 msgid "Display source and/or target language on the tray icon"
-msgstr "Display source and/or target language on the tray icon"
+msgstr "在系统托盘图标上显示源语言和/或目标语言"
 
 #: tformsettingstrayslate.combolangdetect.hint
 msgid "Config that auto-detects the target language for the selected language pair"
-msgstr "Config that auto-detects the target language for the selected language pair"
+msgstr "自动检测所选语言对的目标语言的配置"
 
 #: tformsettingstrayslate.editapp.hint
 msgctxt "tformsettingstrayslate.editapp.hint"
 msgid "Default Ctrl+Shift+A"
-msgstr "Default Ctrl+Shift+A"
+msgstr "默认 Ctrl+Shift+A"
 
 #: tformsettingstrayslate.edittransclipboard.hint
 msgctxt "tformsettingstrayslate.edittransclipboard.hint"
 msgid "Default Ctrl+Shift+R"
-msgstr "Default Ctrl+Shift+R"
+msgstr "默认 Ctrl+Shift+R"
 
 #: tformsettingstrayslate.edittranscontrol.hint
 msgctxt "tformsettingstrayslate.edittranscontrol.hint"
 msgid "Default Ctrl+Shift+V"
-msgstr "Default Ctrl+Shift+V"
+msgstr "默认 Ctrl+Shift+V"
 
 #: tformsettingstrayslate.edittransfromclipboard.hint
 msgctxt "tformsettingstrayslate.edittransfromclipboard.hint"
 msgid "Default Ctrl+Shift+T"
-msgstr "Default Ctrl+Shift+T"
+msgstr "默认 Ctrl+Shift+T"
 
 #: tformsettingstrayslate.edittransfromcontrol.hint
 msgctxt "tformsettingstrayslate.edittransfromcontrol.hint"
 msgid "Default Ctrl+Shift+C"
-msgstr "Default Ctrl+Shift+C"
+msgstr "默认 Ctrl+Shift+C"
 
 #: tformsettingstrayslate.edittransswap.hint
 msgctxt "tformsettingstrayslate.edittransswap.hint"
 msgid "Default Ctrl+Shift+S"
-msgstr "Default Ctrl+Shift+S"
+msgstr "默认 Ctrl+Shift+S"
 
 #: tformsettingstrayslate.groupapp.caption
 msgid "Toggle Application (Tray Icon Click)"
-msgstr "Toggle Application (Tray Icon Click)"
+msgstr "切换应用程序（单击托盘图标）"
 
 #: tformsettingstrayslate.groupautostart.caption
 msgid "Autostart"
-msgstr "Autostart"
+msgstr "自动启动"
 
 #: tformsettingstrayslate.groupautoswap.caption
 msgid "Auto-Swap Languages"
-msgstr "Auto Swap Languages"
+msgstr "自动交换语言"
 
 #: tformsettingstrayslate.groupfont.caption
 msgctxt "tformsettingstrayslate.groupfont.caption"
 msgid "Font"
-msgstr "Font"
+msgstr "字体"
 
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
-msgstr "Recent Language Pairs"
+msgstr "最近的语言对"
 
 #: tformsettingstrayslate.grouprealtime.caption
 msgid "Real-Time Translation"
-msgstr "Real-Time Translation"
+msgstr "实时翻译"
 
 #: tformsettingstrayslate.grouptransclipboard.caption
 msgid "Translate Clipboard to Clipboard"
-msgstr "Translate Clipboard to Clipboard"
+msgstr "剪贴板到剪贴板翻译"
 
 #: tformsettingstrayslate.grouptranscontrol.caption
 msgid "Translate In Active Application Selection"
-msgstr "Translate In Active Application Selection"
+msgstr "在活动应用程序选择中翻译"
 
 #: tformsettingstrayslate.grouptransfromclipboard.caption
 msgid "Translate From Clipboard (Tray Icon Double-Click)"
-msgstr "Translate From Clipboard (Tray Icon Double-Click)"
+msgstr "从剪贴板翻译（双击托盘图标）"
 
 #: tformsettingstrayslate.grouptransfromcontrol.caption
 msgid "Translate From Active Application Selection"
-msgstr "Translate From Active Application Selection"
+msgstr "翻译活动应用程序中的选中文本"
 
 #: tformsettingstrayslate.grouptransswap.caption
 msgctxt "tformsettingstrayslate.grouptransswap.caption"
 msgid "Swap Languages (Tray Icon Middle-Click)"
-msgstr "Swap Languages (Tray Icon Middle-Click)"
+msgstr "交换语言（中键单击托盘图标）"
 
 #: tformsettingstrayslate.grouptrayicon.caption
 msgid "Tray Icon"
-msgstr "Tray Icon"
+msgstr "托盘图标"
 
 #: tformsettingstrayslate.labelapp.caption
 msgctxt "tformsettingstrayslate.labelapp.caption"
 msgid "Shows or hides the main application window"
-msgstr "Shows or hides the main application window"
+msgstr "显示或隐藏主应用程序窗口"
 
 #: tformsettingstrayslate.labeliconbackground.caption
 msgid "Background Color"
-msgstr "Background Color"
+msgstr "背景颜色"
 
 #: tformsettingstrayslate.labeliconbackground1.caption
 msgctxt "tformsettingstrayslate.labeliconbackground1.caption"
 msgid "Lang Detect Config"
-msgstr "Lang Detect Config"
+msgstr "语言检测配置"
 
 #: tformsettingstrayslate.labeliconfont.caption
 msgid "Font Color"
-msgstr "Font Color"
+msgstr "字体颜色"
 
 #: tformsettingstrayslate.labeliconfont1.caption
 msgid "Font Name"
-msgstr "Font Name"
+msgstr "字体名称"
 
 #: tformsettingstrayslate.labelmaxlangpairs.caption
 msgctxt "tformsettingstrayslate.labelmaxlangpairs.caption"
 msgid "Max Pairs"
-msgstr "Max Pairs"
+msgstr "最大对数"
 
 #: tformsettingstrayslate.labelrealtimedelay.caption
 msgid "Translation Delay, ms"
-msgstr "Translation Delay, ms"
+msgstr "翻译延迟（毫秒）"
 
 #: tformsettingstrayslate.labeltransclipboard.caption
 msgctxt "tformsettingstrayslate.labeltransclipboard.caption"
 msgid "Translates the current text in clipboard and copies the result to the clipboard"
-msgstr "Translates the current text in clipboard and copies the result to the clipboard"
+msgstr "翻译剪贴板中的当前文本并将结果复制到剪贴板"
 
 #: tformsettingstrayslate.labeltranscontrol.caption
 msgctxt "tformsettingstrayslate.labeltranscontrol.caption"
 msgid "Replaces the selected text in the active application with the translation"
-msgstr "Replaces the selected text in the active application with the translation"
+msgstr "用翻译替换活动应用程序中的选定文本"
 
 #: tformsettingstrayslate.labeltransfromclipboard.caption
 msgctxt "tformsettingstrayslate.labeltransfromclipboard.caption"
 msgid "Translates the current text from the clipboard"
-msgstr "Translates the current text from the clipboard"
+msgstr "翻译来自剪贴板的当前文本"
 
 #: tformsettingstrayslate.labeltransfromcontrol.caption
 msgctxt "tformsettingstrayslate.labeltransfromcontrol.caption"
 msgid "Translates the selected text from the active application"
-msgstr "Translates the selected text from the active application"
+msgstr "翻译来自活动应用程序的选定文本"
 
 #: tformsettingstrayslate.labeltransswap.caption
 msgctxt "tformsettingstrayslate.labeltransswap.caption"
 msgid "Swaps the source and target languages"
-msgstr "Swaps the source and target languages"
+msgstr "交换源语言和目标语言"
 
 #: tformsettingstrayslate.pagegeneral.caption
 msgid "General"
-msgstr "General"
+msgstr "常规"
 
 #: tformsettingstrayslate.pagehotkeys.caption
 msgid "Global Hotkeys"
-msgstr "Global Hotkeys"
+msgstr "全局热键"
 
 #: tformsettingstrayslate.pageinterface.caption
 msgctxt "tformsettingstrayslate.pageinterface.caption"
 msgid "Interface"
-msgstr "Interface"
+msgstr "界面"
 
 #: tformsettingstrayslate.panelfont.caption
 msgctxt "tformsettingstrayslate.panelfont.caption"
 msgid "Default, 0"
-msgstr "Default, 0"
+msgstr "默认，0"
 
 #: tformsettingstrayslate.spinmaxlangpairs.hint
 msgid "Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel"
-msgstr "Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel"
+msgstr "面板上最近语言对的数量；添加时对向右移动；零值隐藏面板"
 
 #: tformsettingstrayslate.spinrealtimedelay.hint
 msgid "Translation Delay in milliseconds"
-msgstr "Translation Delay in milliseconds"
+msgstr "翻译延迟（毫秒）"
 
 #: tformtrayslate.aabout.caption
 msgid "About..."
-msgstr "About..."
+msgstr "关于..."
 
 #: tformtrayslate.aaddpair.hint
 msgid "Add Current Pair"
-msgstr "Add Current Pair"
+msgstr "添加当前语言对"
 
 #: tformtrayslate.acheckforupdates.caption
 msgid "Check For Updates"
-msgstr "Check For Updates"
+msgstr "检查更新"
 
 #: tformtrayslate.aconfigeditor.caption
 msgid "Config Editor..."
-msgstr "Config Editor..."
+msgstr "配置编辑器..."
 
 #: tformtrayslate.adonate.caption
 msgid "Buy Me a Coffee..."
-msgstr "Buy Me a Coffee..."
+msgstr "支持项目..."
 
 #: tformtrayslate.aexit.caption
 msgid "Exit"
-msgstr "Exit"
+msgstr "退出"
 
 #: tformtrayslate.alangarabic.caption
 msgid "Arabic"
-msgstr "Arabic"
+msgstr ""
 
 #: tformtrayslate.alangbelarusian.caption
 msgid "Belarusian"
-msgstr "Belarusian"
+msgstr ""
 
 #: tformtrayslate.alangchinese.caption
 msgid "Chinese"
-msgstr "Chinese"
+msgstr ""
 
 #: tformtrayslate.alangczech.caption
 msgid "Czech"
-msgstr "Czech"
+msgstr ""
 
 #: tformtrayslate.alangdanish.caption
 msgid "Danish"
-msgstr "Danish"
+msgstr ""
 
 #: tformtrayslate.alangdutch.caption
 msgid "Dutch"
-msgstr "Dutch"
+msgstr ""
 
 #: tformtrayslate.alangenglish.caption
 msgid "English"
-msgstr "English"
+msgstr ""
 
 #: tformtrayslate.alangfinnish.caption
 msgid "Finnish"
-msgstr "Finnish"
+msgstr ""
 
 #: tformtrayslate.alangfrench.caption
 msgid "French"
-msgstr "French"
+msgstr ""
 
 #: tformtrayslate.alanggerman.caption
 msgid "German"
-msgstr "German"
+msgstr ""
 
 #: tformtrayslate.alanggreek.caption
 msgid "Greek"
-msgstr "Greek"
+msgstr ""
 
 #: tformtrayslate.alanghebrew.caption
 msgid "Hebrew"
-msgstr "Hebrew"
+msgstr ""
 
 #: tformtrayslate.alanghindi.caption
 msgid "Hindi"
-msgstr "Hindi"
+msgstr ""
 
 #: tformtrayslate.alangindonesian.caption
 msgid "Indonesian"
-msgstr "Indonesian"
+msgstr ""
 
 #: tformtrayslate.alangitalian.caption
 msgid "Italian"
-msgstr "Italian"
+msgstr ""
 
 #: tformtrayslate.alangjapanese.caption
 msgid "Japanese"
-msgstr "Japanese"
+msgstr ""
 
 #: tformtrayslate.alangkorean.caption
 msgid "Korean"
-msgstr "Korean"
+msgstr ""
 
 #: tformtrayslate.alangpolish.caption
 msgid "Polish"
-msgstr "Polish"
+msgstr ""
 
 #: tformtrayslate.alangportuguese.caption
 msgid "Portuguese"
-msgstr "Portuguese"
+msgstr ""
 
 #: tformtrayslate.alangromanian.caption
 msgid "Romanian"
-msgstr "Romanian"
+msgstr ""
 
 #: tformtrayslate.alangrussian.caption
 msgid "Russian"
-msgstr "Russian"
+msgstr ""
 
 #: tformtrayslate.alangspanish.caption
 msgid "Spanish"
-msgstr "Spanish"
+msgstr ""
 
 #: tformtrayslate.alangswedish.caption
 msgid "Swedish"
-msgstr "Swedish"
+msgstr ""
 
 #: tformtrayslate.alangturkish.caption
 msgid "Turkish"
-msgstr "Turkish"
+msgstr ""
 
 #: tformtrayslate.alangukrainian.caption
 msgid "Ukrainian"
-msgstr "Ukrainian"
+msgstr ""
 
 #: tformtrayslate.anewtranslate.hint
 msgid "New Translate"
-msgstr "New Translate"
+msgstr "新建翻译"
 
 #: tformtrayslate.asettings.caption
 msgid "Settings..."
-msgstr "Settings..."
+msgstr "设置..."
 
 #: tformtrayslate.ashow.caption
 msgid "Show"
-msgstr "Show"
+msgstr "显示"
 
 #: tformtrayslate.atranslate.hint
 msgctxt "tformtrayslate.atranslate.hint"
 msgid "Translate (Ctrl ¦ Shift ¦ Enter + Enter)"
-msgstr "Translate (Ctrl ¦ Shift ¦ Enter + Enter)"
+msgstr "翻译（Ctrl ¦ Shift ¦ Enter + Enter）"
 
 #: tformtrayslate.atranslateclipboard.caption
 msgid "Translate Clipboard"
-msgstr "Translate Clipboard"
+msgstr "翻译剪贴板"
 
 #: tformtrayslate.caption
 msgctxt "tformtrayslate.caption"
 msgid "Trayslate"
-msgstr "Trayslate"
+msgstr ""
 
 #: tformtrayslate.menuconfig.caption
 msgid "Config"
-msgstr "Config"
+msgstr "配置"
 
 #: tformtrayslate.menuhelp.caption
 msgid "Help"
-msgstr "Help"
+msgstr "帮助"
 
 #: tformtrayslate.menulangpairs.caption
 msgid "Recent Pairs"
-msgstr "Recent Pairs"
+msgstr "最近的对"
 
 #: tformtrayslate.menulanguage.caption
 msgid "Language"
-msgstr "Language"
+msgstr ""

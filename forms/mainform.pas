@@ -1969,6 +1969,10 @@ begin
       Language := 'en';
   end;
 
+  // Setting the language for interface elements
+  aSwap.Hint := Format(rswap, [HotKeyToText(HotKeyTransSwap), MIDDLE_MOUSE]);
+  FlowPairs.Hint := MIDDLE_MOUSE + rtoremovepair;
+
   case Language of
     'ar': aLangArabic.Checked := True;
     'be': aLangBelarusian.Checked := True;

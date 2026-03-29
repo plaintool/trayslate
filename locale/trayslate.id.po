@@ -5,7 +5,7 @@ msgstr ""
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: en\n"
+"Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,28 +14,28 @@ msgstr ""
 #: formconfig.rcaption
 msgctxt "formconfig.rcaption"
 msgid "Config Editor"
-msgstr "Config Editor"
+msgstr "Editor Konfigurasi"
 
 #: formconfig.rclearlanguages
 msgid "The list is already filled. Do you want to clear it?"
-msgstr "The list is already filled. Do you want to clear it?"
+msgstr "Daftar sudah terisi. Apakah Anda ingin mengosongkannya?"
 
 #: formconfig.rdeleteconfig
 msgid "Are you sure you want to delete config"
-msgstr "Are you sure you want to delete config"
+msgstr "Apakah Anda yakin ingin menghapus konfigurasi"
 
 #: formconfig.rdeleteconfigcaption
 msgid "Delete config"
-msgstr "Delete config"
+msgstr "Hapus konfigurasi"
 
 #: formconfig.rnamequestion
 msgctxt "formconfig.rnamequestion"
 msgid "Enter new config file name:"
-msgstr "Enter new config file name:"
+msgstr "Masukkan nama file konfigurasi baru:"
 
 #: formconfig.rneedsave
 msgid "The configuration was modified. Save changes?"
-msgstr "The configuration was modified. Save changes?"
+msgstr "Konfigurasi telah diubah. Simpan perubahan?"
 
 #: formsettings.rdefaultfont
 msgid "Default"
@@ -44,44 +44,44 @@ msgstr ""
 #: mainform.rnoconfig
 msgctxt "mainform.rnoconfig"
 msgid "Configuration file not found! Create it in the configuration editor."
-msgstr "Configuration file not found! Create it in the configuration editor."
+msgstr "File konfigurasi tidak ditemukan! Buat di editor konfigurasi."
 
 #: mainform.rswap
 #, object-pascal-format
 msgctxt "mainform.rswap"
 msgid "Swap (%s) with text (%s)"
-msgstr "Swap (%s) with text (%s)"
+msgstr "Tukar (%s) dengan teks (%s)"
 
 #: mainform.rtoremovepair
 msgid " to remove pair"
-msgstr " to remove pair"
+msgstr " untuk menghapus pasangan"
 
 #: mainform.rtrayslate
 msgctxt "mainform.rtrayslate"
 msgid "Trayslate"
-msgstr "Trayslate"
+msgstr ""
 
 #: systemtool.newversion
 #, object-pascal-format
 msgid "New version available: %s. Open GitHub page to download?"
-msgstr "New version available: %s. Open GitHub page to download?"
+msgstr "Versi baru tersedia: %s. Buka halaman GitHub untuk mengunduh?"
 
 #: systemtool.newversioncheckerror
 msgid "Error checking version:"
-msgstr "Error checking version:"
+msgstr "Kesalahan saat memeriksa versi:"
 
 #: systemtool.newversionuptodate
 msgid "Your version is up to date."
-msgstr "Your version is up to date."
+msgstr "Versi Anda sudah terbaru."
 
 #: tformabouttrayslate.buttonok.caption
 msgctxt "tformabouttrayslate.buttonok.caption"
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 #: tformabouttrayslate.caption
 msgid "About"
-msgstr "About"
+msgstr "Tentang"
 
 #: tformabouttrayslate.labelby.caption
 msgid "by Alexander Tverskoy is licensed under"
@@ -106,42 +106,42 @@ msgstr ""
 #: tformconfigtrayslate.asave.caption
 msgctxt "tformconfigtrayslate.asave.caption"
 msgid "Save"
-msgstr "Save"
+msgstr "Simpan"
 
 #: tformconfigtrayslate.btnclose.caption
 msgctxt "tformconfigtrayslate.btnclose.caption"
 msgid "Close"
-msgstr "Close"
+msgstr "Tutup"
 
 #: tformconfigtrayslate.btninitparameterstest.hint
 msgid "Execute request and view the parameters"
-msgstr "Execute request and view the parameters"
+msgstr "Jalankan permintaan dan lihat parameter"
 
 #: tformconfigtrayslate.btniniturltest.hint
 msgid "Execute request and view the result"
-msgstr "Execute request and view the result"
+msgstr "Jalankan permintaan dan lihat hasilnya"
 
 #: tformconfigtrayslate.btnpostdatatest.hint
 msgid "Execute post request and view the result"
-msgstr "Execute post request and view the result"
+msgstr "Jalankan permintaan POST dan lihat hasilnya"
 
 #: tformconfigtrayslate.btnurltest.hint
 msgid "Execute get request and view the result"
-msgstr "Execute get request and view the result"
+msgstr "Jalankan permintaan GET dan lihat hasilnya"
 
 #: tformconfigtrayslate.caption
 msgctxt "tformconfigtrayslate.caption"
 msgid "Config Editor"
-msgstr "Config Editor"
+msgstr "Editor Konfigurasi"
 
 #: tformconfigtrayslate.checkautoswap.caption
 msgctxt "tformconfigtrayslate.checkautoswap.caption"
 msgid "Auto-swap language pair"
-msgstr "Auto-swap language pair"
+msgstr "Tukar pasangan bahasa secara otomatis"
 
 #: tformconfigtrayslate.checkencrypttext.caption
 msgid "Encode {text} parameter"
-msgstr "Encode {text} parameter"
+msgstr "Enkode parameter {text}"
 
 #: tformconfigtrayslate.combomethod.text
 msgid "GET"
@@ -149,35 +149,35 @@ msgstr ""
 
 #: tformconfigtrayslate.combovaluetype.text
 msgid "None"
-msgstr "None"
+msgstr ""
 
 #: tformconfigtrayslate.groupboxservice.caption
 msgctxt "tformconfigtrayslate.groupboxservice.caption"
 msgid "Service"
-msgstr "Service"
+msgstr "Layanan"
 
 #: tformconfigtrayslate.groupinitparameters.caption
 msgid "Initial Request"
-msgstr "Initial Request"
+msgstr "Permintaan Awal"
 
 #: tformconfigtrayslate.grouplanguages.caption
 msgctxt "tformconfigtrayslate.grouplanguages.caption"
 msgid "Languages"
-msgstr "Languages"
+msgstr "Bahasa"
 
 #: tformconfigtrayslate.grouplanguagestarget.caption
 msgctxt "tformconfigtrayslate.grouplanguagestarget.caption"
 msgid "Target Languages"
-msgstr "Target Languages"
+msgstr "Bahasa Sasaran"
 
 #: tformconfigtrayslate.grouprequest.caption
 msgid "Request"
-msgstr "Request"
+msgstr "Permintaan"
 
 #: tformconfigtrayslate.groupresponse.caption
 msgctxt "tformconfigtrayslate.groupresponse.caption"
 msgid "Response"
-msgstr "Response"
+msgstr "Respons"
 
 #: tformconfigtrayslate.labelaccept.caption
 msgid "Accept"
@@ -190,42 +190,42 @@ msgstr ""
 
 #: tformconfigtrayslate.labelfilllanguages.caption
 msgid "Fill with default"
-msgstr "Fill with default"
+msgstr "Isi dengan bawaan"
 
 #: tformconfigtrayslate.labelheaders.caption
 msgid "Additional request headers in key=value format, key: value is also supported"
-msgstr "Additional request headers in key=value format, key: value is also supported"
+msgstr "Header permintaan tambahan dalam format key=value, key: value juga didukung"
 
 #: tformconfigtrayslate.labelinitheaders.caption
 msgid "Additional initial request headers in key=value format, key: value is also supported"
-msgstr "Additional initial request headers in key=value format, key: value is also supported"
+msgstr "Header permintaan awal tambahan dalam format key=value, key: value juga didukung"
 
 #: tformconfigtrayslate.labelinitheaders2.caption
 msgctxt "tformconfigtrayslate.labelinitheaders2.caption"
 msgid "Headers"
-msgstr "Headers"
+msgstr ""
 
 #: tformconfigtrayslate.labelinitlivetime.caption
 msgctxt "tformconfigtrayslate.labelinitlivetime.caption"
 msgid "Live time"
-msgstr "Live time"
+msgstr "Waktu hidup"
 
 #: tformconfigtrayslate.labelinitparameters.caption
 msgid "Parameters name=regexp are extracted from the response and used by name in requests"
-msgstr "Parameters name=regexp are extracted from the response and used by name in requests"
+msgstr "Parameter name=regexp diekstrak dari respons dan digunakan berdasarkan nama dalam permintaan"
 
 #: tformconfigtrayslate.labelinitparameters1.caption
 msgid "Time in seconds to refresh parameters with a new request (0 = every request)"
-msgstr "Time in seconds to refresh parameters with a new request (0 = every request)"
+msgstr "Waktu dalam detik untuk menyegarkan parameter dengan permintaan baru (0 = setiap permintaan)"
 
 #: tformconfigtrayslate.labelinitparameters2.caption
 msgctxt "tformconfigtrayslate.labelinitparameters2.caption"
 msgid "Parameters"
-msgstr "Parameters"
+msgstr "Parameter"
 
 #: tformconfigtrayslate.labelinitparemeters.caption
 msgid "Initial GET request to obtain required parameters."
-msgstr "Initial GET request to obtain required parameters."
+msgstr "Permintaan GET awal untuk mendapatkan parameter yang diperlukan."
 
 #: tformconfigtrayslate.labeliniturl.caption
 msgctxt "tformconfigtrayslate.labeliniturl.caption"
@@ -248,41 +248,41 @@ msgid ""
 "Examples:\n"
 "responseData/translatedText; matches/*#10/translation; /texts/text; {literal text#10}; /result/text; /text{ ({(\\w+)})}; !/translations{Error: No data!#10}; /translations/0/text"
 msgstr ""
-"Json Pointer: Use / for levels, keys for objects, and numbers for indexes. Use * for all items, *#10 to join items by newline. Use ~ at the end of the path to return the raw JSON branch. Separate multiple segments with semicolon ;.\n"
-"Literal: Text block in {…}. Special tag #10 for newlines. Use {{regex}} inside to extract data directly into the text.\n"
-"Logic: If a Pointer in a segment is empty, the whole segment is skipped. If a segment has no Pointer, only literal text blocks with embedded regular expressions are processed.\n"
-"Regex: {prefix {regex[index]} suffix} inside a text block. If no [index] is specified, the first match is used. Index can be a number, [*] (join by space), or [*#10] (join by newline). If the regex finds no match, the entire {…} block is removed. Using ~ inside a regex returns the entire text.\n"
-"Inversion: Start a segment with ! (e.g. !/path{Error}) to show its text only if the Pointer data is missing or the JSON is invalid.\n"
-"Commenting: /* text */ comments are stripped from the entire expression before any processing.\n"
-"Examples:\n"
+"Json Pointer: Gunakan / untuk level, kunci untuk objek, dan angka untuk indeks. Gunakan * untuk semua item, *#10 untuk menggabungkan item dengan baris baru. Gunakan ~ di akhir jalur untuk mengembalikan cabang JSON mentah. Pisahkan beberapa segmen dengan titik koma ;.\n"
+"Literal: Blok teks dalam {…}. Tag khusus #10 untuk baris baru. Gunakan {{regex}} di dalamnya untuk mengekstrak data langsung ke teks.\n"
+"Logika: Jika Pointer dalam suatu segmen kosong, seluruh segmen dilewati. Jika segmen tidak memiliki Pointer, hanya blok teks literal dengan ekspresi reguler tersemat yang diproses.\n"
+"Regex: {awalan {regex[indeks]} akhiran} di dalam blok teks. Jika [indeks] tidak ditentukan, kecocokan pertama digunakan. Indeks dapat berupa angka, [*] (gabung dengan spasi), atau [*#10] (gabung dengan baris baru). Jika regex tidak menemukan kecocokan, seluruh blok {…} dihapus. Menggunakan ~ di dalam regex mengembalikan seluruh teks.\n"
+"Inversi: Mulai segmen dengan ! (misalnya !/path{Error}) untuk menampilkan teksnya hanya jika data Pointer hilang atau JSON tidak valid.\n"
+"Komentar: komentar /* teks */ dihapus dari seluruh ekspresi sebelum diproses.\n"
+"Contoh:\n"
 "responseData/translatedText; matches/*#10/translation; /texts/text; {literal text#10}; /result/text; /text{ ({(\\w+)})}; !/translations{Error: No data!#10}; /translations/0/text"
 
 #: tformconfigtrayslate.labellanguages.caption
 msgctxt "tformconfigtrayslate.labellanguages.caption"
 msgid "Supported languages e.g. en=en-US (en - internal, en-US - service). \"empty\" - do not send."
-msgstr "Supported languages e.g. en=en-US (en - internal, en-US - service). \"empty\" - do not send."
+msgstr "Bahasa yang didukung misalnya en=en-US (en - internal, en-US - layanan). \"empty\" - jangan kirim."
 
 #: tformconfigtrayslate.labellanguages1.caption
 msgid "Value type for populating names. None keeps originals; None and Unit are case-sensitive."
-msgstr "Value type for populating names. None keeps originals; None and Unit are case-sensitive."
+msgstr "Tipe nilai untuk mengisi nama. None mempertahankan asli; None dan Unit peka huruf besar/kecil."
 
 #: tformconfigtrayslate.labellanguagestarget.caption
 msgid ""
 "Target languages e.g. en=en-US, en - internal, en-US - service code.\n"
 "If not specified, both source and target languages are taken from the languages section."
 msgstr ""
-"Target languages e.g. en=en-US, en - internal, en-US - service code.\n"
-"If not specified, both source and target languages are taken from the languages section."
+"Bahasa sasaran misalnya en=en-US, en - internal, en-US - kode layanan.\n"
+"Jika tidak ditentukan, baik bahasa sumber maupun sasaran diambil dari bagian bahasa."
 
 #: tformconfigtrayslate.labelmethod.caption
 msgctxt "tformconfigtrayslate.labelmethod.caption"
 msgid "Method"
-msgstr "Method"
+msgstr "Metode"
 
 #: tformconfigtrayslate.labelparemeters.caption
 msgctxt "tformconfigtrayslate.labelparemeters.caption"
 msgid "Use parameters: {text} – input text, {source} – source language, {target} – target language. Prefix the name with ! for lowercase or ^ for uppercase value. Also supported {timestamp}, {rand}. Use {parameter} from the parameters page."
-msgstr "Use parameters: {text} – input text, {source} – source language, {target} – target language. Prefix the name with ! for lowercase or ^ for uppercase value. Also supported {timestamp}, {rand}. Use {parameter} from the parameters page."
+msgstr "Gunakan parameter: {text} – teks masukan, {source} – bahasa sumber, {target} – bahasa sasaran. Awali nama dengan ! untuk nilai huruf kecil atau ^ untuk huruf besar. Juga didukung {timestamp}, {rand}. Gunakan {parameter} dari halaman parameter."
 
 #: tformconfigtrayslate.labelpostdata.caption
 msgid "Post Data"
@@ -291,15 +291,15 @@ msgstr ""
 #: tformconfigtrayslate.labelpostdata1.caption
 msgctxt "tformconfigtrayslate.labelpostdata1.caption"
 msgid "Headers"
-msgstr "Headers"
+msgstr ""
 
 #: tformconfigtrayslate.labelservicename.caption
 msgid "Name"
-msgstr "Name"
+msgstr "Nama"
 
 #: tformconfigtrayslate.labelserviceorder.caption
 msgid "Order"
-msgstr "Order"
+msgstr "Urutan"
 
 #: tformconfigtrayslate.labelurl.caption
 msgctxt "tformconfigtrayslate.labelurl.caption"
@@ -313,49 +313,49 @@ msgstr ""
 
 #: tformconfigtrayslate.labelvaluetype.caption
 msgid "Value Type"
-msgstr "Value Type"
+msgstr "Tipe Nilai"
 
 #: tformconfigtrayslate.pagelanguages.caption
 msgctxt "tformconfigtrayslate.pagelanguages.caption"
 msgid "Languages"
-msgstr "Languages"
+msgstr "Bahasa"
 
 #: tformconfigtrayslate.pagelanguagestarget.caption
 msgctxt "tformconfigtrayslate.pagelanguagestarget.caption"
 msgid "Target Languages"
-msgstr "Target Languages"
+msgstr "Bahasa Sasaran"
 
 #: tformconfigtrayslate.pageparameters.caption
 msgctxt "tformconfigtrayslate.pageparameters.caption"
 msgid "Parameters"
-msgstr "Parameters"
+msgstr "Parameter"
 
 #: tformconfigtrayslate.pageresponse.caption
 msgctxt "tformconfigtrayslate.pageresponse.caption"
 msgid "Response"
-msgstr "Response"
+msgstr "Respons"
 
 #: tformconfigtrayslate.pageservice.caption
 msgctxt "tformconfigtrayslate.pageservice.caption"
 msgid "Service"
-msgstr "Service"
+msgstr "Layanan"
 
 #: tformconfigtrayslate.sbcopyconfig.hint
 msgid "Copy configuration"
-msgstr "Copy configuration"
+msgstr "Salin konfigurasi"
 
 #: tformconfigtrayslate.sbnewconfig.hint
 msgid "New configuration"
-msgstr "New configuration"
+msgstr "Konfigurasi baru"
 
 #: tformdonatetrayslate.buttonok.caption
 msgctxt "tformdonatetrayslate.buttonok.caption"
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 #: tformdonatetrayslate.caption
 msgid "Buy me a coffee"
-msgstr "Buy me a coffee"
+msgstr "Dukung proyek ini"
 
 #: tformdonatetrayslate.editwallet1.text
 msgid "bc1qp8m5j75yd58zhf9hl0a753shay093j2548f84e"
@@ -377,11 +377,11 @@ msgstr ""
 
 #: tformdonatetrayslate.label1.caption
 msgid "Hey there! Fuel this passion project with a little caffeine boost! Every donation helps keep the code rolling and the coffee brewing. Thanks for supporting the work and the developer behind it!"
-msgstr "Hey there! Fuel this passion project with a little caffeine boost! Every donation helps keep the code rolling and the coffee brewing. Thanks for supporting the work and the developer behind it!"
+msgstr "Halo! Dukung proyek penuh gairah ini dengan sedikit dorongan kafein! Setiap donasi membantu menjaga kode tetap berjalan dan kopi tetap terseduh. Terima kasih telah mendukung karya dan pengembang di baliknya!"
 
 #: tformdonatetrayslate.label10.caption
 msgid "Feel free to make a donation through any exchange, for example:"
-msgstr "Feel free to make a donation through any exchange, for example:"
+msgstr "Anda dapat memberikan donasi melalui bursa mana pun, misalnya:"
 
 #: tformdonatetrayslate.label2.caption
 msgid "BTC"
@@ -429,7 +429,7 @@ msgstr ""
 
 #: tformdonatetrayslate.labelurl1.caption
 msgid "How to do it easily"
-msgstr "How to do it easily"
+msgstr "Cara melakukannya dengan mudah"
 
 #: tformdonatetrayslate.labelurl1.hint
 msgid "https://plaintool.github.io/notetask/donate.htm"
@@ -437,404 +437,404 @@ msgstr ""
 
 #: tformsettingstrayslate.btnapply.caption
 msgid "Apply"
-msgstr "Apply"
+msgstr "Terapkan"
 
 #: tformsettingstrayslate.btncancel.caption
 msgid "Cancel"
-msgstr "Cancel"
+msgstr "Batal"
 
 #: tformsettingstrayslate.btnfont.caption
 msgctxt "tformsettingstrayslate.btnfont.caption"
 msgid "Font..."
-msgstr "Font..."
+msgstr ""
 
 #: tformsettingstrayslate.btnok.caption
 msgctxt "tformsettingstrayslate.btnok.caption"
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 #: tformsettingstrayslate.btnreset.caption
 msgctxt "tformsettingstrayslate.btnreset.caption"
 msgid "Reset"
-msgstr "Reset"
+msgstr "Atur Ulang"
 
 #: tformsettingstrayslate.caption
 msgctxt "tformsettingstrayslate.caption"
 msgid "Settings"
-msgstr "Settings"
+msgstr "Pengaturan"
 
 #: tformsettingstrayslate.checkautoaddlangpairs.caption
 msgid "Auto-Add On Pair Change"
-msgstr "Auto-Add On Pair Change"
+msgstr "Tambah Otomatis Saat Ganti Pasangan"
 
 #: tformsettingstrayslate.checkautoaddlangpairs.hint
 msgid "Automatically adds a new language pair when you switch languages"
-msgstr "Automatically adds a new language pair when you switch languages"
+msgstr "Secara otomatis menambahkan pasangan bahasa baru saat Anda mengganti bahasa"
 
 #: tformsettingstrayslate.checkautostart.caption
 msgid "Launch At System Startup"
-msgstr "Launch At System Startup"
+msgstr "Jalankan Saat Startup Sistem"
 
 #: tformsettingstrayslate.checkautostart.hint
 msgid "Start the application automatically when the computer boots"
-msgstr "Start the application automatically when the computer boots"
+msgstr "Mulai aplikasi secara otomatis saat komputer dinyalakan"
 
 #: tformsettingstrayslate.checkautoswap.caption
 msgctxt "tformsettingstrayslate.checkautoswap.caption"
 msgid "Auto-Swap Language Pair"
-msgstr "Auto-Swap Language Pair"
+msgstr "Tukar Pasangan Bahasa Secara Otomatis"
 
 #: tformsettingstrayslate.checkautoswap.hint
 msgid "Automatically detect input language and swap pair if needed, does not work during Real-Time Translation"
-msgstr "Automatically detect input language and swap pair if needed, does not work during Real-Time Translation"
+msgstr "Deteksi bahasa masukan secara otomatis dan tukar pasangan jika diperlukan, tidak berfungsi selama Terjemahan Waktu Nyata"
 
 #: tformsettingstrayslate.checkrealtime.caption
 msgctxt "tformsettingstrayslate.checkrealtime.caption"
 msgid "Translate As You Type"
-msgstr "Translate As You Type"
+msgstr "Terjemahkan Saat Mengetik"
 
 #: tformsettingstrayslate.checkrealtime.hint
 msgctxt "tformsettingstrayslate.checkrealtime.hint"
 msgid "Automatically translate text while typing"
-msgstr "Automatically translate text while typing"
+msgstr "Terjemahkan teks secara otomatis saat mengetik"
 
 #: tformsettingstrayslate.checktwolang.caption
 msgid "Show Language Pair"
-msgstr "Show Language Pair"
+msgstr "Tampilkan Pasangan Bahasa"
 
 #: tformsettingstrayslate.checktwolang.hint
 msgid "Display source and/or target language on the tray icon"
-msgstr "Display source and/or target language on the tray icon"
+msgstr "Tampilkan bahasa sumber dan/atau sasaran pada ikon baki"
 
 #: tformsettingstrayslate.combolangdetect.hint
 msgid "Config that auto-detects the target language for the selected language pair"
-msgstr "Config that auto-detects the target language for the selected language pair"
+msgstr "Konfigurasi yang mendeteksi secara otomatis bahasa sasaran untuk pasangan bahasa yang dipilih"
 
 #: tformsettingstrayslate.editapp.hint
 msgctxt "tformsettingstrayslate.editapp.hint"
 msgid "Default Ctrl+Shift+A"
-msgstr "Default Ctrl+Shift+A"
+msgstr ""
 
 #: tformsettingstrayslate.edittransclipboard.hint
 msgctxt "tformsettingstrayslate.edittransclipboard.hint"
 msgid "Default Ctrl+Shift+R"
-msgstr "Default Ctrl+Shift+R"
+msgstr ""
 
 #: tformsettingstrayslate.edittranscontrol.hint
 msgctxt "tformsettingstrayslate.edittranscontrol.hint"
 msgid "Default Ctrl+Shift+V"
-msgstr "Default Ctrl+Shift+V"
+msgstr ""
 
 #: tformsettingstrayslate.edittransfromclipboard.hint
 msgctxt "tformsettingstrayslate.edittransfromclipboard.hint"
 msgid "Default Ctrl+Shift+T"
-msgstr "Default Ctrl+Shift+T"
+msgstr ""
 
 #: tformsettingstrayslate.edittransfromcontrol.hint
 msgctxt "tformsettingstrayslate.edittransfromcontrol.hint"
 msgid "Default Ctrl+Shift+C"
-msgstr "Default Ctrl+Shift+C"
+msgstr ""
 
 #: tformsettingstrayslate.edittransswap.hint
 msgctxt "tformsettingstrayslate.edittransswap.hint"
 msgid "Default Ctrl+Shift+S"
-msgstr "Default Ctrl+Shift+S"
+msgstr ""
 
 #: tformsettingstrayslate.groupapp.caption
 msgid "Toggle Application (Tray Icon Click)"
-msgstr "Toggle Application (Tray Icon Click)"
+msgstr "Alihkan Aplikasi (Klik Ikon Baki)"
 
 #: tformsettingstrayslate.groupautostart.caption
 msgid "Autostart"
-msgstr "Autostart"
+msgstr "Mulai Otomatis"
 
 #: tformsettingstrayslate.groupautoswap.caption
 msgid "Auto-Swap Languages"
-msgstr "Auto Swap Languages"
+msgstr "Tukar Bahasa Secara Otomatis"
 
 #: tformsettingstrayslate.groupfont.caption
 msgctxt "tformsettingstrayslate.groupfont.caption"
 msgid "Font"
-msgstr "Font"
+msgstr ""
 
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
-msgstr "Recent Language Pairs"
+msgstr "Pasangan Bahasa Terbaru"
 
 #: tformsettingstrayslate.grouprealtime.caption
 msgid "Real-Time Translation"
-msgstr "Real-Time Translation"
+msgstr "Terjemahan Waktu Nyata"
 
 #: tformsettingstrayslate.grouptransclipboard.caption
 msgid "Translate Clipboard to Clipboard"
-msgstr "Translate Clipboard to Clipboard"
+msgstr "Terjemahkan Papan Klip ke Papan Klip"
 
 #: tformsettingstrayslate.grouptranscontrol.caption
 msgid "Translate In Active Application Selection"
-msgstr "Translate In Active Application Selection"
+msgstr "Terjemahkan dalam Pilihan Aplikasi Aktif"
 
 #: tformsettingstrayslate.grouptransfromclipboard.caption
 msgid "Translate From Clipboard (Tray Icon Double-Click)"
-msgstr "Translate From Clipboard (Tray Icon Double-Click)"
+msgstr "Terjemahkan dari Papan Klip (Klik Ganda Ikon Baki)"
 
 #: tformsettingstrayslate.grouptransfromcontrol.caption
 msgid "Translate From Active Application Selection"
-msgstr "Translate From Active Application Selection"
+msgstr "Terjemahkan dari Pilihan Aplikasi Aktif"
 
 #: tformsettingstrayslate.grouptransswap.caption
 msgctxt "tformsettingstrayslate.grouptransswap.caption"
 msgid "Swap Languages (Tray Icon Middle-Click)"
-msgstr "Swap Languages (Tray Icon Middle-Click)"
+msgstr "Tukar Bahasa (Klik Tengah Ikon Baki)"
 
 #: tformsettingstrayslate.grouptrayicon.caption
 msgid "Tray Icon"
-msgstr "Tray Icon"
+msgstr "Ikon Baki"
 
 #: tformsettingstrayslate.labelapp.caption
 msgctxt "tformsettingstrayslate.labelapp.caption"
 msgid "Shows or hides the main application window"
-msgstr "Shows or hides the main application window"
+msgstr "Menampilkan atau menyembunyikan jendela utama aplikasi"
 
 #: tformsettingstrayslate.labeliconbackground.caption
 msgid "Background Color"
-msgstr "Background Color"
+msgstr "Warna Latar Belakang"
 
 #: tformsettingstrayslate.labeliconbackground1.caption
 msgctxt "tformsettingstrayslate.labeliconbackground1.caption"
 msgid "Lang Detect Config"
-msgstr "Lang Detect Config"
+msgstr "Konfigurasi Deteksi Bahasa"
 
 #: tformsettingstrayslate.labeliconfont.caption
 msgid "Font Color"
-msgstr "Font Color"
+msgstr "Warna Font"
 
 #: tformsettingstrayslate.labeliconfont1.caption
 msgid "Font Name"
-msgstr "Font Name"
+msgstr "Nama Font"
 
 #: tformsettingstrayslate.labelmaxlangpairs.caption
 msgctxt "tformsettingstrayslate.labelmaxlangpairs.caption"
 msgid "Max Pairs"
-msgstr "Max Pairs"
+msgstr "Pasangan Maks"
 
 #: tformsettingstrayslate.labelrealtimedelay.caption
 msgid "Translation Delay, ms"
-msgstr "Translation Delay, ms"
+msgstr "Tunda Terjemahan, ms"
 
 #: tformsettingstrayslate.labeltransclipboard.caption
 msgctxt "tformsettingstrayslate.labeltransclipboard.caption"
 msgid "Translates the current text in clipboard and copies the result to the clipboard"
-msgstr "Translates the current text in clipboard and copies the result to the clipboard"
+msgstr "Menerjemahkan teks saat ini di papan klip dan menyalin hasilnya ke papan klip"
 
 #: tformsettingstrayslate.labeltranscontrol.caption
 msgctxt "tformsettingstrayslate.labeltranscontrol.caption"
 msgid "Replaces the selected text in the active application with the translation"
-msgstr "Replaces the selected text in the active application with the translation"
+msgstr "Mengganti teks yang dipilih di aplikasi aktif dengan terjemahan"
 
 #: tformsettingstrayslate.labeltransfromclipboard.caption
 msgctxt "tformsettingstrayslate.labeltransfromclipboard.caption"
 msgid "Translates the current text from the clipboard"
-msgstr "Translates the current text from the clipboard"
+msgstr "Menerjemahkan teks saat ini dari papan klip"
 
 #: tformsettingstrayslate.labeltransfromcontrol.caption
 msgctxt "tformsettingstrayslate.labeltransfromcontrol.caption"
 msgid "Translates the selected text from the active application"
-msgstr "Translates the selected text from the active application"
+msgstr "Menerjemahkan teks yang dipilih dari aplikasi aktif"
 
 #: tformsettingstrayslate.labeltransswap.caption
 msgctxt "tformsettingstrayslate.labeltransswap.caption"
 msgid "Swaps the source and target languages"
-msgstr "Swaps the source and target languages"
+msgstr "Menukar bahasa sumber dan sasaran"
 
 #: tformsettingstrayslate.pagegeneral.caption
 msgid "General"
-msgstr "General"
+msgstr "Umum"
 
 #: tformsettingstrayslate.pagehotkeys.caption
 msgid "Global Hotkeys"
-msgstr "Global Hotkeys"
+msgstr "Pintasan Global"
 
 #: tformsettingstrayslate.pageinterface.caption
 msgctxt "tformsettingstrayslate.pageinterface.caption"
 msgid "Interface"
-msgstr "Interface"
+msgstr "Antarmuka"
 
 #: tformsettingstrayslate.panelfont.caption
 msgctxt "tformsettingstrayslate.panelfont.caption"
 msgid "Default, 0"
-msgstr "Default, 0"
+msgstr ""
 
 #: tformsettingstrayslate.spinmaxlangpairs.hint
 msgid "Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel"
-msgstr "Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel"
+msgstr "Jumlah pasangan terbaru pada panel; pasangan bergeser ke kanan saat ditambahkan; nilai nol menyembunyikan panel"
 
 #: tformsettingstrayslate.spinrealtimedelay.hint
 msgid "Translation Delay in milliseconds"
-msgstr "Translation Delay in milliseconds"
+msgstr "Tunda Terjemahan dalam milidetik"
 
 #: tformtrayslate.aabout.caption
 msgid "About..."
-msgstr "About..."
+msgstr "Tentang..."
 
 #: tformtrayslate.aaddpair.hint
 msgid "Add Current Pair"
-msgstr "Add Current Pair"
+msgstr "Tambah Pasangan Saat Ini"
 
 #: tformtrayslate.acheckforupdates.caption
 msgid "Check For Updates"
-msgstr "Check For Updates"
+msgstr "Periksa Pembaruan"
 
 #: tformtrayslate.aconfigeditor.caption
 msgid "Config Editor..."
-msgstr "Config Editor..."
+msgstr "Editor Konfigurasi..."
 
 #: tformtrayslate.adonate.caption
 msgid "Buy Me a Coffee..."
-msgstr "Buy Me a Coffee..."
+msgstr "Dukung Proyek..."
 
 #: tformtrayslate.aexit.caption
 msgid "Exit"
-msgstr "Exit"
+msgstr "Keluar"
 
 #: tformtrayslate.alangarabic.caption
 msgid "Arabic"
-msgstr "Arabic"
+msgstr ""
 
 #: tformtrayslate.alangbelarusian.caption
 msgid "Belarusian"
-msgstr "Belarusian"
+msgstr ""
 
 #: tformtrayslate.alangchinese.caption
 msgid "Chinese"
-msgstr "Chinese"
+msgstr ""
 
 #: tformtrayslate.alangczech.caption
 msgid "Czech"
-msgstr "Czech"
+msgstr ""
 
 #: tformtrayslate.alangdanish.caption
 msgid "Danish"
-msgstr "Danish"
+msgstr ""
 
 #: tformtrayslate.alangdutch.caption
 msgid "Dutch"
-msgstr "Dutch"
+msgstr ""
 
 #: tformtrayslate.alangenglish.caption
 msgid "English"
-msgstr "English"
+msgstr ""
 
 #: tformtrayslate.alangfinnish.caption
 msgid "Finnish"
-msgstr "Finnish"
+msgstr ""
 
 #: tformtrayslate.alangfrench.caption
 msgid "French"
-msgstr "French"
+msgstr ""
 
 #: tformtrayslate.alanggerman.caption
 msgid "German"
-msgstr "German"
+msgstr ""
 
 #: tformtrayslate.alanggreek.caption
 msgid "Greek"
-msgstr "Greek"
+msgstr ""
 
 #: tformtrayslate.alanghebrew.caption
 msgid "Hebrew"
-msgstr "Hebrew"
+msgstr ""
 
 #: tformtrayslate.alanghindi.caption
 msgid "Hindi"
-msgstr "Hindi"
+msgstr ""
 
 #: tformtrayslate.alangindonesian.caption
 msgid "Indonesian"
-msgstr "Indonesian"
+msgstr ""
 
 #: tformtrayslate.alangitalian.caption
 msgid "Italian"
-msgstr "Italian"
+msgstr ""
 
 #: tformtrayslate.alangjapanese.caption
 msgid "Japanese"
-msgstr "Japanese"
+msgstr ""
 
 #: tformtrayslate.alangkorean.caption
 msgid "Korean"
-msgstr "Korean"
+msgstr ""
 
 #: tformtrayslate.alangpolish.caption
 msgid "Polish"
-msgstr "Polish"
+msgstr ""
 
 #: tformtrayslate.alangportuguese.caption
 msgid "Portuguese"
-msgstr "Portuguese"
+msgstr ""
 
 #: tformtrayslate.alangromanian.caption
 msgid "Romanian"
-msgstr "Romanian"
+msgstr ""
 
 #: tformtrayslate.alangrussian.caption
 msgid "Russian"
-msgstr "Russian"
+msgstr ""
 
 #: tformtrayslate.alangspanish.caption
 msgid "Spanish"
-msgstr "Spanish"
+msgstr ""
 
 #: tformtrayslate.alangswedish.caption
 msgid "Swedish"
-msgstr "Swedish"
+msgstr ""
 
 #: tformtrayslate.alangturkish.caption
 msgid "Turkish"
-msgstr "Turkish"
+msgstr ""
 
 #: tformtrayslate.alangukrainian.caption
 msgid "Ukrainian"
-msgstr "Ukrainian"
+msgstr ""
 
 #: tformtrayslate.anewtranslate.hint
 msgid "New Translate"
-msgstr "New Translate"
+msgstr "Terjemahan Baru"
 
 #: tformtrayslate.asettings.caption
 msgid "Settings..."
-msgstr "Settings..."
+msgstr "Pengaturan..."
 
 #: tformtrayslate.ashow.caption
 msgid "Show"
-msgstr "Show"
+msgstr "Tampilkan"
 
 #: tformtrayslate.atranslate.hint
 msgctxt "tformtrayslate.atranslate.hint"
 msgid "Translate (Ctrl ¦ Shift ¦ Enter + Enter)"
-msgstr "Translate (Ctrl ¦ Shift ¦ Enter + Enter)"
+msgstr "Terjemahkan (Ctrl ¦ Shift ¦ Enter + Enter)"
 
 #: tformtrayslate.atranslateclipboard.caption
 msgid "Translate Clipboard"
-msgstr "Translate Clipboard"
+msgstr "Terjemahkan Papan Klip"
 
 #: tformtrayslate.caption
 msgctxt "tformtrayslate.caption"
 msgid "Trayslate"
-msgstr "Trayslate"
+msgstr ""
 
 #: tformtrayslate.menuconfig.caption
 msgid "Config"
-msgstr "Config"
+msgstr "Konfigurasi"
 
 #: tformtrayslate.menuhelp.caption
 msgid "Help"
-msgstr "Help"
+msgstr "Bantuan"
 
 #: tformtrayslate.menulangpairs.caption
 msgid "Recent Pairs"
-msgstr "Recent Pairs"
+msgstr "Pasangan Terbaru"
 
 #: tformtrayslate.menulanguage.caption
 msgid "Language"
-msgstr "Language"
+msgstr ""

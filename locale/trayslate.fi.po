@@ -5,7 +5,7 @@ msgstr ""
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: en\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,28 +14,28 @@ msgstr ""
 #: formconfig.rcaption
 msgctxt "formconfig.rcaption"
 msgid "Config Editor"
-msgstr "Config Editor"
+msgstr "Konfiguraatioeditori"
 
 #: formconfig.rclearlanguages
 msgid "The list is already filled. Do you want to clear it?"
-msgstr "The list is already filled. Do you want to clear it?"
+msgstr "Luettelo on jo täytetty. Tyhjennetäänkö se?"
 
 #: formconfig.rdeleteconfig
 msgid "Are you sure you want to delete config"
-msgstr "Are you sure you want to delete config"
+msgstr "Oletko varma, että haluat poistaa konfiguraation"
 
 #: formconfig.rdeleteconfigcaption
 msgid "Delete config"
-msgstr "Delete config"
+msgstr "Poista konfiguraatio"
 
 #: formconfig.rnamequestion
 msgctxt "formconfig.rnamequestion"
 msgid "Enter new config file name:"
-msgstr "Enter new config file name:"
+msgstr "Syötä uuden konfiguraatiotiedoston nimi:"
 
 #: formconfig.rneedsave
 msgid "The configuration was modified. Save changes?"
-msgstr "The configuration was modified. Save changes?"
+msgstr "Konfiguraatiota on muutettu. Tallennetaanko muutokset?"
 
 #: formsettings.rdefaultfont
 msgid "Default"
@@ -44,44 +44,44 @@ msgstr ""
 #: mainform.rnoconfig
 msgctxt "mainform.rnoconfig"
 msgid "Configuration file not found! Create it in the configuration editor."
-msgstr "Configuration file not found! Create it in the configuration editor."
+msgstr "Konfiguraatiotiedostoa ei löydy! Luo se konfiguraatioeditorissa."
 
 #: mainform.rswap
 #, object-pascal-format
 msgctxt "mainform.rswap"
 msgid "Swap (%s) with text (%s)"
-msgstr "Swap (%s) with text (%s)"
+msgstr "Vaihda (%s) tekstiksi (%s)"
 
 #: mainform.rtoremovepair
 msgid " to remove pair"
-msgstr " to remove pair"
+msgstr " poistaaksesi parin"
 
 #: mainform.rtrayslate
 msgctxt "mainform.rtrayslate"
 msgid "Trayslate"
-msgstr "Trayslate"
+msgstr ""
 
 #: systemtool.newversion
 #, object-pascal-format
 msgid "New version available: %s. Open GitHub page to download?"
-msgstr "New version available: %s. Open GitHub page to download?"
+msgstr "Uusi versio saatavilla: %s. Avataanko GitHub-sivu ladattavaksi?"
 
 #: systemtool.newversioncheckerror
 msgid "Error checking version:"
-msgstr "Error checking version:"
+msgstr "Virhe versiota tarkistaessa:"
 
 #: systemtool.newversionuptodate
 msgid "Your version is up to date."
-msgstr "Your version is up to date."
+msgstr "Versiosi on ajan tasalla."
 
 #: tformabouttrayslate.buttonok.caption
 msgctxt "tformabouttrayslate.buttonok.caption"
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 #: tformabouttrayslate.caption
 msgid "About"
-msgstr "About"
+msgstr "Tietoja"
 
 #: tformabouttrayslate.labelby.caption
 msgid "by Alexander Tverskoy is licensed under"
@@ -106,42 +106,42 @@ msgstr ""
 #: tformconfigtrayslate.asave.caption
 msgctxt "tformconfigtrayslate.asave.caption"
 msgid "Save"
-msgstr "Save"
+msgstr "Tallenna"
 
 #: tformconfigtrayslate.btnclose.caption
 msgctxt "tformconfigtrayslate.btnclose.caption"
 msgid "Close"
-msgstr "Close"
+msgstr "Sulje"
 
 #: tformconfigtrayslate.btninitparameterstest.hint
 msgid "Execute request and view the parameters"
-msgstr "Execute request and view the parameters"
+msgstr "Suorita pyyntö ja tarkastele parametreja"
 
 #: tformconfigtrayslate.btniniturltest.hint
 msgid "Execute request and view the result"
-msgstr "Execute request and view the result"
+msgstr "Suorita pyyntö ja tarkastele tulosta"
 
 #: tformconfigtrayslate.btnpostdatatest.hint
 msgid "Execute post request and view the result"
-msgstr "Execute post request and view the result"
+msgstr "Suorita POST-pyyntö ja tarkastele tulosta"
 
 #: tformconfigtrayslate.btnurltest.hint
 msgid "Execute get request and view the result"
-msgstr "Execute get request and view the result"
+msgstr "Suorita GET-pyyntö ja tarkastele tulosta"
 
 #: tformconfigtrayslate.caption
 msgctxt "tformconfigtrayslate.caption"
 msgid "Config Editor"
-msgstr "Config Editor"
+msgstr "Konfiguraatioeditori"
 
 #: tformconfigtrayslate.checkautoswap.caption
 msgctxt "tformconfigtrayslate.checkautoswap.caption"
 msgid "Auto-swap language pair"
-msgstr "Auto-swap language pair"
+msgstr "Vaihda kielipari automaattisesti"
 
 #: tformconfigtrayslate.checkencrypttext.caption
 msgid "Encode {text} parameter"
-msgstr "Encode {text} parameter"
+msgstr "Koodaa {text}-parametri"
 
 #: tformconfigtrayslate.combomethod.text
 msgid "GET"
@@ -149,35 +149,35 @@ msgstr ""
 
 #: tformconfigtrayslate.combovaluetype.text
 msgid "None"
-msgstr "None"
+msgstr ""
 
 #: tformconfigtrayslate.groupboxservice.caption
 msgctxt "tformconfigtrayslate.groupboxservice.caption"
 msgid "Service"
-msgstr "Service"
+msgstr "Palvelu"
 
 #: tformconfigtrayslate.groupinitparameters.caption
 msgid "Initial Request"
-msgstr "Initial Request"
+msgstr "Alkupyyntö"
 
 #: tformconfigtrayslate.grouplanguages.caption
 msgctxt "tformconfigtrayslate.grouplanguages.caption"
 msgid "Languages"
-msgstr "Languages"
+msgstr "Kielet"
 
 #: tformconfigtrayslate.grouplanguagestarget.caption
 msgctxt "tformconfigtrayslate.grouplanguagestarget.caption"
 msgid "Target Languages"
-msgstr "Target Languages"
+msgstr "Kohdekielet"
 
 #: tformconfigtrayslate.grouprequest.caption
 msgid "Request"
-msgstr "Request"
+msgstr "Pyyntö"
 
 #: tformconfigtrayslate.groupresponse.caption
 msgctxt "tformconfigtrayslate.groupresponse.caption"
 msgid "Response"
-msgstr "Response"
+msgstr "Vastaus"
 
 #: tformconfigtrayslate.labelaccept.caption
 msgid "Accept"
@@ -190,42 +190,42 @@ msgstr ""
 
 #: tformconfigtrayslate.labelfilllanguages.caption
 msgid "Fill with default"
-msgstr "Fill with default"
+msgstr "Täytä oletusarvoilla"
 
 #: tformconfigtrayslate.labelheaders.caption
 msgid "Additional request headers in key=value format, key: value is also supported"
-msgstr "Additional request headers in key=value format, key: value is also supported"
+msgstr "Lisäpyyntöotsikot muodossa key=value, myös key: value tuetaan"
 
 #: tformconfigtrayslate.labelinitheaders.caption
 msgid "Additional initial request headers in key=value format, key: value is also supported"
-msgstr "Additional initial request headers in key=value format, key: value is also supported"
+msgstr "Lisäotsikot alkupyynnölle muodossa key=value, myös key: value tuetaan"
 
 #: tformconfigtrayslate.labelinitheaders2.caption
 msgctxt "tformconfigtrayslate.labelinitheaders2.caption"
 msgid "Headers"
-msgstr "Headers"
+msgstr ""
 
 #: tformconfigtrayslate.labelinitlivetime.caption
 msgctxt "tformconfigtrayslate.labelinitlivetime.caption"
 msgid "Live time"
-msgstr "Live time"
+msgstr "Elinaika"
 
 #: tformconfigtrayslate.labelinitparameters.caption
 msgid "Parameters name=regexp are extracted from the response and used by name in requests"
-msgstr "Parameters name=regexp are extracted from the response and used by name in requests"
+msgstr "Parametrit name=regexp poimitaan vastauksesta ja käytetään nimellä pyynnöissä"
 
 #: tformconfigtrayslate.labelinitparameters1.caption
 msgid "Time in seconds to refresh parameters with a new request (0 = every request)"
-msgstr "Time in seconds to refresh parameters with a new request (0 = every request)"
+msgstr "Aika sekunneissa parametrien päivittämiseen uudella pyynnöllä (0 = joka pyyntö)"
 
 #: tformconfigtrayslate.labelinitparameters2.caption
 msgctxt "tformconfigtrayslate.labelinitparameters2.caption"
 msgid "Parameters"
-msgstr "Parameters"
+msgstr "Parametrit"
 
 #: tformconfigtrayslate.labelinitparemeters.caption
 msgid "Initial GET request to obtain required parameters."
-msgstr "Initial GET request to obtain required parameters."
+msgstr "Alkuperäinen GET-pyyntö tarvittavien parametrien saamiseksi."
 
 #: tformconfigtrayslate.labeliniturl.caption
 msgctxt "tformconfigtrayslate.labeliniturl.caption"
@@ -248,41 +248,41 @@ msgid ""
 "Examples:\n"
 "responseData/translatedText; matches/*#10/translation; /texts/text; {literal text#10}; /result/text; /text{ ({(\\w+)})}; !/translations{Error: No data!#10}; /translations/0/text"
 msgstr ""
-"Json Pointer: Use / for levels, keys for objects, and numbers for indexes. Use * for all items, *#10 to join items by newline. Use ~ at the end of the path to return the raw JSON branch. Separate multiple segments with semicolon ;.\n"
-"Literal: Text block in {…}. Special tag #10 for newlines. Use {{regex}} inside to extract data directly into the text.\n"
-"Logic: If a Pointer in a segment is empty, the whole segment is skipped. If a segment has no Pointer, only literal text blocks with embedded regular expressions are processed.\n"
-"Regex: {prefix {regex[index]} suffix} inside a text block. If no [index] is specified, the first match is used. Index can be a number, [*] (join by space), or [*#10] (join by newline). If the regex finds no match, the entire {…} block is removed. Using ~ inside a regex returns the entire text.\n"
-"Inversion: Start a segment with ! (e.g. !/path{Error}) to show its text only if the Pointer data is missing or the JSON is invalid.\n"
-"Commenting: /* text */ comments are stripped from the entire expression before any processing.\n"
-"Examples:\n"
+"Json Pointer: Käytä / tasoihin, avaimia objekteihin ja numeroita indekseihin. Käytä * kaikkiin kohteisiin, *#10 yhdistää kohteet rivinvaihdolla. Käytä ~ polun lopussa palauttaaksesi raakaa JSON-haaraa. Erota useita segmenttejä puolipisteellä ;.\n"
+"Literaali: Tekstilohko {…}-merkeissä. Erikoistagi #10 rivinvaihdoille. Käytä {{regex}} sisällä poimiaksesi dataa suoraan tekstiin.\n"
+"Logiikka: Jos segmentin Pointer on tyhjä, koko segmentti ohitetaan. Jos segmentillä ei ole Pointeria, käsitellään vain literaalitekstilohkoja, joissa on upotettuja säännöllisiä lausekkeita.\n"
+"Säännöllinen lauseke: {etuliite {säännöllinenlauseke[indeksi]} jälkiliite} tekstilohkon sisällä. Jos [indeksi] ei ole määritetty, käytetään ensimmäistä osumaa. Indeksi voi olla numero, [*] (yhdistä välilyönnillä) tai [*#10] (yhdistä rivinvaihdolla). Jos säännöllinen lauseke ei löydä osumaa, koko {…}-lohko poistetaan. ~-merkin käyttö säännöllisen lausekkeen sisällä palauttaa koko tekstin.\n"
+"Käänteinen: Aloita segmentti merkillä ! (esim. !/path{Error}) näyttääkseen sen tekstin vain, jos Pointer-data puuttuu tai JSON on virheellinen.\n"
+"Kommentit: /* teksti */ -kommentit poistetaan koko lausekkeesta ennen käsittelyä.\n"
+"Esimerkit:\n"
 "responseData/translatedText; matches/*#10/translation; /texts/text; {literal text#10}; /result/text; /text{ ({(\\w+)})}; !/translations{Error: No data!#10}; /translations/0/text"
 
 #: tformconfigtrayslate.labellanguages.caption
 msgctxt "tformconfigtrayslate.labellanguages.caption"
 msgid "Supported languages e.g. en=en-US (en - internal, en-US - service). \"empty\" - do not send."
-msgstr "Supported languages e.g. en=en-US (en - internal, en-US - service). \"empty\" - do not send."
+msgstr "Tuetut kielet, esim. en=en-US (en - sisäinen, en-US - palvelu). \"empty\" - älä lähetä."
 
 #: tformconfigtrayslate.labellanguages1.caption
 msgid "Value type for populating names. None keeps originals; None and Unit are case-sensitive."
-msgstr "Value type for populating names. None keeps originals; None and Unit are case-sensitive."
+msgstr "Arvotyyppi nimien täyttämiselle. None säilyttää alkuperäiset; None ja Unit ovat kirjainkoolla merkityksellisiä."
 
 #: tformconfigtrayslate.labellanguagestarget.caption
 msgid ""
 "Target languages e.g. en=en-US, en - internal, en-US - service code.\n"
 "If not specified, both source and target languages are taken from the languages section."
 msgstr ""
-"Target languages e.g. en=en-US, en - internal, en-US - service code.\n"
-"If not specified, both source and target languages are taken from the languages section."
+"Kohdekielet, esim. en=en-US, en - sisäinen, en-US - palvelukoodi.\n"
+"Jos ei ole määritetty, sekä lähde- että kohdekielet otetaan kieliosiosta."
 
 #: tformconfigtrayslate.labelmethod.caption
 msgctxt "tformconfigtrayslate.labelmethod.caption"
 msgid "Method"
-msgstr "Method"
+msgstr "Menetelmä"
 
 #: tformconfigtrayslate.labelparemeters.caption
 msgctxt "tformconfigtrayslate.labelparemeters.caption"
 msgid "Use parameters: {text} – input text, {source} – source language, {target} – target language. Prefix the name with ! for lowercase or ^ for uppercase value. Also supported {timestamp}, {rand}. Use {parameter} from the parameters page."
-msgstr "Use parameters: {text} – input text, {source} – source language, {target} – target language. Prefix the name with ! for lowercase or ^ for uppercase value. Also supported {timestamp}, {rand}. Use {parameter} from the parameters page."
+msgstr "Käytä parametreja: {text} – syöteteksti, {source} – lähdekieli, {target} – kohdekieli. Lisää etuliite ! pienille kirjaimille tai ^ suurille kirjaimille. Myös {timestamp}, {rand} tuetaan. Käytä {parameter}-parametria parametrisivulta."
 
 #: tformconfigtrayslate.labelpostdata.caption
 msgid "Post Data"
@@ -291,15 +291,15 @@ msgstr ""
 #: tformconfigtrayslate.labelpostdata1.caption
 msgctxt "tformconfigtrayslate.labelpostdata1.caption"
 msgid "Headers"
-msgstr "Headers"
+msgstr ""
 
 #: tformconfigtrayslate.labelservicename.caption
 msgid "Name"
-msgstr "Name"
+msgstr "Nimi"
 
 #: tformconfigtrayslate.labelserviceorder.caption
 msgid "Order"
-msgstr "Order"
+msgstr "Järjestys"
 
 #: tformconfigtrayslate.labelurl.caption
 msgctxt "tformconfigtrayslate.labelurl.caption"
@@ -313,49 +313,49 @@ msgstr ""
 
 #: tformconfigtrayslate.labelvaluetype.caption
 msgid "Value Type"
-msgstr "Value Type"
+msgstr "Arvotyyppi"
 
 #: tformconfigtrayslate.pagelanguages.caption
 msgctxt "tformconfigtrayslate.pagelanguages.caption"
 msgid "Languages"
-msgstr "Languages"
+msgstr "Kielet"
 
 #: tformconfigtrayslate.pagelanguagestarget.caption
 msgctxt "tformconfigtrayslate.pagelanguagestarget.caption"
 msgid "Target Languages"
-msgstr "Target Languages"
+msgstr "Kohdekielet"
 
 #: tformconfigtrayslate.pageparameters.caption
 msgctxt "tformconfigtrayslate.pageparameters.caption"
 msgid "Parameters"
-msgstr "Parameters"
+msgstr "Parametrit"
 
 #: tformconfigtrayslate.pageresponse.caption
 msgctxt "tformconfigtrayslate.pageresponse.caption"
 msgid "Response"
-msgstr "Response"
+msgstr "Vastaus"
 
 #: tformconfigtrayslate.pageservice.caption
 msgctxt "tformconfigtrayslate.pageservice.caption"
 msgid "Service"
-msgstr "Service"
+msgstr "Palvelu"
 
 #: tformconfigtrayslate.sbcopyconfig.hint
 msgid "Copy configuration"
-msgstr "Copy configuration"
+msgstr "Kopioi konfiguraatio"
 
 #: tformconfigtrayslate.sbnewconfig.hint
 msgid "New configuration"
-msgstr "New configuration"
+msgstr "Uusi konfiguraatio"
 
 #: tformdonatetrayslate.buttonok.caption
 msgctxt "tformdonatetrayslate.buttonok.caption"
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 #: tformdonatetrayslate.caption
 msgid "Buy me a coffee"
-msgstr "Buy me a coffee"
+msgstr "Tue projektia"
 
 #: tformdonatetrayslate.editwallet1.text
 msgid "bc1qp8m5j75yd58zhf9hl0a753shay093j2548f84e"
@@ -377,11 +377,11 @@ msgstr ""
 
 #: tformdonatetrayslate.label1.caption
 msgid "Hey there! Fuel this passion project with a little caffeine boost! Every donation helps keep the code rolling and the coffee brewing. Thanks for supporting the work and the developer behind it!"
-msgstr "Hey there! Fuel this passion project with a little caffeine boost! Every donation helps keep the code rolling and the coffee brewing. Thanks for supporting the work and the developer behind it!"
+msgstr "Hei! Ruoki tätä intohimoprojektia pienellä kofeiinipotkulla! Jokainen lahjoitus auttaa pitämään koodin liikkeessä ja kahvin keitossa. Kiitos työn ja sen takana olevan kehittäjän tukemisesta!"
 
 #: tformdonatetrayslate.label10.caption
 msgid "Feel free to make a donation through any exchange, for example:"
-msgstr "Feel free to make a donation through any exchange, for example:"
+msgstr "Voit tehdä lahjoituksen minkä tahansa pörssin kautta, esimerkiksi:"
 
 #: tformdonatetrayslate.label2.caption
 msgid "BTC"
@@ -429,7 +429,7 @@ msgstr ""
 
 #: tformdonatetrayslate.labelurl1.caption
 msgid "How to do it easily"
-msgstr "How to do it easily"
+msgstr "Kuinka tehdä se helposti"
 
 #: tformdonatetrayslate.labelurl1.hint
 msgid "https://plaintool.github.io/notetask/donate.htm"
@@ -437,404 +437,404 @@ msgstr ""
 
 #: tformsettingstrayslate.btnapply.caption
 msgid "Apply"
-msgstr "Apply"
+msgstr "Käytä"
 
 #: tformsettingstrayslate.btncancel.caption
 msgid "Cancel"
-msgstr "Cancel"
+msgstr "Peruuta"
 
 #: tformsettingstrayslate.btnfont.caption
 msgctxt "tformsettingstrayslate.btnfont.caption"
 msgid "Font..."
-msgstr "Font..."
+msgstr "Fontti..."
 
 #: tformsettingstrayslate.btnok.caption
 msgctxt "tformsettingstrayslate.btnok.caption"
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 #: tformsettingstrayslate.btnreset.caption
 msgctxt "tformsettingstrayslate.btnreset.caption"
 msgid "Reset"
-msgstr "Reset"
+msgstr "Palauta"
 
 #: tformsettingstrayslate.caption
 msgctxt "tformsettingstrayslate.caption"
 msgid "Settings"
-msgstr "Settings"
+msgstr "Asetukset"
 
 #: tformsettingstrayslate.checkautoaddlangpairs.caption
 msgid "Auto-Add On Pair Change"
-msgstr "Auto-Add On Pair Change"
+msgstr "Automaattinen lisäys paria vaihdettaessa"
 
 #: tformsettingstrayslate.checkautoaddlangpairs.hint
 msgid "Automatically adds a new language pair when you switch languages"
-msgstr "Automatically adds a new language pair when you switch languages"
+msgstr "Lisää automaattisesti uuden kieliparin, kun vaihdat kieltä"
 
 #: tformsettingstrayslate.checkautostart.caption
 msgid "Launch At System Startup"
-msgstr "Launch At System Startup"
+msgstr "Käynnistä järjestelmän käynnistyessä"
 
 #: tformsettingstrayslate.checkautostart.hint
 msgid "Start the application automatically when the computer boots"
-msgstr "Start the application automatically when the computer boots"
+msgstr "Käynnistä sovellus automaattisesti tietokoneen käynnistyessä"
 
 #: tformsettingstrayslate.checkautoswap.caption
 msgctxt "tformsettingstrayslate.checkautoswap.caption"
 msgid "Auto-Swap Language Pair"
-msgstr "Auto-Swap Language Pair"
+msgstr "Vaihda kielipari automaattisesti"
 
 #: tformsettingstrayslate.checkautoswap.hint
 msgid "Automatically detect input language and swap pair if needed, does not work during Real-Time Translation"
-msgstr "Automatically detect input language and swap pair if needed, does not work during Real-Time Translation"
+msgstr "Tunnista syöttökieli automaattisesti ja vaihda paria tarvittaessa, ei toimi reaaliaikaisen käännöksen aikana"
 
 #: tformsettingstrayslate.checkrealtime.caption
 msgctxt "tformsettingstrayslate.checkrealtime.caption"
 msgid "Translate As You Type"
-msgstr "Translate As You Type"
+msgstr "Käännä kirjoittaessasi"
 
 #: tformsettingstrayslate.checkrealtime.hint
 msgctxt "tformsettingstrayslate.checkrealtime.hint"
 msgid "Automatically translate text while typing"
-msgstr "Automatically translate text while typing"
+msgstr "Käännä teksti automaattisesti kirjoittaessasi"
 
 #: tformsettingstrayslate.checktwolang.caption
 msgid "Show Language Pair"
-msgstr "Show Language Pair"
+msgstr "Näytä kielipari"
 
 #: tformsettingstrayslate.checktwolang.hint
 msgid "Display source and/or target language on the tray icon"
-msgstr "Display source and/or target language on the tray icon"
+msgstr "Näytä lähde- ja/tai kohdekieli järjestelmäkuvakkeessa"
 
 #: tformsettingstrayslate.combolangdetect.hint
 msgid "Config that auto-detects the target language for the selected language pair"
-msgstr "Config that auto-detects the target language for the selected language pair"
+msgstr "Konfiguraatio, joka tunnistaa automaattisesti kohdekielen valitulle kieliparille"
 
 #: tformsettingstrayslate.editapp.hint
 msgctxt "tformsettingstrayslate.editapp.hint"
 msgid "Default Ctrl+Shift+A"
-msgstr "Default Ctrl+Shift+A"
+msgstr "Oletus Ctrl+Shift+A"
 
 #: tformsettingstrayslate.edittransclipboard.hint
 msgctxt "tformsettingstrayslate.edittransclipboard.hint"
 msgid "Default Ctrl+Shift+R"
-msgstr "Default Ctrl+Shift+R"
+msgstr "Oletus Ctrl+Shift+R"
 
 #: tformsettingstrayslate.edittranscontrol.hint
 msgctxt "tformsettingstrayslate.edittranscontrol.hint"
 msgid "Default Ctrl+Shift+V"
-msgstr "Default Ctrl+Shift+V"
+msgstr "Oletus Ctrl+Shift+V"
 
 #: tformsettingstrayslate.edittransfromclipboard.hint
 msgctxt "tformsettingstrayslate.edittransfromclipboard.hint"
 msgid "Default Ctrl+Shift+T"
-msgstr "Default Ctrl+Shift+T"
+msgstr "Oletus Ctrl+Shift+T"
 
 #: tformsettingstrayslate.edittransfromcontrol.hint
 msgctxt "tformsettingstrayslate.edittransfromcontrol.hint"
 msgid "Default Ctrl+Shift+C"
-msgstr "Default Ctrl+Shift+C"
+msgstr "Oletus Ctrl+Shift+C"
 
 #: tformsettingstrayslate.edittransswap.hint
 msgctxt "tformsettingstrayslate.edittransswap.hint"
 msgid "Default Ctrl+Shift+S"
-msgstr "Default Ctrl+Shift+S"
+msgstr "Oletus Ctrl+Shift+S"
 
 #: tformsettingstrayslate.groupapp.caption
 msgid "Toggle Application (Tray Icon Click)"
-msgstr "Toggle Application (Tray Icon Click)"
+msgstr "Näytä / piilota sovellus (klikkaa järjestelmäkuvaketta)"
 
 #: tformsettingstrayslate.groupautostart.caption
 msgid "Autostart"
-msgstr "Autostart"
+msgstr "Automaattinen käynnistys"
 
 #: tformsettingstrayslate.groupautoswap.caption
 msgid "Auto-Swap Languages"
-msgstr "Auto Swap Languages"
+msgstr "Kielten automaattinen vaihto"
 
 #: tformsettingstrayslate.groupfont.caption
 msgctxt "tformsettingstrayslate.groupfont.caption"
 msgid "Font"
-msgstr "Font"
+msgstr "Fontti"
 
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
-msgstr "Recent Language Pairs"
+msgstr "Viimeisimmät kieliparit"
 
 #: tformsettingstrayslate.grouprealtime.caption
 msgid "Real-Time Translation"
-msgstr "Real-Time Translation"
+msgstr "Reaaliaikainen käännös"
 
 #: tformsettingstrayslate.grouptransclipboard.caption
 msgid "Translate Clipboard to Clipboard"
-msgstr "Translate Clipboard to Clipboard"
+msgstr "Käännä leikepöytä leikepöydälle"
 
 #: tformsettingstrayslate.grouptranscontrol.caption
 msgid "Translate In Active Application Selection"
-msgstr "Translate In Active Application Selection"
+msgstr "Käännä aktiivisen sovelluksen valinnassa"
 
 #: tformsettingstrayslate.grouptransfromclipboard.caption
 msgid "Translate From Clipboard (Tray Icon Double-Click)"
-msgstr "Translate From Clipboard (Tray Icon Double-Click)"
+msgstr "Käännä leikepöydältä (kaksoisklikkaus järjestelmäkuvakkeesta)"
 
 #: tformsettingstrayslate.grouptransfromcontrol.caption
 msgid "Translate From Active Application Selection"
-msgstr "Translate From Active Application Selection"
+msgstr "Käännä aktiivisen sovelluksen valittu teksti"
 
 #: tformsettingstrayslate.grouptransswap.caption
 msgctxt "tformsettingstrayslate.grouptransswap.caption"
 msgid "Swap Languages (Tray Icon Middle-Click)"
-msgstr "Swap Languages (Tray Icon Middle-Click)"
+msgstr "Vaihda kielet (keskiklikkaus järjestelmäkuvakkeesta)"
 
 #: tformsettingstrayslate.grouptrayicon.caption
 msgid "Tray Icon"
-msgstr "Tray Icon"
+msgstr "Järjestelmäkuvake"
 
 #: tformsettingstrayslate.labelapp.caption
 msgctxt "tformsettingstrayslate.labelapp.caption"
 msgid "Shows or hides the main application window"
-msgstr "Shows or hides the main application window"
+msgstr "Näyttää tai piilottaa sovelluksen pääikkunan"
 
 #: tformsettingstrayslate.labeliconbackground.caption
 msgid "Background Color"
-msgstr "Background Color"
+msgstr "Taustaväri"
 
 #: tformsettingstrayslate.labeliconbackground1.caption
 msgctxt "tformsettingstrayslate.labeliconbackground1.caption"
 msgid "Lang Detect Config"
-msgstr "Lang Detect Config"
+msgstr "Kielen tunnistuksen konfiguraatio"
 
 #: tformsettingstrayslate.labeliconfont.caption
 msgid "Font Color"
-msgstr "Font Color"
+msgstr "Fontin väri"
 
 #: tformsettingstrayslate.labeliconfont1.caption
 msgid "Font Name"
-msgstr "Font Name"
+msgstr "Fontin nimi"
 
 #: tformsettingstrayslate.labelmaxlangpairs.caption
 msgctxt "tformsettingstrayslate.labelmaxlangpairs.caption"
 msgid "Max Pairs"
-msgstr "Max Pairs"
+msgstr "Maks. parit"
 
 #: tformsettingstrayslate.labelrealtimedelay.caption
 msgid "Translation Delay, ms"
-msgstr "Translation Delay, ms"
+msgstr "Käännöksen viive, ms"
 
 #: tformsettingstrayslate.labeltransclipboard.caption
 msgctxt "tformsettingstrayslate.labeltransclipboard.caption"
 msgid "Translates the current text in clipboard and copies the result to the clipboard"
-msgstr "Translates the current text in clipboard and copies the result to the clipboard"
+msgstr "Kääntää leikepöydän nykyisen tekstin ja kopioi tuloksen leikepöydälle"
 
 #: tformsettingstrayslate.labeltranscontrol.caption
 msgctxt "tformsettingstrayslate.labeltranscontrol.caption"
 msgid "Replaces the selected text in the active application with the translation"
-msgstr "Replaces the selected text in the active application with the translation"
+msgstr "Korvaa aktiivisen sovelluksen valitun tekstin käännöksellä"
 
 #: tformsettingstrayslate.labeltransfromclipboard.caption
 msgctxt "tformsettingstrayslate.labeltransfromclipboard.caption"
 msgid "Translates the current text from the clipboard"
-msgstr "Translates the current text from the clipboard"
+msgstr "Kääntää leikepöydän nykyisen tekstin"
 
 #: tformsettingstrayslate.labeltransfromcontrol.caption
 msgctxt "tformsettingstrayslate.labeltransfromcontrol.caption"
 msgid "Translates the selected text from the active application"
-msgstr "Translates the selected text from the active application"
+msgstr "Kääntää aktiivisesta sovelluksesta valitun tekstin"
 
 #: tformsettingstrayslate.labeltransswap.caption
 msgctxt "tformsettingstrayslate.labeltransswap.caption"
 msgid "Swaps the source and target languages"
-msgstr "Swaps the source and target languages"
+msgstr "Vaihtaa lähde- ja kohdekielen keskenään"
 
 #: tformsettingstrayslate.pagegeneral.caption
 msgid "General"
-msgstr "General"
+msgstr "Yleiset"
 
 #: tformsettingstrayslate.pagehotkeys.caption
 msgid "Global Hotkeys"
-msgstr "Global Hotkeys"
+msgstr "Globaalit pikanäppäimet"
 
 #: tformsettingstrayslate.pageinterface.caption
 msgctxt "tformsettingstrayslate.pageinterface.caption"
 msgid "Interface"
-msgstr "Interface"
+msgstr "Käyttöliittymä"
 
 #: tformsettingstrayslate.panelfont.caption
 msgctxt "tformsettingstrayslate.panelfont.caption"
 msgid "Default, 0"
-msgstr "Default, 0"
+msgstr "Oletus, 0"
 
 #: tformsettingstrayslate.spinmaxlangpairs.hint
 msgid "Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel"
-msgstr "Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel"
+msgstr "Viimeisimpien parien määrä paneelissa; parit siirtyvät oikealle lisättäessä; nolla-arvo piilottaa paneelin"
 
 #: tformsettingstrayslate.spinrealtimedelay.hint
 msgid "Translation Delay in milliseconds"
-msgstr "Translation Delay in milliseconds"
+msgstr "Käännöksen viive millisekunteina"
 
 #: tformtrayslate.aabout.caption
 msgid "About..."
-msgstr "About..."
+msgstr "Tietoja..."
 
 #: tformtrayslate.aaddpair.hint
 msgid "Add Current Pair"
-msgstr "Add Current Pair"
+msgstr "Lisää nykyinen pari"
 
 #: tformtrayslate.acheckforupdates.caption
 msgid "Check For Updates"
-msgstr "Check For Updates"
+msgstr "Tarkista päivitykset"
 
 #: tformtrayslate.aconfigeditor.caption
 msgid "Config Editor..."
-msgstr "Config Editor..."
+msgstr "Konfiguraatioeditori..."
 
 #: tformtrayslate.adonate.caption
 msgid "Buy Me a Coffee..."
-msgstr "Buy Me a Coffee..."
+msgstr "Tue projektia..."
 
 #: tformtrayslate.aexit.caption
 msgid "Exit"
-msgstr "Exit"
+msgstr "Poistu"
 
 #: tformtrayslate.alangarabic.caption
 msgid "Arabic"
-msgstr "Arabic"
+msgstr ""
 
 #: tformtrayslate.alangbelarusian.caption
 msgid "Belarusian"
-msgstr "Belarusian"
+msgstr ""
 
 #: tformtrayslate.alangchinese.caption
 msgid "Chinese"
-msgstr "Chinese"
+msgstr ""
 
 #: tformtrayslate.alangczech.caption
 msgid "Czech"
-msgstr "Czech"
+msgstr ""
 
 #: tformtrayslate.alangdanish.caption
 msgid "Danish"
-msgstr "Danish"
+msgstr ""
 
 #: tformtrayslate.alangdutch.caption
 msgid "Dutch"
-msgstr "Dutch"
+msgstr ""
 
 #: tformtrayslate.alangenglish.caption
 msgid "English"
-msgstr "English"
+msgstr ""
 
 #: tformtrayslate.alangfinnish.caption
 msgid "Finnish"
-msgstr "Finnish"
+msgstr ""
 
 #: tformtrayslate.alangfrench.caption
 msgid "French"
-msgstr "French"
+msgstr ""
 
 #: tformtrayslate.alanggerman.caption
 msgid "German"
-msgstr "German"
+msgstr ""
 
 #: tformtrayslate.alanggreek.caption
 msgid "Greek"
-msgstr "Greek"
+msgstr ""
 
 #: tformtrayslate.alanghebrew.caption
 msgid "Hebrew"
-msgstr "Hebrew"
+msgstr ""
 
 #: tformtrayslate.alanghindi.caption
 msgid "Hindi"
-msgstr "Hindi"
+msgstr ""
 
 #: tformtrayslate.alangindonesian.caption
 msgid "Indonesian"
-msgstr "Indonesian"
+msgstr ""
 
 #: tformtrayslate.alangitalian.caption
 msgid "Italian"
-msgstr "Italian"
+msgstr ""
 
 #: tformtrayslate.alangjapanese.caption
 msgid "Japanese"
-msgstr "Japanese"
+msgstr ""
 
 #: tformtrayslate.alangkorean.caption
 msgid "Korean"
-msgstr "Korean"
+msgstr ""
 
 #: tformtrayslate.alangpolish.caption
 msgid "Polish"
-msgstr "Polish"
+msgstr ""
 
 #: tformtrayslate.alangportuguese.caption
 msgid "Portuguese"
-msgstr "Portuguese"
+msgstr ""
 
 #: tformtrayslate.alangromanian.caption
 msgid "Romanian"
-msgstr "Romanian"
+msgstr ""
 
 #: tformtrayslate.alangrussian.caption
 msgid "Russian"
-msgstr "Russian"
+msgstr ""
 
 #: tformtrayslate.alangspanish.caption
 msgid "Spanish"
-msgstr "Spanish"
+msgstr ""
 
 #: tformtrayslate.alangswedish.caption
 msgid "Swedish"
-msgstr "Swedish"
+msgstr ""
 
 #: tformtrayslate.alangturkish.caption
 msgid "Turkish"
-msgstr "Turkish"
+msgstr ""
 
 #: tformtrayslate.alangukrainian.caption
 msgid "Ukrainian"
-msgstr "Ukrainian"
+msgstr ""
 
 #: tformtrayslate.anewtranslate.hint
 msgid "New Translate"
-msgstr "New Translate"
+msgstr "Uusi käännös"
 
 #: tformtrayslate.asettings.caption
 msgid "Settings..."
-msgstr "Settings..."
+msgstr "Asetukset..."
 
 #: tformtrayslate.ashow.caption
 msgid "Show"
-msgstr "Show"
+msgstr "Näytä"
 
 #: tformtrayslate.atranslate.hint
 msgctxt "tformtrayslate.atranslate.hint"
 msgid "Translate (Ctrl ¦ Shift ¦ Enter + Enter)"
-msgstr "Translate (Ctrl ¦ Shift ¦ Enter + Enter)"
+msgstr "Käännä (Ctrl ¦ Shift ¦ Enter + Enter)"
 
 #: tformtrayslate.atranslateclipboard.caption
 msgid "Translate Clipboard"
-msgstr "Translate Clipboard"
+msgstr "Käännä leikepöytä"
 
 #: tformtrayslate.caption
 msgctxt "tformtrayslate.caption"
 msgid "Trayslate"
-msgstr "Trayslate"
+msgstr ""
 
 #: tformtrayslate.menuconfig.caption
 msgid "Config"
-msgstr "Config"
+msgstr "Konfiguraatio"
 
 #: tformtrayslate.menuhelp.caption
 msgid "Help"
-msgstr "Help"
+msgstr "Ohje"
 
 #: tformtrayslate.menulangpairs.caption
 msgid "Recent Pairs"
-msgstr "Recent Pairs"
+msgstr "Viimeisimmät parit"
 
 #: tformtrayslate.menulanguage.caption
 msgid "Language"
-msgstr "Language"
+msgstr ""

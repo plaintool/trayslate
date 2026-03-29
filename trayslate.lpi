@@ -16,10 +16,32 @@
         <TextDesc Value=""/>
       </XPManifest>
       <Icon Value="0"/>
-      <Resources Count="3">
+      <Resources Count="25">
         <Resource_0 FileName="locale\trayslate.en.po" Type="RCDATA" ResourceName="TRAYSLATE.EN"/>
         <Resource_1 FileName="locale\trayslate.ru.po" Type="RCDATA" ResourceName="TRAYSLATE.RU"/>
         <Resource_2 FileName="locale\trayslate.ar.po" Type="RCDATA" ResourceName="TRAYSLATE.AR"/>
+        <Resource_3 FileName="locale\trayslate.be.po" Type="RCDATA" ResourceName="TRAYSLATE.BE"/>
+        <Resource_4 FileName="locale\trayslate.cs.po" Type="RCDATA" ResourceName="TRAYSLATE.CS"/>
+        <Resource_5 FileName="locale\trayslate.da.po" Type="RCDATA" ResourceName="TRAYSLATE.DA"/>
+        <Resource_6 FileName="locale\trayslate.de.po" Type="RCDATA" ResourceName="TRAYSLATE.DE"/>
+        <Resource_7 FileName="locale\trayslate.el.po" Type="RCDATA" ResourceName="TRAYSLATE.EL"/>
+        <Resource_8 FileName="locale\trayslate.es.po" Type="RCDATA" ResourceName="TRAYSLATE.ES"/>
+        <Resource_9 FileName="locale\trayslate.fi.po" Type="RCDATA" ResourceName="TRAYSLATE.FI"/>
+        <Resource_10 FileName="locale\trayslate.fr.po" Type="RCDATA" ResourceName="TRAYSLATE.FR"/>
+        <Resource_11 FileName="locale\trayslate.he.po" Type="RCDATA" ResourceName="TRAYSLATE.HE"/>
+        <Resource_12 FileName="locale\trayslate.hi.po" Type="RCDATA" ResourceName="TRAYSLATE.HI"/>
+        <Resource_13 FileName="locale\trayslate.id.po" Type="RCDATA" ResourceName="TRAYSLATE.ID"/>
+        <Resource_14 FileName="locale\trayslate.it.po" Type="RCDATA" ResourceName="TRAYSLATE.IT"/>
+        <Resource_15 FileName="locale\trayslate.ja.po" Type="RCDATA" ResourceName="TRAYSLATE.JA"/>
+        <Resource_16 FileName="locale\trayslate.ko.po" Type="RCDATA" ResourceName="TRAYSLATE.KO"/>
+        <Resource_17 FileName="locale\trayslate.nl.po" Type="RCDATA" ResourceName="TRAYSLATE.NL"/>
+        <Resource_18 FileName="locale\trayslate.pl.po" Type="RCDATA" ResourceName="TRAYSLATE.PL"/>
+        <Resource_19 FileName="locale\trayslate.pt.po" Type="RCDATA" ResourceName="TRAYSLATE.PT"/>
+        <Resource_20 FileName="locale\trayslate.ro.po" Type="RCDATA" ResourceName="TRAYSLATE.RO"/>
+        <Resource_21 FileName="locale\trayslate.sv.po" Type="RCDATA" ResourceName="TRAYSLATE.SV"/>
+        <Resource_22 FileName="locale\trayslate.tr.po" Type="RCDATA" ResourceName="TRAYSLATE.TR"/>
+        <Resource_23 FileName="locale\trayslate.uk.po" Type="RCDATA" ResourceName="TRAYSLATE.UK"/>
+        <Resource_24 FileName="locale\trayslate.zh.po" Type="RCDATA" ResourceName="TRAYSLATE.ZH"/>
       </Resources>
     </General>
     <i18n>

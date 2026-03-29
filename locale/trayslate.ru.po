@@ -59,7 +59,7 @@ msgstr " для удаления пары"
 #: mainform.rtrayslate
 msgctxt "mainform.rtrayslate"
 msgid "Trayslate"
-msgstr "Trayslate"
+msgstr ""
 
 #: systemtool.newversion
 #, object-pascal-format
@@ -77,7 +77,7 @@ msgstr "Ваша версия актуальна."
 #: tformabouttrayslate.buttonok.caption
 msgctxt "tformabouttrayslate.buttonok.caption"
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 #: tformabouttrayslate.caption
 msgid "About"
@@ -85,23 +85,23 @@ msgstr "О программе"
 
 #: tformabouttrayslate.labelby.caption
 msgid "by Alexander Tverskoy is licensed under"
-msgstr "от Александра Тверского распространяется под"
+msgstr ""
 
 #: tformabouttrayslate.labelby1.caption
 msgid "the GNU General Public License, Version 3 "
-msgstr "лицензией GNU General Public License, версия 3 "
+msgstr ""
 
 #: tformabouttrayslate.labellic.caption
 msgid "For questions or feedback, contact me at"
-msgstr "По вопросам или отзывам свяжитесь со мной по адресу"
+msgstr ""
 
 #: tformabouttrayslate.labellicurl.caption
 msgid "mailto:astverskoy@gmail.com"
-msgstr "mailto:astverskoy@gmail.com"
+msgstr ""
 
 #: tformabouttrayslate.labelname.caption
 msgid "Trayslate © 2026"
-msgstr "Trayslate © 2026"
+msgstr ""
 
 #: tformconfigtrayslate.asave.caption
 msgctxt "tformconfigtrayslate.asave.caption"
@@ -145,11 +145,11 @@ msgstr "Кодировать параметр {text}"
 
 #: tformconfigtrayslate.combomethod.text
 msgid "GET"
-msgstr "GET"
+msgstr ""
 
 #: tformconfigtrayslate.combovaluetype.text
 msgid "None"
-msgstr "None"
+msgstr ""
 
 #: tformconfigtrayslate.groupboxservice.caption
 msgctxt "tformconfigtrayslate.groupboxservice.caption"
@@ -181,12 +181,12 @@ msgstr "Ответ"
 
 #: tformconfigtrayslate.labelaccept.caption
 msgid "Accept"
-msgstr "Accept"
+msgstr ""
 
 #: tformconfigtrayslate.labelcontenttype.caption
 msgctxt "tformconfigtrayslate.labelcontenttype.caption"
 msgid "Content Type"
-msgstr "Content Type"
+msgstr ""
 
 #: tformconfigtrayslate.labelfilllanguages.caption
 msgid "Fill with default"
@@ -203,7 +203,7 @@ msgstr "Дополнительные заголовки начального з�
 #: tformconfigtrayslate.labelinitheaders2.caption
 msgctxt "tformconfigtrayslate.labelinitheaders2.caption"
 msgid "Headers"
-msgstr "Headers"
+msgstr ""
 
 #: tformconfigtrayslate.labelinitlivetime.caption
 msgctxt "tformconfigtrayslate.labelinitlivetime.caption"
@@ -230,12 +230,12 @@ msgstr "Начальный GET-запрос для получения необх
 #: tformconfigtrayslate.labeliniturl.caption
 msgctxt "tformconfigtrayslate.labeliniturl.caption"
 msgid "URL"
-msgstr "URL"
+msgstr ""
 
 #: tformconfigtrayslate.labelinituseragent.caption
 msgctxt "tformconfigtrayslate.labelinituseragent.caption"
 msgid "User Agent"
-msgstr "User Agent"
+msgstr ""
 
 #: tformconfigtrayslate.labeljsonpointer2.caption
 msgid ""
@@ -286,12 +286,12 @@ msgstr "Используйте параметры: {text} – входной т�
 
 #: tformconfigtrayslate.labelpostdata.caption
 msgid "Post Data"
-msgstr "Post Data"
+msgstr ""
 
 #: tformconfigtrayslate.labelpostdata1.caption
 msgctxt "tformconfigtrayslate.labelpostdata1.caption"
 msgid "Headers"
-msgstr "Headers"
+msgstr ""
 
 #: tformconfigtrayslate.labelservicename.caption
 msgid "Name"
@@ -304,12 +304,12 @@ msgstr "Порядок"
 #: tformconfigtrayslate.labelurl.caption
 msgctxt "tformconfigtrayslate.labelurl.caption"
 msgid "URL"
-msgstr "URL"
+msgstr ""
 
 #: tformconfigtrayslate.labeluseragent.caption
 msgctxt "tformconfigtrayslate.labeluseragent.caption"
 msgid "User Agent"
-msgstr "User Agent"
+msgstr ""
 
 #: tformconfigtrayslate.labelvaluetype.caption
 msgid "Value Type"
@@ -351,7 +351,7 @@ msgstr "Новая конфигурация"
 #: tformdonatetrayslate.buttonok.caption
 msgctxt "tformdonatetrayslate.buttonok.caption"
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 #: tformdonatetrayslate.caption
 msgid "Buy me a coffee"
@@ -359,21 +359,21 @@ msgstr "Поддержать проект"
 
 #: tformdonatetrayslate.editwallet1.text
 msgid "bc1qp8m5j75yd58zhf9hl0a753shay093j2548f84e"
-msgstr "bc1qp8m5j75yd58zhf9hl0a753shay093j2548f84e"
+msgstr ""
 
 #: tformdonatetrayslate.editwallet2.text
 msgctxt "tformdonatetrayslate.editwallet2.text"
 msgid "0x328e689E961c3Abb143835f8677947Fa9eaF9f6F"
-msgstr "0x328e689E961c3Abb143835f8677947Fa9eaF9f6F"
+msgstr ""
 
 #: tformdonatetrayslate.editwallet3.text
 msgctxt "tformdonatetrayslate.editwallet3.text"
 msgid "0x328e689E961c3Abb143835f8677947Fa9eaF9f6F"
-msgstr "0x328e689E961c3Abb143835f8677947Fa9eaF9f6F"
+msgstr ""
 
 #: tformdonatetrayslate.editwallet4.text
 msgid "TYSJJHjpu6aqr8UsGaCTLxDyh6HKWoNQ8k"
-msgstr "TYSJJHjpu6aqr8UsGaCTLxDyh6HKWoNQ8k"
+msgstr ""
 
 #: tformdonatetrayslate.label1.caption
 msgid "Hey there! Fuel this passion project with a little caffeine boost! Every donation helps keep the code rolling and the coffee brewing. Thanks for supporting the work and the developer behind it!"
@@ -385,47 +385,47 @@ msgstr "Вы можете сделать пожертвование через �
 
 #: tformdonatetrayslate.label2.caption
 msgid "BTC"
-msgstr "BTC"
+msgstr ""
 
 #: tformdonatetrayslate.label3.caption
 msgid "Bitcoin (BTC)"
-msgstr "Bitcoin (BTC)"
+msgstr ""
 
 #: tformdonatetrayslate.label4.caption
 msgid "ETH"
-msgstr "ETH"
+msgstr ""
 
 #: tformdonatetrayslate.label5.caption
 msgid "Ethereum (ERC20)"
-msgstr "Ethereum (ERC20)"
+msgstr ""
 
 #: tformdonatetrayslate.label6.caption
 msgctxt "tformdonatetrayslate.label6.caption"
 msgid "USDT"
-msgstr "USDT"
+msgstr ""
 
 #: tformdonatetrayslate.label7.caption
 msgid "ETH Ethereum (ERC20), BSC Binance Smart Chain (BEP20)"
-msgstr "ETH Ethereum (ERC20), BSC Binance Smart Chain (BEP20)"
+msgstr ""
 
 #: tformdonatetrayslate.label8.caption
 msgid "TRX Tron (TRC20)"
-msgstr "TRX Tron (TRC20)"
+msgstr ""
 
 #: tformdonatetrayslate.label9.caption
 msgctxt "tformdonatetrayslate.label9.caption"
 msgid "USDT"
-msgstr "USDT"
+msgstr ""
 
 #: tformdonatetrayslate.labelurl.caption
 msgctxt "tformdonatetrayslate.labelurl.caption"
 msgid "Changelly.com"
-msgstr "Changelly.com"
+msgstr ""
 
 #: tformdonatetrayslate.labelurl.hint
 msgctxt "tformdonatetrayslate.labelurl.hint"
 msgid "https://changelly.com/buy-crypto?amount=15&from=usd"
-msgstr "https://changelly.com/buy-crypto?amount=15&from=usd"
+msgstr ""
 
 #: tformdonatetrayslate.labelurl1.caption
 msgid "How to do it easily"
@@ -433,7 +433,7 @@ msgstr "Как это сделать просто"
 
 #: tformdonatetrayslate.labelurl1.hint
 msgid "https://plaintool.github.io/notetask/donate.htm"
-msgstr "https://plaintool.github.io/notetask/donate.htm"
+msgstr ""
 
 #: tformsettingstrayslate.btnapply.caption
 msgid "Apply"
@@ -451,7 +451,7 @@ msgstr "Шрифт..."
 #: tformsettingstrayslate.btnok.caption
 msgctxt "tformsettingstrayslate.btnok.caption"
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 #: tformsettingstrayslate.btnreset.caption
 msgctxt "tformsettingstrayslate.btnreset.caption"
@@ -699,103 +699,103 @@ msgstr "Выход"
 
 #: tformtrayslate.alangarabic.caption
 msgid "Arabic"
-msgstr "Arabic"
+msgstr ""
 
 #: tformtrayslate.alangbelarusian.caption
 msgid "Belarusian"
-msgstr "Belarusian"
+msgstr ""
 
 #: tformtrayslate.alangchinese.caption
 msgid "Chinese"
-msgstr "Chinese"
+msgstr ""
 
 #: tformtrayslate.alangczech.caption
 msgid "Czech"
-msgstr "Czech"
+msgstr ""
 
 #: tformtrayslate.alangdanish.caption
 msgid "Danish"
-msgstr "Danish"
+msgstr ""
 
 #: tformtrayslate.alangdutch.caption
 msgid "Dutch"
-msgstr "Dutch"
+msgstr ""
 
 #: tformtrayslate.alangenglish.caption
 msgid "English"
-msgstr "English"
+msgstr ""
 
 #: tformtrayslate.alangfinnish.caption
 msgid "Finnish"
-msgstr "Finnish"
+msgstr ""
 
 #: tformtrayslate.alangfrench.caption
 msgid "French"
-msgstr "French"
+msgstr ""
 
 #: tformtrayslate.alanggerman.caption
 msgid "German"
-msgstr "German"
+msgstr ""
 
 #: tformtrayslate.alanggreek.caption
 msgid "Greek"
-msgstr "Greek"
+msgstr ""
 
 #: tformtrayslate.alanghebrew.caption
 msgid "Hebrew"
-msgstr "Hebrew"
+msgstr ""
 
 #: tformtrayslate.alanghindi.caption
 msgid "Hindi"
-msgstr "Hindi"
+msgstr ""
 
 #: tformtrayslate.alangindonesian.caption
 msgid "Indonesian"
-msgstr "Indonesian"
+msgstr ""
 
 #: tformtrayslate.alangitalian.caption
 msgid "Italian"
-msgstr "Italian"
+msgstr ""
 
 #: tformtrayslate.alangjapanese.caption
 msgid "Japanese"
-msgstr "Japanese"
+msgstr ""
 
 #: tformtrayslate.alangkorean.caption
 msgid "Korean"
-msgstr "Korean"
+msgstr ""
 
 #: tformtrayslate.alangpolish.caption
 msgid "Polish"
-msgstr "Polish"
+msgstr ""
 
 #: tformtrayslate.alangportuguese.caption
 msgid "Portuguese"
-msgstr "Portuguese"
+msgstr ""
 
 #: tformtrayslate.alangromanian.caption
 msgid "Romanian"
-msgstr "Romanian"
+msgstr ""
 
 #: tformtrayslate.alangrussian.caption
 msgid "Russian"
-msgstr "Russian"
+msgstr ""
 
 #: tformtrayslate.alangspanish.caption
 msgid "Spanish"
-msgstr "Spanish"
+msgstr ""
 
 #: tformtrayslate.alangswedish.caption
 msgid "Swedish"
-msgstr "Swedish"
+msgstr ""
 
 #: tformtrayslate.alangturkish.caption
 msgid "Turkish"
-msgstr "Turkish"
+msgstr ""
 
 #: tformtrayslate.alangukrainian.caption
 msgid "Ukrainian"
-msgstr "Ukrainian"
+msgstr ""
 
 #: tformtrayslate.anewtranslate.hint
 msgid "New Translate"
@@ -821,7 +821,7 @@ msgstr "Перевести буфер обмена"
 #: tformtrayslate.caption
 msgctxt "tformtrayslate.caption"
 msgid "Trayslate"
-msgstr "Trayslate"
+msgstr ""
 
 #: tformtrayslate.menuconfig.caption
 msgid "Config"
@@ -837,4 +837,4 @@ msgstr "Недавние пары"
 
 #: tformtrayslate.menulanguage.caption
 msgid "Language"
-msgstr "Language"
+msgstr ""

@@ -29,13 +29,13 @@ object formSettingsTrayslate: TformSettingsTrayslate
       ClientWidth = 392
       object GroupRealTime: TGroupBox
         Left = 5
-        Height = 91
+        Height = 99
         Top = 173
         Width = 382
         Align = alTop
         BorderSpacing.Around = 5
         Caption = 'Real-Time Translation'
-        ClientHeight = 71
+        ClientHeight = 79
         ClientWidth = 378
         TabOrder = 2
         object CheckRealTime: TCheckBox
@@ -52,12 +52,13 @@ object formSettingsTrayslate: TformSettingsTrayslate
         end
         object LabelRealTimeDelay: TLabel
           Left = 8
-          Height = 26
+          Height = 32
           Top = 40
-          Width = 128
+          Width = 136
           Alignment = taRightJustify
           AutoSize = False
           Caption = 'Translation Delay, ms'
+          WordWrap = True
         end
         object SpinRealTimeDelay: TSpinEdit
           Left = 152
@@ -101,7 +102,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Left = 8
           Height = 32
           Top = 40
-          Width = 128
+          Width = 136
           Alignment = taRightJustify
           AutoSize = False
           Caption = 'Lang Detect Config'
@@ -164,7 +165,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Left = 16
           Height = 57
           Top = 8
-          Width = 256
+          Width = 240
           Anchors = [akTop, akLeft, akRight]
           BevelOuter = bvNone
           Caption = 'Default, 0'
@@ -175,20 +176,20 @@ object formSettingsTrayslate: TformSettingsTrayslate
           TabOrder = 0
         end
         object BtnFont: TButton
-          Left = 280
+          Left = 264
           Height = 25
           Top = 8
-          Width = 75
+          Width = 91
           Anchors = [akTop, akRight]
           Caption = 'Font...'
           TabOrder = 1
           OnClick = BtnFontClick
         end
         object BtnReset: TButton
-          Left = 280
+          Left = 264
           Height = 25
           Top = 40
-          Width = 75
+          Width = 91
           Anchors = [akTop, akRight]
           Caption = 'Reset'
           Enabled = False
@@ -233,22 +234,24 @@ object formSettingsTrayslate: TformSettingsTrayslate
           OnChange = SettingChange
         end
         object LabelIconBackground: TLabel
-          Left = 24
+          Left = 8
           Height = 32
           Top = 8
-          Width = 112
+          Width = 136
           Alignment = taRightJustify
           AutoSize = False
           Caption = 'Background Color'
+          WordWrap = True
         end
         object LabelIconFont: TLabel
-          Left = 24
-          Height = 26
+          Left = 8
+          Height = 32
           Top = 40
-          Width = 112
+          Width = 136
           Alignment = taRightJustify
           AutoSize = False
           Caption = 'Font Color'
+          WordWrap = True
         end
         object ColorIconFont: TColorBox
           Left = 152
@@ -264,13 +267,14 @@ object formSettingsTrayslate: TformSettingsTrayslate
           OnChange = SettingChange
         end
         object LabelIconFont1: TLabel
-          Left = 24
-          Height = 26
+          Left = 8
+          Height = 32
           Top = 72
-          Width = 112
+          Width = 136
           Alignment = taRightJustify
           AutoSize = False
           Caption = 'Font Name'
+          WordWrap = True
         end
         object ComboIconFontName: TComboBox
           Left = 152
@@ -308,13 +312,14 @@ object formSettingsTrayslate: TformSettingsTrayslate
           OnChange = SettingChange
         end
         object LabelMaxLangPairs: TLabel
-          Left = 29
-          Height = 26
+          Left = 13
+          Height = 32
           Top = 9
-          Width = 112
+          Width = 136
           Alignment = taRightJustify
           AutoSize = False
           Caption = 'Max Pairs'
+          WordWrap = True
         end
         object CheckAutoAddLangPairs: TCheckBox
           Left = 29
