@@ -16,9 +16,10 @@
         <TextDesc Value=""/>
       </XPManifest>
       <Icon Value="0"/>
-      <Resources Count="2">
+      <Resources Count="3">
         <Resource_0 FileName="locale\trayslate.en.po" Type="RCDATA" ResourceName="TRAYSLATE.EN"/>
         <Resource_1 FileName="locale\trayslate.ru.po" Type="RCDATA" ResourceName="TRAYSLATE.RU"/>
+        <Resource_2 FileName="locale\trayslate.ar.po" Type="RCDATA" ResourceName="TRAYSLATE.AR"/>
       </Resources>
     </General>
     <i18n>

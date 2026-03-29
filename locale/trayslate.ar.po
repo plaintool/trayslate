@@ -5,7 +5,7 @@ msgstr ""
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: ru\n"
+"Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,47 +14,47 @@ msgstr ""
 #: formconfig.rcaption
 msgctxt "formconfig.rcaption"
 msgid "Config Editor"
-msgstr "Редактор конфигурации"
+msgstr "محرر التكوين"
 
 #: formconfig.rclearlanguages
 msgid "The list is already filled. Do you want to clear it?"
-msgstr "Список уже заполнен. Очистить его?"
+msgstr "القائمة ممتلئة بالفعل. هل تريد مسحها؟"
 
 #: formconfig.rdeleteconfig
 msgid "Are you sure you want to delete config"
-msgstr "Вы уверены, что хотите удалить конфигурацию"
+msgstr "هل أنت متأكد أنك تريد حذف التكوين"
 
 #: formconfig.rdeleteconfigcaption
 msgid "Delete config"
-msgstr "Удалить конфигурацию"
+msgstr "حذف التكوين"
 
 #: formconfig.rnamequestion
 msgctxt "formconfig.rnamequestion"
 msgid "Enter new config file name:"
-msgstr "Введите имя нового файла конфигурации:"
+msgstr "أدخل اسم ملف التكوين الجديد:"
 
 #: formconfig.rneedsave
 msgid "The configuration was modified. Save changes?"
-msgstr "Конфигурация была изменена. Сохранить изменения?"
+msgstr "تم تعديل التكوين. هل تريد حفظ التغييرات؟"
 
 #: formsettings.rdefaultfont
 msgid "Default"
-msgstr "По умолчанию"
+msgstr "Default"
 
 #: mainform.rnoconfig
 msgctxt "mainform.rnoconfig"
 msgid "Configuration file not found! Create it in the configuration editor."
-msgstr "Файл конфигурации не найден! Создайте его в редакторе конфигурации."
+msgstr "ملف التكوين غير موجود! قم بإنشائه في محرر التكوين."
 
 #: mainform.rswap
 #, object-pascal-format
 msgctxt "mainform.rswap"
 msgid "Swap (%s) with text (%s)"
-msgstr "Поменять (%s) с текстом (%s)"
+msgstr "استبدال (%s) بالنص (%s)"
 
 #: mainform.rtoremovepair
 msgid " to remove pair"
-msgstr " для удаления пары"
+msgstr " لإزالة الزوج"
 
 #: mainform.rtrayslate
 msgctxt "mainform.rtrayslate"
@@ -64,15 +64,15 @@ msgstr "Trayslate"
 #: systemtool.newversion
 #, object-pascal-format
 msgid "New version available: %s. Open GitHub page to download?"
-msgstr "Доступна новая версия: %s. Открыть страницу на GitHub для загрузки?"
+msgstr "يتوفر إصدار جديد: %s. هل تريد فتح صفحة GitHub للتنزيل؟"
 
 #: systemtool.newversioncheckerror
 msgid "Error checking version:"
-msgstr "Ошибка при проверке версии:"
+msgstr "خطأ في التحقق من الإصدار:"
 
 #: systemtool.newversionuptodate
 msgid "Your version is up to date."
-msgstr "Ваша версия актуальна."
+msgstr "إصدارك محدث."
 
 #: tformabouttrayslate.buttonok.caption
 msgctxt "tformabouttrayslate.buttonok.caption"
@@ -81,19 +81,19 @@ msgstr "OK"
 
 #: tformabouttrayslate.caption
 msgid "About"
-msgstr "О программе"
+msgstr "حول"
 
 #: tformabouttrayslate.labelby.caption
 msgid "by Alexander Tverskoy is licensed under"
-msgstr "от Александра Тверского распространяется под"
+msgstr "بواسطة Alexander Tverskoy مرخص تحت"
 
 #: tformabouttrayslate.labelby1.caption
 msgid "the GNU General Public License, Version 3 "
-msgstr "лицензией GNU General Public License, версия 3 "
+msgstr "رخصة جنو العمومية العامة، الإصدار 3 "
 
 #: tformabouttrayslate.labellic.caption
 msgid "For questions or feedback, contact me at"
-msgstr "По вопросам или отзывам свяжитесь со мной по адресу"
+msgstr "للاستفسارات أو الملاحظات، تواصل معي على"
 
 #: tformabouttrayslate.labellicurl.caption
 msgid "mailto:astverskoy@gmail.com"
@@ -106,42 +106,42 @@ msgstr "Trayslate © 2026"
 #: tformconfigtrayslate.asave.caption
 msgctxt "tformconfigtrayslate.asave.caption"
 msgid "Save"
-msgstr "Сохранить"
+msgstr "حفظ"
 
 #: tformconfigtrayslate.btnclose.caption
 msgctxt "tformconfigtrayslate.btnclose.caption"
 msgid "Close"
-msgstr "Закрыть"
+msgstr "إغلاق"
 
 #: tformconfigtrayslate.btninitparameterstest.hint
 msgid "Execute request and view the parameters"
-msgstr "Выполнить запрос и посмотреть параметры"
+msgstr "تنفيذ الطلب وعرض المعلمات"
 
 #: tformconfigtrayslate.btniniturltest.hint
 msgid "Execute request and view the result"
-msgstr "Выполнить запрос и посмотреть результат"
+msgstr "تنفيذ الطلب وعرض النتيجة"
 
 #: tformconfigtrayslate.btnpostdatatest.hint
 msgid "Execute post request and view the result"
-msgstr "Выполнить POST-запрос и посмотреть результат"
+msgstr "تنفيذ طلب POST وعرض النتيجة"
 
 #: tformconfigtrayslate.btnurltest.hint
 msgid "Execute get request and view the result"
-msgstr "Выполнить GET-запрос и посмотреть результат"
+msgstr "تنفيذ طلب GET وعرض النتيجة"
 
 #: tformconfigtrayslate.caption
 msgctxt "tformconfigtrayslate.caption"
 msgid "Config Editor"
-msgstr "Редактор конфигурации"
+msgstr "محرر التكوين"
 
 #: tformconfigtrayslate.checkautoswap.caption
 msgctxt "tformconfigtrayslate.checkautoswap.caption"
 msgid "Auto-swap language pair"
-msgstr "Автоматически менять языковую пару"
+msgstr "تبديل زوج اللغات تلقائياً"
 
 #: tformconfigtrayslate.checkencrypttext.caption
 msgid "Encode {text} parameter"
-msgstr "Кодировать параметр {text}"
+msgstr "ترميز المعامل {text}"
 
 #: tformconfigtrayslate.combomethod.text
 msgid "GET"
@@ -154,30 +154,30 @@ msgstr "None"
 #: tformconfigtrayslate.groupboxservice.caption
 msgctxt "tformconfigtrayslate.groupboxservice.caption"
 msgid "Service"
-msgstr "Сервис"
+msgstr "الخدمة"
 
 #: tformconfigtrayslate.groupinitparameters.caption
 msgid "Initial Request"
-msgstr "Начальный запрос"
+msgstr "الطلب الأولي"
 
 #: tformconfigtrayslate.grouplanguages.caption
 msgctxt "tformconfigtrayslate.grouplanguages.caption"
 msgid "Languages"
-msgstr "Языки"
+msgstr "اللغات"
 
 #: tformconfigtrayslate.grouplanguagestarget.caption
 msgctxt "tformconfigtrayslate.grouplanguagestarget.caption"
 msgid "Target Languages"
-msgstr "Целевые языки"
+msgstr "اللغات الهدف"
 
 #: tformconfigtrayslate.grouprequest.caption
 msgid "Request"
-msgstr "Запрос"
+msgstr "الطلب"
 
 #: tformconfigtrayslate.groupresponse.caption
 msgctxt "tformconfigtrayslate.groupresponse.caption"
 msgid "Response"
-msgstr "Ответ"
+msgstr "الاستجابة"
 
 #: tformconfigtrayslate.labelaccept.caption
 msgid "Accept"
@@ -190,15 +190,15 @@ msgstr "Content Type"
 
 #: tformconfigtrayslate.labelfilllanguages.caption
 msgid "Fill with default"
-msgstr "Заполнить по умолчанию"
+msgstr "ملء بالقيم الافتراضية"
 
 #: tformconfigtrayslate.labelheaders.caption
 msgid "Additional request headers in key=value format, key: value is also supported"
-msgstr "Дополнительные заголовки запроса в формате key=value, также поддерживается key: value"
+msgstr "رؤوس طلب إضافية بصيغة key=value، كما يُدعم key: value"
 
 #: tformconfigtrayslate.labelinitheaders.caption
 msgid "Additional initial request headers in key=value format, key: value is also supported"
-msgstr "Дополнительные заголовки начального запроса в формате key=value, также поддерживается key: value"
+msgstr "رؤوس طلب أولي إضافية بصيغة key=value، كما يُدعم key: value"
 
 #: tformconfigtrayslate.labelinitheaders2.caption
 msgctxt "tformconfigtrayslate.labelinitheaders2.caption"
@@ -208,24 +208,24 @@ msgstr "Headers"
 #: tformconfigtrayslate.labelinitlivetime.caption
 msgctxt "tformconfigtrayslate.labelinitlivetime.caption"
 msgid "Live time"
-msgstr "Время жизни"
+msgstr "وقت الصلاحية"
 
 #: tformconfigtrayslate.labelinitparameters.caption
 msgid "Parameters name=regexp are extracted from the response and used by name in requests"
-msgstr "Параметры name=regexp извлекаются из ответа и используются по имени в запросах"
+msgstr "يتم استخراج المعاملات name=regexp من الاستجابة واستخدامها بالاسم في الطلبات"
 
 #: tformconfigtrayslate.labelinitparameters1.caption
 msgid "Time in seconds to refresh parameters with a new request (0 = every request)"
-msgstr "Время в секундах для обновления параметров новым запросом (0 = каждый запрос)"
+msgstr "الوقت بالثواني لتحديث المعاملات بطلب جديد (0 = كل طلب)"
 
 #: tformconfigtrayslate.labelinitparameters2.caption
 msgctxt "tformconfigtrayslate.labelinitparameters2.caption"
 msgid "Parameters"
-msgstr "Параметры"
+msgstr "المعاملات"
 
 #: tformconfigtrayslate.labelinitparemeters.caption
 msgid "Initial GET request to obtain required parameters."
-msgstr "Начальный GET-запрос для получения необходимых параметров."
+msgstr "طلب GET أولي للحصول على المعاملات المطلوبة."
 
 #: tformconfigtrayslate.labeliniturl.caption
 msgctxt "tformconfigtrayslate.labeliniturl.caption"
@@ -248,41 +248,41 @@ msgid ""
 "Examples:\n"
 "responseData/translatedText; matches/*#10/translation; /texts/text; {literal text#10}; /result/text; /text{ ({(\\w+)})}; !/translations{Error: No data!#10}; /translations/0/text"
 msgstr ""
-"Json Pointer: Используйте / для уровней, ключи для объектов и числа для индексов. Используйте * для всех элементов, *#10 для объединения элементов с новой строки. Используйте ~ в конце пути для возврата сырой JSON-ветки. Разделяйте несколько сегментов точкой с запятой ;.\n"
-"Литерал: Текстовый блок в {…}. Специальный тег #10 для новых строк. Используйте {{regex}} внутри для извлечения данных прямо в текст.\n"
-"Логика: Если Pointer в сегменте пуст, весь сегмент пропускается. Если в сегменте нет Pointer, обрабатываются только литеральные текстовые блоки со встроенными регулярными выражениями.\n"
-"Regex: {префикс {regex[индекс]} суффикс} внутри текстового блока. Если [индекс] не указан, используется первое совпадение. Индекс может быть числом, [*] (объединить пробелом) или [*#10] (объединить с новой строкой). Если regex не находит совпадений, весь блок {…} удаляется. Использование ~ внутри regex возвращает весь текст.\n"
-"Инверсия: Начните сегмент с ! (например !/path{Error}) чтобы показывать его текст только если данные Pointer отсутствуют или JSON недействителен.\n"
-"Комментарии: комментарии /* текст */ удаляются из всего выражения перед обработкой.\n"
-"Примеры:\n"
+"Json Pointer: استخدم / للمستويات، والمفاتيح للكائنات، والأرقام للفهارس. استخدم * لجميع العناصر، و *#10 لضم العناصر بسطر جديد. استخدم ~ في نهاية المسار لإرجاع فرع JSON الخام. افصل بين عدة أجزاء بفاصلة منقوطة ;.\n"
+"النص الحرفي: كتلة نصية داخل {…}. الوسم الخاص #10 للأسطر الجديدة. استخدم {{regex}} داخلها لاستخراج البيانات مباشرة إلى النص.\n"
+"المنطق: إذا كان المؤشر في جزء فارغاً، يتم تخطي الجزء بالكامل. إذا كان الجزء لا يحتوي على مؤشر، تتم معالجة كتل النص الحرفي فقط التي تحتوي على تعبيرات منتظمة مدمجة.\n"
+"التعبير المنتظم: {بادئة {تعبير منتظم[فهرس]} لاحقة} داخل كتلة نصية. إذا لم يتم تحديد [فهرس]، يتم استخدام أول تطابق. يمكن أن يكون الفهرس رقماً، أو [*] (الضم بمسافة)، أو [*#10] (الضم بسطر جديد). إذا لم يجد التعبير المنتظم تطابقاً، تتم إزالة كتلة {…} بالكامل. استخدام ~ داخل تعبير منتظم يعيد النص بالكامل.\n"
+"العكس: ابدأ جزءاً بـ ! (مثل !/path{Error}) لإظهار نصه فقط إذا كانت بيانات المؤشر مفقودة أو JSON غير صالح.\n"
+"التعليق: يتم إزالة التعليقات /* نص */ من التعبير بالكامل قبل أي معالجة.\n"
+"أمثلة:\n"
 "responseData/translatedText; matches/*#10/translation; /texts/text; {literal text#10}; /result/text; /text{ ({(\\w+)})}; !/translations{Error: No data!#10}; /translations/0/text"
 
 #: tformconfigtrayslate.labellanguages.caption
 msgctxt "tformconfigtrayslate.labellanguages.caption"
 msgid "Supported languages e.g. en=en-US (en - internal, en-US - service). \"empty\" - do not send."
-msgstr "Поддерживаемые языки, например en=en-US (en - внутренний, en-US - сервисный). \"empty\" - не отправлять."
+msgstr "اللغات المدعومة مثلاً en=en-US (en - داخلي، en-US - الخدمة). \"empty\" - لا ترسل."
 
 #: tformconfigtrayslate.labellanguages1.caption
 msgid "Value type for populating names. None keeps originals; None and Unit are case-sensitive."
-msgstr "Тип значения для заполнения имен. None сохраняет оригиналы; None и Unit чувствительны к регистру."
+msgstr "نوع القيمة لتعبئة الأسماء. None يحتفظ بالأصول؛ None و Unit حساسان لحالة الأحرف."
 
 #: tformconfigtrayslate.labellanguagestarget.caption
 msgid ""
 "Target languages e.g. en=en-US, en - internal, en-US - service code.\n"
 "If not specified, both source and target languages are taken from the languages section."
 msgstr ""
-"Целевые языки, например en=en-US, en - внутренний, en-US - сервисный код.\n"
-"Если не указано, исходные и целевые языки берутся из раздела языков."
+"اللغات الهدف مثلاً en=en-US، en - داخلي، en-US - رمز الخدمة.\n"
+"إذا لم يتم تحديدها، يتم أخذ كل من اللغات المصدر والهدف من قسم اللغات."
 
 #: tformconfigtrayslate.labelmethod.caption
 msgctxt "tformconfigtrayslate.labelmethod.caption"
 msgid "Method"
-msgstr "Метод"
+msgstr "الطريقة"
 
 #: tformconfigtrayslate.labelparemeters.caption
 msgctxt "tformconfigtrayslate.labelparemeters.caption"
 msgid "Use parameters: {text} – input text, {source} – source language, {target} – target language. Prefix the name with ! for lowercase or ^ for uppercase value. Also supported {timestamp}, {rand}. Use {parameter} from the parameters page."
-msgstr "Используйте параметры: {text} – входной текст, {source} – исходный язык, {target} – целевой язык. Добавьте префикс ! для значения в нижнем регистре или ^ для верхнего регистра. Также поддерживаются {timestamp}, {rand}. Используйте {parameter} со страницы параметров."
+msgstr "استخدم المعاملات: {text} – النص المدخل، {source} – اللغة المصدر، {target} – اللغة الهدف. أضف بادئة ! للقيمة بأحرف صغيرة أو ^ لأحرف كبيرة. مدعوم أيضاً {timestamp}، {rand}. استخدم {parameter} من صفحة المعاملات."
 
 #: tformconfigtrayslate.labelpostdata.caption
 msgid "Post Data"
@@ -295,11 +295,11 @@ msgstr "Headers"
 
 #: tformconfigtrayslate.labelservicename.caption
 msgid "Name"
-msgstr "Имя"
+msgstr "الاسم"
 
 #: tformconfigtrayslate.labelserviceorder.caption
 msgid "Order"
-msgstr "Порядок"
+msgstr "الترتيب"
 
 #: tformconfigtrayslate.labelurl.caption
 msgctxt "tformconfigtrayslate.labelurl.caption"
@@ -313,40 +313,40 @@ msgstr "User Agent"
 
 #: tformconfigtrayslate.labelvaluetype.caption
 msgid "Value Type"
-msgstr "Тип значения"
+msgstr "نوع القيمة"
 
 #: tformconfigtrayslate.pagelanguages.caption
 msgctxt "tformconfigtrayslate.pagelanguages.caption"
 msgid "Languages"
-msgstr "Языки"
+msgstr "اللغات"
 
 #: tformconfigtrayslate.pagelanguagestarget.caption
 msgctxt "tformconfigtrayslate.pagelanguagestarget.caption"
 msgid "Target Languages"
-msgstr "Целевые языки"
+msgstr "اللغات الهدف"
 
 #: tformconfigtrayslate.pageparameters.caption
 msgctxt "tformconfigtrayslate.pageparameters.caption"
 msgid "Parameters"
-msgstr "Параметры"
+msgstr "المعاملات"
 
 #: tformconfigtrayslate.pageresponse.caption
 msgctxt "tformconfigtrayslate.pageresponse.caption"
 msgid "Response"
-msgstr "Ответ"
+msgstr "الاستجابة"
 
 #: tformconfigtrayslate.pageservice.caption
 msgctxt "tformconfigtrayslate.pageservice.caption"
 msgid "Service"
-msgstr "Сервис"
+msgstr "الخدمة"
 
 #: tformconfigtrayslate.sbcopyconfig.hint
 msgid "Copy configuration"
-msgstr "Копировать конфигурацию"
+msgstr "نسخ التكوين"
 
 #: tformconfigtrayslate.sbnewconfig.hint
 msgid "New configuration"
-msgstr "Новая конфигурация"
+msgstr "تكوين جديد"
 
 #: tformdonatetrayslate.buttonok.caption
 msgctxt "tformdonatetrayslate.buttonok.caption"
@@ -355,7 +355,7 @@ msgstr "OK"
 
 #: tformdonatetrayslate.caption
 msgid "Buy me a coffee"
-msgstr "Поддержать проект"
+msgstr "ادعم المشروع"
 
 #: tformdonatetrayslate.editwallet1.text
 msgid "bc1qp8m5j75yd58zhf9hl0a753shay093j2548f84e"
@@ -377,11 +377,11 @@ msgstr "TYSJJHjpu6aqr8UsGaCTLxDyh6HKWoNQ8k"
 
 #: tformdonatetrayslate.label1.caption
 msgid "Hey there! Fuel this passion project with a little caffeine boost! Every donation helps keep the code rolling and the coffee brewing. Thanks for supporting the work and the developer behind it!"
-msgstr "Привет! Поддержите этот проект небольшим кофеиновым бустом! Каждое пожертвование помогает поддерживать код и кофе в работе. Спасибо за поддержку!"
+msgstr "مرحباً! ادعم هذا المشروع العاطفي بقليل من الكافيين! كل تبرع يساعد في استمرار الكود وتخمير القهوة. شكراً لدعمك العمل والمطور وراءه!"
 
 #: tformdonatetrayslate.label10.caption
 msgid "Feel free to make a donation through any exchange, for example:"
-msgstr "Вы можете сделать пожертвование через любой обменник, например:"
+msgstr "يمكنك التبرع عبر أي منصة تبادل، على سبيل المثال:"
 
 #: tformdonatetrayslate.label2.caption
 msgid "BTC"
@@ -429,7 +429,7 @@ msgstr "https://changelly.com/buy-crypto?amount=15&from=usd"
 
 #: tformdonatetrayslate.labelurl1.caption
 msgid "How to do it easily"
-msgstr "Как это сделать просто"
+msgstr "كيف تفعل ذلك بسهولة"
 
 #: tformdonatetrayslate.labelurl1.hint
 msgid "https://plaintool.github.io/notetask/donate.htm"
@@ -437,16 +437,16 @@ msgstr "https://plaintool.github.io/notetask/donate.htm"
 
 #: tformsettingstrayslate.btnapply.caption
 msgid "Apply"
-msgstr "Применить"
+msgstr "تطبيق"
 
 #: tformsettingstrayslate.btncancel.caption
 msgid "Cancel"
-msgstr "Отмена"
+msgstr "إلغاء"
 
 #: tformsettingstrayslate.btnfont.caption
 msgctxt "tformsettingstrayslate.btnfont.caption"
 msgid "Font..."
-msgstr "Шрифт..."
+msgstr "الخط..."
 
 #: tformsettingstrayslate.btnok.caption
 msgctxt "tformsettingstrayslate.btnok.caption"
@@ -456,246 +456,246 @@ msgstr "OK"
 #: tformsettingstrayslate.btnreset.caption
 msgctxt "tformsettingstrayslate.btnreset.caption"
 msgid "Reset"
-msgstr "Сбросить"
+msgstr "إعادة تعيين"
 
 #: tformsettingstrayslate.caption
 msgctxt "tformsettingstrayslate.caption"
 msgid "Settings"
-msgstr "Настройки"
+msgstr "الإعدادات"
 
 #: tformsettingstrayslate.checkautoaddlangpairs.caption
 msgid "Auto-Add On Pair Change"
-msgstr "Автодобавление при смене пары"
+msgstr "إضافة تلقائية عند تغيير الزوج"
 
 #: tformsettingstrayslate.checkautoaddlangpairs.hint
 msgid "Automatically adds a new language pair when you switch languages"
-msgstr "Автоматически добавляет новую языковую пару при смене языков"
+msgstr "يضيف تلقائياً زوج لغات جديد عند تبديل اللغات"
 
 #: tformsettingstrayslate.checkautostart.caption
 msgid "Launch At System Startup"
-msgstr "Запуск при старте системы"
+msgstr "التشغيل عند بدء النظام"
 
 #: tformsettingstrayslate.checkautostart.hint
 msgid "Start the application automatically when the computer boots"
-msgstr "Автоматически запускать приложение при загрузке компьютера"
+msgstr "تشغيل التطبيق تلقائياً عند إقلاع الحاسوب"
 
 #: tformsettingstrayslate.checkautoswap.caption
 msgctxt "tformsettingstrayslate.checkautoswap.caption"
 msgid "Auto-Swap Language Pair"
-msgstr "Автоматически менять языковую пару"
+msgstr "تبديل زوج اللغات تلقائياً"
 
 #: tformsettingstrayslate.checkautoswap.hint
 msgid "Automatically detect input language and swap pair if needed, does not work during Real-Time Translation"
-msgstr "Автоматически определять язык ввода и менять пару при необходимости, не работает во время перевода по мере ввода"
+msgstr "يكتشف تلقائياً لغة الإدخال ويبدل الزوج إذا لزم الأمر، لا يعمل أثناء الترجمة الفورية"
 
 #: tformsettingstrayslate.checkrealtime.caption
 msgctxt "tformsettingstrayslate.checkrealtime.caption"
 msgid "Translate As You Type"
-msgstr "Перевод по мере ввода"
+msgstr "الترجمة أثناء الكتابة"
 
 #: tformsettingstrayslate.checkrealtime.hint
 msgctxt "tformsettingstrayslate.checkrealtime.hint"
 msgid "Automatically translate text while typing"
-msgstr "Автоматически переводить текст во время набора"
+msgstr "ترجمة النص تلقائياً أثناء الكتابة"
 
 #: tformsettingstrayslate.checktwolang.caption
 msgid "Show Language Pair"
-msgstr "Показывать языковую пару"
+msgstr "إظهار زوج اللغات"
 
 #: tformsettingstrayslate.checktwolang.hint
 msgid "Display source and/or target language on the tray icon"
-msgstr "Отображать исходный и/или целевой язык на иконке в трее"
+msgstr "عرض اللغة المصدر و/أو الهدف على أيقونة العلبة"
 
 #: tformsettingstrayslate.combolangdetect.hint
 msgid "Config that auto-detects the target language for the selected language pair"
-msgstr "Конфигурация, которая автоматически определяет целевой язык для выбранной пары"
+msgstr "تكوين يكتشف تلقائياً اللغة الهدف لزوج اللغات المحدد"
 
 #: tformsettingstrayslate.editapp.hint
 msgctxt "tformsettingstrayslate.editapp.hint"
 msgid "Default Ctrl+Shift+A"
-msgstr "По умолчанию Ctrl+Shift+A"
+msgstr "الافتراضي Ctrl+Shift+A"
 
 #: tformsettingstrayslate.edittransclipboard.hint
 msgctxt "tformsettingstrayslate.edittransclipboard.hint"
 msgid "Default Ctrl+Shift+R"
-msgstr "По умолчанию Ctrl+Shift+R"
+msgstr "الافتراضي Ctrl+Shift+R"
 
 #: tformsettingstrayslate.edittranscontrol.hint
 msgctxt "tformsettingstrayslate.edittranscontrol.hint"
 msgid "Default Ctrl+Shift+V"
-msgstr "По умолчанию Ctrl+Shift+V"
+msgstr "الافتراضي Ctrl+Shift+V"
 
 #: tformsettingstrayslate.edittransfromclipboard.hint
 msgctxt "tformsettingstrayslate.edittransfromclipboard.hint"
 msgid "Default Ctrl+Shift+T"
-msgstr "По умолчанию Ctrl+Shift+T"
+msgstr "الافتراضي Ctrl+Shift+T"
 
 #: tformsettingstrayslate.edittransfromcontrol.hint
 msgctxt "tformsettingstrayslate.edittransfromcontrol.hint"
 msgid "Default Ctrl+Shift+C"
-msgstr "По умолчанию Ctrl+Shift+C"
+msgstr "الافتراضي Ctrl+Shift+C"
 
 #: tformsettingstrayslate.edittransswap.hint
 msgctxt "tformsettingstrayslate.edittransswap.hint"
 msgid "Default Ctrl+Shift+S"
-msgstr "По умолчанию Ctrl+Shift+S"
+msgstr "الافتراضي Ctrl+Shift+S"
 
 #: tformsettingstrayslate.groupapp.caption
 msgid "Toggle Application (Tray Icon Click)"
-msgstr "Показать / скрыть приложение (клик по иконке в трее)"
+msgstr "تبديل التطبيق (نقرة أيقونة العلبة)"
 
 #: tformsettingstrayslate.groupautostart.caption
 msgid "Autostart"
-msgstr "Автозапуск"
+msgstr "تشغيل تلقائي"
 
 #: tformsettingstrayslate.groupautoswap.caption
 msgid "Auto-Swap Languages"
-msgstr "Авто-переключение языков"
+msgstr "تبديل اللغات تلقائياً"
 
 #: tformsettingstrayslate.groupfont.caption
 msgctxt "tformsettingstrayslate.groupfont.caption"
 msgid "Font"
-msgstr "Шрифт"
+msgstr "الخط"
 
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
-msgstr "Недавние языковые пары"
+msgstr "أزواج اللغات الحديثة"
 
 #: tformsettingstrayslate.grouprealtime.caption
 msgid "Real-Time Translation"
-msgstr "Перевод по мере ввода"
+msgstr "الترجمة الفورية"
 
 #: tformsettingstrayslate.grouptransclipboard.caption
 msgid "Translate Clipboard to Clipboard"
-msgstr "Перевести буфер обмена в буфер обмена"
+msgstr "ترجمة الحافظة إلى الحافظة"
 
 #: tformsettingstrayslate.grouptranscontrol.caption
 msgid "Translate In Active Application Selection"
-msgstr "Перевести в выделенном тексте активного приложения"
+msgstr "ترجمة النص المحدد في التطبيق النشط"
 
 #: tformsettingstrayslate.grouptransfromclipboard.caption
 msgid "Translate From Clipboard (Tray Icon Double-Click)"
-msgstr "Перевести из буфера обмена (двойной клик по иконке в трее)"
+msgstr "ترجمة من الحافظة (نقرة مزدوجة على أيقونة العلبة)"
 
 #: tformsettingstrayslate.grouptransfromcontrol.caption
 msgid "Translate From Active Application Selection"
-msgstr "Перевести выделенный текст в активном приложении"
+msgstr "ترجمة النص المحدد من التطبيق النشط"
 
 #: tformsettingstrayslate.grouptransswap.caption
 msgctxt "tformsettingstrayslate.grouptransswap.caption"
 msgid "Swap Languages (Tray Icon Middle-Click)"
-msgstr "Поменять языки (средний клик по иконке в трее)"
+msgstr "تبديل اللغات (نقرة وسطى على أيقونة العلبة)"
 
 #: tformsettingstrayslate.grouptrayicon.caption
 msgid "Tray Icon"
-msgstr "Иконка в трее"
+msgstr "أيقونة العلبة"
 
 #: tformsettingstrayslate.labelapp.caption
 msgctxt "tformsettingstrayslate.labelapp.caption"
 msgid "Shows or hides the main application window"
-msgstr "Показывает или скрывает главное окно приложения"
+msgstr "يظهر أو يخفي نافذة التطبيق الرئيسية"
 
 #: tformsettingstrayslate.labeliconbackground.caption
 msgid "Background Color"
-msgstr "Цвет фона"
+msgstr "لون الخلفية"
 
 #: tformsettingstrayslate.labeliconbackground1.caption
 msgctxt "tformsettingstrayslate.labeliconbackground1.caption"
 msgid "Lang Detect Config"
-msgstr "Конфигурация определения языка"
+msgstr "تكوين كشف اللغة"
 
 #: tformsettingstrayslate.labeliconfont.caption
 msgid "Font Color"
-msgstr "Цвет шрифта"
+msgstr "لون الخط"
 
 #: tformsettingstrayslate.labeliconfont1.caption
 msgid "Font Name"
-msgstr "Название шрифта"
+msgstr "اسم الخط"
 
 #: tformsettingstrayslate.labelmaxlangpairs.caption
 msgctxt "tformsettingstrayslate.labelmaxlangpairs.caption"
 msgid "Max Pairs"
-msgstr "Макс. пар"
+msgstr "الحد الأقصى للأزواج"
 
 #: tformsettingstrayslate.labelrealtimedelay.caption
 msgid "Translation Delay, ms"
-msgstr "Задержка перевода, мс"
+msgstr "تأخير الترجمة، مللي ثانية"
 
 #: tformsettingstrayslate.labeltransclipboard.caption
 msgctxt "tformsettingstrayslate.labeltransclipboard.caption"
 msgid "Translates the current text in clipboard and copies the result to the clipboard"
-msgstr "Переводит текущий текст в буфере обмена и копирует результат в буфер обмена"
+msgstr "يترجم النص الحالي في الحافظة وينسخ النتيجة إلى الحافظة"
 
 #: tformsettingstrayslate.labeltranscontrol.caption
 msgctxt "tformsettingstrayslate.labeltranscontrol.caption"
 msgid "Replaces the selected text in the active application with the translation"
-msgstr "Заменяет выделенный текст в активном приложении на перевод"
+msgstr "يستبدل النص المحدد في التطبيق النشط بالترجمة"
 
 #: tformsettingstrayslate.labeltransfromclipboard.caption
 msgctxt "tformsettingstrayslate.labeltransfromclipboard.caption"
 msgid "Translates the current text from the clipboard"
-msgstr "Переводит текущий текст из буфера обмена"
+msgstr "يترجم النص الحالي من الحافظة"
 
 #: tformsettingstrayslate.labeltransfromcontrol.caption
 msgctxt "tformsettingstrayslate.labeltransfromcontrol.caption"
 msgid "Translates the selected text from the active application"
-msgstr "Переводит выделенный текст из активного приложения"
+msgstr "يترجم النص المحدد من التطبيق النشط"
 
 #: tformsettingstrayslate.labeltransswap.caption
 msgctxt "tformsettingstrayslate.labeltransswap.caption"
 msgid "Swaps the source and target languages"
-msgstr "Меняет местами исходный и целевой языки"
+msgstr "يبدل بين اللغة المصدر والهدف"
 
 #: tformsettingstrayslate.pagegeneral.caption
 msgid "General"
-msgstr "Основные"
+msgstr "عام"
 
 #: tformsettingstrayslate.pagehotkeys.caption
 msgid "Global Hotkeys"
-msgstr "Глобальные горячие клавиши"
+msgstr "مفاتيح الاختصار العامة"
 
 #: tformsettingstrayslate.pageinterface.caption
 msgctxt "tformsettingstrayslate.pageinterface.caption"
 msgid "Interface"
-msgstr "Интерфейс"
+msgstr "الواجهة"
 
 #: tformsettingstrayslate.panelfont.caption
 msgctxt "tformsettingstrayslate.panelfont.caption"
 msgid "Default, 0"
-msgstr "По умолчанию, 0"
+msgstr "الافتراضي، 0"
 
 #: tformsettingstrayslate.spinmaxlangpairs.hint
 msgid "Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel"
-msgstr "Количество недавних пар на панели; пары сдвигаются вправо при добавлении; нулевое значение скрывает панель"
+msgstr "عدد الأزواج الحديثة في اللوحة؛ تتحرك الأزواج يميناً عند الإضافة؛ القيمة صفر تخفي اللوحة"
 
 #: tformsettingstrayslate.spinrealtimedelay.hint
 msgid "Translation Delay in milliseconds"
-msgstr "Задержка перевода в миллисекундах"
+msgstr "تأخير الترجمة بالمللي ثانية"
 
 #: tformtrayslate.aabout.caption
 msgid "About..."
-msgstr "О программе..."
+msgstr "حول..."
 
 #: tformtrayslate.aaddpair.hint
 msgid "Add Current Pair"
-msgstr "Добавить текущую пару"
+msgstr "إضافة الزوج الحالي"
 
 #: tformtrayslate.acheckforupdates.caption
 msgid "Check For Updates"
-msgstr "Проверить обновления"
+msgstr "التحقق من التحديثات"
 
 #: tformtrayslate.aconfigeditor.caption
 msgid "Config Editor..."
-msgstr "Редактор конфигурации..."
+msgstr "محرر التكوين..."
 
 #: tformtrayslate.adonate.caption
 msgid "Buy Me a Coffee..."
-msgstr "Дать на кофе..."
+msgstr "ادعم المشروع..."
 
 #: tformtrayslate.aexit.caption
 msgid "Exit"
-msgstr "Выход"
+msgstr "خروج"
 
 #: tformtrayslate.alangarabic.caption
 msgid "Arabic"
@@ -799,24 +799,24 @@ msgstr "Ukrainian"
 
 #: tformtrayslate.anewtranslate.hint
 msgid "New Translate"
-msgstr "Новый перевод"
+msgstr "ترجمة جديدة"
 
 #: tformtrayslate.asettings.caption
 msgid "Settings..."
-msgstr "Настройки..."
+msgstr "الإعدادات..."
 
 #: tformtrayslate.ashow.caption
 msgid "Show"
-msgstr "Показать"
+msgstr "إظهار"
 
 #: tformtrayslate.atranslate.hint
 msgctxt "tformtrayslate.atranslate.hint"
 msgid "Translate (Ctrl ¦ Shift ¦ Enter + Enter)"
-msgstr "Перевести (Ctrl ¦ Shift ¦ Enter + Enter)"
+msgstr "ترجمة (Ctrl ¦ Shift ¦ Enter + Enter)"
 
 #: tformtrayslate.atranslateclipboard.caption
 msgid "Translate Clipboard"
-msgstr "Перевести буфер обмена"
+msgstr "ترجمة الحافظة"
 
 #: tformtrayslate.caption
 msgctxt "tformtrayslate.caption"
@@ -825,15 +825,15 @@ msgstr "Trayslate"
 
 #: tformtrayslate.menuconfig.caption
 msgid "Config"
-msgstr "Конфигурация"
+msgstr "التكوين"
 
 #: tformtrayslate.menuhelp.caption
 msgid "Help"
-msgstr "Помощь"
+msgstr "مساعدة"
 
 #: tformtrayslate.menulangpairs.caption
 msgid "Recent Pairs"
-msgstr "Недавние пары"
+msgstr "الأزواج الحديثة"
 
 #: tformtrayslate.menulanguage.caption
 msgid "Language"
