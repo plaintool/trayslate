@@ -1,0 +1,111 @@
+name: Create Release
+on:
+  workflow_call:
+    inputs:
+      tag_name:
+        required: true
+        type: string
+      artifact_name:
+        required: false
+        type: string
+        default: build-artifacts
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: Release tag to create
+        required: true
+        type: string
+      artifact_name:
+        description: Artifact name to attach
+        required: false
+        default: build-artifacts
+
+permissions:
+  contents: write
+  issues: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate changelog from issues
+        id: changelog
+        uses: janheinrichmerker/action-github-changelog-generator@v2.4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issues: true
+          pullRequests: false
+          onlyLastTag: true
+          excludeLabels: 'duplicate,question,invalid,wontfix'
+          configureSections: |
+              {
+                "features": {
+                  "prefix": "### 🚀 New Features",
+                  "labels": ["feature", "feature auto"]
+                },
+                "enhancements": {
+                  "prefix": "### ✨ Enhancements",
+                  "labels": ["enhancement", "enhancement auto"]
+                },
+                "bugfixes": {
+                  "prefix": "### 🐛 Fixed Bugs",
+                  "labels": ["bug", "bug auto"]
+                }
+              }
+          output: CHANGELOG.md
+
+      - name: Show generated changelog
+        run: cat CHANGELOG.md
+
+      - name: Append installation section
+        run: |
+          TAG="${{ inputs.tag_name != '' && inputs.tag_name || github.event.inputs.tag_name }}"
+          VERSION="${TAG#v}"
+
+          cp CHANGELOG.md RELEASE.md
+          cat <<EOF >> RELEASE.md
+          
+          ---
+
+          # Installation
+
+          ## Windows
+
+          Several installer options are available:
+          | Description | Files |
+          |-------------|-------|
+          | **Universal installer (EXE)** — universal installer for **x86 and x64**, supports installation **for the current user or for all users** | [trayslate‑${VERSION}‑any‑x86‑x64.exe](https://github.com/plaintool/trayslate/releases/download/${TAG}/trayslate-${VERSION}-any-x86-x64.exe) |
+          | **User installer (MSI)** — installs the application **for the current user** | [trayslate‑${VERSION}‑x64.msi](https://github.com/plaintool/trayslate/releases/download/${TAG}/trayslate-${VERSION}-x64.msi)<br>[trayslate‑${VERSION}‑x86.msi](https://github.com/plaintool/trayslate/releases/download/${TAG}/trayslate-${VERSION}-x86.msi) |
+          | **System installer (MSI)** — installs the application **for all users on the system** | [trayslate‑${VERSION}‑x64‑allusers.msi](https://github.com/plaintool/trayslate/releases/download/${TAG}/trayslate-${VERSION}-x64-allusers.msi)<br>[trayslate‑${VERSION}‑x86‑allusers.msi](https://github.com/plaintool/trayslate/releases/download/${TAG}/trayslate-${VERSION}-x86-allusers.msi) |
+          | **Portable version** — saves its settings to **form_settings.json** if it is near the executable; otherwise, in the user directory | [trayslate‑${VERSION}‑x86‑x64‑portable.zip](https://github.com/plaintool/trayslate/releases/download/${TAG}/trayslate-${VERSION}-x86-x64-portable.zip) |
+
+          > **Note:** Windows XP supports installation **only via MSI installers**. The EXE installer is **not compatible** with Windows XP.
+          EOF
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: ${{ inputs.artifact_name || github.event.inputs.artifact_name }}
+          path: dist
+          merge-multiple: true
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ inputs.tag_name || github.event.inputs.tag_name }}
+          body_path: RELEASE.md
+          draft: true
+          prerelease: false
+          files: |
+            dist/**/*.exe
+            dist/**/*.msi
+            dist/**/*.zip
+            dist/**/*.deb
+            dist/**/*.rpm
+            dist/**/*.tar.gz
