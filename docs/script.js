@@ -16,36 +16,55 @@ document.body.appendChild(canvas);
 
 const ctx = canvas.getContext('2d');
 
+// Detect if device is mobile based on width or touch capabilities
+const isMobile = window.innerWidth < 768 || ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+
 let width, height;
 let lastTime = 0;
-const symbolsCount = 150; // Reduced slightly for better mobile battery/performance
+// Use 100 symbols for mobile to save battery/GPU, 200 for desktop
+const symbolsCount = isMobile ? 100 : 200; 
 const symbols = [];
 
+// Scroll and physics state
 let lastScrollY = window.scrollY;
 let worldOffsetY = 0;
 let scrollSpeed = 0;
 
 function resize() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
+    // Handle High DPI (Retina) displays for sharpness
+    const dpr = window.devicePixelRatio || 1;
+    width = window.innerWidth;
+    height = window.innerHeight;
+    
+    // Set actual canvas size based on pixel density
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    
+    // Scale the context so drawing coordinates remain consistent
+    ctx.scale(dpr, dpr);
+
+    // Initial population of symbols
     if (symbols.length === 0) {
-        for (let i = 0; i < symbolsCount; i++) symbols.push(createSymbol(true));
+        for (let i = 0; i < symbolsCount; i++) {
+            symbols.push(createSymbol(true));
+        }
     }
 }
 
-// Narrowed ranges to ensure better mobile compatibility
+// Safer Unicode ranges to avoid "empty squares" on mobile
 function getRandomChar() {
     const ranges = [
-        [0x0021, 0x007A], // Basic Latin
-        [0x0410, 0x044F], // Common Cyrillic (uppercase/lowercase)
-        [0x03B1, 0x03C9], // Common Greek (lowercase)
-        [0x30A0, 0x30FF], // Katakana (Japanese - usually well-supported)
-        [0x4E00, 0x4E8F]  // Very common CJK (Limited range to avoid "missing" glyphs)
+        [0x0021, 0x007A], // Latin
+        [0x0410, 0x044F], // Cyrillic
+        [0x03B1, 0x03C9], // Greek
+        [0x30A0, 0x30FF], // Katakana
+        [0x4E00, 0x4E8F]  // Common CJK
     ];
     const range = ranges[Math.floor(Math.random() * ranges.length)];
     return String.fromCharCode(Math.floor(Math.random() * (range[1] - range[0])) + range[0]);
 }
 
+// Initialize a symbol with randomized 3D coordinates and rotation
 function createSymbol(init = false) {
     return {
         x: (Math.random() - 0.5) * width,
@@ -59,25 +78,30 @@ function createSymbol(init = false) {
     };
 }
 
+// Logic and Rendering loop
 function updateAndDraw(dt) {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillStyle = '#000000';
+    ctx.fillStyle = '#000000'; // Black characters for white background
 
-    // Added a more comprehensive font fallback stack
-    const fontStack = 'Arial, "Helvetica Neue", Helvetica, "Noto Sans JP", "Noto Sans", sans-serif';
+    const fontStack = 'Arial, "Helvetica Neue", Helvetica, "Noto Sans JP", sans-serif';
 
     for (let i = 0; i < symbols.length; i++) {
         const s = symbols[i];
+        
+        // Move symbol towards the camera using Delta Time
         s.z -= s.speed * dt;
 
+        // Reset if symbol passed the camera
         if (s.z <= 1) {
             Object.assign(s, createSymbol());
         }
 
         s.rotation += s.rotSpeed * dt;
 
+        // 3D Projection math
         const scale = (1 - s.z / width);
+        // Calculate vertical wrap-around for scroll effect
         const wy = ((s.y - worldOffsetY * 0.5 + height / 2) % height + height) % height - height / 2;
         
         const sx = (s.x / s.z) * width / 2 + width / 2;
@@ -87,7 +111,6 @@ function updateAndDraw(dt) {
         const alpha = 0.1 + Math.pow(scale, 2) * 0.6; 
 
         ctx.globalAlpha = alpha;
-        // Floor the font size to prevent sub-pixel rendering blur on mobile
         ctx.font = `${Math.floor(fontSize)}px ${fontStack}`;
 
         ctx.save();
@@ -100,24 +123,30 @@ function updateAndDraw(dt) {
 }
 
 function animate(time) {
+    // Calculate Delta Time to normalize speed across different refresh rates
     const dt = (time - lastTime) / 16.66 || 1;
     lastTime = time;
 
     ctx.clearRect(0, 0, width, height);
     updateAndDraw(dt);
 
+    // Friction/Inertia for scroll speed
     scrollSpeed *= Math.pow(0.9, dt);
     worldOffsetY += scrollSpeed * dt;
 
     requestAnimationFrame(animate);
 }
 
+// Track vertical scroll velocity
 window.addEventListener('scroll', () => {
     const dy = window.scrollY - lastScrollY;
     lastScrollY = window.scrollY;
     scrollSpeed += dy * 0.3;
 });
 
+// Update dimensions on resize (handling orientation changes on mobile)
 window.addEventListener('resize', resize);
+
+// Initial execution
 resize();
 requestAnimationFrame(animate);
