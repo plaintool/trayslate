@@ -56,6 +56,8 @@ procedure FillFontCombo(ACombo: TComboBox);
 
 function GetIndexByValue(SL: TStringList; const AValue: string): integer;
 
+function ExtractTextSample(const AText: string; MaxLen: integer = 500): string;
+
 implementation
 
 function ColorToHtml(AColor: TColor): string;
@@ -376,6 +378,48 @@ begin
       Result := i;
       Exit; // first match
     end;
+end;
+
+function ExtractTextSample(const AText: string; MaxLen: integer = 500): string;
+var
+  CutPos, i, L: integer;
+begin
+  Result := Trim(AText);
+  L := Length(Result);
+
+  // 1. If short enough
+  if L <= MaxLen then
+    Exit;
+
+  // 2. Try cut by sentence end (. ! ?) + space
+  CutPos := 0;
+  for i := MaxLen downto 1 do
+  begin
+    if (Result[i] in ['.', '!', '?']) and (i < L) and (Result[i + 1] = ' ') then
+    begin
+      CutPos := i;
+      Break;
+    end;
+  end;
+
+  // 3. Try cut by space
+  if CutPos = 0 then
+  begin
+    for i := MaxLen downto 1 do
+    begin
+      if Result[i] = ' ' then
+      begin
+        CutPos := i;
+        Break;
+      end;
+    end;
+  end;
+
+  // 4. Fallback
+  if CutPos = 0 then
+    CutPos := MaxLen;
+
+  Result := Trim(Copy(Result, 1, CutPos));
 end;
 
 end.

@@ -864,8 +864,7 @@ begin
 
   // List of keys that do not modify text content (Navigation, System, Modifiers)
   // We include VK_RETURN here as per your requirement to ignore it for translation triggers
-  if Key in [VK_RETURN, VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, VK_PRIOR, VK_NEXT, VK_END, VK_HOME, VK_SHIFT,
-    VK_CONTROL, VK_MENU, VK_CAPITAL, VK_INSERT, VK_ESCAPE, VK_LWIN, VK_RWIN] then
+  if IsSystemKey(Key) then
   begin
     TimerTranslate.Enabled := False;
     Exit;
@@ -1797,7 +1796,7 @@ begin
   TimerAnimate.Enabled := True;
 
   // Detect language in source memo
-  langDetect := TranslateThread(TransDetect, AText);
+  langDetect := TranslateThread(TransDetect, ExtractTextSample(AText));
 
   // Check selected languages
   langSrc := Trans.Languages.ValueFromIndex[FLanguages.IndexOf(ComboSource.Text)];
