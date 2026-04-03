@@ -1,0 +1,117 @@
+<?xml version="1.0" ?>
+<XML_DIZ_INFO>
+	<MASTER_PAD_VERSION_INFO>
+		<MASTER_PAD_VERSION>3.11</MASTER_PAD_VERSION>
+		<MASTER_PAD_EDITOR>PadXml 1.0.1</MASTER_PAD_EDITOR>
+		<MASTER_PAD_INFO>Portable Application Description, or PAD for short, is a data set that is used by shareware authors to disseminate information to anyone interested in their software products. To find out more go to http://pad.asp-software.org</MASTER_PAD_INFO>
+	</MASTER_PAD_VERSION_INFO>
+	<Company_Info>
+		<Company_Name>plaintool</Company_Name>
+		<Address_1 />
+		<Address_2 />
+		<City_Town />
+		<State_Province />
+		<Zip_Postal_Code />
+		<Country />
+		<Company_WebSite_URL>http://github.com/plaintool</Company_WebSite_URL>
+		<Contact_Info>
+			<Author_First_Name>Alexander</Author_First_Name>
+			<Author_Last_Name>T</Author_Last_Name>
+			<Author_Email>astverskoy@gmail.com</Author_Email>
+			<Contact_First_Name>Alexander</Contact_First_Name>
+			<Contact_Last_Name>T</Contact_Last_Name>
+			<Contact_Email>astverskoy@gmail.com</Contact_Email>
+		</Contact_Info>
+		<Support_Info>
+			<Sales_Email />
+			<Support_Email>astverskoy@gmail.com</Support_Email>
+			<General_Email />
+			<Sales_Phone />
+			<Support_Phone />
+			<General_Phone />
+			<Fax_Phone />
+		</Support_Info>
+	</Company_Info>
+	<Program_Info>
+		<Program_Name>Trayslate</Program_Name>
+		<Program_Version>1.0.0</Program_Version>
+		<Program_Release_Month>04</Program_Release_Month>
+		<Program_Release_Day>01</Program_Release_Day>
+		<Program_Release_Year>2026</Program_Release_Year>
+		<Program_Cost_Dollars />
+		<Program_Cost_Other_Code />
+		<Program_Cost_Other />
+		<Program_Type>Freeware</Program_Type>
+		<Program_Release_Status>New Release</Program_Release_Status>
+		<Program_Install_Support>Install and Uninstall</Program_Install_Support>
+		<Program_OS_Support>Win7 x32,Win7 x64,WinOther,WinXP,Windows 7,Windows 8,Windows 10,Windows 11</Program_OS_Support>
+		<Program_Language>English,Arabic,Byelorussian,Chinese,Czech,Danish,Dutch,Finnish,French,German,Greek,Hebrew,Hindi,Indonesian,Italian,Japanese,Korean,Polish,Portuguese,Romanian,Russian,Spanish,Swedish,Turkish,Ukrainian</Program_Language>
+		<Program_Change_Info />
+		<Program_Specific_Category>Business</Program_Specific_Category>
+		<Program_Category_Class>Business::Office Suites &amp; Tools</Program_Category_Class>
+		<Program_System_Requirements />
+		<File_Info>
+			<File_Size_Bytes>4179032</File_Size_Bytes>
+			<File_Size_K>4081</File_Size_K>
+			<File_Size_MB>3.99</File_Size_MB>
+		</File_Info>
+		<Expire_Info>
+			<Has_Expire_Info>N</Has_Expire_Info>
+			<Expire_Count />
+			<Expire_Based_On />
+			<Expire_Other_Info />
+			<Expire_Month />
+			<Expire_Day />
+			<Expire_Year />
+		</Expire_Info>
+	</Program_Info>
+	<Program_Descriptions>
+		<English>
+			<Keywords>windows, lazarus, open-source, translate, tray-application </Keywords>
+			<Char_Desc_45>Break language barriers, connect the world</Char_Desc_45>
+			<Char_Desc_80>Lightweight tray translator with instant hotkey translation</Char_Desc_80>
+			<Char_Desc_250>Trayslate is a tray-based translator client. Translate typed text, clipboard, or selected text in any app. Replace text with a hotkey. Works with external services and is fully configurable.</Char_Desc_250>
+			<Char_Desc_450>A compact tray translator always at hand. Trayslate works with external translation services, keeping it lightweight and flexible. Translate selected text in any app using a hotkey or replace text directly. Double-click the tray icon to translate clipboard content. Supports real-time translation as you type and includes 25 interface languages.</Char_Desc_450>
+			<Char_Desc_2000>Trayslate is a lightweight, tray-based translator designed to stay out of your way while remaining instantly accessible whenever you need it. It works as a client for external translation services, meaning it does not rely on built-in engines. Instead, you can fully configure and switch between services, giving you flexibility, independence, and control over how your translations are performed.
+The application integrates seamlessly into your workflow across the entire system. You can select text in any application — browser, editor, messenger, or document — and translate it immediately using a global hotkey. No copying between windows, no interruptions. In addition, Trayslate allows you to replace selected text directly in input fields with its translated version, making it especially useful for writing, communication, and quick edits.
+Clipboard translation is always just one action away. With a simple double-click on the tray icon, the current clipboard content is translated instantly, making repetitive tasks fast and effortless.
+The main window supports real-time translation as you type. This allows you to compose text while simultaneously seeing the translated result, which is ideal for drafting messages, learning languages, or working with multilingual content.
+Trayslate is built to be fast, minimal, and unobtrusive. It runs quietly in the system tray, consumes minimal resources, and is always ready without getting in your way. The interface is available in twenty-five widely used languages, ensuring accessibility for users around the world.
+Whether you need quick translations, continuous multilingual typing, or a reliable everyday tool, Trayslate fits naturally into your workflow — always close, always ready.</Char_Desc_2000>
+		</English>
+	</Program_Descriptions>
+	<Web_Info>
+		<Application_URLs>
+			<Application_Info_URL>http://github.com/plaintool/trayslate</Application_Info_URL>
+			<Application_Order_URL>http://github.com/plaintool/trayslate/releases/latest</Application_Order_URL>
+			<Application_Screenshot_URL>http://raw.githubusercontent.com/plaintool/trayslate/main/samples/trayslate1.png</Application_Screenshot_URL>
+			<Application_Icon_URL>http://raw.githubusercontent.com/plaintool/trayslate/main/samples/trayslate32.png</Application_Icon_URL>
+			<Application_XML_File_URL>http://raw.githubusercontent.com/plaintool/trayslate/refs/heads/main/installer/trayslate.xml</Application_XML_File_URL>
+		</Application_URLs>
+		<Download_URLs>
+			<Primary_Download_URL>http://github.com/plaintool/trayslate/releases/download/v1.0.0/trayslate-1.0.0-any-x86-x64.exe</Primary_Download_URL>
+			<Secondary_Download_URL />
+			<Additional_Download_URL_1>http://github.com/plaintool/trayslate/releases/download/v1.0.0/trayslate-1.0.0-x64.msi</Additional_Download_URL_1>
+			<Additional_Download_URL_2>http://github.com/plaintool/trayslate/releases/download/v1.0.0/trayslate-1.0.0-x86.msi</Additional_Download_URL_2>
+		</Download_URLs>
+	</Web_Info>
+	<Permissions>
+		<Distribution_Permissions>This software is distributed under the terms of the GNU General Public License v3.0.
+You are allowed to copy, distribute, and modify the program, provided that any
+redistribution or derivative work is licensed under GPLv3 and the source code
+is made available.</Distribution_Permissions>
+		<EULA>This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, version 3 of the License.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.</EULA>
+	</Permissions>
+	<ASP>
+		<ASP_FORM>Y</ASP_FORM>
+		<ASP_Member>N</ASP_Member>
+		<ASP_Member_Number />
+	</ASP>
+</XML_DIZ_INFO>
