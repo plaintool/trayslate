@@ -44,6 +44,24 @@ The tray icon is fully customizable in appearance settings and adapts to any Win
 
 ![trayslate2](samples/trayslate2.png)
 
+## Hotkeys
+
+Global hotkeys can be fully configured in the application settings. They are available at any time and work even when the application is minimized to the system tray.
+
+| Action | Shortcut |
+|--------|----------|
+| **Global Hotkeys** | |
+| Shows or hides the main application window | `Ctrl + Shift + A` |
+| Swaps the source and target languages | `Ctrl + Shift + S` |
+| Translates the current text from the clipboard | `Ctrl + Shift + T` |
+| Translates the current text in clipboard and copies the result to the clipboard | `Ctrl + Shift + R` |
+| Translates the selected text from the active application | `Ctrl + Shift + C` |
+| Replaces the selected text in the active application with the translation | `Ctrl + Shift + V` |
+| **Main Window Hotkeys** | |
+| New Translate | `Ctrl + N` |
+| Add Current Pair To Recent Panel | `Ctrl + F` |
+| Translate | `Ctrl + Enter`<br>`Shift + Enter`<br>`Double Enter`|
+
 ## Settings
 
 Settings allow you to configure the behavior, appearance, and global hotkeys of the application.
@@ -56,7 +74,13 @@ Settings allow you to configure the behavior, appearance, and global hotkeys of 
 
 The application comes with a powerful configuration editor, allowing you to create your own translation service configurations or modify existing ones.
 
-![configeditor1](samples/configeditor1.png)
+| Service | Parameters |
+|---------|------------|
+| ![configeditor1](samples/configeditor1.png) | ![configeditor1](samples/configeditor2.png) |
+| **Response** | **Languages** |
+| ![configeditor1](samples/configeditor3.png) | ![configeditor1](samples/configeditor4.png) |
+| **Target Languages** | |
+| ![configeditor1](samples/configeditor5.png) | |
 
 ## Installation
 
