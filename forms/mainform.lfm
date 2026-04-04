@@ -15,6 +15,7 @@ object formTrayslate: TformTrayslate
   OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
   OnResize = FormResize
+  OnShow = FormShow
   OnWindowStateChange = FormWindowStateChange
   object MemoSource: TMemo
     Left = 3

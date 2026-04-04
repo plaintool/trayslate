@@ -138,6 +138,7 @@ type
     menuHindi: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormActivate(Sender: TObject);
     procedure FormResize(Sender: TObject);
@@ -272,6 +273,7 @@ type
     procedure TranslateClipboard;
     procedure TranslateFromControl(Data: PtrInt);
     procedure TranslateControl(Data: PtrInt);
+    procedure UpdateCaptions;
     procedure SetLanguage(aLanguage: string = string.Empty);
   protected
     {$IFDEF WINDOWS}
@@ -508,6 +510,11 @@ begin
   FreeAndNil(FConfigFileTitles);
   FreeAndNil(FTrans);
   FreeAndNil(FTransDetect);
+end;
+
+procedure TformTrayslate.FormShow(Sender: TObject);
+begin
+  UpdateCaptions;
 end;
 
 procedure TformTrayslate.FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -1933,6 +1940,16 @@ end;
 
 {Action Languages}
 
+procedure TformTrayslate.UpdateCaptions;
+begin
+  // Setting the language for interface elements
+  aSwap.Hint := Format(rswap, [HotKeyToText(HotKeyTransSwap), MIDDLE_MOUSE]);
+  FlowPairs.Hint := MIDDLE_MOUSE + rtoremovepair;
+
+  Caption := rtrayslate + ifthen(Trans.ServiceName <> string.Empty, ' - ' + Trans.ServiceName,
+    ifthen(FConfigFile <> string.Empty, ' - ' + ExtractFileName(FConfigFile), string.Empty));
+end;
+
 procedure TformTrayslate.SetLanguage(aLanguage: string = string.Empty);
 begin
   aLangArabic.Checked := False;
@@ -1968,9 +1985,7 @@ begin
       Language := 'en';
   end;
 
-  // Setting the language for interface elements
-  aSwap.Hint := Format(rswap, [HotKeyToText(HotKeyTransSwap), MIDDLE_MOUSE]);
-  FlowPairs.Hint := MIDDLE_MOUSE + rtoremovepair;
+  UpdateCaptions;
 
   case Language of
     'ar': aLangArabic.Checked := True;
