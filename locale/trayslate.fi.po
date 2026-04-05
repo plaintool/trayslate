@@ -498,6 +498,14 @@ msgctxt "tformsettingstrayslate.checkrealtime.hint"
 msgid "Automatically translate text while typing"
 msgstr "Käännä teksti automaattisesti kirjoittaessasi"
 
+#: tformsettingstrayslate.checkrecentpairhotkeys.caption
+msgid "Enable Global Ctrl+Number Hotkeys"
+msgstr "Ota käyttöön globaalit Ctrl+numero-pikanäppäimet"
+
+#: tformsettingstrayslate.checkrecentpairhotkeys.hint
+msgid "When enabled, Ctrl+Number switches recent language pairs"
+msgstr "Kun käytössä, Ctrl+numero vaihtaa viimeisimpiä kielipareja"
+
 #: tformsettingstrayslate.checktwolang.caption
 msgid "Show Language Pair"
 msgstr "Näytä kielipari"

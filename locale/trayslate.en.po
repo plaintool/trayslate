@@ -498,6 +498,14 @@ msgctxt "tformsettingstrayslate.checkrealtime.hint"
 msgid "Automatically translate text while typing"
 msgstr "Automatically translate text while typing"
 
+#: tformsettingstrayslate.checkrecentpairhotkeys.caption
+msgid "Enable Global Ctrl+Number Hotkeys"
+msgstr "Enable Global Ctrl+Number Hotkeys"
+
+#: tformsettingstrayslate.checkrecentpairhotkeys.hint
+msgid "When enabled, Ctrl+Number switches recent language pairs"
+msgstr "When enabled, Ctrl+Number switches recent language pairs"
+
 #: tformsettingstrayslate.checktwolang.caption
 msgid "Show Language Pair"
 msgstr "Show Language Pair"

@@ -498,6 +498,14 @@ msgctxt "tformsettingstrayslate.checkrealtime.hint"
 msgid "Automatically translate text while typing"
 msgstr "Αυτόματη μετάφραση κειμένου κατά την πληκτρολόγηση"
 
+#: tformsettingstrayslate.checkrecentpairhotkeys.caption
+msgid "Enable Global Ctrl+Number Hotkeys"
+msgstr "Ενεργοποίηση καθολικών συντομεύσεων Ctrl+αριθμός"
+
+#: tformsettingstrayslate.checkrecentpairhotkeys.hint
+msgid "When enabled, Ctrl+Number switches recent language pairs"
+msgstr "Όταν είναι ενεργό, το Ctrl+αριθμός εναλλάσσει πρόσφατα ζεύγη γλωσσών"
+
 #: tformsettingstrayslate.checktwolang.caption
 msgid "Show Language Pair"
 msgstr "Εμφάνιση ζεύγους γλωσσών"

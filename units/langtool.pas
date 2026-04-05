@@ -35,15 +35,16 @@ type
     Key: word;            // virtual key code
   end;
 
-{$IFDEF WINDOWS}
-
 const
+  {$IFDEF WINDOWS}
   HOTKEY_APP = 1;
   HOTKEY_TRANS_SWAP = 2;
   HOTKEY_TRANS_FROM_CLIPBOARD = 3;
   HOTKEY_TRANS_CLIPBOARD = 4;
   HOTKEY_TRANS_FROM_CONTROL = 5;
   HOTKEY_TRANS_CONTROL = 6;
+  HOTKEY_LANG_BASE = 10;
+  {$ENDIF}
 
   ICON_SIZE = 16;
 
@@ -52,8 +53,6 @@ const
   DEF_FONT = 'Tahoma';
   DEF_NA = 'N/A';
   DEF_AUTO = '*';
-
-{$ENDIF}
 
 function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = string.Empty;
   ABackgroundColor: TColor = clNone; AFontColor: TColor = clWhite; AFontName: string = string.Empty): TBitmap;

@@ -38,6 +38,7 @@ type
     BtnApply: TButton;
     BtnCancel: TButton;
     BtnOk: TButton;
+    CheckRecentPairHotkeys: TCheckBox;
     CheckRealTime: TCheckBox;
     CheckAutoSwap: TCheckBox;
     CheckTwoLang: TCheckBox;
@@ -107,6 +108,7 @@ type
     FOriginalIconTwoLang: boolean;
     FOriginalMaxLangPairs: integer;
     FOriginalAutoAddLangPairs: boolean;
+    FOriginalRecentPairHotkeys: boolean;
     FOriginalRealTime: boolean;
     FOriginalRealTimeDelay: integer;
     FOriginalAutoSwap: boolean;
@@ -452,6 +454,7 @@ begin
   formTrayslate.AutoStart := CheckAutostart.Checked;
   formTrayslate.MaxLangPairs := SpinMaxLangPairs.Value;
   formTrayslate.AutoAddLangPairs := CheckAutoAddLangPairs.Checked;
+  formTrayslate.RecentPairHotKeys := CheckRecentPairHotkeys.Checked;
   formTrayslate.RealTime := CheckRealTime.Checked;
   formTrayslate.RealTimeDelay := SpinRealTimeDelay.Value;
   formTrayslate.AutoSwap := CheckAutoSwap.Checked;
@@ -485,6 +488,7 @@ begin
   FOriginalAutoStart := formTrayslate.AutoStart;
   FOriginalMaxLangPairs := formTrayslate.MaxLangPairs;
   FOriginalAutoAddLangPairs := formTrayslate.AutoAddLangPairs;
+  FOriginalRecentPairHotkeys := formTrayslate.RecentPairHotKeys;
   FOriginalRealTime := formTrayslate.RealTime;
   FOriginalRealTimeDelay := formTrayslate.RealTimeDelay;
   FOriginalAutoSwap := formTrayslate.AutoSwap;
@@ -510,6 +514,7 @@ begin
   CheckAutostart.Checked := FOriginalAutoStart;
   SpinMaxLangPairs.Value := FOriginalMaxLangPairs;
   CheckAutoAddLangPairs.Checked := FOriginalAutoAddLangPairs;
+  CheckRecentPairHotkeys.Checked := FOriginalRecentPairHotkeys;
   CheckRealTime.Checked := FOriginalRealTime;
   SpinRealTimeDelay.Value := FOriginalRealTimeDelay;
   CheckAutoSwap.Checked := FOriginalAutoSwap;

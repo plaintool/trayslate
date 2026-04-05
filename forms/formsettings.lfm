@@ -16,11 +16,11 @@ object formSettingsTrayslate: TformSettingsTrayslate
     Height = 465
     Top = 5
     Width = 400
-    ActivePage = PageGeneral
+    ActivePage = PageHotkeys
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
-    TabIndex = 0
+    TabIndex = 2
     TabOrder = 0
     OnChange = PagesSettingsChange
     object PageGeneral: TTabSheet
@@ -290,12 +290,12 @@ object formSettingsTrayslate: TformSettingsTrayslate
       end
       object GroupLangPairs: TGroupBox
         Left = 0
-        Height = 91
+        Height = 123
         Top = 269
         Width = 392
         Align = alTop
         Caption = 'Recent Language Pairs'
-        ClientHeight = 71
+        ClientHeight = 103
         ClientWidth = 388
         TabOrder = 2
         object SpinMaxLangPairs: TSpinEdit
@@ -331,6 +331,18 @@ object formSettingsTrayslate: TformSettingsTrayslate
           ParentShowHint = False
           ShowHint = True
           TabOrder = 1
+          OnChange = SettingChange
+        end
+        object CheckRecentPairHotkeys: TCheckBox
+          Left = 29
+          Height = 19
+          Hint = 'When enabled, Ctrl+Number switches recent language pairs'
+          Top = 72
+          Width = 210
+          Caption = 'Enable Global Ctrl+Number Hotkeys'
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 2
           OnChange = SettingChange
         end
       end

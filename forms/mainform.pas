@@ -234,6 +234,7 @@ type
     FLangTarget: string;
     FMaxLangPairs: integer;
     FAutoAddLangPairs: boolean;
+    FRecentPairHotKeys: boolean;
     FRealTime: boolean;
     FRealTimeDelay: integer;
     FAutoSwap: boolean;
@@ -287,6 +288,7 @@ type
     procedure BuildConfigMenu;
     procedure UpdateCheckConfigMenu;
     procedure DoRealign(Data: PtrInt);
+    procedure UpdateMenuPairCheck;
     procedure RebuildLangPairsPanel(Data: PtrInt);
     {$IFDEF WINDOWS}
     procedure RegisterHotKeys;
@@ -313,6 +315,7 @@ type
     property LangPairs: TStringList read FLangPairs write FLangPairs;
     property MaxLangPairs: integer read FMaxLangPairs write FMaxLangPairs;
     property AutoAddLangPairs: boolean read FAutoAddLangPairs write FAutoAddLangPairs;
+    property RecentPairHotKeys: boolean read FRecentPairHotKeys write FRecentPairHotKeys;
     property RealTime: boolean read FRealTime write FRealTime;
     property RealTimeDelay: integer read FRealTimeDelay write FRealTimeDelay;
     property AutoSwap: boolean read FAutoSwap write FAutoSwap;
@@ -372,6 +375,7 @@ begin
   FIconTwoLang := True;
   FMaxLangPairs := 10;
   FAutoAddLangPairs := True;
+  FRecentPairHotKeys := True;
   FRealTime := False;
   FRealTimeDelay := 1000;
   FAutoSwap := False;
@@ -558,6 +562,8 @@ begin
 end;
 
 procedure TformTrayslate.WndProc(var TheMessage: TLMessage);
+var
+  LangIndex: Integer;
 begin
   if TheMessage.msg = WM_HOTKEY then
   begin
@@ -596,6 +602,15 @@ begin
       begin
         Application.QueueAsyncCall(@TranslateControl, 0);
       end;
+
+      else
+        if (TheMessage.WParam > HOTKEY_LANG_BASE) and (TheMessage.WParam <= HOTKEY_LANG_BASE + 9) then
+        begin
+          LangIndex := TheMessage.WParam - 11;
+
+          if LangIndex < MenuLangPairs.Count then
+            MenuLangPairs.Items[LangIndex].Click;
+        end;
     end;
   end;
 
@@ -1392,6 +1407,22 @@ begin
   end;
 end;
 
+procedure TformTrayslate.UpdateMenuPairCheck;
+var
+  i: integer;
+  currentPair: string;
+begin
+  // Current pair in same format as Hint (e.g. "en:ru")
+  currentPair := LangSource + ':' + LangTarget;
+
+  for i := 0 to MenuLangPairs.Count - 1 do
+  begin
+    // Compare with Hint
+    MenuLangPairs.Items[i].Checked :=
+      SameText(MenuLangPairs.Items[i].Hint, currentPair);
+  end;
+end;
+
 procedure TformTrayslate.RebuildLangPairsPanel(Data: PtrInt);
 var
   lbl: TLabel;
@@ -1453,8 +1484,11 @@ begin
       mi := TMenuItem.Create(MenuLangPairs);
       mi.Caption := lbl.Caption + ' - ' + lbl.Hint;
       mi.Hint := lbl.Caption;
+      if i < 9 then
+        mi.ShortCut := Menus.ShortCut(Ord('1') + i, [ssCtrl]);
       mi.Tag := i; // same index as label
       mi.OnClick := @MenuPairClick; // separate handler for menu click
+      mi.Checked := SameText(mi.Hint, LangSource + ':' + LangTarget); // set checked immediately
       MenuLangPairs.Add(mi);
     end;
   finally
@@ -1466,6 +1500,8 @@ end;
 {$IFDEF WINDOWS}
 
 procedure TformTrayslate.UnregisterHotKeys;
+var
+  i:integer;
 begin
   UnregisterHotKey(Handle, HOTKEY_APP);
   UnregisterHotKey(Handle, HOTKEY_TRANS_SWAP);
@@ -1473,9 +1509,13 @@ begin
   UnregisterHotKey(Handle, HOTKEY_TRANS_CLIPBOARD);
   UnregisterHotKey(Handle, HOTKEY_TRANS_FROM_CONTROL);
   UnregisterHotKey(Handle, HOTKEY_TRANS_CONTROL);
+  for i := 1 to 9 do
+    UnregisterHotKey(Handle, HOTKEY_LANG_BASE + i);
 end;
 
 procedure TformTrayslate.RegisterHotKeys;
+var
+  i:integer;
 begin
   // Unregister first to avoid duplicate registration
   UnregisterHotKeys;
@@ -1498,6 +1538,10 @@ begin
 
   if FHotKeyTransControl.Key <> 0 then
     RegisterHotKey(Handle, HOTKEY_TRANS_CONTROL, FHotKeyTransControl.Modifiers, FHotKeyTransControl.Key);
+
+  if FRecentPairHotKeys then
+    for i := 1 to 9 do
+      RegisterHotKey(Handle, HOTKEY_LANG_BASE + i, MOD_CONTROL, Ord('0') + i);
 end;
 
 {$ENDIF}
@@ -1548,6 +1592,7 @@ begin
     end;
 
     Trans.LangSource := FLangSource;
+    UpdateMenuPairCheck;
     if FIconTwoLang then SetIcon;
   end;
 end;
@@ -1594,6 +1639,7 @@ begin
     end;
 
     Trans.LangTarget := FLangTarget;
+    UpdateMenuPairCheck;
     SetIcon;
   end;
 end;
@@ -1691,6 +1737,9 @@ begin
     else
       RunTranslate := False;
   end;
+
+  UpdateMenuPairCheck;
+
   if RunTranslate then
     TranslateMemo(False);
 end;
