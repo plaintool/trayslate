@@ -177,7 +177,7 @@ type
     procedure TimerAnimateTimer(Sender: TObject);
     procedure TimerTranslateTimer(Sender: TObject);
     procedure TimerClickTimer(Sender: TObject);
-    procedure TrayIconMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
+    procedure TrayIconMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
     procedure TrayIconClick(Sender: TObject);
     procedure LabelMouseEnter(Sender: TObject);
     procedure LabelMouseLeave(Sender: TObject);
@@ -971,7 +971,7 @@ begin
   end;
 end;
 
-procedure TformTrayslate.TrayIconMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
+procedure TformTrayslate.TrayIconMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
 begin
   FLeftButton := Button = mbLeft;
 
@@ -981,7 +981,11 @@ end;
 
 procedure TformTrayslate.TrayIconClick(Sender: TObject);
 begin
-  if not FLeftButton then exit;
+  if not FLeftButton then
+  begin
+    FLeftButton := True;
+    Exit;
+  end;
 
   // DblClick
   if Showing then

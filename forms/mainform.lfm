@@ -220,7 +220,7 @@ object formTrayslate: TformTrayslate
     PopUpMenu = PopupTray
     Hint = 'Trayslate'
     OnClick = TrayIconClick
-    OnMouseDown = TrayIconMouseDown
+    OnMouseUp = TrayIconMouseUp
     Left = 168
     Top = 328
   end
