@@ -123,3 +123,5 @@ The Trayslate application uses third-party resources licensed as described in th
 ## Disclaimer
 
 The application does not provide any translation services. It acts as a client for third-party services only. All usage of external services is the sole responsibility of the user, including compliance with their respective terms of service.
+
+The configuration files included in the distribution are intended to demonstrate the flexibility of setting up and integrating custom translation services. Users may obtain and use API keys from service providers and configure the application to work with those services in accordance with the providers official guidelines and terms.
