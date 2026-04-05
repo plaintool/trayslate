@@ -7,26 +7,26 @@
     lightArgs: "<projectname>.wixobj" -out "trayslate.msi" <extensions>
 -->
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<?define ProductVersion = "$(var.Version)" ?>
-	<?define OpenSslDir = "..\" ?>
-	<?if $(var.Platform) = x64 ?>
+    <?define ProductVersion = "$(var.Version)" ?>
+    <?define OpenSslDir = "..\" ?>
+    <?if $(var.Platform) = x64 ?>
         <?define ProductName = "Trayslate $(var.ProductVersion)" ?>
         <?define Win64Value = "yes" ?>
         <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
-		<?define ExeName = "trayslate.exe" ?>
-		<?define ExeNameUpper = "TRAYSLATE.EXE" ?>
+        <?define ExeName = "trayslate.exe" ?>
+        <?define ExeNameUpper = "TRAYSLATE.EXE" ?>
         <?define SystemFolder = "System64Folder" ?>
-		<?define LibCryptoName = "libcrypto-1_1-x64.dll" ?>
-		<?define LibSslName    = "libssl-1_1-x64.dll" ?>
+        <?define LibCryptoName = "libcrypto-1_1-x64.dll" ?>
+        <?define LibSslName    = "libssl-1_1-x64.dll" ?>
     <?else?>
         <?define ProductName = "Trayslate $(var.ProductVersion) (32-bit)" ?>
         <?define Win64Value = "no" ?>
         <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
-		<?define ExeName = "trayslate32.exe" ?>
-		<?define ExeNameUpper = "TRAYSLATE32.EXE" ?>
+        <?define ExeName = "trayslate32.exe" ?>
+        <?define ExeNameUpper = "TRAYSLATE32.EXE" ?>
         <?define SystemFolder = "SystemFolder" ?>
-		<?define LibCryptoName = "libcrypto-1_1.dll" ?>
-		<?define LibSslName    = "libssl-1_1.dll" ?>
+        <?define LibCryptoName = "libcrypto-1_1.dll" ?>
+        <?define LibSslName    = "libssl-1_1.dll" ?>
     <?endif?>
     
     <Product Id="*" Name="$(var.ProductName)" Language="1033" Version="$(var.ProductVersion)" Manufacturer="Alexander Tverskoy" UpgradeCode="45C75BC5-3DDC-453B-A7AB-7E2AE0D88699">
@@ -45,47 +45,47 @@
         <Directory Id="TARGETDIR" Name="SourceDir">
             <Directory Id="LocalAppDataFolder">
                 <Directory Id="INSTALLDIR" Name="Trayslate">
-					<Directory Id="CONFIGDIR" Name="config">
-						<Component Id="ConfigFiles" Guid="D4A1B2C3-5678-4E9A-ABCD-1234567890AB" Win64="$(var.Win64Value)">
-							<File Id="CONFIG1" Name="google-get-apis.ini" Source="..\config\google-get-apis.ini" />
-							<File Id="CONFIG2" Name="google-get-clients5.ini" Source="..\config\google-get-clients5.ini" />
-							<File Id="CONFIG3" Name="google-post.ini" Source="..\config\google-post.ini" />
-							<File Id="CONFIG4" Name="simplytranslate-google.ini" Source="..\config\simplytranslate-google.ini" />
-							<File Id="CONFIG5" Name="microsofttranslator.ini" Source="..\config\microsofttranslator.ini" />
-							<File Id="CONFIG6" Name="deepl.ini" Source="..\config\deepl.ini" />
-							<File Id="CONFIG7" Name="mymemory.ini" Source="..\config\mymemory.ini" />
-							<File Id="CONFIG8" Name="papago.ini" Source="..\config\papago.ini" />
-							<File Id="CONFIG9" Name="google-get-dictionary.ini" Source="..\config\google-get-dictionary.ini" />
-							<File Id="CONFIG10" Name="wiktionary.ini" Source="..\config\wiktionary.ini" />
-							<File Id="CONFIG11" Name="marketshost.ini" Source="..\config\marketshost.ini" />
-							<File Id="CONFIG12" Name="coinconvert.ini" Source="..\config\coinconvert.ini" />
-							<File Id="CONFIG13" Name="mathjs.ini" Source="..\config\mathjs.ini" />
-							<File Id="CONFIG14" Name="languagedetect.ini" Source="..\config\languagedetect.ini" />
-							<!-- Registry KeyPath to satisfy ICE38 -->
-							<RegistryValue Root="HKLM" Key="Software\Alexander Tverskoy\Trayslate" Name="ConfigPath" Type="string" Value="[CONFIGDIR]" KeyPath="yes" />
-						</Component>
-					</Directory>
-					<Component Id="TrayslateFiles" DiskId="1" Guid="C3D9A1F5-7E2B-4A8C-9F1D-6B0E3C4D7A5F" Win64="$(var.Win64Value)">
-						<File Id="$(var.ExeNameUpper)" Name="$(var.ExeName)" Source="..\$(var.ExeName)" />
-						<File Id="LICENSE" Name="LICENSE" Source="..\LICENSE" />
-						<File Id="LIBCRYPTO" Name="$(var.LibCryptoName)" Source="$(var.OpenSslDir)\$(var.LibCryptoName)" />
-						<File Id="LIBSSL" Name="$(var.LibSslName)" Source="$(var.OpenSslDir)\$(var.LibSslName)" />
-						<RegistryValue Root="HKLM" Key="Software\Alexander Tverskoy\Trayslate" Name="InstallPath" Type="string" Value="[INSTALLDIR]" KeyPath="yes" />
-						<RemoveFolder Id="RemoveINSTALLDIR" Directory="INSTALLDIR" On="uninstall" />
-					</Component>
+                    <Directory Id="CONFIGDIR" Name="config">
+                        <Component Id="ConfigFiles" Guid="D4A1B2C3-5678-4E9A-ABCD-1234567890AB" Win64="$(var.Win64Value)">
+                            <File Id="CONFIG1" Name="google-get-apis.ini" Source="..\config\google-get-apis.ini" />
+                            <File Id="CONFIG2" Name="google-get-clients5.ini" Source="..\config\google-get-clients5.ini" />
+                            <File Id="CONFIG3" Name="google-post.ini" Source="..\config\google-post.ini" />
+                            <File Id="CONFIG4" Name="simplytranslate-google.ini" Source="..\config\simplytranslate-google.ini" />
+                            <File Id="CONFIG5" Name="microsofttranslator.ini" Source="..\config\microsofttranslator.ini" />
+                            <File Id="CONFIG6" Name="deepl.ini" Source="..\config\deepl.ini" />
+                            <File Id="CONFIG7" Name="mymemory.ini" Source="..\config\mymemory.ini" />
+                            <File Id="CONFIG8" Name="papago.ini" Source="..\config\papago.ini" />
+                            <File Id="CONFIG9" Name="google-get-dictionary.ini" Source="..\config\google-get-dictionary.ini" />
+                            <File Id="CONFIG10" Name="wiktionary.ini" Source="..\config\wiktionary.ini" />
+                            <File Id="CONFIG11" Name="marketshost.ini" Source="..\config\marketshost.ini" />
+                            <File Id="CONFIG12" Name="coinconvert.ini" Source="..\config\coinconvert.ini" />
+                            <File Id="CONFIG13" Name="mathjs.ini" Source="..\config\mathjs.ini" />
+                            <File Id="CONFIG14" Name="languagedetect.ini" Source="..\config\languagedetect.ini" />
+                            <RegistryValue Root="HKCU" Key="Software\Alexander Tverskoy\Trayslate" Name="ConfigPath" Type="string" Value="[CONFIGDIR]" KeyPath="yes" />
+                            <RemoveFolder Id="RemoveCONFIGDIR" On="uninstall" />
+                        </Component>
+                    </Directory>
+                    <Component Id="TrayslateFiles" DiskId="1" Guid="C3D9A1F5-7E2B-4A8C-9F1D-6B0E3C4D7A5F" Win64="$(var.Win64Value)">
+                        <File Id="$(var.ExeNameUpper)" Name="$(var.ExeName)" Source="..\$(var.ExeName)" />
+                        <File Id="LICENSE" Name="LICENSE" Source="..\LICENSE" />
+                        <File Id="LIBCRYPTO" Name="$(var.LibCryptoName)" Source="$(var.OpenSslDir)\$(var.LibCryptoName)" />
+                        <File Id="LIBSSL" Name="$(var.LibSslName)" Source="$(var.OpenSslDir)\$(var.LibSslName)" />
+                        <RegistryValue Root="HKCU" Key="Software\Alexander Tverskoy\Trayslate" Name="InstallPath" Type="string" Value="[INSTALLDIR]" KeyPath="yes" />
+                        <RemoveFolder Id="RemoveINSTALLDIR" Directory="INSTALLDIR" On="uninstall" />
+                    </Component>
                 </Directory>
             </Directory>
             <Directory Id="DesktopFolder" />
             <Directory Id="ProgramMenuFolder">
                 <Directory Id="ProgramMenuDir" Name="Trayslate">
                     <Component Id="TrayslateShortcuts" Guid="A7C2F1D3-6B4E-4F8A-9D2C-5B3E1F7A9C4D" Permanent="yes">
-                        <RegistryValue Root="HKCU" Key="Software\Alexander Tverskoy\Trayslate" Name="InstallPath" Type="string" Value="[INSTALLDIR]" />
+                        <RegistryValue Root="HKCU" Key="Software\Alexander Tverskoy\Trayslate" Name="Shortcuts" Type="integer" Value="1" KeyPath="yes" />
                         <Shortcut Id="desktopShortcut" Directory="DesktopFolder" Name="Trayslate" WorkingDirectory="INSTALLDIR" Target="[INSTALLDIR]$(var.ExeName)" Icon="DesktopIcon.exe" IconIndex="0" />
                         <Shortcut Id="ExeShortcut" Directory="ProgramMenuDir" Name="Trayslate" Target="[INSTALLDIR]$(var.ExeName)" Icon="StartMenuIcon.exe" IconIndex="0" />
                     </Component>
                     <Component Id="StartMenuShortcuts" Guid="F9B1E3A6-2D7C-4F5B-81A9-0C2E6D8B4F12">
                         <RemoveFolder Id="ProgramMenuDir" On="uninstall" />
-                        <RegistryValue Root="HKCU" Key="Software\Alexander Tverskoy\Trayslate" Name="Product" Type="string" Value="[ProductName]" />
+                        <RegistryValue Root="HKCU" Key="Software\Alexander Tverskoy\Trayslate" Name="Product" Type="string" Value="[ProductName]" KeyPath="yes" />
                         <Shortcut Id="UninstallProduct" Name="Uninstall" Description="Uninstalls the application" Target="[$(var.SystemFolder)]msiexec.exe" Arguments="/x [ProductCode]" />
                     </Component>
                 </Directory>
@@ -93,7 +93,7 @@
         </Directory>
         <Feature Id="DefaultFeature" Title="Main Feature" Level="1">
             <ComponentRef Id="TrayslateFiles" />
-			<ComponentRef Id="ConfigFiles" />
+            <ComponentRef Id="ConfigFiles" />
             <ComponentRef Id="TrayslateShortcuts" />
             <ComponentRef Id="StartMenuShortcuts" />
         </Feature>
