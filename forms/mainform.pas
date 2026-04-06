@@ -274,7 +274,6 @@ type
     procedure TranslateClipboard;
     procedure TranslateFromControl(Data: PtrInt);
     procedure TranslateControl(Data: PtrInt);
-    procedure UpdateCaptions;
     procedure SetLanguage(aLanguage: string = string.Empty);
   protected
     {$IFDEF WINDOWS}
@@ -284,6 +283,7 @@ type
   public
     procedure LoadConfig(SetDefault: boolean = True);
     procedure SetIcon;
+    procedure SetHints;
     procedure SetAnimate(Angle: integer);
     procedure BuildConfigMenu;
     procedure UpdateCheckConfigMenu;
@@ -417,8 +417,6 @@ begin
   Left := Screen.WorkAreaRect.Right - Width - 30;
   Top := Screen.WorkAreaRect.Bottom - Height - 50;
 
-  aSwap.Hint := Format(rswap, [HotKeyToText(HotKeyTransSwap), MIDDLE_MOUSE]);
-  FlowPairs.Hint := MIDDLE_MOUSE + rtoremovepair;
   SbSwap.ImageIndex := ThemeValue(0, 1);
   SbTranslate.ImageIndex := ThemeValue(2, 3);
   SbAddPair.ImageIndex := ThemeValue(4, 5);
@@ -462,6 +460,7 @@ begin
 
   // Set tray icon
   SetIcon;
+  SetHints;
 
   // Events assign
   Application.OnDeactivate := @ApplicationOnDeactivate;
@@ -518,7 +517,7 @@ end;
 
 procedure TformTrayslate.FormShow(Sender: TObject);
 begin
-  UpdateCaptions;
+  SetHints;
 end;
 
 procedure TformTrayslate.FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -678,7 +677,7 @@ begin
   finally
     FreeAndNil(formSettingsTrayslate);
     RegisterHotKeys;
-    aSwap.Hint := Format(rswap, [HotKeyToText(HotKeyTransSwap), MIDDLE_MOUSE]);
+    SetHints;
   end;
 end;
 
@@ -1115,10 +1114,6 @@ begin
   if (FConfigLangDetect <> string.Empty) then
     LoadIniSettings(FTransDetect, FConfigLangDetect);
 
-  // Form caption with config file name
-  Caption := rtrayslate + ifthen(Trans.ServiceName <> string.Empty, ' - ' + Trans.ServiceName,
-    ifthen(FConfigFile <> string.Empty, ' - ' + ExtractFileName(FConfigFile), string.Empty));
-
   // Init language lists
   FLanguages.Clear;
   List := GetDisplayNamesFromCodeMap(Trans.Languages, Trans.ValueType);
@@ -1230,6 +1225,7 @@ begin
     ComboTarget.Text := string.Empty;
 
   SetIcon;
+  SetHints;
 end;
 
 procedure TformTrayslate.SetIcon;
@@ -1255,6 +1251,19 @@ begin
   if FConfigFileTitles.Values[FConfigFile] <> string.Empty then
     hintText := hintText + sLineBreak + FConfigFileTitles.Values[FConfigFile];
   TrayIcon.Hint := hintText;
+end;
+
+procedure TformTrayslate.SetHints;
+begin
+  if Assigned(Trans) then
+    Caption := rtrayslate + ifthen(Trans.ServiceName <> string.Empty, ' - ' + Trans.ServiceName,
+      ifthen(FConfigFile <> string.Empty, ' - ' + ExtractFileName(FConfigFile), string.Empty))
+  else
+    Caption := rtrayslate + ifthen(FConfigFile <> string.Empty, ' - ' + ExtractFileName(FConfigFile), string.Empty);
+
+  aSwap.Hint := Format(rswap, [HotKeyToText(HotKeyTransSwap), MIDDLE_MOUSE]).Replace('() ', string.Empty);
+
+  FlowPairs.Hint := MIDDLE_MOUSE + rtoremovepair;
 end;
 
 procedure TformTrayslate.SetAnimate(Angle: integer);
@@ -1993,16 +2002,6 @@ end;
 
 {Action Languages}
 
-procedure TformTrayslate.UpdateCaptions;
-begin
-  // Setting the language for interface elements
-  aSwap.Hint := Format(rswap, [HotKeyToText(HotKeyTransSwap), MIDDLE_MOUSE]);
-  FlowPairs.Hint := MIDDLE_MOUSE + rtoremovepair;
-
-  Caption := rtrayslate + ifthen(Trans.ServiceName <> string.Empty, ' - ' + Trans.ServiceName,
-    ifthen(FConfigFile <> string.Empty, ' - ' + ExtractFileName(FConfigFile), string.Empty));
-end;
-
 procedure TformTrayslate.SetLanguage(aLanguage: string = string.Empty);
 begin
   aLangArabic.Checked := False;
@@ -2038,7 +2037,7 @@ begin
       Language := 'en';
   end;
 
-  UpdateCaptions;
+  SetHints;
 
   case Language of
     'ar': aLangArabic.Checked := True;
