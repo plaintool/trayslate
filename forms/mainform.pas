@@ -1484,7 +1484,7 @@ begin
       mi := TMenuItem.Create(MenuLangPairs);
       mi.Caption := lbl.Caption + ' - ' + lbl.Hint;
       mi.Hint := lbl.Caption;
-      if i < 9 then
+      if RecentPairHotKeys and (i < 9) then
         mi.ShortCut := Menus.ShortCut(Ord('1') + i, [ssCtrl, ssShift]);
       mi.Tag := i; // same index as label
       mi.OnClick := @MenuPairClick; // separate handler for menu click
