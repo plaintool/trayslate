@@ -499,12 +499,12 @@ msgid "Automatically translate text while typing"
 msgstr "Übersetzt Text automatisch während der Eingabe"
 
 #: tformsettingstrayslate.checkrecentpairhotkeys.caption
-msgid "Enable Global Ctrl+Number Hotkeys"
-msgstr "Globale Ctrl+Zahl-Tastenkürzel aktivieren"
+msgid "Enable Global Ctrl+Shift+Number Hotkeys"
+msgstr "Globale Ctrl+Shift+Number-Tastenkürzel aktivieren"
 
 #: tformsettingstrayslate.checkrecentpairhotkeys.hint
-msgid "When enabled, Ctrl+Number switches recent language pairs"
-msgstr "Wenn aktiviert, wechselt Ctrl+Zahl zwischen zuletzt verwendeten Sprachpaaren"
+msgid "When enabled, Ctrl+Shift+Number switches recent language pairs"
+msgstr "Wenn aktiviert, wechselt Ctrl+Shift+Number zwischen zuletzt verwendeten Sprachpaaren"
 
 #: tformsettingstrayslate.checktwolang.caption
 msgid "Show Language Pair"

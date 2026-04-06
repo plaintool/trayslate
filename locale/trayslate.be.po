@@ -499,12 +499,12 @@ msgid "Automatically translate text while typing"
 msgstr "Аўтаматычна перакладаць тэкст пад час набору"
 
 #: tformsettingstrayslate.checkrecentpairhotkeys.caption
-msgid "Enable Global Ctrl+Number Hotkeys"
-msgstr "Уключыць глабальныя спалучэнні Ctrl+лічба"
+msgid "Enable Global Ctrl+Shift+Number Hotkeys"
+msgstr "Уключыць глабальныя спалучэнні Ctrl+Shift+Number"
 
 #: tformsettingstrayslate.checkrecentpairhotkeys.hint
-msgid "When enabled, Ctrl+Number switches recent language pairs"
-msgstr "Пры ўключэнні Ctrl+лічба пераключае апошнія моўныя пары"
+msgid "When enabled, Ctrl+Shift+Number switches recent language pairs"
+msgstr "Пры ўключэнні Ctrl+Shift+Number пераключае апошнія моўныя пары"
 
 #: tformsettingstrayslate.checktwolang.caption
 msgid "Show Language Pair"

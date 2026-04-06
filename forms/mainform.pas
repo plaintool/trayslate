@@ -1485,7 +1485,7 @@ begin
       mi.Caption := lbl.Caption + ' - ' + lbl.Hint;
       mi.Hint := lbl.Caption;
       if i < 9 then
-        mi.ShortCut := Menus.ShortCut(Ord('1') + i, [ssCtrl]);
+        mi.ShortCut := Menus.ShortCut(Ord('1') + i, [ssCtrl, ssShift]);
       mi.Tag := i; // same index as label
       mi.OnClick := @MenuPairClick; // separate handler for menu click
       mi.Checked := SameText(mi.Hint, LangSource + ':' + LangTarget); // set checked immediately
@@ -1541,7 +1541,7 @@ begin
 
   if FRecentPairHotKeys then
     for i := 1 to 9 do
-      RegisterHotKey(Handle, HOTKEY_LANG_BASE + i, MOD_CONTROL, Ord('0') + i);
+      RegisterHotKey(Handle, HOTKEY_LANG_BASE + i, MOD_CONTROL or MOD_SHIFT, Ord('0') + i);
 end;
 
 {$ENDIF}

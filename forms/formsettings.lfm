@@ -16,11 +16,11 @@ object formSettingsTrayslate: TformSettingsTrayslate
     Height = 465
     Top = 5
     Width = 400
-    ActivePage = PageHotkeys
+    ActivePage = PageGeneral
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
-    TabIndex = 2
+    TabIndex = 0
     TabOrder = 0
     OnChange = PagesSettingsChange
     object PageGeneral: TTabSheet
@@ -336,10 +336,10 @@ object formSettingsTrayslate: TformSettingsTrayslate
         object CheckRecentPairHotkeys: TCheckBox
           Left = 29
           Height = 19
-          Hint = 'When enabled, Ctrl+Number switches recent language pairs'
+          Hint = 'When enabled, Ctrl+Shift+Number switches recent language pairs'
           Top = 72
-          Width = 210
-          Caption = 'Enable Global Ctrl+Number Hotkeys'
+          Width = 242
+          Caption = 'Enable Global Ctrl+Shift+Number Hotkeys'
           ParentShowHint = False
           ShowHint = True
           TabOrder = 2
