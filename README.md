@@ -57,6 +57,7 @@ Global hotkeys can be fully configured in the application settings. They are ava
 | Translates the current text in clipboard and copies the result to the clipboard | `Ctrl + Shift + R` |
 | Translates the selected text from the active application | `Ctrl + Shift + C` |
 | Replaces the selected text in the active application with the translation | `Ctrl + Shift + V` |
+| Select recent language pair | `Ctrl + Shift + Number` |
 | **Main Window Hotkeys** | |
 | New Translate | `Ctrl + N` |
 | Add Current Pair To Recent Panel | `Ctrl + F` |
