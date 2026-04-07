@@ -26,7 +26,7 @@ uses
   LCLIntf,
   Dialogs,
   PasZLib,
-  {$IFDEF Windows}
+  {$IFDEF WINDOWS}
   Windows,
   Registry,
   wininet,
@@ -91,7 +91,7 @@ function GetOSLanguage: string;
   {platform-independent method to read the language of the user interface}
 var
   fbl: string;
-  {$IFDEF Windows}
+  {$IFDEF WINDOWS}
   l:string;
   {$ENDIF}
   {$IFDEF LCLCarbon}
@@ -302,7 +302,7 @@ end;
 function SetFileTypeIcon(const Ext: string; IconIndex: integer): boolean;
 var
   AppPath: string;
-  {$IFDEF Windows}
+  {$IFDEF WINDOWS}
   Reg: TRegistry;
   IconPath: string;
   {$ENDIF}
@@ -350,7 +350,7 @@ var
 begin
   Result := False; // Initialize result to false
 
-  {$IFDEF Windows}
+  {$IFDEF WINDOWS}
   try
     Reg := TRegistry.Create;
     AppPath := Application.ExeName;

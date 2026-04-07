@@ -55,13 +55,13 @@ implementation
 uses systemtool, langtool, formattool;
 
 function GetSettingsDirectory(fileName: string = string.Empty): string;
-  {$IFDEF Windows}
+  {$IFDEF WINDOWS}
 var
   baseDir: string;
   exeDir: string;
   {$ENDIF}
 begin
-  {$IFDEF Windows}
+  {$IFDEF WINDOWS}
   // Get directory where exe is located
   exeDir := ExtractFilePath(ParamStr(0));
 
@@ -86,7 +86,7 @@ end;
 
 function GetIniDirectory(fileName: string = string.Empty): string;
 begin
-  {$IFDEF Windows}
+  {$IFDEF WINDOWS}
   Result := ExtractFilePath(ParamStr(0)) + fileName;
   {$ELSE}
   Result := IncludeTrailingPathDelimiter(GetUserDir) + '.config/trayslate/' + filename;

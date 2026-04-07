@@ -12,9 +12,6 @@ unit langtool;
 interface
 
 uses
-  {$IFDEF WINDOWS}
-  Windows,
-  {$ENDIF}
   Forms,
   Classes,
   Graphics,
@@ -46,9 +43,12 @@ const
   HOTKEY_LANG_BASE = 10;
   {$ENDIF}
 
-  ICON_SIZE = 16;
+  HOTKEY_CTRL = 1 shl 1; // 2
+  HOTKEY_SHIFT = 1 shl 2; // 4
+  HOTKEY_ALT = 1 shl 0; // 1
+  HOTKEY_META = 1 shl 3; // 8 (Win / Cmd)
 
-  LANG_COUNT = 259;
+  ICON_SIZE = 16;
 
   DEF_FONT = 'Tahoma';
   DEF_NA = 'N/A';
@@ -448,13 +448,13 @@ function HotKeyToText(const AHotKey: THotKeyData): string;
 begin
   Result := string.Empty;
 
-  if (AHotKey.Modifiers and MOD_CONTROL) <> 0 then
+  if (AHotKey.Modifiers and HOTKEY_CTRL) <> 0 then
     Result := Result + 'Ctrl+';
-  if (AHotKey.Modifiers and MOD_SHIFT) <> 0 then
+  if (AHotKey.Modifiers and HOTKEY_SHIFT) <> 0 then
     Result := Result + 'Shift+';
-  if (AHotKey.Modifiers and MOD_ALT) <> 0 then
+  if (AHotKey.Modifiers and HOTKEY_ALT) <> 0 then
     Result := Result + 'Alt+';
-  if (AHotKey.Modifiers and MOD_WIN) <> 0 then
+  if (AHotKey.Modifiers and HOTKEY_META) <> 0 then
     Result := Result + 'Win+';
 
   case AHotKey.Key of

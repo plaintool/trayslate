@@ -11,9 +11,6 @@ unit formsettings;
 interface
 
 uses
-  {$IFDEF WINDOWS}
-  Windows,
-  {$ENDIF}
   Forms,
   Classes,
   SysUtils,
@@ -26,6 +23,8 @@ uses
   ExtCtrls,
   ColorBox,
   Spin,
+  Math,
+  LCLType,
   langtool;
 
 type
@@ -314,16 +313,19 @@ begin
 
   // Set modifiers
   if ssCtrl in Shift then
-    HK.Modifiers := HK.Modifiers or MOD_CONTROL;
+    HK.Modifiers := HK.Modifiers or HOTKEY_CTRL;
 
   if ssShift in Shift then
-    HK.Modifiers := HK.Modifiers or MOD_SHIFT;
+    HK.Modifiers := HK.Modifiers or HOTKEY_SHIFT;
 
   if ssAlt in Shift then
-    HK.Modifiers := HK.Modifiers or MOD_ALT;
+    HK.Modifiers := HK.Modifiers or HOTKEY_ALT;
+
+  if ssMeta in Shift then
+    HK.Modifiers := HK.Modifiers or HOTKEY_META;
 
   // Set key if not a pure modifier
-  if (Key <> VK_CONTROL) and (Key <> VK_SHIFT) and (Key <> VK_MENU) then
+  if (Key <> VK_CONTROL) and (Key <> VK_SHIFT) and (Key <> VK_MENU) and (Key <> VK_LWIN) and (Key <> VK_RWIN) then
   begin
     HK.Key := Key;
     Key := 0; // block default processing
