@@ -78,6 +78,7 @@ var
   IntfImg: TLazIntfImage;
   ImgHandle, ImgMaskHandle: HBitmap;
   rect, rect1, rect2: TRect;
+  delta: integer;
   Value: string;
 
   function FormatValue(const Value: string; DefSize: integer = 8): string;
@@ -148,12 +149,14 @@ begin
 
       // lower half
       Value := FormatValue(ALang2, 7);
-      rect2 := Types.Rect(rect.Left, (rect.Top + rect.Bottom) div 2, rect.Right, rect.Bottom);
+      delta := ifthen(Value = DEF_AUTO, 3, 0);
+      rect2 := Types.Rect(rect.Left, (rect.Top + rect.Bottom) div 2 + delta, rect.Right, rect.Bottom + delta);
       DrawText(Bmp.Canvas.Handle, PChar(Value), Length(Value), rect2,
         DT_CENTER or DT_VCENTER or DT_SINGLELINE);
     end;
 
     IntfImg.LoadFromBitmap(Bmp.Handle, Bmp.MaskHandle);
+
     // Copy it to a TBitmap
     IntfImg.CreateBitmaps(ImgHandle, ImgMaskHandle, False);
     Bmp.Handle := ImgHandle;
