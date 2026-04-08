@@ -689,6 +689,10 @@ msgstr "О программе..."
 msgid "Add Current Pair"
 msgstr "Добавить текущую пару"
 
+#: tformtrayslate.aautocheckupdates.caption
+msgid "Auto Check Updates"
+msgstr "Авто проверка обновлений"
+
 #: tformtrayslate.acheckforupdates.caption
 msgid "Check For Updates"
 msgstr "Проверить обновления"

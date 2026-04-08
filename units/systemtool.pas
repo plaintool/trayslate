@@ -69,7 +69,7 @@ function IsSystemKey(Key: word): boolean;
 
 function GetAppVersion: string;
 
-function CheckGithubLatestVersion(const Repo: string = 'plaintool/trayslate'): boolean;
+function CheckGithubLatestVersion(const Silent: boolean = False; const Repo: string = 'plaintool/trayslate'): boolean;
 
 procedure RegAutoStart(const AEnable: boolean; const AppName: string = 'Trayslate');
 
@@ -563,7 +563,7 @@ begin
   end;
 end;
 
-function CheckGithubLatestVersion(const Repo: string = 'plaintool/trayslate'): boolean;
+function CheckGithubLatestVersion(const Silent: boolean = False; const Repo: string = 'plaintool/trayslate'): boolean;
 var
   JsonData: TJSONData;
   LatestVersion, Msg: string;
@@ -750,11 +750,11 @@ var
 
 {$ENDIF}
 begin
-  CurrentVersion := GetAppVersion;
   Result := False;
-  Url := Format('https://api.github.com/repos/%s/releases/latest', [Repo]);
-
   try
+    CurrentVersion := GetAppVersion;
+    Url := Format('https://api.github.com/repos/%s/releases/latest', [Repo]);
+
     {$IFDEF WINDOWS}
     ResponseContent := HttpGetWinInet(Url);
     {$ELSE}
@@ -779,7 +779,8 @@ begin
         end
         else
         begin
-          ShowMessage(newversioncheckerror + ' ' + 'Please install OpenSSL, curl or wget library!');
+          if not Silent then
+            ShowMessage(newversioncheckerror + ' ' + 'Please install OpenSSL, curl or wget library!');
           Exit;
         end;
       end;
@@ -794,12 +795,16 @@ begin
         begin
           try
             ErrorMsg := JsonData.GetPath('message').AsString;
-            if ErrorMsg <> '' then
-              ShowMessage(newversioncheckerror + LineEnding + Url + LineEnding + 'GitHub API: ' + ErrorMsg)
-            else
-              ShowMessage(newversioncheckerror + LineEnding + Url);
+            if not Silent then
+            begin
+              if ErrorMsg <> '' then
+                ShowMessage(newversioncheckerror + LineEnding + Url + LineEnding + 'GitHub API: ' + ErrorMsg)
+              else
+                ShowMessage(newversioncheckerror + LineEnding + Url);
+            end;
           except
-            ShowMessage(newversioncheckerror + LineEnding + Url);
+            if not Silent then
+              ShowMessage(newversioncheckerror + LineEnding + Url);
           end;
           Exit;
         end;
@@ -814,7 +819,10 @@ begin
             OpenURL(Format('https://github.com/%s/releases/latest', [Repo]));
         end
         else
-          ShowMessage(newversionuptodate);
+        begin
+          if not Silent then
+            ShowMessage(newversionuptodate);
+        end;
 
         Result := True;
       finally
@@ -822,11 +830,17 @@ begin
       end;
     end
     else
-      ShowMessage(newversioncheckerror + LineEnding + Url);
-
+    begin
+      if not Silent then
+        ShowMessage(newversioncheckerror + LineEnding + Url);
+    end;
   except
     on E: Exception do
-      ShowMessage(newversioncheckerror + LineEnding + Url + LineEnding + E.Message);
+    begin
+      Result := False;
+      if not Silent then
+        ShowMessage(newversioncheckerror + LineEnding + Url + LineEnding + E.Message);
+    end;
   end;
 end;
 

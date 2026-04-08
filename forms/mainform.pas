@@ -45,6 +45,7 @@ type
     aConfigEditor: TAction;
     aCheckForUpdates: TAction;
     aAddPair: TAction;
+    aAutoCheckUpdates: TAction;
     aNewTranslate: TAction;
     aSettings: TAction;
     aTranslateClipboard: TAction;
@@ -61,14 +62,16 @@ type
     MemoSource: TMemo;
     MemoTarget: TMemo;
     MenuExit: TMenuItem;
-    MenuItem1: TMenuItem;
-    MenuItem2: TMenuItem;
+    MenuSettings: TMenuItem;
+    MenuLangPairs: TMenuItem;
+    MenuAutoCheckUpdates: TMenuItem;
+    MenuConfigEditor: TMenuItem;
     MenuConfig: TMenuItem;
     MenuHelp: TMenuItem;
     MenuDonate: TMenuItem;
     MenuCheckForUpdates: TMenuItem;
     MenuAbout: TMenuItem;
-    MenuLangPairs: TMenuItem;
+    MenuLanguage: TMenuItem;
     MenuShow: TMenuItem;
     MenuShowTranslate: TMenuItem;
     PanelLang: TPanel;
@@ -80,6 +83,7 @@ type
     SbSwap: TSpeedButton;
     SbTranslate: TSpeedButton;
     Separator3: TMenuItem;
+    Separator9: TMenuItem;
     SplitterMemo: TSplitter;
     TimerAnimate: TTimer;
     TimerTranslate: TTimer;
@@ -111,31 +115,31 @@ type
     aLangUkrainian: TAction;
     aLangBelarusian: TAction;
     aLangHindi: TAction;
-    menuTurkish: TMenuItem;
-    menuGreek: TMenuItem;
-    menuHebrew: TMenuItem;
-    menuIndonesian: TMenuItem;
-    menuPolish: TMenuItem;
-    menuRomanian: TMenuItem;
-    menuSwedish: TMenuItem;
-    menuCzech: TMenuItem;
-    menuDanish: TMenuItem;
-    menuDutch: TMenuItem;
-    menuFinnish: TMenuItem;
-    menuEnglish: TMenuItem;
-    menuRussian: TMenuItem;
-    menuGerman: TMenuItem;
-    menuSpanish: TMenuItem;
-    menuFrench: TMenuItem;
-    menuItalian: TMenuItem;
-    menuPortuguese: TMenuItem;
-    menuJapanese: TMenuItem;
-    menuKorean: TMenuItem;
-    menuChinese: TMenuItem;
-    menuArabic: TMenuItem;
-    menuUkrainian: TMenuItem;
-    menuBelarusian: TMenuItem;
-    menuHindi: TMenuItem;
+    MenuTurkish: TMenuItem;
+    MenuGreek: TMenuItem;
+    MenuHebrew: TMenuItem;
+    MenuIndonesian: TMenuItem;
+    MenuPolish: TMenuItem;
+    MenuRomanian: TMenuItem;
+    MenuSwedish: TMenuItem;
+    MenuCzech: TMenuItem;
+    MenuDanish: TMenuItem;
+    MenuDutch: TMenuItem;
+    MenuFinnish: TMenuItem;
+    MenuEnglish: TMenuItem;
+    MenuRussian: TMenuItem;
+    MenuGerman: TMenuItem;
+    MenuSpanish: TMenuItem;
+    MenuFrench: TMenuItem;
+    MenuItalian: TMenuItem;
+    MenuPortuguese: TMenuItem;
+    MenuJapanese: TMenuItem;
+    MenuKorean: TMenuItem;
+    MenuChinese: TMenuItem;
+    MenuArabic: TMenuItem;
+    MenuUkrainian: TMenuItem;
+    MenuBelarusian: TMenuItem;
+    MenuHindi: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -156,6 +160,7 @@ type
     procedure aSwapExecute(Sender: TObject);
     procedure aShowExecute(Sender: TObject);
     procedure aAddPairExecute(Sender: TObject);
+    procedure aAutoCheckUpdatesExecute(Sender: TObject);
     procedure aCheckForUpdatesExecute(Sender: TObject);
     procedure aDonateExecute(Sender: TObject);
     procedure aAboutExecute(Sender: TObject);
@@ -238,6 +243,8 @@ type
     FRealTime: boolean;
     FRealTimeDelay: integer;
     FAutoSwap: boolean;
+    FAutoCheckUpdates: boolean;
+    FUpdatesChecked: boolean;
     FFormConfigLeft: integer;
     FFormConfigTop: integer;
     FFormConfigWidth: integer;
@@ -290,6 +297,7 @@ type
     procedure DoRealign(Data: PtrInt);
     procedure UpdateMenuPairCheck;
     procedure RebuildLangPairsPanel(Data: PtrInt);
+    procedure DoCheckUpdates(Data: PtrInt);
     {$IFDEF WINDOWS}
     procedure RegisterHotKeys;
     procedure UnregisterHotKeys;
@@ -319,6 +327,7 @@ type
     property RealTime: boolean read FRealTime write FRealTime;
     property RealTimeDelay: integer read FRealTimeDelay write FRealTimeDelay;
     property AutoSwap: boolean read FAutoSwap write FAutoSwap;
+    property AutoCheckUpdates: boolean read FAutoCheckUpdates write FAutoCheckUpdates;
     property FormConfigLeft: integer read FFormConfigLeft write FFormConfigLeft;
     property FormConfigTop: integer read FFormConfigTop write FFormConfigTop;
     property FormConfigWidth: integer read FFormConfigWidth write FFormConfigWidth;
@@ -379,6 +388,8 @@ begin
   FRealTime := False;
   FRealTimeDelay := 1000;
   FAutoSwap := False;
+  FAutoCheckUpdates := True;
+  FUpdatesChecked := False;
   FAutoStart := True;
   FLangTarget := Language;
   FFormConfigLeft := 0;
@@ -433,6 +444,7 @@ begin
 
   // Components config after load settings
   TimerTranslate.Interval := Max(RealTimeDelay, 1);
+  aAutoCheckUpdates.Checked := FAutoCheckUpdates;
 
   // Load config files
   FConfigFiles := TStringList.Create;
@@ -518,6 +530,14 @@ end;
 procedure TformTrayslate.FormShow(Sender: TObject);
 begin
   SetHints;
+
+  // Check new version if needed
+  if not FUpdatesChecked and AutoCheckUpdates then
+  begin
+    // Delay execution until UI is ready
+    Application.QueueAsyncCall(@DoCheckUpdates, 0);
+    FUpdatesChecked := True;
+  end;
 end;
 
 procedure TformTrayslate.FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -720,9 +740,16 @@ begin
   Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
 end;
 
+procedure TformTrayslate.aAutoCheckUpdatesExecute(Sender: TObject);
+begin
+  FAutoCheckUpdates := aAutoCheckUpdates.Checked;
+  FUpdatesChecked := False;
+end;
+
 procedure TformTrayslate.aCheckForUpdatesExecute(Sender: TObject);
 begin
   CheckGithubLatestVersion();
+  FUpdatesChecked := True;
 end;
 
 procedure TformTrayslate.aDonateExecute(Sender: TObject);
@@ -1503,6 +1530,16 @@ begin
   finally
     FlowPairs.EnableAlign;
     Repaint;
+  end;
+end;
+
+procedure TformTrayslate.DoCheckUpdates(Data: PtrInt);
+begin
+  Screen.Cursor := crHourGlass;
+  try
+    CheckGithubLatestVersion(True);
+  finally
+    Screen.Cursor := crDefault;
   end;
 end;
 

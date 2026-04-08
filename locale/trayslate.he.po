@@ -689,6 +689,10 @@ msgstr "אודות..."
 msgid "Add Current Pair"
 msgstr "הוסף זוג נוכחי"
 
+#: tformtrayslate.aautocheckupdates.caption
+msgid "Auto Check Updates"
+msgstr "בדיקה אוטומטית של עדכונים"
+
 #: tformtrayslate.acheckforupdates.caption
 msgid "Check For Updates"
 msgstr "בדוק עדכונים"

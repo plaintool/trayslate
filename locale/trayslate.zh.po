@@ -689,6 +689,10 @@ msgstr "关于..."
 msgid "Add Current Pair"
 msgstr "添加当前语言对"
 
+#: tformtrayslate.aautocheckupdates.caption
+msgid "Auto Check Updates"
+msgstr "自动更新检查"
+
 #: tformtrayslate.acheckforupdates.caption
 msgid "Check For Updates"
 msgstr "检查更新"

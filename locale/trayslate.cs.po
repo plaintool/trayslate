@@ -689,6 +689,10 @@ msgstr "O programu..."
 msgid "Add Current Pair"
 msgstr "Přidat aktuální pár"
 
+#: tformtrayslate.aautocheckupdates.caption
+msgid "Auto Check Updates"
+msgstr "Automatická kontrola aktualizací"
+
 #: tformtrayslate.acheckforupdates.caption
 msgid "Check For Updates"
 msgstr "Zkontrolovat aktualizace"

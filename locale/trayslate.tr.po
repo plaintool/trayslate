@@ -689,6 +689,10 @@ msgstr "Hakkında..."
 msgid "Add Current Pair"
 msgstr "Geçerli Çifti Ekle"
 
+#: tformtrayslate.aautocheckupdates.caption
+msgid "Auto Check Updates"
+msgstr "Otomatik güncelleme kontrolü"
+
 #: tformtrayslate.acheckforupdates.caption
 msgid "Check For Updates"
 msgstr "Güncellemeleri Kontrol Et"

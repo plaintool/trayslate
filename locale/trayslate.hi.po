@@ -689,6 +689,10 @@ msgstr "परिचय..."
 msgid "Add Current Pair"
 msgstr "वर्तमान युग्म जोड़ें"
 
+#: tformtrayslate.aautocheckupdates.caption
+msgid "Auto Check Updates"
+msgstr "अपडेट्स की ऑटो जांच"
+
 #: tformtrayslate.acheckforupdates.caption
 msgid "Check For Updates"
 msgstr "अद्यतन जाँचें"

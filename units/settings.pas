@@ -155,6 +155,7 @@ begin
     JSONObj.Add('AutoSwap', Form.AutoSwap);
     JSONObj.Add('AutoAddLangPairs', Form.AutoAddLangPairs);
     JSONObj.Add('RecentPairHotKeys', Form.RecentPairHotKeys);
+    JSONObj.Add('AutoCheckUpdates', Form.AutoCheckUpdates);
 
     // Save hotkeys
     JSONObj.Add('HotKeyApp_Modifiers', Form.HotKeyApp.Modifiers);
@@ -323,6 +324,9 @@ begin
 
       if (JSONObj.FindPath('RecentPairHotKeys') <> nil) then
         Form.RecentPairHotKeys := JSONObj.FindPath('RecentPairHotKeys').AsBoolean;
+
+      if (JSONObj.FindPath('AutoCheckUpdates') <> nil) then
+        Form.AutoCheckUpdates := JSONObj.FindPath('AutoCheckUpdates').AsBoolean;
 
       // Load HotKeys
       // HotKeyApp

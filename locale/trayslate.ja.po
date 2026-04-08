@@ -689,6 +689,10 @@ msgstr "プログラム情報..."
 msgid "Add Current Pair"
 msgstr "現在のペアを追加"
 
+#: tformtrayslate.aautocheckupdates.caption
+msgid "Auto Check Updates"
+msgstr "自動更新チェック"
+
 #: tformtrayslate.acheckforupdates.caption
 msgid "Check For Updates"
 msgstr "アップデートを確認"

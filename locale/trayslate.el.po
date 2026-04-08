@@ -689,6 +689,10 @@ msgstr "Σχετικά..."
 msgid "Add Current Pair"
 msgstr "Προσθήκη τρέχοντος ζεύγους"
 
+#: tformtrayslate.aautocheckupdates.caption
+msgid "Auto Check Updates"
+msgstr "Αυτόματος έλεγχος ενημερώσεων"
+
 #: tformtrayslate.acheckforupdates.caption
 msgid "Check For Updates"
 msgstr "Έλεγχος για ενημερώσεις"

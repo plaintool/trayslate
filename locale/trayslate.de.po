@@ -689,6 +689,10 @@ msgstr "Info..."
 msgid "Add Current Pair"
 msgstr "Aktuelles Paar hinzufügen"
 
+#: tformtrayslate.aautocheckupdates.caption
+msgid "Auto Check Updates"
+msgstr "Automatische Updates-Prüfung"
+
 #: tformtrayslate.acheckforupdates.caption
 msgid "Check For Updates"
 msgstr "Nach Updates suchen"

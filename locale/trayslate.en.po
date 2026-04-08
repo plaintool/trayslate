@@ -499,12 +499,10 @@ msgid "Automatically translate text while typing"
 msgstr "Automatically translate text while typing"
 
 #: tformsettingstrayslate.checkrecentpairhotkeys.caption
-#| msgid "Enable Global Ctrl+Number Hotkeys"
 msgid "Enable Global Ctrl+Shift+Number Hotkeys"
 msgstr "Enable Global Ctrl+Shift+Number Hotkeys"
 
 #: tformsettingstrayslate.checkrecentpairhotkeys.hint
-#| msgid "When enabled, Ctrl+Number switches recent language pairs"
 msgid "When enabled, Ctrl+Shift+Number switches recent language pairs"
 msgstr "When enabled, Ctrl+Shift+Number switches recent language pairs"
 
@@ -690,6 +688,10 @@ msgstr "About..."
 #: tformtrayslate.aaddpair.hint
 msgid "Add Current Pair"
 msgstr "Add Current Pair"
+
+#: tformtrayslate.aautocheckupdates.caption
+msgid "Auto Check Updates"
+msgstr "Auto Check Updates"
 
 #: tformtrayslate.acheckforupdates.caption
 msgid "Check For Updates"

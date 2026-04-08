@@ -242,10 +242,10 @@ object formTrayslate: TformTrayslate
     object MenuConfig: TMenuItem
       Caption = 'Config'
     end
-    object MenuItem2: TMenuItem
+    object MenuConfigEditor: TMenuItem
       Action = aConfigEditor
     end
-    object MenuItem1: TMenuItem
+    object MenuSettings: TMenuItem
       Action = aSettings
     end
     object Separator3: TMenuItem
@@ -253,81 +253,81 @@ object formTrayslate: TformTrayslate
     end
     object MenuHelp: TMenuItem
       Caption = 'Help'
-      object menuLanguage: TMenuItem
+      object MenuLanguage: TMenuItem
         Caption = 'Language'
-        object menuArabic: TMenuItem
+        object MenuArabic: TMenuItem
           Action = aLangArabic
         end
-        object menuBelarusian: TMenuItem
+        object MenuBelarusian: TMenuItem
           Action = aLangBelarusian
         end
-        object menuChinese: TMenuItem
+        object MenuChinese: TMenuItem
           Action = aLangChinese
         end
-        object MenuItem3: TMenuItem
+        object MenuCzech: TMenuItem
           Action = aLangCzech
         end
-        object MenuItem4: TMenuItem
+        object MenuDanish: TMenuItem
           Action = aLangDanish
         end
-        object MenuItem5: TMenuItem
+        object MenuDutch: TMenuItem
           Action = aLangDutch
         end
-        object menuEnglish: TMenuItem
+        object MenuEnglish: TMenuItem
           Action = aLangEnglish
         end
-        object MenuItem6: TMenuItem
+        object MenuFinnish: TMenuItem
           Action = aLangFinnish
         end
-        object menuFrench: TMenuItem
+        object MenuFrench: TMenuItem
           Action = aLangFrench
         end
-        object menuGerman: TMenuItem
+        object MenuGerman: TMenuItem
           Action = aLangGerman
         end
-        object MenuItem7: TMenuItem
+        object MenuGreek: TMenuItem
           Action = aLangGreek
         end
-        object MenuItem8: TMenuItem
+        object MenuHebrew: TMenuItem
           Action = aLangHebrew
         end
-        object menuHindi: TMenuItem
+        object MenuHindi: TMenuItem
           Action = aLangHindi
         end
-        object MenuItem9: TMenuItem
+        object MenuIndonesian: TMenuItem
           Action = aLangIndonesian
         end
-        object menuItalian: TMenuItem
+        object MenuItalian: TMenuItem
           Action = aLangItalian
         end
-        object menuJapanese: TMenuItem
+        object MenuJapanese: TMenuItem
           Action = aLangJapanese
         end
-        object menuKorean: TMenuItem
+        object MenuKorean: TMenuItem
           Action = aLangKorean
         end
-        object MenuItem10: TMenuItem
+        object MenuPolish: TMenuItem
           Action = aLangPolish
         end
-        object menuPortuguese: TMenuItem
+        object MenuPortuguese: TMenuItem
           Action = aLangPortuguese
         end
-        object MenuItem11: TMenuItem
+        object MenuRomanian: TMenuItem
           Action = aLangRomanian
         end
-        object menuRussian: TMenuItem
+        object MenuRussian: TMenuItem
           Action = aLangRussian
         end
-        object menuSpanish: TMenuItem
+        object MenuSpanish: TMenuItem
           Action = aLangSpanish
         end
-        object MenuItem12: TMenuItem
+        object MenuSwedish: TMenuItem
           Action = aLangSwedish
         end
-        object MenuItem13: TMenuItem
+        object MenuTurkish: TMenuItem
           Action = aLangTurkish
         end
-        object menuUkrainian: TMenuItem
+        object MenuUkrainian: TMenuItem
           Action = aLangUkrainian
         end
       end
@@ -336,6 +336,10 @@ object formTrayslate: TformTrayslate
       end
       object MenuDonate: TMenuItem
         Action = aDonate
+      end
+      object MenuAutoCheckUpdates: TMenuItem
+        Action = aAutoCheckUpdates
+        AutoCheck = True
       end
       object MenuCheckForUpdates: TMenuItem
         Action = aCheckForUpdates
@@ -387,21 +391,6 @@ object formTrayslate: TformTrayslate
       Category = 'Tray'
       Caption = 'Buy Me a Coffee...'
       OnExecute = aDonateExecute
-    end
-    object aCheckForUpdates: TAction
-      Category = 'Tray'
-      Caption = 'Check For Updates'
-      OnExecute = aCheckForUpdatesExecute
-    end
-    object aAbout: TAction
-      Category = 'Tray'
-      Caption = 'About...'
-      OnExecute = aAboutExecute
-    end
-    object aExit: TAction
-      Category = 'Tray'
-      Caption = 'Exit'
-      OnExecute = aExitExecute
     end
     object aNewTranslate: TAction
       Category = 'Form'
@@ -539,6 +528,28 @@ object formTrayslate: TformTrayslate
       Category = 'Language'
       Caption = 'Ukrainian'
       OnExecute = aLangUkrainianExecute
+    end
+    object aAutoCheckUpdates: TAction
+      Category = 'Tray'
+      AutoCheck = True
+      Caption = 'Auto Check Updates'
+      Checked = True
+      OnExecute = aAutoCheckUpdatesExecute
+    end
+    object aCheckForUpdates: TAction
+      Category = 'Tray'
+      Caption = 'Check For Updates'
+      OnExecute = aCheckForUpdatesExecute
+    end
+    object aAbout: TAction
+      Category = 'Tray'
+      Caption = 'About...'
+      OnExecute = aAboutExecute
+    end
+    object aExit: TAction
+      Category = 'Tray'
+      Caption = 'Exit'
+      OnExecute = aExitExecute
     end
   end
   object TimerClick: TTimer
