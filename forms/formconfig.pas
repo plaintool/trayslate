@@ -447,7 +447,7 @@ begin
   if FileName = string.Empty then Exit;
 
   // Ask user for confirmation
-  if MessageDlg(rdeleteconfigcaption, rdeleteconfig + ExtractFileName(FileName) + '?', mtConfirmation, [mbYes, mbNo], 0) <> mrYes then
+  if MessageDlg(rdeleteconfigcaption, rdeleteconfig + ' ' + ExtractFileName(FileName) + '?', mtConfirmation, [mbYes, mbNo], 0) <> mrYes then
     Exit;
 
   try
