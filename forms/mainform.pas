@@ -1915,7 +1915,14 @@ end;
 
 procedure TformTrayslate.TranslateMemo(ADetectLanguage: boolean = True);
 begin
-  if (Trim(MemoSource.Text) = string.Empty) then Exit;
+  MemoTarget.Clear;
+
+  if (Trim(MemoSource.Text) = string.Empty) then
+  begin
+    Screen.Cursor := crDefault;
+    TimerAnimate.Enabled := False;
+    Exit;
+  end;
 
   if (ADetectLanguage) then
     DetectLanguage(MemoSource.Text);
