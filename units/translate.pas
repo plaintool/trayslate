@@ -70,6 +70,7 @@ type
     FInitParameters: TStringList;
     FInitLiveTime: integer;
     FParameterValues: TStringList;
+    FParameterEncode: TStringList;
 
     FParametersAge: TDateTime;
   public
@@ -77,7 +78,7 @@ type
     destructor Destroy; override;
 
     procedure GetParameters(Data: string);
-    function SetParameters(Data: string): string;
+    function SetParameters(Data: string; IncludeSet: boolean = True): string;
     procedure SetParametersList(Strings: TStrings);
     function GetInit: string;
     function Get(ReturnHeaders: boolean = False): string;
@@ -90,6 +91,7 @@ type
     property TextToTranslate: string read FTextToTranslate write FTextToTranslate;
     property ParametersAge: TDateTime read FParametersAge write FParametersAge;
     property ParameterValues: TStringList read FParameterValues write FParameterValues;
+    property ParameterEncode: TStringList read FParameterEncode write FParameterEncode;
 
     property ServiceName: string read FServiceName write FServiceName;
     property ServiceOrder: integer read FServiceOrder write FServiceOrder;
@@ -159,10 +161,13 @@ begin
   FUserAgent := 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:148.0) Gecko/20100101 Firefox/148.0';
   FHeaders := TStringList.Create;
   FHeaders.TrailingLineBreak := False;
+  FHeaders.SkipLastLineBreak := True;
   FCustomParameters := TStringList.Create;
   FCustomParameters.TrailingLineBreak := False;
+  FCustomParameters.SkipLastLineBreak := True;
   FServiceDescription := TStringList.Create;
   FServiceDescription.TrailingLineBreak := False;
+  FServiceDescription.SkipLastLineBreak := True;
   FEncodeText := True;
   FUrl := string.Empty;
   FContentType := 'application/json';
@@ -172,18 +177,26 @@ begin
   FRegexp := string.Empty;
   FLanguages := TStringList.Create;
   FLanguages.TrailingLineBreak := False;
+  FLanguages.SkipLastLineBreak := True;
   FLanguagesTarget := TStringList.Create;
   FLanguagesTarget.TrailingLineBreak := False;
+  FLanguagesTarget.SkipLastLineBreak := True;
   FValueType := vtLanguage;
 
   FInitUserAgent := 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:148.0) Gecko/20100101 Firefox/148.0';
   FInitHeaders := TStringList.Create;
   FInitHeaders.TrailingLineBreak := False;
+  FInitHeaders.SkipLastLineBreak := True;
   FInitUrl := string.Empty;
   FInitParameters := TStringList.Create;
   FInitParameters.TrailingLineBreak := False;
+  FInitParameters.SkipLastLineBreak := True;
   FParameterValues := TStringList.Create;
   FParameterValues.TrailingLineBreak := False;
+  FParameterValues.SkipLastLineBreak := True;
+  FParameterEncode := TStringList.Create;
+  FParameterEncode.TrailingLineBreak := False;
+  FParameterEncode.SkipLastLineBreak := True;
   FInitLiveTime := 60;
 
   FLangSource := DEFAULT_LANG;
@@ -201,6 +214,7 @@ begin
   FInitHeaders.Free;
   FInitParameters.Free;
   FParameterValues.Free;
+  FParameterEncode.Free;
   inherited Destroy;
 end;
 
@@ -213,10 +227,29 @@ var
   Value: string;
   FullRandom: int64;
 begin
+  // Custom parameters (key=value)
+  if Assigned(FCustomParameters) then
+  begin
+    for i := 0 to FCustomParameters.Count - 1 do
+    begin
+      ParamName := FCustomParameters.Names[i];
+      Value := FCustomParameters.ValueFromIndex[i];
+
+      // Skip empty keys
+      if ParamName = string.Empty then
+        Continue;
+
+      // Add or override parameter
+      FParameterValues.Values[ParamName] := Value;
+      FParameterEncode.Values[ParamName] := ifthen(FEncodeCustomParameters, '1', '0');
+    end;
+  end;
+
   if FTextToTranslate <> string.Empty then
     FParameterValues.Values['text'] := FTextToTranslate
   else
     FParameterValues.Values['text'] := string.Empty;
+  FParameterEncode.Values['text'] := ifthen(FEncodeText, '1', '0');
 
   if FLangSource <> string.Empty then
     FParameterValues.Values['source'] := ifthen(FLangSource = EMPTY_LANG, string.Empty, FLangSource)
@@ -270,17 +303,17 @@ begin
   end;
 end;
 
-function TTranslate.SetParameters(Data: string): string;
+function TTranslate.SetParameters(Data: string; IncludeSet: boolean = True): string;
 var
   i: integer;
   ParamName: string;
   ParamValue: string;
 
-  function Encrypt(AName, AValue: string): string;
+  function Encode(AName, AValue: string): string;
   begin
-    if (Lowercase(AName) = 'text') then
+    if (ParameterEncode.IndexOfName(AName) <> -1) then
     begin
-      if (FEncodeText) then
+      if (ParameterEncode.Values[AName] = '1') then
         Result := EncodeURLElement(AValue)
       else
         Result := EscapeText(AValue);
@@ -300,14 +333,17 @@ begin
     ParamName := FParameterValues.Names[i];
     ParamValue := RemoveTrailingLineBreak(FParameterValues.ValueFromIndex[i]);
 
+    if IncludeSet and (Pos('{', ParamValue) > 0) and (Pos('}', ParamValue) > 0) then
+      ParamValue := SetParameters(ParamValue, False);
+
     // Replace all occurrences of {name} with value
-    Result := StringReplace(Result, '{' + ParamName + '}', Encrypt(ParamName, ParamValue), [rfReplaceAll]);
+    Result := StringReplace(Result, '{' + ParamName + '}', Encode(ParamName, ParamValue), [rfReplaceAll]);
 
     // lowercase {!param}
-    Result := StringReplace(Result, '{!' + ParamName + '}', Encrypt(ParamName, UTF8LowerCase(ParamValue)), [rfReplaceAll]);
+    Result := StringReplace(Result, '{!' + ParamName + '}', Encode(ParamName, UTF8LowerCase(ParamValue)), [rfReplaceAll]);
 
     // UPPERCASE {^param}
-    Result := StringReplace(Result, '{^' + ParamName + '}', Encrypt(ParamName, UTF8UpperCase(ParamValue)), [rfReplaceAll]);
+    Result := StringReplace(Result, '{^' + ParamName + '}', Encode(ParamName, UTF8UpperCase(ParamValue)), [rfReplaceAll]);
   end;
 end;
 

@@ -242,7 +242,7 @@ msgid "Parameters"
 msgstr "Параметри"
 
 #: tformconfigtrayslate.labelinitparameters4.caption
-msgid "Parameters in the form name=value used by name in requests"
+msgid "Parameters in the form key=value used by {key} in requests"
 msgstr ""
 
 #: tformconfigtrayslate.labelinitparemeters.caption

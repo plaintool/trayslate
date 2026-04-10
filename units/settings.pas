@@ -194,7 +194,9 @@ begin
   end;
 
   try
+    Form.MemoSource.Lines.TrailingLineBreak := False;
     Form.MemoSource.Lines.SaveToFile(GetSettingsDirectory('source.txt'));
+    Form.MemoTarget.Lines.TrailingLineBreak := False;
     Form.MemoTarget.Lines.SaveToFile(GetSettingsDirectory('target.txt'));
   except
     // Do nothing if can't save current text files
@@ -396,10 +398,16 @@ begin
 
   FileName := GetSettingsDirectory('source.txt');
   if FileExists(FileName) then
+  begin
+    Form.MemoSource.Lines.TrailingLineBreak := False;
     Form.MemoSource.Lines.LoadFromFile(FileName);
+  end;
   FileName := GetSettingsDirectory('target.txt');
   if FileExists(FileName) then
+  begin
+    Form.MemoTarget.Lines.TrailingLineBreak := False;
     Form.MemoTarget.Lines.LoadFromFile(FileName);
+  end;
 end;
 
 procedure SaveIniSettings(Translate: TTranslate; AFileName: string);
@@ -677,7 +685,7 @@ begin
     // Check required keys
     Method := Ini.ReadString('Request', 'Method', string.Empty);
 
-    if ((Method = 'GET') or (Method = 'POST')) and Ini.ValueExists('Request', 'EncryptText') and
+    if ((Method = 'GET') or (Method = 'POST')) and Ini.ValueExists('Request', 'EncodeText') and
       Ini.ValueExists('Service', 'Order') then
       Result := True;
   finally

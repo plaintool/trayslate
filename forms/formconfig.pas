@@ -64,13 +64,13 @@ type
     LabelInitParameters1: TLabel;
     LabelInitParameters3: TLabel;
     LabelInitParameters4: TLabel;
+    LabelInitParemeters: TLabel;
     LabelLanguages1: TLabel;
     LabelLanguagesTarget: TLabel;
     LabelFillLanguages: TLabel;
     LabelInitLiveTime: TLabel;
     LabelMethod: TLabel;
     LabelLanguages: TLabel;
-    LabelInitParemeters: TLabel;
     LabelServiceDescription: TLabel;
     LabelValueType: TLabel;
     LabelJsonPointer2: TLabel;
@@ -516,7 +516,6 @@ begin
     MemoLanguages.Lines.Assign(Languages);
     MemoLanguagesTarget.Lines.Assign(LanguagesTarget);
     ComboValueType.ItemIndex := Ord(ValueType);
-
     EditInitUserAgent.Text := InitUserAgent;
     MemoInitHeaders.Lines.Assign(InitHeaders);
     MemoInitUrl.Text := InitUrl;
@@ -597,35 +596,40 @@ begin
       ServiceName := EditServiceName.Text;
       ServiceOrder := SpinServiceOrder.Value;
       ServiceAutoSwap := CheckServiceAutoSwap.Checked;
-      ServiceDescription.Assign(MemoServiceDescription.Lines);
+      ServiceDescription.Text := MemoServiceDescription.Text;
+
       WebMethod := TWebMethod(ComboMethod.ItemIndex);
       UserAgent := EditUserAgent.Text;
       EncodeText := CheckEncodeText.Checked;
+
       TempHeaders := HeadersFromMemo(MemoHeaders);
       try
-        Headers.Assign(TempHeaders);
+        Headers.Text := TempHeaders.Text;
       finally
         TempHeaders.Free;
       end;
+
       Url := MemoUrl.Text;
       ContentType := EditContentType.Text;
       PostData := MemoPostData.Text;
       Accept := EditAccept.Text;
       JsonPointer := MemoJsonPointer.Text;
-      Languages.Assign(MemoLanguages.Lines);
-      LanguagesTarget.Assign(MemoLanguagesTarget.Lines);
+      Languages.Text := MemoLanguages.Text;
+      LanguagesTarget.Text := MemoLanguagesTarget.Text;
       ValueType := TValueType(ComboValueType.ItemIndex);
       EncodeCustomParameters := CheckEncodeCustomParameters.Checked;
-      CustomParameters.Assign(MemoCustomParameters.Lines);
+      CustomParameters.Text := MemoCustomParameters.Text;
       InitUserAgent := EditInitUserAgent.Text;
+
       TempHeaders := HeadersFromMemo(MemoInitHeaders);
       try
-        InitHeaders.Assign(TempHeaders);
+        InitHeaders.Text := TempHeaders.Text;
       finally
         TempHeaders.Free;
       end;
+
       InitUrl := MemoInitUrl.Text;
-      InitParameters.Assign(MemoInitParameters.Lines);
+      InitParameters.Text := MemoInitParameters.Text;
       InitLiveTime := SpinInitLiveTime.Value;
     end;
     SaveIniSettings(formTrayslate.Trans, formTrayslate.ConfigFile);
