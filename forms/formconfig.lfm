@@ -181,20 +181,119 @@ object formConfigTrayslate: TformConfigTrayslate
         Width = 582
         HorzScrollBar.Page = 1
         HorzScrollBar.Visible = False
-        VertScrollBar.Increment = 48
-        VertScrollBar.Page = 486
+        VertScrollBar.Increment = 14
+        VertScrollBar.Page = 149
         VertScrollBar.Smooth = True
         VertScrollBar.Tracking = True
         Align = alClient
         BorderStyle = bsNone
         ClientHeight = 486
-        ClientWidth = 565
+        ClientWidth = 582
         ParentBackground = False
+        TabOrder = 0
+        object GroupBoxService: TGroupBox
+          Left = 5
+          Height = 476
+          Top = 5
+          Width = 572
+          Align = alClient
+          BorderSpacing.Around = 5
+          Caption = 'Service'
+          ClientHeight = 456
+          ClientWidth = 568
+          ParentBackground = False
+          TabOrder = 0
+          object LabelServiceName: TLabel
+            Left = 8
+            Height = 23
+            Top = 0
+            Width = 104
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Name'
+          end
+          object EditServiceName: TEdit
+            Left = 120
+            Height = 23
+            Top = 0
+            Width = 423
+            Anchors = [akTop, akLeft, akRight]
+            TabOrder = 0
+            OnChange = ValueChange
+          end
+          object CheckServiceAutoSwap: TCheckBox
+            Left = 120
+            Height = 19
+            Top = 64
+            Width = 151
+            Caption = 'Auto-swap language pair'
+            TabOrder = 2
+            OnChange = ValueChange
+          end
+          object LabelServiceOrder: TLabel
+            Left = 8
+            Height = 23
+            Top = 32
+            Width = 104
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Order'
+          end
+          object SpinServiceOrder: TSpinEdit
+            Left = 120
+            Height = 23
+            Top = 32
+            Width = 423
+            Anchors = [akTop, akLeft, akRight]
+            TabOrder = 1
+            OnChange = ValueChange
+          end
+          object MemoServiceDescription: TMemo
+            Left = 120
+            Height = 336
+            Top = 96
+            Width = 423
+            Anchors = [akTop, akLeft, akRight, akBottom]
+            BorderSpacing.Top = 45
+            BorderSpacing.Right = 15
+            BorderSpacing.Around = 5
+            ScrollBars = ssVertical
+            TabOrder = 3
+            OnChange = ValueChange
+            OnKeyDown = MemoKeyDown
+          end
+          object LabelServiceDescription: TLabel
+            Left = 8
+            Height = 23
+            Top = 96
+            Width = 104
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Description'
+          end
+        end
+      end
+    end
+    object PageRequest: TTabSheet
+      Caption = 'Request'
+      ClientHeight = 486
+      ClientWidth = 582
+      object ScrollBoxRequest: TScrollBox
+        Left = 0
+        Height = 486
+        Top = 0
+        Width = 582
+        HorzScrollBar.Page = 520
+        VertScrollBar.Page = 486
+        Align = alClient
+        BorderStyle = bsNone
+        ClientHeight = 486
+        ClientWidth = 565
         TabOrder = 0
         object GroupRequest: TGroupBox
           Left = 5
           Height = 741
-          Top = 125
+          Top = 5
           Width = 555
           Align = alTop
           BorderSpacing.Around = 5
@@ -202,7 +301,7 @@ object formConfigTrayslate: TformConfigTrayslate
           ClientHeight = 721
           ClientWidth = 551
           ParentBackground = False
-          TabOrder = 1
+          TabOrder = 0
           object LabelMethod: TLabel
             Left = 8
             Height = 23
@@ -335,7 +434,7 @@ object formConfigTrayslate: TformConfigTrayslate
             AutoSize = False
             Caption = 'Accept'
           end
-          object CheckEncryptText: TCheckBox
+          object CheckEncodeText: TCheckBox
             Left = 123
             Height = 19
             Top = 256
@@ -475,61 +574,67 @@ object formConfigTrayslate: TformConfigTrayslate
             OnClick = BtnPostDataTestClick
           end
         end
-        object GroupBoxService: TGroupBox
+      end
+    end
+    object PageResponse: TTabSheet
+      Caption = 'Response'
+      ClientHeight = 486
+      ClientWidth = 582
+      object ScrollBoxResponse: TScrollBox
+        Left = 0
+        Height = 486
+        Top = 0
+        Width = 582
+        HorzScrollBar.Page = 1
+        HorzScrollBar.Visible = False
+        VertScrollBar.Increment = 31
+        VertScrollBar.Page = 318
+        VertScrollBar.Smooth = True
+        VertScrollBar.Tracking = True
+        Align = alClient
+        BorderStyle = bsNone
+        ClientHeight = 486
+        ClientWidth = 582
+        TabOrder = 0
+        object GroupResponse: TGroupBox
           Left = 5
-          Height = 115
+          Height = 476
           Top = 5
-          Width = 555
-          Align = alTop
+          Width = 572
+          Align = alClient
           BorderSpacing.Around = 5
-          Caption = 'Service'
-          ClientHeight = 95
-          ClientWidth = 551
+          Caption = 'Response'
+          ClientHeight = 456
+          ClientWidth = 568
           ParentBackground = False
           TabOrder = 0
-          object LabelServiceName: TLabel
-            Left = 8
-            Height = 23
-            Top = 0
-            Width = 104
-            Alignment = taRightJustify
-            AutoSize = False
-            Caption = 'Name'
+          object LabelJsonPointer2: TLabel
+            Left = 5
+            Height = 240
+            Top = 5
+            Width = 543
+            Align = alTop
+            BorderSpacing.Right = 15
+            BorderSpacing.Bottom = 5
+            BorderSpacing.Around = 5
+            Caption = 'Json Pointer: Use / for levels, keys for objects, and numbers for indexes. Use * for all items, *#10 to join items by newline. Use ~ at the end of the path to return the raw JSON branch. Separate multiple segments with semicolon ;.'#13#10'Literal: Text block in {…}. Special tag #10 for newlines. Use {{regex}} inside to extract data directly into the text.'#13#10'Logic: If a Pointer in a segment is empty, the whole segment is skipped. If a segment has no Pointer, only literal text blocks with embedded regular expressions are processed.'#13#10'Regex: {prefix {regex[index]} suffix} inside a text block. If no [index] is specified, the first match is used. Index can be a number, [*] (join by space), or [*#10] (join by newline). If the regex finds no match, the entire {…} block is removed. Using ~ inside a regex returns the entire text.'#13#10'Inversion: Start a segment with ! (e.g. !/path{Error}) to show its text only if the Pointer data is missing or the JSON is invalid.'#13#10'Commenting: /* text */ comments are stripped from the entire expression before any processing.'#13#10'Examples:'#13#10'responseData/translatedText; matches/*#10/translation; /texts/text; {literal text#10}; /result/text; /text{ ({(\w+)})}; !/translations{Error: No data!#10}; /translations/0/text'
+            Color = clInfoBk
+            ParentColor = False
+            Transparent = False
+            WordWrap = True
           end
-          object EditServiceName: TEdit
-            Left = 120
-            Height = 23
-            Top = 0
-            Width = 406
-            Anchors = [akTop, akLeft, akRight]
+          object MemoJsonPointer: TMemo
+            Left = 5
+            Height = 191
+            Top = 260
+            Width = 543
+            Align = alClient
+            BorderSpacing.Top = 10
+            BorderSpacing.Right = 15
+            BorderSpacing.Around = 5
+            ScrollBars = ssVertical
             TabOrder = 0
-            OnChange = ValueChange
-          end
-          object CheckAutoSwap: TCheckBox
-            Left = 120
-            Height = 19
-            Top = 64
-            Width = 151
-            Caption = 'Auto-swap language pair'
-            TabOrder = 2
-            OnChange = ValueChange
-          end
-          object LabelServiceOrder: TLabel
-            Left = 11
-            Height = 23
-            Top = 32
-            Width = 104
-            Alignment = taRightJustify
-            AutoSize = False
-            Caption = 'Order'
-          end
-          object SpinServiceOrder: TSpinEdit
-            Left = 120
-            Height = 23
-            Top = 32
-            Width = 406
-            Anchors = [akTop, akLeft, akRight]
-            TabOrder = 1
+            WantReturns = False
             OnChange = ValueChange
           end
         end
@@ -558,10 +663,9 @@ object formConfigTrayslate: TformConfigTrayslate
         object GroupInitParameters: TGroupBox
           Left = 5
           Height = 467
-          Top = 45
+          Top = 277
           Width = 555
           Align = alTop
-          BorderSpacing.Top = 40
           BorderSpacing.Around = 5
           Caption = 'Initial Request'
           ClientHeight = 447
@@ -808,67 +912,56 @@ object formConfigTrayslate: TformConfigTrayslate
           ParentColor = False
           Transparent = False
         end
-      end
-    end
-    object PageResponse: TTabSheet
-      Caption = 'Response'
-      ClientHeight = 486
-      ClientWidth = 582
-      object ScrollBoxResponse: TScrollBox
-        Left = 0
-        Height = 486
-        Top = 0
-        Width = 582
-        HorzScrollBar.Page = 1
-        HorzScrollBar.Visible = False
-        VertScrollBar.Increment = 31
-        VertScrollBar.Page = 318
-        VertScrollBar.Smooth = True
-        VertScrollBar.Tracking = True
-        Align = alClient
-        BorderStyle = bsNone
-        ClientHeight = 486
-        ClientWidth = 582
-        TabOrder = 0
-        object GroupResponse: TGroupBox
+        object GroupBoxCustomParameters: TGroupBox
           Left = 5
-          Height = 476
-          Top = 5
-          Width = 572
-          Align = alClient
+          Height = 227
+          Top = 45
+          Width = 555
+          Align = alTop
+          BorderSpacing.Top = 40
           BorderSpacing.Around = 5
-          Caption = 'Response'
-          ClientHeight = 456
-          ClientWidth = 568
-          ParentBackground = False
-          TabOrder = 0
-          object LabelJsonPointer2: TLabel
-            Left = 5
-            Height = 240
-            Top = 5
-            Width = 543
-            Align = alTop
-            BorderSpacing.Right = 15
-            BorderSpacing.Bottom = 5
-            BorderSpacing.Around = 5
-            Caption = 'Json Pointer: Use / for levels, keys for objects, and numbers for indexes. Use * for all items, *#10 to join items by newline. Use ~ at the end of the path to return the raw JSON branch. Separate multiple segments with semicolon ;.'#13#10'Literal: Text block in {…}. Special tag #10 for newlines. Use {{regex}} inside to extract data directly into the text.'#13#10'Logic: If a Pointer in a segment is empty, the whole segment is skipped. If a segment has no Pointer, only literal text blocks with embedded regular expressions are processed.'#13#10'Regex: {prefix {regex[index]} suffix} inside a text block. If no [index] is specified, the first match is used. Index can be a number, [*] (join by space), or [*#10] (join by newline). If the regex finds no match, the entire {…} block is removed. Using ~ inside a regex returns the entire text.'#13#10'Inversion: Start a segment with ! (e.g. !/path{Error}) to show its text only if the Pointer data is missing or the JSON is invalid.'#13#10'Commenting: /* text */ comments are stripped from the entire expression before any processing.'#13#10'Examples:'#13#10'responseData/translatedText; matches/*#10/translation; /texts/text; {literal text#10}; /result/text; /text{ ({(\w+)})}; !/translations{Error: No data!#10}; /translations/0/text'
+          Caption = 'Custom Parameters'
+          ClientHeight = 207
+          ClientWidth = 551
+          TabOrder = 1
+          object MemoCustomParameters: TMemo
+            Left = 120
+            Height = 128
+            Top = 64
+            Width = 406
+            Anchors = [akTop, akLeft, akRight]
+            ScrollBars = ssVertical
+            TabOrder = 0
+            OnChange = ValueChange
+            OnKeyDown = MemoKeyDown
+          end
+          object LabelInitParameters3: TLabel
+            Left = 8
+            Height = 23
+            Top = 64
+            Width = 104
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Parameters'
+          end
+          object LabelInitParameters4: TLabel
+            Left = 8
+            Height = 15
+            Top = 8
+            Width = 518
+            Anchors = [akTop, akLeft, akRight]
+            Caption = 'Parameters in the form name=value used by name in requests'
             Color = clInfoBk
             ParentColor = False
             Transparent = False
-            WordWrap = True
           end
-          object MemoJsonPointer: TMemo
-            Left = 5
-            Height = 191
-            Top = 260
-            Width = 543
-            Align = alClient
-            BorderSpacing.Top = 10
-            BorderSpacing.Right = 15
-            BorderSpacing.Around = 5
-            ScrollBars = ssVertical
-            TabOrder = 0
-            WantReturns = False
+          object CheckEncodeCustomParameters: TCheckBox
+            Left = 120
+            Height = 19
+            Top = 32
+            Width = 119
+            Caption = 'Encode parameters'
+            TabOrder = 1
             OnChange = ValueChange
           end
         end

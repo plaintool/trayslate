@@ -134,14 +134,21 @@ msgctxt "tformconfigtrayslate.caption"
 msgid "Config Editor"
 msgstr "Рэдактар канфігурацыі"
 
-#: tformconfigtrayslate.checkautoswap.caption
-msgctxt "tformconfigtrayslate.checkautoswap.caption"
-msgid "Auto-swap language pair"
-msgstr "Аўтаматычна мяняць моўную пару"
+#: tformconfigtrayslate.checkencodecustomparameters.caption
+msgid "Encode parameters"
+msgstr ""
 
-#: tformconfigtrayslate.checkencrypttext.caption
+#: tformconfigtrayslate.checkencodetext.caption
+#, fuzzy
+msgctxt "tformconfigtrayslate.checkencodetext.caption"
 msgid "Encode {text} parameter"
 msgstr "Кадзіраваць параметр {text}"
+
+#: tformconfigtrayslate.checkserviceautoswap.caption
+#, fuzzy
+msgctxt "tformconfigtrayslate.checkserviceautoswap.caption"
+msgid "Auto-swap language pair"
+msgstr "Аўтаматычна мяняць моўную пару"
 
 #: tformconfigtrayslate.combomethod.text
 msgid "GET"
@@ -149,6 +156,10 @@ msgstr ""
 
 #: tformconfigtrayslate.combovaluetype.text
 msgid "None"
+msgstr ""
+
+#: tformconfigtrayslate.groupboxcustomparameters.caption
+msgid "Custom Parameters"
 msgstr ""
 
 #: tformconfigtrayslate.groupboxservice.caption
@@ -171,6 +182,7 @@ msgid "Target Languages"
 msgstr "Мэтавыя мовы"
 
 #: tformconfigtrayslate.grouprequest.caption
+msgctxt "tformconfigtrayslate.grouprequest.caption"
 msgid "Request"
 msgstr "Запыт"
 
@@ -222,6 +234,16 @@ msgstr "Час у секундах для абнаўлення параметр�
 msgctxt "tformconfigtrayslate.labelinitparameters2.caption"
 msgid "Parameters"
 msgstr "Параметры"
+
+#: tformconfigtrayslate.labelinitparameters3.caption
+#, fuzzy
+msgctxt "tformconfigtrayslate.labelinitparameters3.caption"
+msgid "Parameters"
+msgstr "Параметры"
+
+#: tformconfigtrayslate.labelinitparameters4.caption
+msgid "Parameters in the form name=value used by name in requests"
+msgstr ""
 
 #: tformconfigtrayslate.labelinitparemeters.caption
 msgid "Initial GET request to obtain required parameters."
@@ -293,6 +315,10 @@ msgctxt "tformconfigtrayslate.labelpostdata1.caption"
 msgid "Headers"
 msgstr ""
 
+#: tformconfigtrayslate.labelservicedescription.caption
+msgid "Description"
+msgstr ""
+
 #: tformconfigtrayslate.labelservicename.caption
 msgid "Name"
 msgstr "Імя"
@@ -329,6 +355,12 @@ msgstr "Мэтавыя мовы"
 msgctxt "tformconfigtrayslate.pageparameters.caption"
 msgid "Parameters"
 msgstr "Параметры"
+
+#: tformconfigtrayslate.pagerequest.caption
+#, fuzzy
+msgctxt "tformconfigtrayslate.pagerequest.caption"
+msgid "Request"
+msgstr "Запыт"
 
 #: tformconfigtrayslate.pageresponse.caption
 msgctxt "tformconfigtrayslate.pageresponse.caption"
@@ -850,3 +882,4 @@ msgstr "Нядаўнія пары"
 #: tformtrayslate.menulanguage.caption
 msgid "Language"
 msgstr ""
+

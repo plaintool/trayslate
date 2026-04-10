@@ -1895,7 +1895,7 @@ procedure TformTrayslate.DetectLanguage(AText: string);
 var
   langSrc, langTar, langDetect: string;
 begin
-  if (not FAutoSwap) or (not Trans.AutoSwap) or (not Assigned(FTransDetect)) then exit;
+  if (not FAutoSwap) or (not Trans.ServiceAutoSwap) or (not Assigned(FTransDetect)) then exit;
   if (FLanguages.IndexOf(ComboSource.Text) < 0) or (FLanguages.IndexOf(ComboTarget.Text) < 0) then exit;
 
   Screen.Cursor := crAppStart;

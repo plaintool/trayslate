@@ -414,7 +414,15 @@ begin
     if Trim(Translate.ServiceName) <> string.Empty then
       Ini.WriteString('Service', 'Name', Translate.ServiceName);
     Ini.WriteInteger('Service', 'Order', Translate.ServiceOrder);
-    Ini.WriteBool('Service', 'AutoSwapLanguage', Translate.AutoSwap);
+    Ini.WriteBool('Service', 'AutoSwapLanguage', Translate.ServiceAutoSwap);
+
+    // Save service description
+    Ini.EraseSection('Service Description');
+    if Assigned(Translate.ServiceDescription) then
+      for i := 0 to Translate.ServiceDescription.Count - 1 do
+        Ini.WriteString('Service Description',
+          IntToStr(i), // key: 0,1,2...
+          Translate.ServiceDescription[i]);
 
     case Translate.ValueType of
       vtNone: Ini.WriteString('Service', 'ValueType', 'None');
@@ -435,8 +443,8 @@ begin
     if Trim(Translate.UserAgent) <> string.Empty then
       Ini.WriteString('Request', 'UserAgent', Translate.UserAgent);
 
-    Ini.DeleteKey('Request', 'EncryptText');
-    Ini.WriteBool('Request', 'EncryptText', Translate.EncryptText);
+    Ini.DeleteKey('Request', 'EncodeText');
+    Ini.WriteBool('Request', 'EncodeText', Translate.EncodeText);
 
     Ini.DeleteKey('Request', 'Url');
     if Trim(Translate.Url) <> string.Empty then
@@ -469,6 +477,17 @@ begin
     Ini.DeleteKey('Response', 'JsonPointer');
     if Trim(Translate.JsonPointer) <> string.Empty then
       Ini.WriteString('Response', 'JsonPointer', Translate.JsonPointer);
+
+    Ini.DeleteKey('Parameters', 'EncodeCustomParameters');
+    Ini.WriteBool('Parameters', 'EncodeCustomParameters', Translate.EncodeCustomParameters);
+
+    // Save custom parameters
+    Ini.EraseSection('Custom Parameters'); // Clear previous entries
+    if Assigned(Translate.CustomParameters) then
+      for i := 0 to Translate.CustomParameters.Count - 1 do
+        Ini.WriteString('Custom Parameters',
+          Translate.CustomParameters.Names[i],
+          Translate.CustomParameters.ValueFromIndex[i]);
 
     Ini.EraseSection('Initial Request');
     Ini.DeleteKey('Initial Request', 'UserAgent');
@@ -530,6 +549,8 @@ var
   Method: string;
   PostDataEscaped: string;
   Value: string;
+  Keys: TStringList;
+  i: integer;
 
   procedure LoadSection(const Section: string; Dest: TStrings);
   var
@@ -569,7 +590,20 @@ begin
   try
     Translate.ServiceName := Ini.ReadString('Service', 'Name', string.Empty);
     Translate.ServiceOrder := Ini.ReadInteger('Service', 'Order', 0);
-    Translate.AutoSwap := Ini.ReadBool('Service', 'AutoSwapLanguage', False);
+    Translate.ServiceAutoSwap := Ini.ReadBool('Service', 'AutoSwapLanguage', False);
+    Translate.ServiceDescription.Clear;
+    Keys := TStringList.Create;
+    try
+      Ini.ReadSection('Service Description', Keys);
+
+      for i := 0 to Keys.Count - 1 do
+        Translate.ServiceDescription.Add(
+          Ini.ReadString('Service Description', Keys[i], '')
+          );
+    finally
+      Keys.Free;
+    end;
+
     Value := Ini.ReadString('Service', 'ValueType', 'None');
     if SameText(Value, 'None') then
       Translate.ValueType := vtNone
@@ -593,7 +627,7 @@ begin
       Translate.WebMethod := wmGet;
 
     Translate.UserAgent := Ini.ReadString('Request', 'UserAgent', string.Empty);
-    Translate.EncryptText := Ini.ReadBool('Request', 'EncryptText', True);
+    Translate.EncodeText := Ini.ReadBool('Request', 'EncodeText', True);
     Translate.Url := Ini.ReadString('Request', 'Url', string.Empty);
 
     Translate.ContentType := Ini.ReadString('Request', 'ContentType', string.Empty);
@@ -601,10 +635,14 @@ begin
     PostDataEscaped := Ini.ReadString('Request', 'PostData', string.Empty);
     Translate.PostData := StringReplace(PostDataEscaped, '\r\n', LineEnding, [rfReplaceAll]);
     Translate.Accept := Ini.ReadString('Request', 'Accept', string.Empty);
-
     Translate.Headers.Clear;
     Ini.ReadSectionValues('Headers', Translate.Headers);
+
     Translate.JsonPointer := Ini.ReadString('Response', 'JsonPointer', string.Empty);
+
+    Translate.EncodeCustomParameters := Ini.ReadBool('Parameters', 'EncodeCustomParameters', True);
+    Translate.CustomParameters.Clear;
+    Ini.ReadSectionValues('Custom Parameters', Translate.CustomParameters);
 
     Translate.InitUserAgent := Ini.ReadString('Initial Request', 'UserAgent', string.Empty);
     Translate.InitUrl := Ini.ReadString('Initial Request', 'Url', string.Empty);

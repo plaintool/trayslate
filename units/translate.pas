@@ -50,7 +50,10 @@ type
     FWebMethod: TWebMethod;
     FUserAgent: string;
     FHeaders: TStringList;
-    FEncryptText: boolean;
+    FCustomParameters: TStringList;
+    FServiceDescription: TStringList;
+    FEncodeText: boolean;
+    FEncodeCustomParameters: boolean;
     FUrl: string;
     FContentType: string;
     FPostData: string;
@@ -90,16 +93,19 @@ type
 
     property ServiceName: string read FServiceName write FServiceName;
     property ServiceOrder: integer read FServiceOrder write FServiceOrder;
-    property AutoSwap: boolean read FAutoSwap write FAutoSwap;
+    property ServiceAutoSwap: boolean read FAutoSwap write FAutoSwap;
+    property ServiceDescription: TStringList read FServiceDescription write FServiceDescription;
     property WebMethod: TWebMethod read FWebMethod write FWebMethod;
     property UserAgent: string read FUserAgent write FUserAgent;
     property Headers: TStringList read FHeaders write FHeaders;
-    property EncryptText: boolean read FEncryptText write FEncryptText;
+    property EncodeText: boolean read FEncodeText write FEncodeText;
     property Url: string read FUrl write FUrl;
     property ContentType: string read FContentType write FContentType;
     property PostData: string read FPostData write FPostData;
     property Accept: string read FAccept write FAccept;
     property JsonPointer: string read FJsonPointer write FJsonPointer;
+    property EncodeCustomParameters: boolean read FEncodeCustomParameters write FEncodeCustomParameters;
+    property CustomParameters: TStringList read FCustomParameters write FCustomParameters;
     property Languages: TStringList read FLanguages write FLanguages;
     property LanguagesTarget: TStringList read FLanguagesTarget write FLanguagesTarget;
     property ValueType: TValueType read FValueType write FValueType;
@@ -153,7 +159,11 @@ begin
   FUserAgent := 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:148.0) Gecko/20100101 Firefox/148.0';
   FHeaders := TStringList.Create;
   FHeaders.TrailingLineBreak := False;
-  FEncryptText := True;
+  FCustomParameters := TStringList.Create;
+  FCustomParameters.TrailingLineBreak := False;
+  FServiceDescription := TStringList.Create;
+  FServiceDescription.TrailingLineBreak := False;
+  FEncodeText := True;
   FUrl := string.Empty;
   FContentType := 'application/json';
   FPostData := string.Empty;
@@ -183,6 +193,8 @@ end;
 destructor TTranslate.Destroy;
 begin
   FHeaders.Free;
+  FCustomParameters.Free;
+  FServiceDescription.Free;
   FLanguages.Free;
   FLanguagesTarget.Free;
 
@@ -268,7 +280,7 @@ var
   begin
     if (Lowercase(AName) = 'text') then
     begin
-      if (FEncryptText) then
+      if (FEncodeText) then
         Result := EncodeURLElement(AValue)
       else
         Result := EscapeText(AValue);

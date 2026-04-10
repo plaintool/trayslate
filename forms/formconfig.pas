@@ -40,8 +40,9 @@ type
     BtnUrlTest: TSpeedButton;
     BtnSave: TButton;
     BtnPostDataTest: TSpeedButton;
-    CheckEncryptText: TCheckBox;
-    CheckAutoSwap: TCheckBox;
+    CheckEncodeText: TCheckBox;
+    CheckServiceAutoSwap: TCheckBox;
+    CheckEncodeCustomParameters: TCheckBox;
     ComboMethod: TComboBox;
     ComboConfig: TComboBox;
     ComboValueType: TComboBox;
@@ -50,6 +51,7 @@ type
     EditContentType: TEdit;
     EditServiceName: TEdit;
     EditInitUserAgent: TEdit;
+    GroupBoxCustomParameters: TGroupBox;
     GroupBoxService: TGroupBox;
     GroupInitParameters: TGroupBox;
     GroupLanguagesTarget: TGroupBox;
@@ -60,6 +62,8 @@ type
     LabelInitHeaders: TLabel;
     LabelInitParameters: TLabel;
     LabelInitParameters1: TLabel;
+    LabelInitParameters3: TLabel;
+    LabelInitParameters4: TLabel;
     LabelLanguages1: TLabel;
     LabelLanguagesTarget: TLabel;
     LabelFillLanguages: TLabel;
@@ -67,6 +71,7 @@ type
     LabelMethod: TLabel;
     LabelLanguages: TLabel;
     LabelInitParemeters: TLabel;
+    LabelServiceDescription: TLabel;
     LabelValueType: TLabel;
     LabelJsonPointer2: TLabel;
     LabelHeaders: TLabel;
@@ -82,6 +87,8 @@ type
     LabelParemeters: TLabel;
     LabelServiceName: TLabel;
     LabelInitUserAgent: TLabel;
+    MemoCustomParameters: TMemo;
+    MemoServiceDescription: TMemo;
     MemoInitHeaders: TMemo;
     MemoLanguages: TMemo;
     MemoHeaders: TMemo;
@@ -95,6 +102,7 @@ type
     PanelTop: TPanel;
     SbCopyConfig: TSpeedButton;
     SbNewConfig: TSpeedButton;
+    ScrollBoxRequest: TScrollBox;
     ScrollBoxResponse: TScrollBox;
     ScrollBoxParameters: TScrollBox;
     ScrollBoxService: TScrollBox;
@@ -106,6 +114,7 @@ type
     SpinInitLiveTime: TSpinEdit;
     PageResponse: TTabSheet;
     SpinServiceOrder: TSpinEdit;
+    PageRequest: TTabSheet;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -447,7 +456,8 @@ begin
   if FileName = string.Empty then Exit;
 
   // Ask user for confirmation
-  if MessageDlg(rdeleteconfigcaption, rdeleteconfig + ' ' + ExtractFileName(FileName) + '?', mtConfirmation, [mbYes, mbNo], 0) <> mrYes then
+  if MessageDlg(rdeleteconfigcaption, rdeleteconfig + ' ' + ExtractFileName(FileName) + '?', mtConfirmation,
+    [mbYes, mbNo], 0) <> mrYes then
     Exit;
 
   try
@@ -490,11 +500,14 @@ begin
   begin
     EditServiceName.Text := ServiceName;
     SpinServiceOrder.Value := ServiceOrder;
-    CheckAutoSwap.Checked := AutoSwap;
+    CheckServiceAutoSwap.Checked := ServiceAutoSwap;
+    MemoServiceDescription.Lines.Assign(ServiceDescription);
     ComboMethod.ItemIndex := Ord(WebMethod);
     EditUserAgent.Text := UserAgent;
     MemoHeaders.Lines.Assign(Headers);
-    CheckEncryptText.Checked := EncryptText;
+    MemoCustomParameters.Lines.Assign(CustomParameters);
+    CheckEncodeText.Checked := EncodeText;
+    CheckEncodeCustomParameters.Checked := EncodeCustomParameters;
     MemoUrl.Text := Url;
     EditContentType.Text := ContentType;
     MemoPostData.Text := PostData;
@@ -520,16 +533,19 @@ begin
   begin
     ServiceName := string.Empty;
     ServiceOrder := 0;
-    AutoSwap := False;
+    ServiceAutoSwap := False;
+    ServiceDescription.Clear;
     WebMethod := wmGet;
     UserAgent := string.Empty;
     Headers.Clear;
-    EncryptText := False;
+    EncodeText := False;
     Url := string.Empty;
     ContentType := string.Empty;
     PostData := string.Empty;
     Accept := string.Empty;
     JsonPointer := string.Empty;
+    EncodeCustomParameters := False;
+    CustomParameters.Clear;
     Languages.Clear;
     LanguagesTarget.Clear;
 
@@ -542,7 +558,7 @@ begin
     // Clear controls
     EditServiceName.Text := string.Empty;
     SpinServiceOrder.Value := 0;
-    CheckAutoSwap.Checked := False;
+    CheckServiceAutoSwap.Checked := False;
     ComboMethod.ItemIndex := 0;
     ComboValueType.ItemIndex := 0;
     EditUserAgent.Text := string.Empty;
@@ -551,10 +567,13 @@ begin
     MemoPostData.Clear;
     EditAccept.Text := string.Empty;
     MemoJsonPointer.Text := string.Empty;
-    CheckEncryptText.Checked := False;
+    CheckEncodeText.Checked := False;
+    CheckEncodeCustomParameters.Checked := False;
     MemoLanguages.Clear;
     MemoLanguagesTarget.Clear;
     MemoHeaders.Clear;
+    MemoCustomParameters.Clear;
+    MemoServiceDescription.Clear;
   end;
 
   aSave.Enabled := False;
@@ -577,10 +596,11 @@ begin
     begin
       ServiceName := EditServiceName.Text;
       ServiceOrder := SpinServiceOrder.Value;
-      AutoSwap := CheckAutoSwap.Checked;
+      ServiceAutoSwap := CheckServiceAutoSwap.Checked;
+      ServiceDescription.Assign(MemoServiceDescription.Lines);
       WebMethod := TWebMethod(ComboMethod.ItemIndex);
       UserAgent := EditUserAgent.Text;
-      EncryptText := CheckEncryptText.Checked;
+      EncodeText := CheckEncodeText.Checked;
       TempHeaders := HeadersFromMemo(MemoHeaders);
       try
         Headers.Assign(TempHeaders);
@@ -595,7 +615,8 @@ begin
       Languages.Assign(MemoLanguages.Lines);
       LanguagesTarget.Assign(MemoLanguagesTarget.Lines);
       ValueType := TValueType(ComboValueType.ItemIndex);
-
+      EncodeCustomParameters := CheckEncodeCustomParameters.Checked;
+      CustomParameters.Assign(MemoCustomParameters.Lines);
       InitUserAgent := EditInitUserAgent.Text;
       TempHeaders := HeadersFromMemo(MemoInitHeaders);
       try
