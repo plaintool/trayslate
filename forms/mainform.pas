@@ -270,7 +270,7 @@ type
     function SwapLanguages(ASwapTranslate: boolean = False): boolean;
     procedure AddLangPair(const Pair: string);
     procedure SelectPair(const Pair: string; RunTranslate: boolean = True);
-    procedure SelectPairConfig(const Pair: string; RunTranslate: boolean = True);
+    procedure SelectPairConfig(const LangPairIndex: integer; RunTranslate: boolean = True);
     procedure GlobalCtrlC;
     procedure GlobalCtrlV;
     function TranslateThread(ATrans: TTranslate; AText: string; AMemo: TMemo = nil): string;
@@ -292,10 +292,10 @@ type
     procedure SetIcon;
     procedure SetHints;
     procedure SetAnimate(Angle: integer);
+    procedure DoRealign(Data: PtrInt);
     procedure BuildConfigMenu;
     procedure UpdateCheckConfigMenu;
-    procedure DoRealign(Data: PtrInt);
-    procedure UpdateMenuPairCheck;
+    procedure UpdateCheckMenuPair;
     procedure RebuildLangPairsPanel(Data: PtrInt);
     procedure DoCheckUpdates(Data: PtrInt);
     {$IFDEF WINDOWS}
@@ -1095,7 +1095,7 @@ begin
     Exit;
   end;
 
-  SelectPairConfig((Sender as TLabel).Caption);
+  SelectPairConfig((Sender as TLabel).Tag);
 end;
 
 procedure TFormTrayslate.MenuConfigItemClick(Sender: TObject);
@@ -1123,7 +1123,7 @@ end;
 
 procedure TformTrayslate.MenuPairClick(Sender: TObject);
 begin
-  SelectPairConfig((Sender as TMenuItem).Hint);
+  SelectPairConfig((Sender as TMenuItem).Tag);
 end;
 
 {Methods}
@@ -1307,6 +1307,52 @@ begin
   end;
 end;
 
+procedure TformTrayslate.DoRealign(Data: PtrInt);
+var
+  Available, Border: integer;
+begin
+  Border := 3;
+
+  PanelLang.DisableAlign;
+  try
+    Available := PanelLang.ClientWidth - sbSwap.Width - sbTranslate.Width - SbNewTranslate.Width - 15;
+
+    sbNewTranslate.SetBounds(
+      0,
+      Border,
+      sbNewTranslate.Width,
+      ComboSource.Height);
+
+    ComboSource.SetBounds(
+      SbNewTranslate.Width + Border,
+      Border,
+      Available div 2,
+      ComboSource.Height);
+
+    sbSwap.SetBounds(
+      ComboSource.Left + ComboSource.Width + Border,
+      Border,
+      sbSwap.Width,
+      ComboSource.Height);
+
+    ComboTarget.SetBounds(
+      sbSwap.Left + sbSwap.Width + Border,
+      Border,
+      Available - ComboSource.Width - Border * 2,
+      ComboTarget.Height);
+
+    sbTranslate.SetBounds(
+      PanelLang.ClientWidth - sbTranslate.Width - Border * 2,
+      Border,
+      sbTranslate.Width,
+      ComboTarget.Height);
+
+  finally
+    PanelLang.EnableAlign;
+    PanelLang.Tag := 0;
+  end;
+end;
+
 procedure TFormTrayslate.BuildConfigMenu;
 var
   i: integer;
@@ -1397,53 +1443,7 @@ begin
   end;
 end;
 
-procedure TformTrayslate.DoRealign(Data: PtrInt);
-var
-  Available, Border: integer;
-begin
-  Border := 3;
-
-  PanelLang.DisableAlign;
-  try
-    Available := PanelLang.ClientWidth - sbSwap.Width - sbTranslate.Width - SbNewTranslate.Width - 15;
-
-    sbNewTranslate.SetBounds(
-      0,
-      Border,
-      sbNewTranslate.Width,
-      ComboSource.Height);
-
-    ComboSource.SetBounds(
-      SbNewTranslate.Width + Border,
-      Border,
-      Available div 2,
-      ComboSource.Height);
-
-    sbSwap.SetBounds(
-      ComboSource.Left + ComboSource.Width + Border,
-      Border,
-      sbSwap.Width,
-      ComboSource.Height);
-
-    ComboTarget.SetBounds(
-      sbSwap.Left + sbSwap.Width + Border,
-      Border,
-      Available - ComboSource.Width - Border * 2,
-      ComboTarget.Height);
-
-    sbTranslate.SetBounds(
-      PanelLang.ClientWidth - sbTranslate.Width - Border * 2,
-      Border,
-      sbTranslate.Width,
-      ComboTarget.Height);
-
-  finally
-    PanelLang.EnableAlign;
-    PanelLang.Tag := 0;
-  end;
-end;
-
-procedure TformTrayslate.UpdateMenuPairCheck;
+procedure TformTrayslate.UpdateCheckMenuPair;
 var
   i: integer;
   currentPair: string;
@@ -1455,7 +1455,7 @@ begin
   begin
     // Compare with Hint
     MenuLangPairs.Items[i].Checked :=
-      SameText(MenuLangPairs.Items[i].Hint, currentPair);
+      SameText(MenuLangPairs.Items[i].Hint, FConfigFile + '=' + currentPair);
   end;
 end;
 
@@ -1503,6 +1503,7 @@ begin
       lbl.Parent := FlowPairs;
       lbl.Caption := FLangPairs.ValueFromIndex[i];
       lbl.Hint := FConfigFileTitles.Values[FLangPairs.Names[i]];
+
       lbl.ShowHint := True;
       lbl.Cursor := crHandPoint;
       lbl.Font.Color := ThemeColor(clBlue, clSkyBlue);
@@ -1519,7 +1520,7 @@ begin
       // MenuLangPairs Item
       mi := TMenuItem.Create(MenuLangPairs);
       mi.Caption := lbl.Caption + ' - ' + lbl.Hint;
-      mi.Hint := lbl.Caption;
+      mi.Hint := FLangPairs[i];
       if RecentPairHotKeys and (i < 9) then
         mi.ShortCut := Menus.ShortCut(Ord('1') + i, [ssCtrl, ssShift]);
       mi.Tag := i; // same index as label
@@ -1529,6 +1530,7 @@ begin
     end;
   finally
     FlowPairs.EnableAlign;
+    UpdateCheckMenuPair;
     Repaint;
   end;
 end;
@@ -1638,7 +1640,7 @@ begin
     end;
 
     Trans.LangSource := FLangSource;
-    UpdateMenuPairCheck;
+    UpdateCheckMenuPair;
     if FIconTwoLang then SetIcon;
   end;
 end;
@@ -1685,7 +1687,7 @@ begin
     end;
 
     Trans.LangTarget := FLangTarget;
-    UpdateMenuPairCheck;
+    UpdateCheckMenuPair;
     SetIcon;
   end;
 end;
@@ -1784,28 +1786,26 @@ begin
       RunTranslate := False;
   end;
 
-  UpdateMenuPairCheck;
+  UpdateCheckMenuPair;
 
   if RunTranslate then
     TranslateMemo(False);
 end;
 
-procedure TformTrayslate.SelectPairConfig(const Pair: string; RunTranslate: boolean = True);
+procedure TformTrayslate.SelectPairConfig(const LangPairIndex: integer; RunTranslate: boolean = True);
 var
-  idx: integer;
   config: string;
 begin
-  idx := GetIndexByValue(FLangPairs, Pair);
-  if (idx >= 0) and (idx < FLangPairs.Count) then
+  if (LangPairIndex >= 0) and (LangPairIndex < FLangPairs.Count) then
   begin
-    config := FLangPairs.Names[idx];
+    config := FLangPairs.Names[LangPairIndex];
     if FConfigFile <> config then
     begin
       FConfigFile := config;
       LoadConfig(False);
     end;
   end;
-  SelectPair(Pair, RunTranslate);
+  SelectPair(FLangPairs.ValueFromIndex[LangPairIndex], RunTranslate);
 end;
 
 procedure TformTrayslate.GlobalCtrlC;
