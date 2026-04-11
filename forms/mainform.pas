@@ -231,6 +231,7 @@ type
     FLanguagesTarget: TStringList;
 
     // Settings
+    FFormSettingsLoaded: boolean;
     FConfigFile: string;
     FConfigFiles: TStringList;
     FConfigTitles: TStringList;
@@ -442,7 +443,7 @@ begin
   FLangPairs := TStringList.Create;
 
   // Load form settings
-  LoadFormSettings(Self);
+  FFormSettingsLoaded := LoadFormSettings(Self);
 
   // Components config after load settings
   TimerTranslate.Interval := Max(RealTimeDelay, 1);
@@ -520,7 +521,8 @@ begin
   {$IFDEF WINDOWS}
   UnregisterHotKeys;
   {$ENDIF}
-  SaveFormSettings(Self);
+  if FFormSettingsLoaded then
+    SaveFormSettings(Self);
   FreeAndNil(FLangPairs);
   FreeAndNil(FLanguages);
   FreeAndNil(FLanguagesTarget);

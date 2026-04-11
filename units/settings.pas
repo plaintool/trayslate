@@ -216,198 +216,202 @@ var
   DPI, i: integer;
 begin
   Result := False;
-  DPI := Screen.PixelsPerInch;
-  FileContent := string.Empty;
-  FileName := GetSettingsDirectory('form_settings.json'); // Get the settings file name
-  if not FileExists(FileName) then Exit; // Exit if the file does not exist
-
-  // Read from file
-  FileStream := TFileStream.Create(FileName, fmOpenRead);
   try
-    SetLength(FileContent, FileStream.Size);
-    FileStream.Read(Pointer(FileContent)^, FileStream.Size);
-    JSONData := GetJSON(FileContent);
+    DPI := Screen.PixelsPerInch;
+    FileContent := string.Empty;
+    FileName := GetSettingsDirectory('form_settings.json'); // Get the settings file name
+    if not FileExists(FileName) then Exit(True); // Exit if the file does not exist
+
+    // Read from file
+    FileStream := TFileStream.Create(FileName, fmOpenRead);
     try
-      JSONObj := JSONData as TJSONObject;
+      SetLength(FileContent, FileStream.Size);
+      FileStream.Read(Pointer(FileContent)^, FileStream.Size);
+      JSONData := GetJSON(FileContent);
+      try
+        JSONObj := JSONData as TJSONObject;
 
-      // Check and load form's position and size
-      if JSONObj.FindPath('Left') <> nil then
-        Form.Left := Round(JSONObj.FindPath('Left').AsInteger * DPI / 96);
+        // Check and load form's position and size
+        if JSONObj.FindPath('Left') <> nil then
+          Form.Left := Round(JSONObj.FindPath('Left').AsInteger * DPI / 96);
 
-      if JSONObj.FindPath('Top') <> nil then
-        Form.Top := Round(JSONObj.FindPath('Top').AsInteger * DPI / 96);
+        if JSONObj.FindPath('Top') <> nil then
+          Form.Top := Round(JSONObj.FindPath('Top').AsInteger * DPI / 96);
 
-      if JSONObj.FindPath('Width') <> nil then
-        Form.Width := Form.Scale96ToForm(JSONObj.FindPath('Width').AsInteger);
+        if JSONObj.FindPath('Width') <> nil then
+          Form.Width := Form.Scale96ToForm(JSONObj.FindPath('Width').AsInteger);
 
-      if JSONObj.FindPath('Height') <> nil then
-        Form.Height := Form.Scale96ToForm(JSONObj.FindPath('Height').AsInteger);
+        if JSONObj.FindPath('Height') <> nil then
+          Form.Height := Form.Scale96ToForm(JSONObj.FindPath('Height').AsInteger);
 
-      if JSONObj.FindPath('WindowState') <> nil then
-        Form.WindowState := TWindowState(JSONObj.FindPath('WindowState').AsInteger);
+        if JSONObj.FindPath('WindowState') <> nil then
+          Form.WindowState := TWindowState(JSONObj.FindPath('WindowState').AsInteger);
 
-      if JSONObj.FindPath('MemoTargetHeight') <> nil then
-        Form.MemoTarget.Height := Form.Scale96ToForm(JSONObj.FindPath('MemoTargetHeight').AsInteger);
+        if JSONObj.FindPath('MemoTargetHeight') <> nil then
+          Form.MemoTarget.Height := Form.Scale96ToForm(JSONObj.FindPath('MemoTargetHeight').AsInteger);
 
-      if JSONObj.FindPath('FormConfigLeft') <> nil then
-        Form.FormConfigLeft := Round(JSONObj.FindPath('FormConfigLeft').AsInteger * DPI / 96);
+        if JSONObj.FindPath('FormConfigLeft') <> nil then
+          Form.FormConfigLeft := Round(JSONObj.FindPath('FormConfigLeft').AsInteger * DPI / 96);
 
-      if JSONObj.FindPath('FormConfigTop') <> nil then
-        Form.FormConfigTop := Round(JSONObj.FindPath('FormConfigTop').AsInteger * DPI / 96);
+        if JSONObj.FindPath('FormConfigTop') <> nil then
+          Form.FormConfigTop := Round(JSONObj.FindPath('FormConfigTop').AsInteger * DPI / 96);
 
-      if JSONObj.FindPath('FormConfigWidth') <> nil then
-        Form.FormConfigWidth := Round(JSONObj.FindPath('FormConfigWidth').AsInteger * DPI / 96);
+        if JSONObj.FindPath('FormConfigWidth') <> nil then
+          Form.FormConfigWidth := Round(JSONObj.FindPath('FormConfigWidth').AsInteger * DPI / 96);
 
-      if JSONObj.FindPath('FormConfigHeight') <> nil then
-        Form.FormConfigHeight := Round(JSONObj.FindPath('FormConfigHeight').AsInteger * DPI / 96);
+        if JSONObj.FindPath('FormConfigHeight') <> nil then
+          Form.FormConfigHeight := Round(JSONObj.FindPath('FormConfigHeight').AsInteger * DPI / 96);
 
-      // Load language
-      if JSONObj.FindPath('Language') <> nil then
-      begin
-        if (JSONObj.FindPath('Language').AsString <> string.Empty) and (Language <> JSONObj.FindPath('Language').AsString) then
-          Language := JSONObj.FindPath('Language').AsString;
+        // Load language
+        if JSONObj.FindPath('Language') <> nil then
+        begin
+          if (JSONObj.FindPath('Language').AsString <> string.Empty) and (Language <> JSONObj.FindPath('Language').AsString) then
+            Language := JSONObj.FindPath('Language').AsString;
+        end;
+
+        // Check and load font properties
+        if JSONObj.FindPath('FontName') <> nil then
+          Form.Font.Name := JSONObj.FindPath('FontName').AsString;
+        if JSONObj.FindPath('FontSize') <> nil then
+          Form.Font.Size := JSONObj.FindPath('FontSize').AsInteger;
+        if JSONObj.FindPath('FontStyle') <> nil then
+          Form.Font.Style := TFontStyles(JSONObj.FindPath('FontStyle').AsInteger); // Convert integer back to TFontStyles
+        if JSONObj.FindPath('FontCharset') <> nil then
+          Form.Font.Charset := JSONObj.FindPath('FontCharset').AsInteger;
+        //if JSONObj.FindPath('FontColor') <> nil then
+        //  Form.Font.Color := JSONObj.FindPath('FontColor').AsInteger;
+        if JSONObj.FindPath('FontPitch') <> nil then
+          Form.Font.Pitch := TFontPitch(JSONObj.FindPath('FontPitch').AsInteger);
+
+        // Load config
+        if JSONObj.FindPath('ConfigFile') <> nil then
+          Form.ConfigFile := JSONObj.FindPath('ConfigFile').AsString;
+
+        if JSONObj.FindPath('ConfigLangDetect') <> nil then
+          Form.ConfigLangDetect := JSONObj.FindPath('ConfigLangDetect').AsString;
+
+        if JSONObj.FindPath('AutoStart') <> nil then
+          Form.AutoStart := JSONObj.FindPath('AutoStart').AsBoolean;
+
+        if JSONObj.FindPath('IconBackgroundColor') <> nil then
+          Form.IconBackgroundColor := JSONObj.FindPath('IconBackgroundColor').AsInteger;
+
+        if JSONObj.FindPath('IconFontColor') <> nil then
+          Form.IconFontColor := JSONObj.FindPath('IconFontColor').AsInteger;
+
+        if JSONObj.FindPath('IconFontName') <> nil then
+          Form.IconFontName := JSONObj.FindPath('IconFontName').AsString;
+
+        if JSONObj.FindPath('IconTwoLang') <> nil then
+          Form.IconTwoLang := JSONObj.FindPath('IconTwoLang').AsBoolean;
+
+        if (JSONObj.FindPath('LangSource') <> nil) and (JSONObj.FindPath('LangSource').AsString <> string.Empty) then
+          Form.LangSource := JSONObj.FindPath('LangSource').AsString;
+
+        if (JSONObj.FindPath('LangTarget') <> nil) and (JSONObj.FindPath('LangTarget').AsString <> string.Empty) then
+          Form.LangTarget := JSONObj.FindPath('LangTarget').AsString;
+
+        if (JSONObj.FindPath('MaxLangPairs') <> nil) then
+          Form.MaxLangPairs := JSONObj.FindPath('MaxLangPairs').AsInteger;
+
+        if (JSONObj.FindPath('RealTime') <> nil) then
+          Form.RealTime := JSONObj.FindPath('RealTime').AsBoolean;
+
+        if (JSONObj.FindPath('RealTimeDelay') <> nil) then
+          Form.RealTimeDelay := JSONObj.FindPath('RealTimeDelay').AsInteger;
+
+        if (JSONObj.FindPath('AutoSwap') <> nil) then
+          Form.AutoSwap := JSONObj.FindPath('AutoSwap').AsBoolean;
+
+        if (JSONObj.FindPath('AutoAddLangPairs') <> nil) then
+          Form.AutoAddLangPairs := JSONObj.FindPath('AutoAddLangPairs').AsBoolean;
+
+        if (JSONObj.FindPath('RecentPairHotKeys') <> nil) then
+          Form.RecentPairHotKeys := JSONObj.FindPath('RecentPairHotKeys').AsBoolean;
+
+        if (JSONObj.FindPath('AutoCheckUpdates') <> nil) then
+          Form.AutoCheckUpdates := JSONObj.FindPath('AutoCheckUpdates').AsBoolean;
+
+        // Load HotKeys
+        // HotKeyApp
+        HK := Form.HotKeyApp;
+        if JSONObj.FindPath('HotKeyApp_Modifiers') <> nil then
+          HK.Modifiers := JSONObj.FindPath('HotKeyApp_Modifiers').AsInteger;
+        if JSONObj.FindPath('HotKeyApp_Key') <> nil then
+          HK.Key := JSONObj.FindPath('HotKeyApp_Key').AsInteger;
+        Form.HotKeyApp := HK;
+
+        // HotKeyTransSwap
+        HK := Form.HotKeyTransSwap;
+        if JSONObj.FindPath('HotKeyTransSwap_Modifiers') <> nil then
+          HK.Modifiers := JSONObj.FindPath('HotKeyTransSwap_Modifiers').AsInteger;
+        if JSONObj.FindPath('HotKeyTransSwap_Key') <> nil then
+          HK.Key := JSONObj.FindPath('HotKeyTransSwap_Key').AsInteger;
+        Form.HotKeyTransSwap := HK;
+
+        // HotKeyTransFromClipboard
+        HK := Form.HotKeyTransFromClipboard;
+        if JSONObj.FindPath('HotKeyTransFromClipboard_Modifiers') <> nil then
+          HK.Modifiers := JSONObj.FindPath('HotKeyTransFromClipboard_Modifiers').AsInteger;
+        if JSONObj.FindPath('HotKeyTransFromClipboard_Key') <> nil then
+          HK.Key := JSONObj.FindPath('HotKeyTransFromClipboard_Key').AsInteger;
+        Form.HotKeyTransFromClipboard := HK;
+
+        // HotKeyTransClipboard
+        HK := Form.HotKeyTransClipboard;
+        if JSONObj.FindPath('HotKeyTransClipboard_Modifiers') <> nil then
+          HK.Modifiers := JSONObj.FindPath('HotKeyTransClipboard_Modifiers').AsInteger;
+        if JSONObj.FindPath('HotKeyTransClipboard_Key') <> nil then
+          HK.Key := JSONObj.FindPath('HotKeyTransClipboard_Key').AsInteger;
+        Form.HotKeyTransClipboard := HK;
+
+        // HotKeyTransFromControl
+        HK := Form.HotKeyTransFromControl;
+        if JSONObj.FindPath('HotKeyTransFromControl_Modifiers') <> nil then
+          HK.Modifiers := JSONObj.FindPath('HotKeyTransFromControl_Modifiers').AsInteger;
+        if JSONObj.FindPath('HotKeyTransFromControl_Key') <> nil then
+          HK.Key := JSONObj.FindPath('HotKeyTransFromControl_Key').AsInteger;
+        Form.HotKeyTransFromControl := HK;
+
+        // HotKeyTransControl
+        HK := Form.HotKeyTransControl;
+        if JSONObj.FindPath('HotKeyTransControl_Modifiers') <> nil then
+          HK.Modifiers := JSONObj.FindPath('HotKeyTransControl_Modifiers').AsInteger;
+        if JSONObj.FindPath('HotKeyTransControl_Key') <> nil then
+          HK.Key := JSONObj.FindPath('HotKeyTransControl_Key').AsInteger;
+        Form.HotKeyTransControl := HK;
+
+        // Load recent language pairs
+        Form.LangPairs.Clear;
+        if JSONObj.FindPath('RecentLangPairs') <> nil then
+        begin
+          arrPairs := JSONObj.FindPath('RecentLangPairs') as TJSONArray;
+          for i := 0 to arrPairs.Count - 1 do
+            Form.LangPairs.Add(arrPairs.Items[i].AsString);
+        end;
+      finally
+        JSONData.Free;
       end;
-
-      // Check and load font properties
-      if JSONObj.FindPath('FontName') <> nil then
-        Form.Font.Name := JSONObj.FindPath('FontName').AsString;
-      if JSONObj.FindPath('FontSize') <> nil then
-        Form.Font.Size := JSONObj.FindPath('FontSize').AsInteger;
-      if JSONObj.FindPath('FontStyle') <> nil then
-        Form.Font.Style := TFontStyles(JSONObj.FindPath('FontStyle').AsInteger); // Convert integer back to TFontStyles
-      if JSONObj.FindPath('FontCharset') <> nil then
-        Form.Font.Charset := JSONObj.FindPath('FontCharset').AsInteger;
-      //if JSONObj.FindPath('FontColor') <> nil then
-      //  Form.Font.Color := JSONObj.FindPath('FontColor').AsInteger;
-      if JSONObj.FindPath('FontPitch') <> nil then
-        Form.Font.Pitch := TFontPitch(JSONObj.FindPath('FontPitch').AsInteger);
-
-      // Load config
-      if JSONObj.FindPath('ConfigFile') <> nil then
-        Form.ConfigFile := JSONObj.FindPath('ConfigFile').AsString;
-
-      if JSONObj.FindPath('ConfigLangDetect') <> nil then
-        Form.ConfigLangDetect := JSONObj.FindPath('ConfigLangDetect').AsString;
-
-      if JSONObj.FindPath('AutoStart') <> nil then
-        Form.AutoStart := JSONObj.FindPath('AutoStart').AsBoolean;
-
-      if JSONObj.FindPath('IconBackgroundColor') <> nil then
-        Form.IconBackgroundColor := JSONObj.FindPath('IconBackgroundColor').AsInteger;
-
-      if JSONObj.FindPath('IconFontColor') <> nil then
-        Form.IconFontColor := JSONObj.FindPath('IconFontColor').AsInteger;
-
-      if JSONObj.FindPath('IconFontName') <> nil then
-        Form.IconFontName := JSONObj.FindPath('IconFontName').AsString;
-
-      if JSONObj.FindPath('IconTwoLang') <> nil then
-        Form.IconTwoLang := JSONObj.FindPath('IconTwoLang').AsBoolean;
-
-      if (JSONObj.FindPath('LangSource') <> nil) and (JSONObj.FindPath('LangSource').AsString <> string.Empty) then
-        Form.LangSource := JSONObj.FindPath('LangSource').AsString;
-
-      if (JSONObj.FindPath('LangTarget') <> nil) and (JSONObj.FindPath('LangTarget').AsString <> string.Empty) then
-        Form.LangTarget := JSONObj.FindPath('LangTarget').AsString;
-
-      if (JSONObj.FindPath('MaxLangPairs') <> nil) then
-        Form.MaxLangPairs := JSONObj.FindPath('MaxLangPairs').AsInteger;
-
-      if (JSONObj.FindPath('RealTime') <> nil) then
-        Form.RealTime := JSONObj.FindPath('RealTime').AsBoolean;
-
-      if (JSONObj.FindPath('RealTimeDelay') <> nil) then
-        Form.RealTimeDelay := JSONObj.FindPath('RealTimeDelay').AsInteger;
-
-      if (JSONObj.FindPath('AutoSwap') <> nil) then
-        Form.AutoSwap := JSONObj.FindPath('AutoSwap').AsBoolean;
-
-      if (JSONObj.FindPath('AutoAddLangPairs') <> nil) then
-        Form.AutoAddLangPairs := JSONObj.FindPath('AutoAddLangPairs').AsBoolean;
-
-      if (JSONObj.FindPath('RecentPairHotKeys') <> nil) then
-        Form.RecentPairHotKeys := JSONObj.FindPath('RecentPairHotKeys').AsBoolean;
-
-      if (JSONObj.FindPath('AutoCheckUpdates') <> nil) then
-        Form.AutoCheckUpdates := JSONObj.FindPath('AutoCheckUpdates').AsBoolean;
-
-      // Load HotKeys
-      // HotKeyApp
-      HK := Form.HotKeyApp;
-      if JSONObj.FindPath('HotKeyApp_Modifiers') <> nil then
-        HK.Modifiers := JSONObj.FindPath('HotKeyApp_Modifiers').AsInteger;
-      if JSONObj.FindPath('HotKeyApp_Key') <> nil then
-        HK.Key := JSONObj.FindPath('HotKeyApp_Key').AsInteger;
-      Form.HotKeyApp := HK;
-
-      // HotKeyTransSwap
-      HK := Form.HotKeyTransSwap;
-      if JSONObj.FindPath('HotKeyTransSwap_Modifiers') <> nil then
-        HK.Modifiers := JSONObj.FindPath('HotKeyTransSwap_Modifiers').AsInteger;
-      if JSONObj.FindPath('HotKeyTransSwap_Key') <> nil then
-        HK.Key := JSONObj.FindPath('HotKeyTransSwap_Key').AsInteger;
-      Form.HotKeyTransSwap := HK;
-
-      // HotKeyTransFromClipboard
-      HK := Form.HotKeyTransFromClipboard;
-      if JSONObj.FindPath('HotKeyTransFromClipboard_Modifiers') <> nil then
-        HK.Modifiers := JSONObj.FindPath('HotKeyTransFromClipboard_Modifiers').AsInteger;
-      if JSONObj.FindPath('HotKeyTransFromClipboard_Key') <> nil then
-        HK.Key := JSONObj.FindPath('HotKeyTransFromClipboard_Key').AsInteger;
-      Form.HotKeyTransFromClipboard := HK;
-
-      // HotKeyTransClipboard
-      HK := Form.HotKeyTransClipboard;
-      if JSONObj.FindPath('HotKeyTransClipboard_Modifiers') <> nil then
-        HK.Modifiers := JSONObj.FindPath('HotKeyTransClipboard_Modifiers').AsInteger;
-      if JSONObj.FindPath('HotKeyTransClipboard_Key') <> nil then
-        HK.Key := JSONObj.FindPath('HotKeyTransClipboard_Key').AsInteger;
-      Form.HotKeyTransClipboard := HK;
-
-      // HotKeyTransFromControl
-      HK := Form.HotKeyTransFromControl;
-      if JSONObj.FindPath('HotKeyTransFromControl_Modifiers') <> nil then
-        HK.Modifiers := JSONObj.FindPath('HotKeyTransFromControl_Modifiers').AsInteger;
-      if JSONObj.FindPath('HotKeyTransFromControl_Key') <> nil then
-        HK.Key := JSONObj.FindPath('HotKeyTransFromControl_Key').AsInteger;
-      Form.HotKeyTransFromControl := HK;
-
-      // HotKeyTransControl
-      HK := Form.HotKeyTransControl;
-      if JSONObj.FindPath('HotKeyTransControl_Modifiers') <> nil then
-        HK.Modifiers := JSONObj.FindPath('HotKeyTransControl_Modifiers').AsInteger;
-      if JSONObj.FindPath('HotKeyTransControl_Key') <> nil then
-        HK.Key := JSONObj.FindPath('HotKeyTransControl_Key').AsInteger;
-      Form.HotKeyTransControl := HK;
-
-      // Load recent language pairs
-      Form.LangPairs.Clear;
-      if JSONObj.FindPath('RecentLangPairs') <> nil then
-      begin
-        arrPairs := JSONObj.FindPath('RecentLangPairs') as TJSONArray;
-        for i := 0 to arrPairs.Count - 1 do
-          Form.LangPairs.Add(arrPairs.Items[i].AsString);
-      end;
-
-      Result := True;
     finally
-      JSONData.Free;
+      FileStream.Free;
     end;
-  finally
-    FileStream.Free;
-  end;
 
-  FileName := GetSettingsDirectory('source.txt');
-  if FileExists(FileName) then
-  begin
-    Form.MemoSource.Lines.TrailingLineBreak := False;
-    Form.MemoSource.Lines.LoadFromFile(FileName);
-  end;
-  FileName := GetSettingsDirectory('target.txt');
-  if FileExists(FileName) then
-  begin
-    Form.MemoTarget.Lines.TrailingLineBreak := False;
-    Form.MemoTarget.Lines.LoadFromFile(FileName);
+    FileName := GetSettingsDirectory('source.txt');
+    if FileExists(FileName) then
+    begin
+      Form.MemoSource.Lines.TrailingLineBreak := False;
+      Form.MemoSource.Lines.LoadFromFile(FileName);
+    end;
+    FileName := GetSettingsDirectory('target.txt');
+    if FileExists(FileName) then
+    begin
+      Form.MemoTarget.Lines.TrailingLineBreak := False;
+      Form.MemoTarget.Lines.LoadFromFile(FileName);
+    end;
+
+    Result := True;
+  except
+    Result := False;
   end;
 end;
 
