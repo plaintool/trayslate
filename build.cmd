@@ -1,6 +1,12 @@
 @echo off
 setlocal
 
+:: Skip kill in CI environments
+if not defined GITHUB_ACTIONS (
+    :: Kill App if running (local only)
+    taskkill /F /IM Trayslate.exe    
+)
+
 ::Build Lazarus project "trayslate" using lazbuild
 SET "PROJECT_PATH=trayslate.lpi"
 SET "BUILD_MODE=Release"
