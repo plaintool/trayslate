@@ -26,7 +26,7 @@ uses
   ActnList,
   ComCtrls,
   Spin,
-  LCLType;
+  LCLType, ColorBox;
 
 type
 
@@ -43,6 +43,7 @@ type
     CheckEncodeText: TCheckBox;
     CheckServiceAutoSwap: TCheckBox;
     CheckEncodeCustomParameters: TCheckBox;
+    ColorRecent: TColorBox;
     ComboMethod: TComboBox;
     ComboConfig: TComboBox;
     ComboValueType: TComboBox;
@@ -72,6 +73,7 @@ type
     LabelMethod: TLabel;
     LabelLanguages: TLabel;
     LabelServiceDescription: TLabel;
+    LabelColorRecent: TLabel;
     LabelValueType: TLabel;
     LabelJsonPointer2: TLabel;
     LabelHeaders: TLabel;
@@ -173,6 +175,7 @@ begin
   Pages.PageIndex := 0;
   BtnClose.Cancel := True;
   LabelFillLanguages.Font.Color := ThemeColor(clBlue, clSkyBlue);
+  AddCustomColors(ColorRecent);
 end;
 
 procedure TformConfigTrayslate.FormShow(Sender: TObject);
@@ -439,6 +442,7 @@ begin
   end;
 
   formTrayslate.ConfigFiles.Add(DestFile);
+  formTrayslate.BuildConfigMenu;
   formTrayslate.ConfigFile := DestFile;
   formTrayslate.LoadConfig;
   UpdateConfigList;
@@ -478,6 +482,7 @@ begin
     end;
   end;
 
+  formTrayslate.BuildConfigMenu;
   // Reload UI
   UpdateConfigList;
   if (LastIndex >= ComboConfig.Items.Count) then Dec(LastIndex);

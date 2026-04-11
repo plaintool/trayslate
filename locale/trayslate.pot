@@ -183,6 +183,10 @@ msgstr ""
 msgid "Accept"
 msgstr ""
 
+#: tformconfigtrayslate.labelcolorrecent.caption
+msgid "Recent Color"
+msgstr ""
+
 #: tformconfigtrayslate.labelcontenttype.caption
 msgctxt "tformconfigtrayslate.labelcontenttype.caption"
 msgid "Content Type"

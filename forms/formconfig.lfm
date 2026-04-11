@@ -181,8 +181,8 @@ object formConfigTrayslate: TformConfigTrayslate
         Width = 582
         HorzScrollBar.Page = 1
         HorzScrollBar.Visible = False
-        VertScrollBar.Increment = 14
-        VertScrollBar.Page = 149
+        VertScrollBar.Increment = 18
+        VertScrollBar.Page = 189
         VertScrollBar.Smooth = True
         VertScrollBar.Tracking = True
         Align = alClient
@@ -250,8 +250,8 @@ object formConfigTrayslate: TformConfigTrayslate
           end
           object MemoServiceDescription: TMemo
             Left = 120
-            Height = 389
-            Top = 96
+            Height = 349
+            Top = 136
             Width = 423
             Anchors = [akTop, akLeft, akRight, akBottom]
             BorderSpacing.Top = 45
@@ -265,11 +265,31 @@ object formConfigTrayslate: TformConfigTrayslate
           object LabelServiceDescription: TLabel
             Left = 8
             Height = 23
-            Top = 96
+            Top = 136
             Width = 104
             Alignment = taRightJustify
             AutoSize = False
             Caption = 'Description'
+          end
+          object LabelColorRecent: TLabel
+            Left = 8
+            Height = 23
+            Top = 96
+            Width = 104
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Recent Color'
+          end
+          object ColorRecent: TColorBox
+            Left = 120
+            Height = 22
+            Top = 96
+            Width = 423
+            Style = [cbCustomColor, cbPrettyNames, cbCustomColors]
+            Anchors = [akTop, akLeft, akRight]
+            DropDownCount = 15
+            ItemHeight = 16
+            TabOrder = 4
           end
         end
       end

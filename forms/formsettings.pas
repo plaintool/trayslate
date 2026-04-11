@@ -127,7 +127,6 @@ type
     FHotKeyTransControl: THotKeyData;
 
     procedure SetPanelFont(const AFont: TFont);
-    procedure AddTrayColors(AColorBox: TColorBox);
   public
     procedure Apply;
     procedure Reset;
@@ -158,12 +157,12 @@ begin
   BtnReset.Enabled := True;
 
   ComboLangDetect.Items.Clear;
-  for i := 0 to formTrayslate.ConfigFileTitles.Count - 1 do
-    ComboLangDetect.Items.Add(formTrayslate.ConfigFileTitles.ValueFromIndex[i]);
+  for i := 0 to formTrayslate.ConfigFiles.Count - 1 do
+    ComboLangDetect.Items.Add(formTrayslate.ConfigFileTitles.Values[formTrayslate.ConfigFiles[i]]);
   ComboLangDetect.ItemIndex := formTrayslate.ConfigFiles.IndexOf(formTrayslate.ConfigLangDetect);
 
-  AddTrayColors(ColorIconBackground);
-  AddTrayColors(ColorIconFont);
+  AddCustomColors(ColorIconBackground);
+  AddCustomColors(ColorIconFont);
   FillFontCombo(ComboIconFontName);
   Reset;
 end;
@@ -373,82 +372,6 @@ procedure TformSettingsTrayslate.SetPanelFont(const AFont: TFont);
 begin
   PanelFont.Caption := ifthen((Trim(AFont.Name) = string.Empty) or (LowerCase(AFont.Name) = 'default'), rdefaultfont, AFont.Name) +
     ',' + IntToStr(AFont.Size);
-end;
-
-procedure TformSettingsTrayslate.AddTrayColors(AColorBox: TColorBox);
-begin
-  AColorBox.Style := AColorBox.Style + [cbCustomColor];
-
-  // Basic colors
-  AColorBox.Items.AddObject('Black', TObject(PtrUInt($00000000)));
-  AColorBox.Items.AddObject('White', TObject(PtrUInt($00FFFFFF)));
-  AColorBox.Items.AddObject('Blue', TObject(PtrUInt($00FF0000)));
-  AColorBox.Items.AddObject('Red', TObject(PtrUInt($000000FF)));
-  AColorBox.Items.AddObject('Green', TObject(PtrUInt($0000FF00)));
-  AColorBox.Items.AddObject('Yellow', TObject(PtrUInt($0000FFFF)));
-  AColorBox.Items.AddObject('Cyan', TObject(PtrUInt($00FFFF00)));
-  AColorBox.Items.AddObject('Magenta', TObject(PtrUInt($00FF00FF)));
-  AColorBox.Items.AddObject('Gray', TObject(PtrUInt($00808080)));
-  AColorBox.Items.AddObject('Silver', TObject(PtrUInt($00C0C0C0)));
-
-  // Dark neutrals
-  AColorBox.Items.AddObject('Graphite', TObject(PtrUInt($00454545)));
-  AColorBox.Items.AddObject('Charcoal', TObject(PtrUInt($00353535)));
-  AColorBox.Items.AddObject('Slate', TObject(PtrUInt($00505060)));
-  AColorBox.Items.AddObject('Steel Gray', TObject(PtrUInt($00606070)));
-
-  // Reds
-  AColorBox.Items.AddObject('Crimson', TObject(PtrUInt($003C3CFF)));
-  AColorBox.Items.AddObject('Cherry', TObject(PtrUInt($002020D0)));
-  AColorBox.Items.AddObject('Ruby', TObject(PtrUInt($004040E0)));
-  AColorBox.Items.AddObject('Wine', TObject(PtrUInt($004060A0)));
-
-  // Oranges
-  AColorBox.Items.AddObject('Amber', TObject(PtrUInt($0000C8FF)));
-  AColorBox.Items.AddObject('Tangerine', TObject(PtrUInt($0010A5FF)));
-  AColorBox.Items.AddObject('Copper', TObject(PtrUInt($002A6BFF)));
-  AColorBox.Items.AddObject('Sunset', TObject(PtrUInt($004080FF)));
-
-  // Yellows
-  AColorBox.Items.AddObject('Gold', TObject(PtrUInt($0000D7FF)));
-  AColorBox.Items.AddObject('Mustard', TObject(PtrUInt($0020B5D0)));
-  AColorBox.Items.AddObject('Honey', TObject(PtrUInt($0030C8E0)));
-  AColorBox.Items.AddObject('Sand', TObject(PtrUInt($0050D8E8)));
-
-  // Greens
-  AColorBox.Items.AddObject('Emerald', TObject(PtrUInt($0032CD32)));
-  AColorBox.Items.AddObject('Forest', TObject(PtrUInt($00228B22)));
-  AColorBox.Items.AddObject('Lime', TObject(PtrUInt($0000FF80)));
-  AColorBox.Items.AddObject('Mint', TObject(PtrUInt($0078D890)));
-  AColorBox.Items.AddObject('Olive', TObject(PtrUInt($00308080)));
-  AColorBox.Items.AddObject('Moss', TObject(PtrUInt($00408060)));
-
-  // Cyans
-  AColorBox.Items.AddObject('Turquoise', TObject(PtrUInt($00D0E040)));
-  AColorBox.Items.AddObject('Aqua', TObject(PtrUInt($00FFFF00)));
-  AColorBox.Items.AddObject('Teal', TObject(PtrUInt($00808000)));
-  AColorBox.Items.AddObject('Sea Blue', TObject(PtrUInt($00C07000)));
-
-  // Blues
-  AColorBox.Items.AddObject('Azure', TObject(PtrUInt($00FF9E2B)));
-  AColorBox.Items.AddObject('Royal Blue', TObject(PtrUInt($00E16941)));
-  AColorBox.Items.AddObject('Sky', TObject(PtrUInt($00FFBF00)));
-  AColorBox.Items.AddObject('Ocean', TObject(PtrUInt($00B06000)));
-  AColorBox.Items.AddObject('Ocean Deep', TObject(PtrUInt($00905000)));
-  AColorBox.Items.AddObject('Midnight', TObject(PtrUInt($00800000)));
-  AColorBox.Items.AddObject('Indigo', TObject(PtrUInt($0082004B)));
-
-  // Purples
-  AColorBox.Items.AddObject('Violet', TObject(PtrUInt($00D670DA)));
-  AColorBox.Items.AddObject('Plum', TObject(PtrUInt($00B070C0)));
-  AColorBox.Items.AddObject('Orchid', TObject(PtrUInt($00CC66CC)));
-  AColorBox.Items.AddObject('Lavender', TObject(PtrUInt($00E6A8D7)));
-
-  // Pinks
-  AColorBox.Items.AddObject('Rose', TObject(PtrUInt($006060FF)));
-  AColorBox.Items.AddObject('Coral', TObject(PtrUInt($00507FFF)));
-  AColorBox.Items.AddObject('Blush', TObject(PtrUInt($007080FF)));
-  AColorBox.Items.AddObject('Magenta', TObject(PtrUInt($00FF00FF)));
 end;
 
 procedure TformSettingsTrayslate.Apply;
