@@ -61,7 +61,7 @@ function ExtractTextSample(const AText: string; MaxLen: integer = 500): string;
 
 procedure AddCustomColors(AColorBox: TColorBox);
 
-function DarkThemeColor(BaseColor: TColor): TColor;
+function DarkThemeColor(BaseColor: TColor; Delta: Integer = 60): TColor;
 
 implementation
 
@@ -503,31 +503,39 @@ begin
   AColorBox.Items.AddObject('Magenta', TObject(PtrUInt($00FF00FF)));
 end;
 
-function DarkThemeColor(BaseColor: TColor): TColor;
+function DarkThemeColor(BaseColor: TColor; Delta: Integer = 60): TColor;
 var
   R, G, B: byte;
   Bright: double;
+  Factor: double;
 begin
-  R := Red(BaseColor);
-  G := Green(BaseColor);
-  B := Blue(BaseColor);
+  R := GetRValue(BaseColor);
+  G := GetGValue(BaseColor);
+  B := GetBValue(BaseColor);
 
+  // Perceptual brightness (Luma) calculation
   Bright := (0.299 * R + 0.587 * G + 0.114 * B);
 
-  if Bright < 140 then
+  // If the color is already bright enough (threshold 150), return original
+  if Bright > 150 then
   begin
-    // Color is already dark -> make it lighter a bit
-    R := Min(255, R + 60);
-    G := Min(255, G + 60);
-    B := Min(255, B + 60);
-  end
-  else
-  begin
-    // Color is light -> make dark variant
-    R := Round(R * 0.45);
-    G := Round(G * 0.45);
-    B := Round(B * 0.45);
+    Result := BaseColor;
+    Exit;
   end;
+
+  // Convert Delta (1..100) to a scale factor (0.0..1.0)
+  // 1 = almost no change, 100 = full white
+  Factor := Delta / 100.0;
+
+  // Clamp factor for safety
+  if Factor < 0 then Factor := 0;
+  if Factor > 1 then Factor := 1;
+
+  // Linear interpolation towards white (Tinting)
+  // This formula ensures that even 0 values (like in clBlue) become brighter
+  R := R + Round((255 - R) * Factor);
+  G := G + Round((255 - G) * Factor);
+  B := B + Round((255 - B) * Factor);
 
   Result := RGB(R, G, B);
 end;
