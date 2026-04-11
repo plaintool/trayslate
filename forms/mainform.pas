@@ -1723,7 +1723,7 @@ procedure TformTrayslate.AddLangPair(const Pair: string);
 var
   idx: integer;
 begin
-  idx := GetIndexByValue(FLangPairs, Pair);
+  idx := FLangPairs.IndexOf(FConfigFile + '=' + Pair);
 
   // Remove if already exists
   if (idx >= 0) and (FLangPairs.Names[idx] = FConfigFile) then
