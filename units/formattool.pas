@@ -61,6 +61,8 @@ function ExtractTextSample(const AText: string; MaxLen: integer = 500): string;
 
 procedure AddCustomColors(AColorBox: TColorBox);
 
+function DarkThemeColor(BaseColor: TColor): TColor;
+
 implementation
 
 function ColorToHtml(AColor: TColor): string;
@@ -501,5 +503,33 @@ begin
   AColorBox.Items.AddObject('Magenta', TObject(PtrUInt($00FF00FF)));
 end;
 
+function DarkThemeColor(BaseColor: TColor): TColor;
+var
+  R, G, B: byte;
+  Bright: double;
+begin
+  R := Red(BaseColor);
+  G := Green(BaseColor);
+  B := Blue(BaseColor);
+
+  Bright := (0.299 * R + 0.587 * G + 0.114 * B);
+
+  if Bright < 140 then
+  begin
+    // Color is already dark -> make it lighter a bit
+    R := Min(255, R + 60);
+    G := Min(255, G + 60);
+    B := Min(255, B + 60);
+  end
+  else
+  begin
+    // Color is light -> make dark variant
+    R := Round(R * 0.45);
+    G := Round(G * 0.45);
+    B := Round(B * 0.45);
+  end;
+
+  Result := RGB(R, G, B);
+end;
 
 end.

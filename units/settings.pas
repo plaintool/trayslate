@@ -30,6 +30,7 @@ type
     Order: integer;
     PathOnly: string;
     Name: string;
+    Color: TColor;
   end;
 
 function GetSettingsDirectory(fileName: string = string.Empty): string;
@@ -423,6 +424,7 @@ begin
       Ini.WriteString('Service', 'Name', Translate.ServiceName);
     Ini.WriteInteger('Service', 'Order', Translate.ServiceOrder);
     Ini.WriteBool('Service', 'AutoSwapLanguage', Translate.ServiceAutoSwap);
+    Ini.WriteInteger('Service', 'ColorRecent', Translate.ServiceColorRecent);
 
     // Save service description
     Ini.EraseSection('Service Description');
@@ -599,6 +601,8 @@ begin
     Translate.ServiceName := Ini.ReadString('Service', 'Name', string.Empty);
     Translate.ServiceOrder := Ini.ReadInteger('Service', 'Order', 0);
     Translate.ServiceAutoSwap := Ini.ReadBool('Service', 'AutoSwapLanguage', False);
+    Translate.ServiceColorRecent := Ini.ReadInteger('Service', 'ColorRecent', clBlue);
+
     Translate.ServiceDescription.Clear;
     Keys := TStringList.Create;
     try

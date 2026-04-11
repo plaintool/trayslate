@@ -43,7 +43,8 @@ type
     CheckEncodeText: TCheckBox;
     CheckServiceAutoSwap: TCheckBox;
     CheckEncodeCustomParameters: TCheckBox;
-    ColorRecent: TColorBox;
+    ColorDialog: TColorDialog;
+    ColorServiceColorRecent: TColorBox;
     ComboMethod: TComboBox;
     ComboConfig: TComboBox;
     ComboValueType: TComboBox;
@@ -175,7 +176,7 @@ begin
   Pages.PageIndex := 0;
   BtnClose.Cancel := True;
   LabelFillLanguages.Font.Color := ThemeColor(clBlue, clSkyBlue);
-  AddCustomColors(ColorRecent);
+  AddCustomColors(ColorServiceColorRecent);
 end;
 
 procedure TformConfigTrayslate.FormShow(Sender: TObject);
@@ -506,7 +507,9 @@ begin
     EditServiceName.Text := ServiceName;
     SpinServiceOrder.Value := ServiceOrder;
     CheckServiceAutoSwap.Checked := ServiceAutoSwap;
+    ColorServiceColorRecent.Selected := ServiceColorRecent;
     MemoServiceDescription.Lines.Assign(ServiceDescription);
+
     ComboMethod.ItemIndex := Ord(WebMethod);
     EditUserAgent.Text := UserAgent;
     MemoHeaders.Lines.Assign(Headers);
@@ -538,6 +541,7 @@ begin
     ServiceName := string.Empty;
     ServiceOrder := 0;
     ServiceAutoSwap := False;
+    ServiceColorRecent := clBlue;
     ServiceDescription.Clear;
     WebMethod := wmGet;
     UserAgent := string.Empty;
@@ -563,6 +567,7 @@ begin
     EditServiceName.Text := string.Empty;
     SpinServiceOrder.Value := 0;
     CheckServiceAutoSwap.Checked := False;
+    ColorServiceColorRecent.Selected := clBlue;
     ComboMethod.ItemIndex := 0;
     ComboValueType.ItemIndex := 0;
     EditUserAgent.Text := string.Empty;
@@ -601,6 +606,7 @@ begin
       ServiceName := EditServiceName.Text;
       ServiceOrder := SpinServiceOrder.Value;
       ServiceAutoSwap := CheckServiceAutoSwap.Checked;
+      ServiceColorRecent := ColorServiceColorRecent.Selected;
       ServiceDescription.Text := MemoServiceDescription.Text;
 
       WebMethod := TWebMethod(ComboMethod.ItemIndex);
@@ -641,6 +647,7 @@ begin
     aSave.Enabled := False;
     formTrayslate.LoadConfig;
     formTrayslate.BuildConfigMenu;
+    Application.QueueAsyncCall(@formTrayslate.RebuildLangPairsPanel, 0);
     UpdateConfigList(False);
   finally
     Screen.Cursor := crDefault;

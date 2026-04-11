@@ -158,7 +158,7 @@ begin
 
   ComboLangDetect.Items.Clear;
   for i := 0 to formTrayslate.ConfigFiles.Count - 1 do
-    ComboLangDetect.Items.Add(formTrayslate.ConfigFileTitles.Values[formTrayslate.ConfigFiles[i]]);
+    ComboLangDetect.Items.Add(formTrayslate.ConfigTitles.Values[formTrayslate.ConfigFiles[i]]);
   ComboLangDetect.ItemIndex := formTrayslate.ConfigFiles.IndexOf(formTrayslate.ConfigLangDetect);
 
   AddCustomColors(ColorIconBackground);

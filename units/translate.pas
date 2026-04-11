@@ -19,6 +19,7 @@ uses
   StrUtils,
   Controls,
   DateUtils,
+  Graphics,
   ExtCtrls,
   LazUTF8,
   HTTPDefs,
@@ -51,6 +52,7 @@ type
     FUserAgent: string;
     FHeaders: TStringList;
     FCustomParameters: TStringList;
+    FServiceColorRecent: TColor;
     FServiceDescription: TStringList;
     FEncodeText: boolean;
     FEncodeCustomParameters: boolean;
@@ -96,6 +98,7 @@ type
     property ServiceName: string read FServiceName write FServiceName;
     property ServiceOrder: integer read FServiceOrder write FServiceOrder;
     property ServiceAutoSwap: boolean read FAutoSwap write FAutoSwap;
+    property ServiceColorRecent: TColor read FServiceColorRecent write FServiceColorRecent;
     property ServiceDescription: TStringList read FServiceDescription write FServiceDescription;
     property WebMethod: TWebMethod read FWebMethod write FWebMethod;
     property UserAgent: string read FUserAgent write FUserAgent;
@@ -157,6 +160,7 @@ constructor TTranslate.Create;
 begin
   inherited Create;
   FServiceName := 'default';
+  FServiceColorRecent := clBlue;
   FWebMethod := wmGet;
   FUserAgent := 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:148.0) Gecko/20100101 Firefox/148.0';
   FHeaders := TStringList.Create;
