@@ -1103,12 +1103,12 @@ end;
 
 procedure TformTrayslate.LabelMouseEnter(Sender: TObject);
 begin
-  (Sender as TLabel).Font.Style := [fsUnderline];
+  (Sender as TLabel).Font.Style := (Sender as TLabel).Font.Style + [fsUnderline];
 end;
 
 procedure TformTrayslate.LabelMouseLeave(Sender: TObject);
 begin
-  (Sender as TLabel).Font.Style := [];
+  (Sender as TLabel).Font.Style := (Sender as TLabel).Font.Style - [fsUnderline];
 end;
 
 procedure TformTrayslate.LabelLangMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
@@ -1572,6 +1572,8 @@ procedure TformTrayslate.UpdateCheckMenuPair;
 var
   i: integer;
   currentPair: string;
+  lbl: TLabel;
+  lblIndex: integer;
 begin
   // Current pair in same format as Hint (e.g. "en:ru")
   currentPair := LangSource + ':' + LangTarget;
@@ -1581,6 +1583,26 @@ begin
     // Compare with Hint
     MenuLangPairs.Items[i].Checked :=
       SameText(MenuLangPairs.Items[i].Hint, FConfigFile + '=' + currentPair);
+
+    // labels start from index 1
+    lblIndex := i + 1;
+
+    // safety check: panel may be empty or not fully built yet
+    if (FlowPairs = nil) then
+      Continue;
+
+    if lblIndex >= FlowPairs.ControlCount then
+      Continue;
+
+    if not (FlowPairs.Controls[lblIndex] is TLabel) then
+      Continue;
+
+    lbl := TLabel(FlowPairs.Controls[lblIndex]);
+
+    if MenuLangPairs.Items[i].Checked then
+      lbl.Font.Style := lbl.Font.Style + [fsBold]
+    else
+      lbl.Font.Style := lbl.Font.Style - [fsBold];
   end;
 end;
 
