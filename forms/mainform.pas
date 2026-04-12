@@ -46,6 +46,7 @@ type
     aCheckForUpdates: TAction;
     aAddPair: TAction;
     aAutoCheckUpdates: TAction;
+    aMenu: TAction;
     aNewTranslate: TAction;
     aSettings: TAction;
     aTranslateClipboard: TAction;
@@ -74,8 +75,10 @@ type
     MenuLanguage: TMenuItem;
     MenuShow: TMenuItem;
     MenuShowTranslate: TMenuItem;
+    PanelPairs: TPanel;
     PanelLang: TPanel;
     PopupTray: TPopupMenu;
+    SbMenu: TSpeedButton;
     SbNewTranslate: TSpeedButton;
     SbAddPair: TSpeedButton;
     Separator1: TMenuItem;
@@ -160,6 +163,7 @@ type
     procedure aSwapExecute(Sender: TObject);
     procedure aShowExecute(Sender: TObject);
     procedure aAddPairExecute(Sender: TObject);
+    procedure aMenuExecute(Sender: TObject);
     procedure aAutoCheckUpdatesExecute(Sender: TObject);
     procedure aCheckForUpdatesExecute(Sender: TObject);
     procedure aDonateExecute(Sender: TObject);
@@ -171,7 +175,6 @@ type
     procedure ComboTargetDropDown(Sender: TObject);
     procedure ComboSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure ComboTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
-    procedure MemoTargetEnter(Sender: TObject);
     procedure MemoSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure MemoSourceKeyUp(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure MemoTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
@@ -189,6 +192,8 @@ type
     procedure LabelLangMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
     procedure MenuConfigItemClick(Sender: TObject);
     procedure MenuPairClick(Sender: TObject);
+    procedure PopupTrayClose(Sender: TObject);
+    procedure PopupTrayPopup(Sender: TObject);
     procedure aLangTurkishExecute(Sender: TObject);
     procedure aLangGreekExecute(Sender: TObject);
     procedure aLangHebrewExecute(Sender: TObject);
@@ -225,6 +230,7 @@ type
     FPrevTargetText: string;
     FLangPairs: TStringList;
     FTranslateThread: TTranslateThread;
+    FPopupOpen: boolean;
 
     // Non sorted combo named languages
     FLanguages: TStringList;
@@ -434,6 +440,7 @@ begin
   SbSwap.ImageIndex := ThemeValue(0, 1);
   SbTranslate.ImageIndex := ThemeValue(2, 3);
   SbAddPair.ImageIndex := ThemeValue(4, 5);
+  SbMenu.ImageIndex := ThemeValue(6, 7);
   FLeftButton := True;
 
   FTrans := TTranslate.Create;
@@ -746,6 +753,26 @@ begin
   Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
 end;
 
+procedure TformTrayslate.aMenuExecute(Sender: TObject);
+var
+  P: TPoint;
+begin
+  if FPopupOpen then
+  begin
+    PopupTray.Close;
+    Exit;
+  end;
+
+  PopupTray.Alignment := paRight;
+  aShow.Visible := False;
+  MenuLangPairs.Visible := False;
+
+  // Bottom-right of button in screen coords
+  P := SbMenu.ClientToScreen(Point(SbMenu.Width, SbMenu.Height));
+
+  PopupTray.PopUp(P.X, P.Y);
+end;
+
 procedure TformTrayslate.aAutoCheckUpdatesExecute(Sender: TObject);
 begin
   FAutoCheckUpdates := aAutoCheckUpdates.Checked;
@@ -855,13 +882,6 @@ begin
     ComboTarget.DroppedDown := True;
 end;
 
-procedure TformTrayslate.MemoTargetEnter(Sender: TObject);
-begin
-  //MemoTarget.SelStart := 0;
-  //MemoTarget.SelLength := Length(MemoTarget.Text);
-  //Clipboard.AsText := MemoTarget.Text;
-end;
-
 procedure TformTrayslate.MemoSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 var
   NowTime: DWORD;
@@ -903,6 +923,7 @@ begin
 
       aTranslate.Execute; // double Enter detected
       FLastEnterTime := 0; // reset
+      TimerTranslate.Enabled := False;
       Key := 0;
     end
     else
@@ -918,7 +939,7 @@ begin
 
   // List of keys that do not modify text content (Navigation, System, Modifiers)
   // We include VK_RETURN here as per your requirement to ignore it for translation triggers
-  if IsSystemKey(Key) and not (Key in [VK_RETURN, VK_DELETE, VK_BACK]) then
+  if ((IsSystemKey(Key) and not (Key in [VK_RETURN, VK_DELETE, VK_BACK]))) then
   begin
     TimerTranslate.Enabled := False;
     Exit;
@@ -1130,6 +1151,19 @@ end;
 procedure TformTrayslate.MenuPairClick(Sender: TObject);
 begin
   SelectPairConfig((Sender as TMenuItem).Tag);
+end;
+
+procedure TformTrayslate.PopupTrayPopup(Sender: TObject);
+begin
+  FPopupOpen := True;
+end;
+
+procedure TformTrayslate.PopupTrayClose(Sender: TObject);
+begin
+  FPopupOpen := False;
+  PopupTray.Alignment := paLeft;
+  aShow.Visible := True;
+  MenuLangPairs.Visible := True;
 end;
 
 {Methods}
@@ -1930,6 +1964,9 @@ end;
 
 procedure TformTrayslate.TranslateMemo(ADetectLanguage: boolean = True);
 begin
+  if TimerTranslate.Enabled then
+    TimerTranslate.Enabled := False;
+
   MemoTarget.Clear;
 
   if (Trim(MemoSource.Text) = string.Empty) then

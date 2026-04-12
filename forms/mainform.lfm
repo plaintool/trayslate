@@ -1,11 +1,11 @@
 object formTrayslate: TformTrayslate
   Left = 334
-  Height = 480
+  Height = 512
   Top = 250
-  Width = 518
+  Width = 512
   Caption = 'Trayslate'
-  ClientHeight = 480
-  ClientWidth = 518
+  ClientHeight = 512
+  ClientWidth = 512
   Color = clWindow
   KeyPreview = True
   LCLVersion = '4.4.0.0'
@@ -19,9 +19,9 @@ object formTrayslate: TformTrayslate
   OnWindowStateChange = FormWindowStateChange
   object MemoSource: TMemo
     Left = 3
-    Height = 175
+    Height = 207
     Top = 62
-    Width = 512
+    Width = 506
     Align = alClient
     BorderSpacing.Around = 3
     BorderStyle = bsNone
@@ -33,27 +33,26 @@ object formTrayslate: TformTrayslate
   object MemoTarget: TMemo
     Left = 3
     Height = 229
-    Top = 248
-    Width = 512
+    Top = 280
+    Width = 506
     Align = alBottom
     BorderSpacing.Around = 3
     BorderStyle = bsNone
     Constraints.MinHeight = 30
     ScrollBars = ssAutoBoth
     TabOrder = 1
-    OnEnter = MemoTargetEnter
     OnKeyDown = MemoTargetKeyDown
   end
   object PanelLang: TPanel
     Left = 0
     Height = 33
     Top = 0
-    Width = 518
+    Width = 512
     Align = alTop
     AutoSize = True
     BevelOuter = bvNone
     ClientHeight = 33
-    ClientWidth = 518
+    ClientWidth = 512
     Color = clBtnFace
     ParentBackground = False
     ParentColor = False
@@ -171,49 +170,77 @@ object formTrayslate: TformTrayslate
     Cursor = crVSplit
     Left = 0
     Height = 5
-    Top = 240
-    Width = 518
+    Top = 272
+    Width = 512
     Align = alBottom
     Color = clBtnFace
     ParentColor = False
     ResizeAnchor = akBottom
   end
-  object FlowPairs: TFlowPanel
+  object PanelPairs: TPanel
     Left = 0
     Height = 26
     Top = 33
-    Width = 518
+    Width = 512
     Align = alTop
     AutoSize = True
-    BevelOuter = bvNone
     BorderSpacing.Bottom = 2
+    BevelOuter = bvNone
+    ClientHeight = 26
+    ClientWidth = 512
     Color = clBtnFace
-    Constraints.MinHeight = 5
-    ControlList = <    
-      item
-        Control = SbAddPair
-        WrapAfter = waAuto
-        Index = 0
-      end>
-    FlowLayout = tlCenter
-    FlowStyle = fsLeftRightTopBottom
+    ParentBackground = False
     ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
     TabOrder = 4
-    object SbAddPair: TSpeedButton
-      Left = 3
+    object SbMenu: TSpeedButton
+      Left = 484
       Height = 26
       Top = 0
       Width = 24
-      Action = aAddPair
-      Align = alLeft
-      BorderSpacing.Left = 3
+      Action = aMenu
+      Anchors = [akTop, akRight]
+      BorderSpacing.Right = 3
       Flat = True
       Images = ImageButtons
-      ImageIndex = 4
+      ImageIndex = 6
       ShowHint = True
       ParentShowHint = False
+    end
+    object FlowPairs: TFlowPanel
+      Left = 0
+      Height = 26
+      Top = 0
+      Width = 482
+      Align = alClient
+      AutoSize = True
+      BevelOuter = bvNone
+      BorderSpacing.Right = 30
+      Constraints.MinHeight = 5
+      ControlList = <      
+        item
+          Control = SbAddPair
+          WrapAfter = waAuto
+          Index = 0
+        end>
+      FlowLayout = tlCenter
+      FlowStyle = fsLeftRightTopBottom
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 0
+      object SbAddPair: TSpeedButton
+        Left = 3
+        Height = 26
+        Top = 0
+        Width = 24
+        Action = aAddPair
+        Align = alLeft
+        BorderSpacing.Left = 3
+        Flat = True
+        Images = ImageButtons
+        ImageIndex = 4
+        ShowHint = True
+        ParentShowHint = False
+      end
     end
   end
   object TrayIcon: TTrayIcon
@@ -225,6 +252,8 @@ object formTrayslate: TformTrayslate
     Top = 328
   end
   object PopupTray: TPopupMenu
+    OnPopup = PopupTrayPopup
+    OnClose = PopupTrayClose
     Left = 104
     Top = 328
     object MenuShow: TMenuItem
@@ -551,6 +580,11 @@ object formTrayslate: TformTrayslate
       Caption = 'Exit'
       OnExecute = aExitExecute
     end
+    object aMenu: TAction
+      Category = 'Form'
+      Hint = 'Display menu'
+      OnExecute = aMenuExecute
+    end
   end
   object TimerClick: TTimer
     Enabled = False
@@ -563,24 +597,25 @@ object formTrayslate: TformTrayslate
     Left = 40
     Top = 400
     Bitmap = {
-      4C7A060000001000000010000000250200000000000078DAED97BB6A02411486
-      93B8DE2076F1210229D2D8495A1FC0226D4AEB100409B149215EB0B0D940B095
-      244DB4F0196C922AA54548A1E984948230F997FCC2B00CEB0CB323483CF031B3
-      67F63F73DB3D3B7B70B055F32DF5C23286D08C2134F01DF6EF6AFEBEE33DF239
-      461BADB0D446E1AAFF38E61FD73B62F64009B14D7C4BBDB08C213463E898EFB0
-      7F57F3F71DEF91CF31DA6885A536CA5CF51FC7FCE37A478CA025414A911E526C
-      33B12668196A9EC010F4A41C7C0DFAE05953FF08BA8C71C71833837CEA81A274
-      BDD0D41DB13C95727F1B7CB29ED68891607903E6E00B9CD07768B08E058EE143
-      31BE2BB69D85FA0C2C035ED97E0146AC97A47BDEE81B28F497600A7292EF16BC
-      4BE35A8163C6F022E6E6297CC1B351657D0C6A8A7B13A178C9D0B96902EAE01B
-      FC68ACE55A5F014BD0002FA0C378E70667B672C8F7C03DDE6459F627EF536079
-      701FE3F73F09528AFC90629B494E698296A1E6090C414FCAC1D7A00F9E35F58F
-      A0CB18778C3133C8A71E284AD70B4DDD11CB5329F7B7C127EB698D1809963760
-      0EBEC0097D8706EB58E0183E14E3BB62DB59A8CF800C7865FB0518B15E92EE79
-      A36FA0D05F8229C849BE5BF02E8D6B058E19C38B989BA7F005CF4695F531A829
-      EE4D84E22543E7A609A8836FF0A3B1966B7D052C4103BC800EE39D1B9CD9CA21
-      DF03F7789336CBFEE47D0ACA3CB88FF1FBBFB7E8FFF55DD2DBFC03C7A1DFF5F5
-      DBDBDED667A3BF0FFA0EE937FE003BD6EFFAFAFD37FB05ACF531C8
+      4C7A080000001000000010000000420200000000000078DAED97314B03311886
+      ADBDB616EA567F84D0C1C54D5CFB031CBA3A3A8B08A5E8E250ACA583CB154AD7
+      D2BAD80EFE06179D3A3A4807EB26380A85F81EBE8570846B622ECAE97DF09034
+      B9F74BF2E5FA25B7B6F6A3E65BEA85A50FA1E94368E03B1CDFD5FA7DC77BE473
+      8E365A61A98DC2D5F871AC3FAEFF88D90B25C44FE25BEA85A50FA1E943C77C87
+      E3BB5ABFEF788F7CCED1462B2CB551E66AFC38D61FD77FC4085A0EE415E921CF
+      3E13BB042D43CD108CC1B594838F411F8C34F53DD0A18F33FA7831C8A71ED893
+      7EBF69EAD6596E4BB9FF0A3CB35ED0F091657902E66006CA6CCB18C471977398
+      2AE677C8BE4A68CCC036C02DFBF7C184F5AAF4CC03DB060A7D0D3C814DA9AD01
+      1EA5792D40893EBC88B5798AB6E0DD3865FD0ED415CF6643FE72A17BD33D3807
+      AFE05D23964BFD11F8004D7003DAF4B76370673B08B575B9C7ABACC8F1E47D0A
+      6C0B5CC478FEE7405E911FF2EC33C92997A065A8198231B89672F031E88391A6
+      BE073AF471461F2F06F9D4037BD2EF374DDD3ACB6D29F75F8167D60B1A3EB22C
+      4FC01CCC40996D198338EE720E53C5FC0ED957098D19B0016ED9BF0F26AC57A5
+      671ED83650E86BE0096C4A6D0DF028CD6B014AF4E145ACCD53B405EFC629EB77
+      A0AE78361BF2970BDD9BEEC1397805EF1AB15CEA8FC00768821BD0A6BF1D833B
+      DB41A8ADCB3D5EA52D723C799F82720B5CC478FEA716FDBD9E24BDCD37701CFA
+      A4C72FB5D49677A3AF033D41FA951FC08EF5498F5F6A4ECE4F91507D1ABF347E
+      FF397EB19C9FDFCDC1BFAD4FE397C6EFAFC7EF137E61B841
     }
   end
   object TimerActive: TTimer

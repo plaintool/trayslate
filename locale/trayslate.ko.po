@@ -845,6 +845,11 @@ msgstr ""
 msgid "Ukrainian"
 msgstr ""
 
+#: tformtrayslate.amenu.hint
+msgctxt "tformtrayslate.amenu.hint"
+msgid "Display menu"
+msgstr ""
+
 #: tformtrayslate.anewtranslate.hint
 msgid "New Translate"
 msgstr "새 번역"
