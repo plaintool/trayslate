@@ -247,6 +247,7 @@ object formTrayslate: TformTrayslate
     PopUpMenu = PopupTray
     Hint = 'Trayslate'
     OnClick = TrayIconClick
+    OnMouseMove = TrayIconMouseMove
     OnMouseUp = TrayIconMouseUp
     Left = 168
     Top = 328
@@ -639,5 +640,11 @@ object formTrayslate: TformTrayslate
     OnStopTimer = TimerAnimateStopTimer
     Left = 231
     Top = 400
+  end
+  object TimerHideHint: TTimer
+    Enabled = False
+    OnTimer = TimerHideHintTimer
+    Left = 376
+    Top = 328
   end
 end

@@ -88,6 +88,7 @@ type
     Separator3: TMenuItem;
     Separator9: TMenuItem;
     SplitterMemo: TSplitter;
+    TimerHideHint: TTimer;
     TimerAnimate: TTimer;
     TimerTranslate: TTimer;
     TimerClick: TTimer;
@@ -183,8 +184,10 @@ type
     procedure TimerActiveTimer(Sender: TObject);
     procedure TimerAnimateStopTimer(Sender: TObject);
     procedure TimerAnimateTimer(Sender: TObject);
+    procedure TimerHideHintTimer(Sender: TObject);
     procedure TimerTranslateTimer(Sender: TObject);
     procedure TimerClickTimer(Sender: TObject);
+    procedure TrayIconMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
     procedure TrayIconMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
     procedure TrayIconClick(Sender: TObject);
     procedure LabelMouseEnter(Sender: TObject);
@@ -231,6 +234,7 @@ type
     FLangPairs: TStringList;
     FTranslateThread: TTranslateThread;
     FPopupOpen: boolean;
+    FTrayHint: THintWindow;
 
     // Non sorted combo named languages
     FLanguages: TStringList;
@@ -306,6 +310,7 @@ type
     procedure UpdateCheckConfigMenu;
     procedure UpdateCheckMenuPair;
     procedure DoCheckUpdates(Data: PtrInt);
+    procedure ShowCustomTrayHint(const AText: string; Duration: integer = 3000);
     {$IFDEF WINDOWS}
     procedure RegisterHotKeys;
     procedure UnregisterHotKeys;
@@ -538,6 +543,7 @@ begin
   FreeAndNil(FConfigColors);
   FreeAndNil(FTrans);
   FreeAndNil(FTransDetect);
+  FreeAndNil(FTrayHint);
 end;
 
 procedure TformTrayslate.FormShow(Sender: TObject);
@@ -640,8 +646,12 @@ begin
         begin
           LangIndex := TheMessage.WParam - 11;
 
-          if LangIndex < MenuLangPairs.Count then
+          if (LangIndex >= 0) and (LangIndex < MenuLangPairs.Count) then
+          begin
             MenuLangPairs.Items[LangIndex].Click;
+
+            ShowCustomTrayHint(TrayIcon.Hint);
+          end;
         end;
     end;
   end;
@@ -1006,6 +1016,13 @@ begin
   SetAnimate(TimerAnimate.Tag);
 end;
 
+procedure TformTrayslate.TimerHideHintTimer(Sender: TObject);
+begin
+  TimerHideHint.Enabled := False;
+  if Assigned(FTrayHint) then
+    FTrayHint.ReleaseHandle; // Correct way to hide THintWindow
+end;
+
 procedure TformTrayslate.TimerTranslateTimer(Sender: TObject);
 begin
   TimerTranslate.Enabled := False;
@@ -1037,6 +1054,11 @@ begin
     Show;
     FTopMost := True;
   end;
+end;
+
+procedure TformTrayslate.TrayIconMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
+begin
+  TimerHideHintTimer(Self);
 end;
 
 procedure TformTrayslate.TrayIconMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
@@ -1614,6 +1636,34 @@ begin
   finally
     Screen.Cursor := crDefault;
   end;
+end;
+
+procedure TformTrayslate.ShowCustomTrayHint(const AText: string; Duration: integer = 3000);
+var
+  HintRect: TRect;
+  DisplayPos: TPoint;
+begin
+  if not Assigned(FTrayHint) then
+    FTrayHint := THintWindow.Create(Self);
+
+  // Calculate the size of the hint window based on text
+  HintRect := FTrayHint.CalcHintRect(Screen.Width, AText, nil);
+
+  // Position the hint near the system tray (bottom-right)
+  // Note: This is a generic position.
+  // Finding the exact coordinates of the icon is OS-specific and complex.
+  DisplayPos.X := Screen.Width - (HintRect.Right - HintRect.Left) - 20;
+  DisplayPos.Y := Screen.WorkAreaHeight - (HintRect.Bottom - HintRect.Top) - 5;
+
+  OffsetRect(HintRect, DisplayPos.X, DisplayPos.Y);
+
+  // Show the hint window
+  FTrayHint.ActivateHint(HintRect, AText);
+
+  // Set timer to hide it
+  TimerHideHint.Enabled := False;
+  TimerHideHint.Interval := Duration;
+  TimerHideHint.Enabled := True;
 end;
 
 {$IFDEF WINDOWS}
