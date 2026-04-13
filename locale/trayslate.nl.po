@@ -736,6 +736,14 @@ msgstr "Controleren op updates"
 msgid "Config Editor..."
 msgstr "Configuratie-editor..."
 
+#: tformtrayslate.acopysource.hint
+msgid "Copy"
+msgstr ""
+
+#: tformtrayslate.acopytarget.hint
+msgid "Copy Translation"
+msgstr ""
+
 #: tformtrayslate.adonate.caption
 msgid "Buy Me a Coffee..."
 msgstr "Steun het project..."
@@ -846,7 +854,7 @@ msgstr ""
 
 #: tformtrayslate.amenu.hint
 msgctxt "tformtrayslate.amenu.hint"
-msgid "Display menu"
+msgid "Display Menu"
 msgstr ""
 
 #: tformtrayslate.anewtranslate.hint

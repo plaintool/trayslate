@@ -46,6 +46,8 @@ type
     aCheckForUpdates: TAction;
     aAddPair: TAction;
     aAutoCheckUpdates: TAction;
+    aCopySource: TAction;
+    aCopyTarget: TAction;
     aMenu: TAction;
     aNewTranslate: TAction;
     aSettings: TAction;
@@ -56,6 +58,8 @@ type
     aDonate: TAction;
     aExit: TAction;
     ActionList: TActionList;
+    SbCopySource: TSpeedButton;
+    SbCopyTarget: TSpeedButton;
     ComboSource: TComboBox;
     ComboTarget: TComboBox;
     FlowPairs: TFlowPanel;
@@ -75,6 +79,10 @@ type
     MenuLanguage: TMenuItem;
     MenuShow: TMenuItem;
     MenuShowTranslate: TMenuItem;
+    PanelButtonTarget: TPanel;
+    PanelTarget: TPanel;
+    PanelSource: TPanel;
+    PanelButtonSource: TPanel;
     PanelPairs: TPanel;
     PanelLang: TPanel;
     PopupTray: TPopupMenu;
@@ -144,6 +152,8 @@ type
     MenuUkrainian: TMenuItem;
     MenuBelarusian: TMenuItem;
     MenuHindi: TMenuItem;
+    procedure aCopySourceExecute(Sender: TObject);
+    procedure aCopyTargetExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -446,6 +456,9 @@ begin
   SbTranslate.ImageIndex := ThemeValue(2, 3);
   SbAddPair.ImageIndex := ThemeValue(4, 5);
   SbMenu.ImageIndex := ThemeValue(6, 7);
+  SbNewTranslate.ImageIndex := ThemeValue(8, 9);
+  SbCopySource.ImageIndex := ThemeValue(10, 11);
+  SbCopyTarget.ImageIndex := ThemeValue(10, 11);
   FLeftButton := True;
 
   FTrans := TTranslate.Create;
@@ -755,6 +768,16 @@ procedure TformTrayslate.aSwapExecute(Sender: TObject);
 begin
   if SwapLanguages then
     TranslateMemo(False);
+end;
+
+procedure TformTrayslate.aCopySourceExecute(Sender: TObject);
+begin
+  Clipboard.AsText := MemoSource.Text;
+end;
+
+procedure TformTrayslate.aCopyTargetExecute(Sender: TObject);
+begin
+  Clipboard.AsText := MemoTarget.Text;
 end;
 
 procedure TformTrayslate.aAddPairExecute(Sender: TObject);

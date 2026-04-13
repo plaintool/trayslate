@@ -737,6 +737,14 @@ msgstr "アップデートを確認"
 msgid "Config Editor..."
 msgstr "設定エディタ..."
 
+#: tformtrayslate.acopysource.hint
+msgid "Copy"
+msgstr ""
+
+#: tformtrayslate.acopytarget.hint
+msgid "Copy Translation"
+msgstr ""
+
 #: tformtrayslate.adonate.caption
 msgid "Buy Me a Coffee..."
 msgstr "プロジェクトを支援..."
@@ -847,7 +855,7 @@ msgstr ""
 
 #: tformtrayslate.amenu.hint
 msgctxt "tformtrayslate.amenu.hint"
-msgid "Display menu"
+msgid "Display Menu"
 msgstr ""
 
 #: tformtrayslate.anewtranslate.hint

@@ -124,7 +124,7 @@ begin
       JSONObj.Add('Height', Form.ScaleFormTo96(Form.Height));
     end;
     JSONObj.Add('WindowState', Ord(Form.WindowState));
-    JSONObj.Add('MemoTargetHeight', Form.ScaleFormTo96(Form.MemoTarget.Height));
+    JSONObj.Add('MemoTargetHeight', Form.ScaleFormTo96(Form.PanelTarget.Height));
 
     JSONObj.Add('FormConfigLeft', Round(Form.FormConfigLeft * 96 / DPI));
     JSONObj.Add('FormConfigTop', Round(Form.FormConfigTop * 96 / DPI));
@@ -250,7 +250,7 @@ begin
           Form.WindowState := TWindowState(JSONObj.FindPath('WindowState').AsInteger);
 
         if JSONObj.FindPath('MemoTargetHeight') <> nil then
-          Form.MemoTarget.Height := Form.Scale96ToForm(JSONObj.FindPath('MemoTargetHeight').AsInteger);
+          Form.PanelTarget.Height := Form.Scale96ToForm(JSONObj.FindPath('MemoTargetHeight').AsInteger);
 
         if JSONObj.FindPath('FormConfigLeft') <> nil then
           Form.FormConfigLeft := Round(JSONObj.FindPath('FormConfigLeft').AsInteger * DPI / 96);

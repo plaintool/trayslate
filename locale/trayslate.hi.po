@@ -737,6 +737,14 @@ msgstr "अद्यतन जाँचें"
 msgid "Config Editor..."
 msgstr "कॉन्फ़िग संपादक..."
 
+#: tformtrayslate.acopysource.hint
+msgid "Copy"
+msgstr ""
+
+#: tformtrayslate.acopytarget.hint
+msgid "Copy Translation"
+msgstr ""
+
 #: tformtrayslate.adonate.caption
 msgid "Buy Me a Coffee..."
 msgstr "प्रोजेक्ट का समर्थन करें..."
@@ -847,7 +855,7 @@ msgstr ""
 
 #: tformtrayslate.amenu.hint
 msgctxt "tformtrayslate.amenu.hint"
-msgid "Display menu"
+msgid "Display Menu"
 msgstr ""
 
 #: tformtrayslate.anewtranslate.hint
