@@ -619,6 +619,7 @@ begin
       HOTKEY_TRANS_SWAP:
       begin
         aSwap.Execute;
+        ShowCustomTrayHint(TrayIcon.Hint);
       end;
 
       HOTKEY_TRANS_FROM_CLIPBOARD:
@@ -649,7 +650,6 @@ begin
           if (LangIndex >= 0) and (LangIndex < MenuLangPairs.Count) then
           begin
             MenuLangPairs.Items[LangIndex].Click;
-
             ShowCustomTrayHint(TrayIcon.Hint);
           end;
         end;
