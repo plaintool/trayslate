@@ -30,7 +30,7 @@ object formTrayslate: TformTrayslate
     Color = clBtnFace
     ParentBackground = False
     ParentColor = False
-    TabOrder = 1
+    TabOrder = 3
     OnResize = PanelLangResize
     object ComboTarget: TComboBox
       Left = 264
@@ -130,7 +130,7 @@ object formTrayslate: TformTrayslate
     Color = clBtnFace
     ParentBackground = False
     ParentColor = False
-    TabOrder = 2
+    TabOrder = 4
     object SbMenu: TSpeedButton
       Left = 484
       Height = 26
@@ -193,7 +193,7 @@ object formTrayslate: TformTrayslate
     ClientHeight = 206
     ClientWidth = 506
     ParentBackground = False
-    TabOrder = 3
+    TabOrder = 0
     object MemoSource: TMemo
       Left = 0
       Height = 206
@@ -247,7 +247,7 @@ object formTrayslate: TformTrayslate
     ClientWidth = 506
     Constraints.MinHeight = 30
     ParentBackground = False
-    TabOrder = 4
+    TabOrder = 2
     object MemoTarget: TMemo
       Left = 0
       Height = 230

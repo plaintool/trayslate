@@ -238,6 +238,7 @@ type
     FTopMost: boolean;
     FLeftButton: boolean;
     FLastEnterTime: DWORD;
+    FLastHotkeyTime: DWORD;
     FMemoSourceCaretPos: integer;
     FPrevSourceText: string;
     FPrevTargetText: string;
@@ -370,6 +371,7 @@ var
 
 const
   DOUBLE_ENTER_INTERVAL = 200; // ms
+  HOTKEY_INTERVAL = 500; // ms
   MIDDLE_MOUSE = 'Middle-Click';
 
   DEF_LANGDETECT = 'languagedetect.ini';
@@ -421,6 +423,7 @@ begin
   FFormConfigWidth := 0;
   FFormConfigHeight := 0;
   FLastEnterTime := 0;
+  FLastHotkeyTime := 0;
   FTranslateThread := nil;
 
   // HotKeys Initialize
@@ -469,6 +472,10 @@ begin
 
   // Load form settings
   FFormSettingsLoaded := LoadFormSettings(Self);
+
+  // Set cursor to end of text
+  MemoSource.SelStart := Length(MemoSource.Text);
+  MemoSource.SelLength := 0;
 
   // Components config after load settings
   TimerTranslate.Interval := Max(RealTimeDelay, 1);
@@ -618,6 +625,11 @@ var
 begin
   if TheMessage.msg = WM_HOTKEY then
   begin
+    if GetTickCount64 - FLastHotkeyTime < HOTKEY_INTERVAL then
+      exit;
+
+    FLastHotkeyTime := GetTickCount64;
+
     case TheMessage.WParam of
 
       HOTKEY_APP:
@@ -970,9 +982,16 @@ begin
   if not FRealTime then
     Exit;
 
+  // Ignore KeyUp if it happened right after a global hotkey
+  if GetTickCount64 - FLastHotkeyTime < HOTKEY_INTERVAL then
+  begin
+    TimerTranslate.Enabled := False;
+    Exit;
+  end;
+
   // List of keys that do not modify text content (Navigation, System, Modifiers)
   // We include VK_RETURN here as per your requirement to ignore it for translation triggers
-  if ((IsSystemKey(Key) and not (Key in [VK_RETURN, VK_DELETE, VK_BACK, VK_SHIFT]))) then
+  if IsSystemKey(Key) and not (Key in [VK_RETURN, VK_DELETE, VK_BACK]) then
   begin
     TimerTranslate.Enabled := False;
     Exit;
@@ -1336,6 +1355,7 @@ begin
   if ComboTarget.ItemIndex = -1 then
     ComboTarget.Text := string.Empty;
 
+  UpdateCheckMenuPair;
   SetIcon;
   SetHints;
 end;
@@ -2062,12 +2082,11 @@ begin
   if TimerTranslate.Enabled then
     TimerTranslate.Enabled := False;
 
-  MemoTarget.Clear;
-
   if (Trim(MemoSource.Text) = string.Empty) then
   begin
     Screen.Cursor := crDefault;
     TimerAnimate.Enabled := False;
+    MemoTarget.Clear;
     Exit;
   end;
 
