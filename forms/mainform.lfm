@@ -108,8 +108,8 @@ object formTrayslate: TformTrayslate
   object SplitterMemo: TSplitter
     Cursor = crVSplit
     Left = 0
-    Height = 5
-    Top = 271
+    Height = 10
+    Top = 266
     Width = 512
     Align = alBottom
     Color = clBtnFace
@@ -184,19 +184,19 @@ object formTrayslate: TformTrayslate
   end
   object PanelSource: TPanel
     Left = 3
-    Height = 206
+    Height = 201
     Top = 62
     Width = 506
     Align = alClient
     BorderSpacing.Around = 3
     BevelOuter = bvNone
-    ClientHeight = 206
+    ClientHeight = 201
     ClientWidth = 506
     ParentBackground = False
     TabOrder = 0
     object MemoSource: TMemo
       Left = 0
-      Height = 206
+      Height = 201
       Top = 0
       Width = 506
       Align = alClient
@@ -209,7 +209,7 @@ object formTrayslate: TformTrayslate
     object PanelButtonSource: TPanel
       Left = 465
       Height = 16
-      Top = 180
+      Top = 175
       Width = 16
       Anchors = [akRight, akBottom]
       BevelOuter = bvNone
@@ -247,7 +247,7 @@ object formTrayslate: TformTrayslate
     ClientWidth = 506
     Constraints.MinHeight = 30
     ParentBackground = False
-    TabOrder = 2
+    TabOrder = 1
     object MemoTarget: TMemo
       Left = 0
       Height = 230
