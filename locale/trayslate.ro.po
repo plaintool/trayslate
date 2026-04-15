@@ -136,16 +136,14 @@ msgstr "Editor de configurații"
 
 #: tformconfigtrayslate.checkencodecustomparameters.caption
 msgid "Encode parameters"
-msgstr ""
+msgstr "Codifică parametrii"
 
 #: tformconfigtrayslate.checkencodetext.caption
-#, fuzzy
 msgctxt "tformconfigtrayslate.checkencodetext.caption"
 msgid "Encode {text} parameter"
 msgstr "Codifică parametrul {text}"
 
 #: tformconfigtrayslate.checkserviceautoswap.caption
-#, fuzzy
 msgctxt "tformconfigtrayslate.checkserviceautoswap.caption"
 msgid "Auto-swap language pair"
 msgstr "Schimbă automat perechea de limbi"
@@ -160,7 +158,7 @@ msgstr ""
 
 #: tformconfigtrayslate.groupboxcustomparameters.caption
 msgid "Custom Parameters"
-msgstr ""
+msgstr "Parametri personalizați"
 
 #: tformconfigtrayslate.groupboxservice.caption
 msgctxt "tformconfigtrayslate.groupboxservice.caption"
@@ -197,7 +195,7 @@ msgstr ""
 
 #: tformconfigtrayslate.labelcolorrecent.caption
 msgid "Recent Color"
-msgstr ""
+msgstr "Culoare recentă"
 
 #: tformconfigtrayslate.labelcontenttype.caption
 msgctxt "tformconfigtrayslate.labelcontenttype.caption"
@@ -240,14 +238,13 @@ msgid "Parameters"
 msgstr "Parametri"
 
 #: tformconfigtrayslate.labelinitparameters3.caption
-#, fuzzy
 msgctxt "tformconfigtrayslate.labelinitparameters3.caption"
 msgid "Parameters"
 msgstr "Parametri"
 
 #: tformconfigtrayslate.labelinitparameters4.caption
 msgid "Parameters in the form key=value used by {key} in requests"
-msgstr ""
+msgstr "Parametri în forma key=value folosiți de {key} în cereri"
 
 #: tformconfigtrayslate.labelinitparemeters.caption
 msgid "Initial GET request to obtain required parameters."
@@ -321,7 +318,7 @@ msgstr ""
 
 #: tformconfigtrayslate.labelservicedescription.caption
 msgid "Description"
-msgstr ""
+msgstr "Descriere"
 
 #: tformconfigtrayslate.labelservicename.caption
 msgid "Name"
@@ -361,7 +358,6 @@ msgid "Parameters"
 msgstr "Parametri"
 
 #: tformconfigtrayslate.pagerequest.caption
-#, fuzzy
 msgctxt "tformconfigtrayslate.pagerequest.caption"
 msgid "Request"
 msgstr "Cerere"
@@ -693,7 +689,7 @@ msgstr "Schimbă limba sursă și limba țintă"
 
 #: tformsettingstrayslate.pagegeneral.caption
 msgid "General"
-msgstr ""
+msgstr "General"
 
 #: tformsettingstrayslate.pagehotkeys.caption
 msgid "Global Hotkeys"
@@ -739,11 +735,11 @@ msgstr "Editor de configurații..."
 
 #: tformtrayslate.acopysource.hint
 msgid "Copy"
-msgstr ""
+msgstr "Copiază"
 
 #: tformtrayslate.acopytarget.hint
 msgid "Copy Translation"
-msgstr ""
+msgstr "Copiază traducerea"
 
 #: tformtrayslate.adonate.caption
 msgid "Buy Me a Coffee..."
@@ -856,7 +852,7 @@ msgstr ""
 #: tformtrayslate.amenu.hint
 msgctxt "tformtrayslate.amenu.hint"
 msgid "Display Menu"
-msgstr ""
+msgstr "Afișează meniul"
 
 #: tformtrayslate.anewtranslate.hint
 msgid "New Translate"
@@ -899,4 +895,3 @@ msgstr "Perechi recente"
 #: tformtrayslate.menulanguage.caption
 msgid "Language"
 msgstr ""
-

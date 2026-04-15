@@ -136,16 +136,14 @@ msgstr "설정 편집기"
 
 #: tformconfigtrayslate.checkencodecustomparameters.caption
 msgid "Encode parameters"
-msgstr ""
+msgstr "인코드 매개변수"
 
 #: tformconfigtrayslate.checkencodetext.caption
-#, fuzzy
 msgctxt "tformconfigtrayslate.checkencodetext.caption"
 msgid "Encode {text} parameter"
 msgstr "{text} 매개변수 인코딩"
 
 #: tformconfigtrayslate.checkserviceautoswap.caption
-#, fuzzy
 msgctxt "tformconfigtrayslate.checkserviceautoswap.caption"
 msgid "Auto-swap language pair"
 msgstr "언어 쌍 자동 교체"
@@ -160,7 +158,7 @@ msgstr ""
 
 #: tformconfigtrayslate.groupboxcustomparameters.caption
 msgid "Custom Parameters"
-msgstr ""
+msgstr "사용자 정의 매개변수"
 
 #: tformconfigtrayslate.groupboxservice.caption
 msgctxt "tformconfigtrayslate.groupboxservice.caption"
@@ -197,7 +195,7 @@ msgstr ""
 
 #: tformconfigtrayslate.labelcolorrecent.caption
 msgid "Recent Color"
-msgstr ""
+msgstr "최근 색상"
 
 #: tformconfigtrayslate.labelcontenttype.caption
 msgctxt "tformconfigtrayslate.labelcontenttype.caption"
@@ -240,14 +238,13 @@ msgid "Parameters"
 msgstr "매개변수"
 
 #: tformconfigtrayslate.labelinitparameters3.caption
-#, fuzzy
 msgctxt "tformconfigtrayslate.labelinitparameters3.caption"
 msgid "Parameters"
 msgstr "매개변수"
 
 #: tformconfigtrayslate.labelinitparameters4.caption
 msgid "Parameters in the form key=value used by {key} in requests"
-msgstr ""
+msgstr "요청에서 {key}가 사용하는 key=value 형식의 매개변수"
 
 #: tformconfigtrayslate.labelinitparemeters.caption
 msgid "Initial GET request to obtain required parameters."
@@ -321,7 +318,7 @@ msgstr ""
 
 #: tformconfigtrayslate.labelservicedescription.caption
 msgid "Description"
-msgstr ""
+msgstr "설명"
 
 #: tformconfigtrayslate.labelservicename.caption
 msgid "Name"
@@ -361,7 +358,6 @@ msgid "Parameters"
 msgstr "매개변수"
 
 #: tformconfigtrayslate.pagerequest.caption
-#, fuzzy
 msgctxt "tformconfigtrayslate.pagerequest.caption"
 msgid "Request"
 msgstr "요청"
@@ -739,11 +735,11 @@ msgstr "설정 편집기..."
 
 #: tformtrayslate.acopysource.hint
 msgid "Copy"
-msgstr ""
+msgstr "복사"
 
 #: tformtrayslate.acopytarget.hint
 msgid "Copy Translation"
-msgstr ""
+msgstr "번역 복사"
 
 #: tformtrayslate.adonate.caption
 msgid "Buy Me a Coffee..."
@@ -856,7 +852,7 @@ msgstr ""
 #: tformtrayslate.amenu.hint
 msgctxt "tformtrayslate.amenu.hint"
 msgid "Display Menu"
-msgstr ""
+msgstr "메뉴 표시"
 
 #: tformtrayslate.anewtranslate.hint
 msgid "New Translate"
@@ -899,4 +895,3 @@ msgstr "최근 쌍"
 #: tformtrayslate.menulanguage.caption
 msgid "Language"
 msgstr ""
-

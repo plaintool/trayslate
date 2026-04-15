@@ -136,16 +136,14 @@ msgstr "Edytor konfiguracji"
 
 #: tformconfigtrayslate.checkencodecustomparameters.caption
 msgid "Encode parameters"
-msgstr ""
+msgstr "Koduj parametry"
 
 #: tformconfigtrayslate.checkencodetext.caption
-#, fuzzy
 msgctxt "tformconfigtrayslate.checkencodetext.caption"
 msgid "Encode {text} parameter"
 msgstr "Koduj parametr {text}"
 
 #: tformconfigtrayslate.checkserviceautoswap.caption
-#, fuzzy
 msgctxt "tformconfigtrayslate.checkserviceautoswap.caption"
 msgid "Auto-swap language pair"
 msgstr "Automatycznie zamieniaj parę językową"
@@ -160,7 +158,7 @@ msgstr ""
 
 #: tformconfigtrayslate.groupboxcustomparameters.caption
 msgid "Custom Parameters"
-msgstr ""
+msgstr "Parametry niestandardowe"
 
 #: tformconfigtrayslate.groupboxservice.caption
 msgctxt "tformconfigtrayslate.groupboxservice.caption"
@@ -197,7 +195,7 @@ msgstr ""
 
 #: tformconfigtrayslate.labelcolorrecent.caption
 msgid "Recent Color"
-msgstr ""
+msgstr "Ostatni kolor"
 
 #: tformconfigtrayslate.labelcontenttype.caption
 msgctxt "tformconfigtrayslate.labelcontenttype.caption"
@@ -240,14 +238,13 @@ msgid "Parameters"
 msgstr "Parametry"
 
 #: tformconfigtrayslate.labelinitparameters3.caption
-#, fuzzy
 msgctxt "tformconfigtrayslate.labelinitparameters3.caption"
 msgid "Parameters"
 msgstr "Parametry"
 
 #: tformconfigtrayslate.labelinitparameters4.caption
 msgid "Parameters in the form key=value used by {key} in requests"
-msgstr ""
+msgstr "Parametry w formie key=value używane przez {key} w żądaniach"
 
 #: tformconfigtrayslate.labelinitparemeters.caption
 msgid "Initial GET request to obtain required parameters."
@@ -321,7 +318,7 @@ msgstr ""
 
 #: tformconfigtrayslate.labelservicedescription.caption
 msgid "Description"
-msgstr ""
+msgstr "Opis"
 
 #: tformconfigtrayslate.labelservicename.caption
 msgid "Name"
@@ -361,7 +358,6 @@ msgid "Parameters"
 msgstr "Parametry"
 
 #: tformconfigtrayslate.pagerequest.caption
-#, fuzzy
 msgctxt "tformconfigtrayslate.pagerequest.caption"
 msgid "Request"
 msgstr "Żądanie"
@@ -739,11 +735,11 @@ msgstr "Edytor konfiguracji..."
 
 #: tformtrayslate.acopysource.hint
 msgid "Copy"
-msgstr ""
+msgstr "Kopiuj"
 
 #: tformtrayslate.acopytarget.hint
 msgid "Copy Translation"
-msgstr ""
+msgstr "Kopiuj tłumaczenie"
 
 #: tformtrayslate.adonate.caption
 msgid "Buy Me a Coffee..."
@@ -856,7 +852,7 @@ msgstr ""
 #: tformtrayslate.amenu.hint
 msgctxt "tformtrayslate.amenu.hint"
 msgid "Display Menu"
-msgstr ""
+msgstr "Pokaż menu"
 
 #: tformtrayslate.anewtranslate.hint
 msgid "New Translate"
@@ -899,4 +895,3 @@ msgstr "Ostatnie pary"
 #: tformtrayslate.menulanguage.caption
 msgid "Language"
 msgstr ""
-

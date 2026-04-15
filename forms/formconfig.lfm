@@ -182,7 +182,7 @@ object formConfigTrayslate: TformConfigTrayslate
         HorzScrollBar.Page = 1
         HorzScrollBar.Visible = False
         VertScrollBar.Increment = 18
-        VertScrollBar.Page = 189
+        VertScrollBar.Page = 181
         VertScrollBar.Smooth = True
         VertScrollBar.Tracking = True
         Align = alClient
@@ -250,8 +250,8 @@ object formConfigTrayslate: TformConfigTrayslate
           end
           object MemoServiceDescription: TMemo
             Left = 120
-            Height = 349
-            Top = 136
+            Height = 357
+            Top = 128
             Width = 423
             Anchors = [akTop, akLeft, akRight, akBottom]
             BorderSpacing.Top = 45
@@ -265,7 +265,7 @@ object formConfigTrayslate: TformConfigTrayslate
           object LabelServiceDescription: TLabel
             Left = 8
             Height = 23
-            Top = 136
+            Top = 128
             Width = 104
             Alignment = taRightJustify
             AutoSize = False

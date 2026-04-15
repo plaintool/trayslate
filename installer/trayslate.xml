@@ -34,7 +34,7 @@
 	</Company_Info>
 	<Program_Info>
 		<Program_Name>Trayslate</Program_Name>
-		<Program_Version>1.0.0</Program_Version>
+		<Program_Version>1.0.1</Program_Version>
 		<Program_Release_Month>04</Program_Release_Month>
 		<Program_Release_Day>01</Program_Release_Day>
 		<Program_Release_Year>2026</Program_Release_Year>
@@ -89,10 +89,10 @@ Whether you need quick translations, continuous multilingual typing, or a reliab
 			<Application_XML_File_URL>http://raw.githubusercontent.com/plaintool/trayslate/refs/heads/main/installer/trayslate.xml</Application_XML_File_URL>
 		</Application_URLs>
 		<Download_URLs>
-			<Primary_Download_URL>http://github.com/plaintool/trayslate/releases/download/v1.0.0/trayslate-1.0.0-any-x86-x64.exe</Primary_Download_URL>
+			<Primary_Download_URL>http://github.com/plaintool/trayslate/releases/download/v1.0.1/trayslate-1.0.1-any-x86-x64.exe</Primary_Download_URL>
 			<Secondary_Download_URL />
-			<Additional_Download_URL_1>http://github.com/plaintool/trayslate/releases/download/v1.0.0/trayslate-1.0.0-x64.msi</Additional_Download_URL_1>
-			<Additional_Download_URL_2>http://github.com/plaintool/trayslate/releases/download/v1.0.0/trayslate-1.0.0-x86.msi</Additional_Download_URL_2>
+			<Additional_Download_URL_1>http://github.com/plaintool/trayslate/releases/download/v1.0.1/trayslate-1.0.1-x64.msi</Additional_Download_URL_1>
+			<Additional_Download_URL_2>http://github.com/plaintool/trayslate/releases/download/v1.0.1/trayslate-1.0.1-x86.msi</Additional_Download_URL_2>
 		</Download_URLs>
 	</Web_Info>
 	<Permissions>
