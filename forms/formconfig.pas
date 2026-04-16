@@ -141,7 +141,7 @@ type
   private
     FLastConfig: integer;
   public
-    function TestChanges: boolean;
+    function TestChanges(AButtons: TMsgDlgButtons = [mbYes, mbNo, mbCancel]): boolean;
     procedure CreateConfig(ACopy: boolean = False);
     procedure DeleteConfig;
     procedure UpdateConfigList(UpdateItemIndex: boolean = True);
@@ -359,24 +359,28 @@ begin
   CreateConfig(True);
 end;
 
-function TformConfigTrayslate.TestChanges: boolean;
+function TformConfigTrayslate.TestChanges(AButtons: TMsgDlgButtons = [mbYes, mbNo, mbCancel]): boolean;
 var
   res: TModalResult;
 begin
   Result := True;
-  if (aSave.Enabled) then
-  begin
-    res := MessageDlg(rneedsave, mtConfirmation, [mbYes, mbNo, mbCancel], 0);
-    if res = mrYes then
-    begin
-      SaveConfig;
-      Exit;
-    end
+
+  if not aSave.Enabled then
+    Exit;
+
+  res := MessageDlg(rneedsave, mtConfirmation, AButtons, 0);
+
+  case res of
+    mrYes:
+      SaveConfig; // save and continue
+
+    mrNo:
+      UpdateConfig; // revert changes
+
+    mrCancel:
+      Result := False; // cancel action
     else
-    if res = mrCancel then
-      Result := False
-    else if res = mrNo then
-      UpdateConfig;
+      Result := False; // safety fallback
   end;
 end;
 

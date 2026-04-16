@@ -1958,17 +1958,42 @@ end;
 
 procedure TformTrayslate.SelectPairConfig(const LangPairIndex: integer; RunTranslate: boolean = True);
 var
-  config: string;
+  Config: string;
+  ApplyChanges: boolean;
 begin
-  if (LangPairIndex >= 0) and (LangPairIndex < FLangPairs.Count) then
+  // Check config form state and ask to save changes
+  ApplyChanges := True;
+
+  if Assigned(formConfigTrayslate) and formConfigTrayslate.HandleAllocated then
+    ApplyChanges := formConfigTrayslate.TestChanges;
+
+  if not ApplyChanges then
+    Exit;
+
+  // Validate index
+  if (LangPairIndex < 0) or (LangPairIndex >= FLangPairs.Count) then
+    Exit;
+
+  Config := FLangPairs.Names[LangPairIndex];
+
+  // If config changed - reload
+  if FConfigFile <> Config then
   begin
-    config := FLangPairs.Names[LangPairIndex];
-    if FConfigFile <> config then
+    FConfigFile := Config;
+    LoadConfig(False);
+
+    if Assigned(formConfigTrayslate) and formConfigTrayslate.HandleAllocated then
     begin
-      FConfigFile := config;
-      LoadConfig(False);
+      try
+        formConfigTrayslate.UpdateConfigList;
+        formConfigTrayslate.UpdateConfig;
+      except
+        formConfigTrayslate.Close;
+      end;
     end;
   end;
+
+  // Always select pair
   SelectPair(FLangPairs.ValueFromIndex[LangPairIndex], RunTranslate);
 end;
 
