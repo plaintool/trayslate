@@ -83,6 +83,7 @@ Source: "..\config\google-get-dictionary.ini";       DestDir: "{app}\config"; Fl
 Source: "..\config\wiktionary.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\marketshost.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\coinconvert.ini"; DestDir: "{app}\config"; Flags: ignoreversion
+Source: "..\config\mathjs.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\pollinations-ai-get.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\pollinations-ai-post.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\languagedetect.ini"; DestDir: "{app}\config"; Flags: ignoreversion
