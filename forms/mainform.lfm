@@ -304,6 +304,7 @@ object formTrayslate: TformTrayslate
     Top = 328
     object MenuShow: TMenuItem
       Action = aShow
+      Default = True
     end
     object MenuShowTranslate: TMenuItem
       Action = aTranslateClipboard
