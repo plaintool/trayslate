@@ -189,6 +189,10 @@ msgctxt "tformconfigtrayslate.groupresponse.caption"
 msgid "Response"
 msgstr "응답"
 
+#: tformconfigtrayslate.imagepreview.hint
+msgid "Click to select the config icon, Middle-Click clears the icon"
+msgstr "클릭하여 설정 아이콘을 선택하세요, Middle-Click은 아이콘을 지웁니다"
+
 #: tformconfigtrayslate.labelaccept.caption
 msgid "Accept"
 msgstr ""

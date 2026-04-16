@@ -189,6 +189,10 @@ msgctxt "tformconfigtrayslate.groupresponse.caption"
 msgid "Response"
 msgstr "Svar"
 
+#: tformconfigtrayslate.imagepreview.hint
+msgid "Click to select the config icon, Middle-Click clears the icon"
+msgstr "Klik for at vælge konfigurationsikonet, Middle-Click rydder ikonet"
+
 #: tformconfigtrayslate.labelaccept.caption
 msgid "Accept"
 msgstr ""

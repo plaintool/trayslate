@@ -60,6 +60,7 @@ type
     GroupRequest: TGroupBox;
     GroupResponse: TGroupBox;
     GroupLanguages: TGroupBox;
+    ImagePreview: TImage;
     LabelAccept: TLabel;
     LabelInitHeaders: TLabel;
     LabelInitParameters: TLabel;
@@ -101,6 +102,7 @@ type
     MemoPostData: TMemo;
     MemoInitURL: TMemo;
     MemoJsonPointer: TMemo;
+    DialogOpen: TOpenDialog;
     Pages: TPageControl;
     PanelTop: TPanel;
     SbCopyConfig: TSpeedButton;
@@ -114,6 +116,7 @@ type
     PageLanguages: TTabSheet;
     PageLanguagesTarget: TTabSheet;
     BtnInitUrlTest: TSpeedButton;
+    ShapePreview: TShape;
     SpinInitLiveTime: TSpinEdit;
     PageResponse: TTabSheet;
     SpinServiceOrder: TSpinEdit;
@@ -133,6 +136,8 @@ type
     procedure BtnCloseClick(Sender: TObject);
     procedure ComboConfigChange(Sender: TObject);
     procedure ComboConfigKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+    procedure ImagePreviewClick(Sender: TObject);
+    procedure ImagePreviewMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
     procedure LabelFillLanguagesClick(Sender: TObject);
     procedure MemoKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure SbNewConfigClick(Sender: TObject);
@@ -140,6 +145,9 @@ type
     procedure SbCopyConfigClick(Sender: TObject);
   private
     FLastConfig: integer;
+    FIconBase64: string;
+
+    procedure UpdateIconPreview;
   public
     function TestChanges(AButtons: TMsgDlgButtons = [mbYes, mbNo, mbCancel]): boolean;
     procedure CreateConfig(ACopy: boolean = False);
@@ -314,6 +322,26 @@ begin
     DeleteConfig;
 end;
 
+procedure TformConfigTrayslate.ImagePreviewClick(Sender: TObject);
+begin
+  if DialogOpen.Execute then
+  begin
+    FIconBase64 := LoadImageFileToBase64(DialogOpen.FileName);
+    UpdateIconPreview;
+    ValueChange(Self);
+  end;
+end;
+
+procedure TformConfigTrayslate.ImagePreviewMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
+begin
+  if Button = mbMiddle then
+  begin
+    FIconBase64 := string.Empty;
+    UpdateIconPreview;
+    ValueChange(Self);
+  end;
+end;
+
 procedure TformConfigTrayslate.LabelFillLanguagesClick(Sender: TObject);
 var
   List: TStringList;
@@ -357,6 +385,23 @@ end;
 procedure TformConfigTrayslate.SbCopyConfigClick(Sender: TObject);
 begin
   CreateConfig(True);
+end;
+
+procedure TformConfigTrayslate.UpdateIconPreview;
+var
+  Bmp: TBitmap;
+begin
+  Bmp := Base64ToBitmap(FIconBase64);
+  if Assigned(Bmp) then
+  begin
+    try
+      ImagePreview.Picture.Assign(Bmp);
+    finally
+      Bmp.Free;
+    end;
+  end
+  else
+    ImagePreview.Picture.Clear;
 end;
 
 function TformConfigTrayslate.TestChanges(AButtons: TMsgDlgButtons = [mbYes, mbNo, mbCancel]): boolean;
@@ -509,6 +554,8 @@ begin
   with formTrayslate.Trans do
   begin
     EditServiceName.Text := ServiceName;
+    FIconBase64 := ServiceIcon;
+    UpdateIconPreview;
     SpinServiceOrder.Value := ServiceOrder;
     CheckServiceAutoSwap.Checked := ServiceAutoSwap;
     ColorServiceColorRecent.Selected := ServiceColorRecent;
@@ -543,6 +590,7 @@ begin
   with formTrayslate.Trans do
   begin
     ServiceName := string.Empty;
+    ServiceIcon := string.Empty;
     ServiceOrder := 0;
     ServiceAutoSwap := False;
     ServiceColorRecent := clBlue;
@@ -608,6 +656,7 @@ begin
     with formTrayslate.Trans do
     begin
       ServiceName := EditServiceName.Text;
+      ServiceIcon := FIconBase64;
       ServiceOrder := SpinServiceOrder.Value;
       ServiceAutoSwap := CheckServiceAutoSwap.Checked;
       ServiceColorRecent := ColorServiceColorRecent.Selected;

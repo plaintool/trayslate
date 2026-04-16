@@ -58,6 +58,7 @@ type
     aDonate: TAction;
     aExit: TAction;
     ActionList: TActionList;
+    ImageConfig: TImageList;
     SbCopySource: TSpeedButton;
     SbCopyTarget: TSpeedButton;
     ComboSource: TComboBox;
@@ -257,6 +258,7 @@ type
     FConfigFiles: TStringList;
     FConfigTitles: TStringList;
     FConfigColors: TStringList;
+    FConfigImages: TStringList;
     FConfigLangDetect: string;
     FLangSource: string;
     FLangTarget: string;
@@ -337,6 +339,7 @@ type
     property ConfigFiles: TStringList read FConfigFiles write FConfigFiles;
     property ConfigTitles: TStringList read FConfigTitles write FConfigTitles;
     property ConfigColors: TStringList read FConfigColors write FConfigColors;
+    property ConfigImages: TStringList read FConfigImages write FConfigImages;
     property ConfigLangDetect: string read FConfigLangDetect write FConfigLangDetect;
     property AutoStart: boolean read FAutoStart write SetAutoStart;
     property IconBackgroundColor: TColor read FIconBackgroundColor write FIconBackgroundColor;
@@ -487,6 +490,7 @@ begin
   FConfigFiles := TStringList.Create;
   FConfigTitles := TStringList.Create;
   FConfigColors := TStringList.Create;
+  FConfigImages := TStringList.Create;
   GetIniFiles(FConfigFiles);
   BuildConfigMenu;
   FConfigLangDetect := GetConfigFullPath(FConfigLangDetect, FConfigFiles);
@@ -563,6 +567,7 @@ begin
   FreeAndNil(FConfigFiles);
   FreeAndNil(FConfigTitles);
   FreeAndNil(FConfigColors);
+  FreeAndNil(FConfigImages);
   FreeAndNil(FTrans);
   FreeAndNil(FTransDetect);
   FreeAndNil(FTrayHint);
@@ -1368,6 +1373,7 @@ var
   Item: TMenuItem;
   FileName, ServiceName, FilePath: string;
   ServiceColor: TColor;
+  ServiceIcon: integer;
   Ini: TIniFile;
   SL: TStringList;
   Data: PConfigData;
@@ -1376,6 +1382,7 @@ begin
   MenuConfig.Visible := FConfigFiles.Count > 0;
 
   SL := TStringList.Create;
+  ImageConfig.Clear;
   try
     for i := 0 to FConfigFiles.Count - 1 do
     begin
@@ -1392,6 +1399,7 @@ begin
           ServiceName := Trim(Ini.ReadString('Service', 'Name', string.Empty));
           ServiceColor := Ini.ReadInteger('Service', 'ColorRecent', clBlue);
           Data^.Order := Ini.ReadInteger('Service', 'Order', 0);
+          Data^.ImageIndex := AddBase64ToImageList(Ini.ReadString('Service', 'Icon', string.Empty), ImageConfig);
         finally
           Ini.Free;
         end;
@@ -1415,15 +1423,18 @@ begin
     // Build menu
     FConfigTitles.Clear;
     FConfigColors.Clear;
+    FConfigImages.Clear;
     for i := 0 to SL.Count - 1 do
     begin
       Data := PConfigData(SL.Objects[i]);
       FileName := ExtractFileName(SL[i]);
       ServiceName := Data^.Name;
       ServiceColor := Data^.Color;
+      ServiceIcon := Data^.ImageIndex;
 
       FConfigTitles.Add(SL[i] + '=' + ServiceName);
       FConfigColors.Add(SL[i] + '=' + IntToStr(ServiceColor));
+      FConfigImages.Add(SL[i] + '=' + IntToStr(ServiceIcon));
 
       Item := TMenuItem.Create(MenuConfig);
       if ServiceName <> '' then
@@ -1433,6 +1444,7 @@ begin
 
       Item.Hint := SL[i];
       Item.Tag := i;
+      Item.ImageIndex := ServiceIcon;
       Item.OnClick := @MenuConfigItemClick;
       Item.Checked := SameText(SL[i], FConfigFile);
 
@@ -1448,18 +1460,20 @@ end;
 
 procedure TformTrayslate.RebuildLangPairsPanel(Data: PtrInt);
 var
+  pnl: TPanel;
   lbl: TLabel;
+  img: TImage;
   mi: TMenuItem;
   totalWidth: integer;
   ColorRecent: TColor;
+  ServiceIcon: integer;
   i: integer;
 begin
   FlowPairs.DisableAlign;
   try
     // Clear FlowPairs
     for i := FlowPairs.ControlCount - 1 downto 0 do
-      if FlowPairs.Controls[i] is TLabel then
-        FlowPairs.Controls[i].Free;
+      FlowPairs.Controls[i].Free;
 
     // Clear MenuLangPairs
     MenuLangPairs.Clear;
@@ -1483,25 +1497,49 @@ begin
       totalWidth := totalWidth + FlowPairs.Canvas.TextWidth(FLangPairs.ValueFromIndex[i]) + 10;
     FlowPairs.Width := totalWidth;
 
-    // Create Labels and Menu Items
+    // Create Panels (with Image + Label) and Menu Items
     for i := 0 to FLangPairs.Count - 1 do
     begin
-      // FlowPairs Label
-      lbl := TLabel.Create(FlowPairs);
-      lbl.Parent := FlowPairs;
+      pnl := TPanel.Create(FlowPairs);
+      pnl.Parent := FlowPairs;
+      pnl.BevelOuter := bvNone;
+      pnl.AutoSize := True;
+      pnl.BorderSpacing.Right := 12;
+      pnl.BorderSpacing.Bottom := 5;
+
+      if not TryStrToInt(FConfigImages.Values[FLangPairs.Names[i]], ServiceIcon) then
+        ServiceIcon := -1;
+
+      if (ServiceIcon >= 0) then
+      begin
+        img := TImage.Create(pnl);
+        img.Parent := pnl;
+        img.Width := 16;
+        img.Height := 16;
+        img.Left := 0;
+        img.Top := 5;
+        img.Proportional := True;
+        img.Center := True;
+        ImageConfig.GetBitmap(ServiceIcon, img.Picture.Bitmap);
+      end;
+
+      // Label
+      lbl := TLabel.Create(pnl);
+      lbl.Parent := pnl;
       lbl.Caption := FLangPairs.ValueFromIndex[i];
       lbl.Hint := FConfigTitles.Values[FLangPairs.Names[i]];
-      if not TryStrToInt(FConfigColors.Values[FLangPairs.Names[i]], ColorRecent) then
-        ColorRecent := clBlue;
-      lbl.Font.Color := ThemeColor(ColorRecent, DarkThemeColor(ColorRecent));
+      lbl.Left := 20;
+      lbl.Top := 1;
+      lbl.AutoSize := True;
       lbl.ShowHint := True;
       lbl.Cursor := crHandPoint;
       lbl.Tag := i;
-      lbl.AutoSize := True;
-      lbl.BorderSpacing.Left := 3;
-      lbl.BorderSpacing.Right := 10;
-      lbl.BorderSpacing.Bottom := 5;
 
+      if not TryStrToInt(FConfigColors.Values[FLangPairs.Names[i]], ColorRecent) then
+        ColorRecent := clBlue;
+      lbl.Font.Color := ThemeColor(ColorRecent, DarkThemeColor(ColorRecent));
+
+      // Events only on label
       lbl.OnMouseEnter := @LabelMouseEnter;
       lbl.OnMouseLeave := @LabelMouseLeave;
       lbl.OnMouseDown := @LabelLangMouseDown;
@@ -1512,9 +1550,10 @@ begin
       mi.Hint := FLangPairs[i];
       if RecentPairHotKeys and (i < 9) then
         mi.ShortCut := Menus.ShortCut(Ord('1') + i, [ssCtrl, ssShift]);
-      mi.Tag := i; // same index as label
-      mi.OnClick := @MenuPairClick; // separate handler for menu click
-      mi.Checked := SameText(mi.Hint, LangSource + ':' + LangTarget); // set checked immediately
+      mi.Tag := i;
+      mi.ImageIndex := ServiceIcon;
+      mi.OnClick := @MenuPairClick;
+      mi.Checked := SameText(mi.Hint, LangSource + ':' + LangTarget);
       MenuLangPairs.Add(mi);
     end;
   finally
@@ -1637,39 +1676,54 @@ end;
 
 procedure TformTrayslate.UpdateCheckMenuPair;
 var
-  i: integer;
+  i, j, k: integer;
   currentPair: string;
   lbl: TLabel;
-  lblIndex: integer;
+  pnl: TPanel;
+  targetTag: integer;
 begin
-  // Current pair in same format as Hint (e.g. "en:ru")
+  if (FlowPairs = nil) or (MenuLangPairs = nil) then Exit;
+
+  // Format the current pair for comparison (e.g., "en:ru")
   currentPair := LangSource + ':' + LangTarget;
 
   for i := 0 to MenuLangPairs.Count - 1 do
   begin
-    // Compare with Hint
+    // 1. Update menu item check state
     MenuLangPairs.Items[i].Checked :=
       SameText(MenuLangPairs.Items[i].Hint, FConfigFile + '=' + currentPair);
 
-    // labels start from index 1
-    lblIndex := i + 1;
+    targetTag := i;
+    lbl := nil;
 
-    // safety check: panel may be empty or not fully built yet
-    if (FlowPairs = nil) then
-      Continue;
+    // 2. Find Panel -> then Label inside it
+    for j := 0 to FlowPairs.ControlCount - 1 do
+    begin
+      if FlowPairs.Controls[j] is TPanel then
+      begin
+        pnl := TPanel(FlowPairs.Controls[j]);
 
-    if lblIndex >= FlowPairs.ControlCount then
-      Continue;
+        for k := 0 to pnl.ControlCount - 1 do
+        begin
+          if (pnl.Controls[k] is TLabel) and (pnl.Controls[k].Tag = targetTag) then
+          begin
+            lbl := TLabel(pnl.Controls[k]);
+            Break;
+          end;
+        end;
 
-    if not (FlowPairs.Controls[lblIndex] is TLabel) then
-      Continue;
+        if Assigned(lbl) then Break;
+      end;
+    end;
 
-    lbl := TLabel(FlowPairs.Controls[lblIndex]);
-
-    if MenuLangPairs.Items[i].Checked then
-      lbl.Font.Style := lbl.Font.Style + [fsBold]
-    else
-      lbl.Font.Style := lbl.Font.Style - [fsBold];
+    // 3. Update label font style
+    if Assigned(lbl) then
+    begin
+      if MenuLangPairs.Items[i].Checked then
+        lbl.Font.Style := lbl.Font.Style + [fsBold]
+      else
+        lbl.Font.Style := lbl.Font.Style - [fsBold];
+    end;
   end;
 end;
 

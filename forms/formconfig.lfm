@@ -203,6 +203,14 @@ object formConfigTrayslate: TformConfigTrayslate
           ClientWidth = 568
           ParentBackground = False
           TabOrder = 0
+          object ShapePreview: TShape
+            Left = 520
+            Height = 25
+            Top = 0
+            Width = 25
+            Anchors = [akTop, akRight]
+            Pen.Style = psDot
+          end
           object LabelServiceName: TLabel
             Left = 8
             Height = 23
@@ -216,7 +224,7 @@ object formConfigTrayslate: TformConfigTrayslate
             Left = 120
             Height = 23
             Top = 0
-            Width = 423
+            Width = 392
             Anchors = [akTop, akLeft, akRight]
             TabOrder = 0
             OnChange = ValueChange
@@ -292,6 +300,20 @@ object formConfigTrayslate: TformConfigTrayslate
             ItemHeight = 16
             TabOrder = 4
             OnChange = ValueChange
+          end
+          object ImagePreview: TImage
+            Cursor = crHandPoint
+            Left = 521
+            Height = 23
+            Hint = 'Click to select the config icon, Middle-Click clears the icon'
+            Top = 1
+            Width = 23
+            Anchors = [akTop, akRight]
+            Center = True
+            ParentShowHint = False
+            ShowHint = True
+            OnClick = ImagePreviewClick
+            OnMouseUp = ImagePreviewMouseUp
           end
         end
       end
@@ -1168,5 +1190,11 @@ object formConfigTrayslate: TformConfigTrayslate
     )
     Left = 528
     Top = 40
+  end
+  object DialogOpen: TOpenDialog
+    Filter = 'Images (*.png;*.bmp;*.ico)|*.png;*.bmp;*.ico|All files (*.*)|*.*'
+    Options = [ofFileMustExist, ofEnableSizing, ofViewDetail]
+    Left = 464
+    Top = 104
   end
 end

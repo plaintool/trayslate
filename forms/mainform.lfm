@@ -118,16 +118,17 @@ object formTrayslate: TformTrayslate
   end
   object PanelPairs: TPanel
     Left = 0
-    Height = 26
+    Height = 28
     Top = 33
     Width = 512
     Align = alTop
     AutoSize = True
     BorderSpacing.Bottom = 2
     BevelOuter = bvNone
-    ClientHeight = 26
+    ClientHeight = 28
     ClientWidth = 512
     Color = clBtnFace
+    Constraints.MinHeight = 28
     ParentBackground = False
     ParentColor = False
     TabOrder = 4
@@ -146,57 +147,52 @@ object formTrayslate: TformTrayslate
       ParentShowHint = False
     end
     object FlowPairs: TFlowPanel
-      Left = 0
-      Height = 26
+      Left = 32
+      Height = 28
       Top = 0
-      Width = 482
+      Width = 455
       Align = alClient
       AutoSize = True
       BevelOuter = bvNone
-      BorderSpacing.Right = 30
+      BorderSpacing.Left = 32
+      BorderSpacing.Right = 25
       Constraints.MinHeight = 5
-      ControlList = <      
-        item
-          Control = SbAddPair
-          WrapAfter = waAuto
-          Index = 0
-        end>
+      ControlList = <>
       FlowLayout = tlCenter
       FlowStyle = fsLeftRightTopBottom
       ParentShowHint = False
       ShowHint = True
       TabOrder = 0
-      object SbAddPair: TSpeedButton
-        Left = 3
-        Height = 26
-        Top = 0
-        Width = 24
-        Action = aAddPair
-        Align = alLeft
-        BorderSpacing.Left = 3
-        Flat = True
-        Images = ImageButtons
-        ImageIndex = 4
-        ShowHint = True
-        ParentShowHint = False
-      end
+    end
+    object SbAddPair: TSpeedButton
+      Left = 3
+      Height = 26
+      Top = 0
+      Width = 24
+      Action = aAddPair
+      BorderSpacing.Left = 3
+      Flat = True
+      Images = ImageButtons
+      ImageIndex = 4
+      ShowHint = True
+      ParentShowHint = False
     end
   end
   object PanelSource: TPanel
     Left = 3
-    Height = 201
-    Top = 62
+    Height = 199
+    Top = 64
     Width = 506
     Align = alClient
     BorderSpacing.Around = 3
     BevelOuter = bvNone
-    ClientHeight = 201
+    ClientHeight = 199
     ClientWidth = 506
     ParentBackground = False
     TabOrder = 0
     object MemoSource: TMemo
       Left = 0
-      Height = 201
+      Height = 199
       Top = 0
       Width = 506
       Align = alClient
@@ -209,7 +205,7 @@ object formTrayslate: TformTrayslate
     object PanelButtonSource: TPanel
       Left = 465
       Height = 16
-      Top = 175
+      Top = 173
       Width = 16
       Anchors = [akRight, akBottom]
       BevelOuter = bvNone
@@ -296,14 +292,15 @@ object formTrayslate: TformTrayslate
     OnClick = TrayIconClick
     OnMouseMove = TrayIconMouseMove
     OnMouseUp = TrayIconMouseUp
-    Left = 168
-    Top = 328
+    Left = 200
+    Top = 312
   end
   object PopupTray: TPopupMenu
+    Images = ImageConfig
     OnPopup = PopupTrayPopup
     OnClose = PopupTrayClose
-    Left = 104
-    Top = 328
+    Left = 128
+    Top = 312
     object MenuShow: TMenuItem
       Action = aShow
       Default = True
@@ -435,7 +432,7 @@ object formTrayslate: TformTrayslate
   end
   object ActionList: TActionList
     Left = 40
-    Top = 328
+    Top = 312
     object aSwap: TAction
       Category = 'Form'
       OnExecute = aSwapExecute
@@ -649,12 +646,12 @@ object formTrayslate: TformTrayslate
     Enabled = False
     Interval = 300
     OnTimer = TimerClickTimer
-    Left = 231
-    Top = 328
+    Left = 272
+    Top = 312
   end
   object ImageButtons: TImageList
     Left = 40
-    Top = 400
+    Top = 384
     Bitmap = {
       4C7A0E00000010000000100000001F0300000000000078DAED9A3D4BEC401486
       D5CDAE0ADAE98F102C6CECC4D61F60616B692D2288E81616E207163611C456D4
@@ -688,28 +685,32 @@ object formTrayslate: TformTrayslate
     Enabled = False
     Interval = 300
     OnTimer = TimerActiveTimer
-    Left = 304
-    Top = 328
+    Left = 345
+    Top = 312
   end
   object TimerTranslate: TTimer
     Enabled = False
     Interval = 700
     OnTimer = TimerTranslateTimer
-    Left = 304
-    Top = 400
+    Left = 345
+    Top = 384
   end
   object TimerAnimate: TTimer
     Enabled = False
     Interval = 10
     OnTimer = TimerAnimateTimer
     OnStopTimer = TimerAnimateStopTimer
-    Left = 231
-    Top = 400
+    Left = 272
+    Top = 384
   end
   object TimerHideHint: TTimer
     Enabled = False
     OnTimer = TimerHideHintTimer
-    Left = 376
-    Top = 328
+    Left = 416
+    Top = 312
+  end
+  object ImageConfig: TImageList
+    Left = 128
+    Top = 384
   end
 end

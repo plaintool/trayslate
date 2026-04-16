@@ -10,6 +10,7 @@
 {"hash":5671618,"name":"tformconfigtrayslate.labelserviceorder.caption","sourcebytes":[79,114,100,101,114],"value":"Order"},
 {"hash":156067838,"name":"tformconfigtrayslate.labelservicedescription.caption","sourcebytes":[68,101,115,99,114,105,112,116,105,111,110],"value":"Description"},
 {"hash":63168306,"name":"tformconfigtrayslate.labelcolorrecent.caption","sourcebytes":[82,101,99,101,110,116,32,67,111,108,111,114],"value":"Recent Color"},
+{"hash":63909166,"name":"tformconfigtrayslate.imagepreview.hint","sourcebytes":[67,108,105,99,107,32,116,111,32,115,101,108,101,99,116,32,116,104,101,32,99,111,110,102,105,103,32,105,99,111,110,44,32,77,105,100,100,108,101,45,67,108,105,99,107,32,99,108,101,97,114,115,32,116,104,101,32,105,99,111,110],"value":"Click to select the config icon, Middle-Click clears the icon"},
 {"hash":147373300,"name":"tformconfigtrayslate.pagerequest.caption","sourcebytes":[82,101,113,117,101,115,116],"value":"Request"},
 {"hash":147373300,"name":"tformconfigtrayslate.grouprequest.caption","sourcebytes":[82,101,113,117,101,115,116],"value":"Request"},
 {"hash":87863124,"name":"tformconfigtrayslate.labelmethod.caption","sourcebytes":[77,101,116,104,111,100],"value":"Method"},

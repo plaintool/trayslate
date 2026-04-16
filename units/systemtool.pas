@@ -26,6 +26,14 @@ uses
   LCLIntf,
   Dialogs,
   PasZLib,
+  FPImage,
+  FPReadPNG,
+  FPReadBMP,
+  FPWritePNG,
+  FPWriteBMP,
+  FPImgCanv,
+  IntfGraphics,
+  base64,
   {$IFDEF WINDOWS}
   Windows,
   Registry,
@@ -76,6 +84,18 @@ procedure RegAutoStart(const AEnable: boolean; const AppName: string = 'Trayslat
 function IsGzip(Stream: TMemoryStream): boolean;
 
 function DecompressGzipToStream(Compressed: TMemoryStream): TMemoryStream;
+
+function StreamToBase64(const MS: TMemoryStream): string;
+
+procedure Base64ToStream(const S: string; MS: TMemoryStream);
+
+function FPImageToBitmap(Img: TFPMemoryImage): Graphics.TBitmap;
+
+function LoadImageFileToBase64(const FileName: string): string;
+
+function Base64ToBitmap(const Base64Str: string): Graphics.TBitmap;
+
+function AddBase64ToImageList(const Base64Str: string; AList: TImageList): integer;
 
 var
   Language: string;
@@ -978,6 +998,195 @@ begin
   except
     Result.Free;
     raise;
+  end;
+end;
+
+function StreamToBase64(const MS: TMemoryStream): string;
+var
+  Encoder: TBase64EncodingStream;
+  SS: TStringStream;
+begin
+  Result := string.Empty;
+
+  MS.Position := 0;
+  SS := TStringStream.Create('');
+  try
+    Encoder := TBase64EncodingStream.Create(SS);
+    try
+      Encoder.CopyFrom(MS, MS.Size);
+    finally
+      Encoder.Free;
+    end;
+
+    Result := SS.DataString;
+  finally
+    SS.Free;
+  end;
+end;
+
+procedure Base64ToStream(const S: string; MS: TMemoryStream);
+var
+  Decoder: TBase64DecodingStream;
+  SS: TStringStream;
+  Buffer: array[0..4095] of byte;
+  Readed: Integer;
+begin
+  MS.Clear;
+
+  SS := TStringStream.Create(S);
+  try
+    Decoder := TBase64DecodingStream.Create(SS);
+    try
+      repeat
+        Readed := Decoder.Read(Buffer, SizeOf(Buffer));
+        if Readed > 0 then
+          MS.WriteBuffer(Buffer, Readed);
+      until Readed = 0;
+
+      MS.Position := 0;
+    finally
+      Decoder.Free;
+    end;
+  finally
+    SS.Free;
+  end;
+end;
+
+function LoadImageFileToBase64(const FileName: string): string;
+var
+  Img, Resized: TFPMemoryImage;
+  Reader: TFPCustomImageReader;
+  Writer: TFPWriterBMP;
+  MS: TMemoryStream;
+  Canvas: TFPImageCanvas;
+begin
+  Result := string.Empty;
+
+  if not FileExists(FileName) then Exit;
+
+  Img := TFPMemoryImage.Create(0, 0);
+  Resized := TFPMemoryImage.Create(16, 16);
+  MS := TMemoryStream.Create;
+  Writer := TFPWriterBMP.Create;
+
+  try
+    case LowerCase(ExtractFileExt(FileName)) of
+      '.png': Reader := TFPReaderPNG.Create;
+      '.bmp': Reader := TFPReaderBMP.Create;
+      else Exit;
+    end;
+
+    try
+      Img.LoadFromFile(FileName, Reader);
+    finally
+      Reader.Free;
+    end;
+
+    Canvas := TFPImageCanvas.Create(Resized);
+    try
+      // Fill white background
+      Canvas.Brush.FPColor := colWhite;
+      Canvas.FillRect(0, 0, 16, 16);
+
+      // Draw image
+      Canvas.StretchDraw(0, 0, 16, 16, Img);
+    finally
+      Canvas.Free;
+    end;
+
+    Resized.SaveToStream(MS, Writer);
+
+    MS.Position := 0;
+    Result := StreamToBase64(MS);
+
+  finally
+    Img.Free;
+    Resized.Free;
+    MS.Free;
+    Writer.Free;
+  end;
+end;
+
+function FPImageToBitmap(Img: TFPMemoryImage): Graphics.TBitmap;
+var
+  IntfImg: TLazIntfImage;
+begin
+  Result := Graphics.TBitmap.Create;
+  // Create IntfImg and initialize its format manually
+  IntfImg := TLazIntfImage.Create(0, 0);
+  try
+    // This is the key: we define the raw image format (32-bit RGBA)
+    // before copying any data.
+    IntfImg.DataDescription := GetDescriptionFromDevice(0);
+    IntfImg.SetSize(Img.Width, Img.Height);
+
+    // Manual pixel copy to be 100% sure it works everywhere
+    IntfImg.CopyPixels(Img);
+
+    // Now convert to LCL Bitmap handle
+    Result.LoadFromIntfImage(IntfImg);
+  finally
+    IntfImg.Free;
+  end;
+end;
+
+function Base64ToBitmap(const Base64Str: string): Graphics.TBitmap;
+var
+  MS: TMemoryStream;
+  Img: TFPMemoryImage;
+  Reader: TFPReaderBMP;
+begin
+  Result := nil;
+  if Base64Str = string.Empty then exit;
+  MS := TMemoryStream.Create;
+  Img := TFPMemoryImage.Create(0, 0);
+  Reader := TFPReaderBMP.Create;
+  try
+    try
+      // If Base64ToStream is your custom function, ensure it's correct
+      Base64ToStream(Base64Str, MS);
+      MS.Position := 0;
+
+      Img.LoadFromStream(MS, Reader);
+      Result := FPImageToBitmap(Img);
+    except
+      if Assigned(Result) then FreeAndNil(Result);
+      // Optional: raise;
+    end;
+  finally
+    Reader.Free;
+    Img.Free;
+    MS.Free;
+  end;
+end;
+
+function AddBase64ToImageList(const Base64Str: string; AList: TImageList): integer;
+var
+  Bmp, FixedBmp: Graphics.TBitmap;
+begin
+  Result := -1;
+
+  if (Base64Str = '') or not Assigned(AList) then Exit;
+
+  Bmp := Base64ToBitmap(Base64Str);
+  FixedBmp := Graphics.TBitmap.Create;
+  try
+    if Assigned(Bmp) and (Bmp.Width > 0) then
+    begin
+      FixedBmp.SetSize(16, 16);
+
+      // White background
+      FixedBmp.Canvas.Brush.Color := clWhite;
+      FixedBmp.Canvas.FillRect(0, 0, 16, 16);
+
+      // Draw image
+      FixedBmp.Canvas.Draw(0, 0, Bmp);
+
+      Result := AList.AddMasked(FixedBmp, clWhite);
+    end;
+  finally
+    Bmp.Free;
+    FixedBmp.Free;
   end;
 end;
 

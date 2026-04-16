@@ -31,6 +31,7 @@ type
     PathOnly: string;
     Name: string;
     Color: TColor;
+    ImageIndex: integer;
   end;
 
 function GetSettingsDirectory(fileName: string = string.Empty): string;
@@ -430,6 +431,10 @@ begin
       Ini.WriteString('Service', 'Name', Translate.ServiceName)
     else
       Ini.DeleteKey('Service', 'Name');
+    if Trim(Translate.ServiceIcon) <> string.Empty then
+      Ini.WriteString('Service', 'Icon', Translate.ServiceIcon)
+    else
+      Ini.DeleteKey('Service', 'Icon');
     Ini.WriteInteger('Service', 'Order', Translate.ServiceOrder);
     Ini.WriteBool('Service', 'AutoSwapLanguage', Translate.ServiceAutoSwap);
     Ini.WriteInteger('Service', 'ColorRecent', Translate.ServiceColorRecent);
@@ -619,6 +624,7 @@ begin
   Ini := TIniFile.Create(AFileName);
   try
     Translate.ServiceName := Ini.ReadString('Service', 'Name', string.Empty);
+    Translate.ServiceIcon := Ini.ReadString('Service', 'Icon', string.Empty);
     Translate.ServiceOrder := Ini.ReadInteger('Service', 'Order', 0);
     Translate.ServiceAutoSwap := Ini.ReadBool('Service', 'AutoSwapLanguage', False);
     Translate.ServiceColorRecent := Ini.ReadInteger('Service', 'ColorRecent', clBlue);

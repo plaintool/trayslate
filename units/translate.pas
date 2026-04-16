@@ -46,6 +46,7 @@ type
     FTextToTranslate: string;
 
     FServiceName: string;
+    FServiceIcon: string;
     FServiceOrder: integer;
     FAutoSwap: boolean;
     FWebMethod: TWebMethod;
@@ -96,6 +97,7 @@ type
     property ParameterEncode: TStringList read FParameterEncode write FParameterEncode;
 
     property ServiceName: string read FServiceName write FServiceName;
+    property ServiceIcon: string read FServiceIcon write FServiceIcon;
     property ServiceOrder: integer read FServiceOrder write FServiceOrder;
     property ServiceAutoSwap: boolean read FAutoSwap write FAutoSwap;
     property ServiceColorRecent: TColor read FServiceColorRecent write FServiceColorRecent;
@@ -160,6 +162,7 @@ constructor TTranslate.Create;
 begin
   inherited Create;
   FServiceName := 'default';
+  FServiceIcon := string.Empty;
   FServiceColorRecent := clBlue;
   FWebMethod := wmGet;
   FUserAgent := 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:148.0) Gecko/20100101 Firefox/148.0';
