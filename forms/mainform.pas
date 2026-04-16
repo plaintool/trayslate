@@ -462,6 +462,8 @@ begin
   SbNewTranslate.ImageIndex := ThemeValue(8, 9);
   SbCopySource.ImageIndex := ThemeValue(10, 11);
   SbCopyTarget.ImageIndex := ThemeValue(10, 11);
+  SbCopySource.PressedImageIndex := ThemeValue(12, 13);
+  SbCopyTarget.PressedImageIndex := ThemeValue(12, 13);
   FLeftButton := True;
 
   FTrans := TTranslate.Create;
