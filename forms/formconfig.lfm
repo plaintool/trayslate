@@ -1192,7 +1192,7 @@ object formConfigTrayslate: TformConfigTrayslate
     Top = 40
   end
   object DialogOpen: TOpenDialog
-    Filter = 'Images (*.png;*.bmp;*.ico)|*.png;*.bmp;*.ico|All files (*.*)|*.*'
+    Filter = 'Images (*.png, *.jpg, *.jpeg, *.bmp)|*.png;*.jpg;*.jpeg;*.bmp|All files (*.*)|*.*'
     Options = [ofFileMustExist, ofEnableSizing, ofViewDetail]
     Left = 464
     Top = 104

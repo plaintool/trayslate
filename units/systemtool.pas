@@ -27,6 +27,7 @@ uses
   Dialogs,
   PasZLib,
   FPImage,
+  FPReadJPEG,
   FPReadPNG,
   FPReadBMP,
   FPWritePNG,
@@ -1028,19 +1029,21 @@ procedure Base64ToStream(const S: string; MS: TMemoryStream);
 var
   Decoder: TBase64DecodingStream;
   SS: TStringStream;
-  Buffer: array[0..4095] of byte;
-  Readed: Integer;
+  Buffer: array of byte = ();
+  Readed: integer;
 begin
   MS.Clear;
 
-  SS := TStringStream.Create(S);
+  SS := TStringStream.Create(S, TEncoding.ASCII); // important
   try
     Decoder := TBase64DecodingStream.Create(SS);
     try
+      SetLength(Buffer, 4096); // allocate buffer
+
       repeat
-        Readed := Decoder.Read(Buffer, SizeOf(Buffer));
+        Readed := Decoder.Read(Buffer[0], Length(Buffer)); // correct!
         if Readed > 0 then
-          MS.WriteBuffer(Buffer, Readed);
+          MS.WriteBuffer(Buffer[0], Readed);
       until Readed = 0;
 
       MS.Position := 0;
@@ -1073,7 +1076,9 @@ begin
     case LowerCase(ExtractFileExt(FileName)) of
       '.png': Reader := TFPReaderPNG.Create;
       '.bmp': Reader := TFPReaderBMP.Create;
-      else Exit;
+      '.jpg', '.jpeg': Reader := TFPReaderJPEG.Create;
+      else
+        Exit;
     end;
 
     try
