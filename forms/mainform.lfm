@@ -123,7 +123,6 @@ object formTrayslate: TformTrayslate
     Width = 512
     Align = alTop
     AutoSize = True
-    BorderSpacing.Bottom = 2
     BevelOuter = bvNone
     ClientHeight = 28
     ClientWidth = 512
@@ -133,9 +132,9 @@ object formTrayslate: TformTrayslate
     ParentColor = False
     TabOrder = 4
     object SbMenu: TSpeedButton
-      Left = 484
-      Height = 26
-      Top = 0
+      Left = 485
+      Height = 24
+      Top = 1
       Width = 24
       Action = aMenu
       Anchors = [akTop, akRight]
@@ -148,7 +147,7 @@ object formTrayslate: TformTrayslate
     end
     object FlowPairs: TFlowPanel
       Left = 32
-      Height = 28
+      Height = 23
       Top = 0
       Width = 455
       Align = alClient
@@ -156,6 +155,7 @@ object formTrayslate: TformTrayslate
       BevelOuter = bvNone
       BorderSpacing.Left = 32
       BorderSpacing.Right = 25
+      BorderSpacing.Bottom = 5
       Constraints.MinHeight = 5
       ControlList = <>
       FlowLayout = tlCenter
@@ -166,7 +166,7 @@ object formTrayslate: TformTrayslate
     end
     object SbAddPair: TSpeedButton
       Left = 3
-      Height = 26
+      Height = 24
       Top = 0
       Width = 24
       Action = aAddPair

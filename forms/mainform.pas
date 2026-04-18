@@ -1500,27 +1500,29 @@ begin
     // Create Panels (with Image + Label) and Menu Items
     for i := 0 to FLangPairs.Count - 1 do
     begin
+      FlowPairs.BorderSpacing.Top := Max(0, Min(4, 13 - Font.Size));
+
       pnl := TPanel.Create(FlowPairs);
       pnl.Parent := FlowPairs;
       pnl.BevelOuter := bvNone;
       pnl.AutoSize := True;
       pnl.BorderSpacing.Right := 12;
-      pnl.BorderSpacing.Bottom := 5;
 
       if not TryStrToInt(FConfigImages.Values[FLangPairs.Names[i]], ServiceIcon) then
         ServiceIcon := -1;
 
       if (ServiceIcon >= 0) then
       begin
+        // Image
         img := TImage.Create(pnl);
         img.Parent := pnl;
+        ImageConfig.GetBitmap(ServiceIcon, img.Picture.Bitmap);
+        img.Hint := FConfigTitles.Values[FLangPairs.Names[i]];
+        img.ShowHint := True;
+        img.Align := alLeft;
         img.Width := 16;
-        img.Height := 16;
-        img.Left := 0;
-        img.Top := 5;
         img.Proportional := True;
         img.Center := True;
-        ImageConfig.GetBitmap(ServiceIcon, img.Picture.Bitmap);
       end;
 
       // Label
@@ -1528,11 +1530,12 @@ begin
       lbl.Parent := pnl;
       lbl.Caption := FLangPairs.ValueFromIndex[i];
       lbl.Hint := FConfigTitles.Values[FLangPairs.Names[i]];
-      lbl.Left := 20;
-      lbl.Top := 1;
-      lbl.AutoSize := True;
       lbl.ShowHint := True;
       lbl.Cursor := crHandPoint;
+      lbl.Layout := tlCenter;
+      lbl.BorderSpacing.Left := 20;
+      lbl.Top := 0;
+      lbl.Left := 0;
       lbl.Tag := i;
 
       if not TryStrToInt(FConfigColors.Values[FLangPairs.Names[i]], ColorRecent) then
