@@ -1511,7 +1511,7 @@ begin
       if not TryStrToInt(FConfigImages.Values[FLangPairs.Names[i]], ServiceIcon) then
         ServiceIcon := -1;
 
-      if (ServiceIcon >= 0) then
+      if ServiceIcon >= 0 then
       begin
         // Image
         img := TImage.Create(pnl);
@@ -1533,7 +1533,8 @@ begin
       lbl.ShowHint := True;
       lbl.Cursor := crHandPoint;
       lbl.Layout := tlCenter;
-      lbl.BorderSpacing.Left := 20;
+      if ServiceIcon >= 0 then
+        lbl.BorderSpacing.Left := 20;
       lbl.Top := 0;
       lbl.Left := 0;
       lbl.Tag := i;
