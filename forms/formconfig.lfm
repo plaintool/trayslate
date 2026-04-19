@@ -164,11 +164,11 @@ object formConfigTrayslate: TformConfigTrayslate
     Height = 567
     Top = 41
     Width = 590
-    ActivePage = PageService
+    ActivePage = PageParameters
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
-    TabIndex = 0
+    TabIndex = 3
     TabOrder = 1
     object PageService: TTabSheet
       Caption = 'Service'

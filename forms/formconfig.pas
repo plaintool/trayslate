@@ -572,8 +572,13 @@ begin
     MemoPostData.Text := PostData;
     EditAccept.Text := Accept;
     MemoJsonPointer.Text := JsonPointer;
+
     MemoLanguages.Lines.Assign(Languages);
+    RemoveSameNameValueFromMemo(MemoLanguages);
+
     MemoLanguagesTarget.Lines.Assign(LanguagesTarget);
+    RemoveSameNameValueFromMemo(MemoLanguagesTarget);
+
     ComboValueType.ItemIndex := Ord(ValueType);
     EditInitUserAgent.Text := InitUserAgent;
     MemoInitHeaders.Lines.Assign(InitHeaders);

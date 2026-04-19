@@ -45,6 +45,8 @@ function FindInStringList(List: TStringList; const SubText: string): integer;
 
 procedure RemoveEmptyValues(Strings: TStringList);
 
+procedure RemoveSameNameValueFromMemo(Memo: TMemo);
+
 function RemoveEmptyParams(const AInput: string): string;
 
 procedure SaveStringToFile(const FileName, Data: string);
@@ -61,7 +63,7 @@ function ExtractTextSample(const AText: string; MaxLen: integer = 500): string;
 
 procedure AddCustomColors(AColorBox: TColorBox);
 
-function DarkThemeColor(BaseColor: TColor; Delta: Integer = 60): TColor;
+function DarkThemeColor(BaseColor: TColor; Delta: integer = 60): TColor;
 
 implementation
 
@@ -239,6 +241,29 @@ begin
     // If '=' exists and there is no text after it, remove the line
     if (EqualPos > 0) and (Copy(Strings[i], EqualPos + 1, MaxInt) = string.Empty) then
       Strings.Delete(i);
+  end;
+end;
+
+procedure RemoveSameNameValueFromMemo(Memo: TMemo);
+var
+  i: integer;
+  EqualPos: integer;
+  KeyPart, ValuePart: string;
+begin
+  for i := Memo.Lines.Count - 1 downto 0 do
+  begin
+    EqualPos := Pos('=', Memo.Lines[i]);
+
+    // Skip lines without '='
+    if EqualPos <= 0 then
+      Continue;
+
+    KeyPart := Copy(Memo.Lines[i], 1, EqualPos - 1);
+    ValuePart := Copy(Memo.Lines[i], EqualPos + 1, MaxInt);
+
+    // Case-sensitive сравнение
+    if (KeyPart = ValuePart) and (Length(KeyPart) > 10) then
+      Memo.Lines[i] := KeyPart;
   end;
 end;
 
@@ -503,7 +528,7 @@ begin
   AColorBox.Items.AddObject('Magenta', TObject(PtrUInt($00FF00FF)));
 end;
 
-function DarkThemeColor(BaseColor: TColor; Delta: Integer = 60): TColor;
+function DarkThemeColor(BaseColor: TColor; Delta: integer = 60): TColor;
 var
   R, G, B: byte;
   Bright: double;

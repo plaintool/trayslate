@@ -551,7 +551,7 @@ begin
           Translate.InitParameters.Names[i],
           Translate.InitParameters.ValueFromIndex[i]);
 
-    // { Languages Page }
+    // Languages Page
     // Save language mappings (code=apiCode)
     ClearSection(Ini, 'Languages', not Assigned(Translate.Languages) or (Translate.Languages.Count = 0));
     if Assigned(Translate.Languages) then
@@ -562,7 +562,7 @@ begin
           IfThen(Translate.Languages.ValueFromIndex[i] = string.Empty, IfThen(Translate.Languages.Names[i] =
           string.Empty, Translate.Languages[i], Translate.Languages.Names[i]), Translate.Languages.ValueFromIndex[i]));
 
-    // { Target Languages Page }
+    // Target Languages Page
     // Save language target mappings (code=apiCode)
     ClearSection(Ini, 'LanguagesTarget', not Assigned(Translate.LanguagesTarget) or (Translate.LanguagesTarget.Count = 0));
     if Assigned(Translate.LanguagesTarget) then
@@ -608,12 +608,7 @@ var
         if (UnderscorePos > 0) and TryStrToInt(Copy(Key, UnderscorePos + 1, MaxInt), Num) then
           Key := Copy(Key, 1, UnderscorePos - 1);
 
-        if Key = string.Empty then
-          Dest.Add(Val)
-        else if Val = string.Empty then
-          Dest.Add(Key)
-        else
-          Dest.Add(Key + '=' + Val);
+        Dest.Add(Key + '=' + Val);
       end;
     finally
       Keys.Free;
