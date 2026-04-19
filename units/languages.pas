@@ -326,7 +326,7 @@ end;
 
 function GetCurrencyFiat: TValueArray;
 const
-  currency: array[0..149] of TAppValue = (
+  currency: array[0..150] of TAppValue = (
     (Code: 'AED'; DisplayName: 'United Arab Emirates Dirham'),
     (Code: 'AFN'; DisplayName: 'Afghan Afghani'),
     (Code: 'ALL'; DisplayName: 'Albanian Lek'),
@@ -380,6 +380,7 @@ const
     (Code: 'GTQ'; DisplayName: 'Guatemalan Quetzal'),
     (Code: 'GYD'; DisplayName: 'Guyanese Dollar'),
     (Code: 'HKD'; DisplayName: 'Hong Kong Dollar'),
+    (Code: 'HRK'; DisplayName: 'Croatian Kuna'),
     (Code: 'HNL'; DisplayName: 'Honduran Lempira'),
     (Code: 'HTG'; DisplayName: 'Haitian Gourde'),
     (Code: 'HUF'; DisplayName: 'Hungarian Forint'),
