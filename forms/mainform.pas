@@ -322,6 +322,9 @@ type
     procedure DoRealign(Data: PtrInt);
     procedure UpdateCheckConfigMenu;
     procedure UpdateCheckMenuPair;
+    function UpdateSourceLanguage(const Lang: string): string;
+    function UpdateTargetLanguage(const Lang: string): string;
+    function UpdatePairLanguage(const Pair: string): string;
     procedure DoCheckUpdates(Data: PtrInt);
     procedure ShowCustomTrayHint(const AText: string; Duration: integer = 3000);
     {$IFDEF WINDOWS}
@@ -801,8 +804,11 @@ end;
 
 procedure TformTrayslate.aAddPairExecute(Sender: TObject);
 begin
-  AddLangPair(FLangSource + ':' + FLangTarget);
-  Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
+  if (FLangSource <> string.Empty) and (FLangTarget <> string.Empty) then
+  begin
+    AddLangPair(FLangSource + ':' + FLangTarget);
+    Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
+  end;
 end;
 
 procedure TformTrayslate.aMenuExecute(Sender: TObject);
@@ -1285,7 +1291,10 @@ begin
   begin
     Id := Trans.Languages.IndexOfName(LangSource);
     if (Id >= 0) and (Id < FLanguages.Count) then
+    begin
       ComboSource.Text := FLanguages.ValueFromIndex[Id];
+      ChangeSourceLang(ComboSource.Text);
+    end;
   end;
   if ComboSource.Items.IndexOf(ComboSource.Text) < 0 then
   begin
@@ -1314,13 +1323,31 @@ begin
     begin
       Id := Trans.LanguagesTarget.IndexOfName(LangTarget);
       if (Id >= 0) and (Id < FLanguagesTarget.Count) then
+      begin
         ComboTarget.Text := FLanguagesTarget.ValueFromIndex[Id];
+        ChangeTargetLang(ComboTarget.Text);
+      end
+      else
+      if (Trans.LanguagesTarget.Count = 1) then
+      begin
+        ComboTarget.ItemIndex := 0; // Single item as default
+        ChangeTargetLang(ComboTarget.Text);
+      end;
     end
     else
     begin
       Id := Trans.Languages.IndexOfName(LangTarget);
       if (Id >= 0) and (Id < FLanguages.Count) then
+      begin
         ComboTarget.Text := FLanguages.ValueFromIndex[Id];
+        ChangeTargetLang(ComboTarget.Text);
+      end
+      else
+      if (Trans.Languages.Count = 1) then
+      begin
+        ComboTarget.ItemIndex := 0; // Single item as default
+        ChangeTargetLang(ComboTarget.Text);
+      end;
     end;
   end;
   if ComboTarget.Items.IndexOf(ComboTarget.Text) < 0 then
@@ -1351,6 +1378,12 @@ begin
       begin
         FTrans.LangTarget := Language; // Default system language
         FLangTarget := Language;
+      end
+      else
+      if (FLanguagesTarget.Count = 1) then
+      begin
+        ComboTarget.ItemIndex := 0; // Single item as default
+        ChangeTargetLang(ComboTarget.Text);
       end;
     end;
   end;
@@ -1361,6 +1394,9 @@ begin
 
   if ComboTarget.ItemIndex = -1 then
     ComboTarget.Text := string.Empty;
+
+  if MemoSource.Visible and MemoSource.CanFocus and MemoSource.CanSetFocus then
+    MemoSource.SetFocus;
 
   UpdateCheckMenuPair;
   SetIcon;
@@ -1572,8 +1608,9 @@ var
   Bitmap: TBitmap;
   hintText: string;
 begin
-  Bitmap := CreateTrayIconLang(Self, ifthen(FIconTwoLang, UpperCase(Trans.LangSource), UpperCase(Trans.LangTarget)),
-    ifthen(FIconTwoLang, UpperCase(Trans.LangTarget), string.Empty), FIconBackgroundColor, FIconFontColor, FIconFontName);
+  Bitmap := CreateTrayIconLang(Self, ifthen(FIconTwoLang, UpperCase(UpdateSourceLanguage(Trans.LangSource)),
+    UpperCase(UpdateTargetLanguage(Trans.LangTarget))), ifthen(FIconTwoLang, UpperCase(Trans.LangTarget), string.Empty),
+    FIconBackgroundColor, FIconFontColor, FIconFontName);
   try
     TrayIcon.Icon.Assign(Bitmap);
     TrayIcon.Visible := True;
@@ -1689,7 +1726,7 @@ begin
   if (FlowPairs = nil) or (MenuLangPairs = nil) then Exit;
 
   // Format the current pair for comparison (e.g., "en:ru")
-  currentPair := LangSource + ':' + LangTarget;
+  currentPair := UpdatePairLanguage(LangSource + ':' + LangTarget);
 
   for i := 0 to MenuLangPairs.Count - 1 do
   begin
@@ -1728,6 +1765,64 @@ begin
       else
         lbl.Font.Style := lbl.Font.Style - [fsBold];
     end;
+  end;
+end;
+
+function TformTrayslate.UpdateSourceLanguage(const Lang: string): string;
+var
+  i: integer;
+begin
+  Result := Lang;
+
+  if Pos('(', ComboSource.Text) = 0 then
+  begin
+    i := GetIndexByValue(Trans.Languages, Result);
+    if (i >= 0) and (i < FLanguages.Count) then
+      Result := FLanguages[i];
+  end;
+end;
+
+function TformTrayslate.UpdateTargetLanguage(const Lang: string): string;
+var
+  i: integer;
+begin
+  Result := Lang;
+
+  if Pos('(', ComboTarget.Text) = 0 then
+  begin
+    if FLanguagesTarget.Count > 0 then
+    begin
+      i := GetIndexByValue(Trans.LanguagesTarget, Result);
+      if (i >= 0) and (i < FLanguagesTarget.Count) then
+        Result := FLanguagesTarget[i];
+    end
+    else
+    begin
+      i := GetIndexByValue(Trans.Languages, Result);
+      if (i >= 0) and (i < FLanguages.Count) then
+        Result := FLanguages[i];
+    end;
+  end;
+end;
+
+function TformTrayslate.UpdatePairLanguage(const Pair: string): string;
+var
+  Src, Tar: string;
+  ColonPos: integer;
+begin
+  Result := Pair;
+  ColonPos := Pos(':', Pair);
+  if (ColonPos > 0) then
+  begin
+    // Get text before ':'
+    Src := Copy(Pair, 1, ColonPos - 1);
+    Src := UpdateSourceLanguage(Src);
+
+    // Get text after ':'
+    Tar := Copy(Pair, ColonPos + 1, Length(Pair) - ColonPos);
+    Tar := UpdateSourceLanguage(Tar);
+
+    Result := Src + ':' + Tar;
   end;
 end;
 
@@ -1946,15 +2041,18 @@ end;
 procedure TformTrayslate.AddLangPair(const Pair: string);
 var
   idx: integer;
+  RealPair: string;
 begin
-  idx := FLangPairs.IndexOf(FConfigFile + '=' + Pair);
+  RealPair := UpdatePairLanguage(Pair);
+
+  idx := FLangPairs.IndexOf(FConfigFile + '=' + RealPair);
 
   // Remove if already exists
   if (idx >= 0) and (FLangPairs.Names[idx] = FConfigFile) then
     FLangPairs.Delete(idx);
 
   // Insert as first
-  FLangPairs.Insert(0, FConfigFile + '=' + Pair);
+  FLangPairs.Insert(0, FConfigFile + '=' + RealPair);
 
   // Limit to 10 items
   while FLangPairs.Count > FMaxLangPairs do

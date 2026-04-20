@@ -963,7 +963,7 @@ begin
           if idx >= 0 then
             DisplayString := LangMap.ValueFromIndex[idx] + ' (' + ApiValue + ')'
           else
-            DisplayString := ApiValue;
+            DisplayString := Key;
 
           // Check if the key is in the special codes list (case-insensitive)
           IsSpecial := False;

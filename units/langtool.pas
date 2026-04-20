@@ -245,8 +245,6 @@ begin
       Exit;
     end;
   end;
-  // If code not found, clear selection
-  ComboBox.ItemIndex := -1;
 end;
 
 function HeadersFromMemo(AMemo: TMemo): TStringList;

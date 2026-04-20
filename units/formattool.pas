@@ -41,7 +41,9 @@ function IsJson(const S: string): boolean;
 
 procedure PasteWithLineEnding(AMemo: TMemo);
 
-function FindInStringList(List: TStringList; const SubText: string): integer;
+function FindInStringList(Strings: TStringList; const SubText: string): integer;
+
+function GetIndexByValue(Strings: TStringList; const AValue: string): integer;
 
 procedure RemoveEmptyValues(Strings: TStringList);
 
@@ -56,8 +58,6 @@ procedure OpenStringInTextEditor(const S: string);
 function RemoveTrailingLineBreak(const S: string): string;
 
 procedure FillFontCombo(ACombo: TComboBox);
-
-function GetIndexByValue(SL: TStringList; const AValue: string): integer;
 
 function ExtractTextSample(const AText: string; MaxLen: integer = 500): string;
 
@@ -214,16 +214,29 @@ begin
   end;
 end;
 
-function FindInStringList(List: TStringList; const SubText: string): integer;
+function FindInStringList(Strings: TStringList; const SubText: string): integer;
 var
   i: integer;
 begin
   Result := -1;
-  for i := 0 to List.Count - 1 do
-    if Pos(SubText, List[i]) > 0 then
+  for i := 0 to Strings.Count - 1 do
+    if Pos(SubText, Strings[i]) > 0 then
     begin
       Result := i;
       Exit;
+    end;
+end;
+
+function GetIndexByValue(Strings: TStringList; const AValue: string): integer;
+var
+  i: integer;
+begin
+  Result := -1; // not found
+  for i := 0 to Strings.Count - 1 do
+    if Strings.ValueFromIndex[i] = AValue then
+    begin
+      Result := i;
+      Exit; // first match
     end;
 end;
 
@@ -395,19 +408,6 @@ begin
   finally
     ACombo.Items.EndUpdate;
   end;
-end;
-
-function GetIndexByValue(SL: TStringList; const AValue: string): integer;
-var
-  i: integer;
-begin
-  Result := -1; // not found
-  for i := 0 to SL.Count - 1 do
-    if SL.ValueFromIndex[i] = AValue then
-    begin
-      Result := i;
-      Exit; // first match
-    end;
 end;
 
 function ExtractTextSample(const AText: string; MaxLen: integer = 500): string;
