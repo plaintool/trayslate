@@ -1270,10 +1270,11 @@ begin
   // Load settings from INI
   LoadIniSettings(FTrans, FConfigFile);
 
+  // Load language detection config settings
   if (FConfigLangDetect <> string.Empty) then
     LoadIniSettings(FTransDetect, FConfigLangDetect);
 
-  // Init language lists
+  // Loading source languages from the config
   FLanguages.Clear;
   List := GetDisplayNamesFromCodeMap(Trans.Languages, Trans.ValueType);
   try
@@ -1282,6 +1283,7 @@ begin
     List.Free;
   end;
 
+  // Loading target languages ?from the config
   FLanguagesTarget.Clear;
   if (Assigned(Trans.LanguagesTarget)) and (Trans.LanguagesTarget.Count > 0) then
   begin
@@ -1305,12 +1307,15 @@ begin
   if ComboSource.Items.IndexOf(ComboSource.Text) < 0 then
   begin
     Id := Trans.Languages.IndexOfName(LangSource);
+    if Id < 0 then
+      Id := GetIndexByValue(Trans.Languages, LangSource);
     if (Id >= 0) and (Id < FLanguages.Count) then
     begin
       ComboSource.Text := FLanguages.ValueFromIndex[Id];
       ChangeSourceLang(ComboSource.Text);
     end;
   end;
+  // If the text is not in the list, clear it
   if ComboSource.Items.IndexOf(ComboSource.Text) < 0 then
   begin
     ComboSource.Text := string.Empty; // Clear if not in new list
@@ -1334,9 +1339,12 @@ begin
   // Check if current ComboTarget text is still valid
   if ComboTarget.Items.IndexOf(ComboTarget.Text) < 0 then
   begin
+    // If there are target languages
     if Trans.LanguagesTarget.Count > 0 then
     begin
       Id := Trans.LanguagesTarget.IndexOfName(LangTarget);
+      if Id < 0 then
+        Id := GetIndexByValue(Trans.LanguagesTarget, LangTarget);
       if (Id >= 0) and (Id < FLanguagesTarget.Count) then
       begin
         ComboTarget.Text := FLanguagesTarget.ValueFromIndex[Id];
@@ -1351,7 +1359,10 @@ begin
     end
     else
     begin
+      // If the languages are identical to sources
       Id := Trans.Languages.IndexOfName(LangTarget);
+      if Id < 0 then
+        Id := GetIndexByValue(Trans.Languages, LangTarget);
       if (Id >= 0) and (Id < FLanguages.Count) then
       begin
         ComboTarget.Text := FLanguages.ValueFromIndex[Id];
@@ -1365,6 +1376,7 @@ begin
       end;
     end;
   end;
+  // If the text is not in the list, clear it
   if ComboTarget.Items.IndexOf(ComboTarget.Text) < 0 then
   begin
     ComboTarget.Text := string.Empty; // Clear if not in new list
@@ -1826,7 +1838,7 @@ var
   ColonPos: integer;
 begin
   Result := Pair;
-  ColonPos := Pos(':', Pair);
+  ColonPos := PosExReverse(':', unicodestring(Pair));
   if (ColonPos > 0) then
   begin
     // Get text before ':'

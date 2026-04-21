@@ -65,6 +65,8 @@ procedure AddCustomColors(AColorBox: TColorBox);
 
 function DarkThemeColor(BaseColor: TColor; Delta: integer = 60): TColor;
 
+function PosExReverse(const SubStr, S: unicodestring; Offset: SizeInt = -1): SizeInt;
+
 implementation
 
 function ColorToHtml(AColor: TColor): string;
@@ -563,6 +565,41 @@ begin
   B := B + Round((255 - B) * Factor);
 
   Result := RGB(R, G, B);
+end;
+
+function PosExReverse(const SubStr, S: unicodestring; Offset: SizeInt = -1): SizeInt;
+var
+  i, MaxLen, SubLen: SizeInt;
+  // SubFirst: widechar;
+  pc: pwidechar;
+begin
+  Result := 0; // Initialize result to 0 (not found)
+  SubLen := Length(SubStr); // Get length of the substring
+  if Offset < 0 then Offset := Length(S);
+
+  // Check if the substring is not empty and Offset is valid
+  if (SubLen > 0) and (Offset > 0) and (Offset <= SizeUint(Length(S))) then
+  begin
+    MaxLen := Length(S) - SubLen + 1; // Adjust max starting index to include end of the string
+    // SubFirst := SubStr[1]; // Get the first character of the substring
+
+    // Search backwards, starting from Offset
+    for i := Offset downto 1 do
+    begin
+      // Ensure there is enough space left for the substring
+      if (i <= MaxLen) then
+      begin
+        pc := @S[i]; // Pointer to the current position
+
+        // Check for a match with the substring
+        if (CompareWord(SubStr[1], pc^, SubLen) = 0) then
+        begin
+          Result := i; // Return the found position
+          Exit; // Exit the function
+        end;
+      end;
+    end;
+  end;
 end;
 
 end.
