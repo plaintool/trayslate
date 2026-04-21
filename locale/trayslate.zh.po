@@ -144,15 +144,13 @@ msgid "Encode {text} parameter"
 msgstr "编码 {text} 参数"
 
 #: tformconfigtrayslate.checkserviceautoswap.caption
-#, fuzzy
-#| msgid "Auto-swap language pair"
 msgctxt "tformconfigtrayslate.checkserviceautoswap.caption"
 msgid "Allow auto-swap language pair"
-msgstr "自动交换语言对"
+msgstr "允许自动切换语言对"
 
 #: tformconfigtrayslate.checkservicerealtime.caption
 msgid "Allow translate as you type"
-msgstr ""
+msgstr "允许在输入时进行翻译"
 
 #: tformconfigtrayslate.combomethod.text
 msgid "GET"
@@ -905,4 +903,3 @@ msgstr "最近的对"
 #: tformtrayslate.menulanguage.caption
 msgid "Language"
 msgstr ""
-

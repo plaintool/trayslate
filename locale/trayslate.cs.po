@@ -144,15 +144,13 @@ msgid "Encode {text} parameter"
 msgstr "Kódovat parametr {text}"
 
 #: tformconfigtrayslate.checkserviceautoswap.caption
-#, fuzzy
-#| msgid "Auto-swap language pair"
 msgctxt "tformconfigtrayslate.checkserviceautoswap.caption"
 msgid "Allow auto-swap language pair"
-msgstr "Automaticky prohodit jazykový pár"
+msgstr "Povolit automatickou výměnu jazykového páru"
 
 #: tformconfigtrayslate.checkservicerealtime.caption
 msgid "Allow translate as you type"
-msgstr ""
+msgstr "Povolit překlad při psaní"
 
 #: tformconfigtrayslate.combomethod.text
 msgid "GET"
@@ -905,4 +903,3 @@ msgstr "Nedávné páry"
 #: tformtrayslate.menulanguage.caption
 msgid "Language"
 msgstr ""
-

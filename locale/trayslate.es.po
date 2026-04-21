@@ -144,15 +144,13 @@ msgid "Encode {text} parameter"
 msgstr "Codificar el parámetro {text}"
 
 #: tformconfigtrayslate.checkserviceautoswap.caption
-#, fuzzy
-#| msgid "Auto-swap language pair"
 msgctxt "tformconfigtrayslate.checkserviceautoswap.caption"
 msgid "Allow auto-swap language pair"
-msgstr "Intercambiar automáticamente el par de idiomas"
+msgstr "Permitir el intercambio automático del par de idiomas"
 
 #: tformconfigtrayslate.checkservicerealtime.caption
 msgid "Allow translate as you type"
-msgstr ""
+msgstr "Permitir la traducción mientras escribes"
 
 #: tformconfigtrayslate.combomethod.text
 msgid "GET"
@@ -905,4 +903,3 @@ msgstr "Pares recientes"
 #: tformtrayslate.menulanguage.caption
 msgid "Language"
 msgstr ""
-

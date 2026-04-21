@@ -144,15 +144,13 @@ msgid "Encode {text} parameter"
 msgstr "Κωδικοποίηση παραμέτρου {text}"
 
 #: tformconfigtrayslate.checkserviceautoswap.caption
-#, fuzzy
-#| msgid "Auto-swap language pair"
 msgctxt "tformconfigtrayslate.checkserviceautoswap.caption"
 msgid "Allow auto-swap language pair"
-msgstr "Αυτόματη εναλλαγή ζεύγους γλωσσών"
+msgstr "Να επιτρέπεται η αυτόματη εναλλαγή ζεύγους γλωσσών"
 
 #: tformconfigtrayslate.checkservicerealtime.caption
 msgid "Allow translate as you type"
-msgstr ""
+msgstr "Να επιτρέπεται η μετάφραση κατά την πληκτρολόγηση"
 
 #: tformconfigtrayslate.combomethod.text
 msgid "GET"
@@ -905,4 +903,3 @@ msgstr "Πρόσφατα ζεύγη"
 #: tformtrayslate.menulanguage.caption
 msgid "Language"
 msgstr ""
-
