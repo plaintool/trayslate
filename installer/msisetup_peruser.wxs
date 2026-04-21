@@ -62,7 +62,8 @@
                             <File Id="CONFIG13" Name="mathjs.ini" Source="..\config\mathjs.ini" />
                             <File Id="CONFIG14" Name="pollinations-ai-get.ini" Source="..\config\pollinations-ai-get.ini" />
                             <File Id="CONFIG15" Name="pollinations-ai-post.ini" Source="..\config\pollinations-ai-post.ini" />
-                            <File Id="CONFIG16" Name="languagedetect.ini" Source="..\config\languagedetect.ini" />
+                            <File Id="CONFIG16" Name="pollinations-ai-post-ask.ini" Source="..\config\pollinations-ai-post-ask.ini" />                           
+                            <File Id="CONFIG17" Name="languagedetect.ini" Source="..\config\languagedetect.ini" />
                             <RegistryValue Root="HKCU" Key="Software\Alexander Tverskoy\Trayslate" Name="ConfigPath" Type="string" Value="[CONFIGDIR]" KeyPath="yes" />
                             <RemoveFolder Id="RemoveCONFIGDIR" On="uninstall" />
                         </Component>

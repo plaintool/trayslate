@@ -86,6 +86,7 @@ Source: "..\config\coinconvert.ini"; DestDir: "{app}\config"; Flags: ignoreversi
 Source: "..\config\mathjs.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\pollinations-ai-get.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\pollinations-ai-post.ini"; DestDir: "{app}\config"; Flags: ignoreversion
+Source: "..\config\pollinations-ai-post-ask.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\languagedetect.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 
 [Icons]

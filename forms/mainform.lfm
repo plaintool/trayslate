@@ -43,6 +43,8 @@ object formTrayslate: TformTrayslate
       BorderSpacing.Around = 3
       DropDownCount = 20
       ItemHeight = 15
+      ParentShowHint = False
+      ShowHint = True
       TabOrder = 1
       OnCloseUp = ComboTargetCloseUp
       OnDropDown = ComboTargetDropDown
@@ -59,6 +61,8 @@ object formTrayslate: TformTrayslate
       BorderSpacing.Around = 3
       DropDownCount = 20
       ItemHeight = 15
+      ParentShowHint = False
+      ShowHint = True
       TabOrder = 0
       OnCloseUp = ComboSourceCloseUp
       OnDropDown = ComboSourceDropDown
