@@ -51,8 +51,8 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="1"/>
-      <RevisionNr Value="2"/>
-      <StringTable CompanyName="plaintool" FileDescription="Trayslate" LegalCopyright="Alexander Tverskoy" ProductName="Trayslate" ProductVersion="1.0.2"/>
+      <MinorVersionNr Value="1"/>
+      <StringTable CompanyName="plaintool" FileDescription="Trayslate" LegalCopyright="Alexander Tverskoy" ProductName="Trayslate" ProductVersion="1.1.0"/>
     </VersionInfo>
     <BuildModes>
       <Item Name="Debug" Default="True"/>

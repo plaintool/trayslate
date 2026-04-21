@@ -81,7 +81,7 @@ The application comes with a powerful configuration editor, allowing you to crea
 | **Response** | **Languages** |
 | ![configeditor1](samples/configeditor3.png) | ![configeditor1](samples/configeditor4.png) |
 | **Target Languages** | |
-| ![configeditor1](samples/configeditor5.png) | |
+| ![configeditor1](samples/configeditor5.png) | ![configeditor1](samples/configeditor6.png) |
 
 ## Installation
 
