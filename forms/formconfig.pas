@@ -43,6 +43,7 @@ type
     CheckEncodeText: TCheckBox;
     CheckServiceAutoSwap: TCheckBox;
     CheckEncodeCustomParameters: TCheckBox;
+    CheckServiceRealTime: TCheckBox;
     ColorDialog: TColorDialog;
     ColorServiceColorRecent: TColorBox;
     ComboMethod: TComboBox;
@@ -558,6 +559,7 @@ begin
     UpdateIconPreview;
     SpinServiceOrder.Value := ServiceOrder;
     CheckServiceAutoSwap.Checked := ServiceAutoSwap;
+    CheckServiceRealTime.Checked := ServiceRealTime;
     ColorServiceColorRecent.Selected := ServiceColorRecent;
     MemoServiceDescription.Lines.Assign(ServiceDescription);
 
@@ -598,6 +600,7 @@ begin
     ServiceIcon := string.Empty;
     ServiceOrder := 0;
     ServiceAutoSwap := False;
+    ServiceRealTime := False;
     ServiceColorRecent := clBlue;
     ServiceDescription.Clear;
     WebMethod := wmGet;
@@ -624,6 +627,7 @@ begin
     EditServiceName.Text := string.Empty;
     SpinServiceOrder.Value := 0;
     CheckServiceAutoSwap.Checked := False;
+    CheckServiceRealTime.Checked := False;
     ColorServiceColorRecent.Selected := clBlue;
     ComboMethod.ItemIndex := 0;
     ComboValueType.ItemIndex := 0;
@@ -664,6 +668,7 @@ begin
       ServiceIcon := FIconBase64;
       ServiceOrder := SpinServiceOrder.Value;
       ServiceAutoSwap := CheckServiceAutoSwap.Checked;
+      ServiceRealTime := CheckServiceRealTime.Checked;
       ServiceColorRecent := ColorServiceColorRecent.Selected;
       ServiceDescription.Text := MemoServiceDescription.Text;
 

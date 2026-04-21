@@ -437,6 +437,7 @@ begin
       Ini.DeleteKey('Service', 'Icon');
     Ini.WriteInteger('Service', 'Order', Translate.ServiceOrder);
     Ini.WriteBool('Service', 'AutoSwapLanguage', Translate.ServiceAutoSwap);
+    Ini.WriteBool('Service', 'RealTimeTranslation', Translate.ServiceRealTime);
     Ini.WriteInteger('Service', 'ColorRecent', Translate.ServiceColorRecent);
 
     case Translate.ValueType of
@@ -622,6 +623,7 @@ begin
     Translate.ServiceIcon := Ini.ReadString('Service', 'Icon', string.Empty);
     Translate.ServiceOrder := Ini.ReadInteger('Service', 'Order', 0);
     Translate.ServiceAutoSwap := Ini.ReadBool('Service', 'AutoSwapLanguage', False);
+    Translate.ServiceRealTime := Ini.ReadBool('Service', 'RealTimeTranslation', False);
     Translate.ServiceColorRecent := Ini.ReadInteger('Service', 'ColorRecent', clBlue);
 
     Translate.ServiceDescription.Clear;

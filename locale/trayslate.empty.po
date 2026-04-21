@@ -145,7 +145,11 @@ msgstr ""
 
 #: tformconfigtrayslate.checkserviceautoswap.caption
 msgctxt "tformconfigtrayslate.checkserviceautoswap.caption"
-msgid "Auto-swap language pair"
+msgid "Allow auto-swap language pair"
+msgstr ""
+
+#: tformconfigtrayslate.checkservicerealtime.caption
+msgid "Allow translate as you type"
 msgstr ""
 
 #: tformconfigtrayslate.combomethod.text

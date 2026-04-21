@@ -1007,7 +1007,7 @@ end;
 procedure TformTrayslate.MemoSourceKeyUp(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
   // Check if real-time translation is enabled
-  if not FRealTime then
+  if not FRealTime or not Trans.ServiceRealTime then
     Exit;
 
   // Ignore KeyUp if it happened right after a global hotkey
@@ -1096,7 +1096,7 @@ end;
 procedure TformTrayslate.TimerTranslateTimer(Sender: TObject);
 begin
   TimerTranslate.Enabled := False;
-  if FRealTime then
+  if FRealTime and Trans.ServiceRealTime then
   begin
     TranslateMemo(False);
     if MemoSource.Text = string.Empty then

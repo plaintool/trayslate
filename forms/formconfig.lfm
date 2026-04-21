@@ -164,11 +164,11 @@ object formConfigTrayslate: TformConfigTrayslate
     Height = 567
     Top = 41
     Width = 590
-    ActivePage = PageParameters
+    ActivePage = PageService
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
-    TabIndex = 3
+    TabIndex = 0
     TabOrder = 1
     object PageService: TTabSheet
       Caption = 'Service'
@@ -181,8 +181,8 @@ object formConfigTrayslate: TformConfigTrayslate
         Width = 582
         HorzScrollBar.Page = 1
         HorzScrollBar.Visible = False
-        VertScrollBar.Increment = 18
-        VertScrollBar.Page = 181
+        VertScrollBar.Increment = 21
+        VertScrollBar.Page = 213
         VertScrollBar.Smooth = True
         VertScrollBar.Tracking = True
         Align = alClient
@@ -233,8 +233,8 @@ object formConfigTrayslate: TformConfigTrayslate
             Left = 120
             Height = 19
             Top = 64
-            Width = 151
-            Caption = 'Auto-swap language pair'
+            Width = 182
+            Caption = 'Allow auto-swap language pair'
             TabOrder = 2
             OnChange = ValueChange
           end
@@ -258,8 +258,8 @@ object formConfigTrayslate: TformConfigTrayslate
           end
           object MemoServiceDescription: TMemo
             Left = 120
-            Height = 357
-            Top = 128
+            Height = 325
+            Top = 160
             Width = 423
             Anchors = [akTop, akLeft, akRight, akBottom]
             BorderSpacing.Top = 45
@@ -273,7 +273,7 @@ object formConfigTrayslate: TformConfigTrayslate
           object LabelServiceDescription: TLabel
             Left = 8
             Height = 23
-            Top = 128
+            Top = 160
             Width = 104
             Alignment = taRightJustify
             AutoSize = False
@@ -282,7 +282,7 @@ object formConfigTrayslate: TformConfigTrayslate
           object LabelColorRecent: TLabel
             Left = 8
             Height = 23
-            Top = 96
+            Top = 128
             Width = 104
             Alignment = taRightJustify
             AutoSize = False
@@ -291,7 +291,7 @@ object formConfigTrayslate: TformConfigTrayslate
           object ColorServiceColorRecent: TColorBox
             Left = 120
             Height = 22
-            Top = 96
+            Top = 128
             Width = 423
             Style = [cbCustomColor, cbPrettyNames, cbCustomColors]
             ColorDialog = ColorDialog
@@ -314,6 +314,15 @@ object formConfigTrayslate: TformConfigTrayslate
             ShowHint = True
             OnClick = ImagePreviewClick
             OnMouseUp = ImagePreviewMouseUp
+          end
+          object CheckServiceRealTime: TCheckBox
+            Left = 120
+            Height = 19
+            Top = 96
+            Width = 159
+            Caption = 'Allow translate as you type'
+            TabOrder = 5
+            OnChange = ValueChange
           end
         end
       end
