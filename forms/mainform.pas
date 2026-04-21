@@ -293,7 +293,7 @@ type
     procedure ChangeSourceLang(NewLang: string; AddPairs: boolean = True);
     procedure ChangeTargetLang(NewLang: string; AddPairs: boolean = True);
     function SwapLanguages(ASwapTranslate: boolean = False): boolean;
-    procedure AddLangPair(const Pair: string);
+    procedure AddLangPair(const Pair: string; ToEnd: boolean = True);
     procedure SelectPair(const Pair: string; RunTranslate: boolean = True);
     procedure SelectPairConfig(const LangPairIndex: integer; RunTranslate: boolean = True);
     procedure GlobalCtrlC;
@@ -2038,7 +2038,7 @@ begin
   Result := True;
 end;
 
-procedure TformTrayslate.AddLangPair(const Pair: string);
+procedure TformTrayslate.AddLangPair(const Pair: string; ToEnd: boolean = True);
 var
   idx: integer;
   RealPair: string;
@@ -2051,8 +2051,12 @@ begin
   if (idx >= 0) and (FLangPairs.Names[idx] = FConfigFile) then
     FLangPairs.Delete(idx);
 
-  // Insert as first
-  FLangPairs.Insert(0, FConfigFile + '=' + RealPair);
+  if ToEnd then
+    // Add to end
+    FLangPairs.Add(FConfigFile + '=' + RealPair)
+  else
+    // Insert as first
+    FLangPairs.Insert(0, FConfigFile + '=' + RealPair);
 
   // Limit to 10 items
   while FLangPairs.Count > FMaxLangPairs do
