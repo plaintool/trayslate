@@ -778,6 +778,12 @@ end;
 
 procedure TformTrayslate.aNewTranslateExecute(Sender: TObject);
 begin
+  // Cancel old translation
+  if Assigned(FTranslateThread) then
+    FTranslateThread.Cancel;
+  Screen.Cursor := crDefault;
+  TimerAnimate.Enabled := False;
+
   MemoSource.Clear;
   MemoTarget.Clear;
 end;
