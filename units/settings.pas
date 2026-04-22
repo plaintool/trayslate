@@ -420,11 +420,11 @@ end;
 
 procedure SaveIniSettings(Translate: TTranslate; AFileName: string);
 var
-  Ini: TIniFile;
+  Ini: TMemIniFile;
   i: integer;
   PostDataEscaped: string;
 begin
-  Ini := TIniFile.Create(AFileName);
+  Ini := TMemIniFile.Create(AFileName);
   try
     // { Service page }
     if Trim(Translate.ServiceName) <> string.Empty then
@@ -574,6 +574,8 @@ begin
           IfThen(Translate.LanguagesTarget.ValueFromIndex[i] = string.Empty, IfThen(
           Translate.LanguagesTarget.Names[i] = string.Empty, Translate.LanguagesTarget[i], Translate.LanguagesTarget.Names[i]),
           Translate.LanguagesTarget.ValueFromIndex[i]));
+
+    Ini.UpdateFile;
   finally
     Ini.Free;
   end;
