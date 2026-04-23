@@ -148,6 +148,10 @@ msgctxt "tformconfigtrayslate.checkserviceautoswap.caption"
 msgid "Allow auto-swap language pair"
 msgstr "Allow auto-swap language pair"
 
+#: tformconfigtrayslate.checkserviceonlybutton.caption
+msgid "Allow translation only by translation button"
+msgstr "Allow translation only by translation button"
+
 #: tformconfigtrayslate.checkservicerealtime.caption
 msgid "Allow translate as you type"
 msgstr "Allow translate as you type"

@@ -148,6 +148,10 @@ msgctxt "tformconfigtrayslate.checkserviceautoswap.caption"
 msgid "Allow auto-swap language pair"
 msgstr "Permite schimbarea automată a perechii de limbi"
 
+#: tformconfigtrayslate.checkserviceonlybutton.caption
+msgid "Allow translation only by translation button"
+msgstr "Permite traducerea numai prin butonul de traducere"
+
 #: tformconfigtrayslate.checkservicerealtime.caption
 msgid "Allow translate as you type"
 msgstr "Permite traducerea în timp ce tastezi"

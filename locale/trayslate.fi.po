@@ -148,6 +148,10 @@ msgctxt "tformconfigtrayslate.checkserviceautoswap.caption"
 msgid "Allow auto-swap language pair"
 msgstr "Salli kieliparin automaattinen vaihto"
 
+#: tformconfigtrayslate.checkserviceonlybutton.caption
+msgid "Allow translation only by translation button"
+msgstr "Salli käännös vain käännöspainikkeella"
+
 #: tformconfigtrayslate.checkservicerealtime.caption
 msgid "Allow translate as you type"
 msgstr "Salli käännös kirjoittaessasi"

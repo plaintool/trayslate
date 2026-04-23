@@ -154,8 +154,6 @@ type
     MenuUkrainian: TMenuItem;
     MenuBelarusian: TMenuItem;
     MenuHindi: TMenuItem;
-    procedure aCopySourceExecute(Sender: TObject);
-    procedure aCopyTargetExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -166,6 +164,7 @@ type
     procedure FormWindowStateChange(Sender: TObject);
     procedure ApplicationOnActivate(Sender: TObject);
     procedure ApplicationOnDeactivate(Sender: TObject);
+    procedure ApplicationOnShowHint(var HintStr: string; var CanShow: boolean; var HintInfo: THintInfo);
     procedure ApplicationOnException(Sender: TObject; E: Exception);
     procedure ScreenActiveFormChanged(Sender: TObject);
     procedure aConfigEditorExecute(Sender: TObject);
@@ -174,6 +173,8 @@ type
     procedure aNewTranslateExecute(Sender: TObject);
     procedure aTranslateExecute(Sender: TObject);
     procedure aSwapExecute(Sender: TObject);
+    procedure aCopySourceExecute(Sender: TObject);
+    procedure aCopyTargetExecute(Sender: TObject);
     procedure aShowExecute(Sender: TObject);
     procedure aAddPairExecute(Sender: TObject);
     procedure aMenuExecute(Sender: TObject);
@@ -524,6 +525,7 @@ begin
   Application.OnDeactivate := @ApplicationOnDeactivate;
   Application.OnActivate := @ApplicationOnActivate;
   Application.OnException := @ApplicationOnException;
+  Application.OnShowHint := @ApplicationOnShowHint;
   Screen.OnActiveFormChange := @ScreenActiveFormChanged;
 
   {$IFDEF WINDOWS}
@@ -711,6 +713,11 @@ begin
   TimerActive.Enabled := True;
 end;
 
+procedure TformTrayslate.ApplicationOnShowHint(var HintStr: string; var CanShow: boolean; var HintInfo: THintInfo);
+begin
+  TimerHideHintTimer(Self);
+end;
+
 procedure TformTrayslate.ApplicationOnException(Sender: TObject; E: Exception);
 begin
   MessageDlg(rtrayslate, E.Message, mtWarning, [mbOK], 0);
@@ -795,7 +802,7 @@ end;
 
 procedure TformTrayslate.aSwapExecute(Sender: TObject);
 begin
-  if SwapLanguages then
+  if SwapLanguages and not Trans.ServiceOnlyButton then
     TranslateMemo(False);
 end;
 
@@ -901,10 +908,11 @@ begin
     ChangeSourceLang(ComboSource.Text);
     if Pos('(', ComboSource.Text) = 0 then
     begin
-      P := ComboSource.ClientToScreen(Point(0, ComboSource.Height));
-      ShowCustomHint(FLangSource, P.X, P.Y + 2);
+      P := ComboSource.ClientToScreen(Point(0, -ComboSource.Height div 2));
+      ShowCustomHint(FLangSource, Mouse.CursorPos.X, P.Y);
     end;
-    TranslateMemo(False);
+    if not Trans.ServiceOnlyButton then
+      TranslateMemo(False);
   end;
 end;
 
@@ -932,10 +940,11 @@ begin
     ChangeTargetLang(ComboTarget.Text);
     if Pos('(', ComboTarget.Text) = 0 then
     begin
-      P := ComboTarget.ClientToScreen(Point(0, ComboTarget.Height));
-      ShowCustomHint(FLangTarget, P.X, P.Y + 2);
+      P := ComboTarget.ClientToScreen(Point(0, -ComboTarget.Height div 2));
+      ShowCustomHint(FLangTarget, Mouse.CursorPos.X, P.Y);
     end;
-    TranslateMemo(False);
+    if not Trans.ServiceOnlyButton then
+      TranslateMemo(False);
   end;
 end;
 
@@ -1065,7 +1074,7 @@ procedure TformTrayslate.SbSwapMouseDown(Sender: TObject; Button: TMouseButton; 
 begin
   if Button = mbMiddle then
   begin
-    if SwapLanguages(True) then
+    if SwapLanguages(True) and not Trans.ServiceOnlyButton then
       TranslateMemo(False);
   end;
 end;
@@ -1243,7 +1252,8 @@ begin
     formConfigTrayslate.UpdateConfig;
   end;
 
-  TranslateMemo;
+  if not Trans.ServiceOnlyButton then
+    TranslateMemo;
 end;
 
 procedure TformTrayslate.MenuPairClick(Sender: TObject);
@@ -2149,7 +2159,7 @@ begin
 
   UpdateCheckMenuPair;
 
-  if RunTranslate then
+  if RunTranslate and not Trans.ServiceOnlyButton then
     TranslateMemo(False);
 end;
 

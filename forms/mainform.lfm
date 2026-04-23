@@ -35,7 +35,7 @@ object formTrayslate: TformTrayslate
     object ComboTarget: TComboBox
       Left = 264
       Height = 23
-      Top = 4
+      Top = 3
       Width = 225
       AutoComplete = True
       AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]

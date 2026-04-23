@@ -50,6 +50,7 @@ type
     FServiceOrder: integer;
     FServiceAutoSwap: boolean;
     FServiceRealTime: boolean;
+    FServiceOnlyButton: boolean;
     FWebMethod: TWebMethod;
     FUserAgent: string;
     FHeaders: TStringList;
@@ -102,6 +103,7 @@ type
     property ServiceOrder: integer read FServiceOrder write FServiceOrder;
     property ServiceAutoSwap: boolean read FServiceAutoSwap write FServiceAutoSwap;
     property ServiceRealTime: boolean read FServiceRealTime write FServiceRealTime;
+    property ServiceOnlyButton: boolean read FServiceOnlyButton write FServiceOnlyButton;
     property ServiceColorRecent: TColor read FServiceColorRecent write FServiceColorRecent;
     property ServiceDescription: TStringList read FServiceDescription write FServiceDescription;
     property WebMethod: TWebMethod read FWebMethod write FWebMethod;
@@ -168,6 +170,7 @@ begin
   FServiceColorRecent := clBlue;
   FServiceAutoSwap := False;
   FServiceRealTime := False;
+  FServiceOnlyButton := False;
   FWebMethod := wmGet;
   FUserAgent := 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:148.0) Gecko/20100101 Firefox/148.0';
   FHeaders := TStringList.Create;
