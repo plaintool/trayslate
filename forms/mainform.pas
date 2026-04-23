@@ -292,9 +292,9 @@ type
 
     procedure ProcessMessages;
     procedure SetAutoStart(Value: boolean);
-    procedure ChangeSourceLang(NewLang: string; AddPairs: boolean = True);
-    procedure ChangeTargetLang(NewLang: string; AddPairs: boolean = True);
-    function SwapLanguages(ASwapTranslate: boolean = False): boolean;
+    procedure ChangeSourceLang(NewLang: string; AddRecentPairs: boolean = True);
+    procedure ChangeTargetLang(NewLang: string; AddRecentPairs: boolean = True);
+    function SwapLanguages(ASwapTranslate: boolean = False; AddRecentPairs: boolean = True): boolean;
     procedure AddLangPair(const Pair: string; ToEnd: boolean = True);
     procedure SelectPair(const Pair: string; RunTranslate: boolean = True);
     procedure SelectPairConfig(const LangPairIndex: integer; RunTranslate: boolean = True);
@@ -1252,6 +1252,12 @@ begin
     formConfigTrayslate.UpdateConfig;
   end;
 
+  if (FAutoAddLangPairs) and (FLangSource <> string.Empty) and (FLangTarget <> string.Empty) and (FLangSource <> FLangTarget) then
+  begin
+    AddLangPair(FLangSource + ':' + FLangTarget);
+    Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
+  end;
+
   if not Trans.ServiceOnlyButton then
     TranslateMemo;
 end;
@@ -1974,7 +1980,7 @@ begin
   RegAutoStart(FAutoStart, rtrayslate);
 end;
 
-procedure TformTrayslate.ChangeSourceLang(NewLang: string; AddPairs: boolean = True);
+procedure TformTrayslate.ChangeSourceLang(NewLang: string; AddRecentPairs: boolean = True);
 var
   id, idnative: integer;
 begin
@@ -1999,7 +2005,7 @@ begin
   begin
     FLangSource := NewLang;
 
-    if (FAutoAddLangPairs) and (AddPairs) and (FLangSource <> string.Empty) and (FLangTarget <> string.Empty) and
+    if (FAutoAddLangPairs) and (AddRecentPairs) and (FLangSource <> string.Empty) and (FLangTarget <> string.Empty) and
       (FLangSource <> FLangTarget) then
     begin
       AddLangPair(FLangSource + ':' + FLangTarget);
@@ -2013,7 +2019,7 @@ begin
   end;
 end;
 
-procedure TformTrayslate.ChangeTargetLang(NewLang: string; AddPairs: boolean = True);
+procedure TformTrayslate.ChangeTargetLang(NewLang: string; AddRecentPairs: boolean = True);
 var
   id, idnative: integer;
 begin
@@ -2047,7 +2053,7 @@ begin
   begin
     FLangTarget := NewLang;
 
-    if (FAutoAddLangPairs) and (AddPairs) and (FLangSource <> string.Empty) and (FLangTarget <> string.Empty) and
+    if (FAutoAddLangPairs) and (AddRecentPairs) and (FLangSource <> string.Empty) and (FLangTarget <> string.Empty) and
       (FLangSource <> FLangTarget) then
     begin
       AddLangPair(FLangSource + ':' + FLangTarget);
@@ -2061,7 +2067,7 @@ begin
   end;
 end;
 
-function TformTrayslate.SwapLanguages(ASwapTranslate: boolean = False): boolean;
+function TformTrayslate.SwapLanguages(ASwapTranslate: boolean = False; AddRecentPairs: boolean = True): boolean;
 var
   srcIndex: integer;
   tarIndex: integer;
@@ -2076,7 +2082,7 @@ begin
   ComboSource.ItemIndex := srcIndex;
   ComboTarget.ItemIndex := tarIndex;
   ChangeSourceLang(ComboSource.Text, False);
-  ChangeTargetLang(ComboTarget.Text, True);
+  ChangeTargetLang(ComboTarget.Text, AddRecentPairs);
 
   if ASwapTranslate and ((MemoSource.Text <> string.Empty) or (MemoTarget.Text <> string.Empty)) then
   begin
