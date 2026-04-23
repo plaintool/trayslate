@@ -157,9 +157,10 @@ begin
   BtnReset.Enabled := True;
 
   ComboLangDetect.Items.Clear;
+  ComboLangDetect.Items.Add(string.Empty);
   for i := 0 to formTrayslate.ConfigFiles.Count - 1 do
     ComboLangDetect.Items.Add(formTrayslate.ConfigTitles.Values[formTrayslate.ConfigFiles[i]]);
-  ComboLangDetect.ItemIndex := formTrayslate.ConfigFiles.IndexOf(formTrayslate.ConfigLangDetect);
+  ComboLangDetect.ItemIndex := formTrayslate.ConfigFiles.IndexOf(formTrayslate.ConfigLangDetect) + 1;
 
   AddCustomColors(ColorIconBackground);
   AddCustomColors(ColorIconFont);
@@ -383,7 +384,10 @@ begin
   formTrayslate.RealTime := CheckRealTime.Checked;
   formTrayslate.RealTimeDelay := SpinRealTimeDelay.Value;
   formTrayslate.AutoSwap := CheckAutoSwap.Checked;
-  formTrayslate.ConfigLangDetect := formTrayslate.ConfigFiles[ComboLangDetect.ItemIndex];
+  if ComboLangDetect.ItemIndex > 0 then
+    formTrayslate.ConfigLangDetect := formTrayslate.ConfigFiles[ComboLangDetect.ItemIndex - 1]
+  else
+    formTrayslate.ConfigLangDetect := string.Empty;
   formTrayslate.Font.Assign(PanelFont.Font);
   formTrayslate.IconBackgroundColor := ColorIconBackground.Selected;
   formTrayslate.IconFontColor := ColorIconFont.Selected;
@@ -443,7 +447,10 @@ begin
   CheckRealTime.Checked := FOriginalRealTime;
   SpinRealTimeDelay.Value := FOriginalRealTimeDelay;
   CheckAutoSwap.Checked := FOriginalAutoSwap;
-  ComboLangDetect.ItemIndex := formTrayslate.ConfigFiles.IndexOf(FOriginalConfigLangDetect);
+  if FOriginalConfigLangDetect <> string.Empty then
+    ComboLangDetect.ItemIndex := Max(formTrayslate.ConfigFiles.IndexOf(FOriginalConfigLangDetect) + 1, 0)
+  else
+    ComboLangDetect.ItemIndex := 0;
   PanelFont.Font.Assign(FOriginalFont);
   SetPanelFont(FOriginalFont);
   ColorIconBackground.Selected := FOriginalIconBackgroundColor;

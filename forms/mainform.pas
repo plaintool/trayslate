@@ -1288,7 +1288,12 @@ begin
 
   // Load language detection config settings
   if (FConfigLangDetect <> string.Empty) then
-    LoadIniSettings(FTransDetect, FConfigLangDetect);
+    LoadIniSettings(FTransDetect, FConfigLangDetect)
+  else
+  begin
+    FreeAndNil(FTransDetect);
+    FTransDetect := TTranslate.Create;
+  end;
 
   // Loading source languages from the config
   FLanguages.Clear;
