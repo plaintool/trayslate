@@ -1348,6 +1348,12 @@ begin
     ComboSource.Text := string.Empty; // Clear if not in new list
     LangSource := string.Empty;
     Trans.LangSource := string.Empty;
+  end
+  else
+  begin
+    // Update the matched language in case of case change
+    Trans.LangSource := Trans.Languages.Values[FLangSource];
+    FLangSource := Trans.LangSource;
   end;
 
   // Fill ComboTarget with display names
@@ -1403,12 +1409,22 @@ begin
       end;
     end;
   end;
+
   // If the text is not in the list, clear it
   if ComboTarget.Items.IndexOf(ComboTarget.Text) < 0 then
   begin
     ComboTarget.Text := string.Empty; // Clear if not in new list
     LangTarget := string.Empty;
     Trans.LangTarget := string.Empty;
+  end
+  else
+  begin
+    // Update the matched language in case of case change
+    if Trans.LanguagesTarget.Count > 0 then
+      Trans.LangTarget := Trans.LanguagesTarget.Values[FLangTarget]
+    else
+      Trans.LangTarget := Trans.Languages.Values[FLangTarget];
+    FLangTarget := Trans.LangTarget;
   end;
 
   if SetDefault then
@@ -2101,9 +2117,8 @@ var
 begin
   RealPair := UpdatePairLanguage(Pair);
 
-  idx := FLangPairs.IndexOf(FConfigFile + '=' + RealPair);
-
   // Remove if already exists
+  idx := FLangPairs.IndexOf(FConfigFile + '=' + RealPair);
   if (idx >= 0) and (FLangPairs.Names[idx] = FConfigFile) then
     FLangPairs.Delete(idx);
 

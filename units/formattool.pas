@@ -22,6 +22,7 @@ uses
   Math,
   ColorBox,
   LCLIntf,
+  LazUTF8,
   fpjson,
   jsonparser;
 
@@ -43,7 +44,7 @@ procedure PasteWithLineEnding(AMemo: TMemo);
 
 function FindInStringList(Strings: TStringList; const SubText: string): integer;
 
-function GetIndexByValue(Strings: TStringList; const AValue: string): integer;
+function GetIndexByValue(Strings: TStringList; const AValue: string; CaseSensitive: boolean = True): integer;
 
 procedure RemoveEmptyValues(Strings: TStringList);
 
@@ -229,13 +230,14 @@ begin
     end;
 end;
 
-function GetIndexByValue(Strings: TStringList; const AValue: string): integer;
+function GetIndexByValue(Strings: TStringList; const AValue: string; CaseSensitive: boolean = True): integer;
 var
   i: integer;
 begin
   Result := -1; // not found
   for i := 0 to Strings.Count - 1 do
-    if Strings.ValueFromIndex[i] = AValue then
+    if (CaseSensitive and (Strings.ValueFromIndex[i] = AValue)) or (not CaseSensitive and
+      (UTF8CompareText(Strings.ValueFromIndex[i], AValue) = 0)) then
     begin
       Result := i;
       Exit; // first match
