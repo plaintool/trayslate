@@ -44,6 +44,14 @@ The tray icon is fully customizable in appearance settings and adapts to any Win
 
 ![trayslate2](samples/trayslate2.png)
 
+## Recent Language Pairs
+
+A convenient panel for instantly switching between your most frequently used language pairs and configurations. Each entry can belong to a different config, making it easy to jump across workflows without extra setup.
+
+The panel can be automatically populated based on your activity when auto-add is enabled in the settings, keeping your most relevant pairs always within reach. You can also add pairs manually at any time using the plus button on the panel or middle-click any pair to remove it from the panel.
+
+![trayslate3](samples/trayslate3.png)
+
 ## Hotkeys
 
 Global hotkeys can be fully configured in the application settings. They are available at any time and work even when the application is minimized to the system tray.
