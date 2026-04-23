@@ -2285,6 +2285,9 @@ end;
 procedure TformTrayslate.ThreadDone(Sender: TObject);
 begin
   FTranslateThread := nil;
+
+  if not Visible then
+    ShowCustomHint(TrayIcon.Hint);
 end;
 
 procedure TformTrayslate.DetectLanguage(AText: string);
