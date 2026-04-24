@@ -2,19 +2,19 @@ object formAboutTrayslate: TformAboutTrayslate
   Left = 318
   Height = 282
   Top = 250
-  Width = 466
+  Width = 480
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'About'
   ClientHeight = 282
-  ClientWidth = 466
+  ClientWidth = 480
   Color = clWhite
   Position = poDesktopCenter
   LCLVersion = '4.4.0.0'
   Scaled = False
   OnCreate = FormCreate
   object buttonOk: TButton
-    Left = 381
+    Left = 395
     Height = 25
     Top = 245
     Width = 75
@@ -230,11 +230,25 @@ object formAboutTrayslate: TformAboutTrayslate
     Left = 16
     Height = 69
     Top = 164
-    Width = 440
+    Width = 450
     Anchors = [akLeft, akBottom]
     Color = clBtnFace
     Lines.Strings = (
-      'Trayslate is a tray app for translation services. You can enter text directly, translate text from your clipboard, or from a selection in another app. It''s possible to replace text in another app with its translation using a hotkey. The app lets you choose and fully configure the source used for translations.'
+      'Trayslate is a tray-based client for translation services. You can enter text directly, translate clipboard content, or translate selected text in any application. You can also replace text in another app with its translation using a hotkey. The app lets you choose and fully configure the translation service you use.'
+      ''
+      'This application uses third-party resources under the following licenses:'
+      ''
+      '1. OpenSSL libraries (compiled from source, 32-bit and 64-bit versions)'
+      '   License: Apache License 2.0'
+      '   https://www.openssl.org'
+      ''
+      '2. Dark theme support modules from Double Commander'
+      '   Modules used: udarkstyle.pas, uimport.pas, uwin32widgetsetdark.pas'
+      '   License: GNU General Public License v2.0 (GPL-2.0)'
+      '   https://github.com/doublecmd/doublecmd'
+      ''
+      '3. Main icon designed by Flaticon'
+      '   https://www.flaticon.com/ru/free-icon/translator_682045'
     )
     ScrollBars = ssVertical
     TabOrder = 1
