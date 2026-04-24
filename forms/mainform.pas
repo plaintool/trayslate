@@ -1310,7 +1310,7 @@ begin
     List.Free;
   end;
 
-  // Loading target languages ?from the config
+  // Loading target languages from the config
   FLanguagesTarget.Clear;
   if (Assigned(Trans.LanguagesTarget)) and (Trans.LanguagesTarget.Count > 0) then
   begin
@@ -1339,7 +1339,13 @@ begin
     if (Id >= 0) and (Id < FLanguages.Count) then
     begin
       ComboSource.Text := FLanguages.ValueFromIndex[Id];
-      ChangeSourceLang(ComboSource.Text);
+      ChangeSourceLang(ComboSource.Text, False);
+    end
+    else
+    if (Trans.Languages.Count = 1) then
+    begin
+      ComboSource.ItemIndex := 0; // Single item as default
+      ChangeSourceLang(ComboSource.Text, False);
     end;
   end;
   // If the text is not in the list, clear it
@@ -1352,7 +1358,11 @@ begin
   else
   begin
     // Update the matched language in case of case change
-    Trans.LangSource := Trans.Languages.Values[FLangSource];
+    id := GetIndexByValue(Trans.Languages, FLangSource);
+    if Id < 0 then
+      Trans.LangSource := Trans.Languages.Values[FLangSource]
+    else
+      Trans.LangSource := Trans.Languages.ValueFromIndex[Id];
     FLangSource := Trans.LangSource;
   end;
 
@@ -1381,13 +1391,13 @@ begin
       if (Id >= 0) and (Id < FLanguagesTarget.Count) then
       begin
         ComboTarget.Text := FLanguagesTarget.ValueFromIndex[Id];
-        ChangeTargetLang(ComboTarget.Text);
+        ChangeTargetLang(ComboTarget.Text, False);
       end
       else
       if (Trans.LanguagesTarget.Count = 1) then
       begin
         ComboTarget.ItemIndex := 0; // Single item as default
-        ChangeTargetLang(ComboTarget.Text);
+        ChangeTargetLang(ComboTarget.Text, False);
       end;
     end
     else
@@ -1399,13 +1409,13 @@ begin
       if (Id >= 0) and (Id < FLanguages.Count) then
       begin
         ComboTarget.Text := FLanguages.ValueFromIndex[Id];
-        ChangeTargetLang(ComboTarget.Text);
+        ChangeTargetLang(ComboTarget.Text, False);
       end
       else
       if (Trans.Languages.Count = 1) then
       begin
         ComboTarget.ItemIndex := 0; // Single item as default
-        ChangeTargetLang(ComboTarget.Text);
+        ChangeTargetLang(ComboTarget.Text, False);
       end;
     end;
   end;
@@ -1421,9 +1431,21 @@ begin
   begin
     // Update the matched language in case of case change
     if Trans.LanguagesTarget.Count > 0 then
-      Trans.LangTarget := Trans.LanguagesTarget.Values[FLangTarget]
+    begin
+      id := GetIndexByValue(Trans.LanguagesTarget, FLangTarget);
+      if Id < 0 then
+        Trans.LangTarget := Trans.LanguagesTarget.Values[FLangTarget]
+      else
+        Trans.LangTarget := Trans.LanguagesTarget.ValueFromIndex[Id];
+    end
     else
-      Trans.LangTarget := Trans.Languages.Values[FLangTarget];
+    begin
+      id := GetIndexByValue(Trans.Languages, FLangTarget);
+      if Id < 0 then
+        Trans.LangTarget := Trans.Languages.Values[FLangTarget]
+      else
+        Trans.LangTarget := Trans.Languages.ValueFromIndex[Id];
+    end;
     FLangTarget := Trans.LangTarget;
   end;
 
