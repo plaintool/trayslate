@@ -1635,6 +1635,7 @@ begin
       pnl.BevelOuter := bvNone;
       pnl.AutoSize := True;
       pnl.BorderSpacing.Right := 12;
+      pnl.BorderSpacing.Bottom := 3;
 
       if not TryStrToInt(FConfigImages.Values[FLangPairs.Names[i]], ServiceIcon) then
         ServiceIcon := -1;

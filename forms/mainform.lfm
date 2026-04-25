@@ -151,7 +151,7 @@ object formTrayslate: TformTrayslate
     end
     object FlowPairs: TFlowPanel
       Left = 32
-      Height = 23
+      Height = 25
       Top = 0
       Width = 455
       Align = alClient
@@ -159,7 +159,7 @@ object formTrayslate: TformTrayslate
       BevelOuter = bvNone
       BorderSpacing.Left = 32
       BorderSpacing.Right = 25
-      BorderSpacing.Bottom = 5
+      BorderSpacing.Bottom = 3
       Constraints.MinHeight = 5
       ControlList = <>
       FlowLayout = tlCenter
