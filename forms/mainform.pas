@@ -2154,7 +2154,7 @@ begin
 
   // Limit to 10 items
   while FLangPairs.Count > FMaxLangPairs do
-    FLangPairs.Delete(FLangPairs.Count - 1);
+    FLangPairs.Delete(0);
 end;
 
 procedure TformTrayslate.SelectPair(const Pair: string; RunTranslate: boolean = True);
