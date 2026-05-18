@@ -1075,7 +1075,7 @@ begin
   // Skip extra field (FEXTRA) if present
   if (flags and $04) <> 0 then
   begin
-    if Compressed.Size < dataPos + 2 then
+    if Compressed.Size < int64(dataPos) + 2 then
       raise Exception.Create('Truncated gzip: FEXTRA length missing');
     xlen := p[dataPos] or (p[dataPos + 1] shl 8);
     Inc(dataPos, 2 + xlen);
