@@ -695,12 +695,18 @@ begin
 end;
 
 procedure SleepBusy(MS: integer);
+{$IFDEF WINDOWS}
 var
-  StartTick: QWord;
+  StartTick: DWORD;
 begin
-  StartTick := GetTickCount64;
-  while (GetTickCount64 - StartTick) < QWord(MS) do
+  StartTick := GetTickCount;
+  while (GetTickCount - StartTick) < DWORD(MS) do
     Application.ProcessMessages;
+{$ELSE}
+begin
+  // non Windows fallback – simple sleep, no message processing
+  Sleep(MS);
+{$ENDIF}
 end;
 
 procedure SleepLoop(ALoop: integer = 0; ASleep: integer = 0; AProcessMessages: boolean = True);

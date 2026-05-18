@@ -129,6 +129,10 @@ const
     'Windows.UI.Core.CoreWindow',
     'Afx:FrameOrView:100'
   );
+type
+  // QueryFullProcessImageNameW signature, available from Vista
+  TQueryFullProcessImageNameW = function(hProcess: THandle; dwFlags: DWORD;
+    lpExeName: PWideChar; lpdwSize: LPDWORD): BOOL; stdcall;
 var
   szClass: array[0..255] of Char;
   i: Integer;
@@ -139,6 +143,8 @@ var
   s: WideString;
   j: Integer;
   dwStart, dwEnd: DWORD;
+  QueryFull: TQueryFullProcessImageNameW;
+  hKernel32: THandle;
 begin
   Result := False;
   if Wnd = 0 then Exit;
@@ -150,24 +156,38 @@ begin
         Exit(True);
   end;
 
-  GetWindowThreadProcessId(HWND(Wnd), @pid);
-  hProc := OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, False, pid);
-  if hProc <> 0 then
-  begin
-    len := MAX_PATH;
-    if QueryFullProcessImageNameW(hProc, 0, @fileName[0], @len) then
-    begin
-      SetString(s, PWideChar(@fileName[0]), len);
-      j := LastDelimiter('\', string(s));
-      if (j > 0) and (StrIComp(PWideChar(@s[j+1]), 'explorer.exe') = 0) then
-      begin
-        CloseHandle(hProc);
-        Exit(False);
-      end;
-    end;
-    CloseHandle(hProc);
-  end;
+  // ---- explorer.exe check (dynamic, XP‑safe) ----
+  // On XP this API is missing; the check is simply skipped.
+  hKernel32 := GetModuleHandle('kernel32.dll');
+  if hKernel32 <> 0 then
+    Pointer(QueryFull) := GetProcAddress(hKernel32, 'QueryFullProcessImageNameW')
+  else
+    Pointer(QueryFull) := nil;
 
+  if Assigned(QueryFull) then
+  begin
+    GetWindowThreadProcessId(HWND(Wnd), @pid);
+    // PROCESS_QUERY_INFORMATION is available on XP (as opposed to PROCESS_QUERY_LIMITED_INFORMATION)
+    hProc := OpenProcess(PROCESS_QUERY_INFORMATION, False, pid);
+    if hProc <> 0 then
+    begin
+      len := MAX_PATH;
+      if QueryFull(hProc, 0, @fileName[0], @len) then
+      begin
+        SetString(s, PWideChar(@fileName[0]), len);
+        j := LastDelimiter('\', string(s));
+        if (j > 0) and (StrIComp(PWideChar(@s[j+1]), 'explorer.exe') = 0) then
+        begin
+          CloseHandle(hProc);
+          Exit(False);
+        end;
+      end;
+      CloseHandle(hProc);
+    end;
+  end;
+  // -------------------------------------------------
+
+  // Fallback: try EM_GETSEL to detect editable controls
   if SendMessageTimeout(HWND(Wnd), EM_GETSEL, WPARAM(@dwStart), LPARAM(@dwEnd),
                         SMTO_ABORTIFHUNG, 20, nil) <> 0 then
     Exit(True);
@@ -241,7 +261,7 @@ end;
 
 destructor TGlobalMouseHook.Destroy;
 begin
-  Enabled := False;
+  Enabled := False;      // safe cleanup – see SetEnabled
   inherited;
 end;
 
@@ -252,23 +272,37 @@ begin
   begin
     if FActiveInstance <> nil then
       raise Exception.Create('Only one TGlobalMouseHook can be active at a time.');
-    FActiveInstance := Self;
-    FHook := SetWindowsHookEx(WH_MOUSE_LL, @HookProc, 0, 0);
+
+    // Try to install the hook. HInstance is used for XP safety (error 1428 may still occur).
+    FHook := SetWindowsHookEx(WH_MOUSE_LL, @HookProc, HInstance, 0);
     if FHook = 0 then
     begin
-      FActiveInstance := nil;
-      RaiseLastOSError;
+      // Hook installation failed – keep FActiveInstance nil and FEnabled false.
+      // Show a warning instead of crashing, especially important for XP.
+      MessageBox(0,
+                 PChar('Cannot enable global mouse hook.' + sLineBreak +
+                       'System error: ' + SysErrorMessage(GetLastError)),
+                 'Trayslate',
+                 MB_ICONWARNING);
+      Exit;   // FEnabled stays False, FActiveInstance stays nil
     end;
+
+    // Success – mark as active
+    FActiveInstance := Self;
     FEnabled := True;
   end
   else
   begin
-    if FHook <> 0 then
+    // Disable: only unhook if we are the active instance
+    if FActiveInstance = Self then
     begin
-      UnhookWindowsHookEx(FHook);
-      FHook := 0;
+      if FHook <> 0 then
+      begin
+        UnhookWindowsHookEx(FHook);
+        FHook := 0;
+      end;
+      FActiveInstance := nil;
     end;
-    FActiveInstance := nil;
     FEnabled := False;
   end;
 end;
