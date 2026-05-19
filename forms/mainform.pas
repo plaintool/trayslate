@@ -65,6 +65,7 @@ type
     aLangBulgarian: TAction;
     aMenu: TAction;
     aNewTranslate: TAction;
+    ApplicationProp: TApplicationProperties;
     aSettings: TAction;
     aTranslateClipboard: TAction;
     aSwap: TAction;
@@ -195,6 +196,7 @@ type
     procedure aFastVerticalSplitExecute(Sender: TObject);
     procedure aLangBulgarianExecute(Sender: TObject);
     procedure aLangCustomExecute(Sender: TObject);
+    procedure ApplicationPropUserInput(Sender: TObject; Msg: cardinal);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -203,10 +205,10 @@ type
     procedure FormResize(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure FormWindowStateChange(Sender: TObject);
-    procedure ApplicationOnActivate(Sender: TObject);
-    procedure ApplicationOnDeactivate(Sender: TObject);
-    procedure ApplicationOnShowHint(var HintStr: string; var CanShow: boolean; var HintInfo: THintInfo);
-    procedure ApplicationOnException(Sender: TObject; E: Exception);
+    procedure ApplicationPropActivate(Sender: TObject);
+    procedure ApplicationPropDeactivate(Sender: TObject);
+    procedure ApplicationPropShowHint(var HintStr: string; var CanShow: boolean; var HintInfo: THintInfo);
+    procedure ApplicationPropException(Sender: TObject; E: Exception);
     procedure ScreenActiveFormChanged(Sender: TObject);
     procedure OnKeyboardEvent(Sender: TObject; const Info: TKeyboardEventInfo);
     procedure OnHookLeftDown(Sender: TObject; const Info: TMouseEventInfo);
@@ -772,10 +774,6 @@ begin
   SetHints;
 
   // Events assign
-  Application.OnDeactivate := @ApplicationOnDeactivate;
-  Application.OnActivate := @ApplicationOnActivate;
-  Application.OnException := @ApplicationOnException;
-  Application.OnShowHint := @ApplicationOnShowHint;
   Screen.OnActiveFormChange := @ScreenActiveFormChanged;
 
   {$IFDEF WINDOWS}
@@ -974,34 +972,60 @@ end;
 
 {$ENDIF}
 
+procedure TformTrayslate.ScreenActiveFormChanged(Sender: TObject);
+begin
+  if Assigned(formConfigTrayslate) and formConfigTrayslate.HandleAllocated and (Screen.ActiveForm = formConfigTrayslate) then
+    formConfigTrayslate.Invalidate;
+end;
+
 { Application Events }
 
-procedure TformTrayslate.ApplicationOnActivate(Sender: TObject);
+procedure TformTrayslate.ApplicationPropActivate(Sender: TObject);
 begin
   FTopMost := True;
   if Assigned(formConfigTrayslate) and formConfigTrayslate.HandleAllocated then
     formConfigTrayslate.Invalidate;
 end;
 
-procedure TformTrayslate.ApplicationOnDeactivate(Sender: TObject);
+procedure TformTrayslate.ApplicationPropDeactivate(Sender: TObject);
 begin
   TimerActive.Enabled := True;
 end;
 
-procedure TformTrayslate.ApplicationOnShowHint(var HintStr: string; var CanShow: boolean; var HintInfo: THintInfo);
+procedure TformTrayslate.ApplicationPropShowHint(var HintStr: string; var CanShow: boolean; var HintInfo: THintInfo);
 begin
   TimerHideHintTimer(Self);
 end;
 
-procedure TformTrayslate.ApplicationOnException(Sender: TObject; E: Exception);
+procedure TformTrayslate.ApplicationPropException(Sender: TObject; E: Exception);
 begin
   MessageDlg(rtrayslate, E.Message, mtWarning, [mbOK], 0);
 end;
 
-procedure TformTrayslate.ScreenActiveFormChanged(Sender: TObject);
+procedure TformTrayslate.ApplicationPropUserInput(Sender: TObject; Msg: cardinal);
+var
+  MousePos: TPoint;
+  CtrlUnderMouse: TControl;
 begin
-  if Assigned(formConfigTrayslate) and formConfigTrayslate.HandleAllocated and (Screen.ActiveForm = formConfigTrayslate) then
-    formConfigTrayslate.Invalidate;
+  if Msg = LM_LBUTTONDOWN then
+  begin
+    MousePos := ScreenToClient(Mouse.CursorPos);
+    CtrlUnderMouse := ControlAtPos(MousePos, [capfRecursive, capfAllowWinControls]);
+
+    if (CtrlUnderMouse = ComboSource) or (CtrlUnderMouse = ComboTarget) then
+      Exit;
+
+    if (Screen.ActiveControl = ComboSource) then
+    begin
+      Self.ActiveControl := nil;
+      ComboSource.SelLength := 0;
+    end
+    else if (Screen.ActiveControl = ComboTarget) then
+    begin
+      Self.ActiveControl := nil;
+      ComboTarget.SelLength := 0;
+    end;
+  end;
 end;
 
 { MouseHook Events}

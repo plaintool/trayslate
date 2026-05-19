@@ -865,4 +865,13 @@ object formTrayslate: TformTrayslate
     Left = 416
     Top = 384
   end
+  object ApplicationProp: TApplicationProperties
+    OnActivate = ApplicationPropActivate
+    OnDeactivate = ApplicationPropDeactivate
+    OnException = ApplicationPropException
+    OnShowHint = ApplicationPropShowHint
+    OnUserInput = ApplicationPropUserInput
+    Left = 200
+    Top = 240
+  end
 end
