@@ -127,7 +127,7 @@ type
     Separator5: TMenuItem;
     Separator6: TMenuItem;
     Separator9: TMenuItem;
-    SplitterMemo: TSplitter;
+    Splitter: TSplitter;
     TimerUnapply: TTimer;
     TimerHideHint: TTimer;
     TimerAnimate: TTimer;
@@ -239,7 +239,7 @@ type
     procedure MemoSourceKeyUp(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure MemoTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure PanelLangResize(Sender: TObject);
-    procedure SplitterMemoMoved(Sender: TObject);
+    procedure SplitterMoved(Sender: TObject);
     procedure SbSwapMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
     procedure TimerActiveTimer(Sender: TObject);
     procedure TimerAnimateStopTimer(Sender: TObject);
@@ -1493,7 +1493,7 @@ begin
   Application.QueueAsyncCall(@DoRealign, 0);
 end;
 
-procedure TformTrayslate.SplitterMemoMoved(Sender: TObject);
+procedure TformTrayslate.SplitterMoved(Sender: TObject);
 begin
   case PanelTarget.Align of
     alBottom:
@@ -2325,10 +2325,18 @@ begin
   // Restore splitter ratio
   case PanelTarget.Align of
     alBottom:
+    begin
       PanelTarget.Height := Round((PanelSource.Height + PanelTarget.Height) * FSplitRatio);
+      // Force the splitter to be strictly above the bottom panel
+      Splitter.Top := PanelTarget.Top - 1;
+    end;
 
     alRight:
+    begin
       PanelTarget.Width := Round((PanelSource.Width + PanelTarget.Width) * FSplitRatio);
+      // Force the splitter to be strictly to the left of the right panel
+      Splitter.Left := PanelTarget.Left - 1;
+    end;
     else
       ;
   end;
@@ -2613,14 +2621,14 @@ end;
 
 procedure TformTrayslate.SetVerticalMode;
 begin
-  SplitterMemoMoved(SplitterMemo);
+  SplitterMoved(Splitter);
   if FVerticalSplit then
   begin
     // Switch to vertical layout
     PanelSource.Align := alClient;
     PanelTarget.Align := alRight;
-    SplitterMemo.Align := alRight;
-    SplitterMemo.Left := PanelSource.Width;
+    Splitter.Align := alRight;
+    Splitter.Left := PanelSource.Width;
 
     PanelSource.BorderSpacing.Right := 0;
     PanelSource.BorderSpacing.Bottom := 3;
@@ -2633,8 +2641,8 @@ begin
     // Switch to horizontal layout
     PanelSource.Align := alClient;
     PanelTarget.Align := alBottom;
-    SplitterMemo.Align := alBottom;
-    SplitterMemo.Top := PanelSource.Height + PanelPairs.Height;
+    Splitter.Align := alBottom;
+    Splitter.Top := PanelSource.Height + PanelPairs.Height;
 
     PanelSource.BorderSpacing.Right := 3;
     PanelSource.BorderSpacing.Bottom := 0;
