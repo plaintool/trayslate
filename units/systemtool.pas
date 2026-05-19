@@ -92,6 +92,8 @@ procedure RegAutoStart(const AEnable: boolean; const AppName: string);
 
 procedure BringToFrontNoFocus(AForm: TForm);
 
+function GetTickCountXp: DWORD;
+
 procedure SleepBusy(MS: integer);
 
 procedure SleepLoop(ALoop: integer = 0; ASleep: integer = 0; AProcessMessages: boolean = True);
@@ -694,13 +696,37 @@ begin
   {$ENDIF}
 end;
 
+function GetTickCountXp: DWORD;
+  {$IFDEF WINDOWS}
+type
+  TGetTickCount64 = function: QWORD; stdcall;
+var
+  h: THandle;
+  p: TGetTickCount64;
+begin
+  h := GetModuleHandle('kernel32.dll');
+  if h <> 0 then
+    Pointer(p) := GetProcAddress(h, 'GetTickCount64')
+  else
+    Pointer(p) := nil;
+  if Assigned(p) then
+    Result := DWORD(p())
+  else
+    Result := GetTickCount;
+  {$ELSE}
+begin
+  // For Linux, macOS and other platforms, use the built-in function from LclIntf
+  Result := LclIntf.GetTickCount64;
+  {$ENDIF}
+end;
+
 procedure SleepBusy(MS: integer);
 {$IFDEF WINDOWS}
 var
   StartTick: DWORD;
 begin
-  StartTick := GetTickCount;
-  while (GetTickCount - StartTick) < DWORD(MS) do
+  StartTick := GetTickCountXp;
+  while (GetTickCountXp - StartTick) < DWORD(MS) do
     Application.ProcessMessages;
 {$ELSE}
 begin
@@ -708,6 +734,7 @@ begin
   Sleep(MS);
 {$ENDIF}
 end;
+
 
 procedure SleepLoop(ALoop: integer = 0; ASleep: integer = 0; AProcessMessages: boolean = True);
 var

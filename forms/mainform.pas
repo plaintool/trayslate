@@ -305,6 +305,7 @@ type
     FUnapplyCtrl: boolean;
     FUnapplyC: boolean;
     FUnapplyV: boolean;
+    FLastKeyTime: DWORD;
     FLastCtrlTime: DWORD;
     FLastCTime: DWORD;
     FLastXTime: DWORD;
@@ -624,6 +625,7 @@ begin
   FUnapplyCtrl := False;
   FUnapplyC := False;
   FUnapplyV := False;
+  FLastKeyTime := 0;
   FLastCtrlTime := 0;
   FLastXTime := 0;
   FLastCTime := 0;
@@ -901,10 +903,10 @@ var
 begin
   if TheMessage.msg = WM_HOTKEY then
   begin
-    if GetTickCount64 - FLastHotkeyTime < HOTKEY_INTERVAL then
+    if GetTickCountXp - FLastHotkeyTime < HOTKEY_INTERVAL then
       exit;
 
-    FLastHotkeyTime := GetTickCount64;
+    FLastHotkeyTime := GetTickCountXp;
 
     case TheMessage.WParam of
 
@@ -1007,19 +1009,23 @@ end;
 procedure TFormTrayslate.OnKeyboardEvent(Sender: TObject; const Info: TKeyboardEventInfo);
 var
   packedCoords: PtrInt;
+  Tick: DWORD;
 begin
+  Tick := GetTickCountXp;
+
   if not Info.IsDown then Exit;
   if Info.IsInjected then Exit;
 
   // Signals about pressing physical keys
+  FLastKeyTime := Tick;
   if Info.KeyCode = VK_CONTROL then
-    FLastCtrlTime := GetTickCount64;
+    FLastCtrlTime := Tick;
   if Info.KeyCode = Ord('C') then
-    FLastCTime := GetTickCount64;
+    FLastCTime := Tick;
   if Info.KeyCode = Ord('X') then
-    FLastXTime := GetTickCount64;
+    FLastXTime := Tick;
   if Info.KeyCode = Ord('V') then
-    FLastVTime := GetTickCount64;
+    FLastVTime := Tick;
 
   // Detecting select all for mouse mode
   if (Info.CtrlDown) and (Info.KeyCode = Ord('A')) and (MouseMode = mmShowTranslateButton) then
@@ -1415,7 +1421,7 @@ begin
   begin
     FMemoSourceCaretPos := MemoSource.SelStart; // save current caret
 
-    NowTime := GetTickCount64;
+    NowTime := GetTickCountXp;
     if NowTime - FLastEnterTime <= DOUBLE_ENTER_INTERVAL then
     begin
       // Delete the previous Enter inserted
@@ -1448,7 +1454,7 @@ begin
     Exit;
 
   // Ignore KeyUp if it happened right after a global hotkey
-  if GetTickCount64 - FLastHotkeyTime < HOTKEY_INTERVAL then
+  if GetTickCountXp - FLastHotkeyTime < HOTKEY_INTERVAL then
   begin
     TimerTranslate.Enabled := False;
     Exit;
@@ -3566,12 +3572,15 @@ begin
       SelectedText := Clipboard.AsText;
     finally
       // Restore original clipboard only if one of the copy combination keys is not pressed
-      if (((GetTickCount64 - FLastCtrlTime) <= 200) and ((GetTickCount64 - FLastVTime) <= 100)) then
+      if (((GetTickCountXp - FLastCtrlTime) <= 100) and ((GetTickCountXp - FLastVTime) <= 100)) then
         Clipboard.AsText := OriginalClip
       else
-      if (((GetTickCount64 - FLastCtrlTime) > 200) and ((GetTickCount64 - FLastCTime) > 100) and
-        ((GetTickCount64 - FLastXTime) > 100)) then
-        Clipboard.AsText := OriginalClip
+      if (((GetTickCountXp - FLastCtrlTime) > 100) and ((GetTickCountXp - FLastCTime) > 100) and
+        ((GetTickCountXp - FLastXTime) > 100)) then
+        Clipboard.AsText := OriginalClip;
+
+      if (GetTickCountXp - FLastKeyTime) > 200 then
+        TimerUnapplyTimer(Self);
     end;
 
     if (Trim(SelectedText) <> string.Empty) then
@@ -3621,7 +3630,9 @@ begin
         else
           ;
       end;
-    end;
+    end
+    else
+      TimerUnapplyTimer(Self);
   finally
     FMouseHook.Enabled := FEnableMouseMode;
   end;

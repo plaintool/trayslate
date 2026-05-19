@@ -860,7 +860,7 @@ object formTrayslate: TformTrayslate
   end
   object TimerUnapply: TTimer
     Enabled = False
-    Interval = 500
+    Interval = 300
     OnTimer = TimerUnapplyTimer
     Left = 416
     Top = 384
