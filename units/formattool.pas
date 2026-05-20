@@ -77,6 +77,8 @@ function Utf8Truncate(const S: string; MaxBytes: integer; Encode: boolean): stri
 
 function Utf8TruncateWithEncoding(const S: string; MaxBytes: integer; Encode: boolean): string;
 
+function LongestString(const Values: array of string): string;
+
 implementation
 
 function ColorToHtml(AColor: TColor): string;
@@ -855,6 +857,16 @@ begin
   // Only allocate Result ONCE at the end
   if p > startPtr then
     SetString(Result, startPtr, p - startPtr);
+end;
+
+function LongestString(const Values: array of string): string;
+var
+  I: integer;
+begin
+  Result := string.Empty;
+  for I := Low(Values) to High(Values) do
+    if Length(Values[I]) > Length(Result) then
+      Result := Values[I];
 end;
 
 end.

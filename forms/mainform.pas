@@ -2263,6 +2263,9 @@ begin
 
   FlowPairs.Hint := MIDDLE_MOUSE + rtoremovepair;
 
+  ComboSource.Hint := LongestString([FLangSource, ComboSource.Text]);
+  ComboTarget.Hint := LongestString([FLangTarget, ComboTarget.Text]);
+
   OpenPo.Filter := ropenpofiletr;
 
   if Assigned(formConfigTrayslate) then
@@ -2813,8 +2816,8 @@ begin
       Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
     end;
 
+    ComboSource.Hint := LongestString([FLangSource, ComboSource.Text]);
     Trans.LangSource := FLangSource;
-    ComboSource.Hint := FLangSource;
     UpdateCheckMenuPair;
     if FIconTwoLang then SetIcon;
   end;
@@ -2861,7 +2864,7 @@ begin
       Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
     end;
 
-    ComboTarget.Hint := FLangTarget;
+    ComboTarget.Hint := LongestString([FLangTarget, ComboTarget.Text]);
     Trans.LangTarget := FLangTarget;
     UpdateCheckMenuPair;
     SetIcon;
