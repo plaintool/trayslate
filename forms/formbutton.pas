@@ -29,17 +29,18 @@ type
   { TformButtonTrayslate }
 
   TformButtonTrayslate = class(TForm)
-    SbTranslate: TSpeedButton;
+    ImageTranslate: TImage;
     TimerHide: TTimer;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormPaint(Sender: TObject);
-    procedure SbTranslateClick(Sender: TObject);
-    procedure SbTranslateMouseEnter(Sender: TObject);
-    procedure SbTranslateMouseLeave(Sender: TObject);
+    procedure ImageTranslateMouseEnter(Sender: TObject);
+    procedure ImageTranslateMouseLeave(Sender: TObject);
+    procedure ImageTranslateClick(Sender: TObject);
     procedure TimerHideTimer(Sender: TObject);
   private
     FSourceText: string;
+    FHoverColor: TColor;
   protected
     procedure CreateParams(var Params: TCreateParams); override;
   public
@@ -48,6 +49,9 @@ type
 
 var
   formButtonTrayslate: TformButtonTrayslate;
+
+const
+  clHotterlight = TColor($FFF0DC);
 
 implementation
 
@@ -67,7 +71,8 @@ begin
   ApplicationTranslate(language, self, formTrayslate.LoadCustomPoFile(formTrayslate.CustomPoFile));
 
   // Set the appropriate icon based on the theme
-  SbTranslate.ImageIndex := ThemeValue(2, 3);
+  ImageTranslate.ImageIndex := ThemeValue(2, 3);
+  FHoverColor := ThemeColor(clHotterlight, clNavy);
   Width := 27;
   Height := 27;
 
@@ -76,7 +81,7 @@ begin
 
   // Create a rounded-rectangle region for the form (radius = 6 pixels)
   {$IFDEF WINDOWS}
-  Rgn := CreateRoundRectRgn(0, 0, Width, Height, 10, 10);
+  Rgn := CreateRoundRectRgn(0, 0, Width, Height, 17, 17);
   SetWindowRgn(Handle, Rgn, True); // The system takes ownership of the region
   {$ENDIF}
   // For other platforms, TForm.SetShape with a bitmap can be used instead.
@@ -90,19 +95,25 @@ end;
 procedure TformButtonTrayslate.FormPaint(Sender: TObject);
 begin
   Canvas.AntialiasingMode := amOn;
+  if not TimerHide.Enabled then // hover
+  begin
+    Canvas.Brush.Style := bsSolid;
+    Canvas.Brush.Color := FHoverColor;
+    Canvas.FillRect(ClientRect);
+  end
+  else
+    Canvas.Brush.Style := bsClear;
+
   Canvas.Pen.Width := 2;
-  Canvas.Brush.Style := bsClear;
-
-  Canvas.Pen.Color := clGray;
-  Canvas.RoundRect(0, 0, Width - 2, Height - 2, 10, 10);
   Canvas.Pen.Color := clSilver;
-  Canvas.RoundRect(0, 0, Width - 1, Height - 1, 10, 10);
+  Canvas.RoundRect(-3, -3, Width - 1, Height - 1, 20, 20);
 
-  Canvas.Pen.Color := clWhite;
-  Canvas.RoundRect(0, 0, Width, Height, 10, 10);
+  Canvas.Pen.Width := 1;
+  Canvas.Pen.Color := clGray;
+  Canvas.RoundRect(-2, -2, Width - 2, Height - 2, 17, 17);
 end;
 
-procedure TformButtonTrayslate.SbTranslateClick(Sender: TObject);
+procedure TformButtonTrayslate.ImageTranslateClick(Sender: TObject);
 begin
   // Hide the button and trigger the translation popup
   TimerHideTimer(Self);
@@ -118,16 +129,18 @@ begin
   {$ENDIF}
 end;
 
-procedure TformButtonTrayslate.SbTranslateMouseEnter(Sender: TObject);
+procedure TformButtonTrayslate.ImageTranslateMouseEnter(Sender: TObject);
 begin
   // Keep the button visible while the mouse is over it
   TimerHide.Enabled := False;
+  Invalidate;
 end;
 
-procedure TformButtonTrayslate.SbTranslateMouseLeave(Sender: TObject);
+procedure TformButtonTrayslate.ImageTranslateMouseLeave(Sender: TObject);
 begin
   // Resume auto-hide timer when the mouse leaves
   TimerHide.Enabled := True;
+  Invalidate;
 end;
 
 procedure TformButtonTrayslate.TimerHideTimer(Sender: TObject);

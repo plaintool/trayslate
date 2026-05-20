@@ -3,31 +3,31 @@ object formButtonTrayslate: TformButtonTrayslate
   Height = 91
   Top = 250
   Width = 89
+  AutoSize = True
   BorderIcons = []
   BorderStyle = bsNone
   ClientHeight = 91
-  ClientWidth = 120
-  Color = clWindow
+  ClientWidth = 89
+  Color = clWhite
   FormStyle = fsSystemStayOnTop
   LCLVersion = '4.4.0.0'
   OnCreate = FormCreate
   OnPaint = FormPaint
   OnShow = FormShow
-  object SbTranslate: TSpeedButton
+  object ImageTranslate: TImage
     Left = 0
-    Height = 26
-    Hint = 'Translate in Popup'
+    Height = 27
     Top = 0
-    Width = 26
-    AutoSize = True
-    Flat = True
-    Images = formTrayslate.ImageButtons
+    Width = 27
+    AntialiasingMode = amOn
+    Center = True
     ImageIndex = 2
-    ShowHint = True
-    ParentShowHint = False
-    OnClick = SbTranslateClick
-    OnMouseEnter = SbTranslateMouseEnter
-    OnMouseLeave = SbTranslateMouseLeave
+    Images = formTrayslate.ImageButtons
+    StretchOutEnabled = False
+    StretchInEnabled = False
+    OnClick = ImageTranslateClick
+    OnMouseEnter = ImageTranslateMouseEnter
+    OnMouseLeave = ImageTranslateMouseLeave
   end
   object TimerHide: TTimer
     Enabled = False
