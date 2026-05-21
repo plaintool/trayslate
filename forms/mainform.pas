@@ -594,6 +594,7 @@ begin
   FMouseModeCtrl := False;
   FMouseMode := mmShowTranslateButton;
   FVerticalSplit := False;
+  FSplitRatio := 0.5;
   FStayOnTop := True;
   FHideControls := True;
   FOpacityHover := 60;
