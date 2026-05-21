@@ -111,28 +111,28 @@ Global hotkeys can be fully configured in the application settings. They are ava
 | Action | Shortcut |
 |--------|----------|
 | **Global Hotkeys** | |
-| Shows or hides the main application window | `Ctrl + Shift + A` |
-| Swaps the source and target languages | `Ctrl + Shift + S` |
-| Translates the current text from the clipboard | `Ctrl + Shift + T` |
-| Translates the current text in clipboard and copies the result to the clipboard | `Ctrl + Shift + R` |
-| Translates clipboard text to a popup window near the mouse cursor | `Ctrl + Shift + P` |
-| Translates the selected text from the active application | `Ctrl + Shift + C` |
-| Replaces the selected text in the active application with the translation | `Ctrl + Shift + V` |
-| Translates selected text from the active application to a popup window | `Ctrl + Shift + X` |
+| Shows or hides the main application window | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>A</kbd> |
+| Swaps the source and target languages | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> |
+| Translates the current text from the clipboard | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd> |
+| Translates the current text in clipboard and copies the result to the clipboard | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> |
+| Translates clipboard text to a popup window near the mouse cursor | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> |
+| Translates the selected text from the active application | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd> |
+| Replaces the selected text in the active application with the translation | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd> |
+| Translates selected text from the active application to a popup window | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>X</kbd> |
 | **Recent Language Pair Hotkeys** | |
-| Select recent language pair 1 | `Ctrl + Shift + 1` |
-| Select recent language pair 2 | `Ctrl + Shift + 2` |
-| Select recent language pair 3 | `Ctrl + Shift + 3` |
-| Select recent language pair 4 | `Ctrl + Shift + 4` |
-| Select recent language pair 5 | `Ctrl + Shift + 5` |
-| Select recent language pair 6 | `Ctrl + Shift + 6` |
-| Select recent language pair 7 | `Ctrl + Shift + 7` |
-| Select recent language pair 8 | `Ctrl + Shift + 8` |
-| Select recent language pair 9 | `Ctrl + Shift + 9` |
+| Select recent language pair 1 | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>1</kbd> |
+| Select recent language pair 2 | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>2</kbd> |
+| Select recent language pair 3 | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>3</kbd> |
+| Select recent language pair 4 | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>4</kbd> |
+| Select recent language pair 5 | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>5</kbd> |
+| Select recent language pair 6 | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>6</kbd> |
+| Select recent language pair 7 | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>7</kbd> |
+| Select recent language pair 8 | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>8</kbd> |
+| Select recent language pair 9 | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>9</kbd> |
 | **Main Window Hotkeys** | |
-| New Translate | `Ctrl + N` |
-| Add Current Pair To Recent Panel | `Ctrl + F` |
-| Translate | `Ctrl + Enter`<br>`Shift + Enter`<br>`Double Enter`|
+| New Translate | <kbd>Ctrl</kbd> + <kbd>N</kbd> |
+| Add Current Pair To Recent Panel | <kbd>Ctrl</kbd> + <kbd>F</kbd> |
+| Translate | <kbd>Ctrl</kbd> + <kbd>Enter</kbd><br><kbd>Shift</kbd> + <kbd>Enter</kbd><br><kbd>Double Enter</kbd> |
 
 ---
 
