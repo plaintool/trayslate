@@ -1353,7 +1353,13 @@ begin
       SetIcon;
     end
     else
-      SelectPair(FLangSource + ':' + FLangTarget, False);
+    if (FLangSource <> string.Empty) and (FLangTarget <> string.Empty) then
+      SelectPair(FLangSource + ':' + FLangTarget, False)
+    else
+    if FLangSource <> string.Empty then
+      ChangeSourceLang(FPrevSourceText)
+    else
+      ComboSource.Text := string.Empty;
   end
   else
   begin
@@ -1385,7 +1391,13 @@ begin
       SetIcon;
     end
     else
-      SelectPair(FLangSource + ':' + FLangTarget, False);
+    if (FLangSource <> string.Empty) and (FLangTarget <> string.Empty) then
+      SelectPair(FLangSource + ':' + FLangTarget, False)
+    else
+    if FLangTarget <> string.Empty then
+      ChangeTargetLang(FPrevTargetText)
+    else
+      ComboTarget.Text := string.Empty;
   end
   else
   begin
@@ -2802,6 +2814,7 @@ begin
 
   // assign the found index
   ComboSource.ItemIndex := id;
+  ComboSource.Text := NewLang;
 
   // now safe to use ItemIndex
   NewLang := Trans.Languages.ValueFromIndex[idnative];
@@ -2844,6 +2857,7 @@ begin
 
   // assign the found index
   ComboTarget.ItemIndex := id;
+  ComboTarget.Text := NewLang;
 
   // now safe to use ItemIndex
   if (idnative >= 0) then
@@ -3165,7 +3179,7 @@ begin
   end;
 
   try
-    if (LangSource = string.Empty) or (LangTarget = string.Empty) then Exit;
+    //if (LangSource = string.Empty) or (LangTarget = string.Empty) then Exit;
 
     // Cancel old translation
     if Assigned(FTranslateThread) then
@@ -3241,9 +3255,11 @@ begin
   if FCancelled then Exit;
   if not FAutoSwap or not Trans.ServiceAutoSwap or not Assigned(FTransDetect) then Exit;
 
+  langSrc := string.Empty;
+  langTar := string.Empty;
   idxSrc := FLanguages.IndexOf(ComboSource.Text);
   idxTar := FLanguages.IndexOf(ComboTarget.Text);
-  if (idxSrc < 0) or (idxTar < 0) then Exit;
+  //  if (idxSrc < 0) or (idxTar < 0) then Exit;
 
   Screen.Cursor := crAppStart;
   TimerAnimate.Enabled := True;
@@ -3257,8 +3273,10 @@ begin
   langSecondary := LowerCase(SecondaryLang);
 
   // Check selected languages
-  langSrc := LowerCase(Trans.Languages.Names[idxSrc]);
-  langTar := LowerCase(Trans.Languages.Names[idxTar]);
+  if (idxSrc >= 0) then
+    langSrc := LowerCase(Trans.Languages.Names[idxSrc]);
+  if (idxTar >= 0) then
+    langTar := LowerCase(Trans.Languages.Names[idxTar]);
 
   // Swap if needed
   if not SmartSwap then
