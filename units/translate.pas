@@ -287,15 +287,8 @@ begin
     FParameterValues.Values['text'] := string.Empty;
   FParameterEncode.Values['text'] := ifthen(FEncodeText, '1', '0');
 
-  if FLangSource <> string.Empty then
-    FParameterValues.Values['source'] := ifthen(FLangSource = EMPTY_LANG, string.Empty, FLangSource)
-  else
-    FParameterValues.Values['source'] := DEFAULT_LANG;
-
-  if FLangTarget <> string.Empty then
-    FParameterValues.Values['target'] := FLangTarget
-  else
-    FParameterValues.Values['target'] := Language;
+  FParameterValues.Values['source'] := ifthen(FLangSource = EMPTY_LANG, string.Empty, FLangSource);
+  FParameterValues.Values['target'] := FLangTarget;
 
   // TimeStamp
   FParameterValues.Values['timestamp'] := GetTimestampNow.ToString;
