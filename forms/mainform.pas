@@ -3315,7 +3315,7 @@ begin
             ChangeSourceLang(FLanguages[Trans.Languages.IndexOfName(langPrimary)], False);
             NeedHint := True;
           end;
-          if (langTar <> langSecondary) then
+          if (langTar <> langSecondary) and (SmartHard) then
           begin
             ChangeTargetLang(FLanguages[Trans.Languages.IndexOfName(langSecondary)]);
             NeedHint := True;
@@ -3330,7 +3330,7 @@ begin
             ChangeSourceLang(FLanguages[Trans.Languages.IndexOfName(langDetect)], False);
             NeedHint := True;
           end;
-          if (langTar <> langPrimary) then
+          if (langTar <> langPrimary) and (SmartHard) then
           begin
             ChangeTargetLang(FLanguages[Trans.Languages.IndexOfName(langPrimary)]);
             NeedHint := True;
