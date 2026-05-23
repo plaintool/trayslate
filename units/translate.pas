@@ -689,7 +689,7 @@ var
 begin
   Result := string.Empty;
   if (Trim(content) = string.Empty) then Exit;
-  if (JsonPointer = string.Empty) then Exit(content);
+  if (JsonPointer = string.Empty) then Exit;
 
   // Remove /* comments */ only if a closing tag exists
   Expr := JsonPointer;
@@ -976,7 +976,10 @@ begin
     Result := ParseResponse(content);
 
   if (Trim(Result) = string.Empty) then
-    Result := content
+  begin
+    if not TryFormatJson(content, Result) then
+      Result := content;
+  end
   else
   if FIsTruncated then Result := Result + '...';
 end;

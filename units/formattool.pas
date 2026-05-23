@@ -79,6 +79,8 @@ function Utf8TruncateWithEncoding(const S: string; MaxBytes: integer; Encode: bo
 
 function LongestString(const Values: array of string): string;
 
+function TryFormatJson(const AText: string; out AFormatted: string): Boolean;
+
 implementation
 
 function ColorToHtml(AColor: TColor): string;
@@ -867,6 +869,32 @@ begin
   for I := Low(Values) to High(Values) do
     if Length(Values[I]) > Length(Result) then
       Result := Values[I];
+end;
+
+function TryFormatJson(const AText: string; out AFormatted: string): Boolean;
+var
+  JsonData: TJSONData;
+begin
+  Result := False;
+  AFormatted := string.Empty;
+
+  try
+    // Try parse JSON
+    JsonData := GetJSON(AText);
+    try
+      // Format with 2 spaces indent
+      AFormatted := JsonData.FormatJSON([], 2);
+      Result := True;
+    finally
+      JsonData.Free;
+    end;
+  except
+    on E: Exception do
+    begin
+      // Not valid JSON
+      Result := False;
+    end;
+  end;
 end;
 
 end.
