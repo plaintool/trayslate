@@ -357,6 +357,10 @@ msgstr "Wykonaj żądanie i wyświetl wynik"
 msgid "Execute post request and view the result"
 msgstr "Wykonaj żądanie POST i wyświetl wynik"
 
+#: tformconfigtrayslate.btnresponsetest.hint
+msgid "Converts the current response"
+msgstr "Konwertuje bieżącą odpowiedź"
+
 #: tformconfigtrayslate.btnurltest.hint
 msgid "Execute get request and view the result"
 msgstr "Wykonaj żądanie GET i wyświetl wynik"

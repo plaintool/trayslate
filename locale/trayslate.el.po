@@ -357,6 +357,10 @@ msgstr "Εκτέλεση αιτήματος και προβολή αποτελέ
 msgid "Execute post request and view the result"
 msgstr "Εκτέλεση αιτήματος POST και προβολή αποτελέσματος"
 
+#: tformconfigtrayslate.btnresponsetest.hint
+msgid "Converts the current response"
+msgstr "Μετατρέπει την τρέχουσα απάντηση"
+
 #: tformconfigtrayslate.btnurltest.hint
 msgid "Execute get request and view the result"
 msgstr "Εκτέλεση αιτήματος GET και προβολή αποτελέσματος"

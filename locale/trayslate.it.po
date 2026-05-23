@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.9\n"
+"X-Generator: Poedit 3.8\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: formconfig.rcaption
@@ -365,6 +365,10 @@ msgstr "Esegui richiesta e visualizza il risultato"
 #: tformconfigtrayslate.btnpostdatatest.hint
 msgid "Execute post request and view the result"
 msgstr "Esegui richiesta POST e visualizza il risultato"
+
+#: tformconfigtrayslate.btnresponsetest.hint
+msgid "Converts the current response"
+msgstr "Converte la risposta corrente"
 
 #: tformconfigtrayslate.btnurltest.hint
 msgid "Execute get request and view the result"

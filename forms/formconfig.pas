@@ -41,6 +41,7 @@ type
     BtnUrlTest: TSpeedButton;
     BtnSave: TButton;
     BtnPostDataTest: TSpeedButton;
+    BtnResponseTest: TSpeedButton;
     CheckEncodeText: TCheckBox;
     CheckServiceAutoSwap: TCheckBox;
     CheckEncodeCustomParameters: TCheckBox;
@@ -138,6 +139,7 @@ type
     procedure BtnUrlTestClick(Sender: TObject);
     procedure BtnPostDataTestClick(Sender: TObject);
     procedure BtnInitUrlTestClick(Sender: TObject);
+    procedure BtnResponseTestClick(Sender: TObject);
     procedure BtnInitParametersTestClick(Sender: TObject);
     procedure BtnCloseClick(Sender: TObject);
     procedure ComboConfigChange(Sender: TObject);
@@ -292,6 +294,20 @@ begin
       ParametersAge := Now + 3650;
       OpenStringInTextEditor(GetInit);
     end;
+  finally
+    Enabled := True;
+    Screen.Cursor := crDefault;
+  end;
+end;
+
+procedure TformConfigTrayslate.BtnResponseTestClick(Sender: TObject);
+begin
+  Enabled := False;
+  Screen.Cursor := crHourGlass;
+  try
+    if (MemoJsonPointer.Text = string.empty) or (formTrayslate.MemoTarget.Text = string.Empty) or not TestChanges then exit;
+    with formTrayslate.Trans do
+      OpenStringInTextEditor(ParseResponse(formTrayslate.MemoTarget.Text));
   finally
     Enabled := True;
     Screen.Cursor := crDefault;

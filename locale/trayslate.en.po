@@ -357,6 +357,10 @@ msgstr "Execute request and view the result"
 msgid "Execute post request and view the result"
 msgstr "Execute post request and view the result"
 
+#: tformconfigtrayslate.btnresponsetest.hint
+msgid "Converts the current response"
+msgstr "Converts the current response"
+
 #: tformconfigtrayslate.btnurltest.hint
 msgid "Execute get request and view the result"
 msgstr "Execute get request and view the result"
@@ -900,7 +904,6 @@ msgid "Switches to side-by-side layout with source text beside translation"
 msgstr "Switches to side-by-side layout with source text beside translation"
 
 #: tformsettingstrayslate.combolangdetect.hint
-#| msgid "Config that auto-detects the target language for the selected language pair"
 msgid "Config that auto-detects language for the source text"
 msgstr "Config that auto-detects language for the source text"
 

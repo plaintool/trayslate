@@ -342,6 +342,10 @@ msgstr ""
 msgid "Execute post request and view the result"
 msgstr ""
 
+#: tformconfigtrayslate.btnresponsetest.hint
+msgid "Converts the current response"
+msgstr ""
+
 #: tformconfigtrayslate.btnurltest.hint
 msgid "Execute get request and view the result"
 msgstr ""

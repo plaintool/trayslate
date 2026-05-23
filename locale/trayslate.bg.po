@@ -313,7 +313,22 @@ msgid ""
 "\n"
 "3. Main icon designed by Flaticon\n"
 "   https://www.flaticon.com/ru/free-icon/translator_682045"
-msgstr "Trayslate е клиент за превод на услуги, базиран на лента. Можете да въвеждате текст директно, да превеждате съдържанието на клипборда или да превеждате избран текст в която и да е програма. Можете също така да замените текст в друго приложение с неговия превод, като използвате клавишна комбинация. Приложението ви позволява да изберете и напълно конфигурирате услугата за превод, която използвате.\n\nТова приложение използва ресурси на трети страни под следните лицензи:\n\n1. Библиотеки OpenSSL (компилирани от изходния код, 32-битови и 64-битови версии)\n   Лиценз: Apache License 2.0\n   https://www.openssl.org\n\n2. Модули за поддръжка на тъмен режим от Double Commander\n   Използвани модули: udarkstyle.pas, uimport.pas, uwin32widgetsetdark.pas\n   Лиценз: GNU General Public License v2.0 (GPL-2.0)\n   https://github.com/doublecmd/doublecmd\n\n3. Основна икона, проектирана от Flaticon\n   https://www.flaticon.com/ru/free-icon/translator_682045"
+msgstr ""
+"Trayslate е клиент за превод на услуги, базиран на лента. Можете да въвеждате текст директно, да превеждате съдържанието на клипборда или да превеждате избран текст в която и да е програма. Можете също така да замените текст в друго приложение с неговия превод, като използвате клавишна комбинация. Приложението ви позволява да изберете и напълно конфигурирате услугата за превод, която използвате.\n"
+"\n"
+"Това приложение използва ресурси на трети страни под следните лицензи:\n"
+"\n"
+"1. Библиотеки OpenSSL (компилирани от изходния код, 32-битови и 64-битови версии)\n"
+"   Лиценз: Apache License 2.0\n"
+"   https://www.openssl.org\n"
+"\n"
+"2. Модули за поддръжка на тъмен режим от Double Commander\n"
+"   Използвани модули: udarkstyle.pas, uimport.pas, uwin32widgetsetdark.pas\n"
+"   Лиценз: GNU General Public License v2.0 (GPL-2.0)\n"
+"   https://github.com/doublecmd/doublecmd\n"
+"\n"
+"3. Основна икона, проектирана от Flaticon\n"
+"   https://www.flaticon.com/ru/free-icon/translator_682045"
 
 #: tformbuttontrayslate.sbtranslate.hint
 msgctxt "tformbuttontrayslate.sbtranslate.hint"
@@ -341,6 +356,10 @@ msgstr "Изпълни заявката и прегледай резултата
 #: tformconfigtrayslate.btnpostdatatest.hint
 msgid "Execute post request and view the result"
 msgstr "Изпълни заявка за публикация и виж резултата"
+
+#: tformconfigtrayslate.btnresponsetest.hint
+msgid "Converts the current response"
+msgstr "Преобразува текущия отговор"
 
 #: tformconfigtrayslate.btnurltest.hint
 msgid "Execute get request and view the result"
@@ -504,7 +523,15 @@ msgid ""
 "Commenting: /* text */ comments are stripped from the entire expression before any processing.\n"
 "Examples:\n"
 "responseData/translatedText; matches/*#10/translation; /texts/text; {literal text#10}; /result/text; /text{ ({(\\w+)})}; !/translations{Error: No data!#10}; /translations/0/text"
-msgstr "Json показалец: Използва / за нива, ключове за обекти и числа за индекси. Използва * за всички елементи, *#10 за свързване на елементи чрез нов ред. Използвайте ~ в края на пътя, за да върнете необработения JSON клон. Разделете няколко сегмента с точка и запетая ;.\nЛитерал: Текстов блок в {…}. Специален етикет #10 за нови редове. Използвайте {{regex}} вътре, за да извлечете данни директно в текста.\nЛогика: Ако указател в сегмент е празен, целият сегмент се пропуска. Ако даден сегмент няма указател, се обработват само буквални текстови блокове с вградени регулярни изрази.\nRegex: {префикс {regex[index]} суфикс} вътре в текстов блок. Ако не е зададен [индекс], се използва първото съвпадение. Индексът може да бъде число, [*] (съединяване чрез интервал) или [*#10] (съединяване чрез нов ред). Ако регулярният израз не намери съвпадение, целият блок {…} се премахва. Използването на ~ вътре в регулярен израз връща целия текст.\nИнверсия: Започнете сегмент с ! (напр. !/path{Error}), за да покаже текста му само ако липсват данните за указателя или JSON е невалиден.\nКоментиране: /* текст */ коментарите се премахват от целия израз преди обработка.\nПримери:\nresponseData/translatedText; съвпадения/*#10/превод; /текстове/текст; {буквен текст#10}; /резултат/текст; /текст{ ({(\\w+)})}; !/translations{Грешка: Няма данни!#10}; /преводи/0/текст"
+msgstr ""
+"Json показалец: Използва / за нива, ключове за обекти и числа за индекси. Използва * за всички елементи, *#10 за свързване на елементи чрез нов ред. Използвайте ~ в края на пътя, за да върнете необработения JSON клон. Разделете няколко сегмента с точка и запетая ;.\n"
+"Литерал: Текстов блок в {…}. Специален етикет #10 за нови редове. Използвайте {{regex}} вътре, за да извлечете данни директно в текста.\n"
+"Логика: Ако указател в сегмент е празен, целият сегмент се пропуска. Ако даден сегмент няма указател, се обработват само буквални текстови блокове с вградени регулярни изрази.\n"
+"Regex: {префикс {regex[index]} суфикс} вътре в текстов блок. Ако не е зададен [индекс], се използва първото съвпадение. Индексът може да бъде число, [*] (съединяване чрез интервал) или [*#10] (съединяване чрез нов ред). Ако регулярният израз не намери съвпадение, целият блок {…} се премахва. Използването на ~ вътре в регулярен израз връща целия текст.\n"
+"Инверсия: Започнете сегмент с ! (напр. !/path{Error}), за да покаже текста му само ако липсват данните за указателя или JSON е невалиден.\n"
+"Коментиране: /* текст */ коментарите се премахват от целия израз преди обработка.\n"
+"Примери:\n"
+"responseData/translatedText; съвпадения/*#10/превод; /текстове/текст; {буквен текст#10}; /резултат/текст; /текст{ ({(\\w+)})}; !/translations{Грешка: Няма данни!#10}; /преводи/0/текст"
 
 #: tformconfigtrayslate.labellanguages.caption
 msgctxt "tformconfigtrayslate.labellanguages.caption"
@@ -519,7 +546,9 @@ msgstr "Тип стойност за попълване на имена. None з
 msgid ""
 "Target languages e.g. en=en-US, en - internal, en-US - service code.\n"
 "If not specified, both source and target languages are taken from the languages section."
-msgstr "Целеви езици, например en=en-US, en - вътрешен, en-US - сервизен код.\nАко не е посочено, и двата езика, изходният и целевият, се вземат от секцията за езици."
+msgstr ""
+"Целеви езици, например en=en-US, en - вътрешен, en-US - сервизен код.\n"
+"Ако не е посочено, и двата езика, изходният и целевият, се вземат от секцията за езици."
 
 #: tformconfigtrayslate.labelmaxlength.caption
 msgid "Max Length, bytes"
@@ -831,7 +860,9 @@ msgstr "Винаги предпочитай основен/вторичен ез
 msgid ""
 "Always prefer the Primary/Secondary language pair when the detected language matches the current target language.\n"
 "Restore the configured pair instead of performing a normal swap."
-msgstr "Винаги предпочитай двойка основен/вторичен език, когато откритият език съвпада с текущия целеви език. \nВъзстанови конфигурираната двойка вместо нормална смяна."
+msgstr ""
+"Винаги предпочитай двойка основен/вторичен език, когато откритият език съвпада с текущия целеви език. \n"
+"Възстанови конфигурираната двойка вместо нормална смяна."
 
 #: tformsettingstrayslate.checksmartswap.caption
 msgctxt "tformsettingstrayslate.checksmartswap.caption"
@@ -843,7 +874,9 @@ msgctxt "tformsettingstrayslate.checksmartswap.hint"
 msgid ""
 "If Detected language is outside the current pair, the Source language is replaced with the Detected language and the Target language is set to Primary.\n"
 "If Detected language equals Primary, the translation pair is set to Primary - Secondary."
-msgstr "Ако откритият език е извън текущата двойка, изходният се заменя с открития, а целевият е зададен на Основен.\nАко Откритият език е равен на Основен, двойката превод е зададена на Основен - Вторичен."
+msgstr ""
+"Ако откритият език е извън текущата двойка, изходният се заменя с открития, а целевият е зададен на Основен.\n"
+"Ако Откритият език е равен на Основен, двойката превод е зададена на Основен - Вторичен."
 
 #: tformsettingstrayslate.checkstayontop.caption
 msgid "Stay On Top"
@@ -871,7 +904,6 @@ msgid "Switches to side-by-side layout with source text beside translation"
 msgstr "Превключи към оформление едно до друго с изходен текст до превода"
 
 #: tformsettingstrayslate.combolangdetect.hint
-#| msgid "Config that auto-detects the target language for the selected language pair"
 msgid "Config that auto-detects language for the source text"
 msgstr "Конфигурация, която автоматично разпознава езика за изходния текст"
 

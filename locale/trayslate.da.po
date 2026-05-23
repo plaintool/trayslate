@@ -357,6 +357,10 @@ msgstr "Udfør anmodning og se resultatet"
 msgid "Execute post request and view the result"
 msgstr "Udfør POST-anmodning og se resultatet"
 
+#: tformconfigtrayslate.btnresponsetest.hint
+msgid "Converts the current response"
+msgstr "Konverterer det aktuelle svar"
+
 #: tformconfigtrayslate.btnurltest.hint
 msgid "Execute get request and view the result"
 msgstr "Udfør GET-anmodning og se resultatet"

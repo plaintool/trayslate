@@ -357,6 +357,10 @@ msgstr "リクエストを実行して結果を表示"
 msgid "Execute post request and view the result"
 msgstr "POSTリクエストを実行して結果を表示"
 
+#: tformconfigtrayslate.btnresponsetest.hint
+msgid "Converts the current response"
+msgstr "現在の応答を変換します"
+
 #: tformconfigtrayslate.btnurltest.hint
 msgid "Execute get request and view the result"
 msgstr "GETリクエストを実行して結果を表示"

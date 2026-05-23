@@ -357,6 +357,10 @@ msgstr "요청 실행 및 결과 보기"
 msgid "Execute post request and view the result"
 msgstr "POST 요청 실행 및 결과 보기"
 
+#: tformconfigtrayslate.btnresponsetest.hint
+msgid "Converts the current response"
+msgstr "현재 응답을 변환합니다"
+
 #: tformconfigtrayslate.btnurltest.hint
 msgid "Execute get request and view the result"
 msgstr "GET 요청 실행 및 결과 보기"

@@ -357,6 +357,10 @@ msgstr "Suorita pyyntö ja tarkastele tulosta"
 msgid "Execute post request and view the result"
 msgstr "Suorita POST-pyyntö ja tarkastele tulosta"
 
+#: tformconfigtrayslate.btnresponsetest.hint
+msgid "Converts the current response"
+msgstr "Muuntaa nykyisen vastauksen"
+
 #: tformconfigtrayslate.btnurltest.hint
 msgid "Execute get request and view the result"
 msgstr "Suorita GET-pyyntö ja tarkastele tulosta"

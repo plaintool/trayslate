@@ -357,6 +357,10 @@ msgstr "İsteği yürüt ve sonucu görüntüle"
 msgid "Execute post request and view the result"
 msgstr "POST isteğini yürüt ve sonucu görüntüle"
 
+#: tformconfigtrayslate.btnresponsetest.hint
+msgid "Converts the current response"
+msgstr "Geçerli yanıtı dönüştürür"
+
 #: tformconfigtrayslate.btnurltest.hint
 msgid "Execute get request and view the result"
 msgstr "GET isteğini yürüt ve sonucu görüntüle"

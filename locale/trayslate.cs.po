@@ -357,6 +357,10 @@ msgstr "Provede požadavek a zobrazí výsledek"
 msgid "Execute post request and view the result"
 msgstr "Provede POST požadavek a zobrazí výsledek"
 
+#: tformconfigtrayslate.btnresponsetest.hint
+msgid "Converts the current response"
+msgstr "Převede aktuální odpověď"
+
 #: tformconfigtrayslate.btnurltest.hint
 msgid "Execute get request and view the result"
 msgstr "Provede GET požadavek a zobrazí výsledek"
