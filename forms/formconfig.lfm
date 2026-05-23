@@ -264,9 +264,6 @@ object formConfigTrayslate: TformConfigTrayslate
             Top = 224
             Width = 423
             Anchors = [akTop, akLeft, akRight, akBottom]
-            BorderSpacing.Top = 45
-            BorderSpacing.Right = 15
-            BorderSpacing.Around = 5
             ScrollBars = ssAutoVertical
             TabOrder = 6
             OnChange = ValueChange
@@ -369,13 +366,13 @@ object formConfigTrayslate: TformConfigTrayslate
         TabOrder = 0
         object GroupRequest: TGroupBox
           Left = 5
-          Height = 741
+          Height = 773
           Top = 5
           Width = 555
           Align = alTop
           BorderSpacing.Around = 5
           Caption = 'Request'
-          ClientHeight = 721
+          ClientHeight = 753
           ClientWidth = 551
           ParentBackground = False
           TabOrder = 0
@@ -533,9 +530,6 @@ object formConfigTrayslate: TformConfigTrayslate
             Top = 88
             Width = 406
             Anchors = [akTop, akLeft, akRight]
-            BorderSpacing.Top = 45
-            BorderSpacing.Right = 15
-            BorderSpacing.Around = 5
             ScrollBars = ssAutoVertical
             TabOrder = 2
             OnChange = ValueChange

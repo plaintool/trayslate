@@ -642,12 +642,11 @@ begin
     CustomParameters.Clear;
     Languages.Clear;
     LanguagesTarget.Clear;
-
     InitUserAgent := string.Empty;
     InitHeaders.Clear;
     InitUrl := string.Empty;
     InitParameters.Clear;
-    SpinInitLiveTime.Value := 0;
+    ServiceIcon := string.Empty;
 
     // Clear controls
     EditServiceName.Text := string.Empty;
@@ -661,10 +660,16 @@ begin
     ComboValueType.ItemIndex := 0;
     EditUserAgent.Text := string.Empty;
     EditContentType.Text := string.Empty;
+    SpinMaxLength.Value := 0;
     MemoUrl.Clear;
     MemoPostData.Clear;
     EditAccept.Text := string.Empty;
     MemoJsonPointer.Text := string.Empty;
+    EditInitUserAgent.Text := string.Empty;
+    MemoInitURL.Clear;
+    MemoInitParameters.Clear;
+    MemoInitHeaders.Clear;
+    SpinInitLiveTime.Value := 0;
     CheckEncodeText.Checked := False;
     CheckEncodeCustomParameters.Checked := False;
     MemoLanguages.Clear;
@@ -672,6 +677,9 @@ begin
     MemoHeaders.Clear;
     MemoCustomParameters.Clear;
     MemoServiceDescription.Clear;
+
+    FIconBase64 := string.Empty;
+    UpdateIconPreview;
   end;
 
   aSave.Enabled := False;
