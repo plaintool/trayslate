@@ -97,12 +97,37 @@
 
     <img src="https://github.com/plaintool/trayslate/raw/main/samples/popup1.png" alt="Popup Window">
 
-    <h4>Hotkeys</h4>
+    <h4>Mouse Mode</h4>
     <p>
-      Global hotkeys can be fully configured in the application settings. They are available at any time and work even when the application is minimized to the system tray.
+    Mouse Mode allows translating text by selecting it with the mouse in any application. After selecting text, a translation action becomes available depending on the selected mode.
+    </p>
+
+    <p>
+    By default, a Translate button appears after text selection. Clicking this button opens the translation result in a popup window if needed.
+    </p>
+
+    <p>
+    You can configure how translation is triggered after selection:
+    </p>
+
+    <ul>
+      <li>Only When Ctrl Is Pressed — Mouse Mode is active only while holding the Ctrl key</li>
+      <li>Show Translate Button — Displays a translation button after selecting text (default behavior)</li>
+      <li>Show Balloon Translation — Shows translation in a tray balloon popup (system tray notification)</li>
+      <li>Show Popup Translation — Opens a floating popup window with the translation result</li>
+      <li>Show Main Window — Sends the selected text to the main application window for translation</li>
+    </ul>
+
+    <img src="https://github.com/plaintool/trayslate/raw/main/samples/popup2.png" alt="Mouse Mode">
+
+    <h4>Hotkeys</h4>
+
+    <p>
+    Global hotkeys can be fully configured in the application settings. They are available at any time and work even when the application is minimized to the system tray.
     </p>
 
     <table style="border-collapse: collapse; width: 100%;">
+
       <tr>
         <th style="padding: 8px; border: 1px solid #ccc;">Action</th>
         <th style="padding: 8px; border: 1px solid #ccc;">Shortcut</th>
@@ -114,32 +139,125 @@
 
       <tr>
         <td style="padding: 8px; border: 1px solid #ccc;">Shows or hides the main application window</td>
-        <td style="padding: 8px; border: 1px solid #ccc;"><code>Ctrl + Shift + A</code></td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <code>Ctrl</code> + <code>Shift</code> + <code>A</code>
+        </td>
       </tr>
 
       <tr>
         <td style="padding: 8px; border: 1px solid #ccc;">Swaps the source and target languages</td>
-        <td style="padding: 8px; border: 1px solid #ccc;"><code>Ctrl + Shift + S</code></td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <code>Ctrl</code> + <code>Shift</code> + <code>S</code>
+        </td>
       </tr>
 
       <tr>
         <td style="padding: 8px; border: 1px solid #ccc;">Translates the current text from the clipboard</td>
-        <td style="padding: 8px; border: 1px solid #ccc;"><code>Ctrl + Shift + T</code></td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <code>Ctrl</code> + <code>Shift</code> + <code>T</code>
+        </td>
       </tr>
 
       <tr>
-        <td style="padding: 8px; border: 1px solid #ccc;">Translates the current text in clipboard and copies the result to the clipboard</td>
-        <td style="padding: 8px; border: 1px solid #ccc;"><code>Ctrl + Shift + R</code></td>
+        <td style="padding: 8px; border: 1px solid #ccc;">Translates clipboard and copies result</td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <code>Ctrl</code> + <code>Shift</code> + <code>R</code>
+        </td>
       </tr>
 
       <tr>
-        <td style="padding: 8px; border: 1px solid #ccc;">Translates the selected text from the active application</td>
-        <td style="padding: 8px; border: 1px solid #ccc;"><code>Ctrl + Shift + C</code></td>
+        <td style="padding: 8px; border: 1px solid #ccc;">Translates clipboard text to popup near cursor</td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <code>Ctrl</code> + <code>Shift</code> + <code>P</code>
+        </td>
       </tr>
 
       <tr>
-        <td style="padding: 8px; border: 1px solid #ccc;">Replaces the selected text in the active application with the translation</td>
-        <td style="padding: 8px; border: 1px solid #ccc;"><code>Ctrl + Shift + V</code></td>
+        <td style="padding: 8px; border: 1px solid #ccc;">Translates selected text</td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <code>Ctrl</code> + <code>Shift</code> + <code>C</code>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ccc;">Replaces selected text with translation</td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <code>Ctrl</code> + <code>Shift</code> + <code>V</code>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ccc;">Translates selected text to popup window</td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <code>Ctrl</code> + <code>Shift</code> + <code>X</code>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ccc;" colspan="2"><strong>Recent Language Pair Hotkeys</strong></td>
+      </tr>
+
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ccc;">Select recent language pair 1</td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <code>Ctrl</code> + <code>Shift</code> + <code>1</code>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ccc;">Select recent language pair 2</td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <code>Ctrl</code> + <code>Shift</code> + <code>2</code>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ccc;">Select recent language pair 3</td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <code>Ctrl</code> + <code>Shift</code> + <code>3</code>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ccc;">Select recent language pair 4</td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <code>Ctrl</code> + <code>Shift</code> + <code>4</code>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ccc;">Select recent language pair 5</td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <code>Ctrl</code> + <code>Shift</code> + <code>5</code>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ccc;">Select recent language pair 6</td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <code>Ctrl</code> + <code>Shift</code> + <code>6</code>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ccc;">Select recent language pair 7</td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <code>Ctrl</code> + <code>Shift</code> + <code>7</code>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ccc;">Select recent language pair 8</td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <code>Ctrl</code> + <code>Shift</code> + <code>8</code>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ccc;">Select recent language pair 9</td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <code>Ctrl</code> + <code>Shift</code> + <code>9</code>
+        </td>
       </tr>
 
       <tr>
@@ -148,25 +266,30 @@
 
       <tr>
         <td style="padding: 8px; border: 1px solid #ccc;">New Translate</td>
-        <td style="padding: 8px; border: 1px solid #ccc;"><code>Ctrl + N</code></td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <code>Ctrl</code> + <code>N</code>
+        </td>
       </tr>
 
       <tr>
         <td style="padding: 8px; border: 1px solid #ccc;">Add Current Pair To Recent Panel</td>
-        <td style="padding: 8px; border: 1px solid #ccc;"><code>Ctrl + F</code></td>
+        <td style="padding: 8px; border: 1px solid #ccc;">
+          <code>Ctrl</code> + <code>F</code>
+        </td>
       </tr>
 
       <tr>
         <td style="padding: 8px; border: 1px solid #ccc;">Translate</td>
         <td style="padding: 8px; border: 1px solid #ccc;">
-          <code>Ctrl + Enter</code><br>
-          <code>Shift + Enter</code><br>
+          <code>Ctrl</code> + <code>Enter</code><br>
+          <code>Shift</code> + <code>Enter</code><br>
           <code>Double Enter</code>
         </td>
       </tr>
+
     </table>
 
-	  <h4>Settings</h4>
+    <h4>Settings</h4>
 	  <p>
 		Settings allow you to configure the behavior, appearance, and global hotkeys of the application.
 	  </p>
