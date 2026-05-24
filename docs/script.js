@@ -23,12 +23,13 @@ let width, height;
 let lastTime = 0;
 // Use 100 symbols for mobile to save battery/GPU, 200 for desktop
 const symbolsCount = isMobile ? 100 : 200; 
-const symbols = [];
+let symbols = [];
 
 // Scroll and physics state
 let lastScrollY = window.scrollY;
 let worldOffsetY = 0;
 let scrollSpeed = 0;
+let isCanvasClean = false; // Track if canvas is already cleared to prevent redundant GPU operations
 
 function resize() {
     // Handle High DPI (Retina) displays for sharpness
@@ -79,7 +80,7 @@ function createSymbol(init = false) {
 }
 
 // Logic and Rendering loop
-function updateAndDraw(dt) {
+function updateAndDraw(dt, globalFade) {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillStyle = '#000000'; // Black characters for white background
@@ -108,16 +109,21 @@ function updateAndDraw(dt) {
         const sy = (wy / s.z) * height / 2 + height / 2;
 
         const fontSize = Math.max(0.1, s.size * scale * 2);
-        const alpha = 0.1 + Math.pow(scale, 2) * 0.6; 
+        
+        // Multiply original alpha by the global scroll fade
+        const alpha = (0.1 + Math.pow(scale, 2) * 0.6) * globalFade; 
 
-        ctx.globalAlpha = alpha;
-        ctx.font = `${Math.floor(fontSize)}px ${fontStack}`;
+        // Only render if visible enough to matter
+        if (alpha > 0.01) {
+            ctx.globalAlpha = alpha;
+            ctx.font = `${Math.floor(fontSize)}px ${fontStack}`;
 
-        ctx.save();
-        ctx.translate(sx, sy);
-        ctx.rotate(s.rotation);
-        ctx.fillText(s.char, 0, 0);
-        ctx.restore();
+            ctx.save();
+            ctx.translate(sx, sy);
+            ctx.rotate(s.rotation);
+            ctx.fillText(s.char, 0, 0);
+            ctx.restore();
+        }
     }
     ctx.globalAlpha = 1;
 }
@@ -127,12 +133,29 @@ function animate(time) {
     const dt = (time - lastTime) / 16.66 || 1;
     lastTime = time;
 
-    ctx.clearRect(0, 0, width, height);
-    updateAndDraw(dt);
-
-    // Friction/Inertia for scroll speed
+    // Friction/Inertia for scroll speed (keep updating so physics match on scroll up)
     scrollSpeed *= Math.pow(0.9, dt);
     worldOffsetY += scrollSpeed * dt;
+
+    // Calculate visibility state based on current scroll position
+    const fadeEnd = height * 0.8;
+    const globalFade = Math.max(0, 1 - (window.scrollY / fadeEnd));
+
+    // If completely scrolled past the target zone, bypass heavy updates and clearing
+    if (globalFade <= 0) {
+        if (!isCanvasClean) {
+            ctx.clearRect(0, 0, width, height);
+            isCanvasClean = true;
+        }
+        requestAnimationFrame(animate);
+        return;
+    }
+
+    // Reset clean flag when animation becomes visible again
+    isCanvasClean = false;
+
+    ctx.clearRect(0, 0, width, height);
+    updateAndDraw(dt, globalFade);
 
     requestAnimationFrame(animate);
 }
