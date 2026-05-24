@@ -119,10 +119,10 @@ type
     procedure BtnOkClick(Sender: TObject);
     procedure BtnResetClick(Sender: TObject);
     procedure GridHotkeysDrawCell(Sender: TObject; aCol, aRow: integer; aRect: TRect; aState: TGridDrawState);
+    procedure GridHotkeysEditingDone(Sender: TObject);
     procedure GridHotkeysGetCellHint(Sender: TObject; ACol, ARow: integer; var HintText: string);
     procedure GridHotkeysKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure GridHotkeysSelectEditor(Sender: TObject; aCol, aRow: integer; var Editor: TWinControl);
-    procedure GridHotkeysSetEditText(Sender: TObject; ACol, ARow: integer; const Value: string);
     procedure ListPagesClick(Sender: TObject);
     procedure ListPagesDrawItem(Control: TWinControl; Index: integer; ARect: TRect; State: TOwnerDrawState);
     procedure SettingChange(Sender: TObject);
@@ -191,11 +191,13 @@ type
     FHotKeyRecent9: THotKeyData;
 
     FApplySettings: boolean;
+    FOldKeyValue: string;
 
     procedure SetPanelFont(Panel: TPanel; const AFont: TFont);
   public
     procedure Apply;
     procedure Reset;
+    function GetHotKeyByRow(Row: integer): THotKeyData;
     procedure SetHotKeyByRow(Row: integer; const HK: THotKeyData);
     function GetOriginalHotKey(Row: integer): THotKeyData;
     procedure FillListPages;
@@ -281,6 +283,7 @@ begin
   BtnReset.Enabled := True;
   BtnResetPopup.Enabled := True;
   FApplySettings := False;
+  FOldKeyValue := string.Empty;
 
   ComboLangDetect.Items.Clear;
   ComboLangDetect.Items.Add(string.Empty);
@@ -367,16 +370,110 @@ begin
 end;
 
 procedure TformSettingsTrayslate.GridHotkeysDrawCell(Sender: TObject; aCol, aRow: integer; aRect: TRect; aState: TGridDrawState);
+var
+  Keys: TStringArray;
+  KeyText: string;
+  KeyRect: TRect;
+  X, Y, i, TextW, TextH, BtnW: integer;
+  CellColor: TColor;
 begin
+  // Draw fixed grid header exactly as default
+  if gdFixed in aState then
+  begin
+    GridHotkeys.DefaultDrawCell(aCol, aRow, aRect, aState);
+    Exit;
+  end;
+
+  // Draw custom section headers
   if aRow in HeaderRows then
-    GridHotkeys.Canvas.Font.Style := [fsBold]
+  begin
+    GridHotkeys.Canvas.Font.Style := [fsBold];
+    GridHotkeys.DefaultDrawCell(aCol, aRow, aRect, aState);
+    Exit;
+  end;
+
+  // Do not custom draw while editing current cell
+  if (GridHotkeys.EditorMode and (aCol = GridHotkeys.Col) and (aRow = GridHotkeys.Row)) or
+    (GridHotkeys.Cells[aCol, aRow] = string.Empty) then
+  begin
+    if (aCol = 1) and not (gdSelected in aState) then  GridHotkeys.Canvas.Brush.Color := clWhite;
+    GridHotkeys.DefaultDrawCell(aCol, aRow, aRect, aState);
+    Exit;
+  end;
+
+  GridHotkeys.Canvas.Font.Style := [];
+
+  // Selected row colors
+  if gdSelected in aState then
+  begin
+    CellColor := clHighlight;
+    GridHotkeys.Canvas.Font.Color := clHighlightText;
+  end
   else
-    GridHotkeys.Canvas.Font.Style := [];
+  begin
+    CellColor := clWindow;
+    GridHotkeys.Canvas.Font.Color := clWindowText;
+  end;
 
-  if aRow = 0 then
-    GridHotkeys.Canvas.Brush.Color := clWindow;
+  // Draw normal columns normally
+  if aCol <> 1 then
+  begin
+    GridHotkeys.Canvas.Brush.Color := CellColor;
+    GridHotkeys.DefaultDrawCell(aCol, aRow, aRect, aState);
+    Exit;
+  end;
 
-  GridHotkeys.DefaultDrawCell(aCol, aRow, aRect, aState);
+  // Fill hotkey cell background
+  GridHotkeys.Canvas.Brush.Color := CellColor;
+  GridHotkeys.Canvas.FillRect(aRect);
+
+  Keys := GridHotkeys.Cells[aCol, aRow].Split(['+']);
+
+  X := aRect.Left + 6;
+  Y := aRect.Top + (aRect.Height div 2);
+
+  for i := 0 to High(Keys) do
+  begin
+    KeyText := Trim(Keys[i]);
+
+    TextW := GridHotkeys.Canvas.TextWidth(KeyText);
+    TextH := GridHotkeys.Canvas.TextHeight(KeyText);
+    BtnW := TextW + 14;
+
+    KeyRect := Rect(X, Y - (TextH div 2) - 4, X + BtnW, Y + (TextH div 2) + 4);
+
+    // Darker keycaps on selection
+    if gdSelected in aState then
+    begin
+      GridHotkeys.Canvas.Brush.Color := clGray;
+      GridHotkeys.Canvas.Pen.Color := clGray;
+    end
+    else
+    begin
+      GridHotkeys.Canvas.Brush.Color := clBtnFace;
+      GridHotkeys.Canvas.Pen.Color := clSilver;
+    end;
+
+    GridHotkeys.Canvas.RoundRect(
+      KeyRect.Left,
+      KeyRect.Top + 1,
+      KeyRect.Right,
+      KeyRect.Bottom - 1,
+      8,
+      8
+      );
+
+    // Draw key text
+    GridHotkeys.Canvas.Brush.Style := bsClear;
+    GridHotkeys.Canvas.TextOut(
+      KeyRect.Left + 7,
+      KeyRect.Top + 4,
+      KeyText
+      );
+    GridHotkeys.Canvas.Brush.Style := bsSolid;
+
+    X := KeyRect.Right + 5;
+  end;
 end;
 
 procedure TformSettingsTrayslate.ListPagesClick(Sender: TObject);
@@ -497,8 +594,6 @@ begin
     SetHotKeyByRow(GridHotkeys.Row, HK);
     GridHotkeys.Cells[1, GridHotkeys.Row] := string.Empty;
 
-    BtnApply.Enabled := True;
-
     Key := 0;
     Exit;
   end;
@@ -534,28 +629,30 @@ begin
   SetHotKeyByRow(GridHotkeys.Row, HK);
 
   GridHotkeys.Cells[1, GridHotkeys.Row] := HotKeyToText(HK);
-
-  BtnApply.Enabled := True;
 end;
 
 procedure TformSettingsTrayslate.GridHotkeysSelectEditor(Sender: TObject; aCol, aRow: integer; var Editor: TWinControl);
 begin
   if (ACol = 1) and (ARow in HeaderRows) then
     Editor := nil;
+
+  FOldKeyValue := GridHotkeys.Cells[aCol, aRow];
 end;
 
-procedure TformSettingsTrayslate.GridHotkeysSetEditText(Sender: TObject; ACol, ARow: integer; const Value: string);
+procedure TformSettingsTrayslate.GridHotkeysEditingDone(Sender: TObject);
 var
-  OldValue: string;
+  HK, OriginalHK: THotKeyData;
 begin
-  if ACol <> 1 then Exit;
-
-  OldValue := GridHotkeys.Cells[ACol, ARow];
-
-  // only react if value really changed
-  if Value = OldValue then Exit;
-
-  SettingChange(Sender);
+  HK := GetHotKeyByRow(GridHotkeys.Row);
+  OriginalHK := GetOriginalHotKey(GridHotkeys.Row);
+  if (HK.Key = 0) and (HK.Modifiers <> 0) then
+  begin
+    SetHotKeyByRow(GridHotkeys.Row, OriginalHK);
+    GridHotkeys.Cells[1, GridHotkeys.Row] := HotKeyToText(OriginalHK);
+  end
+  else
+  if FOldKeyValue <> GridHotkeys.Cells[1, GridHotkeys.Row] then
+    SettingChange(Sender);
 end;
 
 procedure TformSettingsTrayslate.SettingChange(Sender: TObject);
@@ -657,12 +754,41 @@ end;
 procedure TformSettingsTrayslate.BtnApplyClick(Sender: TObject);
 begin
   Apply;
+
+  formTrayslate.UnregisterHotKeys;
+  formTrayslate.MouseHook.Enabled := False;
+  formTrayslate.KeyHook.Enabled := False;
 end;
 
 procedure TformSettingsTrayslate.SetPanelFont(Panel: TPanel; const AFont: TFont);
 begin
   Panel.Caption := ifthen((Trim(AFont.Name) = string.Empty) or (LowerCase(AFont.Name) = 'default'), rdefaultfont, AFont.Name) +
     ',' + IntToStr(AFont.Size);
+end;
+
+function TformSettingsTrayslate.GetHotKeyByRow(Row: integer): THotKeyData;
+begin
+  case Row of
+    2: Result := FHotKeyApp;
+    3: Result := FHotKeyTransSwap;
+    4: Result := FHotKeyTransFromClipboard;
+    5: Result := FHotKeyTransClipboard;
+    6: Result := FHotKeyTransClipboardPopup;
+    7: Result := FHotKeyTransFromControl;
+    8: Result := FHotKeyTransControl;
+    9: Result := FHotKeyTransControlPopup;
+    11: Result := FHotKeyRecent1;
+    12: Result := FHotKeyRecent2;
+    13: Result := FHotKeyRecent3;
+    14: Result := FHotKeyRecent4;
+    15: Result := FHotKeyRecent5;
+    16: Result := FHotKeyRecent6;
+    17: Result := FHotKeyRecent7;
+    18: Result := FHotKeyRecent8;
+    19: Result := FHotKeyRecent9;
+    else
+      Result := Default(THotKeyData);
+  end;
 end;
 
 procedure TformSettingsTrayslate.SetHotKeyByRow(Row: integer; const HK: THotKeyData);

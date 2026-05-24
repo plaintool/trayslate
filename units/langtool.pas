@@ -511,8 +511,8 @@ begin
       Result := Result + 'Num' + IntToStr(AHotKey.Key - VK_NUMPAD0);
 
     VK_MULTIPLY: Result := Result + 'Num*';
-    VK_ADD: Result := Result + 'Num+';
-    VK_SUBTRACT: Result := Result + 'Num-';
+    VK_ADD: Result := Result + 'Num Plus';
+    VK_SUBTRACT: Result := Result + 'Num Minus';
     VK_DIVIDE: Result := Result + 'Num/';
     VK_DECIMAL: Result := Result + 'Num.';
 

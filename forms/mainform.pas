@@ -512,6 +512,8 @@ type
     property FormAboutWidth: integer read FFormAboutWidth write FFormAboutWidth;
     property FormAboutHeight: integer read FFormAboutHeight write FFormAboutHeight;
     property CustomPoFile: string read FCustomPoFile write FCustomPoFile;
+    property MouseHook: TGlobalMouseHook read FMouseHook write FMouseHook;
+    property KeyHook: TGlobalKeyboardHook read FKeyHook write FKeyHook;
     property HotKeyApp: THotKeyData read FHotKeyApp write FHotKeyApp;
     property HotKeyTransSwap: THotKeyData read FHotKeyTransSwap write FHotKeyTransSwap;
     property HotKeyTransFromClipboard: THotKeyData read FHotKeyTransFromClipboard write FHotKeyTransFromClipboard;
@@ -1159,12 +1161,12 @@ begin
       formSettingsTrayslate.ListPages.Width := FormSettingsSplit;
 
     UnregisterHotKeys;
-    //MenuFastSettings.Visible := False;
+    FMouseHook.Enabled := False;
+    FKeyHook.Enabled := False;
 
     formSettingsTrayslate.ShowModal;
   finally
     FreeAndNil(formSettingsTrayslate);
-    //MenuFastSettings.Visible := True;
     RegisterHotKeys;
     SetHints;
     FMouseHook.Enabled := FEnableMouseMode;

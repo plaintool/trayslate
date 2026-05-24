@@ -2,11 +2,11 @@ object formSettingsTrayslate: TformSettingsTrayslate
   Left = 318
   Height = 630
   Top = 250
-  Width = 750
+  Width = 800
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Settings'
   ClientHeight = 630
-  ClientWidth = 750
+  ClientWidth = 800
   ShowHint = True
   LCLVersion = '4.4.0.0'
   OnChangeBounds = FormChangeBounds
@@ -17,7 +17,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
     Left = 186
     Height = 585
     Top = 5
-    Width = 564
+    Width = 614
     TabStop = False
     ActivePage = PageGeneral
     Align = alClient
@@ -28,12 +28,12 @@ object formSettingsTrayslate: TformSettingsTrayslate
     object PageGeneral: TTabSheet
       Caption = 'General'
       ClientHeight = 557
-      ClientWidth = 556
+      ClientWidth = 606
       object ScrollGeneral: TScrollBox
         Left = 0
         Height = 557
         Top = 0
-        Width = 556
+        Width = 606
         HorzScrollBar.Increment = 27
         HorzScrollBar.Page = 278
         HorzScrollBar.Smooth = True
@@ -45,18 +45,18 @@ object formSettingsTrayslate: TformSettingsTrayslate
         Align = alClient
         BorderStyle = bsNone
         ClientHeight = 557
-        ClientWidth = 556
+        ClientWidth = 606
         TabOrder = 0
         object GroupRealTime: TGroupBox
           Left = 5
           Height = 99
           Top = 309
-          Width = 546
+          Width = 596
           Align = alTop
           BorderSpacing.Around = 5
           Caption = 'Real-Time Translation'
           ClientHeight = 79
-          ClientWidth = 542
+          ClientWidth = 592
           TabOrder = 2
           object CheckRealTime: TCheckBox
             Left = 16
@@ -83,7 +83,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Height = 23
             Hint = 'Translation Delay in milliseconds'
             Top = 40
-            Width = 367
+            Width = 417
             Anchors = [akTop, akLeft, akRight]
             TabOrder = 1
             Value = 1000
@@ -94,19 +94,19 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Left = 5
           Height = 235
           Top = 69
-          Width = 546
+          Width = 596
           Align = alTop
           BorderSpacing.Around = 5
           Caption = 'Auto-Swap Languages'
           ClientHeight = 215
-          ClientWidth = 542
+          ClientWidth = 592
           TabOrder = 1
           object ComboLangDetect: TComboBox
             Left = 152
             Height = 23
             Hint = 'Config that auto-detects language for the source text'
             Top = 40
-            Width = 367
+            Width = 417
             Anchors = [akTop, akLeft, akRight]
             DropDownCount = 15
             ItemHeight = 15
@@ -138,7 +138,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Left = 152
             Height = 23
             Top = 144
-            Width = 367
+            Width = 417
             Anchors = [akTop, akLeft, akRight]
             DropDownCount = 15
             ItemHeight = 15
@@ -170,7 +170,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Left = 152
             Height = 23
             Top = 181
-            Width = 367
+            Width = 417
             Anchors = [akTop, akLeft, akRight]
             DropDownCount = 15
             ItemHeight = 15
@@ -203,12 +203,12 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Left = 5
           Height = 59
           Top = 5
-          Width = 546
+          Width = 596
           Align = alTop
           BorderSpacing.Around = 5
           Caption = 'Autostart'
           ClientHeight = 39
-          ClientWidth = 542
+          ClientWidth = 592
           TabOrder = 0
           object CheckAutostart: TCheckBox
             Left = 16
@@ -225,12 +225,12 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Left = 5
           Height = 131
           Top = 413
-          Width = 546
+          Width = 596
           Align = alTop
           BorderSpacing.Around = 5
           Caption = 'Mouse Mode'
           ClientHeight = 111
-          ClientWidth = 542
+          ClientWidth = 592
           TabOrder = 3
           object CheckEnableMouseMode: TCheckBox
             Left = 16
@@ -247,7 +247,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Height = 23
             Hint = 'Choose how translation appears on mouse text selection'
             Top = 72
-            Width = 367
+            Width = 417
             Anchors = [akTop, akLeft, akRight]
             ItemHeight = 15
             ItemIndex = 0
@@ -289,12 +289,12 @@ object formSettingsTrayslate: TformSettingsTrayslate
     object PageInterface: TTabSheet
       Caption = 'Interface'
       ClientHeight = 557
-      ClientWidth = 556
+      ClientWidth = 606
       object ScrollInterface: TScrollBox
         Left = 0
         Height = 557
         Top = 0
-        Width = 556
+        Width = 606
         HorzScrollBar.Increment = 18
         HorzScrollBar.Page = 187
         HorzScrollBar.Smooth = True
@@ -306,18 +306,18 @@ object formSettingsTrayslate: TformSettingsTrayslate
         Align = alClient
         BorderStyle = bsNone
         ClientHeight = 557
-        ClientWidth = 539
+        ClientWidth = 589
         TabOrder = 0
         object GroupTrayIcon: TGroupBox
           Left = 5
           Height = 155
           Top = 133
-          Width = 529
+          Width = 579
           Align = alTop
           BorderSpacing.Around = 5
           Caption = 'Tray Icon'
           ClientHeight = 135
-          ClientWidth = 525
+          ClientWidth = 575
           TabOrder = 1
           object CheckTwoLang: TCheckBox
             Left = 16
@@ -333,7 +333,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Left = 152
             Height = 22
             Top = 8
-            Width = 350
+            Width = 400
             Style = [cbIncludeNone, cbCustomColor, cbPrettyNames, cbCustomColors]
             ColorDialog = ColorDialog
             Anchors = [akTop, akLeft, akRight]
@@ -366,7 +366,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Left = 152
             Height = 22
             Top = 40
-            Width = 350
+            Width = 400
             Style = [cbCustomColor, cbPrettyNames, cbCustomColors]
             ColorDialog = ColorDialog
             Anchors = [akTop, akLeft, akRight]
@@ -389,7 +389,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Left = 152
             Height = 23
             Top = 72
-            Width = 350
+            Width = 400
             Anchors = [akTop, akLeft, akRight]
             DropDownCount = 15
             ItemHeight = 15
@@ -403,19 +403,19 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Left = 5
           Height = 91
           Top = 293
-          Width = 529
+          Width = 579
           Align = alTop
           BorderSpacing.Around = 5
           Caption = 'Recent Language Pairs'
           ClientHeight = 71
-          ClientWidth = 525
+          ClientWidth = 575
           TabOrder = 2
           object SpinMaxLangPairs: TSpinEdit
             Left = 152
             Height = 23
             Hint = 'Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel'
             Top = 9
-            Width = 340
+            Width = 390
             Anchors = [akTop, akLeft, akRight]
             MaxValue = 100
             TabOrder = 0
@@ -447,12 +447,12 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Left = 5
           Height = 227
           Top = 389
-          Width = 529
+          Width = 579
           Align = alTop
           BorderSpacing.Around = 5
           Caption = 'Popup Window'
           ClientHeight = 207
-          ClientWidth = 525
+          ClientWidth = 575
           TabOrder = 3
           object CheckStayOnTop: TCheckBox
             Left = 16
@@ -469,7 +469,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Height = 25
             Hint = 'Window transparency when the mouse is over the window'
             Top = 80
-            Width = 268
+            Width = 318
             Frequency = 5
             Max = 100
             Position = 0
@@ -492,7 +492,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Height = 25
             Hint = 'Window transparency when the mouse is not over the window'
             Top = 112
-            Width = 268
+            Width = 318
             Frequency = 5
             Max = 100
             Position = 0
@@ -511,7 +511,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             WordWrap = True
           end
           object SpinHover: TSpinEdit
-            Left = 425
+            Left = 475
             Height = 23
             Top = 80
             Width = 67
@@ -521,7 +521,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             OnChange = SettingChange
           end
           object SpinIdle: TSpinEdit
-            Left = 425
+            Left = 475
             Height = 23
             Top = 112
             Width = 67
@@ -544,7 +544,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Left = 16
             Height = 57
             Top = 8
-            Width = 383
+            Width = 433
             Anchors = [akTop, akLeft, akRight]
             BevelOuter = bvNone
             Caption = 'Default, 0'
@@ -555,7 +555,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             TabOrder = 0
           end
           object BtnFontPopup: TButton
-            Left = 411
+            Left = 461
             Height = 25
             Top = 8
             Width = 91
@@ -565,7 +565,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             OnClick = BtnFontPopupClick
           end
           object BtnResetPopup: TButton
-            Left = 411
+            Left = 461
             Height = 25
             Top = 40
             Width = 91
@@ -580,12 +580,12 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Left = 5
           Height = 123
           Top = 5
-          Width = 529
+          Width = 579
           Align = alTop
           BorderSpacing.Around = 5
           Caption = 'Main Window'
           ClientHeight = 103
-          ClientWidth = 525
+          ClientWidth = 575
           TabOrder = 0
           object CheckVerticalSplit: TCheckBox
             Left = 16
@@ -601,7 +601,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Left = 16
             Height = 57
             Top = 8
-            Width = 383
+            Width = 433
             Anchors = [akTop, akLeft, akRight]
             BevelOuter = bvNone
             Caption = 'Default, 0'
@@ -612,7 +612,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             TabOrder = 0
           end
           object BtnFont: TButton
-            Left = 411
+            Left = 461
             Height = 25
             Top = 8
             Width = 91
@@ -622,7 +622,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             OnClick = BtnFontClick
           end
           object BtnReset: TButton
-            Left = 411
+            Left = 461
             Height = 25
             Top = 40
             Width = 91
@@ -638,12 +638,12 @@ object formSettingsTrayslate: TformSettingsTrayslate
     object PageHotkeys: TTabSheet
       Caption = 'Hotkeys'
       ClientHeight = 557
-      ClientWidth = 556
+      ClientWidth = 606
       object ScrollHotkeys: TScrollBox
         Left = 0
         Height = 557
         Top = 0
-        Width = 556
+        Width = 606
         HorzScrollBar.Increment = 16
         HorzScrollBar.Page = 166
         HorzScrollBar.Smooth = True
@@ -655,24 +655,24 @@ object formSettingsTrayslate: TformSettingsTrayslate
         Align = alClient
         BorderStyle = bsNone
         ClientHeight = 557
-        ClientWidth = 556
+        ClientWidth = 606
         TabOrder = 0
         object GroupTransFromClipboard1: TGroupBox
           Left = 5
           Height = 547
           Top = 5
-          Width = 546
+          Width = 596
           Align = alClient
           BorderSpacing.Around = 5
           Caption = 'Hotkeys'
           ClientHeight = 527
-          ClientWidth = 542
+          ClientWidth = 592
           TabOrder = 0
           object GridHotkeys: TStringGrid
             Left = 5
             Height = 487
             Top = 35
-            Width = 532
+            Width = 582
             Align = alClient
             BorderSpacing.Top = 30
             BorderSpacing.Around = 5
@@ -686,7 +686,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
               end            
               item
                 Title.Caption = 'Shortcut'
-                Width = 120
+                Width = 160
               end            
               item
                 ReadOnly = True
@@ -706,10 +706,10 @@ object formSettingsTrayslate: TformSettingsTrayslate
             RowCount = 1
             TabOrder = 0
             OnDrawCell = GridHotkeysDrawCell
+            OnEditingDone = GridHotkeysEditingDone
             OnGetCellHint = GridHotkeysGetCellHint
             OnKeyDown = GridHotkeysKeyDown
             OnSelectEditor = GridHotkeysSelectEditor
-            OnSetEditText = GridHotkeysSetEditText
           end
           object CheckAllowHotkeys: TCheckBox
             Left = 16
@@ -738,14 +738,14 @@ object formSettingsTrayslate: TformSettingsTrayslate
     Left = 0
     Height = 35
     Top = 595
-    Width = 750
+    Width = 800
     Align = alBottom
     BevelOuter = bvNone
     ClientHeight = 35
-    ClientWidth = 750
+    ClientWidth = 800
     TabOrder = 2
     object BtnOk: TButton
-      Left = 511
+      Left = 561
       Height = 25
       Top = 3
       Width = 75
@@ -755,7 +755,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
       OnClick = BtnOkClick
     end
     object BtnCancel: TButton
-      Left = 591
+      Left = 641
       Height = 25
       Top = 3
       Width = 75
@@ -766,7 +766,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
       OnClick = BtnCancelClick
     end
     object BtnApply: TButton
-      Left = 671
+      Left = 721
       Height = 25
       Top = 3
       Width = 75
