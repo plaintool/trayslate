@@ -799,6 +799,14 @@ msgstr "Automatické přidání při změně páru"
 msgid "Automatically adds a new language pair when you switch languages"
 msgstr "Automaticky přidá nový jazykový pár při přepnutí jazyků"
 
+#: tformsettingstrayslate.checkautoheight.caption
+msgid "Auto Height"
+msgstr "Automatická výška"
+
+#: tformsettingstrayslate.checkautoheight.hint
+msgid "Popup window height calculated based on text height"
+msgstr "Výška vyskakovacího okna se vypočítá podle výšky textu"
+
 #: tformsettingstrayslate.checkautostart.caption
 msgid "Launch At System Startup"
 msgstr "Spustit při spuštění systému"
@@ -982,6 +990,10 @@ msgctxt "tformsettingstrayslate.labellangdetectconfig.caption"
 msgid "Lang Detect Config"
 msgstr "Konfigurace detekce jazyka"
 
+#: tformsettingstrayslate.labelmaxheight.caption
+msgid "Max Height"
+msgstr "Maximální výška"
+
 #: tformsettingstrayslate.labelmaxlangpairs.caption
 msgctxt "tformsettingstrayslate.labelmaxlangpairs.caption"
 msgid "Max Pairs"
@@ -1035,6 +1047,10 @@ msgstr "Výchozí, 0"
 msgctxt "tformsettingstrayslate.panelfontpopup.caption"
 msgid "Default, 0"
 msgstr "Výchozí, 0"
+
+#: tformsettingstrayslate.spinmaxheight.hint
+msgid "Set maximum window height for auto-size; 0 indicates limit to screen height"
+msgstr "Nastavte maximální výšku okna pro automatickou velikost; 0 znamená omezení na výšku obrazovky"
 
 #: tformsettingstrayslate.spinmaxlangpairs.hint
 msgid "Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel"

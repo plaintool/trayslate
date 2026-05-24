@@ -799,6 +799,14 @@ msgstr "쌍 변경 시 자동 추가"
 msgid "Automatically adds a new language pair when you switch languages"
 msgstr "언어를 전환할 때 새 언어 쌍을 자동으로 추가합니다"
 
+#: tformsettingstrayslate.checkautoheight.caption
+msgid "Auto Height"
+msgstr "자동 높이"
+
+#: tformsettingstrayslate.checkautoheight.hint
+msgid "Popup window height calculated based on text height"
+msgstr "팝업 창 높이는 텍스트 높이를 기준으로 계산됩니다"
+
 #: tformsettingstrayslate.checkautostart.caption
 msgid "Launch At System Startup"
 msgstr "시스템 시작 시 실행"
@@ -982,6 +990,10 @@ msgctxt "tformsettingstrayslate.labellangdetectconfig.caption"
 msgid "Lang Detect Config"
 msgstr "언어 감지 설정"
 
+#: tformsettingstrayslate.labelmaxheight.caption
+msgid "Max Height"
+msgstr "최대 높이"
+
 #: tformsettingstrayslate.labelmaxlangpairs.caption
 msgctxt "tformsettingstrayslate.labelmaxlangpairs.caption"
 msgid "Max Pairs"
@@ -1035,6 +1047,10 @@ msgstr "기본값, 0"
 msgctxt "tformsettingstrayslate.panelfontpopup.caption"
 msgid "Default, 0"
 msgstr "기본값, 0"
+
+#: tformsettingstrayslate.spinmaxheight.hint
+msgid "Set maximum window height for auto-size; 0 indicates limit to screen height"
+msgstr "자동 크기 조정을 위한 최대 창 높이를 설정합니다; 0은 화면 높이 제한을 의미합니다"
 
 #: tformsettingstrayslate.spinmaxlangpairs.hint
 msgid "Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel"

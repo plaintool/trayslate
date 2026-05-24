@@ -179,6 +179,8 @@ begin
     JSONObj.Add('VerticalSplit', Form.VerticalSplit);
     JSONObj.Add('StayOnTop', Form.StayOnTop);
     JSONObj.Add('HideControls', Form.HideControls);
+    JSONObj.Add('AutoHeight', Form.AutoHeight);
+    JSONObj.Add('MaxHeight', Form.MaxHeight);
     JSONObj.Add('OpacityHover', Form.OpacityHover);
     JSONObj.Add('OpacityIdle', Form.OpacityIdle);
     JSONObj.Add('AutoAddLangPairs', Form.AutoAddLangPairs);
@@ -441,6 +443,12 @@ begin
 
         if (JSONObj.FindPath('HideControls') <> nil) then
           Form.FHideControls := JSONObj.FindPath('HideControls').AsBoolean;
+
+        if (JSONObj.FindPath('AutoHeight') <> nil) then
+          Form.AutoHeight := JSONObj.FindPath('AutoHeight').AsBoolean;
+
+        if (JSONObj.FindPath('MaxHeight') <> nil) then
+          Form.MaxHeight := JSONObj.FindPath('MaxHeight').AsInteger;
 
         if (JSONObj.FindPath('OpacityHover') <> nil) then
           Form.OpacityHover := JSONObj.FindPath('OpacityHover').AsInteger;

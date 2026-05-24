@@ -331,7 +331,6 @@ msgstr ""
 "   https://www.flaticon.com/ru/free-icon/translator_682045"
 
 #: tformbuttontrayslate.imagetranslate.hint
-#, fuzzy
 msgctxt "tformbuttontrayslate.imagetranslate.hint"
 msgid "Translate in Popup"
 msgstr "पॉपअप में अनुवाद करें"
@@ -800,6 +799,14 @@ msgstr "युग्म बदलने पर स्वतः जोड़े�
 msgid "Automatically adds a new language pair when you switch languages"
 msgstr "भाषाएँ बदलने पर स्वचालित रूप से एक नया भाषा युग्म जोड़ता है"
 
+#: tformsettingstrayslate.checkautoheight.caption
+msgid "Auto Height"
+msgstr "स्वचालित ऊँचाई"
+
+#: tformsettingstrayslate.checkautoheight.hint
+msgid "Popup window height calculated based on text height"
+msgstr "पॉपअप विंडो की ऊँचाई टेक्स्ट की ऊँचाई के आधार पर गणना की जाती है"
+
 #: tformsettingstrayslate.checkautostart.caption
 msgid "Launch At System Startup"
 msgstr "सिस्टम स्टार्टअप पर लॉन्च करें"
@@ -983,6 +990,10 @@ msgctxt "tformsettingstrayslate.labellangdetectconfig.caption"
 msgid "Lang Detect Config"
 msgstr "भाषा पहचान कॉन्फ़िगरेशन"
 
+#: tformsettingstrayslate.labelmaxheight.caption
+msgid "Max Height"
+msgstr "अधिकतम ऊँचाई"
+
 #: tformsettingstrayslate.labelmaxlangpairs.caption
 msgctxt "tformsettingstrayslate.labelmaxlangpairs.caption"
 msgid "Max Pairs"
@@ -1036,6 +1047,10 @@ msgstr "डिफ़ॉल्ट, 0"
 msgctxt "tformsettingstrayslate.panelfontpopup.caption"
 msgid "Default, 0"
 msgstr "डिफ़ॉल्ट, 0"
+
+#: tformsettingstrayslate.spinmaxheight.hint
+msgid "Set maximum window height for auto-size; 0 indicates limit to screen height"
+msgstr "ऑटो-साइज़ के लिए अधिकतम विंडो ऊँचाई सेट करें; 0 स्क्रीन की ऊँचाई की सीमा दर्शाता है"
 
 #: tformsettingstrayslate.spinmaxlangpairs.hint
 msgid "Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel"

@@ -43,6 +43,7 @@ type
     BtnOk: TButton;
     BtnResetPopup: TButton;
     CheckAllowHotkeys: TCheckBox;
+    CheckAutoHeight: TCheckBox;
     CheckSmartSwap: TCheckBox;
     CheckEnableMouseMode: TCheckBox;
     CheckMouseModeCtrl: TCheckBox;
@@ -75,6 +76,7 @@ type
     GroupTrayIcon: TGroupBox;
     ImagesPages: TImageList;
     LabelLangDetectConfig: TLabel;
+    LabelMaxHeight: TLabel;
     LabelPrimaryLang: TLabel;
     LabelMouseMode: TLabel;
     LabelIconFont1: TLabel;
@@ -100,6 +102,7 @@ type
     SpinIdle: TSpinEdit;
     SpinMaxLangPairs: TSpinEdit;
     PageGeneral: TTabSheet;
+    SpinMaxHeight: TSpinEdit;
     SpinRealTimeDelay: TSpinEdit;
     SplitterPages: TSplitter;
     GridHotkeys: TStringGrid;
@@ -151,6 +154,8 @@ type
     FOriginalVerticalSplit: boolean;
     FOriginalStayOnTop: boolean;
     FOriginalHideControls: boolean;
+    FOriginalAutoHeight: boolean;
+    FOriginalMaxHeight: integer;
     FOriginalOpacityHover: integer;
     FOriginalOpacityIdle: integer;
     FOriginalConfigLangDetect: string;
@@ -956,6 +961,9 @@ begin
     formTrayslate.VerticalSplit := CheckVerticalSplit.Checked;
     formTrayslate.StayOnTop := CheckStayOnTop.Checked;
     formTrayslate.HideControls := CheckHideControls.Checked;
+    formTrayslate.AutoHeight:= CheckAutoHeight.Checked;
+    formTrayslate.MaxHeight := SpinMaxHeight.Value;
+
     formTrayslate.OpacityHover := TrackOpacityHover.Position;
     formTrayslate.OpacityIdle := TrackOpacityIdle.Position;
 
@@ -1028,6 +1036,8 @@ begin
   FOriginalVerticalSplit := formTrayslate.VerticalSplit;
   FOriginalStayOnTop := formTrayslate.StayOnTop;
   FOriginalHideControls := formTrayslate.HideControls;
+  FOriginalAutoHeight:= formTrayslate.AutoHeight;
+  FOriginalMaxHeight := formTrayslate.MaxHeight;
   FOriginalOpacityHover := formTrayslate.OpacityHover;
   FOriginalOpacityIdle := formTrayslate.OpacityIdle;
   FOriginalConfigLangDetect := formTrayslate.ConfigLangDetect;
@@ -1088,6 +1098,8 @@ begin
   CheckVerticalSplit.Checked := FOriginalVerticalSplit;
   CheckStayOnTop.Checked := FOriginalStayOnTop;
   CheckHideControls.Checked := FOriginalHideControls;
+  CheckAutoHeight.Checked := FOriginalAutoHeight;
+  SpinMaxHeight.Value := FOriginalMaxHeight;
   TrackOpacityHover.Position := FOriginalOpacityHover;
   TrackOpacityIdle.Position := FOriginalOpacityIdle;
   if FOriginalConfigLangDetect <> string.Empty then

@@ -799,6 +799,14 @@ msgstr "Αυτόματη προσθήκη κατά αλλαγή ζεύγους"
 msgid "Automatically adds a new language pair when you switch languages"
 msgstr "Προσθέτει αυτόματα ένα νέο ζεύγος γλωσσών όταν αλλάζετε γλώσσες"
 
+#: tformsettingstrayslate.checkautoheight.caption
+msgid "Auto Height"
+msgstr "Αυτόματο ύψος"
+
+#: tformsettingstrayslate.checkautoheight.hint
+msgid "Popup window height calculated based on text height"
+msgstr "Το ύψος του αναδυόμενου παραθύρου υπολογίζεται βάσει του ύψους του κειμένου"
+
 #: tformsettingstrayslate.checkautostart.caption
 msgid "Launch At System Startup"
 msgstr "Εκκίνηση κατά την έναρξη συστήματος"
@@ -982,6 +990,10 @@ msgctxt "tformsettingstrayslate.labellangdetectconfig.caption"
 msgid "Lang Detect Config"
 msgstr "Ρύθμιση ανίχνευσης γλώσσας"
 
+#: tformsettingstrayslate.labelmaxheight.caption
+msgid "Max Height"
+msgstr "Μέγιστο ύψος"
+
 #: tformsettingstrayslate.labelmaxlangpairs.caption
 msgctxt "tformsettingstrayslate.labelmaxlangpairs.caption"
 msgid "Max Pairs"
@@ -1035,6 +1047,10 @@ msgstr "Προεπιλογή, 0"
 msgctxt "tformsettingstrayslate.panelfontpopup.caption"
 msgid "Default, 0"
 msgstr "Προεπιλογή, 0"
+
+#: tformsettingstrayslate.spinmaxheight.hint
+msgid "Set maximum window height for auto-size; 0 indicates limit to screen height"
+msgstr "Ορίστε το μέγιστο ύψος παραθύρου για αυτόματο μέγεθος· το 0 σημαίνει όριο στο ύψος της οθόνης"
 
 #: tformsettingstrayslate.spinmaxlangpairs.hint
 msgid "Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel"

@@ -799,6 +799,14 @@ msgstr "إضافة تلقائية عند تغيير الزوج"
 msgid "Automatically adds a new language pair when you switch languages"
 msgstr "يضيف تلقائياً زوج لغات جديد عند تبديل اللغات"
 
+#: tformsettingstrayslate.checkautoheight.caption
+msgid "Auto Height"
+msgstr "الارتفاع التلقائي"
+
+#: tformsettingstrayslate.checkautoheight.hint
+msgid "Popup window height calculated based on text height"
+msgstr "يتم حساب ارتفاع النافذة المنبثقة بناءً على ارتفاع النص"
+
 #: tformsettingstrayslate.checkautostart.caption
 msgid "Launch At System Startup"
 msgstr "التشغيل عند بدء النظام"
@@ -982,6 +990,10 @@ msgctxt "tformsettingstrayslate.labellangdetectconfig.caption"
 msgid "Lang Detect Config"
 msgstr "تكوين كشف اللغة"
 
+#: tformsettingstrayslate.labelmaxheight.caption
+msgid "Max Height"
+msgstr "الارتفاع الأقصى"
+
 #: tformsettingstrayslate.labelmaxlangpairs.caption
 msgctxt "tformsettingstrayslate.labelmaxlangpairs.caption"
 msgid "Max Pairs"
@@ -1035,6 +1047,10 @@ msgstr "الافتراضي، 0"
 msgctxt "tformsettingstrayslate.panelfontpopup.caption"
 msgid "Default, 0"
 msgstr "الافتراضي، 0"
+
+#: tformsettingstrayslate.spinmaxheight.hint
+msgid "Set maximum window height for auto-size; 0 indicates limit to screen height"
+msgstr "تعيين الحد الأقصى لارتفاع النافذة للحجم التلقائي؛ 0 يعني التقييد بارتفاع الشاشة"
 
 #: tformsettingstrayslate.spinmaxlangpairs.hint
 msgid "Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel"

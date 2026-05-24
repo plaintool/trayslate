@@ -415,7 +415,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Height = 23
             Hint = 'Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel'
             Top = 9
-            Width = 390
+            Width = 400
             Anchors = [akTop, akLeft, akRight]
             MaxValue = 100
             TabOrder = 0
@@ -445,13 +445,13 @@ object formSettingsTrayslate: TformSettingsTrayslate
         end
         object GroupPopup: TGroupBox
           Left = 5
-          Height = 227
+          Height = 299
           Top = 389
           Width = 579
           Align = alTop
           BorderSpacing.Around = 5
           Caption = 'Popup Window'
-          ClientHeight = 207
+          ClientHeight = 279
           ClientWidth = 575
           TabOrder = 3
           object CheckStayOnTop: TCheckBox
@@ -469,7 +469,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Height = 25
             Hint = 'Window transparency when the mouse is over the window'
             Top = 80
-            Width = 318
+            Width = 327
             Frequency = 5
             Max = 100
             Position = 0
@@ -492,7 +492,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Height = 25
             Hint = 'Window transparency when the mouse is not over the window'
             Top = 112
-            Width = 318
+            Width = 327
             Frequency = 5
             Max = 100
             Position = 0
@@ -511,7 +511,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             WordWrap = True
           end
           object SpinHover: TSpinEdit
-            Left = 475
+            Left = 485
             Height = 23
             Top = 80
             Width = 67
@@ -521,7 +521,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             OnChange = SettingChange
           end
           object SpinIdle: TSpinEdit
-            Left = 475
+            Left = 485
             Height = 23
             Top = 112
             Width = 67
@@ -574,6 +574,36 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Enabled = False
             TabOrder = 2
             OnClick = BtnResetPopupClick
+          end
+          object LabelMaxHeight: TLabel
+            Left = 8
+            Height = 32
+            Top = 240
+            Width = 136
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Max Height'
+            WordWrap = True
+          end
+          object SpinMaxHeight: TSpinEdit
+            Left = 152
+            Height = 23
+            Hint = 'Set maximum window height for auto-size; 0 indicates limit to screen height'
+            Top = 240
+            Width = 400
+            Anchors = [akTop, akLeft, akRight]
+            TabOrder = 10
+            OnChange = SettingChange
+          end
+          object CheckAutoHeight: TCheckBox
+            Left = 16
+            Height = 19
+            Hint = 'Popup window height calculated based on text height'
+            Top = 208
+            Width = 83
+            Caption = 'Auto Height'
+            TabOrder = 9
+            OnChange = SettingChange
           end
         end
         object GroupMainWindow: TGroupBox

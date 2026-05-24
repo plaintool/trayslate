@@ -799,6 +799,14 @@ msgstr "Çift Değiştiğinde Otomatik Ekle"
 msgid "Automatically adds a new language pair when you switch languages"
 msgstr "Dilleri değiştirdiğinizde otomatik olarak yeni bir dil çifti ekler"
 
+#: tformsettingstrayslate.checkautoheight.caption
+msgid "Auto Height"
+msgstr "Otomatik yükseklik"
+
+#: tformsettingstrayslate.checkautoheight.hint
+msgid "Popup window height calculated based on text height"
+msgstr "Açılır pencere yüksekliği metin yüksekliğine göre hesaplanır"
+
 #: tformsettingstrayslate.checkautostart.caption
 msgid "Launch At System Startup"
 msgstr "Sistem Başlangıcında Başlat"
@@ -982,6 +990,10 @@ msgctxt "tformsettingstrayslate.labellangdetectconfig.caption"
 msgid "Lang Detect Config"
 msgstr "Dil Algılama Yapılandırması"
 
+#: tformsettingstrayslate.labelmaxheight.caption
+msgid "Max Height"
+msgstr "Maksimum yükseklik"
+
 #: tformsettingstrayslate.labelmaxlangpairs.caption
 msgctxt "tformsettingstrayslate.labelmaxlangpairs.caption"
 msgid "Max Pairs"
@@ -1035,6 +1047,10 @@ msgstr "Varsayılan, 0"
 msgctxt "tformsettingstrayslate.panelfontpopup.caption"
 msgid "Default, 0"
 msgstr "Varsayılan, 0"
+
+#: tformsettingstrayslate.spinmaxheight.hint
+msgid "Set maximum window height for auto-size; 0 indicates limit to screen height"
+msgstr "Otomatik boyutlandırma için maksimum pencere yüksekliğini ayarlayın; 0 ekran yüksekliği sınırını ifade eder"
 
 #: tformsettingstrayslate.spinmaxlangpairs.hint
 msgid "Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel"

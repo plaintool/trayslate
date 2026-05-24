@@ -799,6 +799,14 @@ msgstr "Automaattinen lisäys paria vaihdettaessa"
 msgid "Automatically adds a new language pair when you switch languages"
 msgstr "Lisää automaattisesti uuden kieliparin, kun vaihdat kieltä"
 
+#: tformsettingstrayslate.checkautoheight.caption
+msgid "Auto Height"
+msgstr "Automaattinen korkeus"
+
+#: tformsettingstrayslate.checkautoheight.hint
+msgid "Popup window height calculated based on text height"
+msgstr "Ponnahdusikkunan korkeus lasketaan tekstin korkeuden perusteella"
+
 #: tformsettingstrayslate.checkautostart.caption
 msgid "Launch At System Startup"
 msgstr "Käynnistä järjestelmän käynnistyessä"
@@ -982,6 +990,10 @@ msgctxt "tformsettingstrayslate.labellangdetectconfig.caption"
 msgid "Lang Detect Config"
 msgstr "Kielen tunnistuksen konfiguraatio"
 
+#: tformsettingstrayslate.labelmaxheight.caption
+msgid "Max Height"
+msgstr "Enimmäiskorkeus"
+
 #: tformsettingstrayslate.labelmaxlangpairs.caption
 msgctxt "tformsettingstrayslate.labelmaxlangpairs.caption"
 msgid "Max Pairs"
@@ -1035,6 +1047,10 @@ msgstr "Oletus, 0"
 msgctxt "tformsettingstrayslate.panelfontpopup.caption"
 msgid "Default, 0"
 msgstr "Oletus, 0"
+
+#: tformsettingstrayslate.spinmaxheight.hint
+msgid "Set maximum window height for auto-size; 0 indicates limit to screen height"
+msgstr "Aseta ikkunan enimmäiskorkeus automaattiselle koolle; 0 tarkoittaa näytön korkeuden rajaa"
 
 #: tformsettingstrayslate.spinmaxlangpairs.hint
 msgid "Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel"

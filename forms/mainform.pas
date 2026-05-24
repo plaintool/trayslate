@@ -312,6 +312,7 @@ type
     FLastCTime: DWORD;
     FLastXTime: DWORD;
     FLastVTime: DWORD;
+    FAutoHeightAfter: boolean;
 
     // Non sorted combo named languages
     FLanguages: TStringList;
@@ -335,6 +336,8 @@ type
     FSecondaryLang: string;
     FMouseMode: TMouseMode;
     FStayOnTop: boolean;
+    FAutoHeight: boolean;
+    FMaxHeight: integer;
     FOpacityHover: integer;
     FOpacityIdle: integer;
     FAutoCheckUpdates: boolean;
@@ -430,6 +433,7 @@ type
     function UpdatePairLanguage(const Pair: string): string;
     procedure DoCheckUpdates(Data: PtrInt);
     procedure ShowCustomHint(const AText: string; X: integer = 0; Y: integer = 0; Duration: integer = 3000);
+    procedure AdjustPopupHeight(AText: string);
     procedure ShowPopup(const SourceText: string; X: integer = 0; Y: integer = 0);
     procedure ShowButton(const SourceText: string; X: integer = 0; Y: integer = 0);
     procedure SetVerticalMode;
@@ -492,6 +496,8 @@ type
     property StayOnTop: boolean read FStayOnTop write FStayOnTop;
     property FontPopup: TFont read FFontPopup write FFontPopup;
     property HideControls: boolean read FHideControls write SetHideControls;
+    property AutoHeight: boolean read FAutoHeight write FAutoHeight;
+    property MaxHeight: integer read FMaxHeight write FMaxHeight;
     property OpacityHover: integer read FOpacityHover write FOpacityHover;
     property OpacityIdle: integer read FOpacityIdle write FOpacityIdle;
     property AutoCheckUpdates: boolean read FAutoCheckUpdates write FAutoCheckUpdates;
@@ -599,6 +605,8 @@ begin
   FSplitRatio := 0.5;
   FStayOnTop := True;
   FHideControls := True;
+  FAutoHeight := True;
+  FMaxHeight := 0;
   FOpacityHover := 60;
   FOpacityIdle := 40;
   FAutoCheckUpdates := True;
@@ -2573,6 +2581,59 @@ begin
   TimerHideHint.Enabled := True;
 end;
 
+procedure TformTrayslate.AdjustPopupHeight(AText: string);
+var
+  R: TRect;
+  NewHeight: integer;
+  MaxH: integer;
+  TextWidth: integer;
+begin
+  if FAutoHeight and (AText <> string.Empty) then
+  begin
+    // Maximum allowed height
+    if FMaxHeight = 0 then
+      MaxH := Screen.WorkAreaRect.Height
+    else
+      MaxH := Min(FMaxHeight, Screen.WorkAreaRect.Height);
+
+    // Use current form font
+    formPopupTrayslate.Canvas.Font.Assign(formPopupTrayslate.Font);
+
+    // Available text width inside form
+    TextWidth := formPopupTrayslate.ClientWidth - formPopupTrayslate.BorderSpacing.Left - formPopupTrayslate.BorderSpacing.Right - 30;
+
+    // Calculate text rectangle height
+    R := Rect(0, 0, TextWidth, 0);
+
+    DrawTextW(
+      formPopupTrayslate.Canvas.Handle,
+      pwidechar(UTF8Decode(AText)),
+      Length(UTF8Decode(AText)),
+      R,
+      DT_WORDBREAK or DT_CALCRECT or DT_NOPREFIX
+      );
+
+    // Add top/bottom padding + controls
+    NewHeight := R.Height + formPopupTrayslate.PanelPairs.Height + 10;
+
+    // Limit height
+    if NewHeight > MaxH then
+      NewHeight := MaxH;
+
+    formPopupTrayslate.Height := NewHeight;
+  end;
+
+  // Keep inside screen always
+  if formPopupTrayslate.Position <> poDesktopCenter then
+  begin
+    if formPopupTrayslate.Left + formPopupTrayslate.Width > Screen.WorkAreaRect.Right then
+      formPopupTrayslate.Left := Screen.WorkAreaRect.Right - formPopupTrayslate.Width - 10;
+
+    if formPopupTrayslate.Top + formPopupTrayslate.Height > Screen.WorkAreaRect.Bottom then
+      formPopupTrayslate.Top := Screen.WorkAreaRect.Bottom - formPopupTrayslate.Height + 8;
+  end;
+end;
+
 procedure TformTrayslate.ShowPopup(const SourceText: string; X: integer = 0; Y: integer = 0);
 var
   PrevForm: TCustomForm;
@@ -2605,13 +2666,8 @@ begin
     if FormPopupHeight > 0 then
       formPopupTrayslate.Height := FormPopupHeight;
 
-    if formPopupTrayslate.Position <> poDesktopCenter then
-    begin
-      if formPopupTrayslate.Left + formPopupTrayslate.Width > Screen.WorkAreaRect.Right then
-        formPopupTrayslate.Left := Screen.WorkAreaRect.Right - formPopupTrayslate.Width - 10;
-      if formPopupTrayslate.Top + formPopupTrayslate.Height > Screen.WorkAreaRect.Bottom then
-        formPopupTrayslate.Top := Screen.WorkAreaRect.Bottom - formPopupTrayslate.Height + 8;
-    end;
+    AdjustPopupHeight(SourceText);
+    FAutoHeightAfter := True;
 
     formPopupTrayslate.Font.Assign(FontPopup);
     formPopupTrayslate.PanelWatermark.Font.Size := FontPopup.Size;
@@ -3229,6 +3285,12 @@ end;
 procedure TformTrayslate.ThreadDone(Sender: TObject);
 begin
   FTranslateThread := nil;
+
+  if Assigned(formPopupTrayslate) and (formPopupTrayslate.Visible) and (FAutoHeightAfter) then
+  begin
+    FAutoHeightAfter := False;
+    AdjustPopupHeight(formPopupTrayslate.MemoTarget.Text);
+  end;
 
   if not Visible and (not Assigned(formPopupTrayslate) or not formPopupTrayslate.Visible) then
     ShowCustomHint(TrayIcon.Hint);
