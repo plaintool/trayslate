@@ -330,8 +330,8 @@ msgstr ""
 "3. 主图标由 Flaticon 设计\n"
 "   https://www.flaticon.com/ru/free-icon/translator_682045"
 
-#: tformbuttontrayslate.sbtranslate.hint
-msgctxt "tformbuttontrayslate.sbtranslate.hint"
+#: tformbuttontrayslate.imagetranslate.hint
+msgctxt "tformbuttontrayslate.imagetranslate.hint"
 msgid "Translate in Popup"
 msgstr "在弹窗中翻译"
 

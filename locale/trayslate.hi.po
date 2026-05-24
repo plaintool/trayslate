@@ -330,8 +330,9 @@ msgstr ""
 "3. मुख्य आइकन Flaticon द्वारा डिज़ाइन किया गया\n"
 "   https://www.flaticon.com/ru/free-icon/translator_682045"
 
-#: tformbuttontrayslate.sbtranslate.hint
-msgctxt "tformbuttontrayslate.sbtranslate.hint"
+#: tformbuttontrayslate.imagetranslate.hint
+#, fuzzy
+msgctxt "tformbuttontrayslate.imagetranslate.hint"
 msgid "Translate in Popup"
 msgstr "पॉपअप में अनुवाद करें"
 

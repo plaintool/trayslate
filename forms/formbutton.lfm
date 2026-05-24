@@ -7,7 +7,7 @@ object formButtonTrayslate: TformButtonTrayslate
   BorderIcons = []
   BorderStyle = bsNone
   ClientHeight = 91
-  ClientWidth = 89
+  ClientWidth = 120
   Color = clWhite
   FormStyle = fsSystemStayOnTop
   LCLVersion = '4.4.0.0'
@@ -17,12 +17,15 @@ object formButtonTrayslate: TformButtonTrayslate
   object ImageTranslate: TImage
     Left = 0
     Height = 27
+    Hint = 'Translate in Popup'
     Top = 0
     Width = 27
     AntialiasingMode = amOn
     Center = True
     ImageIndex = 2
     Images = formTrayslate.ImageButtons
+    ParentShowHint = False
+    ShowHint = True
     StretchOutEnabled = False
     StretchInEnabled = False
     OnClick = ImageTranslateClick
