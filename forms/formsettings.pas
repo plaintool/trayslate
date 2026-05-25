@@ -555,7 +555,21 @@ begin
       GridHotkeys.EditorMode := True;
       Key := 0;
       Exit;
-    end;
+    end
+    else
+    if (Key = VK_DELETE) and (Shift = []) then
+    begin
+      HK.Modifiers := 0;
+      HK.Key := 0;
+
+      SetHotKeyByRow(GridHotkeys.Row, HK);
+      GridHotkeys.Cells[1, GridHotkeys.Row] := string.Empty;
+
+      BtnApply.Enabled := True;
+      Key := 0;
+      Exit;
+    end
+    else
     if not IsSystemKey(Key) then
     begin
       Key := 0;
@@ -590,7 +604,7 @@ begin
     Exit;
   end;
 
-  // Delete → clear hotkey
+  // Delete clear hotkey
   if (Key = VK_DELETE) and (Shift = []) then
   begin
     HK.Modifiers := 0;
@@ -961,7 +975,7 @@ begin
     formTrayslate.VerticalSplit := CheckVerticalSplit.Checked;
     formTrayslate.StayOnTop := CheckStayOnTop.Checked;
     formTrayslate.HideControls := CheckHideControls.Checked;
-    formTrayslate.AutoHeight:= CheckAutoHeight.Checked;
+    formTrayslate.AutoHeight := CheckAutoHeight.Checked;
     formTrayslate.MaxHeight := SpinMaxHeight.Value;
 
     formTrayslate.OpacityHover := TrackOpacityHover.Position;
@@ -1036,7 +1050,7 @@ begin
   FOriginalVerticalSplit := formTrayslate.VerticalSplit;
   FOriginalStayOnTop := formTrayslate.StayOnTop;
   FOriginalHideControls := formTrayslate.HideControls;
-  FOriginalAutoHeight:= formTrayslate.AutoHeight;
+  FOriginalAutoHeight := formTrayslate.AutoHeight;
   FOriginalMaxHeight := formTrayslate.MaxHeight;
   FOriginalOpacityHover := formTrayslate.OpacityHover;
   FOriginalOpacityIdle := formTrayslate.OpacityIdle;
