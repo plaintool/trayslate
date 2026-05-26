@@ -83,6 +83,14 @@ msgctxt "formsettings.rdefaultfont"
 msgid "Default"
 msgstr "Varsayılan"
 
+#: formsettings.rdefaulthotkeys
+msgid "Are you sure you want to restore default hotkeys?"
+msgstr "Varsayılan kısayol tuşlarını geri yüklemek istediğinizden emin misiniz?"
+
+#: formsettings.rdefaultsettings
+msgid "Are you sure you want to restore default settings?"
+msgstr "Varsayılan ayarları geri yüklemek istediğinizden emin misiniz?"
+
 #: formsettings.rglobal
 msgctxt "formsettings.rglobal"
 msgid "Global Hotkeys"
@@ -755,6 +763,15 @@ msgstr "Uygula"
 #: tformsettingstrayslate.btncancel.caption
 msgid "Cancel"
 msgstr "İptal"
+
+#: tformsettingstrayslate.btndefault.caption
+msgctxt "tformsettingstrayslate.btndefault.caption"
+msgid "Restore Defaults"
+msgstr "Varsayılanı Geri Yükle"
+
+#: tformsettingstrayslate.btndefaulthotkeys.caption
+msgid "Restore Default Hotkeys"
+msgstr "Kısayolları Geri Yükle"
 
 #: tformsettingstrayslate.btnfont.caption
 msgctxt "tformsettingstrayslate.btnfont.caption"

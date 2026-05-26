@@ -35,8 +35,10 @@ type
   { TformSettingsTrayslate }
 
   TformSettingsTrayslate = class(TForm)
+    BtnDefaultHotkeys: TButton;
     BtnFont: TButton;
     BtnFontPopup: TButton;
+    BtnDefault: TButton;
     BtnReset: TButton;
     BtnApply: TButton;
     BtnCancel: TButton;
@@ -108,11 +110,14 @@ type
     GridHotkeys: TStringGrid;
     TrackOpacityHover: TTrackBar;
     TrackOpacityIdle: TTrackBar;
+    procedure BtnDefaultClick(Sender: TObject);
+    procedure BtnDefaultHotkeysClick(Sender: TObject);
     procedure BtnFontPopupClick(Sender: TObject);
     procedure BtnResetPopupClick(Sender: TObject);
     procedure ComboIconFontNameMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: integer;
       MousePos: TPoint; var Handled: boolean);
     procedure FormChangeBounds(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -199,8 +204,10 @@ type
     FOldKeyValue: string;
 
     procedure SetPanelFont(Panel: TPanel; const AFont: TFont);
+    procedure ResetRealTimeSettings;
   public
     procedure Apply;
+    procedure ResetHotkeys;
     procedure Reset;
     function GetHotKeyByRow(Row: integer): THotKeyData;
     procedure SetHotKeyByRow(Row: integer; const HK: THotKeyData);
@@ -223,6 +230,9 @@ const
 
 resourcestring
   rdefaultfont = 'Default';
+  rdefaultsettings = 'Are you sure you want to restore default settings?';
+  rdefaulthotkeys = 'Are you sure you want to restore default hotkeys?';
+
   rglobal = 'Global Hotkeys';
   rrecent = 'Recent Language Pairs';
 
@@ -323,6 +333,12 @@ procedure TformSettingsTrayslate.FormChangeBounds(Sender: TObject);
 begin
   formTrayslate.FormSettingsLeft := Left;
   formTrayslate.FormSettingsTop := Top;
+end;
+
+procedure TformSettingsTrayslate.FormCloseQuery(Sender: TObject;
+  var CanClose: Boolean);
+begin
+  ResetRealTimeSettings;
 end;
 
 procedure TformSettingsTrayslate.FormShow(Sender: TObject);
@@ -748,6 +764,32 @@ begin
   formTrayslate.FormSettingsSplit := ListPages.Width;
 end;
 
+procedure TformSettingsTrayslate.BtnDefaultClick(Sender: TObject);
+begin
+  if MessageDlg(rdefaultsettings, mtConfirmation, [mbYes, mbNo], 0) = mrNo then exit;
+
+  formTrayslate.SetDefaultSettings;
+  Reset;
+
+  PanelFont.Font.SetDefault;
+  SetPanelFont(PanelFont, PanelFont.Font);
+  PanelFontPopup.Font.SetDefault;
+  SetPanelFont(PanelFontPopup, PanelFontPopup.Font);
+  FillGridHotkeys;
+
+  Apply;
+end;
+
+procedure TformSettingsTrayslate.BtnDefaultHotkeysClick(Sender: TObject);
+begin
+  if MessageDlg(rdefaulthotkeys, mtConfirmation, [mbYes, mbNo], 0) = mrNo then exit;
+
+  formTrayslate.SetDefaultHotKeys;
+  ResetHotkeys;
+
+  FillGridHotkeys;
+end;
+
 procedure TformSettingsTrayslate.BtnOkClick(Sender: TObject);
 begin
   Apply;
@@ -756,16 +798,7 @@ end;
 
 procedure TformSettingsTrayslate.BtnCancelClick(Sender: TObject);
 begin
-  // Reset real time properies
-  formTrayslate.IconBackgroundColor := FOriginalIconBackgroundColor;
-  formTrayslate.IconFontColor := FOriginalIconFontColor;
-  formTrayslate.IconFontName := FOriginalIconFontName;
-  formTrayslate.IconTwoLang := FOriginalIconTwoLang;
-  formTrayslate.SetIcon;
-
-  formTrayslate.OpacityHover := FOriginalOpacityHover;
-  formTrayslate.OpacityIdle := FOriginalOpacityIdle;
-
+  ResetRealTimeSettings;
   Reset;
   ModalResult := mrCancel;
 end;
@@ -783,6 +816,18 @@ procedure TformSettingsTrayslate.SetPanelFont(Panel: TPanel; const AFont: TFont)
 begin
   Panel.Caption := ifthen((Trim(AFont.Name) = string.Empty) or (LowerCase(AFont.Name) = 'default'), rdefaultfont, AFont.Name) +
     ',' + IntToStr(AFont.Size);
+end;
+
+procedure TformSettingsTrayslate.ResetRealTimeSettings;
+begin
+  formTrayslate.IconBackgroundColor := FOriginalIconBackgroundColor;
+  formTrayslate.IconFontColor := FOriginalIconFontColor;
+  formTrayslate.IconFontName := FOriginalIconFontName;
+  formTrayslate.IconTwoLang := FOriginalIconTwoLang;
+  formTrayslate.SetIcon;
+
+  formTrayslate.OpacityHover := FOriginalOpacityHover;
+  formTrayslate.OpacityIdle := FOriginalOpacityIdle;
 end;
 
 function TformSettingsTrayslate.GetHotKeyByRow(Row: integer): THotKeyData;
@@ -1031,36 +1076,8 @@ begin
   end;
 end;
 
-procedure TformSettingsTrayslate.Reset;
+procedure TformSettingsTrayslate.ResetHotkeys;
 begin
-  FOriginalAutoStart := formTrayslate.AutoStart;
-  FOriginalMaxLangPairs := formTrayslate.MaxLangPairs;
-  FOriginalAutoAddLangPairs := formTrayslate.AutoAddLangPairs;
-  FOriginalAllowHotkeys := formTrayslate.AllowHotKeys;
-  FOriginalRealTime := formTrayslate.RealTime;
-  FOriginalRealTimeDelay := formTrayslate.RealTimeDelay;
-  FOriginalAutoSwap := formTrayslate.AutoSwap;
-  FOriginalSmartSwap := formTrayslate.SmartSwap;
-  FOriginalSmartHard := formTrayslate.SmartHard;
-  FOriginalPrimaryLang := formTrayslate.PrimaryLang;
-  FOriginalSecondaryLang := formTrayslate.SecondaryLang;
-  FOriginalEnableMouseMode := formTrayslate.EnableMouseMode;
-  FOriginalMouseModeCtrl := formTrayslate.MouseModeCtrl;
-  FOriginalMouseMode := formTrayslate.MouseMode;
-  FOriginalVerticalSplit := formTrayslate.VerticalSplit;
-  FOriginalStayOnTop := formTrayslate.StayOnTop;
-  FOriginalHideControls := formTrayslate.HideControls;
-  FOriginalAutoHeight := formTrayslate.AutoHeight;
-  FOriginalMaxHeight := formTrayslate.MaxHeight;
-  FOriginalOpacityHover := formTrayslate.OpacityHover;
-  FOriginalOpacityIdle := formTrayslate.OpacityIdle;
-  FOriginalConfigLangDetect := formTrayslate.ConfigLangDetect;
-  FOriginalFont := formTrayslate.Font;
-  FOriginalFontPopup := formTrayslate.FontPopup;
-  FOriginalIconBackgroundColor := formTrayslate.IconBackgroundColor;
-  FOriginalIconFontColor := formTrayslate.IconFontColor;
-  FOriginalIconFontName := formTrayslate.IconFontName;
-  FOriginalIconTwoLang := formTrayslate.IconTwoLang;
   FOriginalHotKeyApp := formTrayslate.HotKeyApp;
   FOriginalHotKeyTransSwap := formTrayslate.HotKeyTransSwap;
   FOriginalHotKeyTransFromClipboard := formTrayslate.HotKeyTransFromClipboard;
@@ -1095,6 +1112,41 @@ begin
   FHotKeyRecent7 := formTrayslate.HotKeyRecent7;
   FHotKeyRecent8 := formTrayslate.HotKeyRecent8;
   FHotKeyRecent9 := formTrayslate.HotKeyRecent9;
+end;
+
+procedure TformSettingsTrayslate.Reset;
+begin
+  FOriginalAutoStart := formTrayslate.AutoStart;
+  FOriginalMaxLangPairs := formTrayslate.MaxLangPairs;
+  FOriginalAutoAddLangPairs := formTrayslate.AutoAddLangPairs;
+  FOriginalAllowHotkeys := formTrayslate.AllowHotKeys;
+  FOriginalRealTime := formTrayslate.RealTime;
+  FOriginalRealTimeDelay := formTrayslate.RealTimeDelay;
+  FOriginalAutoSwap := formTrayslate.AutoSwap;
+  FOriginalSmartSwap := formTrayslate.SmartSwap;
+  FOriginalSmartHard := formTrayslate.SmartHard;
+  FOriginalPrimaryLang := formTrayslate.PrimaryLang;
+  FOriginalSecondaryLang := formTrayslate.SecondaryLang;
+  FOriginalEnableMouseMode := formTrayslate.EnableMouseMode;
+  FOriginalMouseModeCtrl := formTrayslate.MouseModeCtrl;
+  FOriginalMouseMode := formTrayslate.MouseMode;
+  FOriginalVerticalSplit := formTrayslate.VerticalSplit;
+  FOriginalStayOnTop := formTrayslate.StayOnTop;
+  FOriginalHideControls := formTrayslate.HideControls;
+  FOriginalAutoHeight := formTrayslate.AutoHeight;
+  FOriginalMaxHeight := formTrayslate.MaxHeight;
+  FOriginalOpacityHover := formTrayslate.OpacityHover;
+  FOriginalOpacityIdle := formTrayslate.OpacityIdle;
+  FOriginalConfigLangDetect := formTrayslate.ConfigLangDetect;
+  FOriginalFont := formTrayslate.Font;
+  FOriginalFontPopup := formTrayslate.FontPopup;
+  FOriginalIconBackgroundColor := formTrayslate.IconBackgroundColor;
+  FOriginalIconFontColor := formTrayslate.IconFontColor;
+  FOriginalIconFontName := formTrayslate.IconFontName;
+  FOriginalIconTwoLang := formTrayslate.IconTwoLang;
+
+  ResetHotKeys;
+
   CheckAutostart.Checked := FOriginalAutoStart;
   SpinMaxLangPairs.Value := FOriginalMaxLangPairs;
   CheckAutoAddLangPairs.Checked := FOriginalAutoAddLangPairs;

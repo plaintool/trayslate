@@ -10,6 +10,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
   ShowHint = True
   LCLVersion = '4.4.0.0'
   OnChangeBounds = FormChangeBounds
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnResize = FormResize
   OnShow = FormShow
@@ -750,6 +751,16 @@ object formSettingsTrayslate: TformSettingsTrayslate
             TabOrder = 1
             OnChange = SettingChange
           end
+          object BtnDefaultHotkeys: TButton
+            Left = 437
+            Height = 25
+            Top = 2
+            Width = 150
+            Anchors = [akTop, akRight]
+            Caption = 'Restore Default Hotkeys'
+            TabOrder = 2
+            OnClick = BtnDefaultHotkeysClick
+          end
         end
       end
     end
@@ -781,7 +792,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
       Width = 75
       Anchors = [akRight, akBottom]
       Caption = 'OK'
-      TabOrder = 0
+      TabOrder = 1
       OnClick = BtnOkClick
     end
     object BtnCancel: TButton
@@ -792,7 +803,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
       Anchors = [akRight, akBottom]
       Cancel = True
       Caption = 'Cancel'
-      TabOrder = 1
+      TabOrder = 2
       OnClick = BtnCancelClick
     end
     object BtnApply: TButton
@@ -803,8 +814,18 @@ object formSettingsTrayslate: TformSettingsTrayslate
       Anchors = [akRight, akBottom]
       Caption = 'Apply'
       Enabled = False
-      TabOrder = 2
+      TabOrder = 3
       OnClick = BtnApplyClick
+    end
+    object BtnDefault: TButton
+      Left = 7
+      Height = 25
+      Top = 3
+      Width = 150
+      Anchors = [akLeft, akBottom]
+      Caption = 'Restore Defaults'
+      TabOrder = 0
+      OnClick = BtnDefaultClick
     end
   end
   object PanelPages: TPanel

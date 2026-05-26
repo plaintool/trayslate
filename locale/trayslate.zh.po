@@ -83,6 +83,14 @@ msgctxt "formsettings.rdefaultfont"
 msgid "Default"
 msgstr "默认"
 
+#: formsettings.rdefaulthotkeys
+msgid "Are you sure you want to restore default hotkeys?"
+msgstr "您确定要恢复默认快捷键吗？"
+
+#: formsettings.rdefaultsettings
+msgid "Are you sure you want to restore default settings?"
+msgstr "您确定要恢复默认设置吗？"
+
 #: formsettings.rglobal
 msgctxt "formsettings.rglobal"
 msgid "Global Hotkeys"
@@ -755,6 +763,15 @@ msgstr "应用"
 #: tformsettingstrayslate.btncancel.caption
 msgid "Cancel"
 msgstr "取消"
+
+#: tformsettingstrayslate.btndefault.caption
+msgctxt "tformsettingstrayslate.btndefault.caption"
+msgid "Restore Defaults"
+msgstr "恢复默认"
+
+#: tformsettingstrayslate.btndefaulthotkeys.caption
+msgid "Restore Default Hotkeys"
+msgstr "恢复快捷键"
 
 #: tformsettingstrayslate.btnfont.caption
 msgctxt "tformsettingstrayslate.btnfont.caption"

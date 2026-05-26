@@ -69,7 +69,9 @@
 {"hash":4294967295,"name":"tformsettingstrayslate.gridhotkeys.columns[2].title.caption","sourcebytes":[],"value":""},
 {"hash":4294967295,"name":"tformsettingstrayslate.gridhotkeys.columns[3].title.caption","sourcebytes":[],"value":""},
 {"hash":161569763,"name":"tformsettingstrayslate.checkallowhotkeys.caption","sourcebytes":[69,110,97,98,108,101,32,71,108,111,98,97,108,32,72,111,116,107,101,121,115],"value":"Enable Global Hotkeys"},
+{"hash":88124227,"name":"tformsettingstrayslate.btndefaulthotkeys.caption","sourcebytes":[82,101,115,116,111,114,101,32,68,101,102,97,117,108,116,32,72,111,116,107,101,121,115],"value":"Restore Default Hotkeys"},
 {"hash":1339,"name":"tformsettingstrayslate.btnok.caption","sourcebytes":[79,75],"value":"OK"},
 {"hash":77089212,"name":"tformsettingstrayslate.btncancel.caption","sourcebytes":[67,97,110,99,101,108],"value":"Cancel"},
-{"hash":4749113,"name":"tformsettingstrayslate.btnapply.caption","sourcebytes":[65,112,112,108,121],"value":"Apply"}
+{"hash":4749113,"name":"tformsettingstrayslate.btnapply.caption","sourcebytes":[65,112,112,108,121],"value":"Apply"},
+{"hash":10836915,"name":"tformsettingstrayslate.btndefault.caption","sourcebytes":[82,101,115,116,111,114,101,32,68,101,102,97,117,108,116,115],"value":"Restore Defaults"}
 ]}

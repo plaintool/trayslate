@@ -83,6 +83,14 @@ msgctxt "formsettings.rdefaultfont"
 msgid "Default"
 msgstr "Výchozí"
 
+#: formsettings.rdefaulthotkeys
+msgid "Are you sure you want to restore default hotkeys?"
+msgstr "Opravdu chcete obnovit výchozí klávesové zkratky?"
+
+#: formsettings.rdefaultsettings
+msgid "Are you sure you want to restore default settings?"
+msgstr "Opravdu chcete obnovit výchozí nastavení?"
+
 #: formsettings.rglobal
 msgctxt "formsettings.rglobal"
 msgid "Global Hotkeys"
@@ -755,6 +763,15 @@ msgstr "Použít"
 #: tformsettingstrayslate.btncancel.caption
 msgid "Cancel"
 msgstr "Zrušit"
+
+#: tformsettingstrayslate.btndefault.caption
+msgctxt "tformsettingstrayslate.btndefault.caption"
+msgid "Restore Defaults"
+msgstr "Obnovit"
+
+#: tformsettingstrayslate.btndefaulthotkeys.caption
+msgid "Restore Default Hotkeys"
+msgstr "Obnovit zkratky"
 
 #: tformsettingstrayslate.btnfont.caption
 msgctxt "tformsettingstrayslate.btnfont.caption"

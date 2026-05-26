@@ -83,6 +83,14 @@ msgctxt "formsettings.rdefaultfont"
 msgid "Default"
 msgstr "Προεπιλογή"
 
+#: formsettings.rdefaulthotkeys
+msgid "Are you sure you want to restore default hotkeys?"
+msgstr "Είστε βέβαιοι ότι θέλετε να επαναφέρετε τις προεπιλεγμένες συντομεύσεις;"
+
+#: formsettings.rdefaultsettings
+msgid "Are you sure you want to restore default settings?"
+msgstr "Είστε βέβαιοι ότι θέλετε να επαναφέρετε τις προεπιλεγμένες ρυθμίσεις;"
+
 #: formsettings.rglobal
 msgctxt "formsettings.rglobal"
 msgid "Global Hotkeys"
@@ -755,6 +763,15 @@ msgstr "Εφαρμογή"
 #: tformsettingstrayslate.btncancel.caption
 msgid "Cancel"
 msgstr "Ακύρωση"
+
+#: tformsettingstrayslate.btndefault.caption
+msgctxt "tformsettingstrayslate.btndefault.caption"
+msgid "Restore Defaults"
+msgstr "Επαναφορά"
+
+#: tformsettingstrayslate.btndefaulthotkeys.caption
+msgid "Restore Default Hotkeys"
+msgstr "Επαναφ. συντομ."
 
 #: tformsettingstrayslate.btnfont.caption
 msgctxt "tformsettingstrayslate.btnfont.caption"

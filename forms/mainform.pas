@@ -419,6 +419,8 @@ type
     FVerticalSplit: boolean;
 
     procedure LoadConfig(SetDefault: boolean = True);
+    procedure SetDefaultSettings;
+    procedure SetDefaultHotKeys;
     procedure BuildConfigMenu;
     procedure RebuildLangPairsPanel(Data: PtrInt);
     procedure SetIcon;
@@ -572,46 +574,11 @@ uses formdonate, formabout, formsettings, formconfig, formpopup, formbutton, set
 procedure TformTrayslate.FormCreate(Sender: TObject);
 begin
   // Default values
+  SetDefaultSettings;
+
   FConfigFile := string.Empty;
-  FConfigLangDetect := DEF_LANGDETECT;
-  if IsWindows7 then
-    FIconBackgroundColor := $00905000
-  else
-    FIconBackgroundColor := clNone;
-  {$IFDEF WINDOWS}
-  if IsTaskbarDark then
-    FIconFontColor := clWhite
-  else
-    FIconFontColor := clBlack;
-  {$ELSE}
-  FIconFontColor := clWhite;
-  {$ENDIF}
-  FIconFontName := DEF_FONT;
-  FIconTwoLang := True;
-  FMaxLangPairs := 10;
-  FAutoAddLangPairs := True;
-  FAllowHotKeys := True;
-  FRealTime := False;
-  FRealTimeDelay := 1000;
-  FAutoSwap := False;
-  FSmartSwap := False;
-  FSmartHard := False;
-  FPrimaryLang := Language;
-  FSecondaryLang := DEFAULT_LANG;
-  FEnableMouseMode := False;
-  FMouseModeCtrl := False;
-  FMouseMode := mmShowTranslateButton;
-  FVerticalSplit := False;
-  FSplitRatio := 0.5;
-  FStayOnTop := True;
-  FHideControls := True;
-  FAutoHeight := True;
-  FMaxHeight := 0;
-  FOpacityHover := 60;
-  FOpacityIdle := 40;
-  FAutoCheckUpdates := True;
   FUpdatesChecked := False;
-  FAutoStart := True;
+  FAutoCheckUpdates := True;
   FLangTarget := Language;
   FFormConfigLeft := 0;
   FFormConfigTop := 0;
@@ -632,7 +599,7 @@ begin
   FLastHotkeyTime := 0;
   FTranslateThread := nil;
   FCustomPoFile := string.Empty;
-  FFontPopup := TFont.Create;
+  FSplitRatio := 0.5;
   FCancelled := False;
   FPopupOpen := False;
   FUnapplyCtrl := False;
@@ -643,76 +610,6 @@ begin
   FLastXTime := 0;
   FLastCTime := 0;
   FLastVTime := 0;
-
-  // AllowHotKeys Initialize
-  // Ctrl+Shift+A
-  // Ctrl+Shift+A
-  FHotKeyApp.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyApp.Key := Ord('A');
-
-  // Ctrl+Shift+S
-  FHotKeyTransSwap.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyTransSwap.Key := Ord('S');
-
-  // Ctrl+Shift+T
-  FHotKeyTransFromClipboard.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyTransFromClipboard.Key := Ord('T');
-
-  // Ctrl+Shift+R
-  FHotKeyTransClipboard.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyTransClipboard.Key := Ord('R');
-
-  // Ctrl+Shift+P
-  FHotKeyTransClipboardPopup.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyTransClipboardPopup.Key := Ord('P');
-
-  // Ctrl+Shift+C
-  FHotKeyTransFromControl.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyTransFromControl.Key := Ord('C');
-
-  // Ctrl+Shift+V
-  FHotKeyTransControl.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyTransControl.Key := Ord('V');
-
-  // Ctrl+Shift+X
-  FHotKeyTransControlPopup.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyTransControlPopup.Key := Ord('X');
-
-  // Ctrl+Shift+1
-  FHotKeyRecent1.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyRecent1.Key := Ord('1');
-
-  // Ctrl+Shift+2
-  FHotKeyRecent2.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyRecent2.Key := Ord('2');
-
-  // Ctrl+Shift+3
-  FHotKeyRecent3.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyRecent3.Key := Ord('3');
-
-  // Ctrl+Shift+4
-  FHotKeyRecent4.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyRecent4.Key := Ord('4');
-
-  // Ctrl+Shift+5
-  FHotKeyRecent5.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyRecent5.Key := Ord('5');
-
-  // Ctrl+Shift+6
-  FHotKeyRecent6.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyRecent6.Key := Ord('6');
-
-  // Ctrl+Shift+7
-  FHotKeyRecent7.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyRecent7.Key := Ord('7');
-
-  // Ctrl+Shift+8
-  FHotKeyRecent8.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyRecent8.Key := Ord('8');
-
-  // Ctrl+Shift+9
-  FHotKeyRecent9.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyRecent9.Key := Ord('9');
 
   // Components config
   Left := Screen.WorkAreaRect.Right - Width - 30;
@@ -1997,6 +1894,123 @@ begin
   UpdateCheckMenuPair;
   SetIcon;
   SetHints;
+end;
+
+procedure TFormTrayslate.SetDefaultSettings;
+begin
+  FAutoStart := True;
+  FConfigLangDetect := DEF_LANGDETECT;
+  if IsWindows7 then
+    FIconBackgroundColor := $00905000
+  else
+    FIconBackgroundColor := clNone;
+  {$IFDEF WINDOWS}
+  if IsTaskbarDark then
+    FIconFontColor := clWhite
+  else
+    FIconFontColor := clBlack;
+  {$ELSE}
+  FIconFontColor := clWhite;
+  {$ENDIF}
+  FIconFontName := DEF_FONT;
+  FFontPopup := TFont.Create;
+  FIconTwoLang := True;
+  FMaxLangPairs := 10;
+  FAutoAddLangPairs := True;
+  FAllowHotKeys := True;
+  FRealTime := False;
+  FRealTimeDelay := 1000;
+  FAutoSwap := False;
+  FSmartSwap := False;
+  FSmartHard := False;
+  FPrimaryLang := GetOSLanguage;
+  FSecondaryLang := DEFAULT_LANG;
+  FEnableMouseMode := False;
+  FMouseModeCtrl := False;
+  FMouseMode := mmShowTranslateButton;
+  FVerticalSplit := False;
+  FStayOnTop := True;
+  FHideControls := True;
+  FAutoHeight := True;
+  FMaxHeight := 0;
+  FOpacityHover := 70;
+  FOpacityIdle := 40;
+
+  SetDefaultHotKeys;
+
+  if (Assigned(FConfigFiles)) then
+    FConfigLangDetect := GetConfigFullPath(FConfigLangDetect, FConfigFiles);
+end;
+
+procedure TFormTrayslate.SetDefaultHotKeys;
+begin
+  // Ctrl+Shift+A
+  FHotKeyApp.Modifiers := MOD_CONTROL or MOD_SHIFT;
+  FHotKeyApp.Key := Ord('A');
+
+  // Ctrl+Shift+S
+  FHotKeyTransSwap.Modifiers := MOD_CONTROL or MOD_SHIFT;
+  FHotKeyTransSwap.Key := Ord('S');
+
+  // Ctrl+Shift+T
+  FHotKeyTransFromClipboard.Modifiers := MOD_CONTROL or MOD_SHIFT;
+  FHotKeyTransFromClipboard.Key := Ord('T');
+
+  // Ctrl+Shift+R
+  FHotKeyTransClipboard.Modifiers := MOD_CONTROL or MOD_SHIFT;
+  FHotKeyTransClipboard.Key := Ord('R');
+
+  // Ctrl+Shift+P
+  FHotKeyTransClipboardPopup.Modifiers := MOD_CONTROL or MOD_SHIFT;
+  FHotKeyTransClipboardPopup.Key := Ord('P');
+
+  // Ctrl+Shift+C
+  FHotKeyTransFromControl.Modifiers := MOD_CONTROL or MOD_SHIFT;
+  FHotKeyTransFromControl.Key := Ord('C');
+
+  // Ctrl+Shift+V
+  FHotKeyTransControl.Modifiers := MOD_CONTROL or MOD_SHIFT;
+  FHotKeyTransControl.Key := Ord('V');
+
+  // Ctrl+Shift+X
+  FHotKeyTransControlPopup.Modifiers := MOD_CONTROL or MOD_SHIFT;
+  FHotKeyTransControlPopup.Key := Ord('X');
+
+  // Ctrl+Shift+1
+  FHotKeyRecent1.Modifiers := MOD_CONTROL or MOD_SHIFT;
+  FHotKeyRecent1.Key := Ord('1');
+
+  // Ctrl+Shift+2
+  FHotKeyRecent2.Modifiers := MOD_CONTROL or MOD_SHIFT;
+  FHotKeyRecent2.Key := Ord('2');
+
+  // Ctrl+Shift+3
+  FHotKeyRecent3.Modifiers := MOD_CONTROL or MOD_SHIFT;
+  FHotKeyRecent3.Key := Ord('3');
+
+  // Ctrl+Shift+4
+  FHotKeyRecent4.Modifiers := MOD_CONTROL or MOD_SHIFT;
+  FHotKeyRecent4.Key := Ord('4');
+
+  // Ctrl+Shift+5
+  FHotKeyRecent5.Modifiers := MOD_CONTROL or MOD_SHIFT;
+  FHotKeyRecent5.Key := Ord('5');
+
+  // Ctrl+Shift+6
+  FHotKeyRecent6.Modifiers := MOD_CONTROL or MOD_SHIFT;
+  FHotKeyRecent6.Key := Ord('6');
+
+  // Ctrl+Shift+7
+  FHotKeyRecent7.Modifiers := MOD_CONTROL or MOD_SHIFT;
+  FHotKeyRecent7.Key := Ord('7');
+
+  // Ctrl+Shift+8
+  FHotKeyRecent8.Modifiers := MOD_CONTROL or MOD_SHIFT;
+  FHotKeyRecent8.Key := Ord('8');
+
+  // Ctrl+Shift+9
+  FHotKeyRecent9.Modifiers := MOD_CONTROL or MOD_SHIFT;
+  FHotKeyRecent9.Key := Ord('9');
 end;
 
 procedure TFormTrayslate.BuildConfigMenu;

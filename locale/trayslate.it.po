@@ -88,6 +88,14 @@ msgctxt "formsettings.rdefaultfont"
 msgid "Default"
 msgstr "Predefinito"
 
+#: formsettings.rdefaulthotkeys
+msgid "Are you sure you want to restore default hotkeys?"
+msgstr "Sei sicuro di voler ripristinare i tasti di scelta rapida predefiniti?"
+
+#: formsettings.rdefaultsettings
+msgid "Are you sure you want to restore default settings?"
+msgstr "Sei sicuro di voler ripristinare le impostazioni predefinite?"
+
 #: formsettings.rglobal
 msgctxt "formsettings.rglobal"
 msgid "Global Hotkeys"
@@ -767,6 +775,15 @@ msgstr "Applica"
 #: tformsettingstrayslate.btncancel.caption
 msgid "Cancel"
 msgstr "Annulla"
+
+#: tformsettingstrayslate.btndefault.caption
+msgctxt "tformsettingstrayslate.btndefault.caption"
+msgid "Restore Defaults"
+msgstr "Ripristina Default"
+
+#: tformsettingstrayslate.btndefaulthotkeys.caption
+msgid "Restore Default Hotkeys"
+msgstr "Ripristina Tasti"
 
 #: tformsettingstrayslate.btnfont.caption
 msgctxt "tformsettingstrayslate.btnfont.caption"
