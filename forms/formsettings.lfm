@@ -818,7 +818,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
       OnClick = BtnApplyClick
     end
     object BtnDefault: TButton
-      Left = 7
+      Left = 5
       Height = 25
       Top = 3
       Width = 150
