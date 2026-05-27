@@ -117,7 +117,7 @@ type
     procedure ComboIconFontNameMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: integer;
       MousePos: TPoint; var Handled: boolean);
     procedure FormChangeBounds(Sender: TObject);
-    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -126,13 +126,13 @@ type
     procedure BtnFontClick(Sender: TObject);
     procedure BtnOkClick(Sender: TObject);
     procedure BtnResetClick(Sender: TObject);
+    procedure ListPagesClick(Sender: TObject);
+    procedure ListPagesDrawItem(Control: TWinControl; Index: integer; ARect: TRect; State: TOwnerDrawState);
     procedure GridHotkeysDrawCell(Sender: TObject; aCol, aRow: integer; aRect: TRect; aState: TGridDrawState);
     procedure GridHotkeysEditingDone(Sender: TObject);
     procedure GridHotkeysGetCellHint(Sender: TObject; ACol, ARow: integer; var HintText: string);
     procedure GridHotkeysKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure GridHotkeysSelectEditor(Sender: TObject; aCol, aRow: integer; var Editor: TWinControl);
-    procedure ListPagesClick(Sender: TObject);
-    procedure ListPagesDrawItem(Control: TWinControl; Index: integer; ARect: TRect; State: TOwnerDrawState);
     procedure SettingChange(Sender: TObject);
     procedure SplitterPagesMoved(Sender: TObject);
   private
@@ -335,8 +335,7 @@ begin
   formTrayslate.FormSettingsTop := Top;
 end;
 
-procedure TformSettingsTrayslate.FormCloseQuery(Sender: TObject;
-  var CanClose: Boolean);
+procedure TformSettingsTrayslate.FormCloseQuery(Sender: TObject; var CanClose: boolean);
 begin
   ResetRealTimeSettings;
 end;
@@ -390,6 +389,55 @@ begin
   Handled := True;
 end;
 
+procedure TformSettingsTrayslate.ListPagesClick(Sender: TObject);
+begin
+  // Synchronize PageControl with the selected list item
+  if (ListPages.ItemIndex >= 0) and (ListPages.ItemIndex < PagesSettings.PageCount) then
+  begin
+    PagesSettings.ActivePageIndex := ListPages.ItemIndex;
+  end;
+end;
+
+procedure TformSettingsTrayslate.ListPagesDrawItem(Control: TWinControl; Index: integer; ARect: TRect; State: TOwnerDrawState);
+var
+  ListBox: TListBox;
+  ImgY: integer;
+  TextOffset: integer;
+  TextRect: TRect;
+  TextStyle: TTextStyle;
+begin
+  ListBox := Control as TListBox;
+
+  // Draw item background
+  ListBox.Canvas.FillRect(ARect);
+
+  TextOffset := 4;
+
+  // Calculate vertical centering for the image
+  ImgY := ARect.Top + (ARect.Height - ImagesPages.Height) div 2;
+
+  // Draw image if index is valid
+  if (Index >= 0) and (Index < ImagesPages.Count) then
+  begin
+    ImagesPages.Draw(ListBox.Canvas, ARect.Left + TextOffset, ImgY, Index);
+  end;
+
+  // Prepare text rectangle
+  TextRect := ARect;
+  TextRect.Left := ARect.Left + ImagesPages.Width + (TextOffset * 2);
+  TextRect.Right := ARect.Right - TextOffset;
+
+  // Configure text style for LCL (Lazarus)
+  TextStyle := ListBox.Canvas.TextStyle;
+  TextStyle.Wordbreak := True;
+  TextStyle.SingleLine := False;
+  TextStyle.Layout := tlCenter; // In LCL use 'Layout' and 'tlCenter' for vertical centering
+
+  // Draw wrapped text
+  ListBox.Canvas.Brush.Style := bsClear;
+  ListBox.Canvas.TextRect(TextRect, TextRect.Left, TextRect.Top, ListBox.Items[Index], TextStyle);
+end;
+
 procedure TformSettingsTrayslate.GridHotkeysDrawCell(Sender: TObject; aCol, aRow: integer; aRect: TRect; aState: TGridDrawState);
 var
   Keys: TStringArray;
@@ -405,10 +453,23 @@ begin
     Exit;
   end;
 
+  // Selected row colors
+  if gdSelected in aState then
+  begin
+    CellColor := clHighlight;
+    GridHotkeys.Canvas.Font.Color := clHighlightText;
+  end
+  else
+  begin
+    CellColor := clWindow;
+    GridHotkeys.Canvas.Font.Color := clWindowText;
+  end;
+
   // Draw custom section headers
   if aRow in HeaderRows then
   begin
     GridHotkeys.Canvas.Font.Style := [fsBold];
+    GridHotkeys.Canvas.Brush.Color := CellColor;
     GridHotkeys.DefaultDrawCell(aCol, aRow, aRect, aState);
     Exit;
   end;
@@ -423,18 +484,6 @@ begin
   end;
 
   GridHotkeys.Canvas.Font.Style := [];
-
-  // Selected row colors
-  if gdSelected in aState then
-  begin
-    CellColor := clHighlight;
-    GridHotkeys.Canvas.Font.Color := clHighlightText;
-  end
-  else
-  begin
-    CellColor := clWindow;
-    GridHotkeys.Canvas.Font.Color := clWindowText;
-  end;
 
   // Draw normal columns normally
   if aCol <> 1 then
@@ -495,55 +544,6 @@ begin
 
     X := KeyRect.Right + 5;
   end;
-end;
-
-procedure TformSettingsTrayslate.ListPagesClick(Sender: TObject);
-begin
-  // Synchronize PageControl with the selected list item
-  if (ListPages.ItemIndex >= 0) and (ListPages.ItemIndex < PagesSettings.PageCount) then
-  begin
-    PagesSettings.ActivePageIndex := ListPages.ItemIndex;
-  end;
-end;
-
-procedure TformSettingsTrayslate.ListPagesDrawItem(Control: TWinControl; Index: integer; ARect: TRect; State: TOwnerDrawState);
-var
-  ListBox: TListBox;
-  ImgY: integer;
-  TextOffset: integer;
-  TextRect: TRect;
-  TextStyle: TTextStyle;
-begin
-  ListBox := Control as TListBox;
-
-  // Draw item background
-  ListBox.Canvas.FillRect(ARect);
-
-  TextOffset := 4;
-
-  // Calculate vertical centering for the image
-  ImgY := ARect.Top + (ARect.Height - ImagesPages.Height) div 2;
-
-  // Draw image if index is valid
-  if (Index >= 0) and (Index < ImagesPages.Count) then
-  begin
-    ImagesPages.Draw(ListBox.Canvas, ARect.Left + TextOffset, ImgY, Index);
-  end;
-
-  // Prepare text rectangle
-  TextRect := ARect;
-  TextRect.Left := ARect.Left + ImagesPages.Width + (TextOffset * 2);
-  TextRect.Right := ARect.Right - TextOffset;
-
-  // Configure text style for LCL (Lazarus)
-  TextStyle := ListBox.Canvas.TextStyle;
-  TextStyle.Wordbreak := True;
-  TextStyle.SingleLine := False;
-  TextStyle.Layout := tlCenter; // In LCL use 'Layout' and 'tlCenter' for vertical centering
-
-  // Draw wrapped text
-  ListBox.Canvas.Brush.Style := bsClear;
-  ListBox.Canvas.TextRect(TextRect, TextRect.Left, TextRect.Top, ListBox.Items[Index], TextStyle);
 end;
 
 procedure TformSettingsTrayslate.GridHotkeysGetCellHint(Sender: TObject; ACol, ARow: integer; var HintText: string);
