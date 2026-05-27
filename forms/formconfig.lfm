@@ -209,6 +209,7 @@ object formConfigTrayslate: TformConfigTrayslate
             Top = 0
             Width = 25
             Anchors = [akTop, akRight]
+            Brush.Color = clWindow
             Pen.Style = psDot
           end
           object LabelServiceName: TLabel
@@ -313,6 +314,7 @@ object formConfigTrayslate: TformConfigTrayslate
             Center = True
             ParentShowHint = False
             ShowHint = True
+            Transparent = True
             OnClick = ImagePreviewClick
             OnMouseUp = ImagePreviewMouseUp
           end

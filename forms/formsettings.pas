@@ -446,13 +446,6 @@ var
   X, Y, i, TextW, TextH, BtnW: integer;
   CellColor: TColor;
 begin
-  // Draw fixed grid header exactly as default
-  if gdFixed in aState then
-  begin
-    GridHotkeys.DefaultDrawCell(aCol, aRow, aRect, aState);
-    Exit;
-  end;
-
   // Selected row colors
   if gdSelected in aState then
   begin
@@ -463,6 +456,14 @@ begin
   begin
     CellColor := clWindow;
     GridHotkeys.Canvas.Font.Color := clWindowText;
+  end;
+
+  // Draw fixed grid header exactly as default
+  if gdFixed in aState then
+  begin
+    GridHotkeys.Canvas.Brush.Color := CellColor;
+    GridHotkeys.DefaultDrawCell(aCol, aRow, aRect, aState);
+    Exit;
   end;
 
   // Draw custom section headers
@@ -478,7 +479,7 @@ begin
   if (GridHotkeys.EditorMode and (aCol = GridHotkeys.Col) and (aRow = GridHotkeys.Row)) or
     (GridHotkeys.Cells[aCol, aRow] = string.Empty) then
   begin
-    if (aCol = 1) and not (gdSelected in aState) then  GridHotkeys.Canvas.Brush.Color := clWhite;
+    if (aCol = 1) and not (gdSelected in aState) then  GridHotkeys.Canvas.Brush.Color := clWindow;
     GridHotkeys.DefaultDrawCell(aCol, aRow, aRect, aState);
     Exit;
   end;
