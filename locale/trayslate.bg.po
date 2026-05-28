@@ -742,11 +742,11 @@ msgstr "Отказ"
 #: tformsettingstrayslate.btndefault.caption
 msgctxt "tformsettingstrayslate.btndefault.caption"
 msgid "Restore Defaults"
-msgstr "Настройки по подразбиране"
+msgstr "Опции по подразбиране"
 
 #: tformsettingstrayslate.btndefaulthotkeys.caption
 msgid "Restore Default Hotkeys"
-msgstr "Стандартни бързи клавиши"
+msgstr "Клавиши подразбиране"
 
 #: tformsettingstrayslate.btnfont.caption
 msgctxt "tformsettingstrayslate.btnfont.caption"
