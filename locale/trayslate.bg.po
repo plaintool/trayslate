@@ -18,7 +18,7 @@ msgstr "Редактор на конфигурации"
 
 #: formconfig.rclearlanguages
 msgid "The list is already filled. Do you want to clear it?"
-msgstr "Списъкът вече е попълнен. Искате ли да го изчистите?"
+msgstr "Списъкът вече е попълнен. Ще го изчистите?"
 
 #: formconfig.rdeleteconfig
 msgid "Are you sure you want to delete config"
@@ -26,7 +26,7 @@ msgstr "Сигурни ли сте, че искате да изтриете ко
 
 #: formconfig.rdeleteconfigcaption
 msgid "Delete config"
-msgstr "Изтриване на конфигурацията"
+msgstr "Изтрий конфигурацията"
 
 #: formconfig.rnamequestion
 msgctxt "formconfig.rnamequestion"
@@ -35,7 +35,7 @@ msgstr "Въведете новото име на конфигурационни
 
 #: formconfig.rneedsave
 msgid "The configuration was modified. Save changes?"
-msgstr "Конфигурацията беше променена. Да се запазят ли промените?"
+msgstr "Конфигурацията бе променена. Да се запазят ли промените?"
 
 #: formconfig.rvaluetype1
 msgctxt "formconfig.rvaluetype1"
@@ -53,7 +53,7 @@ msgstr "Всички валути"
 
 #: formconfig.rvaluetype4
 msgid "Currency Fiat Only"
-msgstr "Само Fiat валута"
+msgstr "Само фиатни валута"
 
 #: formconfig.rvaluetype5
 msgid "Currency Crypto Only"
@@ -66,7 +66,7 @@ msgstr "Мерни единици"
 #: formsettings.rapp
 msgctxt "formsettings.rapp"
 msgid "Toggle Application (Tray Icon Click)"
-msgstr "Превключи приложението (клик иконата в трея)"
+msgstr "Покажи / скрий приложението (клик иконата в трея)"
 
 #: formsettings.rapp_default
 msgctxt "formsettings.rapp_default"
@@ -85,7 +85,7 @@ msgstr "По подразбиране"
 
 #: formsettings.rdefaulthotkeys
 msgid "Are you sure you want to restore default hotkeys?"
-msgstr "Да възстановите клавишните комбинации по подразбиране?"
+msgstr "Да възстановите бързи клавиши по подразбиране?"
 
 #: formsettings.rdefaultsettings
 msgid "Are you sure you want to restore default settings?"
@@ -98,7 +98,7 @@ msgstr "Глобални бързи клавиши"
 
 #: formsettings.rmousemodeballon
 msgid "Show Balloon Translation"
-msgstr "Показване на превода на балон"
+msgstr "Показвай превода в балон"
 
 #: formsettings.rmousemodebutton
 msgctxt "formsettings.rmousemodebutton"
@@ -133,7 +133,7 @@ msgstr "Избери скорошна езикова двойка"
 #: formsettings.rtransclipboard
 msgctxt "formsettings.rtransclipboard"
 msgid "Translate Clipboard to Clipboard"
-msgstr "Превод от клипборда в клипборд"
+msgstr "Превод на клипборда в клипборд"
 
 #: formsettings.rtransclipboardpopup
 msgid "Translate Clipboard to Popup Window"
@@ -164,7 +164,7 @@ msgstr "Превод в избраното активно приложение"
 
 #: formsettings.rtranscontrolpopup
 msgid "Translate Selected Text to Popup Window"
-msgstr "Превеждане на избрания текст в изскачащ прозорец"
+msgstr "Превод на избрания текст в изскачащ прозорец"
 
 #: formsettings.rtranscontrolpopup_default
 msgid "Default: Ctrl+Shift+X"
@@ -250,7 +250,7 @@ msgstr "Замяна (%s) с текст (%s)"
 
 #: mainform.rtoremovepair
 msgid " to remove pair"
-msgstr " премахни на двойката"
+msgstr " да премахне двойката"
 
 #: mainform.rtrayslate
 msgctxt "mainform.rtrayslate"
@@ -742,11 +742,11 @@ msgstr "Отказ"
 #: tformsettingstrayslate.btndefault.caption
 msgctxt "tformsettingstrayslate.btndefault.caption"
 msgid "Restore Defaults"
-msgstr "Възстанови настройки по подразбиране"
+msgstr "Настройки по подразбиране"
 
 #: tformsettingstrayslate.btndefaulthotkeys.caption
 msgid "Restore Default Hotkeys"
-msgstr "Възстанови стандартните бързи клавиши"
+msgstr "Стандартни бързи клавиши"
 
 #: tformsettingstrayslate.btnfont.caption
 msgctxt "tformsettingstrayslate.btnfont.caption"
@@ -805,7 +805,7 @@ msgstr "Пусни при старт на системата"
 
 #: tformsettingstrayslate.checkautostart.hint
 msgid "Start the application automatically when the computer boots"
-msgstr "Авто-старт на приложението при стартиране на компютъра"
+msgstr "Авто-старт на приложението при старт на компютъра"
 
 #: tformsettingstrayslate.checkautoswap.caption
 msgctxt "tformsettingstrayslate.checkautoswap.caption"
@@ -910,7 +910,7 @@ msgstr "Как да се показва преводът при избор на 
 #: tformsettingstrayslate.combomousemode.text
 msgctxt "tformsettingstrayslate.combomousemode.text"
 msgid "Show Translate Button"
-msgstr "Показвай бутона за превод"
+msgstr "Показвай бутон за превод"
 
 #: tformsettingstrayslate.gridhotkeys.columns[0].title.caption
 msgctxt "tformsettingstrayslate.gridhotkeys.columns[0].title.caption"
