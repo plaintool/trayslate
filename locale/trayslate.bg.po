@@ -281,15 +281,15 @@ msgstr "Относно"
 
 #: tformabouttrayslate.labelby.caption
 msgid "by Alexander Tverskoy is licensed under"
-msgstr "от Александър Тверской е лицензирано под"
+msgstr "от Александър Тверской с лиценз от"
 
 #: tformabouttrayslate.labelby1.caption
 msgid "the GNU General Public License, Version 3"
-msgstr "общ публичен лиценз на GNU, версия 3"
+msgstr "общия публичен лиценз на GNU, версия 3"
 
 #: tformabouttrayslate.labellic.caption
 msgid "For questions or feedback, contact me at"
-msgstr "За въпроси или обратна връзка, свържете се с мен на"
+msgstr "За въпроси или обр.връзка, пишете ми"
 
 #: tformabouttrayslate.labelname.caption
 msgid "Trayslate © 2026"
@@ -298,7 +298,7 @@ msgstr "Trayslate © 2026"
 #: tformabouttrayslate.labelurlemail.caption
 msgctxt "tformabouttrayslate.labelurlemail.caption"
 msgid "mailto:astverskoy@gmail.com"
-msgstr "имейл до:astverskoy@gmail.com"
+msgstr "имейл:astverskoy@gmail.com"
 
 #: tformabouttrayslate.labelurlgithub.caption
 msgid "github:plaintool"
