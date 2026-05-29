@@ -155,6 +155,14 @@ begin
     //JSONObj.Add('FontColor', Form.Font.Color);
     JSONObj.Add('FontPitch', Ord(Form.Font.Pitch));
 
+    // Save font popup
+    JSONObj.Add('PopupFontName', Form.FontPopup.Name);
+    JSONObj.Add('PopupFontSize', Form.FontPopup.Size);
+    JSONObj.Add('PopupFontStyle', integer(Form.FontPopup.Style));  // Convert font style to number
+    JSONObj.Add('PopupFontCharset', Form.FontPopup.Charset);
+    //JSONObj.Add('PopupFontColor', Form.FontPopup.Color);
+    JSONObj.Add('PopupFontPitch', Ord(Form.FontPopup.Pitch));
+
     // Save config
     JSONObj.Add('ConfigFile', Form.ConfigFile);
     JSONObj.Add('ConfigLangDetect', Form.ConfigLangDetect);
@@ -373,6 +381,20 @@ begin
         //  Form.Font.Color := JSONObj.FindPath('FontColor').AsInteger;
         if JSONObj.FindPath('FontPitch') <> nil then
           Form.Font.Pitch := TFontPitch(JSONObj.FindPath('FontPitch').AsInteger);
+
+        // Check and load puifont properties
+        if JSONObj.FindPath('PopupFontName') <> nil then
+          Form.FontPopup.Name := JSONObj.FindPath('PopupFontName').AsString;
+        if JSONObj.FindPath('PopupFontSize') <> nil then
+          Form.FontPopup.Size := JSONObj.FindPath('PopupFontSize').AsInteger;
+        if JSONObj.FindPath('PopupFontStyle') <> nil then
+          Form.FontPopup.Style := TFontStyles(JSONObj.FindPath('PopupFontStyle').AsInteger); // Convert integer back to TFontStyles
+        if JSONObj.FindPath('PopupFontCharset') <> nil then
+          Form.FontPopup.Charset := JSONObj.FindPath('PopupFontCharset').AsInteger;
+        //if JSONObj.FindPath('PopupFontColor') <> nil then
+        //  Form.FontPopup.Color := JSONObj.FindPath('PopupFontColor').AsInteger;
+        if JSONObj.FindPath('PopupFontPitch') <> nil then
+          Form.FontPopup.Pitch := TFontPitch(JSONObj.FindPath('PopupFontPitch').AsInteger);
 
         // Load config
         if JSONObj.FindPath('ConfigFile') <> nil then
