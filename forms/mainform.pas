@@ -313,6 +313,8 @@ type
     FLastXTime: DWORD;
     FLastVTime: DWORD;
     FAutoHeightAfter: boolean;
+    FPrevMouseDown: TMouseEventInfo;
+    FDoubleClickPending: boolean;
 
     // Non sorted combo named languages
     FLanguages: TStringList;
@@ -549,6 +551,7 @@ const
   HOTKEY_INTERVAL = 500; // ms
   MOUSE_MODE_INTERVAL = 100; // ms
   MOUSE_MODE_DELTA = 20; // pixel
+  MOUSE_DBL_INTERVAL = 500; // ms
   BUTTON_DELTA = 10;
 
   MIDDLE_MOUSE = 'Middle-Click';
@@ -610,6 +613,8 @@ begin
   FLastXTime := 0;
   FLastCTime := 0;
   FLastVTime := 0;
+  FillChar(FPrevMouseDown, SizeOf(FPrevMouseDown), 0);
+  FDoubleClickPending := False;
 
   // Components config
   Left := Screen.WorkAreaRect.Right - Width - 30;
@@ -968,27 +973,58 @@ begin
 end;
 
 procedure TFormTrayslate.OnHookLeftDown(Sender: TObject; const Info: TMouseEventInfo);
+var
+  TimeDiff: DWORD;
+  dx, dy: integer;
 begin
+  // Store current down info for later use in OnHookLeftUp (existing code)
   FLastMouseInfo := Info;
+
+  // Double-click detection using previous down event
+  TimeDiff := Info.Time - FPrevMouseDown.Time;
+  dx := Info.X - FPrevMouseDown.X;
+  dy := Info.Y - FPrevMouseDown.Y;
+
+  if (TimeDiff <= MOUSE_DBL_INTERVAL) and (dx * dx + dy * dy <= MOUSE_MODE_DELTA * MOUSE_MODE_DELTA) then
+    FDoubleClickPending := True
+  else
+    FDoubleClickPending := False;
+
+  // Store this down as previous for future comparisons
+  FPrevMouseDown := Info;
 end;
 
 procedure TFormTrayslate.OnHookLeftUp(Sender: TObject; const Info: TMouseEventInfo);
 var
   packedCoords: PtrInt;
   dx, dy: integer;
+  TimeDiff: DWORD;
+  DistanceSq: integer;
 begin
-  if ((Info.Time - FLastMouseInfo.Time) > MOUSE_MODE_INTERVAL) then
+  // Case 1: double-click (detected on previous down)
+  if FDoubleClickPending then
   begin
-    // Checking the offset relative to the point of pressure
-    dx := Info.X - FLastMouseInfo.X;
-    dy := Info.Y - FLastMouseInfo.Y;
-    if (dx * dx + dy * dy) > (MOUSE_MODE_DELTA * MOUSE_MODE_DELTA) then
+    if (not MouseModeCtrl) or (FLastMouseInfo.CtrlDown and Info.CtrlDown) then
     begin
-      if (not MouseModeCtrl) or (FLastMouseInfo.CtrlDown and Info.CtrlDown) then
-      begin
-        packedCoords := Info.Y shl 16 + Info.X;
-        Application.QueueAsyncCall(@OnTranslateMouseMode, packedCoords);
-      end;
+      packedCoords := Info.Y shl 16 + Info.X;
+      Application.QueueAsyncCall(@OnTranslateMouseMode, packedCoords);
+    end;
+    FDoubleClickPending := False;
+    Exit;
+  end;
+
+  // Case 2: old logic (long press with movement)
+  TimeDiff := Info.Time - FLastMouseInfo.Time;
+  dx := Info.X - FLastMouseInfo.X;
+  dy := Info.Y - FLastMouseInfo.Y;
+  DistanceSq := dx * dx + dy * dy;
+
+  if (TimeDiff > MOUSE_MODE_INTERVAL) and (DistanceSq > MOUSE_MODE_DELTA * MOUSE_MODE_DELTA) then
+  begin
+    if (not MouseModeCtrl) or (FLastMouseInfo.CtrlDown and Info.CtrlDown) then
+    begin
+      packedCoords := Info.Y shl 16 + Info.X;
+      Application.QueueAsyncCall(@OnTranslateMouseMode, packedCoords);
     end;
   end;
 end;
