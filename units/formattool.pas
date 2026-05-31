@@ -24,7 +24,6 @@ uses
   LCLIntf,
   LazUTF8,
   fpjson,
-  fphttpclient,
   jsonparser;
 
 function ColorToHtml(AColor: TColor): string;
@@ -77,9 +76,13 @@ function Utf8Truncate(const S: string; MaxBytes: integer; Encode: boolean): stri
 
 function Utf8TruncateWithEncoding(const S: string; MaxBytes: integer; Encode: boolean): string;
 
+function EncodeURLElement(S: string): string;
+
+function GetSynapseHeader(const AHeaders: TStringList; const AName: string): string;
+
 function LongestString(const Values: array of string): string;
 
-function TryFormatJson(const AText: string; out AFormatted: string): Boolean;
+function TryFormatJson(const AText: string; out AFormatted: string): boolean;
 
 implementation
 
@@ -861,6 +864,62 @@ begin
     SetString(Result, startPtr, p - startPtr);
 end;
 
+function EncodeURLElement(S: string): string;
+const
+  NotAllowed = [';', '/', '?', ':', '@', '=', '&', '#', '+', '_', '<', '>', '"', '%', '{', '}', '|', '\', '^', '~', '[', ']', '`'];
+var
+  i, o, l: integer;
+  h: string[2];
+  P: pchar;
+  c: ansichar;
+begin
+  Result := '';
+  l := Length(S);
+  if (l = 0) then Exit;
+  SetLength(Result, l * 3);
+  P := PChar(Result);
+  for I := 1 to L do
+  begin
+    C := S[i];
+    O := Ord(c);
+    if (O <= $20) or (O >= $7F) or (c in NotAllowed) then
+    begin
+      P^ := '%';
+      Inc(P);
+      h := IntToHex(Ord(c), 2);
+      p^ := h[1];
+      Inc(P);
+      p^ := h[2];
+      Inc(P);
+    end
+    else
+    begin
+      P^ := c;
+      Inc(p);
+    end;
+  end;
+  SetLength(Result, P - PChar(Result));
+end;
+
+function GetSynapseHeader(const AHeaders: TStringList; const AName: string): string;
+var
+  j: integer;
+  s: string;
+  prefix: string;
+begin
+  Result := string.Empty;
+  prefix := AName + ':';
+  for j := 0 to AHeaders.Count - 1 do
+  begin
+    s := AHeaders[j];
+    if Pos(prefix, s) = 1 then
+    begin
+      Result := Trim(Copy(s, Length(prefix) + 1, MaxInt));
+      Break;
+    end;
+  end;
+end;
+
 function LongestString(const Values: array of string): string;
 var
   I: integer;
@@ -871,7 +930,7 @@ begin
       Result := Values[I];
 end;
 
-function TryFormatJson(const AText: string; out AFormatted: string): Boolean;
+function TryFormatJson(const AText: string; out AFormatted: string): boolean;
 var
   JsonData: TJSONData;
 begin
@@ -883,7 +942,8 @@ begin
     JsonData := GetJSON(AText);
     try
       // Format with 2 spaces indent
-      AFormatted := JsonData.FormatJSON([], 2);
+      if Assigned(JsonData) then
+        AFormatted := JsonData.FormatJSON([], 2);
       Result := True;
     finally
       JsonData.Free;
