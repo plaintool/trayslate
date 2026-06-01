@@ -55,7 +55,15 @@ uses
   opensslsockets,
   {$ENDIF}
   fpjson,
-  jsonparser;
+  jsonparser,
+  {$PUSH}
+  {$WARNINGS OFF}
+  {$HINTS OFF}
+  {$NOTES OFF}
+  httpsend,
+  blcksock,
+  ssl_openssl11;
+  {$POP}
 
 type
   TCheckUpdateThread = class(TThread)
@@ -65,6 +73,9 @@ type
     procedure Execute; override;
     procedure UpdateAvailable;
   end;
+
+  { TWebMethod }
+  TWebMethod = (wmGet, wmPost);
 
 function GetOSLanguage: string;
 
@@ -97,6 +108,13 @@ function GetTickCountXp: DWORD;
 procedure SleepBusy(MS: integer);
 
 procedure SleepLoop(ALoop: integer = 0; ASleep: integer = 0; AProcessMessages: boolean = True);
+
+{ Web Request }
+
+function GetSynapseHeader(const AHeaders: TStringList; const AName: string): string;
+
+function WebRequest(AMethod: TWebMethod; const AUrl: string; const APostData: string; AHeaders: TStrings;
+  const AUserAgent, AContentType, AAccept: string; out AResponseHeaders: TStringList; out AError: boolean): string;
 
 { Check Github Version }
 
@@ -140,6 +158,9 @@ const
   REPO = 'plaintool/trayslate';
   GITHUB = 'https://github.com/plaintool';
   EMAIL = 'mailto:astverskoy@gmail.com';
+
+  CONNECT_TIMEOUT = 10000;
+  IO_TIMEOUT = 300000;
 
 implementation
 
@@ -703,7 +724,9 @@ type
 var
   h: THandle;
   p: TGetTickCount64;
+  {$ENDIF}
 begin
+  {$IFDEF WINDOWS}
   h := GetModuleHandle('kernel32.dll');
   if h <> 0 then
     Pointer(p) := GetProcAddress(h, 'GetTickCount64')
@@ -714,7 +737,6 @@ begin
   else
     Result := GetTickCount;
   {$ELSE}
-begin
   // For Linux, macOS and other platforms, use the built-in function from LclIntf
   Result := LclIntf.GetTickCount64;
   {$ENDIF}
@@ -724,17 +746,17 @@ procedure SleepBusy(MS: integer);
 {$IFDEF WINDOWS}
 var
   StartTick: DWORD;
+{$ENDIF}
 begin
+  {$IFDEF WINDOWS}
   StartTick := GetTickCountXp;
   while (GetTickCountXp - StartTick) < DWORD(MS) do
     Application.ProcessMessages;
-{$ELSE}
-begin
+  {$ELSE}
   // non Windows fallback – simple sleep, no message processing
   Sleep(MS);
-{$ENDIF}
+  {$ENDIF}
 end;
-
 
 procedure SleepLoop(ALoop: integer = 0; ASleep: integer = 0; AProcessMessages: boolean = True);
 var
@@ -746,6 +768,132 @@ begin
       Application.ProcessMessages;
     if ASleep > 0 then
       SleepBusy(ASleep);
+  end;
+end;
+
+{ Web Request }
+
+function GetSynapseHeader(const AHeaders: TStringList; const AName: string): string;
+var
+  j: integer;
+  s: string;
+  prefix: string;
+begin
+  Result := string.Empty;
+  prefix := AName + ':';
+  for j := 0 to AHeaders.Count - 1 do
+  begin
+    s := AHeaders[j];
+    if Pos(prefix, s) = 1 then
+    begin
+      Result := Trim(Copy(s, Length(prefix) + 1, MaxInt));
+      Break;
+    end;
+  end;
+end;
+
+function WebRequest(AMethod: TWebMethod; const AUrl: string; const APostData: string; AHeaders: TStrings;
+  const AUserAgent, AContentType, AAccept: string; out AResponseHeaders: TStringList; out AError: boolean): string;
+var
+  HTTP: THTTPSend;
+  rawStream: TMemoryStream;
+  decompressedStream: TMemoryStream;
+  bodyStream: TStringStream;
+  postStream: TStringStream;
+  contentEncoding: string;
+  i: integer;
+begin
+  AResponseHeaders := nil;
+  AError := False;
+
+  HTTP := THTTPSend.Create;
+  rawStream := TMemoryStream.Create;
+  try
+    // Common setup
+    HTTP.Timeout := IO_TIMEOUT;
+    HTTP.Protocol := '1.1';
+    TSSLOpenSSL.Create(HTTP.Sock);
+    HTTP.Sock.SSL.SSLType := LT_TLSv1_2;
+    HTTP.Sock.ConnectionTimeout := CONNECT_TIMEOUT;
+
+    HTTP.Headers.Clear;
+    if AUserAgent <> string.Empty then
+      HTTP.Headers.Add('User-Agent: ' + AUserAgent);
+    if AContentType <> string.Empty then
+    begin
+      if AMethod = wmPost then
+        HTTP.MimeType := AContentType
+      else
+        HTTP.Headers.Add('Content-Type: ' + AContentType);
+    end;
+    if AAccept <> string.Empty then
+      HTTP.Headers.Add('Accept: ' + AAccept);
+
+    // Custom headers – use Names/Values to ensure "Name: Value" format
+    if Assigned(AHeaders) then
+      for i := 0 to AHeaders.Count - 1 do
+        HTTP.Headers.Add(AHeaders.Names[i] + ': ' + AHeaders.ValueFromIndex[i]);
+
+    // POST body (UTF-8)
+    if AMethod = wmPost then
+    begin
+      postStream := TStringStream.Create(APostData, TEncoding.UTF8);
+      try
+        HTTP.Document.CopyFrom(postStream, 0);
+        HTTP.Document.Position := 0;   // Synapse reads from current position
+      finally
+        postStream.Free;
+      end;
+    end;
+
+    // Execute request
+    if AMethod = wmPost then
+      HTTP.HTTPMethod('POST', AUrl)
+    else
+      HTTP.HTTPMethod('GET', AUrl);
+
+    // Capture response headers
+    AResponseHeaders := TStringList.Create;
+    AResponseHeaders.Assign(HTTP.Headers);
+
+    // Error handling
+    if (HTTP.ResultCode div 100) <> 2 then
+    begin
+      if (HTTP.ResultCode = 0) and (HTTP.Sock.LastError <> 0) then
+        Result := 'Socket Error: ' + HTTP.Sock.LastErrorDesc
+      else
+        Result := 'HTTP Error: ' + IntToStr(HTTP.ResultCode) + ' ' + HTTP.ResultString;
+      AError := True;
+      Exit;
+    end;
+
+    // Read response body
+    rawStream.CopyFrom(HTTP.Document, 0);
+    rawStream.Position := 0;
+
+    // Decompress gzip if needed
+    contentEncoding := GetSynapseHeader(AResponseHeaders, 'Content-Encoding');
+    bodyStream := TStringStream.Create(string.Empty, TEncoding.UTF8);
+    try
+      if SameText(contentEncoding, 'gzip') and IsGzip(rawStream) then
+      begin
+        decompressedStream := DecompressGzipToStream(rawStream);
+        try
+          bodyStream.CopyFrom(decompressedStream, 0);
+        finally
+          decompressedStream.Free;
+        end;
+      end
+      else
+        bodyStream.CopyFrom(rawStream, 0);
+
+      Result := bodyStream.DataString;
+    finally
+      bodyStream.Free;
+    end;
+  finally
+    rawStream.Free;
+    HTTP.Free;
   end;
 end;
 

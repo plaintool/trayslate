@@ -23,8 +23,7 @@ uses
   ColorBox,
   LCLIntf,
   LazUTF8,
-  fpjson,
-  jsonparser;
+  fpjson;
 
 function ColorToHtml(AColor: TColor): string;
 
@@ -78,7 +77,7 @@ function Utf8TruncateWithEncoding(const S: string; MaxBytes: integer; Encode: bo
 
 function EncodeURLElement(S: string): string;
 
-function GetSynapseHeader(const AHeaders: TStringList; const AName: string): string;
+function HTTPDecode(const AStr: string): string;
 
 function LongestString(const Values: array of string): string;
 
@@ -901,23 +900,52 @@ begin
   SetLength(Result, P - PChar(Result));
 end;
 
-function GetSynapseHeader(const AHeaders: TStringList; const AName: string): string;
+function HTTPDecode(const AStr: string): string;
 var
-  j: integer;
-  s: string;
-  prefix: string;
+  S, SS, R: pchar;
+  H: string[3];
+  L, C: integer;
 begin
-  Result := string.Empty;
-  prefix := AName + ':';
-  for j := 0 to AHeaders.Count - 1 do
+  L := Length(Astr);
+  Result := '';
+  SetLength(Result, L);
+  if (L = 0) then
+    exit;
+  S := PChar(AStr);
+  SS := S;
+  R := PChar(Result);
+  while (S - SS) < L do
   begin
-    s := AHeaders[j];
-    if Pos(prefix, s) = 1 then
-    begin
-      Result := Trim(Copy(s, Length(prefix) + 1, MaxInt));
-      Break;
+    case S^ of
+      '+': R^ := ' ';
+      '%': begin
+        Inc(S);
+        if ((S - SS) < L) then
+        begin
+          if (S^ = '%') then
+            R^ := '%'
+          else
+          begin
+            H := '$00';
+            H[2] := S^;
+            Inc(S);
+            if (S - SS) < L then
+            begin
+              H[3] := S^;
+              Val(H, pbyte(R)^, C);
+              if (C <> 0) then
+                R^ := ' ';
+            end;
+          end;
+        end;
+      end;
+      else
+        R^ := S^;
     end;
+    Inc(R);
+    Inc(S);
   end;
+  SetLength(Result, R - PChar(Result));
 end;
 
 function LongestString(const Values: array of string): string;

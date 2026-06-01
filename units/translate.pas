@@ -24,21 +24,9 @@ uses
   LazUTF8,
   fpjson,
   jsonparser,
-  httpprotocol,
-  {$PUSH}
-  {$WARNINGS OFF}
-  {$HINTS OFF}
-  {$NOTES OFF}
-  httpsend,
-  //  synautil,
-  blcksock,
-  ssl_openssl11;
-  {$POP}
+  systemtool;
 
 type
-  { TWebMethod }
-  TWebMethod = (wmGet, wmPost);
-
   { TValueType}
   TValueType = (
     vtNone,            // as is
@@ -172,12 +160,10 @@ const
   DEFAULT_LANG = 'en';
   EMPTY_LANG = 'empty';
   REGEXP_ERROR = 'REGEX_ERROR: ';
-  CONNECT_TIMEOUT = 10000;
-  IO_TIMEOUT = 300000;
 
 implementation
 
-uses systemtool, langtool, formattool;
+uses langtool, formattool;
 
   { TTranslate }
 
@@ -396,98 +382,42 @@ end;
 
 function TTranslate.GetInit: string;
 var
-  HTTP: THTTPSend;
   responseHeaders: TStringList;
-  rawStream: TMemoryStream;
-  decompressedStream: TMemoryStream;
-  bodyStream: TStringStream;
+  responseBody: string;
   i: integer;
   header: string;
-  contentEncoding: string;
+  Error: boolean;
 begin
   Result := string.Empty;
   if FInitUrl = string.Empty then Exit;
   if SecondsBetween(Now, FParametersAge) < FInitLiveTime then Exit;
   FParameterValues.Clear;
 
-  HTTP := THTTPSend.Create;
-  rawStream := TMemoryStream.Create;
-  responseHeaders := TStringList.Create;
+  responseBody := WebRequest(wmGet, FInitUrl, string.Empty, InitHeaders, FInitUserAgent, string.Empty,
+    string.Empty, responseHeaders, Error);
+  if Error then Exit(responseBody);
+
   try
-    HTTP.Sock.ConnectionTimeout := CONNECT_TIMEOUT;
-    HTTP.Timeout := CONNECT_TIMEOUT;
-    HTTP.Protocol := '1.1';
-    TSSLOpenSSL.Create(HTTP.Sock);
-    HTTP.Sock.SSL.SSLType := LT_TLSv1_2; // TLS 1.2 minimum
-
-    HTTP.Headers.Clear;
-    if FInitUserAgent <> string.Empty then
-      HTTP.Headers.Add('User-Agent: ' + FInitUserAgent);
-    if Assigned(InitHeaders) then
-      for i := 0 to InitHeaders.Count - 1 do
-        HTTP.Headers.Add(InitHeaders.Names[i] + ': ' + InitHeaders.ValueFromIndex[i]);
-
-    HTTP.HTTPMethod('GET', FInitUrl);
-
-    if (HTTP.ResultCode div 100) <> 2 then
-    begin
-      // Try to get socket-level error if HTTP status is not 2xx or zero
-      if (HTTP.ResultCode = 0) and (HTTP.Sock.LastError <> 0) then
-        Result := 'Socket Error: ' + HTTP.Sock.LastErrorDesc
-      else
-        Result := 'HTTP Error: ' + IntToStr(HTTP.ResultCode) + ' ' + HTTP.ResultString;
-      Exit;
-    end;
-
-    // Save response headers
-    responseHeaders.Assign(HTTP.Headers);
-
-    // Copy raw body
-    rawStream.CopyFrom(HTTP.Document, 0);
-    rawStream.Position := 0;
-
-    // Build header string
+    // Build header string from response headers
     header := string.Empty;
     for i := 0 to responseHeaders.Count - 1 do
       header := header + responseHeaders[i] + LineEnding;
 
-    bodyStream := TStringStream.Create(string.Empty, TEncoding.UTF8);
-    try
-      contentEncoding := GetSynapseHeader(responseHeaders, 'Content-Encoding');
-      if SameText(contentEncoding, 'gzip') and IsGzip(rawStream) then
-      begin
-        decompressedStream := DecompressGzipToStream(rawStream);
-        try
-          bodyStream.CopyFrom(decompressedStream, 0);
-        finally
-          decompressedStream.Free;
-        end;
-      end
-      else
-        bodyStream.CopyFrom(rawStream, 0);
-
-      Result := header + LineEnding + bodyStream.DataString;
-    finally
-      bodyStream.Free;
-    end;
+    Result := header + LineEnding + responseBody;
   finally
     responseHeaders.Free;
-    rawStream.Free;
-    HTTP.Free;
   end;
 end;
 
 function TTranslate.Get(ReturnHeaders: boolean = False): string;
 var
-  HTTP: THTTPSend;
-  rawStream: TMemoryStream;
-  decompressedStream: TMemoryStream;
-  bodyStream: TStringStream;
+  responseHeaders: TStringList;
+  responseBody: string;
   TempUrl: string;
   TempHeaders: TStringList;
   i: integer;
   header: string;
-  contentEncoding: string;
+  Error: boolean;
 begin
   Result := string.Empty;
   if FUrl = string.Empty then exit;
@@ -495,89 +425,38 @@ begin
   try
     GetParameters(GetInit);
 
-    HTTP := THTTPSend.Create;
-    rawStream := TMemoryStream.Create;
-    try
-      TempUrl := FUrl;
-      TempUrl := SetParameters(TempUrl);
-      if (FLangSource = EMPTY_LANG) or (FLangSource = EMPTY_LANG) then
-        TempUrl := RemoveEmptyParams(TempUrl);
+    TempUrl := FUrl;
+    TempUrl := SetParameters(TempUrl);
+    if (FLangSource = EMPTY_LANG) or (FLangSource = EMPTY_LANG) then
+      TempUrl := RemoveEmptyParams(TempUrl);
 
-      HTTP.Sock.ConnectionTimeout := CONNECT_TIMEOUT;
-      HTTP.Timeout := IO_TIMEOUT;
-      HTTP.Protocol := '1.1';
-      TSSLOpenSSL.Create(HTTP.Sock);
-      HTTP.Sock.SSL.SSLType := LT_TLSv1_2; // TLS 1.2 minimum
-
-      HTTP.Headers.Clear;
-      if FUserAgent <> string.Empty then
-        HTTP.Headers.Add('User-Agent: ' + FUserAgent);
-      if FContentType <> string.Empty then
-        HTTP.Headers.Add('Content-Type: ' + FContentType);
-      if FAccept <> string.Empty then
-        HTTP.Headers.Add('Accept: ' + FAccept);
-
-      if Assigned(Headers) then
-      begin
-        TempHeaders := TStringList.Create;
-        try
-          TempHeaders.Assign(Headers);
-          SetParametersList(TempHeaders);
-          for i := 0 to TempHeaders.Count - 1 do
-            HTTP.Headers.Add(TempHeaders.Names[i] + ': ' + TempHeaders.ValueFromIndex[i]);
-        finally
-          TempHeaders.Free;
-        end;
-      end;
-
-      HTTP.HTTPMethod('GET', TempUrl);
-
-      if (HTTP.ResultCode div 100) <> 2 then
-            begin
-              // Try to get socket-level error if HTTP status is not 2xx or zero
-              if (HTTP.ResultCode = 0) and (HTTP.Sock.LastError <> 0) then
-                Result := 'Socket Error: ' + HTTP.Sock.LastErrorDesc
-              else
-                Result := 'HTTP Error: ' + IntToStr(HTTP.ResultCode) + ' ' + HTTP.ResultString;
-              Exit;
-            end;
-
-      rawStream.CopyFrom(HTTP.Document, 0);
-      rawStream.Position := 0;
-
-      if ReturnHeaders then
-      begin
-        header := string.Empty;
-        for i := 0 to HTTP.Headers.Count - 1 do
-          header := header + HTTP.Headers[i] + LineEnding;
-      end;
-
-      contentEncoding := GetSynapseHeader(HTTP.Headers, 'Content-Encoding');
-      bodyStream := TStringStream.Create(string.Empty, TEncoding.UTF8);
-      try
-        if SameText(contentEncoding, 'gzip') and IsGzip(rawStream) then
-        begin
-          decompressedStream := DecompressGzipToStream(rawStream);
-          try
-            bodyStream.CopyFrom(decompressedStream, 0);
-          finally
-            decompressedStream.Free;
-          end;
-        end
-        else
-          bodyStream.CopyFrom(rawStream, 0);
-
-        if ReturnHeaders then
-          Result := header + LineEnding + bodyStream.DataString
-        else
-          Result := bodyStream.DataString;
-      finally
-        bodyStream.Free;
-      end;
-    finally
-      rawStream.Free;
-      HTTP.Free;
+    // Prepare custom headers with parameter substitution
+    TempHeaders := nil;
+    if Assigned(Headers) then
+    begin
+      TempHeaders := TStringList.Create;
+      TempHeaders.Assign(Headers);
+      SetParametersList(TempHeaders);
     end;
+    try
+      responseBody := WebRequest(wmGet, TempUrl, string.Empty, TempHeaders, FUserAgent, FContentType, FAccept, responseHeaders, Error);
+      if Error then Exit(responseBody);
+    finally
+      TempHeaders.Free;
+    end;
+
+    // Optionally prepend headers
+    if ReturnHeaders then
+    begin
+      header := string.Empty;
+      for i := 0 to responseHeaders.Count - 1 do
+        header := header + responseHeaders[i] + LineEnding;
+      Result := header + LineEnding + responseBody;
+    end
+    else
+      Result := responseBody;
+
+    responseHeaders.Free;
   except
     on E: Exception do
       Result := E.Message;
@@ -586,17 +465,14 @@ end;
 
 function TTranslate.Post(ReturnHeaders: boolean = False): string;
 var
-  HTTP: THTTPSend;
-  rawStream: TMemoryStream;
-  decompressedStream: TMemoryStream;
-  bodyStream: TStringStream;
-  postStream: TStringStream;
+  responseHeaders: TStringList;
+  responseBody: string;
   TempData: string;
   TempUrl: string;
   TempHeaders: TStringList;
   i: integer;
   header: string;
-  contentEncoding: string;
+  Error: boolean;
 begin
   Result := string.Empty;
   if FUrl = string.Empty then exit;
@@ -604,107 +480,43 @@ begin
   try
     GetParameters(GetInit);
 
-    HTTP := THTTPSend.Create;
-    rawStream := TMemoryStream.Create;
-    try
-      TempUrl := FUrl;
-      TempUrl := SetParameters(TempUrl);
-      TempData := FPostData;
-      TempData := SetParameters(TempData);
+    TempUrl := FUrl;
+    TempUrl := SetParameters(TempUrl);
+    TempData := FPostData;
+    TempData := SetParameters(TempData);
 
-      if (FLangSource = EMPTY_LANG) or (FLangSource = EMPTY_LANG) then
-      begin
-        TempUrl := RemoveEmptyParams(TempUrl);
-        TempData := RemoveEmptyParams(TempData);
-      end;
-
-      // Write POST body into the document stream
-      //WriteStrToStream(HTTP.Document, TempData);
-
-      // Write POST body with explicit UTF-8 encoding (as fphttpclient did)
-      postStream := TStringStream.Create(TempData, TEncoding.UTF8);
-      try
-        HTTP.Document.CopyFrom(postStream, 0);
-        HTTP.Document.Position := 0;   // Synapse reads from current position
-      finally
-        postStream.Free;
-      end;
-
-      HTTP.Sock.ConnectionTimeout := CONNECT_TIMEOUT;
-      HTTP.Timeout := IO_TIMEOUT;
-      HTTP.Protocol := '1.1';
-      TSSLOpenSSL.Create(HTTP.Sock);
-      HTTP.Sock.SSL.SSLType := LT_TLSv1_2; // TLS 1.2 minimum
-
-      HTTP.Headers.Clear;
-      if FUserAgent <> string.Empty then
-        HTTP.Headers.Add('User-Agent: ' + FUserAgent);
-      if FContentType <> string.Empty then
-        HTTP.MimeType := FContentType; //  HTTP.Headers.Add('Content-Type: ' + FContentType);
-      if FAccept <> string.Empty then
-        HTTP.Headers.Add('Accept: ' + FAccept);
-
-      if Assigned(Headers) then
-      begin
-        TempHeaders := TStringList.Create;
-        try
-          TempHeaders.Assign(Headers);
-          SetParametersList(TempHeaders);
-          for i := 0 to TempHeaders.Count - 1 do
-            HTTP.Headers.Add(TempHeaders.Names[i] + ': ' + TempHeaders.ValueFromIndex[i]);
-        finally
-          TempHeaders.Free;
-        end;
-      end;
-
-      HTTP.HTTPMethod('POST', TempUrl);
-
-      if (HTTP.ResultCode div 100) <> 2 then
-      begin
-        // Try to get socket-level error if HTTP status is not 2xx or zero
-        if (HTTP.ResultCode = 0) and (HTTP.Sock.LastError <> 0) then
-          Result := 'Socket Error: ' + HTTP.Sock.LastErrorDesc
-        else
-          Result := 'HTTP Error: ' + IntToStr(HTTP.ResultCode) + ' ' + HTTP.ResultString;
-        Exit;
-      end;
-
-      rawStream.CopyFrom(HTTP.Document, 0);
-      rawStream.Position := 0;
-
-      if ReturnHeaders then
-      begin
-        header := string.Empty;
-        for i := 0 to HTTP.Headers.Count - 1 do
-          header := header + HTTP.Headers[i] + LineEnding;
-      end;
-
-      contentEncoding := GetSynapseHeader(HTTP.Headers, 'Content-Encoding');
-      bodyStream := TStringStream.Create(string.Empty, TEncoding.UTF8);
-      try
-        if SameText(contentEncoding, 'gzip') and IsGzip(rawStream) then
-        begin
-          decompressedStream := DecompressGzipToStream(rawStream);
-          try
-            bodyStream.CopyFrom(decompressedStream, 0);
-          finally
-            decompressedStream.Free;
-          end;
-        end
-        else
-          bodyStream.CopyFrom(rawStream, 0);
-
-        if ReturnHeaders then
-          Result := header + LineEnding + bodyStream.DataString
-        else
-          Result := bodyStream.DataString;
-      finally
-        bodyStream.Free;
-      end;
-    finally
-      rawStream.Free;
-      HTTP.Free;
+    if (FLangSource = EMPTY_LANG) or (FLangSource = EMPTY_LANG) then
+    begin
+      TempUrl := RemoveEmptyParams(TempUrl);
+      TempData := RemoveEmptyParams(TempData);
     end;
+
+    // Prepare custom headers with parameter substitution
+    TempHeaders := nil;
+    if Assigned(Headers) then
+    begin
+      TempHeaders := TStringList.Create;
+      TempHeaders.Assign(Headers);
+      SetParametersList(TempHeaders);
+    end;
+    try
+      responseBody := WebRequest(wmPost, TempUrl, TempData, TempHeaders, FUserAgent, FContentType, FAccept, responseHeaders, Error);
+      if Error then Exit(responseBody);
+    finally
+      TempHeaders.Free;
+    end;
+
+    if ReturnHeaders then
+    begin
+      header := string.Empty;
+      for i := 0 to responseHeaders.Count - 1 do
+        header := header + responseHeaders[i] + LineEnding;
+      Result := header + LineEnding + responseBody;
+    end
+    else
+      Result := responseBody;
+
+    responseHeaders.Free;
   except
     on E: Exception do
       Result := E.Message;
