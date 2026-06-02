@@ -17,6 +17,7 @@ uses
   SysUtils,
   Controls,
   Graphics,
+  Math,
   FileInfo,
   gettext,
   DefaultTranslator,
@@ -75,7 +76,35 @@ type
   end;
 
   { TWebMethod }
+
   TWebMethod = (wmGet, wmPost);
+
+  { TProxyMode }
+
+  TProxyMode = (pmNone, pmSystem, pmCustom);
+
+  { TProxyType }
+
+  TProxyType = (ptHTTP, ptSOCKS4, ptSOCKS5);
+
+  { TProxy }
+
+  TProxy = record
+    ProxyMode: TProxyMode;
+    ProxyType: TProxyType;
+
+    Host: string;
+    Port: string;
+
+    Authentication: boolean;
+    Login: string;
+    Password: string;
+  end;
+
+  TTimeout = record
+    Request: integer;
+    Connection: integer;
+  end;
 
 function GetOSLanguage: string;
 
@@ -113,8 +142,13 @@ procedure SleepLoop(ALoop: integer = 0; ASleep: integer = 0; AProcessMessages: b
 
 function GetSynapseHeader(const AHeaders: TStringList; const AName: string): string;
 
+function GetSystemProxy(out Host: string; out Port: integer): boolean;
+
+procedure ApplyProxy(HTTP: THTTPSend; const P: TProxy);
+
 function WebRequest(AMethod: TWebMethod; const AUrl: string; const APostData: string; AHeaders: TStrings;
-  const AUserAgent, AContentType, AAccept: string; out AResponseHeaders: TStringList; out AError: boolean): string;
+  const AUserAgent, AContentType, AAccept: string; AProxy: TProxy; ATimeout: TTimeout; out AResponseHeaders: TStringList;
+  out AError: boolean): string;
 
 { Check Github Version }
 
@@ -160,7 +194,7 @@ const
   EMAIL = 'mailto:astverskoy@gmail.com';
 
   CONNECT_TIMEOUT = 10000;
-  IO_TIMEOUT = 300000;
+  REQUEST_TIMEOUT = 300000;
 
 implementation
 
@@ -792,8 +826,153 @@ begin
   end;
 end;
 
+function GetSystemProxy(out Host: string; out Port: integer): boolean;
+var
+  {$IFDEF WINDOWS}
+  ProxyInfo: PInternetProxyInfo;
+  Size: DWORD;
+  ProxyStr: string;
+  P1: Integer;
+  {$ENDIF}
+
+  {$IFDEF LINUX}
+  Proxy: string;
+  P1: Integer;
+  {$ENDIF}
+begin
+  Result := False;
+  Host := '';
+  Port := 0;
+
+  {$IFDEF WINDOWS}
+  Size := 0;
+  InternetQueryOption(nil, INTERNET_OPTION_PROXY, nil, Size);
+  if Size = 0 then Exit;
+
+  GetMem(ProxyInfo, Size);
+  try
+    if not InternetQueryOption(nil, INTERNET_OPTION_PROXY, ProxyInfo, Size) then
+      Exit;
+
+    // make sure proxy is really enabled and the string pointer is valid
+    if (ProxyInfo^.dwAccessType <> INTERNET_OPEN_TYPE_PROXY) or
+       (ProxyInfo^.lpszProxy = nil) then Exit;
+
+    ProxyStr := ProxyInfo^.lpszProxy;
+
+    // try to extract an HTTP (or HTTPS) proxy entry
+    // format is typically "http=host:port;https=host:port" or just "host:port"
+    if Pos('http=', LowerCase(ProxyStr)) > 0 then
+      ProxyStr := Trim(Copy(ProxyStr, Pos('=', ProxyStr) + 1, MaxInt))
+    else if Pos('https=', LowerCase(ProxyStr)) > 0 then
+      ProxyStr := Trim(Copy(ProxyStr, Pos('=', ProxyStr) + 1, MaxInt))
+    else if Pos('=', ProxyStr) > 0 then
+      ProxyStr := Trim(Copy(ProxyStr, Pos('=', ProxyStr) + 1, MaxInt));
+
+    // cut off any trailing parameters (other proxies, spaces)
+    P1 := Pos(';', ProxyStr);
+    if P1 > 0 then
+      ProxyStr := Trim(Copy(ProxyStr, 1, P1 - 1));
+    P1 := Pos(' ', ProxyStr);
+    if P1 > 0 then
+      ProxyStr := Trim(Copy(ProxyStr, 1, P1 - 1));
+
+    // now we should have a clean "host:port" pair
+    P1 := Pos(':', ProxyStr);
+    if P1 = 0 then Exit;
+
+    Host := Trim(Copy(ProxyStr, 1, P1 - 1));
+    Port := StrToIntDef(Trim(Copy(ProxyStr, P1 + 1, MaxInt)), 0);
+
+    Result := Host <> '';
+  finally
+    FreeMem(ProxyInfo);
+  end;
+  {$ENDIF}
+
+  {$IFDEF LINUX}
+  Proxy := GetEnvironmentVariable('http_proxy');
+  if Proxy = '' then
+    Proxy := GetEnvironmentVariable('https_proxy');
+  if Proxy = '' then
+    Proxy := GetEnvironmentVariable('all_proxy');
+
+  if Proxy = '' then Exit;
+
+  if Pos('://', Proxy) > 0 then
+    Delete(Proxy, 1, Pos('://', Proxy) + 2);
+
+  P1 := Pos(':', Proxy);
+  if P1 = 0 then Exit;
+
+  Host := Copy(Proxy, 1, P1 - 1);
+  Port := StrToIntDef(Copy(Proxy, P1 + 1, MaxInt), 8080);
+
+  Result := Host <> '';
+  {$ENDIF}
+end;
+
+procedure ApplyProxy(HTTP: THTTPSend; const P: TProxy);
+var
+  Host: string;
+  Port: integer;
+begin
+  case P.ProxyMode of
+    pmNone:
+      Exit;
+
+    pmSystem:
+      if GetSystemProxy(Host, Port) then
+      begin
+        HTTP.ProxyHost := Host;
+        HTTP.ProxyPort := Port.ToString;
+      end;
+
+    pmCustom:
+    begin
+      case P.ProxyType of
+        ptHTTP:
+        begin
+          HTTP.ProxyHost := P.Host;
+          HTTP.ProxyPort := P.Port;
+          if P.Authentication then
+          begin
+            HTTP.ProxyUser := P.Login;
+            HTTP.ProxyPass := P.Password;
+          end;
+        end;
+
+        ptSOCKS4:
+        begin
+          HTTP.Sock.SocksType := ST_Socks4;
+          HTTP.Sock.SocksIP := P.Host;
+          HTTP.Sock.SocksPort := P.Port;
+          if P.Authentication then
+          begin
+            HTTP.Sock.SocksUsername := P.Login;
+            HTTP.Sock.SocksPassword := P.Password;
+          end;
+        end;
+
+        ptSOCKS5:
+        begin
+          HTTP.Sock.SocksType := ST_Socks5;
+          HTTP.Sock.SocksIP := P.Host;
+          HTTP.Sock.SocksPort := P.Port;
+          if P.Authentication then
+          begin
+            HTTP.Sock.SocksUsername := P.Login;
+            HTTP.Sock.SocksPassword := P.Password;
+          end;
+        end;
+      end;
+    end;
+  end;
+end;
+
 function WebRequest(AMethod: TWebMethod; const AUrl: string; const APostData: string; AHeaders: TStrings;
-  const AUserAgent, AContentType, AAccept: string; out AResponseHeaders: TStringList; out AError: boolean): string;
+  const AUserAgent, AContentType, AAccept: string; AProxy: TProxy; ATimeout: TTimeout; out AResponseHeaders: TStringList;
+  out AError: boolean): string;
 var
   HTTP: THTTPSend;
   rawStream: TMemoryStream;
@@ -810,11 +989,13 @@ begin
   rawStream := TMemoryStream.Create;
   try
     // Common setup
-    HTTP.Timeout := IO_TIMEOUT;
     HTTP.Protocol := '1.1';
+    HTTP.Timeout := IfThen(ATimeout.Request > 0, ATimeout.Request, REQUEST_TIMEOUT);
     TSSLOpenSSL.Create(HTTP.Sock);
     HTTP.Sock.SSL.SSLType := LT_TLSv1_2;
-    HTTP.Sock.ConnectionTimeout := CONNECT_TIMEOUT;
+    HTTP.Sock.ConnectionTimeout := IfThen(ATimeout.Connection > 0, ATimeout.Connection, CONNECT_TIMEOUT);
+
+    ApplyProxy(HTTP, AProxy);
 
     HTTP.Headers.Clear;
     if AUserAgent <> string.Empty then

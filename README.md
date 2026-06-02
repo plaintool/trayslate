@@ -166,9 +166,11 @@ This ensures consistent behavior and keeps the preferred language pair as the de
 
 Settings allow you to configure the behavior, appearance, and global hotkeys of the application.
 
-| General | Interface | Global Hotkeys |
-|-------------|-------------|-------------|
-| ![img](samples/settings1.png) | ![img](samples/settings2.png) | ![img](samples/settings3.png) |
+| General | Interface |
+|-------------|-------------|
+| ![img](samples/settings1.png) | ![img](samples/settings2.png) | 
+| **Hotkeys** | **Network** |
+| ![img](samples/settings3.png) | ![img](samples/settings4.png) |
 
 ---
 
@@ -176,12 +178,12 @@ Settings allow you to configure the behavior, appearance, and global hotkeys of 
 
 The application comes with a powerful configuration editor, allowing you to create your own translation service configurations or modify existing ones.
 
-| Service | Parameters |
+| Service | Request |
 |---------|------------|
 | ![configeditor1](samples/configeditor1.png) | ![configeditor1](samples/configeditor2.png) |
-| **Response** | **Languages** |
+| **Response** | **Parameters** |
 | ![configeditor1](samples/configeditor3.png) | ![configeditor1](samples/configeditor4.png) |
-| **Target Languages** | |
+| **Languages** | **Target Languages** |
 | ![configeditor1](samples/configeditor5.png) | ![configeditor1](samples/configeditor6.png) |
 
 ---

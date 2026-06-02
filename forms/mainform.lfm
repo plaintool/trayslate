@@ -8,7 +8,7 @@ object formTrayslate: TformTrayslate
   ClientWidth = 512
   Color = clWindow
   KeyPreview = True
-  LCLVersion = '4.4.0.0'
+  LCLVersion = '4.6.0.0'
   OnActivate = FormActivate
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate

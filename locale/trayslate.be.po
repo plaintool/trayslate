@@ -113,6 +113,19 @@ msgstr "Паказаць галоўнае акно"
 msgid "Show Popup Translation"
 msgstr "Паказаць усплывальны пераклад"
 
+#: formsettings.rproxymodecustomproxy
+msgid "Custom Proxy"
+msgstr ""
+
+#: formsettings.rproxymodenoproxy
+msgctxt "formsettings.rproxymodenoproxy"
+msgid "No Proxy"
+msgstr ""
+
+#: formsettings.rproxymodesystemproxy
+msgid "System Proxy"
+msgstr ""
+
 #: formsettings.rrecent
 msgctxt "formsettings.rrecent"
 msgid "Recent Language Pairs"
@@ -867,6 +880,15 @@ msgstr "Толькі пры націснутым Ctrl"
 msgid "Works only when the Ctrl key is pressed"
 msgstr "Працуе толькі пры націснутай клавішы Ctrl"
 
+#: tformsettingstrayslate.checkproxyauthentication.caption
+msgctxt "tformsettingstrayslate.checkproxyauthentication.caption"
+msgid "Authentication"
+msgstr ""
+
+#: tformsettingstrayslate.checkproxyauthentication.hint
+msgid "Enables login and password authentication for proxy access"
+msgstr ""
+
 #: tformsettingstrayslate.checkrealtime.caption
 msgctxt "tformsettingstrayslate.checkrealtime.caption"
 msgid "Translate As You Type"
@@ -941,6 +963,35 @@ msgctxt "tformsettingstrayslate.combomousemode.text"
 msgid "Show Translate Button"
 msgstr "Паказаць кнопку перакладу"
 
+#: tformsettingstrayslate.comboproxymode.hint
+msgid "Defines how proxy is used no proxy system proxy or custom configuration"
+msgstr ""
+
+#: tformsettingstrayslate.comboproxymode.text
+msgctxt "tformsettingstrayslate.comboproxymode.text"
+msgid "No Proxy"
+msgstr ""
+
+#: tformsettingstrayslate.comboproxytype.hint
+msgid "Type of proxy protocol used for custom settings"
+msgstr ""
+
+#: tformsettingstrayslate.comboproxytype.text
+msgid "HTTP"
+msgstr ""
+
+#: tformsettingstrayslate.editproxyhost.hint
+msgid "Address of the proxy server IP or domain name"
+msgstr ""
+
+#: tformsettingstrayslate.editproxylogin.hint
+msgid "Username used for proxy authentication"
+msgstr ""
+
+#: tformsettingstrayslate.editproxypassword.hint
+msgid "Password used for proxy authentication"
+msgstr ""
+
 #: tformsettingstrayslate.gridhotkeys.columns[0].title.caption
 msgctxt "tformsettingstrayslate.gridhotkeys.columns[0].title.caption"
 msgid "Action"
@@ -977,9 +1028,17 @@ msgstr "Рэжым мышы"
 msgid "Popup Window"
 msgstr "Усплывальнае акно"
 
+#: tformsettingstrayslate.groupproxy.caption
+msgid "Proxy"
+msgstr ""
+
 #: tformsettingstrayslate.grouprealtime.caption
 msgid "Real-Time Translation"
 msgstr "Пераклад па меры ўводу"
+
+#: tformsettingstrayslate.grouptimeouts.caption
+msgid "Timeout"
+msgstr ""
 
 #: tformsettingstrayslate.grouptransfromclipboard1.caption
 msgctxt "tformsettingstrayslate.grouptransfromclipboard1.caption"
@@ -989,6 +1048,14 @@ msgstr "Гарачыя клавішы"
 #: tformsettingstrayslate.grouptrayicon.caption
 msgid "Tray Icon"
 msgstr "Іконка ў трэі"
+
+#: tformsettingstrayslate.labelconnecttimeout.caption
+msgid "Connection, sec"
+msgstr ""
+
+#: tformsettingstrayslate.labelhost.caption
+msgid "Host"
+msgstr ""
 
 #: tformsettingstrayslate.labeliconbackground.caption
 msgid "Background Color"
@@ -1006,6 +1073,10 @@ msgstr "Назва шрыфта"
 msgctxt "tformsettingstrayslate.labellangdetectconfig.caption"
 msgid "Lang Detect Config"
 msgstr "Канфігурацыя вызначэння мовы"
+
+#: tformsettingstrayslate.labellogin.caption
+msgid "Login"
+msgstr ""
 
 #: tformsettingstrayslate.labelmaxheight.caption
 msgid "Max Height"
@@ -1029,13 +1100,33 @@ msgstr "Празрыстасць пры навядзенні"
 msgid "Opacity Idle"
 msgstr "Празрыстасць у спакоі"
 
+#: tformsettingstrayslate.labelpassword.caption
+msgid "Password"
+msgstr ""
+
+#: tformsettingstrayslate.labelport.caption
+msgid "Port"
+msgstr ""
+
 #: tformsettingstrayslate.labelprimarylang.caption
 msgid "Primary Language"
 msgstr "Асноўная мова"
 
+#: tformsettingstrayslate.labelproxymode.caption
+msgid "Proxy Mode"
+msgstr ""
+
+#: tformsettingstrayslate.labelproxytype.caption
+msgid "Proxy Type"
+msgstr ""
+
 #: tformsettingstrayslate.labelrealtimedelay.caption
 msgid "Translation Delay, ms"
 msgstr "Затрымка перакладу, мс"
+
+#: tformsettingstrayslate.labelrequesttimeout.caption
+msgid "Request, sec"
+msgstr ""
 
 #: tformsettingstrayslate.labelsecondarylang.caption
 msgid "Secondary Language"
@@ -1055,6 +1146,10 @@ msgctxt "tformsettingstrayslate.pageinterface.caption"
 msgid "Interface"
 msgstr "Інтэрфейс"
 
+#: tformsettingstrayslate.pagenetwork.caption
+msgid "Network"
+msgstr ""
+
 #: tformsettingstrayslate.panelfont.caption
 msgctxt "tformsettingstrayslate.panelfont.caption"
 msgid "Default, 0"
@@ -1065,6 +1160,10 @@ msgctxt "tformsettingstrayslate.panelfontpopup.caption"
 msgid "Default, 0"
 msgstr "Па змаўчанні, 0"
 
+#: tformsettingstrayslate.spinconnecttimeout.hint
+msgid "Time to establish connection If 0 default 10 seconds is used"
+msgstr ""
+
 #: tformsettingstrayslate.spinmaxheight.hint
 msgid "Set maximum window height for auto-size; 0 indicates limit to screen height"
 msgstr "Усталюйце максімальную вышыню акна для аўтаматычнага памеру; 0 азначае абмежаванне вышынёй экрана"
@@ -1073,9 +1172,17 @@ msgstr "Усталюйце максімальную вышыню акна для
 msgid "Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel"
 msgstr "Колькасць нядаўніх пар на панэлі; пары зрушваюцца направа пры даданні; нулявое значэнне хавае панэль"
 
+#: tformsettingstrayslate.spinproxyport.hint
+msgid "Network port used by the proxy server"
+msgstr ""
+
 #: tformsettingstrayslate.spinrealtimedelay.hint
 msgid "Translation Delay in milliseconds"
 msgstr "Затрымка перакладу ў мілісекундах"
+
+#: tformsettingstrayslate.spinrequesttimeout.hint
+msgid "Time to wait for response and data If 0 default 300 seconds is used"
+msgstr ""
 
 #: tformsettingstrayslate.trackopacityhover.hint
 msgid "Window transparency when the mouse is over the window"
@@ -1326,3 +1433,4 @@ msgstr "Нядаўнія пары"
 msgctxt "tformtrayslate.menulanguage.caption"
 msgid "Language"
 msgstr "Language"
+

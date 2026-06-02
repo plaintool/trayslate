@@ -28,7 +28,8 @@ uses
   Grids,
   LCLType,
   LCLIntf,
-  langtool;
+  langtool,
+  systemtool;
 
 type
 
@@ -46,6 +47,7 @@ type
     BtnResetPopup: TButton;
     CheckAllowHotkeys: TCheckBox;
     CheckAutoHeight: TCheckBox;
+    CheckProxyAuthentication: TCheckBox;
     CheckSmartSwap: TCheckBox;
     CheckEnableMouseMode: TCheckBox;
     CheckMouseModeCtrl: TCheckBox;
@@ -61,24 +63,39 @@ type
     ColorIconBackground: TColorBox;
     ColorIconFont: TColorBox;
     ColorDialog: TColorDialog;
+    ComboProxyMode: TComboBox;
     ComboPrimaryLang: TComboBox;
+    ComboProxyType: TComboBox;
     ComboSecondaryLang: TComboBox;
     ComboMouseMode: TComboBox;
     ComboIconFontName: TComboBox;
     ComboLangDetect: TComboBox;
+    EditProxyHost: TEdit;
+    EditProxyLogin: TEdit;
+    EditProxyPassword: TEdit;
     FontDialog: TFontDialog;
     GroupAutoSwap: TGroupBox;
     GroupAutostart: TGroupBox;
+    GroupTimeouts: TGroupBox;
     GroupMainWindow: TGroupBox;
     GroupMouseMode: TGroupBox;
     GroupPopup: TGroupBox;
     GroupLangPairs: TGroupBox;
+    GroupProxy: TGroupBox;
     GroupTransFromClipboard1: TGroupBox;
     GroupRealTime: TGroupBox;
     GroupTrayIcon: TGroupBox;
     ImagesPages: TImageList;
     LabelLangDetectConfig: TLabel;
     LabelMaxHeight: TLabel;
+    LabelConnectTimeout: TLabel;
+    LabelProxyMode: TLabel;
+    LabelProxyType: TLabel;
+    LabelHost: TLabel;
+    LabelPort: TLabel;
+    LabelLogin: TLabel;
+    LabelPassword: TLabel;
+    LabelRequestTimeout: TLabel;
     LabelPrimaryLang: TLabel;
     LabelMouseMode: TLabel;
     LabelIconFont1: TLabel;
@@ -100,14 +117,18 @@ type
     ScrollHotkeys: TScrollBox;
     ScrollInterface: TScrollBox;
     ScrollGeneral: TScrollBox;
+    SpinRequestTimeout: TSpinEdit;
     SpinHover: TSpinEdit;
     SpinIdle: TSpinEdit;
     SpinMaxLangPairs: TSpinEdit;
     PageGeneral: TTabSheet;
     SpinMaxHeight: TSpinEdit;
+    SpinConnectTimeout: TSpinEdit;
     SpinRealTimeDelay: TSpinEdit;
+    SpinProxyPort: TSpinEdit;
     SplitterPages: TSplitter;
     GridHotkeys: TStringGrid;
+    PageNetwork: TTabSheet;
     TrackOpacityHover: TTrackBar;
     TrackOpacityIdle: TTrackBar;
     procedure BtnDefaultClick(Sender: TObject);
@@ -164,6 +185,9 @@ type
     FOriginalOpacityHover: integer;
     FOriginalOpacityIdle: integer;
     FOriginalConfigLangDetect: string;
+    FOriginalProxy: TProxy;
+    FOriginalTimeout: TTimeout;
+
     FOriginalHotKeyApp: THotKeyData;
     FOriginalHotKeyTransSwap: THotKeyData;
     FOriginalHotKeyTransFromClipboard: THotKeyData;
@@ -215,7 +239,9 @@ type
     procedure FillListPages;
     procedure FillGridHotkeys;
     procedure FillMouseMode;
+    procedure FillProxyMode;
     procedure SetPopup;
+    procedure SetState;
 
     property ApplySettings: boolean read FApplySettings write FApplySettings;
   end;
@@ -277,9 +303,13 @@ resourcestring
   rmousemodepopup = 'Show Popup Translation';
   rmousemodemain = 'Show Main Window';
 
+  rproxymodenoproxy = 'No Proxy';
+  rproxymodesystemproxy = 'System Proxy';
+  rproxymodecustomproxy = 'Custom Proxy';
+
 implementation
 
-uses mainform, formattool, formpopup, systemtool, languages, translate;
+uses mainform, formattool, formpopup, languages, translate;
 
   {$R *.lfm}
 
@@ -321,6 +351,7 @@ begin
   FillListPages;
   FillGridHotkeys;
   FillMouseMode;
+  FillProxyMode;
 end;
 
 procedure TformSettingsTrayslate.FormResize(Sender: TObject);
@@ -454,7 +485,7 @@ begin
   end
   else
   begin
-    CellColor := clWindow;
+    CellColor := (Sender as TStringGrid).Color;
     GridHotkeys.Canvas.Font.Color := clWindowText;
   end;
 
@@ -742,7 +773,10 @@ begin
     formTrayslate.aFastAutoSwap.Checked := CheckAutoSwap.Checked
   else
   if Sender = CheckAllowHotkeys then
-    formTrayslate.aFastAllowHotkeys.Checked := CheckAllowHotkeys.Checked
+  begin
+    formTrayslate.aFastAllowHotkeys.Checked := CheckAllowHotkeys.Checked;
+    SetState;
+  end
   else
   if Sender = CheckEnableMouseMode then
     formTrayslate.aFastEnableMouseMode.Checked := CheckEnableMouseMode.Checked
@@ -757,7 +791,13 @@ begin
     formTrayslate.aFastRealTime.Checked := CheckRealTime.Checked
   else
   if Sender = CheckVerticalSplit then
-    formTrayslate.aFastVerticalSplit.Checked := CheckVerticalSplit.Checked;
+    formTrayslate.aFastVerticalSplit.Checked := CheckVerticalSplit.Checked
+  else
+  if Sender = CheckProxyAuthentication then
+    SetState
+  else
+  if Sender = ComboProxyMode then
+    SetState;
 end;
 
 procedure TformSettingsTrayslate.SplitterPagesMoved(Sender: TObject);
@@ -991,6 +1031,26 @@ begin
     ComboMouseMode.ItemIndex := Ord(formTrayslate.MouseMode);
 end;
 
+procedure TformSettingsTrayslate.FillProxyMode;
+var
+  SavedIndex: integer;
+begin
+  // Save current selection
+  SavedIndex := ComboProxyMode.ItemIndex;
+
+  ComboProxyMode.Items.Clear;
+
+  ComboProxyMode.Items.Add(rproxymodenoproxy);
+  ComboProxyMode.Items.Add(rproxymodesystemproxy);
+  ComboProxyMode.Items.Add(rproxymodecustomproxy);
+
+  // Restore selection safely
+  if (SavedIndex >= 0) and (SavedIndex < ComboProxyMode.Items.Count) then
+    ComboProxyMode.ItemIndex := SavedIndex
+  else
+    ComboProxyMode.ItemIndex := Ord(formTrayslate.Proxy.ProxyMode);
+end;
+
 procedure TformSettingsTrayslate.SetPopup;
 begin
   if Assigned(formPopupTrayslate) then
@@ -1000,7 +1060,23 @@ begin
   end;
 end;
 
+procedure TformSettingsTrayslate.SetState;
+begin
+  GridHotkeys.Enabled := CheckAllowHotkeys.Checked;
+  GridHotkeys.Color := ifthen(GridHotkeys.Enabled, clWindow, clBtnFace);
+
+  ComboProxyType.Enabled := ComboProxyMode.ItemIndex > 1;
+  EditProxyHost.Enabled := ComboProxyMode.ItemIndex > 1;
+  SpinProxyPort.Enabled := ComboProxyMode.ItemIndex > 1;
+  CheckProxyAuthentication.Enabled := ComboProxyMode.ItemIndex > 1;
+  EditProxyLogin.Enabled := CheckProxyAuthentication.Checked and (ComboProxyMode.ItemIndex > 1);
+  EditProxyPassword.Enabled := CheckProxyAuthentication.Checked and (ComboProxyMode.ItemIndex > 1);
+end;
+
 procedure TformSettingsTrayslate.Apply;
+var
+  T: TTimeout;
+  P: TProxy;
 begin
   FApplySettings := True;
   try
@@ -1023,14 +1099,26 @@ begin
     formTrayslate.HideControls := CheckHideControls.Checked;
     formTrayslate.AutoHeight := CheckAutoHeight.Checked;
     formTrayslate.MaxHeight := SpinMaxHeight.Value;
-
     formTrayslate.OpacityHover := TrackOpacityHover.Position;
     formTrayslate.OpacityIdle := TrackOpacityIdle.Position;
-
     if ComboLangDetect.ItemIndex > 0 then
       formTrayslate.ConfigLangDetect := formTrayslate.ConfigFiles[ComboLangDetect.ItemIndex - 1]
     else
       formTrayslate.ConfigLangDetect := string.Empty;
+    T := formTrayslate.Timeout;
+    T.Connection := SpinConnectTimeout.Value * 1000;
+    T.Request := SpinRequestTimeout.Value * 1000;
+    formTrayslate.Timeout := T;
+    P := formTrayslate.Proxy;
+    P.ProxyMode := TProxyMode(ComboProxyMode.ItemIndex);
+    P.ProxyType := TProxyType(ComboProxyType.ItemIndex);
+    P.Host := EditProxyHost.Text;
+    P.Port := SpinProxyPort.Value.ToString;
+    P.Authentication := CheckProxyAuthentication.Checked;
+    P.Login := EditProxyLogin.Text;
+    P.Password := EditProxyPassword.Text;
+    formTrayslate.Proxy := P;
+
     formTrayslate.Font.Assign(PanelFont.Font);
     formTrayslate.FontPopup.Assign(PanelFontPopup.Font);
     formTrayslate.IconBackgroundColor := ColorIconBackground.Selected;
@@ -1139,6 +1227,8 @@ begin
   FOriginalOpacityHover := formTrayslate.OpacityHover;
   FOriginalOpacityIdle := formTrayslate.OpacityIdle;
   FOriginalConfigLangDetect := formTrayslate.ConfigLangDetect;
+  FOriginalProxy := formTrayslate.Proxy;
+  FOriginalTimeout := formTrayslate.Timeout;
   FOriginalFont := formTrayslate.Font;
   FOriginalFontPopup := formTrayslate.FontPopup;
   FOriginalIconBackgroundColor := formTrayslate.IconBackgroundColor;
@@ -1173,6 +1263,16 @@ begin
     ComboLangDetect.ItemIndex := Max(formTrayslate.ConfigFiles.IndexOf(FOriginalConfigLangDetect) + 1, 0)
   else
     ComboLangDetect.ItemIndex := 0;
+  SpinConnectTimeout.Value := FOriginalTimeout.Connection div 1000;
+  SpinRequestTimeout.Value := FOriginalTimeout.Request div 1000;
+  ComboProxyMode.ItemIndex := Ord(FOriginalProxy.ProxyMode);
+  ComboProxyType.ItemIndex := Ord(FOriginalProxy.ProxyType);
+  EditProxyHost.Text := FOriginalProxy.Host;
+  SpinProxyPort.Value := StrToIntDef(FOriginalProxy.Port, 0);
+  CheckProxyAuthentication.Checked := FOriginalProxy.Authentication;
+  EditProxyLogin.Text := FOriginalProxy.Login;
+  EditProxyPassword.Text := FOriginalProxy.Password;
+
   PanelFont.Font.Assign(FOriginalFont);
   SetPanelFont(PanelFont, FOriginalFont);
   PanelFontPopup.Font.Assign(FOriginalFontPopup);
@@ -1183,6 +1283,7 @@ begin
   CheckTwoLang.Checked := FOriginalIconTwoLang;
 
   BtnApply.Enabled := False;
+  SetState;
 end;
 
 end.

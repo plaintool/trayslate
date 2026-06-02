@@ -7,10 +7,10 @@ object formButtonTrayslate: TformButtonTrayslate
   BorderIcons = []
   BorderStyle = bsNone
   ClientHeight = 91
-  ClientWidth = 120
+  ClientWidth = 89
   Color = clWhite
   FormStyle = fsSystemStayOnTop
-  LCLVersion = '4.4.0.0'
+  LCLVersion = '4.6.0.0'
   OnCreate = FormCreate
   OnPaint = FormPaint
   OnShow = FormShow

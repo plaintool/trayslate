@@ -69,6 +69,8 @@ type
     FLanguages: TStringList;
     FLanguagesTarget: TStringList;
     FValueType: TValueType;
+    FProxy: TProxy;
+    FTimeout: TTimeout;
 
     FInitUserAgent: string;
     FInitHeaders: TStringList;
@@ -120,6 +122,9 @@ type
     property JsonPointer: string read FJsonPointer write FJsonPointer;
     property EncodeCustomParameters: boolean read FEncodeCustomParameters write FEncodeCustomParameters;
     property CustomParameters: TStringList read FCustomParameters write FCustomParameters;
+    property Proxy: TProxy read FProxy write FProxy;
+    property Timeout: TTimeout read FTimeout write FTimeout;
+
     // Languages from config, eg en=en
     property Languages: TStringList read FLanguages write FLanguages;
     property LanguagesTarget: TStringList read FLanguagesTarget write FLanguagesTarget;
@@ -394,7 +399,7 @@ begin
   FParameterValues.Clear;
 
   responseBody := WebRequest(wmGet, FInitUrl, string.Empty, InitHeaders, FInitUserAgent, string.Empty,
-    string.Empty, responseHeaders, Error);
+    string.Empty, FProxy, FTimeout, responseHeaders, Error);
   if Error then Exit(responseBody);
 
   try
@@ -439,7 +444,8 @@ begin
       SetParametersList(TempHeaders);
     end;
     try
-      responseBody := WebRequest(wmGet, TempUrl, string.Empty, TempHeaders, FUserAgent, FContentType, FAccept, responseHeaders, Error);
+      responseBody := WebRequest(wmGet, TempUrl, string.Empty, TempHeaders, FUserAgent, FContentType, FAccept,
+        FProxy, FTimeout, responseHeaders, Error);
       if Error then Exit(responseBody);
     finally
       TempHeaders.Free;
@@ -500,7 +506,8 @@ begin
       SetParametersList(TempHeaders);
     end;
     try
-      responseBody := WebRequest(wmPost, TempUrl, TempData, TempHeaders, FUserAgent, FContentType, FAccept, responseHeaders, Error);
+      responseBody := WebRequest(wmPost, TempUrl, TempData, TempHeaders, FUserAgent, FContentType, FAccept,
+        FProxy, FTimeout, responseHeaders, Error);
       if Error then Exit(responseBody);
     finally
       TempHeaders.Free;

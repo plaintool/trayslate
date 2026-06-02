@@ -145,7 +145,7 @@ end;
 
 procedure TformButtonTrayslate.TimerHideTimer(Sender: TObject);
 begin
-  // Automatically hide the form after a timeout
+  // Automatically hide the form after a REQUEST_TIMEOUT
   TimerHide.Enabled := False;
   Hide;
 end;

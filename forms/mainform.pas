@@ -38,7 +38,8 @@ uses
   globalkeyboardhook,
   globalmousehook,
   translate,
-  langtool;
+  langtool,
+  systemtool;
 
 type
 
@@ -288,6 +289,8 @@ type
   private
     FTrans: TTranslate;
     FTransDetect: TTranslate;
+    FProxy: TProxy;
+    FTimeout: TTimeout;
     FCancelled: boolean;
     FTopMost: boolean;
     FLeftButton: boolean;
@@ -395,6 +398,7 @@ type
     procedure SetMouseModeCtrl(Value: boolean);
     procedure SetRealTime(Value: boolean);
     procedure SetVerticalSplit(Value: boolean);
+    procedure SetProxy(Value: TProxy);
 
     procedure ChangeSourceLang(NewLang: string; AddRecentPairs: boolean = True);
     procedure ChangeTargetLang(NewLang: string; AddRecentPairs: boolean = True);
@@ -475,6 +479,8 @@ type
     property ConfigColors: TStringList read FConfigColors write FConfigColors;
     property ConfigImages: TStringList read FConfigImages write FConfigImages;
     property ConfigLangDetect: string read FConfigLangDetect write FConfigLangDetect;
+    property Proxy: TProxy read FProxy write SetProxy;
+    property Timeout: TTimeout read FTimeout write FTimeout;
     property AutoStart: boolean read FAutoStart write SetAutoStart;
     property IconBackgroundColor: TColor read FIconBackgroundColor write FIconBackgroundColor;
     property IconFontColor: TColor read FIconFontColor write FIconFontColor;
@@ -566,7 +572,7 @@ resourcestring
 
 implementation
 
-uses formdonate, formabout, formsettings, formconfig, formpopup, formbutton, settings, languages, formattool, systemtool;
+uses formdonate, formabout, formsettings, formconfig, formpopup, formbutton, settings, languages, formattool;
 
   {$R *.lfm}
 
@@ -645,6 +651,7 @@ begin
   MemoSource.SelLength := 0;
 
   // Components config after load settings
+  SetProxy(Proxy);
   TimerTranslate.Interval := Max(RealTimeDelay, 1);
   aAutoCheckUpdates.Checked := FAutoCheckUpdates;
   aFastAllowHotKeys.Checked := FAllowHotKeys;
@@ -1112,6 +1119,11 @@ begin
     SetHints;
     FMouseHook.Enabled := FEnableMouseMode;
     FKeyHook.Enabled := FEnableMouseMode;
+
+    FTrans.Proxy := FProxy;
+    FTrans.Timeout := FTimeout;
+    FTransDetect.Proxy := FProxy;
+    FTransDetect.Timeout := FTimeout;
 
     if Assigned(formPopupTrayslate) then
       formPopupTrayslate.UpdateStayOnTop(0);
@@ -1971,6 +1983,16 @@ begin
   FMaxHeight := 0;
   FOpacityHover := 70;
   FOpacityIdle := 40;
+
+  FTimeout.Connection := CONNECT_TIMEOUT;
+  FTimeout.Request := REQUEST_TIMEOUT;
+  FProxy.ProxyMode := pmNone;
+  FProxy.ProxyType := ptHTTP;
+  FProxy.Authentication := False;
+  FProxy.Host := string.Empty;
+  FProxy.Port := string.Empty;
+  FProxy.Login := string.Empty;
+  FProxy.Password := string.Empty;
 
   SetDefaultHotKeys;
 
@@ -2903,6 +2925,15 @@ begin
     formTrayslate.SetVerticalMode;
     Application.QueueAsyncCall(@DoRealignSplit, 0);
   end;
+end;
+
+procedure TformTrayslate.SetProxy(Value: TProxy);
+begin
+  FProxy := Value;
+  FTrans.Proxy := FProxy;
+  FTrans.Timeout := FTimeout;
+  FTransDetect.Proxy := FProxy;
+  FTransDetect.Timeout := FTimeout;
 end;
 
 procedure TformTrayslate.ChangeSourceLang(NewLang: string; AddRecentPairs: boolean = True);

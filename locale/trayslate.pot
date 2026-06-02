@@ -103,6 +103,19 @@ msgstr ""
 msgid "Show Popup Translation"
 msgstr ""
 
+#: formsettings.rproxymodecustomproxy
+msgid "Custom Proxy"
+msgstr ""
+
+#: formsettings.rproxymodenoproxy
+msgctxt "formsettings.rproxymodenoproxy"
+msgid "No Proxy"
+msgstr ""
+
+#: formsettings.rproxymodesystemproxy
+msgid "System Proxy"
+msgstr ""
+
 #: formsettings.rrecent
 msgctxt "formsettings.rrecent"
 msgid "Recent Language Pairs"
@@ -832,6 +845,15 @@ msgstr ""
 msgid "Works only when the Ctrl key is pressed"
 msgstr ""
 
+#: tformsettingstrayslate.checkproxyauthentication.caption
+msgctxt "tformsettingstrayslate.checkproxyauthentication.caption"
+msgid "Authentication"
+msgstr ""
+
+#: tformsettingstrayslate.checkproxyauthentication.hint
+msgid "Enables login and password authentication for proxy access"
+msgstr ""
+
 #: tformsettingstrayslate.checkrealtime.caption
 msgctxt "tformsettingstrayslate.checkrealtime.caption"
 msgid "Translate As You Type"
@@ -902,6 +924,35 @@ msgctxt "tformsettingstrayslate.combomousemode.text"
 msgid "Show Translate Button"
 msgstr ""
 
+#: tformsettingstrayslate.comboproxymode.hint
+msgid "Defines how proxy is used no proxy system proxy or custom configuration"
+msgstr ""
+
+#: tformsettingstrayslate.comboproxymode.text
+msgctxt "tformsettingstrayslate.comboproxymode.text"
+msgid "No Proxy"
+msgstr ""
+
+#: tformsettingstrayslate.comboproxytype.hint
+msgid "Type of proxy protocol used for custom settings"
+msgstr ""
+
+#: tformsettingstrayslate.comboproxytype.text
+msgid "HTTP"
+msgstr ""
+
+#: tformsettingstrayslate.editproxyhost.hint
+msgid "Address of the proxy server IP or domain name"
+msgstr ""
+
+#: tformsettingstrayslate.editproxylogin.hint
+msgid "Username used for proxy authentication"
+msgstr ""
+
+#: tformsettingstrayslate.editproxypassword.hint
+msgid "Password used for proxy authentication"
+msgstr ""
+
 #: tformsettingstrayslate.gridhotkeys.columns[0].title.caption
 msgctxt "tformsettingstrayslate.gridhotkeys.columns[0].title.caption"
 msgid "Action"
@@ -938,8 +989,16 @@ msgstr ""
 msgid "Popup Window"
 msgstr ""
 
+#: tformsettingstrayslate.groupproxy.caption
+msgid "Proxy"
+msgstr ""
+
 #: tformsettingstrayslate.grouprealtime.caption
 msgid "Real-Time Translation"
+msgstr ""
+
+#: tformsettingstrayslate.grouptimeouts.caption
+msgid "Timeout"
 msgstr ""
 
 #: tformsettingstrayslate.grouptransfromclipboard1.caption
@@ -949,6 +1008,14 @@ msgstr ""
 
 #: tformsettingstrayslate.grouptrayicon.caption
 msgid "Tray Icon"
+msgstr ""
+
+#: tformsettingstrayslate.labelconnecttimeout.caption
+msgid "Connection, sec"
+msgstr ""
+
+#: tformsettingstrayslate.labelhost.caption
+msgid "Host"
 msgstr ""
 
 #: tformsettingstrayslate.labeliconbackground.caption
@@ -966,6 +1033,10 @@ msgstr ""
 #: tformsettingstrayslate.labellangdetectconfig.caption
 msgctxt "tformsettingstrayslate.labellangdetectconfig.caption"
 msgid "Lang Detect Config"
+msgstr ""
+
+#: tformsettingstrayslate.labellogin.caption
+msgid "Login"
 msgstr ""
 
 #: tformsettingstrayslate.labelmaxheight.caption
@@ -990,12 +1061,32 @@ msgstr ""
 msgid "Opacity Idle"
 msgstr ""
 
+#: tformsettingstrayslate.labelpassword.caption
+msgid "Password"
+msgstr ""
+
+#: tformsettingstrayslate.labelport.caption
+msgid "Port"
+msgstr ""
+
 #: tformsettingstrayslate.labelprimarylang.caption
 msgid "Primary Language"
 msgstr ""
 
+#: tformsettingstrayslate.labelproxymode.caption
+msgid "Proxy Mode"
+msgstr ""
+
+#: tformsettingstrayslate.labelproxytype.caption
+msgid "Proxy Type"
+msgstr ""
+
 #: tformsettingstrayslate.labelrealtimedelay.caption
 msgid "Translation Delay, ms"
+msgstr ""
+
+#: tformsettingstrayslate.labelrequesttimeout.caption
+msgid "Request, sec"
 msgstr ""
 
 #: tformsettingstrayslate.labelsecondarylang.caption
@@ -1016,6 +1107,10 @@ msgctxt "tformsettingstrayslate.pageinterface.caption"
 msgid "Interface"
 msgstr ""
 
+#: tformsettingstrayslate.pagenetwork.caption
+msgid "Network"
+msgstr ""
+
 #: tformsettingstrayslate.panelfont.caption
 msgctxt "tformsettingstrayslate.panelfont.caption"
 msgid "Default, 0"
@@ -1026,6 +1121,10 @@ msgctxt "tformsettingstrayslate.panelfontpopup.caption"
 msgid "Default, 0"
 msgstr ""
 
+#: tformsettingstrayslate.spinconnecttimeout.hint
+msgid "Time to establish connection If 0 default 10 seconds is used"
+msgstr ""
+
 #: tformsettingstrayslate.spinmaxheight.hint
 msgid "Set maximum window height for auto-size; 0 indicates limit to screen height"
 msgstr ""
@@ -1034,8 +1133,16 @@ msgstr ""
 msgid "Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel"
 msgstr ""
 
+#: tformsettingstrayslate.spinproxyport.hint
+msgid "Network port used by the proxy server"
+msgstr ""
+
 #: tformsettingstrayslate.spinrealtimedelay.hint
 msgid "Translation Delay in milliseconds"
+msgstr ""
+
+#: tformsettingstrayslate.spinrequesttimeout.hint
+msgid "Time to wait for response and data If 0 default 300 seconds is used"
 msgstr ""
 
 #: tformsettingstrayslate.trackopacityhover.hint
