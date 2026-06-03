@@ -829,6 +829,15 @@ msgstr "Αυτόματη προσθήκη κατά αλλαγή ζεύγους"
 msgid "Automatically adds a new language pair when you switch languages"
 msgstr "Προσθέτει αυτόματα ένα νέο ζεύγος γλωσσών όταν αλλάζετε γλώσσες"
 
+#: tformsettingstrayslate.checkautocopy.caption
+msgctxt "tformsettingstrayslate.checkautocopy.caption"
+msgid "Auto-Copy Translation"
+msgstr ""
+
+#: tformsettingstrayslate.checkautocopy.hint
+msgid "Automatically copy translations from the main and popup windows to the clipboard"
+msgstr ""
+
 #: tformsettingstrayslate.checkautoheight.caption
 msgid "Auto Height"
 msgstr "Αυτόματο ύψος"
@@ -1238,6 +1247,11 @@ msgstr "Ενεργοποίηση καθολικών συντομεύσεων"
 msgctxt "tformtrayslate.afastautoaddlangpairs.caption"
 msgid "Auto-Add Recent Language Pairs"
 msgstr "Αυτόματη προσθήκη πρόσφατων ζευγών γλωσσών"
+
+#: tformtrayslate.afastautocopy.caption
+msgctxt "tformtrayslate.afastautocopy.caption"
+msgid "Auto-Copy Translation"
+msgstr ""
 
 #: tformtrayslate.afastautoswap.caption
 msgctxt "tformtrayslate.afastautoswap.caption"

@@ -20,11 +20,11 @@ object formSettingsTrayslate: TformSettingsTrayslate
     Top = 5
     Width = 614
     TabStop = False
-    ActivePage = PageGeneral
+    ActivePage = PageInterface
     Align = alClient
     BorderSpacing.Top = 5
     BorderSpacing.Bottom = 5
-    TabIndex = 0
+    TabIndex = 1
     TabOrder = 1
     object PageGeneral: TTabSheet
       Caption = 'General'
@@ -312,7 +312,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
         object GroupTrayIcon: TGroupBox
           Left = 5
           Height = 155
-          Top = 133
+          Top = 165
           Width = 579
           Align = alTop
           BorderSpacing.Around = 5
@@ -403,7 +403,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
         object GroupLangPairs: TGroupBox
           Left = 5
           Height = 91
-          Top = 293
+          Top = 325
           Width = 579
           Align = alTop
           BorderSpacing.Around = 5
@@ -447,7 +447,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
         object GroupPopup: TGroupBox
           Left = 5
           Height = 299
-          Top = 389
+          Top = 421
           Width = 579
           Align = alTop
           BorderSpacing.Around = 5
@@ -609,13 +609,13 @@ object formSettingsTrayslate: TformSettingsTrayslate
         end
         object GroupMainWindow: TGroupBox
           Left = 5
-          Height = 123
+          Height = 155
           Top = 5
           Width = 579
           Align = alTop
           BorderSpacing.Around = 5
           Caption = 'Main Window'
-          ClientHeight = 103
+          ClientHeight = 135
           ClientWidth = 575
           TabOrder = 0
           object CheckVerticalSplit: TCheckBox
@@ -662,6 +662,16 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Enabled = False
             TabOrder = 2
             OnClick = BtnResetClick
+          end
+          object CheckAutoCopy: TCheckBox
+            Left = 16
+            Height = 19
+            Hint = 'Automatically copy translations from the main and popup windows to the clipboard'
+            Top = 104
+            Width = 138
+            Caption = 'Auto-Copy Translation'
+            TabOrder = 4
+            OnChange = SettingChange
           end
         end
       end
@@ -794,7 +804,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Height = 23
           Hint = 'Time to establish connection If 0 default 10 seconds is used'
           Top = 8
-          Width = 409
+          Width = 417
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 0
           Value = 10
@@ -815,7 +825,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Height = 23
           Hint = 'Time to wait for response and data If 0 default 300 seconds is used'
           Top = 48
-          Width = 409
+          Width = 417
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 1
           Value = 10
@@ -834,7 +844,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
         ClientWidth = 592
         TabOrder = 1
         object ComboProxyMode: TComboBox
-          Left = 144
+          Left = 152
           Height = 23
           Hint = 'Defines how proxy is used no proxy system proxy or custom configuration'
           Top = 8
@@ -853,7 +863,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           OnChange = SettingChange
         end
         object LabelProxyMode: TLabel
-          Left = 0
+          Left = 8
           Height = 32
           Top = 8
           Width = 136
@@ -863,7 +873,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           WordWrap = True
         end
         object LabelProxyType: TLabel
-          Left = 0
+          Left = 8
           Height = 32
           Top = 48
           Width = 136
@@ -873,7 +883,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           WordWrap = True
         end
         object ComboProxyType: TComboBox
-          Left = 144
+          Left = 152
           Height = 23
           Hint = 'Type of proxy protocol used for custom settings'
           Top = 48
@@ -892,7 +902,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           OnChange = SettingChange
         end
         object EditProxyHost: TEdit
-          Left = 144
+          Left = 152
           Height = 23
           Hint = 'Address of the proxy server IP or domain name'
           Top = 84
@@ -902,7 +912,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           OnChange = SettingChange
         end
         object LabelHost: TLabel
-          Left = 0
+          Left = 8
           Height = 32
           Top = 84
           Width = 136
@@ -912,7 +922,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           WordWrap = True
         end
         object LabelPort: TLabel
-          Left = 0
+          Left = 8
           Height = 32
           Top = 120
           Width = 136
@@ -932,7 +942,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           OnChange = SettingChange
         end
         object LabelLogin: TLabel
-          Left = 0
+          Left = 8
           Height = 32
           Top = 192
           Width = 136
@@ -942,7 +952,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           WordWrap = True
         end
         object LabelPassword: TLabel
-          Left = 0
+          Left = 8
           Height = 32
           Top = 228
           Width = 136
@@ -952,9 +962,9 @@ object formSettingsTrayslate: TformSettingsTrayslate
           WordWrap = True
         end
         object EditProxyLogin: TEdit
-          Left = 144
+          Left = 152
           Height = 23
-          Hint = 'Login used for proxy authentication'
+          Hint = 'Username used for proxy authentication'
           Top = 192
           Width = 417
           Anchors = [akTop, akLeft, akRight]
@@ -963,7 +973,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           OnChange = SettingChange
         end
         object EditProxyPassword: TEdit
-          Left = 144
+          Left = 152
           Height = 23
           Hint = 'Password used for proxy authentication'
           Top = 228
@@ -974,7 +984,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           OnChange = SettingChange
         end
         object SpinProxyPort: TSpinEdit
-          Left = 144
+          Left = 152
           Height = 23
           Hint = 'Network port used by the proxy server'
           Top = 120

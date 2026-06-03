@@ -53,6 +53,7 @@ type
     aAutoCheckUpdates: TAction;
     aCopySource: TAction;
     aCopyTarget: TAction;
+    aFastAutoCopy: TAction;
     aFastMouseModeCtrl: TAction;
     aFastAllowHotKeys: TAction;
     aFastEnableMouseMode: TAction;
@@ -88,6 +89,7 @@ type
     MenuFastRealTime: TMenuItem;
     MenuFastAutoAddLangPairs: TMenuItem;
     MenuFastHideControls: TMenuItem;
+    MenuItem3: TMenuItem;
     OpenPo: TOpenDialog;
     SbCopySource: TSpeedButton;
     SbCopyTarget: TSpeedButton;
@@ -195,6 +197,7 @@ type
     procedure aFastMouseModeCtrlExecute(Sender: TObject);
     procedure aFastRealTimeExecute(Sender: TObject);
     procedure aFastVerticalSplitExecute(Sender: TObject);
+    procedure aFastAutoCopyExecute(Sender: TObject);
     procedure aLangBulgarianExecute(Sender: TObject);
     procedure aLangCustomExecute(Sender: TObject);
     procedure ApplicationPropUserInput(Sender: TObject; Msg: cardinal);
@@ -398,6 +401,7 @@ type
     procedure SetMouseModeCtrl(Value: boolean);
     procedure SetRealTime(Value: boolean);
     procedure SetVerticalSplit(Value: boolean);
+    procedure SetAutoCopy(Value: boolean);
     procedure SetProxy(Value: TProxy);
 
     procedure ChangeSourceLang(NewLang: string; AddRecentPairs: boolean = True);
@@ -423,6 +427,7 @@ type
     FMouseModeCtrl: boolean;
     FHideControls: boolean;
     FVerticalSplit: boolean;
+    FAutoCopy: boolean;
 
     procedure LoadConfig(SetDefault: boolean = True);
     procedure SetDefaultSettings;
@@ -503,6 +508,7 @@ type
     property MouseModeCtrl: boolean read FMouseModeCtrl write SetMouseModeCtrl;
     property MouseMode: TMouseMode read FMouseMode write FMouseMode;
     property VerticalSplit: boolean read FVerticalSplit write SetVerticalSplit;
+    property AutoCopy: boolean read FAutoCopy write SetAutoCopy;
     property StayOnTop: boolean read FStayOnTop write FStayOnTop;
     property FontPopup: TFont read FFontPopup write FFontPopup;
     property HideControls: boolean read FHideControls write SetHideControls;
@@ -1288,6 +1294,11 @@ end;
 procedure TformTrayslate.aFastVerticalSplitExecute(Sender: TObject);
 begin
   VerticalSplit := aFastVerticalSplit.Checked;
+end;
+
+procedure TformTrayslate.aFastAutoCopyExecute(Sender: TObject);
+begin
+  AutoCopy := aFastAutoCopy.Checked;
 end;
 
 { Control Events }
@@ -2384,8 +2395,9 @@ begin
   if Assigned(formSettingsTrayslate) then
   begin
     formSettingsTrayslate.FillListPages;
-    formSettingsTrayslate.FillGridHotkeys;
     formSettingsTrayslate.FillMouseMode;
+    formSettingsTrayslate.FillGridHotkeys;
+    formSettingsTrayslate.FillProxyMode;
   end;
 end;
 
@@ -2738,8 +2750,8 @@ begin
     if FormPopupHeight > 0 then
       formPopupTrayslate.Height := FormPopupHeight;
 
+    // Auto-height only when form is hidden
     AdjustPopupHeight(SourceText);
-    FAutoHeightAfter := True;
 
     formPopupTrayslate.Font.Assign(FontPopup);
     formPopupTrayslate.PanelWatermark.Font.Size := FontPopup.Size;
@@ -2747,6 +2759,9 @@ begin
     formPopupTrayslate.AlphaBlendValue := OpacityIdle;
     formPopupTrayslate.UpdateStayOnTop(0);
   end;
+
+  // Set auto-height after translate in any case
+  FAutoHeightAfter := True;
 
   formPopupTrayslate.SourceText := SourceText;
 
@@ -2925,6 +2940,15 @@ begin
     formTrayslate.SetVerticalMode;
     Application.QueueAsyncCall(@DoRealignSplit, 0);
   end;
+end;
+
+procedure TformTrayslate.SetAutoCopy(Value: boolean);
+begin
+  aFastAutoCopy.Checked := Value;
+  if Assigned(formSettingsTrayslate) and (not formSettingsTrayslate.ApplySettings) then
+    formSettingsTrayslate.CheckAutoCopy.Checked := Value
+  else
+    FAutoCopy := Value;
 end;
 
 procedure TformTrayslate.SetProxy(Value: TProxy);
@@ -3372,6 +3396,9 @@ begin
     FAutoHeightAfter := False;
     AdjustPopupHeight(formPopupTrayslate.MemoTarget.Text);
   end;
+
+  if FAutoCopy then
+    Clipboard.AsText := (Sender as TTranslateThread).ResultTextSync;
 
   if not Visible and (not Assigned(formPopupTrayslate) or not formPopupTrayslate.Visible) then
     ShowCustomHint(TrayIcon.Hint);

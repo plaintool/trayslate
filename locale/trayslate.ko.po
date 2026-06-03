@@ -829,6 +829,15 @@ msgstr "쌍 변경 시 자동 추가"
 msgid "Automatically adds a new language pair when you switch languages"
 msgstr "언어를 전환할 때 새 언어 쌍을 자동으로 추가합니다"
 
+#: tformsettingstrayslate.checkautocopy.caption
+msgctxt "tformsettingstrayslate.checkautocopy.caption"
+msgid "Auto-Copy Translation"
+msgstr ""
+
+#: tformsettingstrayslate.checkautocopy.hint
+msgid "Automatically copy translations from the main and popup windows to the clipboard"
+msgstr ""
+
 #: tformsettingstrayslate.checkautoheight.caption
 msgid "Auto Height"
 msgstr "자동 높이"
@@ -1238,6 +1247,11 @@ msgstr "전역 단축키 활성화"
 msgctxt "tformtrayslate.afastautoaddlangpairs.caption"
 msgid "Auto-Add Recent Language Pairs"
 msgstr "최근 언어 쌍 자동 추가"
+
+#: tformtrayslate.afastautocopy.caption
+msgctxt "tformtrayslate.afastautocopy.caption"
+msgid "Auto-Copy Translation"
+msgstr ""
 
 #: tformtrayslate.afastautoswap.caption
 msgctxt "tformtrayslate.afastautoswap.caption"

@@ -829,6 +829,15 @@ msgstr "Automatické přidání při změně páru"
 msgid "Automatically adds a new language pair when you switch languages"
 msgstr "Automaticky přidá nový jazykový pár při přepnutí jazyků"
 
+#: tformsettingstrayslate.checkautocopy.caption
+msgctxt "tformsettingstrayslate.checkautocopy.caption"
+msgid "Auto-Copy Translation"
+msgstr ""
+
+#: tformsettingstrayslate.checkautocopy.hint
+msgid "Automatically copy translations from the main and popup windows to the clipboard"
+msgstr ""
+
 #: tformsettingstrayslate.checkautoheight.caption
 msgid "Auto Height"
 msgstr "Automatická výška"
@@ -1238,6 +1247,11 @@ msgstr "Povolit globální klávesové zkratky"
 msgctxt "tformtrayslate.afastautoaddlangpairs.caption"
 msgid "Auto-Add Recent Language Pairs"
 msgstr "Automaticky přidat nedávné jazykové dvojice"
+
+#: tformtrayslate.afastautocopy.caption
+msgctxt "tformtrayslate.afastautocopy.caption"
+msgid "Auto-Copy Translation"
+msgstr ""
 
 #: tformtrayslate.afastautoswap.caption
 msgctxt "tformtrayslate.afastautoswap.caption"

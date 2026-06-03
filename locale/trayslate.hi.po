@@ -829,6 +829,15 @@ msgstr "युग्म बदलने पर स्वतः जोड़े�
 msgid "Automatically adds a new language pair when you switch languages"
 msgstr "भाषाएँ बदलने पर स्वचालित रूप से एक नया भाषा युग्म जोड़ता है"
 
+#: tformsettingstrayslate.checkautocopy.caption
+msgctxt "tformsettingstrayslate.checkautocopy.caption"
+msgid "Auto-Copy Translation"
+msgstr ""
+
+#: tformsettingstrayslate.checkautocopy.hint
+msgid "Automatically copy translations from the main and popup windows to the clipboard"
+msgstr ""
+
 #: tformsettingstrayslate.checkautoheight.caption
 msgid "Auto Height"
 msgstr "स्वचालित ऊँचाई"
@@ -1238,6 +1247,11 @@ msgstr "वैश्विक शॉर्टकट कुंजियाँ स
 msgctxt "tformtrayslate.afastautoaddlangpairs.caption"
 msgid "Auto-Add Recent Language Pairs"
 msgstr "हाल के भाषा जोड़े स्वचालित रूप से जोड़ें"
+
+#: tformtrayslate.afastautocopy.caption
+msgctxt "tformtrayslate.afastautocopy.caption"
+msgid "Auto-Copy Translation"
+msgstr ""
 
 #: tformtrayslate.afastautoswap.caption
 msgctxt "tformtrayslate.afastautoswap.caption"
