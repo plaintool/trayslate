@@ -997,6 +997,8 @@ msgid "Address of the proxy server IP or domain name"
 msgstr "Indirizzo IP server proxy o nome dominio"
 
 #: tformsettingstrayslate.editproxylogin.hint
+#, fuzzy
+#| msgid "Username used for proxy authentication"
 msgid "Username used for proxy authentication"
 msgstr "Nome utente usato per l'autenticazione proxy"
 

@@ -90,7 +90,7 @@
 {"hash":53899134,"name":"tformsettingstrayslate.checkproxyauthentication.caption","sourcebytes":[65,117,116,104,101,110,116,105,99,97,116,105,111,110],"value":"Authentication"},
 {"hash":5463550,"name":"tformsettingstrayslate.labellogin.caption","sourcebytes":[76,111,103,105,110],"value":"Login"},
 {"hash":145417188,"name":"tformsettingstrayslate.labelpassword.caption","sourcebytes":[80,97,115,115,119,111,114,100],"value":"Password"},
-{"hash":211828590,"name":"tformsettingstrayslate.editproxylogin.hint","sourcebytes":[76,111,103,105,110,32,117,115,101,100,32,102,111,114,32,112,114,111,120,121,32,97,117,116,104,101,110,116,105,99,97,116,105,111,110],"value":"Login used for proxy authentication"},
+{"hash":47842462,"name":"tformsettingstrayslate.editproxylogin.hint","sourcebytes":[85,115,101,114,110,97,109,101,32,117,115,101,100,32,102,111,114,32,112,114,111,120,121,32,97,117,116,104,101,110,116,105,99,97,116,105,111,110],"value":"Username used for proxy authentication"},
 {"hash":41542798,"name":"tformsettingstrayslate.editproxypassword.hint","sourcebytes":[80,97,115,115,119,111,114,100,32,117,115,101,100,32,102,111,114,32,112,114,111,120,121,32,97,117,116,104,101,110,116,105,99,97,116,105,111,110],"value":"Password used for proxy authentication"},
 {"hash":119891154,"name":"tformsettingstrayslate.spinproxyport.hint","sourcebytes":[78,101,116,119,111,114,107,32,112,111,114,116,32,117,115,101,100,32,98,121,32,116,104,101,32,112,114,111,120,121,32,115,101,114,118,101,114],"value":"Network port used by the proxy server"},
 {"hash":1339,"name":"tformsettingstrayslate.btnok.caption","sourcebytes":[79,75],"value":"OK"},

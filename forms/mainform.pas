@@ -2384,8 +2384,9 @@ begin
   if Assigned(formSettingsTrayslate) then
   begin
     formSettingsTrayslate.FillListPages;
-    formSettingsTrayslate.FillGridHotkeys;
     formSettingsTrayslate.FillMouseMode;
+    formSettingsTrayslate.FillGridHotkeys;
+    formSettingsTrayslate.FillProxyMode;
   end;
 end;
 
