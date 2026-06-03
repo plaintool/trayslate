@@ -60,6 +60,7 @@ type
     CheckAutostart: TCheckBox;
     CheckAutoAddLangPairs: TCheckBox;
     CheckVerticalSplit: TCheckBox;
+    CheckAutoCopy: TCheckBox;
     ColorIconBackground: TColorBox;
     ColorIconFont: TColorBox;
     ColorDialog: TColorDialog;
@@ -178,6 +179,7 @@ type
     FOriginalMouseModeCtrl: boolean;
     FOriginalMouseMode: TMouseMode;
     FOriginalVerticalSplit: boolean;
+    FOriginalAutocopy: boolean;
     FOriginalStayOnTop: boolean;
     FOriginalHideControls: boolean;
     FOriginalAutoHeight: boolean;
@@ -793,6 +795,9 @@ begin
   if Sender = CheckVerticalSplit then
     formTrayslate.aFastVerticalSplit.Checked := CheckVerticalSplit.Checked
   else
+  if Sender = CheckAutoCopy then
+    formTrayslate.aFastAutoCopy.Checked := CheckAutoCopy.Checked
+  else
   if Sender = CheckProxyAuthentication then
     SetState
   else
@@ -1095,6 +1100,7 @@ begin
     formTrayslate.MouseModeCtrl := CheckMouseModeCtrl.Checked;
     formTrayslate.MouseMode := TMouseMode(ComboMouseMode.ItemIndex);
     formTrayslate.VerticalSplit := CheckVerticalSplit.Checked;
+    formTrayslate.AutoCopy := CheckAutoCopy.Checked;
     formTrayslate.StayOnTop := CheckStayOnTop.Checked;
     formTrayslate.HideControls := CheckHideControls.Checked;
     formTrayslate.AutoHeight := CheckAutoHeight.Checked;
@@ -1220,6 +1226,7 @@ begin
   FOriginalMouseModeCtrl := formTrayslate.MouseModeCtrl;
   FOriginalMouseMode := formTrayslate.MouseMode;
   FOriginalVerticalSplit := formTrayslate.VerticalSplit;
+  FOriginalAutoCopy := formTrayslate.AutoCopy;
   FOriginalStayOnTop := formTrayslate.StayOnTop;
   FOriginalHideControls := formTrayslate.HideControls;
   FOriginalAutoHeight := formTrayslate.AutoHeight;
@@ -1253,6 +1260,7 @@ begin
   CheckMouseModeCtrl.Checked := FOriginalMouseModeCtrl;
   ComboMouseMode.ItemIndex := Ord(FOriginalMouseMode);
   CheckVerticalSplit.Checked := FOriginalVerticalSplit;
+  CheckAutoCopy.Checked := FOriginalAutoCopy;
   CheckStayOnTop.Checked := FOriginalStayOnTop;
   CheckHideControls.Checked := FOriginalHideControls;
   CheckAutoHeight.Checked := FOriginalAutoHeight;

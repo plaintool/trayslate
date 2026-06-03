@@ -101,6 +101,8 @@ end;
 procedure SaveFormSettings(Form: TformTrayslate);
 var
   JSONObj: TJSONObject;
+  ProxyObj: TJSONObject;
+  TimeoutObj: TJSONObject;
   arrPairs: TJSONArray;
   FileName: string;
   DPI, i: integer;
@@ -185,6 +187,7 @@ begin
     JSONObj.Add('MouseModeCtrl', Form.MouseModeCtrl);
     JSONObj.Add('MouseMode', Ord(Form.MouseMode));
     JSONObj.Add('VerticalSplit', Form.VerticalSplit);
+    JSONObj.Add('AutoCopy', Form.AutoCopy);
     JSONObj.Add('StayOnTop', Form.StayOnTop);
     JSONObj.Add('HideControls', Form.HideControls);
     JSONObj.Add('AutoHeight', Form.AutoHeight);
@@ -195,6 +198,23 @@ begin
     JSONObj.Add('AllowHotKeys', Form.AllowHotKeys);
     JSONObj.Add('AutoCheckUpdates', Form.AutoCheckUpdates);
     JSONObj.Add('CustomPoFile', Form.CustomPoFile);
+
+    ProxyObj := TJSONObject.Create;
+    ProxyObj.Add('ProxyMode', Ord(Form.Proxy.ProxyMode));
+    ProxyObj.Add('ProxyType', Ord(Form.Proxy.ProxyType));
+    ProxyObj.Add('Host', Form.Proxy.Host);
+    ProxyObj.Add('Port', Form.Proxy.Port);
+    ProxyObj.Add('Authentication', Form.Proxy.Authentication);
+    ProxyObj.Add('Login', Form.Proxy.Login);
+    ProxyObj.Add('Password', Form.Proxy.Password);
+
+    JSONObj.Add('Proxy', ProxyObj);
+
+    TimeoutObj := TJSONObject.Create;
+    TimeoutObj.Add('Request', Form.Timeout.Request);
+    TimeoutObj.Add('Connection', Form.Timeout.Connection);
+
+    JSONObj.Add('Timeout', TimeoutObj);
 
     // Save hotkeys
     JSONObj.Add('HotKeyApp_Modifiers', Form.HotKeyApp.Modifiers);
@@ -272,6 +292,10 @@ function LoadFormSettings(Form: TformTrayslate): boolean;
 var
   JSONData: TJSONData;
   JSONObj: TJSONObject;
+  ProxyObj: TJSONObject;
+  TimeoutObj: TJSONObject;
+  Proxy: TProxy;
+  Timeout: TTimeout;
   arrPairs: TJSONArray;
   FileName: string;
   FileStream: TFileStream;
@@ -460,6 +484,9 @@ begin
         if (JSONObj.FindPath('VerticalSplit') <> nil) then
           Form.FVerticalSplit := JSONObj.FindPath('VerticalSplit').AsBoolean;
 
+        if (JSONObj.FindPath('AutoCopy') <> nil) then
+          Form.FAutoCopy := JSONObj.FindPath('AutoCopy').AsBoolean;
+
         if (JSONObj.FindPath('StayOnTop') <> nil) then
           Form.StayOnTop := JSONObj.FindPath('StayOnTop').AsBoolean;
 
@@ -489,6 +516,53 @@ begin
 
         if (JSONObj.FindPath('CustomPoFile') <> nil) then
           Form.CustomPoFile := JSONObj.FindPath('CustomPoFile').AsString;
+
+        // Proxy settings
+        if JSONObj.FindPath('Proxy') <> nil then
+        begin
+          ProxyObj := JSONObj.FindPath('Proxy') as TJSONObject;
+
+          Proxy := Form.Proxy;
+
+          if ProxyObj.FindPath('ProxyMode') <> nil then
+            Proxy.ProxyMode := TProxyMode(ProxyObj.FindPath('ProxyMode').AsInteger);
+
+          if ProxyObj.FindPath('ProxyType') <> nil then
+            Proxy.ProxyType := TProxyType(ProxyObj.FindPath('ProxyType').AsInteger);
+
+          if ProxyObj.FindPath('Host') <> nil then
+            Proxy.Host := ProxyObj.FindPath('Host').AsString;
+
+          if ProxyObj.FindPath('Port') <> nil then
+            Proxy.Port := ProxyObj.FindPath('Port').AsString;
+
+          if ProxyObj.FindPath('Authentication') <> nil then
+            Proxy.Authentication := ProxyObj.FindPath('Authentication').AsBoolean;
+
+          if ProxyObj.FindPath('Login') <> nil then
+            Proxy.Login := ProxyObj.FindPath('Login').AsString;
+
+          if ProxyObj.FindPath('Password') <> nil then
+            Proxy.Password := ProxyObj.FindPath('Password').AsString;
+
+          Form.Proxy := Proxy;
+        end;
+
+        // Timeout Settings
+        if JSONObj.FindPath('Timeout') <> nil then
+        begin
+          TimeoutObj := JSONObj.FindPath('Timeout') as TJSONObject;
+
+          Timeout := Form.Timeout;
+
+          if TimeoutObj.FindPath('Request') <> nil then
+            Timeout.Request := TimeoutObj.FindPath('Request').AsInteger;
+
+          if TimeoutObj.FindPath('Connection') <> nil then
+            Timeout.Connection := TimeoutObj.FindPath('Connection').AsInteger;
+
+          Form.Timeout := Timeout;
+        end;
 
         // Load HotKeys
         // HotKeyApp

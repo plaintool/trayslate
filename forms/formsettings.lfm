@@ -20,11 +20,11 @@ object formSettingsTrayslate: TformSettingsTrayslate
     Top = 5
     Width = 614
     TabStop = False
-    ActivePage = PageGeneral
+    ActivePage = PageInterface
     Align = alClient
     BorderSpacing.Top = 5
     BorderSpacing.Bottom = 5
-    TabIndex = 0
+    TabIndex = 1
     TabOrder = 1
     object PageGeneral: TTabSheet
       Caption = 'General'
@@ -312,7 +312,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
         object GroupTrayIcon: TGroupBox
           Left = 5
           Height = 155
-          Top = 133
+          Top = 165
           Width = 579
           Align = alTop
           BorderSpacing.Around = 5
@@ -403,7 +403,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
         object GroupLangPairs: TGroupBox
           Left = 5
           Height = 91
-          Top = 293
+          Top = 325
           Width = 579
           Align = alTop
           BorderSpacing.Around = 5
@@ -447,7 +447,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
         object GroupPopup: TGroupBox
           Left = 5
           Height = 299
-          Top = 389
+          Top = 421
           Width = 579
           Align = alTop
           BorderSpacing.Around = 5
@@ -609,13 +609,13 @@ object formSettingsTrayslate: TformSettingsTrayslate
         end
         object GroupMainWindow: TGroupBox
           Left = 5
-          Height = 123
+          Height = 155
           Top = 5
           Width = 579
           Align = alTop
           BorderSpacing.Around = 5
           Caption = 'Main Window'
-          ClientHeight = 103
+          ClientHeight = 135
           ClientWidth = 575
           TabOrder = 0
           object CheckVerticalSplit: TCheckBox
@@ -662,6 +662,16 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Enabled = False
             TabOrder = 2
             OnClick = BtnResetClick
+          end
+          object CheckAutoCopy: TCheckBox
+            Left = 16
+            Height = 19
+            Hint = 'Automatically copy translations from the main and popup windows to the clipboard'
+            Top = 104
+            Width = 138
+            Caption = 'Auto-Copy Translation'
+            TabOrder = 4
+            OnChange = SettingChange
           end
         end
       end

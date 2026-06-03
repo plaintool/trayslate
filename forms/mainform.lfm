@@ -365,6 +365,10 @@ object formTrayslate: TformTrayslate
         Action = aFastRealTime
         AutoCheck = True
       end
+      object MenuItem3: TMenuItem
+        Action = aFastAutoCopy
+        AutoCheck = True
+      end
       object Separator6: TMenuItem
         Caption = '-'
       end
@@ -762,6 +766,12 @@ object formTrayslate: TformTrayslate
       AutoCheck = True
       Caption = 'Translate As You Type'
       OnExecute = aFastRealTimeExecute
+    end
+    object aFastAutoCopy: TAction
+      Category = 'FastSettings'
+      AutoCheck = True
+      Caption = 'Auto-Copy Translation'
+      OnExecute = aFastAutoCopyExecute
     end
     object aFastVerticalSplit: TAction
       Category = 'FastSettings'

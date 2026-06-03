@@ -829,6 +829,15 @@ msgstr "إضافة تلقائية عند تغيير الزوج"
 msgid "Automatically adds a new language pair when you switch languages"
 msgstr "يضيف تلقائياً زوج لغات جديد عند تبديل اللغات"
 
+#: tformsettingstrayslate.checkautocopy.caption
+msgctxt "tformsettingstrayslate.checkautocopy.caption"
+msgid "Auto-Copy Translation"
+msgstr ""
+
+#: tformsettingstrayslate.checkautocopy.hint
+msgid "Automatically copy translations from the main and popup windows to the clipboard"
+msgstr ""
+
 #: tformsettingstrayslate.checkautoheight.caption
 msgid "Auto Height"
 msgstr "الارتفاع التلقائي"
@@ -1238,6 +1247,11 @@ msgstr "تمكين مفاتيح الاختصار العامة"
 msgctxt "tformtrayslate.afastautoaddlangpairs.caption"
 msgid "Auto-Add Recent Language Pairs"
 msgstr "إضافة أزواج اللغات الأخيرة تلقائيًا"
+
+#: tformtrayslate.afastautocopy.caption
+msgctxt "tformtrayslate.afastautocopy.caption"
+msgid "Auto-Copy Translation"
+msgstr ""
 
 #: tformtrayslate.afastautoswap.caption
 msgctxt "tformtrayslate.afastautoswap.caption"

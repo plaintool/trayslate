@@ -829,6 +829,15 @@ msgstr "Automaattinen lisäys paria vaihdettaessa"
 msgid "Automatically adds a new language pair when you switch languages"
 msgstr "Lisää automaattisesti uuden kieliparin, kun vaihdat kieltä"
 
+#: tformsettingstrayslate.checkautocopy.caption
+msgctxt "tformsettingstrayslate.checkautocopy.caption"
+msgid "Auto-Copy Translation"
+msgstr ""
+
+#: tformsettingstrayslate.checkautocopy.hint
+msgid "Automatically copy translations from the main and popup windows to the clipboard"
+msgstr ""
+
 #: tformsettingstrayslate.checkautoheight.caption
 msgid "Auto Height"
 msgstr "Automaattinen korkeus"
@@ -1238,6 +1247,11 @@ msgstr "Ota yleiset pikanäppäimet käyttöön"
 msgctxt "tformtrayslate.afastautoaddlangpairs.caption"
 msgid "Auto-Add Recent Language Pairs"
 msgstr "Lisää viimeisimmät kieliparit automaattisesti"
+
+#: tformtrayslate.afastautocopy.caption
+msgctxt "tformtrayslate.afastautocopy.caption"
+msgid "Auto-Copy Translation"
+msgstr ""
 
 #: tformtrayslate.afastautoswap.caption
 msgctxt "tformtrayslate.afastautoswap.caption"

@@ -829,6 +829,15 @@ msgstr "Automatisch toevoegen bij wisselen van paar"
 msgid "Automatically adds a new language pair when you switch languages"
 msgstr "Voegt automatisch een nieuw taalpaar toe wanneer u van taal wisselt"
 
+#: tformsettingstrayslate.checkautocopy.caption
+msgctxt "tformsettingstrayslate.checkautocopy.caption"
+msgid "Auto-Copy Translation"
+msgstr ""
+
+#: tformsettingstrayslate.checkautocopy.hint
+msgid "Automatically copy translations from the main and popup windows to the clipboard"
+msgstr ""
+
 #: tformsettingstrayslate.checkautoheight.caption
 msgid "Auto Height"
 msgstr "Automatische hoogte"
@@ -1238,6 +1247,11 @@ msgstr "Globale sneltoetsen inschakelen"
 msgctxt "tformtrayslate.afastautoaddlangpairs.caption"
 msgid "Auto-Add Recent Language Pairs"
 msgstr "Automatisch recente taalparen toevoegen"
+
+#: tformtrayslate.afastautocopy.caption
+msgctxt "tformtrayslate.afastautocopy.caption"
+msgid "Auto-Copy Translation"
+msgstr ""
 
 #: tformtrayslate.afastautoswap.caption
 msgctxt "tformtrayslate.afastautoswap.caption"
