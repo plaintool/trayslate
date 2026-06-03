@@ -844,11 +844,11 @@ msgstr "Quando cambi lingua aggiungi automaticamente una nuova coppia di lingue"
 #: tformsettingstrayslate.checkautocopy.caption
 msgctxt "tformsettingstrayslate.checkautocopy.caption"
 msgid "Auto-Copy Translation"
-msgstr ""
+msgstr "Copia automatica traduzione"
 
 #: tformsettingstrayslate.checkautocopy.hint
 msgid "Automatically copy translations from the main and popup windows to the clipboard"
-msgstr ""
+msgstr "Copia automaticamente le traduzioni dalle finestre principale e popup negli appunti"
 
 #: tformsettingstrayslate.checkautoheight.caption
 msgid "Auto Height"
@@ -1265,7 +1265,7 @@ msgstr "Aggiungi automaticamente coppie lingue recenti"
 #: tformtrayslate.afastautocopy.caption
 msgctxt "tformtrayslate.afastautocopy.caption"
 msgid "Auto-Copy Translation"
-msgstr ""
+msgstr "Copia automatica traduzione"
 
 #: tformtrayslate.afastautoswap.caption
 msgctxt "tformtrayslate.afastautoswap.caption"
