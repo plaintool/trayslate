@@ -1028,6 +1028,8 @@ begin
     end;
 
     // Execute request
+    rawStream.Clear;
+    HTTP.OutputStream := rawStream;
     if AMethod = wmPost then
       HTTP.HTTPMethod('POST', AUrl)
     else
@@ -1040,16 +1042,45 @@ begin
     // Error handling
     if (HTTP.ResultCode div 100) <> 2 then
     begin
-      if (HTTP.ResultCode = 0) and (HTTP.Sock.LastError <> 0) then
-        Result := 'Socket Error: ' + HTTP.Sock.LastErrorDesc
-      else
-        Result := 'HTTP Error: ' + IntToStr(HTTP.ResultCode) + ' ' + HTTP.ResultString;
+      // Try to get the server's error body first
+      rawStream.Position := 0;
+      if rawStream.Size > 0 then
+      begin
+        contentEncoding := GetSynapseHeader(AResponseHeaders, 'Content-Encoding');
+        bodyStream := TStringStream.Create('', TEncoding.UTF8);
+        try
+          if SameText(contentEncoding, 'gzip') and IsGzip(rawStream) then
+          begin
+            decompressedStream := DecompressGzipToStream(rawStream);
+            try
+              bodyStream.CopyFrom(decompressedStream, 0);
+            finally
+              decompressedStream.Free;
+            end;
+          end
+          else
+            bodyStream.CopyFrom(rawStream, 0);
+
+          Result := bodyStream.DataString;
+        finally
+          bodyStream.Free;
+        end;
+      end;
+
+      // Fallback to standard error description if body is empty
+      if Result = string.Empty then
+      begin
+        if (HTTP.ResultCode = 0) and (HTTP.Sock.LastError <> 0) then
+          Result := 'Socket Error: ' + HTTP.Sock.LastErrorDesc
+        else
+          Result := 'HTTP Error: ' + IntToStr(HTTP.ResultCode) + ' ' + HTTP.ResultString;
+      end;
+
       AError := True;
       Exit;
     end;
 
     // Read response body
-    rawStream.CopyFrom(HTTP.Document, 0);
     rawStream.Position := 0;
 
     // Decompress gzip if needed
