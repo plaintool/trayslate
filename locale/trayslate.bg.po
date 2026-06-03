@@ -115,16 +115,16 @@ msgstr "Показвай изскачащ превод"
 
 #: formsettings.rproxymodecustomproxy
 msgid "Custom Proxy"
-msgstr ""
+msgstr "Персонализиран прокси сървър"
 
 #: formsettings.rproxymodenoproxy
 msgctxt "formsettings.rproxymodenoproxy"
 msgid "No Proxy"
-msgstr ""
+msgstr "Без прокси"
 
 #: formsettings.rproxymodesystemproxy
 msgid "System Proxy"
-msgstr ""
+msgstr "Системен прокси"
 
 #: formsettings.rrecent
 msgctxt "formsettings.rrecent"
@@ -334,22 +334,7 @@ msgid ""
 "\n"
 "3. Main icon designed by Flaticon\n"
 "   https://www.flaticon.com/ru/free-icon/translator_682045"
-msgstr ""
-"Trayslate е клиент в трея за онлайн сервизен превод. Може да въвеждате текст директно, да превежда съдържанието на клипборда или да превежда избран текст в която и да е програма. Може също така да заменя текста в друго приложение с неговия превод, като използвате бързи клавиши. Приложението позволява да изберете и напълно конфигурирате сервиза за превод, който използвате.\n"
-"\n"
-"Това приложение използва ресурси на трети страни под следните лицензи:\n"
-"\n"
-"1. Библиотеки OpenSSL (компилирани от изходния код, 32-битови и 64-битови версии)\n"
-"   Лиценз: Apache License 2.0\n"
-"   https://www.openssl.org\n"
-"\n"
-"2. Модули за поддръжка на тъмен режим от Double Commander\n"
-"   Използвани модули: udarkstyle.pas, uimport.pas, uwin32widgetsetdark.pas\n"
-"   Лиценз: GNU General Public License v2.0 (GPL-2.0)\n"
-"   https://github.com/doublecmd/doublecmd\n"
-"\n"
-"3. Основна икона, проектирана от Flaticon\n"
-"   https://www.flaticon.com/ru/free-icon/translator_682045"
+msgstr "Trayslate е клиент в трея за онлайн сервизен превод. Може да въвеждате текст директно, да превежда съдържанието на клипборда или да превежда избран текст в която и да е програма. Може също така да заменя текста в друго приложение с неговия превод, като използвате бързи клавиши. Приложението позволява да изберете и напълно конфигурирате сервиза за превод, който използвате.\n\nТова приложение използва ресурси на трети страни под следните лицензи:\n\n1. Библиотеки OpenSSL (компилирани от изходния код, 32-битови и 64-битови версии)\n   Лиценз: Apache License 2.0\n   https://www.openssl.org\n\n2. Модули за поддръжка на тъмен режим от Double Commander\n   Използвани модули: udarkstyle.pas, uimport.pas, uwin32widgetsetdark.pas\n   Лиценз: GNU General Public License v2.0 (GPL-2.0)\n   https://github.com/doublecmd/doublecmd\n\n3. Основна икона, проектирана от Flaticon\n   https://www.flaticon.com/ru/free-icon/translator_682045"
 
 #: tformbuttontrayslate.imagetranslate.hint
 msgctxt "tformbuttontrayslate.imagetranslate.hint"
@@ -544,15 +529,7 @@ msgid ""
 "Commenting: /* text */ comments are stripped from the entire expression before any processing.\n"
 "Examples:\n"
 "responseData/translatedText; matches/*#10/translation; /texts/text; {literal text#10}; /result/text; /text{ ({(\\w+)})}; !/translations{Error: No data!#10}; /translations/0/text"
-msgstr ""
-"Json показалец: Използва / за нива, ключове за обекти и числа за индекси. Използва * за всички елементи, *#10 за свързване на елементи чрез нов ред. Използвайте ~ в края на пътя, за да върнете необработения JSON клон. Разделете няколко сегмента с точка и запетая ;.\n"
-"Литерал: Текстов блок в {…}. Специален етикет #10 за нови редове. Използвайте {{regex}} вътре, за да извлечете данни директно в текста.\n"
-"Логика: Ако указател в сегмент е празен, целият сегмент се пропуска. Ако даден сегмент няма указател, се обработват само буквални текстови блокове с вградени регулярни изрази.\n"
-"Regex: {префикс {regex[index]} суфикс} вътре в текстов блок. Ако не е зададен [индекс], се използва първото съвпадение. Индексът може да бъде число, [*] (съединяване чрез интервал) или [*#10] (съединяване чрез нов ред). Ако регулярният израз не намери съвпадение, целият блок {…} се премахва. Използването на ~ вътре в регулярен израз връща целия текст.\n"
-"Инверсия: Започнете сегмент с ! (напр. !/path{Error}), за да покаже текста му само ако липсват данните за указателя или JSON е невалиден.\n"
-"Коментиране: /* текст */ коментарите се премахват от целия израз преди обработка.\n"
-"Примери:\n"
-"responseData/translatedText; съвпадения/*#10/превод; /текстове/текст; {буквен текст#10}; /резултат/текст; /текст{ ({(\\w+)})}; !/translations{Грешка: Няма данни!#10}; /преводи/0/текст"
+msgstr "Json показалец: Използва / за нива, ключове за обекти и числа за индекси. Използва * за всички елементи, *#10 за свързване на елементи чрез нов ред. Използвайте ~ в края на пътя, за да върнете необработения JSON клон. Разделете няколко сегмента с точка и запетая ;.\nЛитерал: Текстов блок в {…}. Специален етикет #10 за нови редове. Използвайте {{regex}} вътре, за да извлечете данни директно в текста.\nЛогика: Ако указател в сегмент е празен, целият сегмент се пропуска. Ако даден сегмент няма указател, се обработват само буквални текстови блокове с вградени регулярни изрази.\nRegex: {префикс {regex[index]} суфикс} вътре в текстов блок. Ако не е зададен [индекс], се използва първото съвпадение. Индексът може да бъде число, [*] (съединяване чрез интервал) или [*#10] (съединяване чрез нов ред). Ако регулярният израз не намери съвпадение, целият блок {…} се премахва. Използването на ~ вътре в регулярен израз връща целия текст.\nИнверсия: Започнете сегмент с ! (напр. !/path{Error}), за да покаже текста му само ако липсват данните за указателя или JSON е невалиден.\nКоментиране: /* текст */ коментарите се премахват от целия израз преди обработка.\nПримери:\nresponseData/translatedText; съвпадения/*#10/превод; /текстове/текст; {буквен текст#10}; /резултат/текст; /текст{ ({(\\w+)})}; !/translations{Грешка: Няма данни!#10}; /преводи/0/текст"
 
 #: tformconfigtrayslate.labellanguages.caption
 msgctxt "tformconfigtrayslate.labellanguages.caption"
@@ -567,9 +544,7 @@ msgstr "Тип стойност попълване на имена. None зап�
 msgid ""
 "Target languages e.g. en=en-US, en - internal, en-US - service code.\n"
 "If not specified, both source and target languages are taken from the languages section."
-msgstr ""
-"Целеви езици, например en=en-US, en - вътрешен, en-US - сервизен код.\n"
-"Ако не е посочено, и двата езика, изходният и целевият, се вземат от секцията за езици."
+msgstr "Целеви езици, например en=en-US, en - вътрешен, en-US - сервизен код.\nАко не е посочено, и двата езика, изходният и целевият, се вземат от секцията за езици."
 
 #: tformconfigtrayslate.labelmaxlength.caption
 msgid "Max Length, bytes"
@@ -883,11 +858,11 @@ msgstr "Работи само с клавиш Ctrl"
 #: tformsettingstrayslate.checkproxyauthentication.caption
 msgctxt "tformsettingstrayslate.checkproxyauthentication.caption"
 msgid "Authentication"
-msgstr ""
+msgstr "Удостоверяване"
 
 #: tformsettingstrayslate.checkproxyauthentication.hint
 msgid "Enables login and password authentication for proxy access"
-msgstr ""
+msgstr "Активира удостоверяване с вход и парола за достъп чрез прокси"
 
 #: tformsettingstrayslate.checkrealtime.caption
 msgctxt "tformsettingstrayslate.checkrealtime.caption"
@@ -907,9 +882,7 @@ msgstr "Винаги предпочитай основен/вторичен ез
 msgid ""
 "Always prefer the Primary/Secondary language pair when the detected language matches the current target language.\n"
 "Restore the configured pair instead of performing a normal swap."
-msgstr ""
-"Винаги предпочитай двойка основен/вторичен език, когато откритият език съвпада с текущия целеви език. \n"
-"Възстанови конфигурирана двойка вместо нормална смяна."
+msgstr "Винаги предпочитай двойка основен/вторичен език, когато откритият език съвпада с текущия целеви език. \nВъзстанови конфигурирана двойка вместо нормална смяна."
 
 #: tformsettingstrayslate.checksmartswap.caption
 msgctxt "tformsettingstrayslate.checksmartswap.caption"
@@ -921,9 +894,7 @@ msgctxt "tformsettingstrayslate.checksmartswap.hint"
 msgid ""
 "If Detected language is outside the current pair, the Source language is replaced with the Detected language and the Target language is set to Primary.\n"
 "If Detected language equals Primary, the translation pair is set to Primary - Secondary."
-msgstr ""
-"Ако откритият език е извън текущата двойка, изходният се заменя с открития, а целевият е зададен на Основен.\n"
-"Ако Откритият език е равен на Основен, двойката превод е зададена на Основен - Вторичен."
+msgstr "Ако откритият език е извън текущата двойка, изходният се заменя с открития, а целевият е зададен на Основен.\nАко Откритият език е равен на Основен, двойката превод е зададена на Основен - Вторичен."
 
 #: tformsettingstrayslate.checkstayontop.caption
 msgid "Stay On Top"
@@ -965,32 +936,32 @@ msgstr "Показвай бутон за превод"
 
 #: tformsettingstrayslate.comboproxymode.hint
 msgid "Defines how proxy is used no proxy system proxy or custom configuration"
-msgstr ""
+msgstr "Определя как се използва прокси сървърът, без прокси система, прокси сървър или персонализирана конфигурация"
 
 #: tformsettingstrayslate.comboproxymode.text
 msgctxt "tformsettingstrayslate.comboproxymode.text"
 msgid "No Proxy"
-msgstr ""
+msgstr "Без прокси"
 
 #: tformsettingstrayslate.comboproxytype.hint
 msgid "Type of proxy protocol used for custom settings"
-msgstr ""
+msgstr "Тип прокси протокол, използван за персонализирани настройки"
 
 #: tformsettingstrayslate.comboproxytype.text
 msgid "HTTP"
-msgstr ""
+msgstr "HTTP"
 
 #: tformsettingstrayslate.editproxyhost.hint
 msgid "Address of the proxy server IP or domain name"
-msgstr ""
+msgstr "IP адрес или име на домейн на прокси сървъра"
 
 #: tformsettingstrayslate.editproxylogin.hint
 msgid "Username used for proxy authentication"
-msgstr ""
+msgstr "Потребителско име, използвано за удостоверяване на прокси сървър"
 
 #: tformsettingstrayslate.editproxypassword.hint
 msgid "Password used for proxy authentication"
-msgstr ""
+msgstr "Парола, използвана за удостоверяване на прокси сървър"
 
 #: tformsettingstrayslate.gridhotkeys.columns[0].title.caption
 msgctxt "tformsettingstrayslate.gridhotkeys.columns[0].title.caption"
@@ -1030,7 +1001,7 @@ msgstr "Изскачащ прозорец"
 
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"
-msgstr ""
+msgstr "Прокси"
 
 #: tformsettingstrayslate.grouprealtime.caption
 msgid "Real-Time Translation"
@@ -1038,7 +1009,7 @@ msgstr "Превод при въвеждане"
 
 #: tformsettingstrayslate.grouptimeouts.caption
 msgid "Timeout"
-msgstr ""
+msgstr "Време за изчакване"
 
 #: tformsettingstrayslate.grouptransfromclipboard1.caption
 msgctxt "tformsettingstrayslate.grouptransfromclipboard1.caption"
@@ -1051,11 +1022,11 @@ msgstr "Икона в системния трей"
 
 #: tformsettingstrayslate.labelconnecttimeout.caption
 msgid "Connection, sec"
-msgstr ""
+msgstr "Връзка, сек"
 
 #: tformsettingstrayslate.labelhost.caption
 msgid "Host"
-msgstr ""
+msgstr "Домакин"
 
 #: tformsettingstrayslate.labeliconbackground.caption
 msgid "Background Color"
@@ -1076,7 +1047,7 @@ msgstr "Конфигурация за разпознаване на езика"
 
 #: tformsettingstrayslate.labellogin.caption
 msgid "Login"
-msgstr ""
+msgstr "Вход"
 
 #: tformsettingstrayslate.labelmaxheight.caption
 msgid "Max Height"
@@ -1102,11 +1073,11 @@ msgstr "Прозрачност в готовност"
 
 #: tformsettingstrayslate.labelpassword.caption
 msgid "Password"
-msgstr ""
+msgstr "Парола"
 
 #: tformsettingstrayslate.labelport.caption
 msgid "Port"
-msgstr ""
+msgstr "Порт"
 
 #: tformsettingstrayslate.labelprimarylang.caption
 msgid "Primary Language"
@@ -1114,11 +1085,11 @@ msgstr "Основен език"
 
 #: tformsettingstrayslate.labelproxymode.caption
 msgid "Proxy Mode"
-msgstr ""
+msgstr "Прокси режим"
 
 #: tformsettingstrayslate.labelproxytype.caption
 msgid "Proxy Type"
-msgstr ""
+msgstr "Тип прокси"
 
 #: tformsettingstrayslate.labelrealtimedelay.caption
 msgid "Translation Delay, ms"
@@ -1126,7 +1097,7 @@ msgstr "Закъснение на превода, ms"
 
 #: tformsettingstrayslate.labelrequesttimeout.caption
 msgid "Request, sec"
-msgstr ""
+msgstr "Заявка, сек"
 
 #: tformsettingstrayslate.labelsecondarylang.caption
 msgid "Secondary Language"
@@ -1148,7 +1119,7 @@ msgstr "Интерфейс"
 
 #: tformsettingstrayslate.pagenetwork.caption
 msgid "Network"
-msgstr ""
+msgstr "Мрежа"
 
 #: tformsettingstrayslate.panelfont.caption
 msgctxt "tformsettingstrayslate.panelfont.caption"
@@ -1162,7 +1133,7 @@ msgstr "По подразбиране, 0"
 
 #: tformsettingstrayslate.spinconnecttimeout.hint
 msgid "Time to establish connection If 0 default 10 seconds is used"
-msgstr ""
+msgstr "Време за свързване. Ако е 0,по подразбиране 10 сек"
 
 #: tformsettingstrayslate.spinmaxheight.hint
 msgid "Set maximum window height for auto-size; 0 indicates limit to screen height"
@@ -1174,7 +1145,7 @@ msgstr "Брой скорошни двойки в панела; двойките
 
 #: tformsettingstrayslate.spinproxyport.hint
 msgid "Network port used by the proxy server"
-msgstr ""
+msgstr "Мрежов порт, използван от прокси сървъра"
 
 #: tformsettingstrayslate.spinrealtimedelay.hint
 msgid "Translation Delay in milliseconds"
@@ -1182,7 +1153,7 @@ msgstr "Забавяне на превода в милисекунди"
 
 #: tformsettingstrayslate.spinrequesttimeout.hint
 msgid "Time to wait for response and data If 0 default 300 seconds is used"
-msgstr ""
+msgstr "Време за изчакване на отговор и данни. Ако е 0, по подразбиране 300 сек"
 
 #: tformsettingstrayslate.trackopacityhover.hint
 msgid "Window transparency when the mouse is over the window"
