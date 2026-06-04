@@ -242,9 +242,27 @@ msgctxt "formsettings.rtransswap_hint"
 msgid "Swaps the source and target languages"
 msgstr "Εναλλάσσει τη γλώσσα πηγής και τη γλώσσα-στόχο"
 
+#: formsettings.ruserparameterkey
+#, fuzzy
+msgctxt "formsettings.ruserparameterkey"
+msgid "Name"
+msgstr "Όνομα"
+
+#: formsettings.ruserparametervalue
+msgid "Value"
+msgstr ""
+
 #: languages.rautodetect
 msgid "Auto Detect"
 msgstr "Αυτόματη ανίχνευση"
+
+#: mainform.renter
+msgid "Enter"
+msgstr ""
+
+#: mainform.renterparameter
+msgid "Enter the required parameter"
+msgstr ""
 
 #: mainform.rnoconfig
 msgctxt "mainform.rnoconfig"
@@ -599,6 +617,7 @@ msgid "Description"
 msgstr "Περιγραφή"
 
 #: tformconfigtrayslate.labelservicename.caption
+msgctxt "tformconfigtrayslate.labelservicename.caption"
 msgid "Name"
 msgstr "Όνομα"
 
@@ -1019,6 +1038,11 @@ msgstr "Αυτόματη εκκίνηση"
 msgid "Auto-Swap Languages"
 msgstr "Αυτόματη εναλλαγή γλωσσών"
 
+#: tformsettingstrayslate.groupbox1.caption
+msgctxt "tformsettingstrayslate.groupbox1.caption"
+msgid "User Parameters"
+msgstr ""
+
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
@@ -1158,6 +1182,12 @@ msgstr "Διεπαφή"
 #: tformsettingstrayslate.pagenetwork.caption
 msgid "Network"
 msgstr ""
+
+#: tformsettingstrayslate.pageparameters.caption
+#, fuzzy
+msgctxt "tformsettingstrayslate.pageparameters.caption"
+msgid "Parameters"
+msgstr "Παράμετροι"
 
 #: tformsettingstrayslate.panelfont.caption
 msgctxt "tformsettingstrayslate.panelfont.caption"

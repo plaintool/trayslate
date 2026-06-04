@@ -103,7 +103,7 @@ var
   JSONObj: TJSONObject;
   ProxyObj: TJSONObject;
   TimeoutObj: TJSONObject;
-  arrPairs: TJSONArray;
+  arrPairs, arrParams: TJSONArray;
   FileName: string;
   DPI, i: integer;
 begin
@@ -265,6 +265,11 @@ begin
       arrPairs.Add(Form.LangPairs[i]);
     JSONObj.Add('RecentLangPairs', arrPairs);
 
+    arrParams := TJSONArray.Create;
+    for i := 0 to Form.UserParameters.Count - 1 do
+      arrParams.Add(Form.UserParameters[i]);
+    JSONObj.Add('UserParameters', arrParams);
+
     // Write to file
     with TStringList.Create do
     try
@@ -296,7 +301,7 @@ var
   TimeoutObj: TJSONObject;
   Proxy: TProxy;
   Timeout: TTimeout;
-  arrPairs: TJSONArray;
+  arrPairs, arrParams: TJSONArray;
   FileName: string;
   FileStream: TFileStream;
   FileContent: string;
@@ -708,6 +713,15 @@ begin
           arrPairs := JSONObj.FindPath('RecentLangPairs') as TJSONArray;
           for i := 0 to arrPairs.Count - 1 do
             Form.LangPairs.Add(arrPairs.Items[i].AsString);
+        end;
+
+        // Load user parameters
+        Form.UserParameters.Clear;
+        if JSONObj.FindPath('UserParameters') <> nil then
+        begin
+          arrParams := JSONObj.FindPath('UserParameters') as TJSONArray;
+          for i := 0 to arrParams.Count - 1 do
+            Form.UserParameters.Add(arrParams.Items[i].AsString);
         end;
       finally
         JSONData.Free;

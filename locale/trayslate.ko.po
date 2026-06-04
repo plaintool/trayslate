@@ -242,9 +242,27 @@ msgctxt "formsettings.rtransswap_hint"
 msgid "Swaps the source and target languages"
 msgstr "소스 언어와 대상 언어를 교체합니다"
 
+#: formsettings.ruserparameterkey
+#, fuzzy
+msgctxt "formsettings.ruserparameterkey"
+msgid "Name"
+msgstr "이름"
+
+#: formsettings.ruserparametervalue
+msgid "Value"
+msgstr ""
+
 #: languages.rautodetect
 msgid "Auto Detect"
 msgstr "자동 감지"
+
+#: mainform.renter
+msgid "Enter"
+msgstr ""
+
+#: mainform.renterparameter
+msgid "Enter the required parameter"
+msgstr ""
 
 #: mainform.rnoconfig
 msgctxt "mainform.rnoconfig"
@@ -599,6 +617,7 @@ msgid "Description"
 msgstr "설명"
 
 #: tformconfigtrayslate.labelservicename.caption
+msgctxt "tformconfigtrayslate.labelservicename.caption"
 msgid "Name"
 msgstr "이름"
 
@@ -1019,6 +1038,11 @@ msgstr "자동 시작"
 msgid "Auto-Swap Languages"
 msgstr "언어 자동 교체"
 
+#: tformsettingstrayslate.groupbox1.caption
+msgctxt "tformsettingstrayslate.groupbox1.caption"
+msgid "User Parameters"
+msgstr ""
+
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
@@ -1158,6 +1182,12 @@ msgstr "인터페이스"
 #: tformsettingstrayslate.pagenetwork.caption
 msgid "Network"
 msgstr ""
+
+#: tformsettingstrayslate.pageparameters.caption
+#, fuzzy
+msgctxt "tformsettingstrayslate.pageparameters.caption"
+msgid "Parameters"
+msgstr "매개변수"
 
 #: tformsettingstrayslate.panelfont.caption
 msgctxt "tformsettingstrayslate.panelfont.caption"

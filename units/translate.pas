@@ -81,6 +81,10 @@ type
     FParameterEncode: TStringList;
 
     FParametersAge: TDateTime;
+
+    FParamName: string;
+    FResultValue: string;
+    procedure SyncGetParameterValue;
   public
     constructor Create;
     destructor Destroy; override;
@@ -168,7 +172,7 @@ const
 
 implementation
 
-uses langtool, formattool;
+uses mainform, langtool, formattool;
 
   { TTranslate }
 
@@ -244,6 +248,12 @@ begin
   inherited Destroy;
 end;
 
+procedure TTranslate.SyncGetParameterValue;
+begin
+  if not Application.Terminated and Assigned(formTrayslate) then
+    FResultValue := formTrayslate.GetParameterValue(FParamName);
+end;
+
 procedure TTranslate.GetParameters(Data: string);
 var
   i: integer;
@@ -253,6 +263,25 @@ var
   Value: string;
   FullRandom: int64;
 begin
+  // User parameters {key=value}
+  with formTrayslate do
+    if Assigned(UserParameters) and (UserParameters.Count > 0) then
+    begin
+      for i := 0 to UserParameters.Count - 1 do
+      begin
+        ParamName := UserParameters.Names[i];
+        Value := UserParameters.ValueFromIndex[i];
+
+        // Skip empty parameters
+        if (ParamName = string.Empty) or (Value = string.Empty) then
+          Continue;
+
+        // Add or override parameter
+        FParameterValues.Values[ParamName] := Value;
+        FParameterEncode.Values[ParamName] := ifthen(FEncodeCustomParameters, '1', '0');
+      end;
+    end;
+
   // Custom parameters (key=value)
   if Assigned(FCustomParameters) then
   begin
@@ -260,6 +289,19 @@ begin
     begin
       ParamName := FCustomParameters.Names[i];
       Value := FCustomParameters.ValueFromIndex[i];
+
+      if Trim(Value) = string.Empty then
+      begin
+        // Store parameters in fields of the current class
+        Self.FParamName := ParamName;
+
+        // Synchronize using the current thread context
+        TThread.Synchronize(TThread.CurrentThread, @Self.SyncGetParameterValue);
+        if Application.Terminated then Exit;
+
+        // Get the result
+        Value := Self.FResultValue;
+      end;
 
       // Skip empty keys
       if ParamName = string.Empty then
@@ -876,19 +918,22 @@ procedure TTranslateThread.Execute;
 begin
   try
     try
-      if Terminated then Exit;
+      if Terminated or Application.Terminated then Exit;
       if Length(Trim(FSourceText)) > 0 then
         FResultText := FTrans.Translate
       else
         FResultText := string.Empty;
-      if Terminated then Exit;
+
+      if Terminated or Application.Terminated then Exit;
     except
       on E: Exception do
-        FException := Exception.Create(E.Message);
+        if not Application.Terminated then
+          FException := Exception.Create(E.Message);
     end;
   finally
     // Call AfterExecute in main thread to handle exceptions
-    Synchronize(@AfterExecute);
+    if not Application.Terminated then
+      Synchronize(@AfterExecute);
   end;
 end;
 

@@ -27,7 +27,7 @@ uses
   Math,
   Grids,
   LCLType,
-  LCLIntf,
+  LCLIntf, ValEdit,
   langtool,
   systemtool;
 
@@ -77,6 +77,7 @@ type
     FontDialog: TFontDialog;
     GroupAutoSwap: TGroupBox;
     GroupAutostart: TGroupBox;
+    GroupBox1: TGroupBox;
     GroupTimeouts: TGroupBox;
     GroupMainWindow: TGroupBox;
     GroupMouseMode: TGroupBox;
@@ -130,8 +131,10 @@ type
     SplitterPages: TSplitter;
     GridHotkeys: TStringGrid;
     PageNetwork: TTabSheet;
+    PageParameters: TTabSheet;
     TrackOpacityHover: TTrackBar;
     TrackOpacityIdle: TTrackBar;
+    ValueListUserParameters: TValueListEditor;
     procedure BtnDefaultClick(Sender: TObject);
     procedure BtnDefaultHotkeysClick(Sender: TObject);
     procedure BtnFontPopupClick(Sender: TObject);
@@ -141,6 +144,7 @@ type
     procedure FormChangeBounds(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BtnApplyClick(Sender: TObject);
@@ -189,6 +193,7 @@ type
     FOriginalConfigLangDetect: string;
     FOriginalProxy: TProxy;
     FOriginalTimeout: TTimeout;
+    FOriginalUserParameters: TStringList;
 
     FOriginalHotKeyApp: THotKeyData;
     FOriginalHotKeyTransSwap: THotKeyData;
@@ -240,6 +245,7 @@ type
     function GetOriginalHotKey(Row: integer): THotKeyData;
     procedure FillListPages;
     procedure FillGridHotkeys;
+    procedure FillUserParameters;
     procedure FillMouseMode;
     procedure FillProxyMode;
     procedure SetPopup;
@@ -309,6 +315,9 @@ resourcestring
   rproxymodesystemproxy = 'System Proxy';
   rproxymodecustomproxy = 'Custom Proxy';
 
+  ruserparameterkey = 'Name';
+  ruserparametervalue = 'Value';
+
 implementation
 
 uses mainform, formattool, formpopup, languages, translate;
@@ -346,14 +355,22 @@ begin
     List.Free;
   end;
 
+  FOriginalUserParameters := TStringList.Create;
+
   AddCustomColors(ColorIconBackground);
   AddCustomColors(ColorIconFont);
   FillFontCombo(ComboIconFontName);
   Reset;
   FillListPages;
   FillGridHotkeys;
+  FillUserParameters;
   FillMouseMode;
   FillProxyMode;
+end;
+
+procedure TformSettingsTrayslate.FormDestroy(Sender: TObject);
+begin
+  FreeAndNil(FOriginalUserParameters);
 end;
 
 procedure TformSettingsTrayslate.FormResize(Sender: TObject);
@@ -1015,6 +1032,13 @@ begin
     GridHotkeys.Row := GridHotkeys.FixedRows;
 end;
 
+procedure TformSettingsTrayslate.FillUserParameters;
+begin
+  ValueListUserParameters.TitleCaptions.Clear;
+  ValueListUserParameters.TitleCaptions.Add(ruserparameterkey);
+  ValueListUserParameters.TitleCaptions.Add(ruserparametervalue);
+end;
+
 procedure TformSettingsTrayslate.FillMouseMode;
 var
   SavedIndex: integer;
@@ -1111,6 +1135,7 @@ begin
       formTrayslate.ConfigLangDetect := formTrayslate.ConfigFiles[ComboLangDetect.ItemIndex - 1]
     else
       formTrayslate.ConfigLangDetect := string.Empty;
+    formTrayslate.UserParameters.Assign(ValueListUserParameters.Strings);
     T := formTrayslate.Timeout;
     T.Connection := SpinConnectTimeout.Value * 1000;
     T.Request := SpinRequestTimeout.Value * 1000;
@@ -1236,6 +1261,7 @@ begin
   FOriginalConfigLangDetect := formTrayslate.ConfigLangDetect;
   FOriginalProxy := formTrayslate.Proxy;
   FOriginalTimeout := formTrayslate.Timeout;
+  FOriginalUserParameters.Assign(formTrayslate.UserParameters);
   FOriginalFont := formTrayslate.Font;
   FOriginalFontPopup := formTrayslate.FontPopup;
   FOriginalIconBackgroundColor := formTrayslate.IconBackgroundColor;
@@ -1271,6 +1297,7 @@ begin
     ComboLangDetect.ItemIndex := Max(formTrayslate.ConfigFiles.IndexOf(FOriginalConfigLangDetect) + 1, 0)
   else
     ComboLangDetect.ItemIndex := 0;
+  ValueListUserParameters.Strings.Assign(FOriginalUserParameters);
   SpinConnectTimeout.Value := FOriginalTimeout.Connection div 1000;
   SpinRequestTimeout.Value := FOriginalTimeout.Request div 1000;
   ComboProxyMode.ItemIndex := Ord(FOriginalProxy.ProxyMode);

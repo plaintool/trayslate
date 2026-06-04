@@ -242,9 +242,27 @@ msgctxt "formsettings.rtransswap_hint"
 msgid "Swaps the source and target languages"
 msgstr "स्रोत और लक्ष्य भाषाओं को आपस में बदलता है"
 
+#: formsettings.ruserparameterkey
+#, fuzzy
+msgctxt "formsettings.ruserparameterkey"
+msgid "Name"
+msgstr "नाम"
+
+#: formsettings.ruserparametervalue
+msgid "Value"
+msgstr ""
+
 #: languages.rautodetect
 msgid "Auto Detect"
 msgstr "स्वतः पहचान"
+
+#: mainform.renter
+msgid "Enter"
+msgstr ""
+
+#: mainform.renterparameter
+msgid "Enter the required parameter"
+msgstr ""
 
 #: mainform.rnoconfig
 msgctxt "mainform.rnoconfig"
@@ -599,6 +617,7 @@ msgid "Description"
 msgstr "विवरण"
 
 #: tformconfigtrayslate.labelservicename.caption
+msgctxt "tformconfigtrayslate.labelservicename.caption"
 msgid "Name"
 msgstr "नाम"
 
@@ -1019,6 +1038,11 @@ msgstr "स्वतः प्रारंभ"
 msgid "Auto-Swap Languages"
 msgstr "स्वतः भाषाएँ बदलें"
 
+#: tformsettingstrayslate.groupbox1.caption
+msgctxt "tformsettingstrayslate.groupbox1.caption"
+msgid "User Parameters"
+msgstr ""
+
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
@@ -1158,6 +1182,12 @@ msgstr "इंटरफ़ेस"
 #: tformsettingstrayslate.pagenetwork.caption
 msgid "Network"
 msgstr ""
+
+#: tformsettingstrayslate.pageparameters.caption
+#, fuzzy
+msgctxt "tformsettingstrayslate.pageparameters.caption"
+msgid "Parameters"
+msgstr "पैरामीटर"
 
 #: tformsettingstrayslate.panelfont.caption
 msgctxt "tformsettingstrayslate.panelfont.caption"

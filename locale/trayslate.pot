@@ -232,8 +232,25 @@ msgctxt "formsettings.rtransswap_hint"
 msgid "Swaps the source and target languages"
 msgstr ""
 
+#: formsettings.ruserparameterkey
+msgctxt "formsettings.ruserparameterkey"
+msgid "Name"
+msgstr ""
+
+#: formsettings.ruserparametervalue
+msgid "Value"
+msgstr ""
+
 #: languages.rautodetect
 msgid "Auto Detect"
+msgstr ""
+
+#: mainform.renter
+msgid "Enter"
+msgstr ""
+
+#: mainform.renterparameter
+msgid "Enter the required parameter"
 msgstr ""
 
 #: mainform.rnoconfig
@@ -564,6 +581,7 @@ msgid "Description"
 msgstr ""
 
 #: tformconfigtrayslate.labelservicename.caption
+msgctxt "tformconfigtrayslate.labelservicename.caption"
 msgid "Name"
 msgstr ""
 
@@ -980,6 +998,11 @@ msgstr ""
 msgid "Auto-Swap Languages"
 msgstr ""
 
+#: tformsettingstrayslate.groupbox1.caption
+msgctxt "tformsettingstrayslate.groupbox1.caption"
+msgid "User Parameters"
+msgstr ""
+
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
@@ -1118,6 +1141,11 @@ msgstr ""
 
 #: tformsettingstrayslate.pagenetwork.caption
 msgid "Network"
+msgstr ""
+
+#: tformsettingstrayslate.pageparameters.caption
+msgctxt "tformsettingstrayslate.pageparameters.caption"
+msgid "Parameters"
 msgstr ""
 
 #: tformsettingstrayslate.panelfont.caption

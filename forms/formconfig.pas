@@ -477,7 +477,7 @@ begin
   NewName := ExtractFileName(ComboConfig.Text);
 
   // Ask user for new config name
-  if not InputQuery(ifthen(ACopy, SbCopyConfig.Hint, SbNewConfig.Hint), rnamequestion, NewName) then
+  if not InputQueryLite(ifthen(ACopy, SbCopyConfig.Hint, SbNewConfig.Hint), rnamequestion, NewName) then
     Exit; // user pressed Cancel
 
   NewName := Trim(NewName);

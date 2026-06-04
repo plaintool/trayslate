@@ -303,6 +303,7 @@ type
     FMemoSourceCaretPos: integer;
     FPrevSourceText: string;
     FPrevTargetText: string;
+    FUserParameters: TStringList;
     FLangPairs: TStringList;
     FTranslateThread: TTranslateThread;
     FMouseHook: TGlobalMouseHook;
@@ -446,6 +447,7 @@ type
     function UpdatePairLanguage(const Pair: string): string;
     procedure DoCheckUpdates(Data: PtrInt);
     procedure ShowCustomHint(const AText: string; X: integer = 0; Y: integer = 0; Duration: integer = 3000);
+    function GetParameterValue(AName: string): string;
     procedure AdjustPopupHeight(AText: string);
     procedure ShowPopup(const SourceText: string; X: integer = 0; Y: integer = 0);
     procedure ShowButton(const SourceText: string; X: integer = 0; Y: integer = 0);
@@ -494,6 +496,7 @@ type
     property LangSource: string read FLangSource write FLangSource;
     property LangTarget: string read FLangTarget write FLangTarget;
     property LangPairs: TStringList read FLangPairs write FLangPairs;
+    property UserParameters: TStringList read FUserParameters write FUserParameters;
     property MaxLangPairs: integer read FMaxLangPairs write FMaxLangPairs;
     property AutoAddLangPairs: boolean read FAutoAddLangPairs write SetAutoAddLangPairs;
     property AllowHotKeys: boolean read FAllowHotKeys write SetAllowHotKeys;
@@ -575,6 +578,8 @@ resourcestring
   rnoconfig = 'Configuration file not found! Create it in the configuration editor.';
   rtoremovepair = ' to remove pair';
   ropenpofiletr = 'Language File (*.po)|*.po';
+  renter = 'Enter';
+  renterparameter = 'Enter the required parameter';
 
 implementation
 
@@ -648,6 +653,7 @@ begin
   FLanguages := TStringList.Create;
   FLanguagesTarget := TStringList.Create;
   FLangPairs := TStringList.Create;
+  FUserParameters := TStringList.Create;
 
   // Load form settings
   FFormSettingsLoaded := LoadFormSettings(Self);
@@ -742,6 +748,7 @@ begin
   if FFormSettingsLoaded then
     SaveFormSettings(Self);
   FreeAndNil(FLangPairs);
+  FreeAndNil(FUserParameters);
   FreeAndNil(FLanguages);
   FreeAndNil(FLanguagesTarget);
   FreeAndNil(FConfigFiles);
@@ -1251,6 +1258,7 @@ begin
   Self.Cursor := crHourGlass;
   Screen.Cursor := crHourGlass;
 
+  Sleep(10);
   Application.Terminate;
 end;
 
@@ -2396,6 +2404,7 @@ begin
   begin
     formSettingsTrayslate.FillListPages;
     formSettingsTrayslate.FillMouseMode;
+    formSettingsTrayslate.FillUserParameters;
     formSettingsTrayslate.FillGridHotkeys;
     formSettingsTrayslate.FillProxyMode;
   end;
@@ -2663,6 +2672,44 @@ begin
   TimerHideHint.Enabled := False;
   TimerHideHint.Interval := Duration;
   TimerHideHint.Enabled := True;
+end;
+
+function TformTrayslate.GetParameterValue(AName: string): string;
+var
+  Value: string;
+  SavedCursor: TCursor;
+begin
+  Result := string.Empty;
+
+  // Check if application or form is destroying
+  if Application.Terminated or (Self = nil) or (UserParameters = nil) then
+    Exit;
+
+  Value := UserParameters.Values[AName];
+
+  if Value = string.Empty then
+  begin
+    SavedCursor := Screen.Cursor;
+    Screen.Cursor := crDefault;
+    try
+      if not InputQueryLite(renterparameter, renter + ' ' + AName, Value) then
+        Exit;
+
+      // Double check after modal dialog closed
+      if Application.Terminated or (Self = nil) or (UserParameters = nil) then
+        Exit;
+
+      Value := Trim(Value);
+      if Value <> string.Empty then
+        UserParameters.Add(AName + '=' + Value);
+    finally
+      // Restore cursor only if Screen object is still valid
+      if not Application.Terminated then
+        Screen.Cursor := SavedCursor;
+    end;
+  end;
+
+  Result := Value;
 end;
 
 procedure TformTrayslate.AdjustPopupHeight(AText: string);

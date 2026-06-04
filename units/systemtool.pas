@@ -16,6 +16,7 @@ uses
   Classes,
   SysUtils,
   Controls,
+  StdCtrls,
   Graphics,
   Math,
   FileInfo,
@@ -179,6 +180,10 @@ function AddBase64ToImageList(const Base64Str: string; AList: TImageList): integ
 function IsWindows7: boolean;
 
 function IsWindows11: boolean;
+
+{ Custom Input }
+
+function InputQueryLite(const ACaption, APrompt: string; var AValue: string): boolean;
 
 var
   Language: string;
@@ -1754,6 +1759,78 @@ begin
   {$ELSE}
   Result := False;
   {$ENDIF}
+end;
+
+{ Custom Input }
+
+function InputQueryLite(const ACaption, APrompt: string; var AValue: string): boolean;
+var
+  InputForm: TForm;
+  PromptLabel: TLabel;
+  InputEdit: TEdit;
+  BtnOK, BtnCancel: TButton;
+begin
+  Result := False;
+
+  // Create the form dynamically
+  InputForm := TForm.Create(nil);
+  try
+    InputForm.Caption := ACaption;
+    InputForm.Position := poScreenCenter;
+    InputForm.BorderStyle := bsDialog;
+    InputForm.Width := 350;
+    InputForm.Font.Size := 10; // Make font a bit more modern
+
+    // Create the prompt label
+    PromptLabel := TLabel.Create(InputForm);
+    PromptLabel.Parent := InputForm;
+    PromptLabel.Caption := APrompt;
+    PromptLabel.Left := 12;
+    PromptLabel.Top := 12;
+    PromptLabel.AutoSize := True;
+
+    // Create the input field tightly below the label
+    InputEdit := TEdit.Create(InputForm);
+    InputEdit.Parent := InputForm;
+    InputEdit.Left := 12;
+    InputEdit.Top := PromptLabel.Top + PromptLabel.Height + 6;
+    InputEdit.Width := InputForm.ClientWidth - 24;
+    InputEdit.Text := AValue;
+
+    // Create the OK button tight below the input field
+    BtnOK := TButton.Create(InputForm);
+    BtnOK.Parent := InputForm;
+    BtnOK.Caption := 'OK';
+    BtnOK.ModalResult := mrOk;
+    BtnOK.Default := True; // Triggers on Enter key
+    BtnOK.Width := 75;
+    BtnOK.Height := 25;
+    BtnOK.Top := InputEdit.Top + InputEdit.Height + 12;
+    BtnOK.Left := InputForm.ClientWidth - (BtnOK.Width * 2) - 18;
+
+    // Create the Cancel button next to OK
+    BtnCancel := TButton.Create(InputForm);
+    BtnCancel.Parent := InputForm;
+    BtnCancel.Caption := 'Cancel';
+    BtnCancel.ModalResult := mrCancel;
+    BtnCancel.Cancel := True; // Triggers on Esc key
+    BtnCancel.Width := 75;
+    BtnCancel.Height := 25;
+    BtnCancel.Top := BtnOK.Top;
+    BtnCancel.Left := InputForm.ClientWidth - BtnCancel.Width - 12;
+
+    // Dynamically adjust form height to fit controls snugly
+    InputForm.ClientHeight := BtnOK.Top + BtnOK.Height + 12;
+
+    // Show the dialog and check the result
+    if InputForm.ShowModal = mrOk then
+    begin
+      AValue := InputEdit.Text;
+      Result := True;
+    end;
+  finally
+    InputForm.Free;
+  end;
 end;
 
 end.
