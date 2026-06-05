@@ -1316,8 +1316,8 @@ end;
 { Control Events }
 
 procedure TformTrayslate.ComboSourceCloseUp(Sender: TObject);
-var
-  P: TPoint;
+//var
+//  P: TPoint;
 begin
   // If value not changed - do nothing
   if ComboSource.Text = FPrevSourceText then
@@ -1343,19 +1343,19 @@ begin
   else
   begin
     ChangeSourceLang(ComboSource.Text);
-    if Pos('(', ComboSource.Text) = 0 then
-    begin
-      P := ComboSource.ClientToScreen(Point(0, -ComboSource.Height div 2));
-      ShowCustomHint(FLangSource, Mouse.CursorPos.X, P.Y);
-    end;
+    //if Pos('(', ComboSource.Text) = 0 then
+    //begin
+    //  P := ComboSource.ClientToScreen(Point(0, -ComboSource.Height div 2));
+    //  ShowCustomHint(FLangSource, Mouse.CursorPos.X, P.Y);
+    //end;
     if not Trans.ServiceOnlyButton then
       TranslateMemo(False);
   end;
 end;
 
 procedure TformTrayslate.ComboTargetCloseUp(Sender: TObject);
-var
-  P: TPoint;
+//var
+//  P: TPoint;
 begin
   // If value not changed - do nothing
   if ComboTarget.Text = FPrevTargetText then
@@ -1381,11 +1381,11 @@ begin
   else
   begin
     ChangeTargetLang(ComboTarget.Text);
-    if Pos('(', ComboTarget.Text) = 0 then
-    begin
-      P := ComboTarget.ClientToScreen(Point(0, -ComboTarget.Height div 2));
-      ShowCustomHint(FLangTarget, Mouse.CursorPos.X, P.Y);
-    end;
+    //if Pos('(', ComboTarget.Text) = 0 then
+    //begin
+    //  P := ComboTarget.ClientToScreen(Point(0, -ComboTarget.Height div 2));
+    //  ShowCustomHint(FLangTarget, Mouse.CursorPos.X, P.Y);
+    //end;
     if not Trans.ServiceOnlyButton then
       TranslateMemo(False);
   end;
