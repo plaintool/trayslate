@@ -324,7 +324,7 @@ begin
     begin
       ParametersAge := Now + 3650;
       if GetParameters(GetInit) then
-      OpenStringInTextEditor(ParameterValues.Text);
+        OpenStringInTextEditor(ParameterValues.Text);
     end;
   finally
     Enabled := True;
@@ -353,10 +353,16 @@ end;
 procedure TformConfigTrayslate.ComboConfigKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
   if (ssCtrl in shift) and (Key = VK_C) then
+  begin
     Clipboard.AsText := ComboConfig.Text;
+    Key := 0;
+  end;
 
   if (ComboConfig.Focused) and (Key = VK_DELETE) then
+  begin
     DeleteConfig;
+    Key := 0;
+  end;
 end;
 
 procedure TformConfigTrayslate.ImagePreviewClick(Sender: TObject);
