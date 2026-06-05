@@ -545,7 +545,7 @@ msgstr "Parametri"
 #: tformconfigtrayslate.labelinitparameters4.caption
 #| msgid "Parameters in the form key=value used by {key} in requests"
 msgid "Parameters in the form key=value used by {key} in requests. If the value is omitted (key=), it will be requested from the user."
-msgstr "Parametri nel formato 'key=value' usati nelle richieste da {key}"
+msgstr "Parametri nel formato 'key=value' usati nelle richieste da {key}. Se il valore viene omesso (key=), verrà richiesto dall'utente."
 
 #: tformconfigtrayslate.labelinitparemeters.caption
 msgid "Initial GET request to obtain required parameters."
