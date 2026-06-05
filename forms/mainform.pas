@@ -576,7 +576,6 @@ const
   DEF_LANGDETECT = 'languagedetect.ini';
 
 resourcestring
-  rtrayslate = 'Trayslate';
   rswap = 'Swap (%s) with text (%s)';
   rnoconfig = 'Configuration file not found! Create it in the configuration editor.';
   rtoremovepair = ' to remove pair';

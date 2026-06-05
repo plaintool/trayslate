@@ -287,11 +287,6 @@ msgstr "Scambia (%s) con il testo (%s)"
 msgid " to remove pair"
 msgstr " per rimuovere la coppia"
 
-#: mainform.rtrayslate
-msgctxt "mainform.rtrayslate"
-msgid "Trayslate"
-msgstr "Trayslate"
-
 #: systemtool.newversion
 #, object-pascal-format
 msgid "New version available: %s. Open GitHub page to download?"
@@ -306,6 +301,11 @@ msgstr "Errore durante il controllo della versione:"
 #: systemtool.newversionuptodate
 msgid "Your version is up to date."
 msgstr "Questa versione del programma è aggiornata."
+
+#: systemtool.rtrayslate
+msgctxt "systemtool.rtrayslate"
+msgid "Trayslate"
+msgstr "Trayslate"
 
 #: tformabouttrayslate.buttonok.caption
 msgctxt "tformabouttrayslate.buttonok.caption"
@@ -1493,4 +1493,3 @@ msgstr "Coppie recenti"
 msgctxt "tformtrayslate.menulanguage.caption"
 msgid "Language"
 msgstr "Lingua"
-

@@ -282,11 +282,6 @@ msgstr "Vaihda (%s) tekstiksi (%s)"
 msgid " to remove pair"
 msgstr " poistaaksesi parin"
 
-#: mainform.rtrayslate
-msgctxt "mainform.rtrayslate"
-msgid "Trayslate"
-msgstr "Trayslate"
-
 #: systemtool.newversion
 #, object-pascal-format
 msgid "New version available: %s. Open GitHub page to download?"
@@ -299,6 +294,11 @@ msgstr "Virhe versiota tarkistaessa:"
 #: systemtool.newversionuptodate
 msgid "Your version is up to date."
 msgstr "Versiosi on ajan tasalla."
+
+#: systemtool.rtrayslate
+msgctxt "systemtool.rtrayslate"
+msgid "Trayslate"
+msgstr "Trayslate"
 
 #: tformabouttrayslate.buttonok.caption
 msgctxt "tformabouttrayslate.buttonok.caption"
@@ -1481,4 +1481,3 @@ msgstr "Viimeisimmät parit"
 msgctxt "tformtrayslate.menulanguage.caption"
 msgid "Language"
 msgstr "Language"
-

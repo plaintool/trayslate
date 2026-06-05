@@ -282,11 +282,6 @@ msgstr "Schimbați (%s) cu textul (%s)"
 msgid " to remove pair"
 msgstr " pentru a elimina perechea"
 
-#: mainform.rtrayslate
-msgctxt "mainform.rtrayslate"
-msgid "Trayslate"
-msgstr "Trayslate"
-
 #: systemtool.newversion
 #, object-pascal-format
 msgid "New version available: %s. Open GitHub page to download?"
@@ -299,6 +294,11 @@ msgstr "Eroare la verificarea versiunii:"
 #: systemtool.newversionuptodate
 msgid "Your version is up to date."
 msgstr "Versiunea dvs. este actualizată."
+
+#: systemtool.rtrayslate
+msgctxt "systemtool.rtrayslate"
+msgid "Trayslate"
+msgstr "Trayslate"
 
 #: tformabouttrayslate.buttonok.caption
 msgctxt "tformabouttrayslate.buttonok.caption"
@@ -1481,4 +1481,3 @@ msgstr "Perechi recente"
 msgctxt "tformtrayslate.menulanguage.caption"
 msgid "Language"
 msgstr "Language"
-

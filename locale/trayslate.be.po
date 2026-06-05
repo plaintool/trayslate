@@ -243,7 +243,6 @@ msgid "Swaps the source and target languages"
 msgstr "Мяняе месцамі зыходную і мэтавую мовы"
 
 #: formsettings.ruserparameterkey
-#, fuzzy
 msgctxt "formsettings.ruserparameterkey"
 msgid "Name"
 msgstr "Імя"
@@ -283,11 +282,6 @@ msgstr "Памяняць (%s) з тэкстам (%s)"
 msgid " to remove pair"
 msgstr " для выдалення пары"
 
-#: mainform.rtrayslate
-msgctxt "mainform.rtrayslate"
-msgid "Trayslate"
-msgstr "Trayslate"
-
 #: systemtool.newversion
 #, object-pascal-format
 msgid "New version available: %s. Open GitHub page to download?"
@@ -300,6 +294,11 @@ msgstr "Памылка пры праверцы версіі:"
 #: systemtool.newversionuptodate
 msgid "Your version is up to date."
 msgstr "Ваша версія актуальная."
+
+#: systemtool.rtrayslate
+msgctxt "systemtool.rtrayslate"
+msgid "Trayslate"
+msgstr "Trayslate"
 
 #: tformabouttrayslate.buttonok.caption
 msgctxt "tformabouttrayslate.buttonok.caption"
@@ -1186,7 +1185,6 @@ msgid "Network"
 msgstr ""
 
 #: tformsettingstrayslate.pageparameters.caption
-#, fuzzy
 msgctxt "tformsettingstrayslate.pageparameters.caption"
 msgid "Parameters"
 msgstr "Параметры"
@@ -1483,4 +1481,3 @@ msgstr "Нядаўнія пары"
 msgctxt "tformtrayslate.menulanguage.caption"
 msgid "Language"
 msgstr "Language"
-

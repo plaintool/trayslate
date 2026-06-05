@@ -282,11 +282,6 @@ msgstr "استبدال (%s) بالنص (%s)"
 msgid " to remove pair"
 msgstr " لإزالة الزوج"
 
-#: mainform.rtrayslate
-msgctxt "mainform.rtrayslate"
-msgid "Trayslate"
-msgstr "Trayslate"
-
 #: systemtool.newversion
 #, object-pascal-format
 msgid "New version available: %s. Open GitHub page to download?"
@@ -299,6 +294,11 @@ msgstr "خطأ في التحقق من الإصدار:"
 #: systemtool.newversionuptodate
 msgid "Your version is up to date."
 msgstr "إصدارك محدث."
+
+#: systemtool.rtrayslate
+msgctxt "systemtool.rtrayslate"
+msgid "Trayslate"
+msgstr "Trayslate"
 
 #: tformabouttrayslate.buttonok.caption
 msgctxt "tformabouttrayslate.buttonok.caption"
@@ -1481,4 +1481,3 @@ msgstr "الأزواج الحديثة"
 msgctxt "tformtrayslate.menulanguage.caption"
 msgid "Language"
 msgstr "Language"
-

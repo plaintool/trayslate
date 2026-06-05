@@ -272,11 +272,6 @@ msgstr ""
 msgid " to remove pair"
 msgstr ""
 
-#: mainform.rtrayslate
-msgctxt "mainform.rtrayslate"
-msgid "Trayslate"
-msgstr ""
-
 #: systemtool.newversion
 #, object-pascal-format
 msgid "New version available: %s. Open GitHub page to download?"
@@ -288,6 +283,11 @@ msgstr ""
 
 #: systemtool.newversionuptodate
 msgid "Your version is up to date."
+msgstr ""
+
+#: systemtool.rtrayslate
+msgctxt "systemtool.rtrayslate"
+msgid "Trayslate"
 msgstr ""
 
 #: tformabouttrayslate.buttonok.caption

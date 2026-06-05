@@ -189,6 +189,8 @@ var
   Language: string;
 
 resourcestring
+  rtrayslate = 'Trayslate';
+
   newversion = 'New version available: %s. Open GitHub page to download?';
   newversionuptodate = 'Your version is up to date.';
   newversioncheckerror = 'Error checking version:';
@@ -213,7 +215,7 @@ end;
 
 procedure TCheckUpdateThread.UpdateAvailable;
 begin
-  if MessageDlg(Format(newversion, [FLatestVersion]), mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+  if MessageDlg(rtrayslate, Format(newversion, [FLatestVersion]), mtConfirmation, [mbYes, mbNo], 0) = mrYes then
     OpenURL(Format('https://github.com/%s/releases/latest', [REPO]));
 end;
 
@@ -1404,7 +1406,7 @@ begin
           if not Silent then
           begin
             Msg := Format(newversion, [LatestVersion]);
-            if MessageDlg(Msg, mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+            if MessageDlg(rtrayslate, Msg, mtConfirmation, [mbYes, mbNo], 0) = mrYes then
               OpenURL(Format('https://github.com/%s/releases/latest', [Repo]));
           end;
           Result := True;
