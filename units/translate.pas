@@ -474,7 +474,7 @@ begin
   if FUrl = string.Empty then exit;
 
   try
-    if not GetParameters(GetInit) then
+    if not GetParameters(GetInit) or Application.Terminated then
       Exit;
 
     TempUrl := FUrl;
@@ -531,7 +531,7 @@ begin
   if FUrl = string.Empty then exit;
 
   try
-    if not GetParameters(GetInit) then
+    if not GetParameters(GetInit) or Application.Terminated then
       Exit;
 
     TempUrl := FUrl;

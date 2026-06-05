@@ -1262,7 +1262,6 @@ begin
   Self.Cursor := crHourGlass;
   Screen.Cursor := crHourGlass;
 
-  Sleep(10);
   Application.Terminate;
 end;
 
