@@ -12,7 +12,7 @@ object formPopupTrayslate: TformPopupTrayslate
   ParentFont = True
   Position = poDesktopCenter
   ShowInTaskBar = stNever
-  LCLVersion = '4.4.0.0'
+  LCLVersion = '4.6.0.0'
   OnChangeBounds = FormChangeBounds
   OnCreate = FormCreate
   OnDestroy = FormDestroy
