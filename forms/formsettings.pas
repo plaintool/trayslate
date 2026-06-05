@@ -496,7 +496,7 @@ begin
   if (GridHotkeys.EditorMode and (aCol = GridHotkeys.Col) and (aRow = GridHotkeys.Row)) or
     (GridHotkeys.Cells[aCol, aRow] = string.Empty) then
   begin
-    if (aCol = 1) and not (gdSelected in aState) then  GridHotkeys.Canvas.Brush.Color := clWindow;
+    if (aCol = 1) and not (gdSelected in aState) then  GridHotkeys.Canvas.Brush.Color := CellColor;
     GridHotkeys.DefaultDrawCell(aCol, aRow, aRect, aState);
     Exit;
   end;
