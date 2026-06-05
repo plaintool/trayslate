@@ -534,7 +534,9 @@ msgid "Parameters"
 msgstr "매개변수"
 
 #: tformconfigtrayslate.labelinitparameters4.caption
-msgid "Parameters in the form key=value used by {key} in requests"
+#, fuzzy
+#| msgid "Parameters in the form key=value used by {key} in requests"
+msgid "Parameters in the form key=value used by {key} in requests. If the value is omitted (key=), it will be requested from the user."
 msgstr "요청에서 {key}가 사용하는 key=value 형식의 매개변수"
 
 #: tformconfigtrayslate.labelinitparemeters.caption
@@ -1479,3 +1481,4 @@ msgstr "최근 쌍"
 msgctxt "tformtrayslate.menulanguage.caption"
 msgid "Language"
 msgstr "Language"
+

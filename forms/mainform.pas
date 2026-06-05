@@ -450,7 +450,7 @@ type
     function UpdatePairLanguage(const Pair: string): string;
     procedure DoCheckUpdates(Data: PtrInt);
     procedure ShowCustomHint(const AText: string; X: integer = 0; Y: integer = 0; Duration: integer = 3000);
-    function GetParameterValue(AName: string): string;
+    function GetParameterValue(AName: string; out ResultOk: boolean): string;
     procedure AdjustPopupHeight(AText: string);
     procedure ShowPopup(const SourceText: string; X: integer = 0; Y: integer = 0);
     procedure ShowButton(const SourceText: string; X: integer = 0; Y: integer = 0);
@@ -2678,12 +2678,14 @@ begin
   TimerHideHint.Enabled := True;
 end;
 
-function TformTrayslate.GetParameterValue(AName: string): string;
+function TformTrayslate.GetParameterValue(AName: string; out ResultOk: boolean): string;
 var
   Value: string;
   SavedCursor: TCursor;
+  SavedTimer: boolean;
 begin
   Result := string.Empty;
+  ResultOk := True;
 
   // Check if application or form is destroying
   if Application.Terminated or (Self = nil) or (UserParameters = nil) then
@@ -2695,21 +2697,32 @@ begin
   begin
     SavedCursor := Screen.Cursor;
     Screen.Cursor := crDefault;
+    SavedTimer := TimerAnimate.Enabled;
+    TimerAnimate.Enabled := False;
     try
       if not InputQueryLite(renterparameter, renter + ' ' + AName, Value) then
+      begin
+        ResultOk := False;
         Exit;
+      end;
 
       // Double check after modal dialog closed
       if Application.Terminated or (Self = nil) or (UserParameters = nil) then
+      begin
+        ResultOk := False;
         Exit;
+      end;
 
       Value := Trim(Value);
       if Value <> string.Empty then
-        UserParameters.Add(AName + '=' + Value);
+        UserParameters.Values[AName] := Value;
     finally
       // Restore cursor only if Screen object is still valid
       if not Application.Terminated then
+      begin
         Screen.Cursor := SavedCursor;
+        TimerAnimate.Enabled := SavedTimer;
+      end;
     end;
   end;
 

@@ -509,7 +509,7 @@ msgid "Parameters"
 msgstr ""
 
 #: tformconfigtrayslate.labelinitparameters4.caption
-msgid "Parameters in the form key=value used by {key} in requests"
+msgid "Parameters in the form key=value used by {key} in requests. If the value is omitted (key=), it will be requested from the user."
 msgstr ""
 
 #: tformconfigtrayslate.labelinitparemeters.caption

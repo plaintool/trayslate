@@ -811,7 +811,7 @@ object formConfigTrayslate: TformConfigTrayslate
         object GroupInitParameters: TGroupBox
           Left = 5
           Height = 491
-          Top = 237
+          Top = 253
           Width = 555
           Align = alTop
           BorderSpacing.Around = 5
@@ -1067,19 +1067,19 @@ object formConfigTrayslate: TformConfigTrayslate
         end
         object GroupBoxCustomParameters: TGroupBox
           Left = 5
-          Height = 227
+          Height = 243
           Top = 5
           Width = 555
           Align = alTop
           BorderSpacing.Around = 5
           Caption = 'Custom Parameters'
-          ClientHeight = 207
+          ClientHeight = 223
           ClientWidth = 551
           TabOrder = 0
           object MemoCustomParameters: TMemo
             Left = 120
             Height = 128
-            Top = 64
+            Top = 80
             Width = 406
             Anchors = [akTop, akLeft, akRight]
             ScrollBars = ssAutoVertical
@@ -1090,7 +1090,7 @@ object formConfigTrayslate: TformConfigTrayslate
           object LabelInitParameters3: TLabel
             Left = 8
             Height = 32
-            Top = 64
+            Top = 80
             Width = 104
             Alignment = taRightJustify
             AutoSize = False
@@ -1099,19 +1099,20 @@ object formConfigTrayslate: TformConfigTrayslate
           end
           object LabelInitParameters4: TLabel
             Left = 8
-            Height = 15
+            Height = 30
             Top = 8
             Width = 518
             Anchors = [akTop, akLeft, akRight]
-            Caption = 'Parameters in the form key=value used by {key} in requests'
+            Caption = 'Parameters in the form key=value used by {key} in requests. If the value is omitted (key=), it will be requested from the user.'
             Color = clInfoBk
             ParentColor = False
             Transparent = False
+            WordWrap = True
           end
           object CheckEncodeCustomParameters: TCheckBox
             Left = 120
             Height = 19
-            Top = 32
+            Top = 48
             Width = 119
             Caption = 'Encode parameters'
             TabOrder = 0

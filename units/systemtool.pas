@@ -980,6 +980,7 @@ function WebRequest(AMethod: TWebMethod; const AUrl: string; const APostData: st
   out AError: boolean): string;
 var
   HTTP: THTTPSend;
+  SSL: TSSLOpenSSL;
   rawStream: TMemoryStream;
   decompressedStream: TMemoryStream;
   bodyStream: TStringStream;
@@ -987,7 +988,8 @@ var
   contentEncoding: string;
   i: integer;
 begin
-  AResponseHeaders := nil;
+  Result := string.Empty;
+  AResponseHeaders := TStringList.Create;
   AError := False;
 
   HTTP := THTTPSend.Create;
@@ -996,7 +998,7 @@ begin
     // Common setup
     HTTP.Protocol := '1.1';
     HTTP.Timeout := IfThen(ATimeout.Request > 0, ATimeout.Request, REQUEST_TIMEOUT);
-    TSSLOpenSSL.Create(HTTP.Sock);
+    SSL := TSSLOpenSSL.Create(HTTP.Sock);
     HTTP.Sock.SSL.SSLType := LT_TLSv1_2;
     HTTP.Sock.ConnectionTimeout := IfThen(ATimeout.Connection > 0, ATimeout.Connection, CONNECT_TIMEOUT);
 
@@ -1028,7 +1030,7 @@ begin
         HTTP.Document.CopyFrom(postStream, 0);
         HTTP.Document.Position := 0;   // Synapse reads from current position
       finally
-        postStream.Free;
+        FreeAndNil(postStream);
       end;
     end;
 
@@ -1041,7 +1043,6 @@ begin
       HTTP.HTTPMethod('GET', AUrl);
 
     // Capture response headers
-    AResponseHeaders := TStringList.Create;
     AResponseHeaders.Assign(HTTP.Headers);
 
     // Error handling
@@ -1060,7 +1061,7 @@ begin
             try
               bodyStream.CopyFrom(decompressedStream, 0);
             finally
-              decompressedStream.Free;
+              FreeAndNil(decompressedStream);
             end;
           end
           else
@@ -1068,7 +1069,7 @@ begin
 
           Result := bodyStream.DataString;
         finally
-          bodyStream.Free;
+          FreeAndNil(bodyStream);
         end;
       end;
 
@@ -1098,7 +1099,7 @@ begin
         try
           bodyStream.CopyFrom(decompressedStream, 0);
         finally
-          decompressedStream.Free;
+          FreeAndNil(decompressedStream);
         end;
       end
       else
@@ -1106,11 +1107,12 @@ begin
 
       Result := bodyStream.DataString;
     finally
-      bodyStream.Free;
+      FreeAndNil(bodyStream);
     end;
   finally
-    rawStream.Free;
-    HTTP.Free;
+    FreeAndNil(rawStream);
+    FreeAndNil(SSL);
+    FreeAndNil(HTTP);
   end;
 end;
 

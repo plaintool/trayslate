@@ -323,7 +323,7 @@ begin
     with formTrayslate.Trans do
     begin
       ParametersAge := Now + 3650;
-      GetParameters(GetInit);
+      if GetParameters(GetInit) then
       OpenStringInTextEditor(ParameterValues.Text);
     end;
   finally

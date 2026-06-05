@@ -84,12 +84,13 @@ type
 
     FParamName: string;
     FResultValue: string;
+    FResultOk: boolean;
     procedure SyncGetParameterValue;
   public
     constructor Create;
     destructor Destroy; override;
 
-    procedure GetParameters(Data: string);
+    function GetParameters(Data: string): boolean;
     function SetParameters(Data: string; IncludeSet: boolean = True): string;
     procedure SetParametersList(Strings: TStrings);
     function GetInit: string;
@@ -251,10 +252,10 @@ end;
 procedure TTranslate.SyncGetParameterValue;
 begin
   if not Application.Terminated and Assigned(formTrayslate) then
-    FResultValue := formTrayslate.GetParameterValue(FParamName);
+    FResultValue := formTrayslate.GetParameterValue(FParamName, FResultOk);
 end;
 
-procedure TTranslate.GetParameters(Data: string);
+function TTranslate.GetParameters(Data: string): boolean;
 var
   i: integer;
   ParamName: string;
@@ -263,6 +264,8 @@ var
   Value: string;
   FullRandom: int64;
 begin
+  Result := True;
+
   // User parameters {key=value}
   with formTrayslate do
     if Assigned(UserParameters) and (UserParameters.Count > 0) then
@@ -300,6 +303,7 @@ begin
         if Application.Terminated then Exit;
 
         // Get the result
+        Result := FResultOk;
         Value := Self.FResultValue;
       end;
 
@@ -442,9 +446,9 @@ begin
 
   responseBody := WebRequest(wmGet, FInitUrl, string.Empty, InitHeaders, FInitUserAgent, string.Empty,
     string.Empty, FProxy, FTimeout, responseHeaders, Error);
-  if Error then Exit(responseBody);
-
   try
+    if Error then Exit(responseBody);
+
     // Build header string from response headers
     header := string.Empty;
     for i := 0 to responseHeaders.Count - 1 do
@@ -470,7 +474,8 @@ begin
   if FUrl = string.Empty then exit;
 
   try
-    GetParameters(GetInit);
+    if not GetParameters(GetInit) then
+      Exit;
 
     TempUrl := FUrl;
     TempUrl := SetParameters(TempUrl);
@@ -485,26 +490,26 @@ begin
       TempHeaders.Assign(Headers);
       SetParametersList(TempHeaders);
     end;
+    responseBody := WebRequest(wmGet, TempUrl, string.Empty, TempHeaders, FUserAgent, FContentType, FAccept,
+      FProxy, FTimeout, responseHeaders, Error);
     try
-      responseBody := WebRequest(wmGet, TempUrl, string.Empty, TempHeaders, FUserAgent, FContentType, FAccept,
-        FProxy, FTimeout, responseHeaders, Error);
       if Error then Exit(responseBody);
+
+      // Optionally prepend headers
+      if ReturnHeaders then
+      begin
+        header := string.Empty;
+        for i := 0 to responseHeaders.Count - 1 do
+          header := header + responseHeaders[i] + LineEnding;
+        Result := header + LineEnding + responseBody;
+      end
+      else
+        Result := responseBody;
+
     finally
       TempHeaders.Free;
+      responseHeaders.Free;
     end;
-
-    // Optionally prepend headers
-    if ReturnHeaders then
-    begin
-      header := string.Empty;
-      for i := 0 to responseHeaders.Count - 1 do
-        header := header + responseHeaders[i] + LineEnding;
-      Result := header + LineEnding + responseBody;
-    end
-    else
-      Result := responseBody;
-
-    responseHeaders.Free;
   except
     on E: Exception do
       Result := E.Message;
@@ -526,7 +531,8 @@ begin
   if FUrl = string.Empty then exit;
 
   try
-    GetParameters(GetInit);
+    if not GetParameters(GetInit) then
+      Exit;
 
     TempUrl := FUrl;
     TempUrl := SetParameters(TempUrl);
@@ -547,25 +553,25 @@ begin
       TempHeaders.Assign(Headers);
       SetParametersList(TempHeaders);
     end;
+    responseBody := WebRequest(wmPost, TempUrl, TempData, TempHeaders, FUserAgent, FContentType, FAccept,
+      FProxy, FTimeout, responseHeaders, Error);
     try
-      responseBody := WebRequest(wmPost, TempUrl, TempData, TempHeaders, FUserAgent, FContentType, FAccept,
-        FProxy, FTimeout, responseHeaders, Error);
       if Error then Exit(responseBody);
+
+      if ReturnHeaders then
+      begin
+        header := string.Empty;
+        for i := 0 to responseHeaders.Count - 1 do
+          header := header + responseHeaders[i] + LineEnding;
+        Result := header + LineEnding + responseBody;
+      end
+      else
+        Result := responseBody;
+
     finally
       TempHeaders.Free;
+      responseHeaders.Free;
     end;
-
-    if ReturnHeaders then
-    begin
-      header := string.Empty;
-      for i := 0 to responseHeaders.Count - 1 do
-        header := header + responseHeaders[i] + LineEnding;
-      Result := header + LineEnding + responseBody;
-    end
-    else
-      Result := responseBody;
-
-    responseHeaders.Free;
   except
     on E: Exception do
       Result := E.Message;
@@ -959,7 +965,7 @@ begin
     end
     else
     begin
-      if Assigned(FMemo) then
+      if Assigned(FMemo) and (FResultText <> string.Empty) then
         FMemo.Text := FResultText;
       FResultTextSync := FResultText;
     end;

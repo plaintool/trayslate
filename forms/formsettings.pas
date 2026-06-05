@@ -152,6 +152,10 @@ type
     procedure BtnFontClick(Sender: TObject);
     procedure BtnOkClick(Sender: TObject);
     procedure BtnResetClick(Sender: TObject);
+    procedure ValueListUserParametersColRowDeleted(Sender: TObject; IsColumn: boolean; sIndex, tIndex: integer);
+    procedure ValueListUserParametersColRowInserted(Sender: TObject; IsColumn: boolean; sIndex, tIndex: integer);
+    procedure ValueListUserParametersEditingDone(Sender: TObject);
+    procedure ValueListUserParametersSelectEditor(Sender: TObject; aCol, aRow: integer; var Editor: TWinControl);
     procedure ListPagesClick(Sender: TObject);
     procedure ListPagesDrawItem(Control: TWinControl; Index: integer; ARect: TRect; State: TOwnerDrawState);
     procedure GridHotkeysDrawCell(Sender: TObject; aCol, aRow: integer; aRect: TRect; aState: TGridDrawState);
@@ -233,6 +237,7 @@ type
 
     FApplySettings: boolean;
     FOldKeyValue: string;
+    FOldValueList: string;
 
     procedure SetPanelFont(Panel: TPanel; const AFont: TFont);
     procedure ResetRealTimeSettings;
@@ -393,44 +398,6 @@ end;
 procedure TformSettingsTrayslate.FormShow(Sender: TObject);
 begin
   formTrayslate.TopMost := False;
-end;
-
-procedure TformSettingsTrayslate.BtnFontClick(Sender: TObject);
-begin
-  FontDialog.Font.Assign(PanelFont.Font);
-  if FontDialog.Execute then
-  begin
-    PanelFont.Font.Assign(FontDialog.Font);
-    SetPanelFont(PanelFont, FontDialog.Font);
-
-    BtnApply.Enabled := True;
-  end;
-end;
-
-procedure TformSettingsTrayslate.BtnResetClick(Sender: TObject);
-begin
-  PanelFont.Font.SetDefault;
-  SetPanelFont(PanelFont, PanelFont.Font);
-  SettingChange(Self);
-end;
-
-procedure TformSettingsTrayslate.BtnFontPopupClick(Sender: TObject);
-begin
-  FontDialog.Font.Assign(PanelFontPopup.Font);
-  if FontDialog.Execute then
-  begin
-    PanelFontPopup.Font.Assign(FontDialog.Font);
-    SetPanelFont(PanelFontPopup, FontDialog.Font);
-
-    BtnApply.Enabled := True;
-  end;
-end;
-
-procedure TformSettingsTrayslate.BtnResetPopupClick(Sender: TObject);
-begin
-  PanelFontPopup.Font.SetDefault;
-  SetPanelFont(PanelFontPopup, PanelFontPopup.Font);
-  SettingChange(Self);
 end;
 
 procedure TformSettingsTrayslate.ComboIconFontNameMouseWheel(Sender: TObject; Shift: TShiftState;
@@ -743,6 +710,8 @@ end;
 
 procedure TformSettingsTrayslate.SettingChange(Sender: TObject);
 begin
+  if ApplySettings then exit;
+
   BtnApply.Enabled := True;
 
   if (Sender is TSpinEdit) then
@@ -853,14 +822,54 @@ begin
   FillGridHotkeys;
 end;
 
+procedure TformSettingsTrayslate.BtnFontClick(Sender: TObject);
+begin
+  FontDialog.Font.Assign(PanelFont.Font);
+  if FontDialog.Execute then
+  begin
+    PanelFont.Font.Assign(FontDialog.Font);
+    SetPanelFont(PanelFont, FontDialog.Font);
+
+    BtnApply.Enabled := True;
+  end;
+end;
+
+procedure TformSettingsTrayslate.BtnResetClick(Sender: TObject);
+begin
+  PanelFont.Font.SetDefault;
+  SetPanelFont(PanelFont, PanelFont.Font);
+  SettingChange(Self);
+end;
+
+procedure TformSettingsTrayslate.BtnFontPopupClick(Sender: TObject);
+begin
+  FontDialog.Font.Assign(PanelFontPopup.Font);
+  if FontDialog.Execute then
+  begin
+    PanelFontPopup.Font.Assign(FontDialog.Font);
+    SetPanelFont(PanelFontPopup, FontDialog.Font);
+
+    BtnApply.Enabled := True;
+  end;
+end;
+
+procedure TformSettingsTrayslate.BtnResetPopupClick(Sender: TObject);
+begin
+  PanelFontPopup.Font.SetDefault;
+  SetPanelFont(PanelFontPopup, PanelFontPopup.Font);
+  SettingChange(Self);
+end;
+
 procedure TformSettingsTrayslate.BtnOkClick(Sender: TObject);
 begin
+  Visible := False;
   Apply;
   ModalResult := mrOk;
 end;
 
 procedure TformSettingsTrayslate.BtnCancelClick(Sender: TObject);
 begin
+  Visible := False;
   ResetRealTimeSettings;
   Reset;
   ModalResult := mrCancel;
@@ -873,6 +882,28 @@ begin
   formTrayslate.UnregisterHotKeys;
   formTrayslate.MouseHook.Enabled := False;
   formTrayslate.KeyHook.Enabled := False;
+end;
+
+procedure TformSettingsTrayslate.ValueListUserParametersSelectEditor(Sender: TObject; aCol, aRow: integer; var Editor: TWinControl);
+begin
+  FOldValueList := ValueListUserParameters.Cells[aCol, aRow];
+end;
+
+procedure TformSettingsTrayslate.ValueListUserParametersEditingDone(Sender: TObject);
+begin
+  if ApplySettings then exit;
+  if (ValueListUserParameters.Cells[ValueListUserParameters.Col, ValueListUserParameters.Row] <> FOldValueList) then
+    BtnApply.Enabled := True;
+end;
+
+procedure TformSettingsTrayslate.ValueListUserParametersColRowDeleted(Sender: TObject; IsColumn: boolean; sIndex, tIndex: integer);
+begin
+  BtnApply.Enabled := True;
+end;
+
+procedure TformSettingsTrayslate.ValueListUserParametersColRowInserted(Sender: TObject; IsColumn: boolean; sIndex, tIndex: integer);
+begin
+  BtnApply.Enabled := True;
 end;
 
 procedure TformSettingsTrayslate.SetPanelFont(Panel: TPanel; const AFont: TFont);
@@ -1108,6 +1139,7 @@ var
   P: TProxy;
 begin
   FApplySettings := True;
+  ValueListUserParameters.EditingDone;
   try
     formTrayslate.AutoStart := CheckAutostart.Checked;
     formTrayslate.MaxLangPairs := SpinMaxLangPairs.Value;

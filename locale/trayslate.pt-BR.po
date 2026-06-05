@@ -532,7 +532,9 @@ msgid "Parameters"
 msgstr "Parâmetros"
 
 #: tformconfigtrayslate.labelinitparameters4.caption
-msgid "Parameters in the form key=value used by {key} in requests"
+#, fuzzy
+#| msgid "Parameters in the form key=value used by {key} in requests"
+msgid "Parameters in the form key=value used by {key} in requests. If the value is omitted (key=), it will be requested from the user."
 msgstr "Parâmetros no formato chave=valor utilizados como {key} nas requisições"
 
 #: tformconfigtrayslate.labelinitparemeters.caption
@@ -1476,3 +1478,4 @@ msgstr "Pares Recentes"
 msgctxt "tformtrayslate.menulanguage.caption"
 msgid "Language"
 msgstr "Idioma"
+
