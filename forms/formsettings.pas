@@ -686,10 +686,10 @@ end;
 
 procedure TformSettingsTrayslate.GridHotkeysSelectEditor(Sender: TObject; aCol, aRow: integer; var Editor: TWinControl);
 begin
-  if (ACol = 1) and (ARow in HeaderRows) then
+  if ((ACol = 1) and (ARow in HeaderRows)) or (ACol <> 1) then
     Editor := nil;
 
-  FOldKeyValue := GridHotkeys.Cells[aCol, aRow];
+  FOldKeyValue := GridHotkeys.Cells[1, aRow];
 end;
 
 procedure TformSettingsTrayslate.GridHotkeysEditingDone(Sender: TObject);
