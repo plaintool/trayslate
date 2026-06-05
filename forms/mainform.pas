@@ -674,6 +674,7 @@ begin
   aFastAutoSwap.Checked := FAutoSwap;
   aFastAutoAddLangPairs.Checked := FAutoAddLangPairs;
   aFastRealTime.Checked := FRealTime;
+  aFastAutoCopy.Checked := FAutoCopy;
 
   // Load config files
   FConfigFiles := TStringList.Create;
