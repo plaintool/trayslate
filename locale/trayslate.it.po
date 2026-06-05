@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Trayslate - Italian - 03.06.2026\n"
+"Project-Id-Version: Trayslate - Italian - 05.06.2026\n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: plaintool <astverskoy@gmail.com>\n"
+"Last-Translator: bovirus (bovirus@gmail.com)\n"
 "Language-Team: bovirus (bovirus@gmail.com)\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -254,7 +254,7 @@ msgstr "Nome"
 
 #: formsettings.ruserparametervalue
 msgid "Value"
-msgstr ""
+msgstr "Valore"
 
 #: languages.rautodetect
 msgid "Auto Detect"
@@ -262,11 +262,11 @@ msgstr "Rilevamento automatico"
 
 #: mainform.renter
 msgid "Enter"
-msgstr ""
+msgstr "Invio"
 
 #: mainform.renterparameter
 msgid "Enter the required parameter"
-msgstr ""
+msgstr "Inserisci il parametro richiesto"
 
 #: mainform.rnoconfig
 msgctxt "mainform.rnoconfig"
@@ -543,10 +543,9 @@ msgid "Parameters"
 msgstr "Parametri"
 
 #: tformconfigtrayslate.labelinitparameters4.caption
-#, fuzzy
 #| msgid "Parameters in the form key=value used by {key} in requests"
 msgid "Parameters in the form key=value used by {key} in requests. If the value is omitted (key=), it will be requested from the user."
-msgstr "Parametri nel formato 'key=value' usati da {key} nelle richieste"
+msgstr "Parametri nel formato 'key=value' usati nelle richieste da {key}"
 
 #: tformconfigtrayslate.labelinitparemeters.caption
 msgid "Initial GET request to obtain required parameters."
@@ -1054,12 +1053,12 @@ msgstr "Scambio automatico lingue"
 #: tformsettingstrayslate.groupbox1.caption
 msgctxt "tformsettingstrayslate.groupbox1.caption"
 msgid "User Parameters"
-msgstr ""
+msgstr "Parametri utente"
 
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
-msgstr "Coppie di lingue recenti"
+msgstr "Coppie lingue recenti"
 
 #: tformsettingstrayslate.groupmainwindow.caption
 msgid "Main Window"
