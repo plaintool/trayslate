@@ -153,6 +153,7 @@ type
     procedure SbCopyConfigClick(Sender: TObject);
   private
     FLastConfig: integer;
+    FInUpdateConfig: boolean;
     FIconBase64: string;
 
     procedure UpdateIconPreview;
@@ -338,16 +339,32 @@ begin
 end;
 
 procedure TformConfigTrayslate.ComboConfigChange(Sender: TObject);
+var
+  LastEnabled: boolean;
 begin
-  if not TestChanges then
+  if formTrayslate.Visible then
   begin
-    ComboConfig.ItemIndex := FLastConfig;
-    exit;
+    LastEnabled := formTrayslate.Enabled;
+    formTrayslate.Enabled := False;
   end;
-  formTrayslate.ConfigFile := ComboConfig.Text;
-  formTrayslate.LoadConfig;
-  UpdateConfig;
-  FLastConfig := ComboConfig.ItemIndex;
+
+  FInUpdateConfig := True;
+  try
+    if not TestChanges then
+    begin
+      ComboConfig.ItemIndex := FLastConfig;
+      exit;
+    end;
+    formTrayslate.ConfigFile := ComboConfig.Text;
+    formTrayslate.LoadConfig;
+    UpdateConfig;
+    FLastConfig := ComboConfig.ItemIndex;
+  finally
+    FInUpdateConfig := False;
+    if formTrayslate.Visible then
+      formTrayslate.Enabled := LastEnabled;
+    if Visible and CanFocus then SetFocus;
+  end;
 end;
 
 procedure TformConfigTrayslate.ComboConfigKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
@@ -416,8 +433,11 @@ end;
 
 procedure TformConfigTrayslate.ValueChange(Sender: TObject);
 begin
-  aSave.Enabled := True;
-  Caption := '*' + rcaption;
+  if not FInUpdateConfig then
+  begin
+    aSave.Enabled := True;
+    Caption := '*' + rcaption;
+  end;
 end;
 
 procedure TformConfigTrayslate.SbNewConfigClick(Sender: TObject);
