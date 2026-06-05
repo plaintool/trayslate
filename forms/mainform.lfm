@@ -451,6 +451,9 @@ object formTrayslate: TformTrayslate
         object MenuPortuguese: TMenuItem
           Action = aLangPortuguese
         end
+        object MenuPortugueseBrazil: TMenuItem
+          Action = aLangPortugueseBrazil
+        end
         object MenuRomanian: TMenuItem
           Action = aLangRomanian
         end
@@ -659,41 +662,6 @@ object formTrayslate: TformTrayslate
       Caption = 'Portuguese'
       OnExecute = aLangPortugueseExecute
     end
-    object aLangRomanian: TAction
-      Category = 'Language'
-      Caption = 'Romanian'
-      OnExecute = aLangRomanianExecute
-    end
-    object aLangRussian: TAction
-      Category = 'Language'
-      Caption = 'Russian'
-      OnExecute = aLangRussianExecute
-    end
-    object aLangSpanish: TAction
-      Category = 'Language'
-      Caption = 'Spanish'
-      OnExecute = aLangSpanishExecute
-    end
-    object aLangSwedish: TAction
-      Category = 'Language'
-      Caption = 'Swedish'
-      OnExecute = aLangSwedishExecute
-    end
-    object aLangTurkish: TAction
-      Category = 'Language'
-      Caption = 'Turkish'
-      OnExecute = aLangTurkishExecute
-    end
-    object aLangUkrainian: TAction
-      Category = 'Language'
-      Caption = 'Ukrainian'
-      OnExecute = aLangUkrainianExecute
-    end
-    object aLangCustom: TAction
-      Category = 'Language'
-      Caption = 'Custom File...'
-      OnExecute = aLangCustomExecute
-    end
     object aSettings: TAction
       Category = 'Tray'
       Caption = 'Settings...'
@@ -784,6 +752,46 @@ object formTrayslate: TformTrayslate
       AutoCheck = True
       Caption = 'Auto-Hide Popup Controls'
       OnExecute = aFastHideControlsExecute
+    end
+    object aLangPortugueseBrazil: TAction
+      Category = 'Language'
+      Caption = 'Portuguese (Brazil)'
+      OnExecute = aLangPortugueseBrazilExecute
+    end
+    object aLangRomanian: TAction
+      Category = 'Language'
+      Caption = 'Romanian'
+      OnExecute = aLangRomanianExecute
+    end
+    object aLangRussian: TAction
+      Category = 'Language'
+      Caption = 'Russian'
+      OnExecute = aLangRussianExecute
+    end
+    object aLangSpanish: TAction
+      Category = 'Language'
+      Caption = 'Spanish'
+      OnExecute = aLangSpanishExecute
+    end
+    object aLangSwedish: TAction
+      Category = 'Language'
+      Caption = 'Swedish'
+      OnExecute = aLangSwedishExecute
+    end
+    object aLangTurkish: TAction
+      Category = 'Language'
+      Caption = 'Turkish'
+      OnExecute = aLangTurkishExecute
+    end
+    object aLangUkrainian: TAction
+      Category = 'Language'
+      Caption = 'Ukrainian'
+      OnExecute = aLangUkrainianExecute
+    end
+    object aLangCustom: TAction
+      Category = 'Language'
+      Caption = 'Custom File...'
+      OnExecute = aLangCustomExecute
     end
   end
   object TimerClick: TTimer

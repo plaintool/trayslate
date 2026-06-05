@@ -1366,6 +1366,10 @@ msgstr "Polski"
 msgid "Portuguese"
 msgstr "Português"
 
+#: tformtrayslate.alangportuguesebrazil.caption
+msgid "Portuguese (Brazil)"
+msgstr ""
+
 #: tformtrayslate.alangromanian.caption
 msgid "Romanian"
 msgstr "Română"

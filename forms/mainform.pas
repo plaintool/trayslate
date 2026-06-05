@@ -53,6 +53,7 @@ type
     aAutoCheckUpdates: TAction;
     aCopySource: TAction;
     aCopyTarget: TAction;
+    aLangPortugueseBrazil: TAction;
     aFastAutoCopy: TAction;
     aFastMouseModeCtrl: TAction;
     aFastAllowHotKeys: TAction;
@@ -90,6 +91,7 @@ type
     MenuFastAutoAddLangPairs: TMenuItem;
     MenuFastHideControls: TMenuItem;
     MenuItem3: TMenuItem;
+    MenuPortugueseBrazil: TMenuItem;
     OpenPo: TOpenDialog;
     SbCopySource: TSpeedButton;
     SbCopyTarget: TSpeedButton;
@@ -200,6 +202,7 @@ type
     procedure aFastAutoCopyExecute(Sender: TObject);
     procedure aLangBulgarianExecute(Sender: TObject);
     procedure aLangCustomExecute(Sender: TObject);
+    procedure aLangPortugueseBrazilExecute(Sender: TObject);
     procedure ApplicationPropUserInput(Sender: TObject; Msg: cardinal);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -3935,6 +3938,7 @@ begin
   aLangKorean.Checked := False;
   aLangPolish.Checked := False;
   aLangPortuguese.Checked := False;
+  aLangPortugueseBrazil.Checked := False;
   aLangRomanian.Checked := False;
   aLangRussian.Checked := False;
   aLangSpanish.Checked := False;
@@ -4000,6 +4004,7 @@ begin
       'ko': aLangKorean.Checked := True;
       'pl': aLangPolish.Checked := True;
       'pt': aLangPortuguese.Checked := True;
+      'pt-BR': aLangPortugueseBrazil.Checked := True;
       'ro': aLangRomanian.Checked := True;
       'ru': aLangRussian.Checked := True;
       'es': aLangSpanish.Checked := True;
@@ -4198,6 +4203,12 @@ procedure TformTrayslate.aLangPortugueseExecute(Sender: TObject);
 begin
   FCustomPoFile := string.empty;
   SetLanguage('pt');
+end;
+
+procedure TformTrayslate.aLangPortugueseBrazilExecute(Sender: TObject);
+begin
+  FCustomPoFile := string.empty;
+  SetLanguage('pt-BR');
 end;
 
 procedure TformTrayslate.aLangRomanianExecute(Sender: TObject);

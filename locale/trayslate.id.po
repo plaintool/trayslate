@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: \n"
+"Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
@@ -243,7 +243,6 @@ msgid "Swaps the source and target languages"
 msgstr "Menukar bahasa sumber dan sasaran"
 
 #: formsettings.ruserparameterkey
-#, fuzzy
 msgctxt "formsettings.ruserparameterkey"
 msgid "Name"
 msgstr "Nama"
@@ -1184,7 +1183,6 @@ msgid "Network"
 msgstr ""
 
 #: tformsettingstrayslate.pageparameters.caption
-#, fuzzy
 msgctxt "tformsettingstrayslate.pageparameters.caption"
 msgid "Parameters"
 msgstr "Parameter"
@@ -1397,6 +1395,10 @@ msgstr "Polski"
 msgid "Portuguese"
 msgstr "Português"
 
+#: tformtrayslate.alangportuguesebrazil.caption
+msgid "Portuguese (Brazil)"
+msgstr "Português (Brasil)"
+
 #: tformtrayslate.alangromanian.caption
 msgid "Romanian"
 msgstr "Română"
@@ -1477,4 +1479,3 @@ msgstr "Pasangan Terbaru"
 msgctxt "tformtrayslate.menulanguage.caption"
 msgid "Language"
 msgstr "Language"
-

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: \n"
+"Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: be\n"
 "MIME-Version: 1.0\n"
@@ -1397,6 +1397,10 @@ msgstr "Polski"
 msgid "Portuguese"
 msgstr "Português"
 
+#: tformtrayslate.alangportuguesebrazil.caption
+msgid "Portuguese (Brazil)"
+msgstr "Português (Brasil)"
+
 #: tformtrayslate.alangromanian.caption
 msgid "Romanian"
 msgstr "Română"
@@ -1477,4 +1481,3 @@ msgstr "Нядаўнія пары"
 msgctxt "tformtrayslate.menulanguage.caption"
 msgid "Language"
 msgstr "Language"
-

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: \n"
+"Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
@@ -243,7 +243,6 @@ msgid "Swaps the source and target languages"
 msgstr "Разменя местата на изходния и целевия език"
 
 #: formsettings.ruserparameterkey
-#, fuzzy
 msgctxt "formsettings.ruserparameterkey"
 msgid "Name"
 msgstr "Име"
@@ -1013,8 +1012,6 @@ msgid "Address of the proxy server IP or domain name"
 msgstr "IP адрес или име на домейн на прокси сървъра"
 
 #: tformsettingstrayslate.editproxylogin.hint
-#, fuzzy
-#| msgid "Username used for proxy authentication"
 msgid "Username used for proxy authentication"
 msgstr "Потребителско име, използвано за удостоверяване на прокси сървър"
 
@@ -1186,7 +1183,6 @@ msgid "Network"
 msgstr "Мрежа"
 
 #: tformsettingstrayslate.pageparameters.caption
-#, fuzzy
 msgctxt "tformsettingstrayslate.pageparameters.caption"
 msgid "Parameters"
 msgstr "Параметри"
@@ -1399,6 +1395,10 @@ msgstr "Polski"
 msgid "Portuguese"
 msgstr "Português"
 
+#: tformtrayslate.alangportuguesebrazil.caption
+msgid "Portuguese (Brazil)"
+msgstr "Português (Brasil)"
+
 #: tformtrayslate.alangromanian.caption
 msgid "Romanian"
 msgstr "Română"
@@ -1479,4 +1479,3 @@ msgstr "Последни двойки"
 msgctxt "tformtrayslate.menulanguage.caption"
 msgid "Language"
 msgstr "Език"
-
