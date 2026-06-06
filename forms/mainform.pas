@@ -908,6 +908,8 @@ end;
 
 {$ENDIF}
 
+{ Screen Events }
+
 procedure TformTrayslate.ScreenActiveFormChanged(Sender: TObject);
 begin
   if Assigned(formConfigTrayslate) and formConfigTrayslate.HandleAllocated and (Screen.ActiveForm = formConfigTrayslate) then
@@ -968,7 +970,7 @@ end;
 
 procedure TFormTrayslate.OnKeyboardEvent(Sender: TObject; const Info: TKeyboardEventInfo);
 var
-  packedCoords: PtrInt;
+  // packedCoords: PtrInt;
   Tick: DWORD;
 begin
   Tick := GetTickCountXp;
@@ -987,12 +989,13 @@ begin
   if Info.KeyCode = Ord('V') then
     FLastVTime := Tick;
 
+  // TODO Removed, may need to be create as setting
   // Detecting select all for mouse mode
-  if (Info.CtrlDown) and (Info.KeyCode = Ord('A')) and (MouseMode = mmShowTranslateButton) then
-  begin
-    packedCoords := Mouse.CursorPos.Y shl 16 + Mouse.CursorPos.X;
-    Application.QueueAsyncCall(@OnTranslateMouseMode, packedCoords);
-  end;
+  //if (Info.CtrlDown) and (Info.KeyCode = Ord('A')) and (MouseMode = mmShowTranslateButton) then
+  //begin
+  //  packedCoords := Mouse.CursorPos.Y shl 16 + Mouse.CursorPos.X;
+  //  Application.QueueAsyncCall(@OnTranslateMouseMode, packedCoords);
+  //end;
 end;
 
 procedure TFormTrayslate.OnHookLeftDown(Sender: TObject; const Info: TMouseEventInfo);
