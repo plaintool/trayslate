@@ -161,21 +161,6 @@ Scarica l'installer dalla [pagina versioni programma](https://github.com/plainto
 
 ---
 
-## Dona 💖
-
-Se ti piace Trayslate e vuoi sostenerne lo sviluppo, puoi inviare una donazione:
-
-| Valuta   | Rete | Indirizo wallet |
-|----------|-----------------|----------------|
-| USDT     | Tron (TRC20)    | `TYSJJHjpu6aqr8UsGaCTLxDyh6HKWoNQ8k` |
-| USDT     | Ethereum (ERC20), Binance Smart Chain (BEP20) | `0x328e689E961c3Abb143835f8677947Fa9eaF9f6F` |
-| BTC      | Bitcoin (BTC)   | `bc1qp8m5j75yd58zhf9hl0a753shay093j2548f84e` |
-| ETH      | Ethereum (ERC20)| `0x328e689E961c3Abb143835f8677947Fa9eaF9f6F` |
-
-Ogni piccolo aiuto è apprezzato! 🙏
-
----
-
 ## Licenza
 
 Trayslate è concesso in licenza con la licenza GPL v3. Per i dettagli vedi il file LICENSE.

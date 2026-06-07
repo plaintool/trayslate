@@ -678,8 +678,8 @@ msgstr "설정 복사"
 msgid "New configuration"
 msgstr "새 설정"
 
-#: tformdonatetrayslate.buttonok.caption
-msgctxt "tformdonatetrayslate.buttonok.caption"
+#: tformdonatetrayslate.btnok.caption
+msgctxt "tformdonatetrayslate.btnok.caption"
 msgid "OK"
 msgstr "OK"
 
@@ -687,83 +687,40 @@ msgstr "OK"
 msgid "Buy me a coffee"
 msgstr "프로젝트 후원"
 
-#: tformdonatetrayslate.editwallet1.text
-msgid "bc1qp8m5j75yd58zhf9hl0a753shay093j2548f84e"
-msgstr "bc1qp8m5j75yd58zhf9hl0a753shay093j2548f84e"
+#: tformdonatetrayslate.labelbank.caption
+msgctxt "tformdonatetrayslate.labelbank.caption"
+msgid "Donate with Bank Card or PayPal"
+msgstr ""
 
-#: tformdonatetrayslate.editwallet2.text
-msgctxt "tformdonatetrayslate.editwallet2.text"
-msgid "0x328e689E961c3Abb143835f8677947Fa9eaF9f6F"
-msgstr "0x328e689E961c3Abb143835f8677947Fa9eaF9f6F"
+#: tformdonatetrayslate.labelbank.hint
+msgctxt "tformdonatetrayslate.labelbank.hint"
+msgid "https://app.lava.top/en/astverskoy?tabId=about&currency=EUR"
+msgstr "https://app.lava.top/en/astverskoy?tabId=about&currency=EUR"
 
-#: tformdonatetrayslate.editwallet3.text
-msgctxt "tformdonatetrayslate.editwallet3.text"
-msgid "0x328e689E961c3Abb143835f8677947Fa9eaF9f6F"
-msgstr "0x328e689E961c3Abb143835f8677947Fa9eaF9f6F"
+#: tformdonatetrayslate.labelcontribution.caption
+msgctxt "tformdonatetrayslate.labelcontribution.caption"
+msgid "Every contribution helps keep the project active and moving forward. Thank you for your support!"
+msgstr ""
 
-#: tformdonatetrayslate.editwallet4.text
-msgid "TYSJJHjpu6aqr8UsGaCTLxDyh6HKWoNQ8k"
-msgstr "TYSJJHjpu6aqr8UsGaCTLxDyh6HKWoNQ8k"
+#: tformdonatetrayslate.labelcrypto.caption
+msgctxt "tformdonatetrayslate.labelcrypto.caption"
+msgid "Donate with Cryptocurrency"
+msgstr ""
 
-#: tformdonatetrayslate.label1.caption
+#: tformdonatetrayslate.labelcrypto.hint
+msgctxt "tformdonatetrayslate.labelcrypto.hint"
+msgid "https://nowpayments.io/donation/astverskoy"
+msgstr "https://nowpayments.io/donation/astverskoy"
+
+#: tformdonatetrayslate.labeldonate.caption
+msgctxt "tformdonatetrayslate.labeldonate.caption"
 msgid "Hey there! Fuel this passion project with a little caffeine boost! Every donation helps keep the code rolling and the coffee brewing. Thanks for supporting the work and the developer behind it!"
 msgstr "안녕하세요! 이 열정적인 프로젝트에 약간의 카페인 충전으로 힘을 실어주세요! 모든 후원은 코드를 유지하고 커피를 내리는 데 도움이 됩니다. 작품과 그 뒤의 개발자를 지원해 주셔서 감사합니다!"
 
-#: tformdonatetrayslate.label10.caption
-msgid "Feel free to make a donation through any exchange, for example:"
-msgstr "다음과 같은 거래소를 통해 후원해 주셔도 됩니다:"
-
-#: tformdonatetrayslate.label2.caption
-msgid "BTC"
-msgstr "BTC"
-
-#: tformdonatetrayslate.label3.caption
-msgid "Bitcoin (BTC)"
-msgstr "Bitcoin (BTC)"
-
-#: tformdonatetrayslate.label4.caption
-msgid "ETH"
-msgstr "ETH"
-
-#: tformdonatetrayslate.label5.caption
-msgid "Ethereum (ERC20)"
-msgstr "Ethereum (ERC20)"
-
-#: tformdonatetrayslate.label6.caption
-msgctxt "tformdonatetrayslate.label6.caption"
-msgid "USDT"
-msgstr "USDT"
-
-#: tformdonatetrayslate.label7.caption
-msgid "ETH Ethereum (ERC20), BSC Binance Smart Chain (BEP20)"
-msgstr "ETH Ethereum (ERC20), BSC Binance Smart Chain (BEP20)"
-
-#: tformdonatetrayslate.label8.caption
-msgid "TRX Tron (TRC20)"
-msgstr "TRX Tron (TRC20)"
-
-#: tformdonatetrayslate.label9.caption
-msgctxt "tformdonatetrayslate.label9.caption"
-msgid "USDT"
-msgstr "USDT"
-
-#: tformdonatetrayslate.labelurl.caption
-msgctxt "tformdonatetrayslate.labelurl.caption"
-msgid "Changelly.com"
-msgstr "Changelly.com"
-
-#: tformdonatetrayslate.labelurl.hint
-msgctxt "tformdonatetrayslate.labelurl.hint"
-msgid "https://changelly.com/buy-crypto?amount=15&from=usd"
-msgstr "https://changelly.com/buy-crypto?amount=15&from=usd"
-
-#: tformdonatetrayslate.labelurl1.caption
-msgid "How to do it easily"
-msgstr "쉽게 하는 방법"
-
-#: tformdonatetrayslate.labelurl1.hint
-msgid "https://plaintool.github.io/notetask/donate.htm"
-msgstr "https://plaintool.github.io/notetask/donate.htm"
+#: tformdonatetrayslate.labelsupport.caption
+msgctxt "tformdonatetrayslate.labelsupport.caption"
+msgid "You can support development through one of the following options:"
+msgstr ""
 
 #: tformpopuptrayslate.acopytarget.hint
 msgctxt "tformpopuptrayslate.acopytarget.hint"
