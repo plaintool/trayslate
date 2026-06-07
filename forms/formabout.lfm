@@ -11,7 +11,7 @@ object formAboutTrayslate: TformAboutTrayslate
   Constraints.MinHeight = 280
   Constraints.MinWidth = 480
   Position = poDesktopCenter
-  LCLVersion = '4.4.0.0'
+  LCLVersion = '4.6.0.0'
   Scaled = False
   OnCreate = FormCreate
   OnResize = FormResize
@@ -228,12 +228,15 @@ object formAboutTrayslate: TformAboutTrayslate
     Cursor = crHandPoint
     Left = 140
     Height = 15
+    Hint = 'mailto:astverskoy@gmail.com'
     Top = 132
-    Width = 160
-    Caption = 'mailto:astverskoy@gmail.com'
+    Width = 123
+    Caption = 'astverskoy@gmail.com'
     Font.Color = clBlue
     Font.Style = [fsUnderline]
     ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
     WordWrap = True
     OnClick = LabelUrlEmailClick
   end
@@ -258,15 +261,18 @@ object formAboutTrayslate: TformAboutTrayslate
   end
   object LabelUrlGithub: TLabel
     Cursor = crHandPoint
-    Left = 312
+    Left = 301
     Height = 15
+    Hint = 'https://github.com/plaintool/trayslate'
     Top = 132
-    Width = 85
-    Caption = 'github:plaintool'
+    Width = 137
+    Caption = 'github: plaintool/trayslate'
     Font.Color = clBlue
     Font.Style = [fsUnderline]
     ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
     WordWrap = True
-    OnClick = LabelUrlGithubClick
+    OnClick = LabelUrlEmailClick
   end
 end

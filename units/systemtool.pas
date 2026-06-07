@@ -197,8 +197,6 @@ resourcestring
 
 const
   REPO = 'plaintool/trayslate';
-  GITHUB = 'https://github.com/plaintool';
-  EMAIL = 'mailto:astverskoy@gmail.com';
 
   CONNECT_TIMEOUT = 10000;
   REQUEST_TIMEOUT = 300000;

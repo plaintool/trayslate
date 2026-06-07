@@ -334,12 +334,22 @@ msgstr "Trayslate © 2026"
 
 #: tformabouttrayslate.labelurlemail.caption
 msgctxt "tformabouttrayslate.labelurlemail.caption"
+msgid "astverskoy@gmail.com"
+msgstr "astverskoy@gmail.com"
+
+#: tformabouttrayslate.labelurlemail.hint
+msgctxt "tformabouttrayslate.labelurlemail.hint"
 msgid "mailto:astverskoy@gmail.com"
 msgstr "mailto:astverskoy@gmail.com"
 
 #: tformabouttrayslate.labelurlgithub.caption
-msgid "github:plaintool"
-msgstr "github:plaintool"
+#| msgid "github: plaintool\\trayslate"
+msgid "github: plaintool/trayslate"
+msgstr "github: plaintool/trayslate"
+
+#: tformabouttrayslate.labelurlgithub.hint
+msgid "https://github.com/plaintool/trayslate"
+msgstr "https://github.com/plaintool/trayslate"
 
 #: tformabouttrayslate.lblabout.caption
 msgid ""

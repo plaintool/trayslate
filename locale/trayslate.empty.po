@@ -327,11 +327,20 @@ msgstr ""
 
 #: tformabouttrayslate.labelurlemail.caption
 msgctxt "tformabouttrayslate.labelurlemail.caption"
+msgid "astverskoy@gmail.com"
+msgstr ""
+
+#: tformabouttrayslate.labelurlemail.hint
+msgctxt "tformabouttrayslate.labelurlemail.hint"
 msgid "mailto:astverskoy@gmail.com"
 msgstr ""
 
 #: tformabouttrayslate.labelurlgithub.caption
-msgid "github:plaintool"
+msgid "github: plaintool/trayslate"
+msgstr ""
+
+#: tformabouttrayslate.labelurlgithub.hint
+msgid "https://github.com/plaintool/trayslate"
 msgstr ""
 
 #: tformabouttrayslate.lblabout.caption

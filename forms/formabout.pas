@@ -36,7 +36,6 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure LabelUrlEmailClick(Sender: TObject);
-    procedure LabelUrlGithubClick(Sender: TObject);
   private
 
   public
@@ -72,12 +71,7 @@ end;
 
 procedure TformAboutTrayslate.LabelUrlEmailClick(Sender: TObject);
 begin
-  OpenUrl(EMAIL);
-end;
-
-procedure TformAboutTrayslate.LabelUrlGithubClick(Sender: TObject);
-begin
-  OpenUrl(GITHUB);
+  OpenUrl((Sender as TLabel).Hint);
 end;
 
 end.
