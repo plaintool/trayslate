@@ -302,14 +302,14 @@ object formTrayslate: TformTrayslate
     OnClick = TrayIconClick
     OnMouseMove = TrayIconMouseMove
     OnMouseUp = TrayIconMouseUp
-    Left = 200
+    Left = 208
     Top = 312
   end
   object PopupTray: TPopupMenu
     Images = ImageConfig
     OnPopup = PopupTrayPopup
     OnClose = PopupTrayClose
-    Left = 120
+    Left = 128
     Top = 312
     object MenuShow: TMenuItem
       Action = aShow
@@ -793,6 +793,31 @@ object formTrayslate: TformTrayslate
       Caption = 'Custom File...'
       OnExecute = aLangCustomExecute
     end
+    object aDeletePair: TAction
+      Category = 'RecentPair'
+      Caption = 'Delete Pair'
+      OnExecute = aDeletePairExecute
+    end
+    object aMoveFirst: TAction
+      Category = 'RecentPair'
+      Caption = 'Move First'
+      OnExecute = aMoveFirstExecute
+    end
+    object aMoveLeft: TAction
+      Category = 'RecentPair'
+      Caption = 'Move Left'
+      OnExecute = aMoveLeftExecute
+    end
+    object aMoveRight: TAction
+      Category = 'RecentPair'
+      Caption = 'Move Right'
+      OnExecute = aMoveRightExecute
+    end
+    object aMoveLast: TAction
+      Category = 'RecentPair'
+      Caption = 'Move Last'
+      OnExecute = aMoveLastExecute
+    end
   end
   object TimerClick: TTimer
     Enabled = False
@@ -864,8 +889,8 @@ object formTrayslate: TformTrayslate
     Top = 312
   end
   object ImageConfig: TImageList
-    Left = 120
-    Top = 384
+    Left = 40
+    Top = 456
   end
   object OpenPo: TOpenDialog
     DefaultExt = '.po'
@@ -889,5 +914,28 @@ object formTrayslate: TformTrayslate
     OnUserInput = ApplicationPropUserInput
     Left = 200
     Top = 240
+  end
+  object PopupRecentPair: TPopupMenu
+    OnPopup = PopupRecentPairPopup
+    Left = 128
+    Top = 384
+    object MenuDeletePair: TMenuItem
+      Action = aDeletePair
+    end
+    object Separator7: TMenuItem
+      Caption = '-'
+    end
+    object MenuMoveFirst: TMenuItem
+      Action = aMoveFirst
+    end
+    object MenuMoveLeft: TMenuItem
+      Action = aMoveLeft
+    end
+    object MenuMoveRight: TMenuItem
+      Action = aMoveRight
+    end
+    object MenuMoveLast: TMenuItem
+      Action = aMoveLast
+    end
   end
 end

@@ -262,6 +262,11 @@ msgstr ""
 msgid "Language File (*.po)|*.po"
 msgstr ""
 
+#: mainform.rremovepair
+#, object-pascal-format
+msgid "Are you sure you want to remove the pair \"%s\"?"
+msgstr ""
+
 #: mainform.rswap
 #, object-pascal-format
 msgctxt "mainform.rswap"
@@ -1185,6 +1190,10 @@ msgctxt "tformtrayslate.acopytarget.hint"
 msgid "Copy Translation"
 msgstr ""
 
+#: tformtrayslate.adeletepair.caption
+msgid "Delete Pair"
+msgstr ""
+
 #: tformtrayslate.adonate.caption
 msgid "Buy Me a Coffee..."
 msgstr ""
@@ -1353,6 +1362,22 @@ msgstr ""
 #: tformtrayslate.amenu.hint
 msgctxt "tformtrayslate.amenu.hint"
 msgid "Display Menu"
+msgstr ""
+
+#: tformtrayslate.amovefirst.caption
+msgid "Move First"
+msgstr ""
+
+#: tformtrayslate.amovelast.caption
+msgid "Move Last"
+msgstr ""
+
+#: tformtrayslate.amoveleft.caption
+msgid "Move Left"
+msgstr ""
+
+#: tformtrayslate.amoveright.caption
+msgid "Move Right"
 msgstr ""
 
 #: tformtrayslate.anewtranslate.hint

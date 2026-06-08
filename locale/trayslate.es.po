@@ -272,6 +272,11 @@ msgstr "¡Archivo de configuración no encontrado! Créelo en el editor de confi
 msgid "Language File (*.po)|*.po"
 msgstr "Archivo de idioma (*.po)|*.po"
 
+#: mainform.rremovepair
+#, object-pascal-format
+msgid "Are you sure you want to remove the pair \"%s\"?"
+msgstr ""
+
 #: mainform.rswap
 #, object-pascal-format
 msgctxt "mainform.rswap"
@@ -336,7 +341,6 @@ msgid "mailto:astverskoy@gmail.com"
 msgstr "mailto:astverskoy@gmail.com"
 
 #: tformabouttrayslate.labelurlgithub.caption
-#| msgid "github: plaintool\\trayslate"
 msgid "github: plaintool/trayslate"
 msgstr "github: plaintool/trayslate"
 
@@ -1227,6 +1231,10 @@ msgctxt "tformtrayslate.acopytarget.hint"
 msgid "Copy Translation"
 msgstr "Copiar traducción"
 
+#: tformtrayslate.adeletepair.caption
+msgid "Delete Pair"
+msgstr ""
+
 #: tformtrayslate.adonate.caption
 msgid "Buy Me a Coffee..."
 msgstr "Apoyar el proyecto..."
@@ -1397,6 +1405,22 @@ msgctxt "tformtrayslate.amenu.hint"
 msgid "Display Menu"
 msgstr "Mostrar menú"
 
+#: tformtrayslate.amovefirst.caption
+msgid "Move First"
+msgstr ""
+
+#: tformtrayslate.amovelast.caption
+msgid "Move Last"
+msgstr ""
+
+#: tformtrayslate.amoveleft.caption
+msgid "Move Left"
+msgstr ""
+
+#: tformtrayslate.amoveright.caption
+msgid "Move Right"
+msgstr ""
+
 #: tformtrayslate.anewtranslate.hint
 msgctxt "tformtrayslate.anewtranslate.hint"
 msgid "New Translate"
@@ -1448,3 +1472,4 @@ msgstr "Pares recientes"
 msgctxt "tformtrayslate.menulanguage.caption"
 msgid "Language"
 msgstr "Language"
+

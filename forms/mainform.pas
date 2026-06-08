@@ -53,6 +53,11 @@ type
     aAutoCheckUpdates: TAction;
     aCopySource: TAction;
     aCopyTarget: TAction;
+    aDeletePair: TAction;
+    aMoveLast: TAction;
+    aMoveRight: TAction;
+    aMoveFirst: TAction;
+    aMoveLeft: TAction;
     aLangPortugueseBrazil: TAction;
     aFastAutoCopy: TAction;
     aFastMouseModeCtrl: TAction;
@@ -91,8 +96,14 @@ type
     MenuFastAutoAddLangPairs: TMenuItem;
     MenuFastHideControls: TMenuItem;
     MenuItem3: TMenuItem;
+    MenuMoveLeft: TMenuItem;
+    MenuMoveRight: TMenuItem;
+    MenuMoveFirst: TMenuItem;
+    MenuMoveLast: TMenuItem;
+    MenuDeletePair: TMenuItem;
     MenuPortugueseBrazil: TMenuItem;
     OpenPo: TOpenDialog;
+    PopupRecentPair: TPopupMenu;
     SbCopySource: TSpeedButton;
     SbCopyTarget: TSpeedButton;
     ComboSource: TComboBox;
@@ -132,6 +143,7 @@ type
     Separator4: TMenuItem;
     Separator5: TMenuItem;
     Separator6: TMenuItem;
+    Separator7: TMenuItem;
     Separator9: TMenuItem;
     Splitter: TSplitter;
     TimerUnapply: TTimer;
@@ -191,18 +203,6 @@ type
     MenuUkrainian: TMenuItem;
     MenuBelarusian: TMenuItem;
     MenuHindi: TMenuItem;
-    procedure aFastAllowHotKeysExecute(Sender: TObject);
-    procedure aFastAutoAddLangPairsExecute(Sender: TObject);
-    procedure aFastAutoSwapExecute(Sender: TObject);
-    procedure aFastEnableMouseModeExecute(Sender: TObject);
-    procedure aFastHideControlsExecute(Sender: TObject);
-    procedure aFastMouseModeCtrlExecute(Sender: TObject);
-    procedure aFastRealTimeExecute(Sender: TObject);
-    procedure aFastVerticalSplitExecute(Sender: TObject);
-    procedure aFastAutoCopyExecute(Sender: TObject);
-    procedure aLangBulgarianExecute(Sender: TObject);
-    procedure aLangCustomExecute(Sender: TObject);
-    procedure aLangPortugueseBrazilExecute(Sender: TObject);
     procedure ApplicationPropUserInput(Sender: TObject; Msg: cardinal);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -216,6 +216,7 @@ type
     procedure ApplicationPropDeactivate(Sender: TObject);
     procedure ApplicationPropShowHint(var HintStr: string; var CanShow: boolean; var HintInfo: THintInfo);
     procedure ApplicationPropException(Sender: TObject; E: Exception);
+    procedure PopupRecentPairPopup(Sender: TObject);
     procedure ScreenActiveFormChanged(Sender: TObject);
     procedure OnKeyboardEvent(Sender: TObject; const Info: TKeyboardEventInfo);
     procedure OnHookLeftDown(Sender: TObject; const Info: TMouseEventInfo);
@@ -233,11 +234,25 @@ type
     procedure aShowExecute(Sender: TObject);
     procedure aAddPairExecute(Sender: TObject);
     procedure aMenuExecute(Sender: TObject);
+    procedure aDeletePairExecute(Sender: TObject);
+    procedure aMoveFirstExecute(Sender: TObject);
+    procedure aMoveLastExecute(Sender: TObject);
+    procedure aMoveLeftExecute(Sender: TObject);
+    procedure aMoveRightExecute(Sender: TObject);
     procedure aAutoCheckUpdatesExecute(Sender: TObject);
     procedure aCheckForUpdatesExecute(Sender: TObject);
     procedure aDonateExecute(Sender: TObject);
     procedure aAboutExecute(Sender: TObject);
     procedure aExitExecute(Sender: TObject);
+    procedure aFastAllowHotKeysExecute(Sender: TObject);
+    procedure aFastAutoAddLangPairsExecute(Sender: TObject);
+    procedure aFastAutoSwapExecute(Sender: TObject);
+    procedure aFastEnableMouseModeExecute(Sender: TObject);
+    procedure aFastHideControlsExecute(Sender: TObject);
+    procedure aFastMouseModeCtrlExecute(Sender: TObject);
+    procedure aFastRealTimeExecute(Sender: TObject);
+    procedure aFastVerticalSplitExecute(Sender: TObject);
+    procedure aFastAutoCopyExecute(Sender: TObject);
     procedure ComboSourceCloseUp(Sender: TObject);
     procedure ComboTargetCloseUp(Sender: TObject);
     procedure ComboSourceDropDown(Sender: TObject);
@@ -267,6 +282,9 @@ type
     procedure MenuPairClick(Sender: TObject);
     procedure PopupTrayClose(Sender: TObject);
     procedure PopupTrayPopup(Sender: TObject);
+    procedure aLangCustomExecute(Sender: TObject);
+    procedure aLangBulgarianExecute(Sender: TObject);
+    procedure aLangPortugueseBrazilExecute(Sender: TObject);
     procedure aLangTurkishExecute(Sender: TObject);
     procedure aLangGreekExecute(Sender: TObject);
     procedure aLangHebrewExecute(Sender: TObject);
@@ -325,6 +343,7 @@ type
     FAutoHeightAfter: boolean;
     FPrevMouseDown: TMouseEventInfo;
     FDoubleClickPending: boolean;
+    FPopupRecentPair: TComponent;
 
     // Non sorted combo named languages
     FLanguages: TStringList;
@@ -579,6 +598,7 @@ resourcestring
   rswap = 'Swap (%s) with text (%s)';
   rnoconfig = 'Configuration file not found! Create it in the configuration editor.';
   rtoremovepair = ' to remove pair';
+  rremovepair = 'Are you sure you want to remove the pair "%s"?';
   ropenpofiletr = 'Language File (*.po)|*.po';
   renter = 'Enter';
   renterparameter = 'Enter the required parameter';
@@ -1216,6 +1236,99 @@ begin
   PopupTray.PopUp(P.X, P.Y);
 end;
 
+procedure TformTrayslate.aDeletePairExecute(Sender: TObject);
+var
+  Index: integer;
+  Pair: string;
+begin
+  if (Sender is TLabel) then
+  begin
+    Index := (Sender as TLabel).Tag;
+    Pair := (Sender as TLabel).Caption;
+  end
+  else
+  if (FPopupRecentPair is TLabel) then
+  begin
+    Index := (FPopupRecentPair as TLabel).Tag;
+    Pair := (FPopupRecentPair as TLabel).Caption;
+  end;
+
+  if MessageDlg(Format(rremovepair, [Pair]), mtConfirmation, [mbYes, mbNo], 0) <> mrYes then
+    Exit;
+
+  // Remove pair from list
+  FLangPairs.Delete(Index);
+
+  // Rebuild panel
+  Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
+end;
+
+procedure TformTrayslate.aMoveFirstExecute(Sender: TObject);
+var
+  Index: Integer;
+begin
+  if not (FPopupRecentPair is TLabel) then
+    Exit;
+
+  Index := TLabel(FPopupRecentPair).Tag;
+
+  while Index > 0 do
+  begin
+    FLangPairs.Exchange(Index, Index - 1);
+    Dec(Index);
+  end;
+
+  Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
+end;
+
+procedure TformTrayslate.aMoveLastExecute(Sender: TObject);
+var
+  Index: Integer;
+begin
+  if not (FPopupRecentPair is TLabel) then
+    Exit;
+
+  Index := TLabel(FPopupRecentPair).Tag;
+
+  while Index < FLangPairs.Count - 1 do
+  begin
+    FLangPairs.Exchange(Index, Index + 1);
+    Inc(Index);
+  end;
+
+  Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
+end;
+
+procedure TformTrayslate.aMoveLeftExecute(Sender: TObject);
+var
+  Index: Integer;
+begin
+  if not (FPopupRecentPair is TLabel) then
+    Exit;
+
+  Index := TLabel(FPopupRecentPair).Tag;
+
+  if Index > 0 then
+    FLangPairs.Exchange(Index, Index - 1);
+
+  Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
+end;
+
+procedure TformTrayslate.aMoveRightExecute(Sender: TObject);
+var
+  Index: Integer;
+begin
+  if not (FPopupRecentPair is TLabel) then
+    Exit;
+
+  Index := TLabel(FPopupRecentPair).Tag;
+
+  if Index < FLangPairs.Count - 1 then
+    FLangPairs.Exchange(Index, Index + 1);
+
+  Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
+end;
+
 procedure TformTrayslate.aAutoCheckUpdatesExecute(Sender: TObject);
 begin
   FAutoCheckUpdates := aAutoCheckUpdates.Checked;
@@ -1701,10 +1814,7 @@ procedure TformTrayslate.LabelLangMouseDown(Sender: TObject; Button: TMouseButto
 begin
   if Button = mbMiddle then
   begin
-    // Remove pair from list
-    FLangPairs.Delete((Sender as TLabel).Tag);
-    // Rebuild panel
-    Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
+    aDeletePairExecute(Sender);
     Exit;
   end;
 
@@ -1757,6 +1867,11 @@ begin
   PopupTray.Alignment := paLeft;
   aShow.Visible := True;
   MenuLangPairs.Visible := True;
+end;
+
+procedure TformTrayslate.PopupRecentPairPopup(Sender: TObject);
+begin
+  FPopupRecentPair := PopupRecentPair.PopupComponent;
 end;
 
 { Methods }
@@ -2273,6 +2388,7 @@ procedure TformTrayslate.RebuildLangPairsPanel(Data: PtrInt);
         lbl.Parent := pnl;
         lbl.Caption := FLangPairs.ValueFromIndex[i];
         lbl.Hint := FConfigTitles.Values[FLangPairs.Names[i]];
+
         lbl.ShowHint := True;
         lbl.Cursor := crHandPoint;
         lbl.Layout := tlCenter;
@@ -2282,6 +2398,7 @@ procedure TformTrayslate.RebuildLangPairsPanel(Data: PtrInt);
         lbl.Top := 0;
         lbl.Left := 0;
         lbl.Tag := i;
+        lbl.PopupMenu := PopupRecentPair;
 
         if not TryStrToInt(FConfigColors.Values[FLangPairs.Names[i]], ColorRecent) then
           ColorRecent := clBlue;
