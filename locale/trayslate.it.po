@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Trayslate - Italian - 05.06.2026\n"
+"Project-Id-Version: Trayslate - Italian - 08.06.2026\n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
@@ -707,7 +707,7 @@ msgstr "Sostieni il progetto"
 #: tformdonatetrayslate.labelbank.caption
 msgctxt "tformdonatetrayslate.labelbank.caption"
 msgid "Donate with Bank Card or PayPal"
-msgstr ""
+msgstr "Dona con carta bancaria o PayPal"
 
 #: tformdonatetrayslate.labelbank.hint
 msgctxt "tformdonatetrayslate.labelbank.hint"
@@ -717,12 +717,12 @@ msgstr "https://app.lava.top/en/astverskoy?tabId=about&currency=EUR"
 #: tformdonatetrayslate.labelcontribution.caption
 msgctxt "tformdonatetrayslate.labelcontribution.caption"
 msgid "Every contribution helps keep the project active and moving forward. Thank you for your support!"
-msgstr ""
+msgstr "Ogni contributo ci aiuta a mantenere il progetto attivo e ad andare avanti. Grazie per il tuo supporto!"
 
 #: tformdonatetrayslate.labelcrypto.caption
 msgctxt "tformdonatetrayslate.labelcrypto.caption"
 msgid "Donate with Cryptocurrency"
-msgstr ""
+msgstr "Dona con criptovaluta"
 
 #: tformdonatetrayslate.labelcrypto.hint
 msgctxt "tformdonatetrayslate.labelcrypto.hint"
@@ -740,7 +740,7 @@ msgstr ""
 #: tformdonatetrayslate.labelsupport.caption
 msgctxt "tformdonatetrayslate.labelsupport.caption"
 msgid "You can support development through one of the following options:"
-msgstr ""
+msgstr "Puoi supportare lo sviluppo attraverso una delle seguenti opzioni:"
 
 #: tformpopuptrayslate.acopytarget.hint
 msgctxt "tformpopuptrayslate.acopytarget.hint"
