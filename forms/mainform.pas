@@ -1817,6 +1817,8 @@ begin
 end;
 
 procedure TformTrayslate.LabelLangMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
+var
+  CurPair: integer;
 begin
   if Button = mbMiddle then
   begin
@@ -1824,7 +1826,11 @@ begin
     Exit;
   end;
 
-  SelectPairConfig((Sender as TLabel).Tag);
+  CurPair := (Sender as TLabel).Tag;
+  if (Button = mbRight) and (MenuLangPairs.Items[CurPair].Checked) then
+    Exit;
+
+  SelectPairConfig(CurPair);
 end;
 
 procedure TFormTrayslate.MenuConfigItemClick(Sender: TObject);
