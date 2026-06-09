@@ -1154,6 +1154,10 @@ begin
     formSettingsTrayslate.ShowModal;
   finally
     FreeAndNil(formSettingsTrayslate);
+
+    // Save changes immediately
+    SaveFormSettings(Self);
+
     RegisterHotKeys;
     SetHints;
     FMouseHook.Enabled := FEnableMouseMode;
@@ -2531,6 +2535,7 @@ begin
     formSettingsTrayslate.FillUserParameters;
     formSettingsTrayslate.FillGridHotkeys;
     formSettingsTrayslate.FillProxyMode;
+    formSettingsTrayslate.SetState;
   end;
 end;
 
