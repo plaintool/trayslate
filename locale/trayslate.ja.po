@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 
 #: formconfig.rcaption
 msgctxt "formconfig.rcaption"
@@ -115,16 +115,16 @@ msgstr "ポップアップ翻訳を表示"
 
 #: formsettings.rproxymodecustomproxy
 msgid "Custom Proxy"
-msgstr ""
+msgstr "カスタムプロキシ"
 
 #: formsettings.rproxymodenoproxy
 msgctxt "formsettings.rproxymodenoproxy"
 msgid "No Proxy"
-msgstr ""
+msgstr "プロキシなし"
 
 #: formsettings.rproxymodesystemproxy
 msgid "System Proxy"
-msgstr ""
+msgstr "システムプロキシ"
 
 #: formsettings.rrecent
 msgctxt "formsettings.rrecent"
@@ -249,7 +249,7 @@ msgstr "名前"
 
 #: formsettings.ruserparametervalue
 msgid "Value"
-msgstr ""
+msgstr "値"
 
 #: languages.rautodetect
 msgid "Auto Detect"
@@ -257,11 +257,11 @@ msgstr "自動検出"
 
 #: mainform.renter
 msgid "Enter"
-msgstr ""
+msgstr "入力"
 
 #: mainform.renterparameter
 msgid "Enter the required parameter"
-msgstr ""
+msgstr "必要なパラメーターを入力してください"
 
 #: mainform.rnoconfig
 msgctxt "mainform.rnoconfig"
@@ -275,7 +275,7 @@ msgstr "言語ファイル (*.po)|*.po"
 #: mainform.rremovepair
 #, object-pascal-format
 msgid "Are you sure you want to remove the pair \"%s\"?"
-msgstr ""
+msgstr "ペア「%s」を削除してもよろしいですか？"
 
 #: mainform.rswap
 #, object-pascal-format
@@ -548,10 +548,8 @@ msgid "Parameters"
 msgstr "パラメータ"
 
 #: tformconfigtrayslate.labelinitparameters4.caption
-#, fuzzy
-#| msgid "Parameters in the form key=value used by {key} in requests"
 msgid "Parameters in the form key=value used by {key} in requests. If the value is omitted (key=), it will be requested from the user."
-msgstr "リクエストで{key}により使用されるkey=value形式のパラメータ"
+msgstr "リクエスト内で {key} が使用する key=value 形式のパラメーターです。値が省略された場合（key=）、ユーザーに入力を求めます。"
 
 #: tformconfigtrayslate.labelinitparemeters.caption
 msgid "Initial GET request to obtain required parameters."
@@ -704,7 +702,7 @@ msgstr "プロジェクトを支援"
 #: tformdonatetrayslate.labelbank.caption
 msgctxt "tformdonatetrayslate.labelbank.caption"
 msgid "Donate with Bank Card or PayPal"
-msgstr ""
+msgstr "銀行カードまたはPayPalで寄付"
 
 #: tformdonatetrayslate.labelbank.hint
 msgctxt "tformdonatetrayslate.labelbank.hint"
@@ -714,12 +712,12 @@ msgstr "https://app.lava.top/en/astverskoy?tabId=about&currency=EUR"
 #: tformdonatetrayslate.labelcontribution.caption
 msgctxt "tformdonatetrayslate.labelcontribution.caption"
 msgid "Every contribution helps keep the project active and moving forward. Thank you for your support!"
-msgstr ""
+msgstr "皆様のご支援がプロジェクトの継続と発展につながります。ご支援ありがとうございます！"
 
 #: tformdonatetrayslate.labelcrypto.caption
 msgctxt "tformdonatetrayslate.labelcrypto.caption"
 msgid "Donate with Cryptocurrency"
-msgstr ""
+msgstr "暗号資産で寄付"
 
 #: tformdonatetrayslate.labelcrypto.hint
 msgctxt "tformdonatetrayslate.labelcrypto.hint"
@@ -734,7 +732,7 @@ msgstr "こんにちは！この情熱的なプロジェクトにカフェイン
 #: tformdonatetrayslate.labelsupport.caption
 msgctxt "tformdonatetrayslate.labelsupport.caption"
 msgid "You can support development through one of the following options:"
-msgstr ""
+msgstr "以下のいずれかの方法で開発を支援できます："
 
 #: tformpopuptrayslate.acopytarget.hint
 msgctxt "tformpopuptrayslate.acopytarget.hint"
@@ -823,11 +821,11 @@ msgstr "言語を切り替えたときに新しい言語ペアを自動的に追
 #: tformsettingstrayslate.checkautocopy.caption
 msgctxt "tformsettingstrayslate.checkautocopy.caption"
 msgid "Auto-Copy Translation"
-msgstr ""
+msgstr "翻訳を自動コピー"
 
 #: tformsettingstrayslate.checkautocopy.hint
 msgid "Automatically copy translations from the main and popup windows to the clipboard"
-msgstr ""
+msgstr "メインウィンドウとポップアップウィンドウの翻訳を自動的にクリップボードへコピーします"
 
 #: tformsettingstrayslate.checkautoheight.caption
 msgid "Auto Height"
@@ -883,11 +881,11 @@ msgstr "Ctrlキーが押されている場合のみ動作します"
 #: tformsettingstrayslate.checkproxyauthentication.caption
 msgctxt "tformsettingstrayslate.checkproxyauthentication.caption"
 msgid "Authentication"
-msgstr ""
+msgstr "認証"
 
 #: tformsettingstrayslate.checkproxyauthentication.hint
 msgid "Enables login and password authentication for proxy access"
-msgstr ""
+msgstr "プロキシアクセス用のユーザー名とパスワードによる認証を有効にします"
 
 #: tformsettingstrayslate.checkrealtime.caption
 msgctxt "tformsettingstrayslate.checkrealtime.caption"
@@ -965,16 +963,16 @@ msgstr "翻訳ボタンを表示"
 
 #: tformsettingstrayslate.comboproxymode.hint
 msgid "Defines how proxy is used no proxy system proxy or custom configuration"
-msgstr ""
+msgstr "プロキシの使用方法を指定します：プロキシなし、システムプロキシ、またはカスタム設定"
 
 #: tformsettingstrayslate.comboproxymode.text
 msgctxt "tformsettingstrayslate.comboproxymode.text"
 msgid "No Proxy"
-msgstr ""
+msgstr "プロキシなし"
 
 #: tformsettingstrayslate.comboproxytype.hint
 msgid "Type of proxy protocol used for custom settings"
-msgstr ""
+msgstr "カスタム設定で使用するプロキシプロトコルの種類"
 
 #: tformsettingstrayslate.comboproxytype.text
 msgid "HTTP"
@@ -982,15 +980,15 @@ msgstr "HTTP"
 
 #: tformsettingstrayslate.editproxyhost.hint
 msgid "Address of the proxy server IP or domain name"
-msgstr ""
+msgstr "プロキシサーバーのアドレス（IPまたはドメイン名）"
 
 #: tformsettingstrayslate.editproxylogin.hint
 msgid "Username used for proxy authentication"
-msgstr ""
+msgstr "プロキシ認証に使用するユーザー名"
 
 #: tformsettingstrayslate.editproxypassword.hint
 msgid "Password used for proxy authentication"
-msgstr ""
+msgstr "プロキシ認証に使用するパスワード"
 
 #: tformsettingstrayslate.gridhotkeys.columns[0].title.caption
 msgctxt "tformsettingstrayslate.gridhotkeys.columns[0].title.caption"
@@ -1013,7 +1011,7 @@ msgstr "言語の自動入れ替え"
 #: tformsettingstrayslate.groupbox1.caption
 msgctxt "tformsettingstrayslate.groupbox1.caption"
 msgid "User Parameters"
-msgstr ""
+msgstr "ユーザーパラメーター"
 
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
@@ -1035,7 +1033,7 @@ msgstr "ポップアップウィンドウ"
 
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"
-msgstr ""
+msgstr "プロキシ"
 
 #: tformsettingstrayslate.grouprealtime.caption
 msgid "Real-Time Translation"
@@ -1043,7 +1041,7 @@ msgstr "リアルタイム翻訳"
 
 #: tformsettingstrayslate.grouptimeouts.caption
 msgid "Timeout"
-msgstr ""
+msgstr "タイムアウト"
 
 #: tformsettingstrayslate.grouptransfromclipboard1.caption
 msgctxt "tformsettingstrayslate.grouptransfromclipboard1.caption"
@@ -1056,11 +1054,11 @@ msgstr "トレイアイコン"
 
 #: tformsettingstrayslate.labelconnecttimeout.caption
 msgid "Connection, sec"
-msgstr ""
+msgstr "接続（秒）"
 
 #: tformsettingstrayslate.labelhost.caption
 msgid "Host"
-msgstr ""
+msgstr "ホスト"
 
 #: tformsettingstrayslate.labeliconbackground.caption
 msgid "Background Color"
@@ -1081,7 +1079,7 @@ msgstr "言語検出設定"
 
 #: tformsettingstrayslate.labellogin.caption
 msgid "Login"
-msgstr ""
+msgstr "ログイン"
 
 #: tformsettingstrayslate.labelmaxheight.caption
 msgid "Max Height"
@@ -1107,11 +1105,11 @@ msgstr "待機時の透明度"
 
 #: tformsettingstrayslate.labelpassword.caption
 msgid "Password"
-msgstr ""
+msgstr "パスワード"
 
 #: tformsettingstrayslate.labelport.caption
 msgid "Port"
-msgstr ""
+msgstr "ポート"
 
 #: tformsettingstrayslate.labelprimarylang.caption
 msgid "Primary Language"
@@ -1119,11 +1117,11 @@ msgstr "第一言語"
 
 #: tformsettingstrayslate.labelproxymode.caption
 msgid "Proxy Mode"
-msgstr ""
+msgstr "プロキシモード"
 
 #: tformsettingstrayslate.labelproxytype.caption
 msgid "Proxy Type"
-msgstr ""
+msgstr "プロキシ種類"
 
 #: tformsettingstrayslate.labelrealtimedelay.caption
 msgid "Translation Delay, ms"
@@ -1131,7 +1129,7 @@ msgstr "翻訳遅延 (ms)"
 
 #: tformsettingstrayslate.labelrequesttimeout.caption
 msgid "Request, sec"
-msgstr ""
+msgstr "要求（秒）"
 
 #: tformsettingstrayslate.labelsecondarylang.caption
 msgid "Secondary Language"
@@ -1153,7 +1151,7 @@ msgstr "インターフェース"
 
 #: tformsettingstrayslate.pagenetwork.caption
 msgid "Network"
-msgstr ""
+msgstr "ネットワーク"
 
 #: tformsettingstrayslate.pageparameters.caption
 msgctxt "tformsettingstrayslate.pageparameters.caption"
@@ -1172,7 +1170,7 @@ msgstr "デフォルト, 0"
 
 #: tformsettingstrayslate.spinconnecttimeout.hint
 msgid "Time to establish connection If 0 default 10 seconds is used"
-msgstr ""
+msgstr "接続確立までの時間。0の場合は既定の10秒が使用されます"
 
 #: tformsettingstrayslate.spinmaxheight.hint
 msgid "Set maximum window height for auto-size; 0 indicates limit to screen height"
@@ -1184,7 +1182,7 @@ msgstr "パネルに表示する最近のペアの数。追加時にペアは右
 
 #: tformsettingstrayslate.spinproxyport.hint
 msgid "Network port used by the proxy server"
-msgstr ""
+msgstr "プロキシサーバーが使用するネットワークポート"
 
 #: tformsettingstrayslate.spinrealtimedelay.hint
 msgid "Translation Delay in milliseconds"
@@ -1192,7 +1190,7 @@ msgstr "翻訳遅延（ミリ秒）"
 
 #: tformsettingstrayslate.spinrequesttimeout.hint
 msgid "Time to wait for response and data If 0 default 300 seconds is used"
-msgstr ""
+msgstr "応答およびデータ待機時間。0の場合は既定の300秒が使用されます"
 
 #: tformsettingstrayslate.trackopacityhover.hint
 msgid "Window transparency when the mouse is over the window"
@@ -1233,7 +1231,7 @@ msgstr "翻訳をコピー"
 
 #: tformtrayslate.adeletepair.caption
 msgid "Delete Pair"
-msgstr ""
+msgstr "ペアを削除"
 
 #: tformtrayslate.adonate.caption
 msgid "Buy Me a Coffee..."
@@ -1256,7 +1254,7 @@ msgstr "最近の言語ペアを自動追加"
 #: tformtrayslate.afastautocopy.caption
 msgctxt "tformtrayslate.afastautocopy.caption"
 msgid "Auto-Copy Translation"
-msgstr ""
+msgstr "翻訳を自動コピー"
 
 #: tformtrayslate.afastautoswap.caption
 msgctxt "tformtrayslate.afastautoswap.caption"
@@ -1407,19 +1405,19 @@ msgstr "メニューを表示"
 
 #: tformtrayslate.amovefirst.caption
 msgid "Move First"
-msgstr ""
+msgstr "先頭へ移動"
 
 #: tformtrayslate.amovelast.caption
 msgid "Move Last"
-msgstr ""
+msgstr "末尾へ移動"
 
 #: tformtrayslate.amoveleft.caption
 msgid "Move Left"
-msgstr ""
+msgstr "左へ移動"
 
 #: tformtrayslate.amoveright.caption
 msgid "Move Right"
-msgstr ""
+msgstr "右へ移動"
 
 #: tformtrayslate.anewtranslate.hint
 msgctxt "tformtrayslate.anewtranslate.hint"
@@ -1472,4 +1470,3 @@ msgstr "最近のペア"
 msgctxt "tformtrayslate.menulanguage.caption"
 msgid "Language"
 msgstr "Language"
-

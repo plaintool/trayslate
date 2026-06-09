@@ -1251,7 +1251,9 @@ begin
   begin
     Index := (FPopupRecentPair as TLabel).Tag;
     Pair := (FPopupRecentPair as TLabel).Caption;
-  end;
+  end
+  else
+    Exit;
 
   if MessageDlg(Format(rremovepair, [Pair]), mtConfirmation, [mbYes, mbNo], 0) <> mrYes then
     Exit;
@@ -1265,7 +1267,7 @@ end;
 
 procedure TformTrayslate.aMoveFirstExecute(Sender: TObject);
 var
-  Index: Integer;
+  Index: integer;
 begin
   if not (FPopupRecentPair is TLabel) then
     Exit;
@@ -1283,7 +1285,7 @@ end;
 
 procedure TformTrayslate.aMoveLastExecute(Sender: TObject);
 var
-  Index: Integer;
+  Index: integer;
 begin
   if not (FPopupRecentPair is TLabel) then
     Exit;
@@ -1301,7 +1303,7 @@ end;
 
 procedure TformTrayslate.aMoveLeftExecute(Sender: TObject);
 var
-  Index: Integer;
+  Index: integer;
 begin
   if not (FPopupRecentPair is TLabel) then
     Exit;
@@ -1316,7 +1318,7 @@ end;
 
 procedure TformTrayslate.aMoveRightExecute(Sender: TObject);
 var
-  Index: Integer;
+  Index: integer;
 begin
   if not (FPopupRecentPair is TLabel) then
     Exit;

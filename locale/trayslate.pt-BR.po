@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 
 #: formconfig.rcaption
 msgctxt "formconfig.rcaption"
@@ -249,7 +249,7 @@ msgstr "Nome"
 
 #: formsettings.ruserparametervalue
 msgid "Value"
-msgstr ""
+msgstr "Valor"
 
 #: languages.rautodetect
 msgid "Auto Detect"
@@ -257,11 +257,11 @@ msgstr "Detecção Automática"
 
 #: mainform.renter
 msgid "Enter"
-msgstr ""
+msgstr "Inserir"
 
 #: mainform.renterparameter
 msgid "Enter the required parameter"
-msgstr ""
+msgstr "Insira o parâmetro obrigatório"
 
 #: mainform.rnoconfig
 msgctxt "mainform.rnoconfig"
@@ -275,7 +275,7 @@ msgstr "Arquivo de Idioma (.po)|.po"
 #: mainform.rremovepair
 #, object-pascal-format
 msgid "Are you sure you want to remove the pair \"%s\"?"
-msgstr ""
+msgstr "Tem certeza de que deseja remover o par \"%s\"?"
 
 #: mainform.rswap
 #, object-pascal-format
@@ -546,10 +546,8 @@ msgid "Parameters"
 msgstr "Parâmetros"
 
 #: tformconfigtrayslate.labelinitparameters4.caption
-#, fuzzy
-#| msgid "Parameters in the form key=value used by {key} in requests"
 msgid "Parameters in the form key=value used by {key} in requests. If the value is omitted (key=), it will be requested from the user."
-msgstr "Parâmetros no formato chave=valor utilizados como {key} nas requisições"
+msgstr "Parâmetros no formato key=value usados por {key} em requisições. Se o valor for omitido (key=), será solicitado ao usuário."
 
 #: tformconfigtrayslate.labelinitparemeters.caption
 msgid "Initial GET request to obtain required parameters."
@@ -702,7 +700,7 @@ msgstr "Pague-me um café"
 #: tformdonatetrayslate.labelbank.caption
 msgctxt "tformdonatetrayslate.labelbank.caption"
 msgid "Donate with Bank Card or PayPal"
-msgstr ""
+msgstr "Doar com cartão bancário ou PayPal"
 
 #: tformdonatetrayslate.labelbank.hint
 msgctxt "tformdonatetrayslate.labelbank.hint"
@@ -712,12 +710,12 @@ msgstr "https://app.lava.top/en/astverskoy?tabId=about&currency=EUR"
 #: tformdonatetrayslate.labelcontribution.caption
 msgctxt "tformdonatetrayslate.labelcontribution.caption"
 msgid "Every contribution helps keep the project active and moving forward. Thank you for your support!"
-msgstr ""
+msgstr "Cada contribuição ajuda a manter o projeto ativo e em evolução. Obrigado pelo seu apoio!"
 
 #: tformdonatetrayslate.labelcrypto.caption
 msgctxt "tformdonatetrayslate.labelcrypto.caption"
 msgid "Donate with Cryptocurrency"
-msgstr ""
+msgstr "Doar com criptomoeda"
 
 #: tformdonatetrayslate.labelcrypto.hint
 msgctxt "tformdonatetrayslate.labelcrypto.hint"
@@ -732,7 +730,7 @@ msgstr "Olá! Mantenha este projeto animado com um impulso de cafeína! Cada doa
 #: tformdonatetrayslate.labelsupport.caption
 msgctxt "tformdonatetrayslate.labelsupport.caption"
 msgid "You can support development through one of the following options:"
-msgstr ""
+msgstr "Você pode apoiar o desenvolvimento por uma das seguintes opções:"
 
 #: tformpopuptrayslate.acopytarget.hint
 msgctxt "tformpopuptrayslate.acopytarget.hint"
@@ -1010,7 +1008,7 @@ msgstr "Alternar Idiomas Automaticamente"
 
 #: tformsettingstrayslate.groupbox1.caption
 msgid "User Parameters"
-msgstr ""
+msgstr "Parâmetros do usuário"
 
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
@@ -1230,7 +1228,7 @@ msgstr "Copiar Tradução"
 
 #: tformtrayslate.adeletepair.caption
 msgid "Delete Pair"
-msgstr ""
+msgstr "Excluir par"
 
 #: tformtrayslate.adonate.caption
 msgid "Buy Me a Coffee..."
@@ -1404,19 +1402,19 @@ msgstr "Exibir Menu"
 
 #: tformtrayslate.amovefirst.caption
 msgid "Move First"
-msgstr ""
+msgstr "Mover para o início"
 
 #: tformtrayslate.amovelast.caption
 msgid "Move Last"
-msgstr ""
+msgstr "Mover para o fim"
 
 #: tformtrayslate.amoveleft.caption
 msgid "Move Left"
-msgstr ""
+msgstr "Mover para a esquerda"
 
 #: tformtrayslate.amoveright.caption
 msgid "Move Right"
-msgstr ""
+msgstr "Mover para a direita"
 
 #: tformtrayslate.anewtranslate.hint
 msgctxt "tformtrayslate.anewtranslate.hint"
@@ -1469,4 +1467,3 @@ msgstr "Pares Recentes"
 msgctxt "tformtrayslate.menulanguage.caption"
 msgid "Language"
 msgstr "Idioma"
-

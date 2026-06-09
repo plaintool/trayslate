@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 
 #: formconfig.rcaption
 msgctxt "formconfig.rcaption"
@@ -115,16 +115,16 @@ msgstr "Mostrar traducción emergente"
 
 #: formsettings.rproxymodecustomproxy
 msgid "Custom Proxy"
-msgstr ""
+msgstr "Proxy personalizado"
 
 #: formsettings.rproxymodenoproxy
 msgctxt "formsettings.rproxymodenoproxy"
 msgid "No Proxy"
-msgstr ""
+msgstr "Sin proxy"
 
 #: formsettings.rproxymodesystemproxy
 msgid "System Proxy"
-msgstr ""
+msgstr "Proxy del sistema"
 
 #: formsettings.rrecent
 msgctxt "formsettings.rrecent"
@@ -249,7 +249,7 @@ msgstr "Nombre"
 
 #: formsettings.ruserparametervalue
 msgid "Value"
-msgstr ""
+msgstr "Valor"
 
 #: languages.rautodetect
 msgid "Auto Detect"
@@ -257,11 +257,11 @@ msgstr "Auto detectar"
 
 #: mainform.renter
 msgid "Enter"
-msgstr ""
+msgstr "Introducir"
 
 #: mainform.renterparameter
 msgid "Enter the required parameter"
-msgstr ""
+msgstr "Introduzca el parámetro requerido"
 
 #: mainform.rnoconfig
 msgctxt "mainform.rnoconfig"
@@ -275,7 +275,7 @@ msgstr "Archivo de idioma (*.po)|*.po"
 #: mainform.rremovepair
 #, object-pascal-format
 msgid "Are you sure you want to remove the pair \"%s\"?"
-msgstr ""
+msgstr "¿Seguro que desea eliminar el par \"%s\"?"
 
 #: mainform.rswap
 #, object-pascal-format
@@ -548,10 +548,8 @@ msgid "Parameters"
 msgstr "Parámetros"
 
 #: tformconfigtrayslate.labelinitparameters4.caption
-#, fuzzy
-#| msgid "Parameters in the form key=value used by {key} in requests"
 msgid "Parameters in the form key=value used by {key} in requests. If the value is omitted (key=), it will be requested from the user."
-msgstr "Parámetros en forma key=value usados por {key} en solicitudes"
+msgstr "Parámetros en formato key=value utilizados por {key} en las solicitudes. Si se omite el valor (key=), se solicitará al usuario."
 
 #: tformconfigtrayslate.labelinitparemeters.caption
 msgid "Initial GET request to obtain required parameters."
@@ -704,7 +702,7 @@ msgstr "Apoyar el proyecto"
 #: tformdonatetrayslate.labelbank.caption
 msgctxt "tformdonatetrayslate.labelbank.caption"
 msgid "Donate with Bank Card or PayPal"
-msgstr ""
+msgstr "Donar con tarjeta bancaria o PayPal"
 
 #: tformdonatetrayslate.labelbank.hint
 msgctxt "tformdonatetrayslate.labelbank.hint"
@@ -714,12 +712,12 @@ msgstr "https://app.lava.top/en/astverskoy?tabId=about&currency=EUR"
 #: tformdonatetrayslate.labelcontribution.caption
 msgctxt "tformdonatetrayslate.labelcontribution.caption"
 msgid "Every contribution helps keep the project active and moving forward. Thank you for your support!"
-msgstr ""
+msgstr "Cada contribución ayuda a mantener el proyecto activo y en desarrollo. ¡Gracias por su apoyo!"
 
 #: tformdonatetrayslate.labelcrypto.caption
 msgctxt "tformdonatetrayslate.labelcrypto.caption"
 msgid "Donate with Cryptocurrency"
-msgstr ""
+msgstr "Donar con criptomonedas"
 
 #: tformdonatetrayslate.labelcrypto.hint
 msgctxt "tformdonatetrayslate.labelcrypto.hint"
@@ -734,7 +732,7 @@ msgstr "¡Hola! ¡Dale un impulso de cafeína a este proyecto apasionado! Cada d
 #: tformdonatetrayslate.labelsupport.caption
 msgctxt "tformdonatetrayslate.labelsupport.caption"
 msgid "You can support development through one of the following options:"
-msgstr ""
+msgstr "Puede apoyar el desarrollo mediante una de las siguientes opciones:"
 
 #: tformpopuptrayslate.acopytarget.hint
 msgctxt "tformpopuptrayslate.acopytarget.hint"
@@ -823,11 +821,11 @@ msgstr "Añade automáticamente un nuevo par de idiomas cuando cambias de idioma
 #: tformsettingstrayslate.checkautocopy.caption
 msgctxt "tformsettingstrayslate.checkautocopy.caption"
 msgid "Auto-Copy Translation"
-msgstr ""
+msgstr "Copiar traducción automáticamente"
 
 #: tformsettingstrayslate.checkautocopy.hint
 msgid "Automatically copy translations from the main and popup windows to the clipboard"
-msgstr ""
+msgstr "Copiar automáticamente las traducciones de las ventanas principal y emergente al portapapeles"
 
 #: tformsettingstrayslate.checkautoheight.caption
 msgid "Auto Height"
@@ -883,11 +881,11 @@ msgstr "Funciona solo cuando se presiona la tecla Ctrl"
 #: tformsettingstrayslate.checkproxyauthentication.caption
 msgctxt "tformsettingstrayslate.checkproxyauthentication.caption"
 msgid "Authentication"
-msgstr ""
+msgstr "Autenticación"
 
 #: tformsettingstrayslate.checkproxyauthentication.hint
 msgid "Enables login and password authentication for proxy access"
-msgstr ""
+msgstr "Habilita la autenticación con usuario y contraseña para el acceso mediante proxy"
 
 #: tformsettingstrayslate.checkrealtime.caption
 msgctxt "tformsettingstrayslate.checkrealtime.caption"
@@ -965,16 +963,16 @@ msgstr "Mostrar botón de traducción"
 
 #: tformsettingstrayslate.comboproxymode.hint
 msgid "Defines how proxy is used no proxy system proxy or custom configuration"
-msgstr ""
+msgstr "Define cómo se utiliza el proxy: sin proxy, proxy del sistema o configuración personalizada"
 
 #: tformsettingstrayslate.comboproxymode.text
 msgctxt "tformsettingstrayslate.comboproxymode.text"
 msgid "No Proxy"
-msgstr ""
+msgstr "Sin proxy"
 
 #: tformsettingstrayslate.comboproxytype.hint
 msgid "Type of proxy protocol used for custom settings"
-msgstr ""
+msgstr "Tipo de protocolo proxy utilizado para la configuración personalizada"
 
 #: tformsettingstrayslate.comboproxytype.text
 msgid "HTTP"
@@ -982,15 +980,15 @@ msgstr "HTTP"
 
 #: tformsettingstrayslate.editproxyhost.hint
 msgid "Address of the proxy server IP or domain name"
-msgstr ""
+msgstr "Dirección del servidor proxy, IP o nombre de dominio"
 
 #: tformsettingstrayslate.editproxylogin.hint
 msgid "Username used for proxy authentication"
-msgstr ""
+msgstr "Nombre de usuario para la autenticación del proxy"
 
 #: tformsettingstrayslate.editproxypassword.hint
 msgid "Password used for proxy authentication"
-msgstr ""
+msgstr "Contraseña para la autenticación del proxy"
 
 #: tformsettingstrayslate.gridhotkeys.columns[0].title.caption
 msgctxt "tformsettingstrayslate.gridhotkeys.columns[0].title.caption"
@@ -1013,7 +1011,7 @@ msgstr "Intercambio automático de idiomas"
 #: tformsettingstrayslate.groupbox1.caption
 msgctxt "tformsettingstrayslate.groupbox1.caption"
 msgid "User Parameters"
-msgstr ""
+msgstr "Parámetros de usuario"
 
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
@@ -1035,7 +1033,7 @@ msgstr "Ventana emergente"
 
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"
-msgstr ""
+msgstr "Proxy"
 
 #: tformsettingstrayslate.grouprealtime.caption
 msgid "Real-Time Translation"
@@ -1043,7 +1041,7 @@ msgstr "Traducción en tiempo real"
 
 #: tformsettingstrayslate.grouptimeouts.caption
 msgid "Timeout"
-msgstr ""
+msgstr "Tiempo de espera"
 
 #: tformsettingstrayslate.grouptransfromclipboard1.caption
 msgctxt "tformsettingstrayslate.grouptransfromclipboard1.caption"
@@ -1056,11 +1054,11 @@ msgstr "Icono de la bandeja"
 
 #: tformsettingstrayslate.labelconnecttimeout.caption
 msgid "Connection, sec"
-msgstr ""
+msgstr "Conexión, s"
 
 #: tformsettingstrayslate.labelhost.caption
 msgid "Host"
-msgstr ""
+msgstr "Servidor"
 
 #: tformsettingstrayslate.labeliconbackground.caption
 msgid "Background Color"
@@ -1081,7 +1079,7 @@ msgstr "Configuración de detección de idioma"
 
 #: tformsettingstrayslate.labellogin.caption
 msgid "Login"
-msgstr ""
+msgstr "Usuario"
 
 #: tformsettingstrayslate.labelmaxheight.caption
 msgid "Max Height"
@@ -1107,11 +1105,11 @@ msgstr "Opacidad en reposo"
 
 #: tformsettingstrayslate.labelpassword.caption
 msgid "Password"
-msgstr ""
+msgstr "Contraseña"
 
 #: tformsettingstrayslate.labelport.caption
 msgid "Port"
-msgstr ""
+msgstr "Puerto"
 
 #: tformsettingstrayslate.labelprimarylang.caption
 msgid "Primary Language"
@@ -1119,11 +1117,11 @@ msgstr "Idioma principal"
 
 #: tformsettingstrayslate.labelproxymode.caption
 msgid "Proxy Mode"
-msgstr ""
+msgstr "Modo proxy"
 
 #: tformsettingstrayslate.labelproxytype.caption
 msgid "Proxy Type"
-msgstr ""
+msgstr "Tipo de proxy"
 
 #: tformsettingstrayslate.labelrealtimedelay.caption
 msgid "Translation Delay, ms"
@@ -1131,7 +1129,7 @@ msgstr "Retraso de traducción, ms"
 
 #: tformsettingstrayslate.labelrequesttimeout.caption
 msgid "Request, sec"
-msgstr ""
+msgstr "Solicitud, s"
 
 #: tformsettingstrayslate.labelsecondarylang.caption
 msgid "Secondary Language"
@@ -1153,7 +1151,7 @@ msgstr "Interfaz"
 
 #: tformsettingstrayslate.pagenetwork.caption
 msgid "Network"
-msgstr ""
+msgstr "Red"
 
 #: tformsettingstrayslate.pageparameters.caption
 msgctxt "tformsettingstrayslate.pageparameters.caption"
@@ -1172,7 +1170,7 @@ msgstr "Predeterminado, 0"
 
 #: tformsettingstrayslate.spinconnecttimeout.hint
 msgid "Time to establish connection If 0 default 10 seconds is used"
-msgstr ""
+msgstr "Tiempo para establecer la conexión. Si es 0, se usan 10 segundos por defecto"
 
 #: tformsettingstrayslate.spinmaxheight.hint
 msgid "Set maximum window height for auto-size; 0 indicates limit to screen height"
@@ -1184,7 +1182,7 @@ msgstr "Número de pares recientes en el panel; los pares se desplazan a la dere
 
 #: tformsettingstrayslate.spinproxyport.hint
 msgid "Network port used by the proxy server"
-msgstr ""
+msgstr "Puerto de red utilizado por el servidor proxy"
 
 #: tformsettingstrayslate.spinrealtimedelay.hint
 msgid "Translation Delay in milliseconds"
@@ -1192,7 +1190,7 @@ msgstr "Retraso de traducción en milisegundos"
 
 #: tformsettingstrayslate.spinrequesttimeout.hint
 msgid "Time to wait for response and data If 0 default 300 seconds is used"
-msgstr ""
+msgstr "Tiempo de espera para respuesta y datos. Si es 0, se usan 300 segundos por defecto"
 
 #: tformsettingstrayslate.trackopacityhover.hint
 msgid "Window transparency when the mouse is over the window"
@@ -1233,7 +1231,7 @@ msgstr "Copiar traducción"
 
 #: tformtrayslate.adeletepair.caption
 msgid "Delete Pair"
-msgstr ""
+msgstr "Eliminar par"
 
 #: tformtrayslate.adonate.caption
 msgid "Buy Me a Coffee..."
@@ -1256,7 +1254,7 @@ msgstr "Añadir automáticamente pares de idiomas recientes"
 #: tformtrayslate.afastautocopy.caption
 msgctxt "tformtrayslate.afastautocopy.caption"
 msgid "Auto-Copy Translation"
-msgstr ""
+msgstr "Copiar traducción automáticamente"
 
 #: tformtrayslate.afastautoswap.caption
 msgctxt "tformtrayslate.afastautoswap.caption"
@@ -1407,19 +1405,19 @@ msgstr "Mostrar menú"
 
 #: tformtrayslate.amovefirst.caption
 msgid "Move First"
-msgstr ""
+msgstr "Mover al principio"
 
 #: tformtrayslate.amovelast.caption
 msgid "Move Last"
-msgstr ""
+msgstr "Mover al final"
 
 #: tformtrayslate.amoveleft.caption
 msgid "Move Left"
-msgstr ""
+msgstr "Mover a la izquierda"
 
 #: tformtrayslate.amoveright.caption
 msgid "Move Right"
-msgstr ""
+msgstr "Mover a la derecha"
 
 #: tformtrayslate.anewtranslate.hint
 msgctxt "tformtrayslate.anewtranslate.hint"
@@ -1472,4 +1470,3 @@ msgstr "Pares recientes"
 msgctxt "tformtrayslate.menulanguage.caption"
 msgid "Language"
 msgstr "Language"
-

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 
 #: formconfig.rcaption
 msgctxt "formconfig.rcaption"
@@ -115,16 +115,16 @@ msgstr "Afișează traducerea în popup"
 
 #: formsettings.rproxymodecustomproxy
 msgid "Custom Proxy"
-msgstr ""
+msgstr "Proxy personalizat"
 
 #: formsettings.rproxymodenoproxy
 msgctxt "formsettings.rproxymodenoproxy"
 msgid "No Proxy"
-msgstr ""
+msgstr "Fără proxy"
 
 #: formsettings.rproxymodesystemproxy
 msgid "System Proxy"
-msgstr ""
+msgstr "Proxy de sistem"
 
 #: formsettings.rrecent
 msgctxt "formsettings.rrecent"
@@ -249,7 +249,7 @@ msgstr "Nume"
 
 #: formsettings.ruserparametervalue
 msgid "Value"
-msgstr ""
+msgstr "Valoare"
 
 #: languages.rautodetect
 msgid "Auto Detect"
@@ -257,11 +257,11 @@ msgstr "Detectare automată"
 
 #: mainform.renter
 msgid "Enter"
-msgstr ""
+msgstr "Introdu"
 
 #: mainform.renterparameter
 msgid "Enter the required parameter"
-msgstr ""
+msgstr "Introduceți parametrul necesar"
 
 #: mainform.rnoconfig
 msgctxt "mainform.rnoconfig"
@@ -275,7 +275,7 @@ msgstr "Fișier limbă (*.po)|*.po"
 #: mainform.rremovepair
 #, object-pascal-format
 msgid "Are you sure you want to remove the pair \"%s\"?"
-msgstr ""
+msgstr "Sigur doriți să ștergeți perechea \"%s\"?"
 
 #: mainform.rswap
 #, object-pascal-format
@@ -548,10 +548,8 @@ msgid "Parameters"
 msgstr "Parametri"
 
 #: tformconfigtrayslate.labelinitparameters4.caption
-#, fuzzy
-#| msgid "Parameters in the form key=value used by {key} in requests"
 msgid "Parameters in the form key=value used by {key} in requests. If the value is omitted (key=), it will be requested from the user."
-msgstr "Parametri în forma key=value folosiți de {key} în cereri"
+msgstr "Parametri în formatul key=value utilizați de {key} în cereri. Dacă valoarea este omisă (key=), va fi solicitată utilizatorului."
 
 #: tformconfigtrayslate.labelinitparemeters.caption
 msgid "Initial GET request to obtain required parameters."
@@ -704,7 +702,7 @@ msgstr "Susține proiectul"
 #: tformdonatetrayslate.labelbank.caption
 msgctxt "tformdonatetrayslate.labelbank.caption"
 msgid "Donate with Bank Card or PayPal"
-msgstr ""
+msgstr "Donează cu card bancar sau PayPal"
 
 #: tformdonatetrayslate.labelbank.hint
 msgctxt "tformdonatetrayslate.labelbank.hint"
@@ -714,12 +712,12 @@ msgstr "https://app.lava.top/en/astverskoy?tabId=about&currency=EUR"
 #: tformdonatetrayslate.labelcontribution.caption
 msgctxt "tformdonatetrayslate.labelcontribution.caption"
 msgid "Every contribution helps keep the project active and moving forward. Thank you for your support!"
-msgstr ""
+msgstr "Fiecare contribuție ajută la menținerea proiectului activ și în dezvoltare. Vă mulțumim pentru sprijin!"
 
 #: tformdonatetrayslate.labelcrypto.caption
 msgctxt "tformdonatetrayslate.labelcrypto.caption"
 msgid "Donate with Cryptocurrency"
-msgstr ""
+msgstr "Donează cu criptomonede"
 
 #: tformdonatetrayslate.labelcrypto.hint
 msgctxt "tformdonatetrayslate.labelcrypto.hint"
@@ -734,7 +732,7 @@ msgstr "Bună! Alimentați acest proiect pasional cu un mic impuls de cofeină! 
 #: tformdonatetrayslate.labelsupport.caption
 msgctxt "tformdonatetrayslate.labelsupport.caption"
 msgid "You can support development through one of the following options:"
-msgstr ""
+msgstr "Puteți sprijini dezvoltarea prin una dintre următoarele opțiuni:"
 
 #: tformpopuptrayslate.acopytarget.hint
 msgctxt "tformpopuptrayslate.acopytarget.hint"
@@ -823,11 +821,11 @@ msgstr "Adaugă automat o nouă pereche de limbi atunci când schimbați limbile
 #: tformsettingstrayslate.checkautocopy.caption
 msgctxt "tformsettingstrayslate.checkautocopy.caption"
 msgid "Auto-Copy Translation"
-msgstr ""
+msgstr "Copiere automată traducere"
 
 #: tformsettingstrayslate.checkautocopy.hint
 msgid "Automatically copy translations from the main and popup windows to the clipboard"
-msgstr ""
+msgstr "Copiază automat traducerile din fereastra principală și fereastra popup în clipboard"
 
 #: tformsettingstrayslate.checkautoheight.caption
 msgid "Auto Height"
@@ -883,11 +881,11 @@ msgstr "Funcționează doar când tasta Ctrl este apăsată"
 #: tformsettingstrayslate.checkproxyauthentication.caption
 msgctxt "tformsettingstrayslate.checkproxyauthentication.caption"
 msgid "Authentication"
-msgstr ""
+msgstr "Autentificare"
 
 #: tformsettingstrayslate.checkproxyauthentication.hint
 msgid "Enables login and password authentication for proxy access"
-msgstr ""
+msgstr "Activează autentificarea cu nume de utilizator și parolă pentru accesul prin proxy"
 
 #: tformsettingstrayslate.checkrealtime.caption
 msgctxt "tformsettingstrayslate.checkrealtime.caption"
@@ -965,16 +963,16 @@ msgstr "Afișează butonul de traducere"
 
 #: tformsettingstrayslate.comboproxymode.hint
 msgid "Defines how proxy is used no proxy system proxy or custom configuration"
-msgstr ""
+msgstr "Definește modul de utilizare a proxy-ului: fără proxy, proxy de sistem sau configurare personalizată"
 
 #: tformsettingstrayslate.comboproxymode.text
 msgctxt "tformsettingstrayslate.comboproxymode.text"
 msgid "No Proxy"
-msgstr ""
+msgstr "Fără proxy"
 
 #: tformsettingstrayslate.comboproxytype.hint
 msgid "Type of proxy protocol used for custom settings"
-msgstr ""
+msgstr "Tipul protocolului proxy utilizat pentru setări personalizate"
 
 #: tformsettingstrayslate.comboproxytype.text
 msgid "HTTP"
@@ -982,15 +980,15 @@ msgstr "HTTP"
 
 #: tformsettingstrayslate.editproxyhost.hint
 msgid "Address of the proxy server IP or domain name"
-msgstr ""
+msgstr "Adresa serverului proxy, IP sau nume de domeniu"
 
 #: tformsettingstrayslate.editproxylogin.hint
 msgid "Username used for proxy authentication"
-msgstr ""
+msgstr "Nume de utilizator pentru autentificarea proxy-ului"
 
 #: tformsettingstrayslate.editproxypassword.hint
 msgid "Password used for proxy authentication"
-msgstr ""
+msgstr "Parolă pentru autentificarea proxy-ului"
 
 #: tformsettingstrayslate.gridhotkeys.columns[0].title.caption
 msgctxt "tformsettingstrayslate.gridhotkeys.columns[0].title.caption"
@@ -1013,7 +1011,7 @@ msgstr "Schimbă automat limbile"
 #: tformsettingstrayslate.groupbox1.caption
 msgctxt "tformsettingstrayslate.groupbox1.caption"
 msgid "User Parameters"
-msgstr ""
+msgstr "Parametri utilizator"
 
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
@@ -1035,7 +1033,7 @@ msgstr "Fereastră popup"
 
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"
-msgstr ""
+msgstr "Proxy"
 
 #: tformsettingstrayslate.grouprealtime.caption
 msgid "Real-Time Translation"
@@ -1043,7 +1041,7 @@ msgstr "Traducere în timp real"
 
 #: tformsettingstrayslate.grouptimeouts.caption
 msgid "Timeout"
-msgstr ""
+msgstr "Timp de expirare"
 
 #: tformsettingstrayslate.grouptransfromclipboard1.caption
 msgctxt "tformsettingstrayslate.grouptransfromclipboard1.caption"
@@ -1056,11 +1054,11 @@ msgstr "Pictogramă din bara de sistem"
 
 #: tformsettingstrayslate.labelconnecttimeout.caption
 msgid "Connection, sec"
-msgstr ""
+msgstr "Conexiune, sec"
 
 #: tformsettingstrayslate.labelhost.caption
 msgid "Host"
-msgstr ""
+msgstr "Gazdă"
 
 #: tformsettingstrayslate.labeliconbackground.caption
 msgid "Background Color"
@@ -1081,7 +1079,7 @@ msgstr "Configurație de detectare a limbii"
 
 #: tformsettingstrayslate.labellogin.caption
 msgid "Login"
-msgstr ""
+msgstr "Autentificare"
 
 #: tformsettingstrayslate.labelmaxheight.caption
 msgid "Max Height"
@@ -1107,11 +1105,11 @@ msgstr "Opacitate inactivă"
 
 #: tformsettingstrayslate.labelpassword.caption
 msgid "Password"
-msgstr ""
+msgstr "Parolă"
 
 #: tformsettingstrayslate.labelport.caption
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: tformsettingstrayslate.labelprimarylang.caption
 msgid "Primary Language"
@@ -1119,11 +1117,11 @@ msgstr "Limba principală"
 
 #: tformsettingstrayslate.labelproxymode.caption
 msgid "Proxy Mode"
-msgstr ""
+msgstr "Mod proxy"
 
 #: tformsettingstrayslate.labelproxytype.caption
 msgid "Proxy Type"
-msgstr ""
+msgstr "Tip proxy"
 
 #: tformsettingstrayslate.labelrealtimedelay.caption
 msgid "Translation Delay, ms"
@@ -1131,7 +1129,7 @@ msgstr "Întârziere traducere, ms"
 
 #: tformsettingstrayslate.labelrequesttimeout.caption
 msgid "Request, sec"
-msgstr ""
+msgstr "Cerere, sec"
 
 #: tformsettingstrayslate.labelsecondarylang.caption
 msgid "Secondary Language"
@@ -1153,7 +1151,7 @@ msgstr "Interfață"
 
 #: tformsettingstrayslate.pagenetwork.caption
 msgid "Network"
-msgstr ""
+msgstr "Rețea"
 
 #: tformsettingstrayslate.pageparameters.caption
 msgctxt "tformsettingstrayslate.pageparameters.caption"
@@ -1172,7 +1170,7 @@ msgstr "Implicit, 0"
 
 #: tformsettingstrayslate.spinconnecttimeout.hint
 msgid "Time to establish connection If 0 default 10 seconds is used"
-msgstr ""
+msgstr "Timp de stabilire a conexiunii. Dacă este 0, se folosesc 10 secunde implicit"
 
 #: tformsettingstrayslate.spinmaxheight.hint
 msgid "Set maximum window height for auto-size; 0 indicates limit to screen height"
@@ -1184,7 +1182,7 @@ msgstr "Numărul de perechi recente din panou; perechile se deplasează la dreap
 
 #: tformsettingstrayslate.spinproxyport.hint
 msgid "Network port used by the proxy server"
-msgstr ""
+msgstr "Portul de rețea utilizat de serverul proxy"
 
 #: tformsettingstrayslate.spinrealtimedelay.hint
 msgid "Translation Delay in milliseconds"
@@ -1192,7 +1190,7 @@ msgstr "Întârziere traducere în milisecunde"
 
 #: tformsettingstrayslate.spinrequesttimeout.hint
 msgid "Time to wait for response and data If 0 default 300 seconds is used"
-msgstr ""
+msgstr "Timp de așteptare pentru răspuns și date. Dacă este 0, se folosesc 300 secunde implicit"
 
 #: tformsettingstrayslate.trackopacityhover.hint
 msgid "Window transparency when the mouse is over the window"
@@ -1233,7 +1231,7 @@ msgstr "Copiază traducerea"
 
 #: tformtrayslate.adeletepair.caption
 msgid "Delete Pair"
-msgstr ""
+msgstr "Șterge perechea"
 
 #: tformtrayslate.adonate.caption
 msgid "Buy Me a Coffee..."
@@ -1256,7 +1254,7 @@ msgstr "Adaugă automat perechile recente de limbi"
 #: tformtrayslate.afastautocopy.caption
 msgctxt "tformtrayslate.afastautocopy.caption"
 msgid "Auto-Copy Translation"
-msgstr ""
+msgstr "Copiere automată traducere"
 
 #: tformtrayslate.afastautoswap.caption
 msgctxt "tformtrayslate.afastautoswap.caption"
@@ -1407,19 +1405,19 @@ msgstr "Afișează meniul"
 
 #: tformtrayslate.amovefirst.caption
 msgid "Move First"
-msgstr ""
+msgstr "Mută la început"
 
 #: tformtrayslate.amovelast.caption
 msgid "Move Last"
-msgstr ""
+msgstr "Mută la final"
 
 #: tformtrayslate.amoveleft.caption
 msgid "Move Left"
-msgstr ""
+msgstr "Mută la stânga"
 
 #: tformtrayslate.amoveright.caption
 msgid "Move Right"
-msgstr ""
+msgstr "Mută la dreapta"
 
 #: tformtrayslate.anewtranslate.hint
 msgctxt "tformtrayslate.anewtranslate.hint"
@@ -1472,4 +1470,3 @@ msgstr "Perechi recente"
 msgctxt "tformtrayslate.menulanguage.caption"
 msgid "Language"
 msgstr "Language"
-

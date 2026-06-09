@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 
 #: formconfig.rcaption
 msgctxt "formconfig.rcaption"
@@ -115,16 +115,16 @@ msgstr "Tampilkan terjemahan popup"
 
 #: formsettings.rproxymodecustomproxy
 msgid "Custom Proxy"
-msgstr ""
+msgstr "Proxy Kustom"
 
 #: formsettings.rproxymodenoproxy
 msgctxt "formsettings.rproxymodenoproxy"
 msgid "No Proxy"
-msgstr ""
+msgstr "Tanpa Proxy"
 
 #: formsettings.rproxymodesystemproxy
 msgid "System Proxy"
-msgstr ""
+msgstr "Proxy Sistem"
 
 #: formsettings.rrecent
 msgctxt "formsettings.rrecent"
@@ -249,7 +249,7 @@ msgstr "Nama"
 
 #: formsettings.ruserparametervalue
 msgid "Value"
-msgstr ""
+msgstr "Nilai"
 
 #: languages.rautodetect
 msgid "Auto Detect"
@@ -257,11 +257,11 @@ msgstr "Deteksi otomatis"
 
 #: mainform.renter
 msgid "Enter"
-msgstr ""
+msgstr "Masukkan"
 
 #: mainform.renterparameter
 msgid "Enter the required parameter"
-msgstr ""
+msgstr "Masukkan parameter yang diperlukan"
 
 #: mainform.rnoconfig
 msgctxt "mainform.rnoconfig"
@@ -275,7 +275,7 @@ msgstr "Berkas Bahasa (*.po)|*.po"
 #: mainform.rremovepair
 #, object-pascal-format
 msgid "Are you sure you want to remove the pair \"%s\"?"
-msgstr ""
+msgstr "Apakah Anda yakin ingin menghapus pasangan \"%s\"?"
 
 #: mainform.rswap
 #, object-pascal-format
@@ -548,10 +548,8 @@ msgid "Parameters"
 msgstr "Parameter"
 
 #: tformconfigtrayslate.labelinitparameters4.caption
-#, fuzzy
-#| msgid "Parameters in the form key=value used by {key} in requests"
 msgid "Parameters in the form key=value used by {key} in requests. If the value is omitted (key=), it will be requested from the user."
-msgstr "Parameter dalam bentuk key=value yang digunakan oleh {key} dalam permintaan"
+msgstr "Parameter dalam bentuk key=value yang digunakan oleh {key} dalam permintaan. Jika nilainya dihilangkan (key=), nilainya akan diminta dari pengguna."
 
 #: tformconfigtrayslate.labelinitparemeters.caption
 msgid "Initial GET request to obtain required parameters."
@@ -704,7 +702,7 @@ msgstr "Dukung proyek ini"
 #: tformdonatetrayslate.labelbank.caption
 msgctxt "tformdonatetrayslate.labelbank.caption"
 msgid "Donate with Bank Card or PayPal"
-msgstr ""
+msgstr "Donasi dengan Kartu Bank atau PayPal"
 
 #: tformdonatetrayslate.labelbank.hint
 msgctxt "tformdonatetrayslate.labelbank.hint"
@@ -714,12 +712,12 @@ msgstr "https://app.lava.top/en/astverskoy?tabId=about&currency=EUR"
 #: tformdonatetrayslate.labelcontribution.caption
 msgctxt "tformdonatetrayslate.labelcontribution.caption"
 msgid "Every contribution helps keep the project active and moving forward. Thank you for your support!"
-msgstr ""
+msgstr "Setiap kontribusi membantu menjaga proyek tetap aktif dan terus berkembang. Terima kasih atas dukungan Anda!"
 
 #: tformdonatetrayslate.labelcrypto.caption
 msgctxt "tformdonatetrayslate.labelcrypto.caption"
 msgid "Donate with Cryptocurrency"
-msgstr ""
+msgstr "Donasi dengan Kripto"
 
 #: tformdonatetrayslate.labelcrypto.hint
 msgctxt "tformdonatetrayslate.labelcrypto.hint"
@@ -734,7 +732,7 @@ msgstr "Halo! Dukung proyek penuh gairah ini dengan sedikit dorongan kafein! Set
 #: tformdonatetrayslate.labelsupport.caption
 msgctxt "tformdonatetrayslate.labelsupport.caption"
 msgid "You can support development through one of the following options:"
-msgstr ""
+msgstr "Anda dapat mendukung pengembangan melalui salah satu opsi berikut:"
 
 #: tformpopuptrayslate.acopytarget.hint
 msgctxt "tformpopuptrayslate.acopytarget.hint"
@@ -823,11 +821,11 @@ msgstr "Secara otomatis menambahkan pasangan bahasa baru saat Anda mengganti bah
 #: tformsettingstrayslate.checkautocopy.caption
 msgctxt "tformsettingstrayslate.checkautocopy.caption"
 msgid "Auto-Copy Translation"
-msgstr ""
+msgstr "Salin Terjemahan Otomatis"
 
 #: tformsettingstrayslate.checkautocopy.hint
 msgid "Automatically copy translations from the main and popup windows to the clipboard"
-msgstr ""
+msgstr "Salin terjemahan secara otomatis dari jendela utama dan popup ke papan klip"
 
 #: tformsettingstrayslate.checkautoheight.caption
 msgid "Auto Height"
@@ -883,11 +881,11 @@ msgstr "Hanya berfungsi saat tombol Ctrl ditekan"
 #: tformsettingstrayslate.checkproxyauthentication.caption
 msgctxt "tformsettingstrayslate.checkproxyauthentication.caption"
 msgid "Authentication"
-msgstr ""
+msgstr "Autentikasi"
 
 #: tformsettingstrayslate.checkproxyauthentication.hint
 msgid "Enables login and password authentication for proxy access"
-msgstr ""
+msgstr "Mengaktifkan autentikasi nama pengguna dan kata sandi untuk akses proxy"
 
 #: tformsettingstrayslate.checkrealtime.caption
 msgctxt "tformsettingstrayslate.checkrealtime.caption"
@@ -965,16 +963,16 @@ msgstr "Tampilkan tombol terjemahan"
 
 #: tformsettingstrayslate.comboproxymode.hint
 msgid "Defines how proxy is used no proxy system proxy or custom configuration"
-msgstr ""
+msgstr "Menentukan cara penggunaan proxy: tanpa proxy, proxy sistem, atau konfigurasi kustom"
 
 #: tformsettingstrayslate.comboproxymode.text
 msgctxt "tformsettingstrayslate.comboproxymode.text"
 msgid "No Proxy"
-msgstr ""
+msgstr "Tanpa Proxy"
 
 #: tformsettingstrayslate.comboproxytype.hint
 msgid "Type of proxy protocol used for custom settings"
-msgstr ""
+msgstr "Jenis protokol proxy yang digunakan untuk pengaturan kustom"
 
 #: tformsettingstrayslate.comboproxytype.text
 msgid "HTTP"
@@ -982,15 +980,15 @@ msgstr "HTTP"
 
 #: tformsettingstrayslate.editproxyhost.hint
 msgid "Address of the proxy server IP or domain name"
-msgstr ""
+msgstr "Alamat server proxy, IP atau nama domain"
 
 #: tformsettingstrayslate.editproxylogin.hint
 msgid "Username used for proxy authentication"
-msgstr ""
+msgstr "Nama pengguna untuk autentikasi proxy"
 
 #: tformsettingstrayslate.editproxypassword.hint
 msgid "Password used for proxy authentication"
-msgstr ""
+msgstr "Kata sandi untuk autentikasi proxy"
 
 #: tformsettingstrayslate.gridhotkeys.columns[0].title.caption
 msgctxt "tformsettingstrayslate.gridhotkeys.columns[0].title.caption"
@@ -1013,7 +1011,7 @@ msgstr "Tukar Bahasa Secara Otomatis"
 #: tformsettingstrayslate.groupbox1.caption
 msgctxt "tformsettingstrayslate.groupbox1.caption"
 msgid "User Parameters"
-msgstr ""
+msgstr "Parameter Pengguna"
 
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
@@ -1035,7 +1033,7 @@ msgstr "Jendela Popup"
 
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"
-msgstr ""
+msgstr "Proxy"
 
 #: tformsettingstrayslate.grouprealtime.caption
 msgid "Real-Time Translation"
@@ -1043,7 +1041,7 @@ msgstr "Terjemahan Waktu Nyata"
 
 #: tformsettingstrayslate.grouptimeouts.caption
 msgid "Timeout"
-msgstr ""
+msgstr "Batas Waktu"
 
 #: tformsettingstrayslate.grouptransfromclipboard1.caption
 msgctxt "tformsettingstrayslate.grouptransfromclipboard1.caption"
@@ -1056,11 +1054,11 @@ msgstr "Ikon Baki"
 
 #: tformsettingstrayslate.labelconnecttimeout.caption
 msgid "Connection, sec"
-msgstr ""
+msgstr "Koneksi, dtk"
 
 #: tformsettingstrayslate.labelhost.caption
 msgid "Host"
-msgstr ""
+msgstr "Host"
 
 #: tformsettingstrayslate.labeliconbackground.caption
 msgid "Background Color"
@@ -1081,7 +1079,7 @@ msgstr "Konfigurasi Deteksi Bahasa"
 
 #: tformsettingstrayslate.labellogin.caption
 msgid "Login"
-msgstr ""
+msgstr "Masuk"
 
 #: tformsettingstrayslate.labelmaxheight.caption
 msgid "Max Height"
@@ -1107,11 +1105,11 @@ msgstr "Opasitas saat Diam"
 
 #: tformsettingstrayslate.labelpassword.caption
 msgid "Password"
-msgstr ""
+msgstr "Kata Sandi"
 
 #: tformsettingstrayslate.labelport.caption
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: tformsettingstrayslate.labelprimarylang.caption
 msgid "Primary Language"
@@ -1119,11 +1117,11 @@ msgstr "Bahasa utama"
 
 #: tformsettingstrayslate.labelproxymode.caption
 msgid "Proxy Mode"
-msgstr ""
+msgstr "Mode Proxy"
 
 #: tformsettingstrayslate.labelproxytype.caption
 msgid "Proxy Type"
-msgstr ""
+msgstr "Jenis Proxy"
 
 #: tformsettingstrayslate.labelrealtimedelay.caption
 msgid "Translation Delay, ms"
@@ -1131,7 +1129,7 @@ msgstr "Tunda Terjemahan, ms"
 
 #: tformsettingstrayslate.labelrequesttimeout.caption
 msgid "Request, sec"
-msgstr ""
+msgstr "Permintaan, dtk"
 
 #: tformsettingstrayslate.labelsecondarylang.caption
 msgid "Secondary Language"
@@ -1153,7 +1151,7 @@ msgstr "Antarmuka"
 
 #: tformsettingstrayslate.pagenetwork.caption
 msgid "Network"
-msgstr ""
+msgstr "Jaringan"
 
 #: tformsettingstrayslate.pageparameters.caption
 msgctxt "tformsettingstrayslate.pageparameters.caption"
@@ -1172,7 +1170,7 @@ msgstr "Bawaan, 0"
 
 #: tformsettingstrayslate.spinconnecttimeout.hint
 msgid "Time to establish connection If 0 default 10 seconds is used"
-msgstr ""
+msgstr "Waktu untuk membuat koneksi. Jika 0, digunakan nilai bawaan 10 detik"
 
 #: tformsettingstrayslate.spinmaxheight.hint
 msgid "Set maximum window height for auto-size; 0 indicates limit to screen height"
@@ -1184,7 +1182,7 @@ msgstr "Jumlah pasangan terbaru pada panel; pasangan bergeser ke kanan saat dita
 
 #: tformsettingstrayslate.spinproxyport.hint
 msgid "Network port used by the proxy server"
-msgstr ""
+msgstr "Port jaringan yang digunakan oleh server proxy"
 
 #: tformsettingstrayslate.spinrealtimedelay.hint
 msgid "Translation Delay in milliseconds"
@@ -1192,7 +1190,7 @@ msgstr "Tunda Terjemahan dalam milidetik"
 
 #: tformsettingstrayslate.spinrequesttimeout.hint
 msgid "Time to wait for response and data If 0 default 300 seconds is used"
-msgstr ""
+msgstr "Waktu menunggu respons dan data. Jika 0, digunakan nilai bawaan 300 detik"
 
 #: tformsettingstrayslate.trackopacityhover.hint
 msgid "Window transparency when the mouse is over the window"
@@ -1233,7 +1231,7 @@ msgstr "Salin terjemahan"
 
 #: tformtrayslate.adeletepair.caption
 msgid "Delete Pair"
-msgstr ""
+msgstr "Hapus Pasangan"
 
 #: tformtrayslate.adonate.caption
 msgid "Buy Me a Coffee..."
@@ -1256,7 +1254,7 @@ msgstr "Tambahkan otomatis pasangan bahasa terbaru"
 #: tformtrayslate.afastautocopy.caption
 msgctxt "tformtrayslate.afastautocopy.caption"
 msgid "Auto-Copy Translation"
-msgstr ""
+msgstr "Salin Terjemahan Otomatis"
 
 #: tformtrayslate.afastautoswap.caption
 msgctxt "tformtrayslate.afastautoswap.caption"
@@ -1407,19 +1405,19 @@ msgstr "Tampilkan menu"
 
 #: tformtrayslate.amovefirst.caption
 msgid "Move First"
-msgstr ""
+msgstr "Pindahkan ke Awal"
 
 #: tformtrayslate.amovelast.caption
 msgid "Move Last"
-msgstr ""
+msgstr "Pindahkan ke Akhir"
 
 #: tformtrayslate.amoveleft.caption
 msgid "Move Left"
-msgstr ""
+msgstr "Pindahkan ke Kiri"
 
 #: tformtrayslate.amoveright.caption
 msgid "Move Right"
-msgstr ""
+msgstr "Pindahkan ke Kanan"
 
 #: tformtrayslate.anewtranslate.hint
 msgctxt "tformtrayslate.anewtranslate.hint"
@@ -1472,4 +1470,3 @@ msgstr "Pasangan Terbaru"
 msgctxt "tformtrayslate.menulanguage.caption"
 msgid "Language"
 msgstr "Language"
-
