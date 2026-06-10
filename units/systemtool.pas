@@ -997,10 +997,18 @@ begin
   try
     // Common setup
     HTTP.Protocol := '1.1';
-    HTTP.Timeout := IfThen(ATimeout.Request > 0, ATimeout.Request, REQUEST_TIMEOUT);
     SSL := TSSLOpenSSL.Create(HTTP.Sock);
     HTTP.Sock.SSL.SSLType := LT_TLSv1_2;
+
+    // Timeouts
+    HTTP.Timeout := IfThen(ATimeout.Request > 0, ATimeout.Request, REQUEST_TIMEOUT);
     HTTP.Sock.ConnectionTimeout := IfThen(ATimeout.Connection > 0, ATimeout.Connection, CONNECT_TIMEOUT);
+    HTTP.Sock.HTTPTunnelTimeout := HTTP.Sock.ConnectionTimeout;
+    HTTP.Sock.SocksTimeout := HTTP.Timeout;
+    HTTP.Sock.NonblockSendTimeout := HTTP.Timeout;
+    HTTP.Sock.SetSendTimeout(HTTP.Timeout);
+    HTTP.Sock.SetRecvTimeout(HTTP.Timeout);
+    HTTP.Sock.SetTimeout(HTTP.Timeout);
 
     ApplyProxy(HTTP, AProxy);
 
