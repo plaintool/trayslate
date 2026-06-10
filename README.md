@@ -205,6 +205,8 @@ Several installer options are available on the releases page:
 
 > **Note:** Windows XP supports installation **only via MSI installers**. The EXE installer is **not compatible** with Windows XP.
 
+> **Warning!** Reinstalling the application will overwrite all configuration files in the installation path. Please make a backup before proceeding.
+
 Download the installer from the [releases page](https://github.com/plaintool/trayslate/releases), run it, and follow the on-screen instructions. After installation, you can launch Trayslate from the Start menu or from the desktop shortcut.
 
 ---

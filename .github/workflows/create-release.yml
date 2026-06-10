@@ -94,6 +94,9 @@ jobs:
           | **Portable version** — saves its settings to **form_settings.json** if it is near the executable; otherwise, in the user directory | [trayslate‑${VERSION}‑x86‑x64‑portable.zip](https://github.com/plaintool/trayslate/releases/download/${TAG}/trayslate-${VERSION}-x86-x64-portable.zip) |
 
           > **Note:** Windows XP supports installation **only via MSI installers**. The EXE installer is **not compatible** with Windows XP.
+          
+          > **Warning!** Reinstalling the application will overwrite all configuration files in the installation path. Please make a backup before proceeding.
+
           EOF
 
       - name: Download build artifacts
