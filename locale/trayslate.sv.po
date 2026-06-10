@@ -450,6 +450,10 @@ msgstr "Tillåt automatisk växling av språkpar"
 msgid "Allow translation only by translation button"
 msgstr "Tillåt endast översättning via översättningsknappen"
 
+#: tformconfigtrayslate.checkserviceproxy.caption
+msgid "Allow proxy"
+msgstr "Tillåt proxy"
+
 #: tformconfigtrayslate.checkservicerealtime.caption
 msgid "Allow translate as you type"
 msgstr "Tillåt översättning medan du skriver"

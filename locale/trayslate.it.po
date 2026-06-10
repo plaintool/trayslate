@@ -459,6 +459,10 @@ msgstr "Consenti scambio automatico coppia di lingue"
 msgid "Allow translation only by translation button"
 msgstr "Consenti traduzione solo tramite pulsante traduzione"
 
+#: tformconfigtrayslate.checkserviceproxy.caption
+msgid "Allow proxy"
+msgstr "Consenti proxy"
+
 #: tformconfigtrayslate.checkservicerealtime.caption
 msgid "Allow translate as you type"
 msgstr "Consenti traduzione durante digitazione"

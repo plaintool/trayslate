@@ -450,6 +450,10 @@ msgstr "Дазволіць аўтаматычную змену моўнай па
 msgid "Allow translation only by translation button"
 msgstr "Дазволіць пераклад толькі праз кнопку перакладу"
 
+#: tformconfigtrayslate.checkserviceproxy.caption
+msgid "Allow proxy"
+msgstr "Дазволіць проксі"
+
 #: tformconfigtrayslate.checkservicerealtime.caption
 msgid "Allow translate as you type"
 msgstr "Дазволіць пераклад падчас уводу тэксту"

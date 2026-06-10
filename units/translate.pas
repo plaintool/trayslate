@@ -51,6 +51,7 @@ type
     FServiceAutoSwap: boolean;
     FServiceRealTime: boolean;
     FServiceOnlyButton: boolean;
+    FServiceProxy: boolean;
     FWebMethod: TWebMethod;
     FUserAgent: string;
     FHeaders: TStringList;
@@ -113,6 +114,7 @@ type
     property ServiceAutoSwap: boolean read FServiceAutoSwap write FServiceAutoSwap;
     property ServiceRealTime: boolean read FServiceRealTime write FServiceRealTime;
     property ServiceOnlyButton: boolean read FServiceOnlyButton write FServiceOnlyButton;
+    property ServiceProxy: boolean read FServiceProxy write FServiceProxy;
     property ServiceColorRecent: TColor read FServiceColorRecent write FServiceColorRecent;
     property ServiceDescription: TStringList read FServiceDescription write FServiceDescription;
     property WebMethod: TWebMethod read FWebMethod write FWebMethod;
@@ -445,7 +447,7 @@ begin
   FParameterValues.Clear;
 
   responseBody := WebRequest(wmGet, FInitUrl, string.Empty, InitHeaders, FInitUserAgent, string.Empty,
-    string.Empty, FProxy, FTimeout, responseHeaders, Error);
+    string.Empty, FServiceProxy, FProxy, FTimeout, responseHeaders, Error);
   try
     if Error then Exit(responseBody);
 
@@ -491,7 +493,7 @@ begin
       SetParametersList(TempHeaders);
     end;
     responseBody := WebRequest(wmGet, TempUrl, string.Empty, TempHeaders, FUserAgent, FContentType, FAccept,
-      FProxy, FTimeout, responseHeaders, Error);
+      FServiceProxy, FProxy, FTimeout, responseHeaders, Error);
     try
       if Error then Exit(responseBody);
 
@@ -554,7 +556,7 @@ begin
       SetParametersList(TempHeaders);
     end;
     responseBody := WebRequest(wmPost, TempUrl, TempData, TempHeaders, FUserAgent, FContentType, FAccept,
-      FProxy, FTimeout, responseHeaders, Error);
+      FServiceProxy, FProxy, FTimeout, responseHeaders, Error);
     try
       if Error then Exit(responseBody);
 

@@ -450,6 +450,10 @@ msgstr "Izinkan pertukaran pasangan bahasa secara otomatis"
 msgid "Allow translation only by translation button"
 msgstr "Izinkan penerjemahan hanya melalui tombol terjemahan"
 
+#: tformconfigtrayslate.checkserviceproxy.caption
+msgid "Allow proxy"
+msgstr "Izinkan proxy"
+
 #: tformconfigtrayslate.checkservicerealtime.caption
 msgid "Allow translate as you type"
 msgstr "Izinkan penerjemahan saat mengetik"

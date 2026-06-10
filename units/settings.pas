@@ -771,6 +771,7 @@ begin
     Ini.WriteBool('Service', 'AutoSwapLanguage', Translate.ServiceAutoSwap);
     Ini.WriteBool('Service', 'RealTimeTranslation', Translate.ServiceRealTime);
     Ini.WriteBool('Service', 'TranslateOnlyByButton', Translate.ServiceOnlyButton);
+    Ini.WriteBool('Service', 'AllowProxy', Translate.ServiceProxy);
     Ini.WriteInteger('Service', 'ColorRecent', Translate.ServiceColorRecent);
 
     case Translate.ValueType of
@@ -964,6 +965,7 @@ begin
     Translate.ServiceAutoSwap := Ini.ReadBool('Service', 'AutoSwapLanguage', False);
     Translate.ServiceRealTime := Ini.ReadBool('Service', 'RealTimeTranslation', False);
     Translate.ServiceOnlyButton := Ini.ReadBool('Service', 'TranslateOnlyByButton', False);
+    Translate.ServiceProxy:= Ini.ReadBool('Service', 'AllowProxy', False);
     Translate.ServiceColorRecent := Ini.ReadInteger('Service', 'ColorRecent', clBlue);
 
     Translate.ServiceDescription.Clear;

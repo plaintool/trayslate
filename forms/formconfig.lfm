@@ -181,8 +181,8 @@ object formConfigTrayslate: TformConfigTrayslate
         Width = 582
         HorzScrollBar.Page = 1
         HorzScrollBar.Visible = False
-        VertScrollBar.Increment = 28
-        VertScrollBar.Page = 286
+        VertScrollBar.Increment = 31
+        VertScrollBar.Page = 318
         VertScrollBar.Smooth = True
         VertScrollBar.Tracking = True
         Align = alClient
@@ -261,8 +261,8 @@ object formConfigTrayslate: TformConfigTrayslate
           end
           object MemoServiceDescription: TMemo
             Left = 120
-            Height = 253
-            Top = 224
+            Height = 232
+            Top = 256
             Width = 423
             Anchors = [akTop, akLeft, akRight, akBottom]
             ScrollBars = ssAutoVertical
@@ -273,7 +273,7 @@ object formConfigTrayslate: TformConfigTrayslate
           object LabelServiceDescription: TLabel
             Left = 8
             Height = 32
-            Top = 224
+            Top = 256
             Width = 104
             Alignment = taRightJustify
             AutoSize = False
@@ -345,6 +345,15 @@ object formConfigTrayslate: TformConfigTrayslate
             Checked = True
             State = cbChecked
             TabOrder = 7
+            OnChange = ValueChange
+          end
+          object CheckServiceProxy: TCheckBox
+            Left = 121
+            Height = 19
+            Top = 224
+            Width = 81
+            Caption = 'Allow proxy'
+            TabOrder = 8
             OnChange = ValueChange
           end
         end

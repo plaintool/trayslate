@@ -45,6 +45,7 @@ type
     CheckEncodeText: TCheckBox;
     CheckServiceAutoSwap: TCheckBox;
     CheckEncodeCustomParameters: TCheckBox;
+    CheckServiceProxy: TCheckBox;
     CheckServiceVisible: TCheckBox;
     CheckServiceRealTime: TCheckBox;
     CheckServiceOnlyButton: TCheckBox;
@@ -624,6 +625,7 @@ begin
     CheckServiceAutoSwap.Checked := ServiceAutoSwap;
     CheckServiceRealTime.Checked := ServiceRealTime;
     CheckServiceOnlyButton.Checked := ServiceOnlyButton;
+    CheckServiceProxy.Checked := ServiceProxy;
     ColorServiceColorRecent.Selected := ServiceColorRecent;
     MemoServiceDescription.Lines.Assign(ServiceDescription);
 
@@ -668,6 +670,7 @@ begin
     ServiceAutoSwap := False;
     ServiceRealTime := False;
     ServiceOnlyButton := False;
+    ServiceProxy := True;
     ServiceColorRecent := clBlue;
     ServiceDescription.Clear;
     WebMethod := wmGet;
@@ -697,6 +700,7 @@ begin
     CheckServiceAutoSwap.Checked := False;
     CheckServiceRealTime.Checked := False;
     CheckServiceOnlyButton.Checked := False;
+    CheckServiceProxy.Checked := True;
     ColorServiceColorRecent.Selected := clBlue;
     ComboMethod.ItemIndex := 0;
     ComboValueType.ItemIndex := 0;
@@ -749,6 +753,7 @@ begin
       ServiceAutoSwap := CheckServiceAutoSwap.Checked;
       ServiceRealTime := CheckServiceRealTime.Checked;
       ServiceOnlyButton := CheckServiceOnlyButton.Checked;
+      ServiceProxy := CheckServiceProxy.Checked;
       ServiceColorRecent := ColorServiceColorRecent.Selected;
       ServiceDescription.Text := MemoServiceDescription.Text;
 

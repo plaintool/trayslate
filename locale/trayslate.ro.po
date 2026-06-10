@@ -450,6 +450,10 @@ msgstr "Permite schimbarea automată a perechii de limbi"
 msgid "Allow translation only by translation button"
 msgstr "Permite traducerea numai prin butonul de traducere"
 
+#: tformconfigtrayslate.checkserviceproxy.caption
+msgid "Allow proxy"
+msgstr "Permite proxy"
+
 #: tformconfigtrayslate.checkservicerealtime.caption
 msgid "Allow translate as you type"
 msgstr "Permite traducerea în timp ce tastezi"

@@ -430,6 +430,10 @@ msgstr ""
 msgid "Allow translation only by translation button"
 msgstr ""
 
+#: tformconfigtrayslate.checkserviceproxy.caption
+msgid "Allow proxy"
+msgstr ""
+
 #: tformconfigtrayslate.checkservicerealtime.caption
 msgid "Allow translate as you type"
 msgstr ""

@@ -450,6 +450,10 @@ msgstr "Povolit automatickou výměnu jazykového páru"
 msgid "Allow translation only by translation button"
 msgstr "Povolit překlad pouze pomocí tlačítka překladu"
 
+#: tformconfigtrayslate.checkserviceproxy.caption
+msgid "Allow proxy"
+msgstr "Povolit proxy"
+
 #: tformconfigtrayslate.checkservicerealtime.caption
 msgid "Allow translate as you type"
 msgstr "Povolit překlad při psaní"

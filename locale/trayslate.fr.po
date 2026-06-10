@@ -450,6 +450,10 @@ msgstr "Autoriser l’échange automatique de la paire de langues"
 msgid "Allow translation only by translation button"
 msgstr "Autoriser la traduction uniquement via le bouton de traduction"
 
+#: tformconfigtrayslate.checkserviceproxy.caption
+msgid "Allow proxy"
+msgstr "Autoriser le proxy"
+
 #: tformconfigtrayslate.checkservicerealtime.caption
 msgid "Allow translate as you type"
 msgstr "Autoriser la traduction pendant la saisie"

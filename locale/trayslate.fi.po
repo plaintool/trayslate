@@ -450,6 +450,10 @@ msgstr "Salli kieliparin automaattinen vaihto"
 msgid "Allow translation only by translation button"
 msgstr "Salli käännös vain käännöspainikkeella"
 
+#: tformconfigtrayslate.checkserviceproxy.caption
+msgid "Allow proxy"
+msgstr "Salli välityspalvelin"
+
 #: tformconfigtrayslate.checkservicerealtime.caption
 msgid "Allow translate as you type"
 msgstr "Salli käännös kirjoittaessasi"

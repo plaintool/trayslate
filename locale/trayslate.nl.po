@@ -450,6 +450,10 @@ msgstr "Automatisch wisselen van taalpaar toestaan"
 msgid "Allow translation only by translation button"
 msgstr "Alleen vertaling via de vertaalknop toestaan"
 
+#: tformconfigtrayslate.checkserviceproxy.caption
+msgid "Allow proxy"
+msgstr "Proxy toestaan"
+
 #: tformconfigtrayslate.checkservicerealtime.caption
 msgid "Allow translate as you type"
 msgstr "Vertaling tijdens het typen toestaan"

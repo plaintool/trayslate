@@ -450,6 +450,10 @@ msgstr "允许自动切换语言对"
 msgid "Allow translation only by translation button"
 msgstr "仅允许通过翻译按钮进行翻译"
 
+#: tformconfigtrayslate.checkserviceproxy.caption
+msgid "Allow proxy"
+msgstr "允许代理"
+
 #: tformconfigtrayslate.checkservicerealtime.caption
 msgid "Allow translate as you type"
 msgstr "允许在输入时进行翻译"

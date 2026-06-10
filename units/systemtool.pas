@@ -148,8 +148,8 @@ function GetSystemProxy(out Host: string; out Port: integer): boolean;
 procedure ApplyProxy(HTTP: THTTPSend; const P: TProxy);
 
 function WebRequest(AMethod: TWebMethod; const AUrl: string; const APostData: string; AHeaders: TStrings;
-  const AUserAgent, AContentType, AAccept: string; AProxy: TProxy; ATimeout: TTimeout; out AResponseHeaders: TStringList;
-  out AError: boolean): string;
+  const AUserAgent, AContentType, AAccept: string; AllowProxy: boolean; AProxy: TProxy; ATimeout: TTimeout;
+  out AResponseHeaders: TStringList; out AError: boolean): string;
 
 { Check Github Version }
 
@@ -976,8 +976,8 @@ begin
 end;
 
 function WebRequest(AMethod: TWebMethod; const AUrl: string; const APostData: string; AHeaders: TStrings;
-  const AUserAgent, AContentType, AAccept: string; AProxy: TProxy; ATimeout: TTimeout; out AResponseHeaders: TStringList;
-  out AError: boolean): string;
+  const AUserAgent, AContentType, AAccept: string; AllowProxy: boolean; AProxy: TProxy; ATimeout: TTimeout;
+  out AResponseHeaders: TStringList; out AError: boolean): string;
 var
   HTTP: THTTPSend;
   SSL: TSSLOpenSSL;
@@ -1010,7 +1010,8 @@ begin
     HTTP.Sock.SetRecvTimeout(HTTP.Timeout);
     HTTP.Sock.SetTimeout(HTTP.Timeout);
 
-    ApplyProxy(HTTP, AProxy);
+    if AllowProxy then
+      ApplyProxy(HTTP, AProxy);
 
     HTTP.Headers.Clear;
     if AUserAgent <> string.Empty then

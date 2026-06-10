@@ -450,6 +450,10 @@ msgstr "언어 쌍 자동 전환 허용"
 msgid "Allow translation only by translation button"
 msgstr "번역 버튼으로만 번역 허용"
 
+#: tformconfigtrayslate.checkserviceproxy.caption
+msgid "Allow proxy"
+msgstr "프록시 허용"
+
 #: tformconfigtrayslate.checkservicerealtime.caption
 msgid "Allow translate as you type"
 msgstr "입력 중 번역 허용"

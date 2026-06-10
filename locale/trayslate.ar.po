@@ -451,6 +451,10 @@ msgstr "السماح بالتبديل التلقائي لزوج اللغات"
 msgid "Allow translation only by translation button"
 msgstr "السماح بالترجمة فقط عبر زر الترجمة"
 
+#: tformconfigtrayslate.checkserviceproxy.caption
+msgid "Allow proxy"
+msgstr "السماح باستخدام البروكسي"
+
 #: tformconfigtrayslate.checkservicerealtime.caption
 msgid "Allow translate as you type"
 msgstr "السماح بالترجمة أثناء الكتابة"

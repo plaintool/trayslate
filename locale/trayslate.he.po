@@ -450,6 +450,10 @@ msgstr "אפשר החלפה אוטומטית של צמד השפות"
 msgid "Allow translation only by translation button"
 msgstr "אפשר תרגום רק באמצעות כפתור התרגום"
 
+#: tformconfigtrayslate.checkserviceproxy.caption
+msgid "Allow proxy"
+msgstr "אפשר פרוקסי"
+
 #: tformconfigtrayslate.checkservicerealtime.caption
 msgid "Allow translate as you type"
 msgstr "אפשר תרגום בזמן ההקלדה"

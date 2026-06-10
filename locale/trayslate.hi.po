@@ -450,6 +450,10 @@ msgstr "भाषा जोड़ी का स्वचालित अदल�
 msgid "Allow translation only by translation button"
 msgstr "केवल अनुवाद बटन के माध्यम से अनुवाद की अनुमति दें"
 
+#: tformconfigtrayslate.checkserviceproxy.caption
+msgid "Allow proxy"
+msgstr "प्रॉक्सी की अनुमति दें"
+
 #: tformconfigtrayslate.checkservicerealtime.caption
 msgid "Allow translate as you type"
 msgstr "टाइप करते समय अनुवाद की अनुमति दें"
