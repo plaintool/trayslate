@@ -262,6 +262,7 @@ type
     procedure MemoSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure MemoSourceKeyUp(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure MemoTargetKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+    procedure SettingsFormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure PanelLangResize(Sender: TObject);
     procedure SplitterMoved(Sender: TObject);
     procedure SbSwapMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
@@ -1122,55 +1123,39 @@ end;
 
 procedure TformTrayslate.aSettingsExecute(Sender: TObject);
 begin
-  if Assigned(formSettingsTrayslate) then
+  // If the settings form is visible, just raise it up
+  if Assigned(formSettingsTrayslate) and formSettingsTrayslate.Visible then
   begin
-    if formSettingsTrayslate.Visible and formSettingsTrayslate.CanSetFocus then
+    formSettingsTrayslate.BringToFront;
+    if formSettingsTrayslate.CanSetFocus then
       formSettingsTrayslate.SetFocus;
-    exit;
+    Exit;
   end;
 
   formSettingsTrayslate := TformSettingsTrayslate.Create(Application);
-  try
-    formSettingsTrayslate.Position := poDesigned;
-    if FormSettingsLeft > 0 then
-      formSettingsTrayslate.Left := FormSettingsLeft
-    else
-      formSettingsTrayslate.Position := poDesktopCenter;
-    if FormSettingsTop > 0 then
-      formSettingsTrayslate.Top := FormSettingsTop
-    else
-      formSettingsTrayslate.Position := poDesktopCenter;
-    if FormSettingsWidth > 0 then
-      formSettingsTrayslate.Width := FormSettingsWidth;
-    if FormSettingsHeight > 0 then
-      formSettingsTrayslate.Height := FormSettingsHeight;
-    if FormSettingsSplit > 0 then
-      formSettingsTrayslate.ListPages.Width := FormSettingsSplit;
+  formSettingsTrayslate.OnClose := @SettingsFormClose;
 
-    UnregisterHotKeys;
-    FMouseHook.Enabled := False;
-    FKeyHook.Enabled := False;
+  formSettingsTrayslate.Position := poDesigned;
+  if FormSettingsLeft > 0 then
+    formSettingsTrayslate.Left := FormSettingsLeft
+  else
+    formSettingsTrayslate.Position := poDesktopCenter;
+  if FormSettingsTop > 0 then
+    formSettingsTrayslate.Top := FormSettingsTop
+  else
+    formSettingsTrayslate.Position := poDesktopCenter;
+  if FormSettingsWidth > 0 then
+    formSettingsTrayslate.Width := FormSettingsWidth;
+  if FormSettingsHeight > 0 then
+    formSettingsTrayslate.Height := FormSettingsHeight;
+  if FormSettingsSplit > 0 then
+    formSettingsTrayslate.ListPages.Width := FormSettingsSplit;
 
-    formSettingsTrayslate.ShowModal;
-  finally
-    FreeAndNil(formSettingsTrayslate);
+  UnregisterHotKeys;
+  FMouseHook.Enabled := False;
+  FKeyHook.Enabled := False;
 
-    // Save changes immediately
-    SaveFormSettings(Self);
-
-    RegisterHotKeys;
-    SetHints;
-    FMouseHook.Enabled := FEnableMouseMode;
-    FKeyHook.Enabled := FEnableMouseMode;
-
-    FTrans.Proxy := FProxy;
-    FTrans.Timeout := FTimeout;
-    FTransDetect.Proxy := FProxy;
-    FTransDetect.Timeout := FTimeout;
-
-    if Assigned(formPopupTrayslate) then
-      formPopupTrayslate.UpdateStayOnTop(0);
-  end;
+  formSettingsTrayslate.Show;
 end;
 
 procedure TformTrayslate.aNewTranslateExecute(Sender: TObject);
@@ -1624,6 +1609,28 @@ begin
     PasteWithLineEnding(Sender as TMemo);
     Key := 0;
   end;
+end;
+
+procedure TformTrayslate.SettingsFormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  // Save changes immediately
+  SaveFormSettings(Self);
+
+  RegisterHotKeys;
+  SetHints;
+  FMouseHook.Enabled := FEnableMouseMode;
+  FKeyHook.Enabled := FEnableMouseMode;
+
+  FTrans.Proxy := FProxy;
+  FTrans.Timeout := FTimeout;
+  FTransDetect.Proxy := FProxy;
+  FTransDetect.Timeout := FTimeout;
+
+  if Assigned(formPopupTrayslate) then
+    formPopupTrayslate.UpdateStayOnTop(0);
+
+  CloseAction := caFree;
+  formSettingsTrayslate := nil;
 end;
 
 procedure TformTrayslate.PanelLangResize(Sender: TObject);
