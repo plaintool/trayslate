@@ -322,6 +322,7 @@ type
     FLastEnterTime: DWORD;
     FLastHotkeyTime: DWORD;
     FLastMouseInfo: TMouseEventInfo;
+    FClickCount: integer;
     FMemoSourceCaretPos: integer;
     FPrevSourceText: string;
     FPrevTargetText: string;
@@ -343,7 +344,6 @@ type
     FLastVTime: DWORD;
     FAutoHeightAfter: boolean;
     FPrevMouseDown: TMouseEventInfo;
-    FDoubleClickPending: boolean;
     FPopupRecentPair: TComponent;
 
     // Non sorted combo named languages
@@ -654,7 +654,7 @@ begin
   FLastCTime := 0;
   FLastVTime := 0;
   FillChar(FPrevMouseDown, SizeOf(FPrevMouseDown), 0);
-  FDoubleClickPending := False;
+  FClickCount := 0;
 
   // Components config
   Left := Screen.WorkAreaRect.Right - Width - 30;
@@ -1024,18 +1024,18 @@ var
   TimeDiff: DWORD;
   dx, dy: integer;
 begin
-  // Store current down info for later use in OnHookLeftUp (existing code)
+  // Store current down info for later use in OnHookLeftUp
   FLastMouseInfo := Info;
 
-  // Double-click detection using previous down event
+  // Click sequence detection
   TimeDiff := Info.Time - FPrevMouseDown.Time;
   dx := Info.X - FPrevMouseDown.X;
   dy := Info.Y - FPrevMouseDown.Y;
 
   if (TimeDiff <= MOUSE_DBL_INTERVAL) and (dx * dx + dy * dy <= MOUSE_MODE_DELTA * MOUSE_MODE_DELTA) then
-    FDoubleClickPending := True
+    Inc(FClickCount)
   else
-    FDoubleClickPending := False;
+    FClickCount := 1;
 
   // Store this down as previous for future comparisons
   FPrevMouseDown := Info;
@@ -1048,26 +1048,31 @@ var
   TimeDiff: DWORD;
   DistanceSq: integer;
 begin
-  // Case 1: double-click (detected on previous down)
-  if FDoubleClickPending then
+  // Case 1: double-click or triple-click (triggers immediately on both)
+  if FClickCount >= 2 then
   begin
     if (not MouseModeCtrl) or (FLastMouseInfo.CtrlDown and Info.CtrlDown) then
     begin
       packedCoords := Info.Y shl 16 + Info.X;
       Application.QueueAsyncCall(@OnTranslateMouseMode, packedCoords);
     end;
-    FDoubleClickPending := False;
+    // We don't reset FClickCount here, it resets in OnHookLeftDown by timeout
     Exit;
   end;
 
   // Case 2: old logic (long press with movement)
-  TimeDiff := Info.Time - FLastMouseInfo.Time;
+  if Info.Time >= FLastMouseInfo.Time then
+    TimeDiff := Info.Time - FLastMouseInfo.Time
+  else
+    TimeDiff := 0;
+
   dx := Info.X - FLastMouseInfo.X;
   dy := Info.Y - FLastMouseInfo.Y;
   DistanceSq := dx * dx + dy * dy;
 
   if (TimeDiff > MOUSE_MODE_INTERVAL) and (DistanceSq > MOUSE_MODE_DELTA * MOUSE_MODE_DELTA) then
   begin
+    FClickCount := 0; // Break sequence on long press
     if (not MouseModeCtrl) or (FLastMouseInfo.CtrlDown and Info.CtrlDown) then
     begin
       packedCoords := Info.Y shl 16 + Info.X;
@@ -1613,24 +1618,26 @@ end;
 
 procedure TformTrayslate.SettingsFormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-  // Save changes immediately
-  SaveFormSettings(Self);
+  try
+    // Save changes immediately
+    SaveFormSettings(Self);
 
-  RegisterHotKeys;
-  SetHints;
-  FMouseHook.Enabled := FEnableMouseMode;
-  FKeyHook.Enabled := FEnableMouseMode;
+    RegisterHotKeys;
+    SetHints;
+    FMouseHook.Enabled := FEnableMouseMode;
+    FKeyHook.Enabled := FEnableMouseMode;
 
-  FTrans.Proxy := FProxy;
-  FTrans.Timeout := FTimeout;
-  FTransDetect.Proxy := FProxy;
-  FTransDetect.Timeout := FTimeout;
+    FTrans.Proxy := FProxy;
+    FTrans.Timeout := FTimeout;
+    FTransDetect.Proxy := FProxy;
+    FTransDetect.Timeout := FTimeout;
 
-  if Assigned(formPopupTrayslate) then
-    formPopupTrayslate.UpdateStayOnTop(0);
-
-  CloseAction := caFree;
-  formSettingsTrayslate := nil;
+    if Assigned(formPopupTrayslate) then
+      formPopupTrayslate.UpdateStayOnTop(0);
+  finally
+    CloseAction := caFree;
+    formSettingsTrayslate := nil;
+  end;
 end;
 
 procedure TformTrayslate.PanelLangResize(Sender: TObject);

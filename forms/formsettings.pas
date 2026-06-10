@@ -865,6 +865,7 @@ begin
   Visible := False;
   Apply;
   ModalResult := mrOk;
+  Close;
 end;
 
 procedure TformSettingsTrayslate.BtnCancelClick(Sender: TObject);
@@ -873,6 +874,7 @@ begin
   ResetRealTimeSettings;
   Reset;
   ModalResult := mrCancel;
+  Close;
 end;
 
 procedure TformSettingsTrayslate.BtnApplyClick(Sender: TObject);
