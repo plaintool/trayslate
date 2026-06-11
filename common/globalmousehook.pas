@@ -63,8 +63,7 @@ type
     FHook: HHOOK;
     class function HookProc(nCode: Integer; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall; static;
     procedure InternalMouseEvent(wParam: WPARAM; const p: TMouseLLHookStruct);
-    function IsEditControl(Wnd: THandle): Boolean;
-    function IsDropDownWindow(Wnd: THandle): Boolean;
+    function IsInputWindow(Wnd: THandle): Boolean;
     {$ENDIF}
   public
     constructor Create;
@@ -105,33 +104,38 @@ begin
     Result := CallNextHookEx(0, nCode, wParam, lParam);
 end;
 
-function TGlobalMouseHook.IsDropDownWindow(Wnd: THandle): Boolean;
-var
-  szClass: array[0..255] of Char;
-begin
-  Result := False;
-  if Wnd = 0 then Exit;
-  if GetClassName(HWND(Wnd), szClass, Length(szClass)) > 0 then
-  begin
-    // ComboLBox is the class of the popup list in a ComboBox
-    if StrIComp(szClass, 'ComboLBox') = 0 then Exit(True);
-  end;
-end;
-
-function TGlobalMouseHook.IsEditControl(Wnd: THandle): Boolean;
+function TGlobalMouseHook.IsInputWindow(Wnd: THandle): Boolean;
 const
+  // Classes that we always ignore (blacklist)
+ IgnoredClasses: array[0..9] of PChar = (
+    'ComboLBox',          // popup list of a ComboBox
+    'ScrollBar',          // standard scrollbar
+    'msctls_updown32',    // up-down (spin) control
+    'msctls_trackbar32',  // trackbar / slider
+    'SysHeader32',        // column header in list view
+    'ToolbarWindow32',    // standard toolbar
+    'SysTabControl32',    // tab control (tabs)
+    '#32768',             // system menu (popup) / window menu
+    'tooltips_class32',   // tooltip window
+    'Static'              // static text / label (rarely needed, but safe to ignore)
+  );
+
+  // Classes that are treated as text editing fields (whitelist)
   TextEditClasses: array[0..11] of PChar = (
-    'Edit', 'RichEdit20A', 'RichEdit50W', 'TMemo', 'TEdit',
-    'Scintilla',
-    'Chrome_RenderWidgetHostHWND',
-    'MozillaContentWindowClass',
-    'Internet Explorer_Server',
-    'OperaWindowClass',
-    'Windows.UI.Core.CoreWindow',
-    'Afx:FrameOrView:100'
+    'Edit',                         // standard edit control
+    'RichEdit20A',                  // RichEdit version 2.0 (ANSI)
+    'RichEdit50W',                  // RichEdit version 5.0 (Unicode)
+    'TMemo',                        // VCL/LCL memo control
+    'TEdit',                        // VCL/LCL single-line edit
+    'Scintilla',                    // Scintilla editing component (Notepad++, etc.)
+    'Chrome_RenderWidgetHostHWND',  // Chromium-based browsers (Chrome, Edge)
+    'MozillaContentWindowClass',    // Firefox content area
+    'Internet Explorer_Server',     // IE / Trident engine
+    'OperaWindowClass',             // older Opera
+    'Windows.UI.Core.CoreWindow',   // UWP / WinRT text controls
+    'Afx:FrameOrView:100'           // MFC-based applications
   );
 type
-  // QueryFullProcessImageNameW signature, available from Vista
   TQueryFullProcessImageNameW = function(hProcess: THandle; dwFlags: DWORD;
     lpExeName: PWideChar; lpdwSize: LPDWORD): BOOL; stdcall;
 var
@@ -150,15 +154,27 @@ begin
   Result := False;
   if Wnd = 0 then Exit;
 
+  // Get window class name
   if GetClassName(HWND(Wnd), szClass, Length(szClass)) > 0 then
   begin
+    // 1. Reject ignored classes immediately
+    for i := Low(IgnoredClasses) to High(IgnoredClasses) do
+      if StrIComp(szClass, IgnoredClasses[i]) = 0 then
+        Exit(False);   // always suppress events on these
+
+    // 2. If EditFieldOnly is not active, any non-ignored window is allowed
+    if not FEditFieldOnly then
+      Exit(True);
+
+    // 3. EditFieldOnly mode: check if the class is a known text editor
     for i := Low(TextEditClasses) to High(TextEditClasses) do
       if StrIComp(szClass, TextEditClasses[i]) = 0 then
         Exit(True);
+
+    // 4. Not a recognized editor – fall through to additional checks
   end;
 
-  // ---- explorer.exe check (dynamic, XP‑safe) ----
-  // On XP this API is missing; the check is simply skipped.
+  // explorer.exe check (dynamic, XP-safe)
   hKernel32 := GetModuleHandle('kernel32.dll');
   if hKernel32 <> 0 then
     Pointer(QueryFull) := GetProcAddress(hKernel32, 'QueryFullProcessImageNameW')
@@ -168,7 +184,6 @@ begin
   if Assigned(QueryFull) then
   begin
     GetWindowThreadProcessId(HWND(Wnd), @pid);
-    // PROCESS_QUERY_INFORMATION is available on XP (as opposed to PROCESS_QUERY_LIMITED_INFORMATION)
     hProc := OpenProcess(PROCESS_QUERY_INFORMATION, False, pid);
     if hProc <> 0 then
     begin
@@ -180,18 +195,23 @@ begin
         if (j > 0) and (StrIComp(PWideChar(@s[j+1]), 'explorer.exe') = 0) then
         begin
           CloseHandle(hProc);
-          Exit(False);
+          Exit(False);   // explorer.exe windows are not valid input targets
         end;
       end;
       CloseHandle(hProc);
     end;
   end;
-  // -------------------------------------------------
 
   // Fallback: try EM_GETSEL to detect editable controls
   if SendMessageTimeout(HWND(Wnd), EM_GETSEL, WPARAM(@dwStart), LPARAM(@dwEnd),
                         SMTO_ABORTIFHUNG, 20, nil) <> 0 then
     Exit(True);
+
+  // If we reached here in EditFieldOnly mode, the window is not a valid editor
+  if FEditFieldOnly then
+    Result := False
+  else
+    Result := True;   // in normal mode, allow everything except blacklisted classes
 end;
 
 procedure TGlobalMouseHook.InternalMouseEvent(wParam: WPARAM; const p: TMouseLLHookStruct);
@@ -209,58 +229,38 @@ begin
   info.ShiftDown := (GetAsyncKeyState(VK_SHIFT) and $8000) <> 0;
   info.AltDown := (GetAsyncKeyState(VK_MENU) and $8000) <> 0;
 
-  // --- Global drop-down list guard (always active) ---
-  if (wParam = WM_LBUTTONDOWN) or (wParam = WM_LBUTTONUP) then
+  // Find the window under cursor
+  wndHandle := THandle(WindowFromPoint(p.pt));
+
+  // Check if this window is a valid input target (respects EditFieldOnly and ignores blacklisted classes)
+  if not IsInputWindow(wndHandle) then
   begin
-    wndHandle := THandle(WindowFromPoint(p.pt));
-    if IsDropDownWindow(wndHandle) then
+    // Left button down on an ignored window -> mark sequence as invalid
+    if wParam = WM_LBUTTONDOWN then
+      FLeftDownAccepted := False;
+    Exit;
+  end;
+
+  // In EditFieldOnly mode, additionally ensure up happens inside the client area
+  if FEditFieldOnly and (wParam = WM_LBUTTONUP) then
+  begin
+    if GetClientRect(wndHandle, @R) then
     begin
-      // Down inside drop‑down list – mark as not accepted
-      if wParam = WM_LBUTTONDOWN then
-        FLeftDownAccepted := False;
-      Exit;
+      Pt := p.pt;
+      ScreenToClient(wndHandle, Pt);
+      if not PtInRect(R, Pt) then
+        Exit;   // mouse released outside the edit control – ignore
     end;
   end;
 
-  // Apply EditFieldOnly filter only if the option is enabled
-  if FEditFieldOnly then
-  begin
-    wndHandle := THandle(WindowFromPoint(p.pt));
-    if (wndHandle = 0) or (not IsEditControl(wndHandle)) then
-    begin
-      // Down outside an edit control – mark as not accepted
-      if wParam = WM_LBUTTONDOWN then
-        FLeftDownAccepted := False;
-      Exit;
-    end;
-
-    // Additional check: release must be in the client area of the edit window
-    if wParam = WM_LBUTTONUP then
-    begin
-      if GetClientRect(wndHandle, @R) then
-      begin
-        Pt := p.pt;
-        ScreenToClient(wndHandle, Pt);
-        if not PtInRect(R, Pt) then
-        begin
-          // Up outside the edit area – ignore if the corresponding down was not accepted
-          if not FLeftDownAccepted then
-            Exit;
-          // Even if the down was accepted, release outside the edit area is suppressed
-          Exit;
-        end;
-      end;
-    end;
-  end;
-
-  // Left button down/up acceptance logic
+  // Left button acceptance tracking (prevents stray up events from being passed)
   if wParam = WM_LBUTTONDOWN then
-    FLeftDownAccepted := True          // we reached here → down is valid
+    FLeftDownAccepted := True
   else if wParam = WM_LBUTTONUP then
   begin
     if not FLeftDownAccepted then
-      Exit;                            // no valid down before this up
-    FLeftDownAccepted := True;        // consume the valid down
+      Exit;                        // no valid down before this up
+    FLeftDownAccepted := True;     // keep valid for potential multi‑click sequence
   end;
 
   handler := nil;
