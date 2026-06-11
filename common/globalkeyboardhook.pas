@@ -177,23 +177,37 @@ begin
   begin
     if FActiveInstance <> nil then
       raise Exception.Create('Only one TGlobalKeyboardHook can be active at a time.');
-    FActiveInstance := Self;
-    FHook := SetWindowsHookEx(WH_KEYBOARD_LL, @HookProc, 0, 0);
+
+    // Install the hook, passing HInstance for XP compatibility
+    FHook := SetWindowsHookEx(WH_KEYBOARD_LL, @HookProc, HInstance, 0);
     if FHook = 0 then
     begin
-      FActiveInstance := nil;
-      RaiseLastOSError;
+      // Hook installation failed – keep FActiveInstance nil and FEnabled false.
+      // Show a warning instead of crashing, especially important for XP.
+      MessageBox(0,
+                 PChar('Cannot enable global keyboard hook.' + sLineBreak +
+                       'System error: ' + SysErrorMessage(GetLastError)),
+                 'Trayslate',
+                 MB_ICONWARNING);
+      Exit;   // FEnabled stays False, FActiveInstance stays nil
     end;
+
+    // Success – mark as active
+    FActiveInstance := Self;
     FEnabled := True;
   end
   else
   begin
-    if FHook <> 0 then
+    // Disable: only unhook if we are the active instance
+    if FActiveInstance = Self then
     begin
-      UnhookWindowsHookEx(FHook);
-      FHook := 0;
+      if FHook <> 0 then
+      begin
+        UnhookWindowsHookEx(FHook);
+        FHook := 0;
+      end;
+      FActiveInstance := nil;
     end;
-    FActiveInstance := nil;
     FEnabled := False;
   end;
 end;
