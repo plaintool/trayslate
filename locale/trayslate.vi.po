@@ -1,0 +1,1518 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Trayslate\n"
+"POT-Creation-Date: 2026-06-11 14:30+0700\n"
+"PO-Revision-Date: 2026-06-12 01:38+0700\n"
+"Last-Translator: Vũ Anh Vũ <vuanhvu11982@gmail.com>\n"
+"Language-Team: Vietnamese\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.9\n"
+
+#: formconfig.rcaption
+msgctxt "formconfig.rcaption"
+msgid "Config Editor"
+msgstr "Trình chỉnh sửa cấu hình"
+
+#: formconfig.rclearlanguages
+msgid "The list is already filled. Do you want to clear it?"
+msgstr "Danh sách đã có dữ liệu. Bạn có muốn xóa sạch không?"
+
+#: formconfig.rdeleteconfig
+msgid "Are you sure you want to delete config"
+msgstr "Bạn có chắc chắn muốn xóa cấu hình"
+
+#: formconfig.rdeleteconfigcaption
+msgid "Delete config"
+msgstr "Xóa cấu hình"
+
+#: formconfig.rnamequestion
+msgctxt "formconfig.rnamequestion"
+msgid "Enter new config file name:"
+msgstr "Nhập tên tệp cấu hình mới:"
+
+#: formconfig.rneedsave
+msgid "The configuration was modified. Save changes?"
+msgstr "Cấu hình đã bị thay đổi. Lưu các thay đổi?"
+
+#: formconfig.rvaluetype1
+msgctxt "formconfig.rvaluetype1"
+msgid "None"
+msgstr "Không có"
+
+#: formconfig.rvaluetype2
+msgctxt "formconfig.rvaluetype2"
+msgid "Language"
+msgstr "Ngôn ngữ"
+
+#: formconfig.rvaluetype3
+msgid "Currency All"
+msgstr "Tất cả tiền tệ"
+
+#: formconfig.rvaluetype4
+msgid "Currency Fiat Only"
+msgstr "Chỉ tiền pháp định"
+
+#: formconfig.rvaluetype5
+msgid "Currency Crypto Only"
+msgstr "Chỉ tiền mã hóa"
+
+#: formconfig.rvaluetype6
+msgid "Measurement Units"
+msgstr "Đơn vị đo lường"
+
+#: formsettings.rapp
+msgctxt "formsettings.rapp"
+msgid "Toggle Application (Tray Icon Click)"
+msgstr "Bật/tắt ứng dụng (Nhấp biểu tượng khay)"
+
+#: formsettings.rapp_default
+msgctxt "formsettings.rapp_default"
+msgid "Default Ctrl+Shift+A"
+msgstr "Mặc định Ctrl+Shift+A"
+
+#: formsettings.rapp_hint
+msgctxt "formsettings.rapp_hint"
+msgid "Shows or hides the main application window"
+msgstr "Hiện hoặc ẩn cửa sổ ứng dụng chính"
+
+#: formsettings.rdefaultfont
+msgctxt "formsettings.rdefaultfont"
+msgid "Default"
+msgstr "Mặc định"
+
+#: formsettings.rdefaulthotkeys
+msgid "Are you sure you want to restore default hotkeys?"
+msgstr "Bạn có chắc chắn muốn khôi phục các phím tắt mặc định?"
+
+#: formsettings.rdefaultsettings
+msgid "Are you sure you want to restore default settings?"
+msgstr "Bạn có chắc chắn muốn khôi phục cài đặt mặc định?"
+
+#: formsettings.rglobal
+msgctxt "formsettings.rglobal"
+msgid "Global Hotkeys"
+msgstr "Phím tắt toàn hệ thống"
+
+#: formsettings.rmousemodeballon
+msgid "Show Balloon Translation"
+msgstr "Hiện ô dịch bong bóng"
+
+#: formsettings.rmousemodebutton
+msgctxt "formsettings.rmousemodebutton"
+msgid "Show Translate Button"
+msgstr "Hiện nút dịch"
+
+#: formsettings.rmousemodemain
+msgid "Show Main Window"
+msgstr "Hiện cửa sổ chính"
+
+#: formsettings.rmousemodepopup
+msgid "Show Popup Translation"
+msgstr "Hiện cửa sổ dịch bật lên"
+
+#: formsettings.rproxymodecustomproxy
+msgid "Custom Proxy"
+msgstr "Proxy tùy chỉnh"
+
+#: formsettings.rproxymodenoproxy
+msgctxt "formsettings.rproxymodenoproxy"
+msgid "No Proxy"
+msgstr "Không dùng Proxy"
+
+#: formsettings.rproxymodesystemproxy
+msgid "System Proxy"
+msgstr "Proxy hệ thống"
+
+#: formsettings.rrecent
+msgctxt "formsettings.rrecent"
+msgid "Recent Language Pairs"
+msgstr "Các cặp ngôn ngữ gần đây"
+
+#: formsettings.rrecentpair
+msgid "Recent Language Pair"
+msgstr "Cặp ngôn ngữ gần đây"
+
+#: formsettings.rrecentpair_default
+msgid "Default: Ctrl+Shift+"
+msgstr "Mặc định: Ctrl+Shift+"
+
+#: formsettings.rrecentpair_hint
+msgid "Select Recent Language Pair"
+msgstr "Chọn cặp ngôn ngữ gần đây"
+
+#: formsettings.rtransclipboard
+msgctxt "formsettings.rtransclipboard"
+msgid "Translate Clipboard to Clipboard"
+msgstr "Dịch Clipboard vào Clipboard"
+
+#: formsettings.rtransclipboardpopup
+msgid "Translate Clipboard to Popup Window"
+msgstr "Dịch Clipboard sang cửa sổ bật lên"
+
+#: formsettings.rtransclipboardpopup_default
+msgid "Default: Ctrl+Shift+P"
+msgstr "Mặc định: Ctrl+Shift+P"
+
+#: formsettings.rtransclipboardpopup_hint
+msgid "Translates clipboard text to a popup window near the mouse cursor"
+msgstr "Dịch văn bản trong Clipboard sang cửa sổ bật lên gần con trỏ chuột"
+
+#: formsettings.rtransclipboard_default
+msgctxt "formsettings.rtransclipboard_default"
+msgid "Default Ctrl+Shift+R"
+msgstr "Mặc định Ctrl+Shift+R"
+
+#: formsettings.rtransclipboard_hint
+msgctxt "formsettings.rtransclipboard_hint"
+msgid "Translates the current text in clipboard and copies the result to the clipboard"
+msgstr "Dịch văn bản hiện tại trong Clipboard và sao chép kết quả vào Clipboard"
+
+#: formsettings.rtranscontrol
+msgctxt "formsettings.rtranscontrol"
+msgid "Translate In Active Application Selection"
+msgstr "Dịch trong vùng chọn của ứng dụng đang hoạt động"
+
+#: formsettings.rtranscontrolpopup
+msgid "Translate Selected Text to Popup Window"
+msgstr "Dịch văn bản được chọn sang cửa sổ bật lên"
+
+#: formsettings.rtranscontrolpopup_default
+msgid "Default: Ctrl+Shift+X"
+msgstr "Mặc định: Ctrl+Shift+X"
+
+#: formsettings.rtranscontrolpopup_hint
+msgid "Translates selected text from the active application to a popup window near the mouse cursor"
+msgstr "Dịch văn bản được chọn từ ứng dụng đang hoạt động sang cửa sổ bật lên gần con trỏ chuột"
+
+#: formsettings.rtranscontrol_default
+msgctxt "formsettings.rtranscontrol_default"
+msgid "Default Ctrl+Shift+V"
+msgstr "Mặc định Ctrl+Shift+V"
+
+#: formsettings.rtranscontrol_hint
+msgctxt "formsettings.rtranscontrol_hint"
+msgid "Replaces the selected text in the active application with the translation"
+msgstr "Thay thế văn bản được chọn trong ứng dụng đang hoạt động bằng bản dịch"
+
+#: formsettings.rtransfromclipboard
+msgctxt "formsettings.rtransfromclipboard"
+msgid "Translate From Clipboard (Tray Icon Double-Click)"
+msgstr "Dịch từ Clipboard (Nhấp đúp biểu tượng khay)"
+
+#: formsettings.rtransfromclipboard_default
+msgctxt "formsettings.rtransfromclipboard_default"
+msgid "Default Ctrl+Shift+T"
+msgstr "Mặc định Ctrl+Shift+T"
+
+#: formsettings.rtransfromclipboard_hint
+msgctxt "formsettings.rtransfromclipboard_hint"
+msgid "Translates the current text from the clipboard"
+msgstr "Dịch văn bản hiện tại từ Clipboard"
+
+#: formsettings.rtransfromcontrol
+msgctxt "formsettings.rtransfromcontrol"
+msgid "Translate From Active Application Selection"
+msgstr "Dịch từ vùng chọn của ứng dụng đang hoạt động"
+
+#: formsettings.rtransfromcontrol_default
+msgctxt "formsettings.rtransfromcontrol_default"
+msgid "Default Ctrl+Shift+C"
+msgstr "Mặc định Ctrl+Shift+C"
+
+#: formsettings.rtransfromcontrol_hint
+msgctxt "formsettings.rtransfromcontrol_hint"
+msgid "Translates the selected text from the active application"
+msgstr "Dịch văn bản được chọn từ ứng dụng đang hoạt động"
+
+#: formsettings.rtransswap
+msgctxt "formsettings.rtransswap"
+msgid "Swap Languages (Tray Icon Middle-Click)"
+msgstr "Chuyển đổi ngôn ngữ (Nhấp chuột giữa biểu tượng khay)"
+
+#: formsettings.rtransswap_default
+msgctxt "formsettings.rtransswap_default"
+msgid "Default Ctrl+Shift+S"
+msgstr "Mặc định Ctrl+Shift+S"
+
+#: formsettings.rtransswap_hint
+msgctxt "formsettings.rtransswap_hint"
+msgid "Swaps the source and target languages"
+msgstr "Chuyển đổi qua lại giữa ngôn ngữ nguồn và ngôn ngữ đích"
+
+#: formsettings.ruserparameterkey
+msgctxt "formsettings.ruserparameterkey"
+msgid "Name"
+msgstr "Tên"
+
+#: formsettings.ruserparametervalue
+msgid "Value"
+msgstr "Giá trị"
+
+#: languages.rautodetect
+msgid "Auto Detect"
+msgstr "Tự động phát hiện"
+
+#: mainform.renter
+msgid "Enter"
+msgstr "Nhập"
+
+#: mainform.renterparameter
+msgid "Enter the required parameter"
+msgstr "Nhập tham số bắt buộc"
+
+#: mainform.rnoconfig
+msgctxt "mainform.rnoconfig"
+msgid "Configuration file not found! Create it in the configuration editor."
+msgstr "Không tìm thấy tệp cấu hình! Hãy tạo tệp trong trình chỉnh sửa cấu hình."
+
+#: mainform.ropenpofiletr
+msgid "Language File (*.po)|*.po"
+msgstr "Tệp ngôn ngữ (*.po)|*.po"
+
+#: mainform.rremovepair
+#, object-pascal-format
+msgid "Are you sure you want to remove the pair \"%s\"?"
+msgstr "Bạn có chắc chắn muốn xóa cặp \"%s\" không?"
+
+#: mainform.rswap
+#, object-pascal-format
+msgctxt "mainform.rswap"
+msgid "Swap (%s) with text (%s)"
+msgstr "Chuyển đổi (%s) với văn bản (%s)"
+
+#: mainform.rtoremovepair
+msgid " to remove pair"
+msgstr " để xóa cặp"
+
+#: systemtool.newversion
+#, object-pascal-format
+msgid "New version available: %s. Open GitHub page to download?"
+msgstr "Có phiên bản mới: %s. Mở trang GitHub để tải về?"
+
+#: systemtool.newversioncheckerror
+msgid "Error checking version:"
+msgstr "Lỗi kiểm tra phiên bản:"
+
+#: systemtool.newversionuptodate
+msgid "Your version is up to date."
+msgstr "Phiên bản của bạn đã là mới nhất."
+
+#: systemtool.rtrayslate
+msgctxt "systemtool.rtrayslate"
+msgid "Trayslate"
+msgstr "Trayslate"
+
+#: tformabouttrayslate.buttonok.caption
+msgctxt "tformabouttrayslate.buttonok.caption"
+msgid "OK"
+msgstr "OK"
+
+#: tformabouttrayslate.caption
+msgid "About"
+msgstr "Giới thiệu"
+
+#: tformabouttrayslate.labelby.caption
+msgid "by Alexander Tverskoy is licensed under"
+msgstr "bởi Alexander Tverskoy được cấp phép theo"
+
+#: tformabouttrayslate.labelby1.caption
+msgid "the GNU General Public License, Version 3"
+msgstr "giấy phép Công cộng  GNU, Phiên bản 3"
+
+#: tformabouttrayslate.labellic.caption
+msgid "For questions or feedback, contact me at"
+msgstr "Nếu có câu hỏi hoặc phản hồi, vui lòng liên hệ tại"
+
+#: tformabouttrayslate.labelname.caption
+msgid "Trayslate © 2026"
+msgstr "Trayslate © 2026"
+
+#: tformabouttrayslate.labelurlemail.caption
+msgctxt "tformabouttrayslate.labelurlemail.caption"
+msgid "astverskoy@gmail.com"
+msgstr "astverskoy@gmail.com"
+
+#: tformabouttrayslate.labelurlemail.hint
+msgctxt "tformabouttrayslate.labelurlemail.hint"
+msgid "mailto:astverskoy@gmail.com"
+msgstr "mailto:astverskoy@gmail.com"
+
+#: tformabouttrayslate.labelurlgithub.caption
+msgid "github: plaintool/trayslate"
+msgstr "github: plaintool/trayslate"
+
+#: tformabouttrayslate.labelurlgithub.hint
+msgid "https://github.com/plaintool/trayslate"
+msgstr "https://github.com/plaintool/trayslate"
+
+#: tformabouttrayslate.lblabout.caption
+msgid ""
+"Trayslate is a tray-based client for translation services. You can enter text directly, translate clipboard content, or "
+"translate selected text in any application. You can also replace text in another app with its translation using a hotkey. "
+"The app lets you choose and fully configure the translation service you use.\n"
+"\n"
+"This application uses third-party resources under the following licenses:\n"
+"\n"
+"1. Main icon designed by Flaticon\n"
+"   https://www.flaticon.com/ru/free-icon/translator_682045\n"
+"\n"
+"2. Dark theme support modules from Double Commander\n"
+"   Modules used: udarkstyle.pas, uimport.pas, uwin32widgetsetdark.pas\n"
+"   License: GNU General Public License v2.0 (GPL-2.0)\n"
+"   https://github.com/doublecmd/doublecmd\n"
+"   \n"
+"3. OpenSSL libraries (32-bit and 64-bit versions)\n"
+"   License: Apache License 2.0\n"
+"   https://www.openssl.org\n"
+"\n"
+"4. Synapse networking library (laz_synapse / synapse41.0)   \n"
+"   License: BSD-style license\n"
+"   Copyright (c) 1999–2024, Lukas Gebauer\n"
+"   https://github.com/geby/synapse"
+msgstr ""
+"Trayslate là một ứng dụng chạy dưới khay hệ thống cho các dịch vụ dịch thuật. Bạn có thể nhập văn bản trực tiếp, dịch nội "
+"dung Clipboard hoặc dịch văn bản được chọn trong bất kỳ ứng dụng nào. Bạn cũng có thể thay thế văn bản trong ứng dụng khác "
+"bằng bản dịch của nó thông qua phím tắt. Ứng dụng cho phép bạn chọn và cấu hình đầy đủ dịch vụ dịch thuật mà bạn sử dụng.\n"
+"\n"
+"Ứng dụng này sử dụng tài nguyên của bên thứ ba theo các giấy phép sau:\n"
+"\n"
+"1. Biểu tượng chính được thiết kế bởi Flaticon\n"
+"   https://www.flaticon.com/ru/free-icon/translator_682045\n"
+"\n"
+"2. Các mô-đun hỗ trợ giao diện tối từ Double Commander\n"
+"   Mô-đun sử dụng: udarkstyle.pas, uimport.pas, uwin32widgetsetdark.pas\n"
+"   Giấy phép: GNU General Public License v2.0 (GPL-2.0)\n"
+"   https://github.com/doublecmd/doublecmd\n"
+"   \n"
+"3. Thư viện OpenSSL (phiên bản 32-bit và 64-bit)\n"
+"   Giấy phép: Apache License 2.0\n"
+"   https://www.openssl.org\n"
+"\n"
+"4. Thư viện mạng Synapse (laz_synapse / synapse41.0)   \n"
+"   Giấy phép: Giấy phép kiểu BSD\n"
+"   Bản quyền (c) 1999–2024, Lukas Gebauer\n"
+"   https://github.com/geby/synapse"
+
+#: tformbuttontrayslate.imagetranslate.hint
+msgctxt "tformbuttontrayslate.imagetranslate.hint"
+msgid "Translate in Popup"
+msgstr "Dịch trong cửa sổ bật lên"
+
+#: tformconfigtrayslate.asave.caption
+msgctxt "tformconfigtrayslate.asave.caption"
+msgid "Save"
+msgstr "Lưu"
+
+#: tformconfigtrayslate.btnclose.caption
+msgctxt "tformconfigtrayslate.btnclose.caption"
+msgid "Close"
+msgstr "Đóng"
+
+#: tformconfigtrayslate.btninitparameterstest.hint
+msgid "Execute request and view the parameters"
+msgstr "Thực thi yêu cầu và xem các tham số"
+
+#: tformconfigtrayslate.btniniturltest.hint
+msgid "Execute request and view the result"
+msgstr "Thực thi yêu cầu và xem kết quả"
+
+#: tformconfigtrayslate.btnpostdatatest.hint
+msgid "Execute post request and view the result"
+msgstr "Thực thi yêu cầu đăng (POST) và xem kết quả"
+
+#: tformconfigtrayslate.btnresponsetest.hint
+msgid "Converts the current response"
+msgstr "Chuyển đổi phản hồi hiện tại"
+
+#: tformconfigtrayslate.btnurltest.hint
+msgid "Execute get request and view the result"
+msgstr "Thực thi yêu cầu lấy (GET) và xem kết quả"
+
+#: tformconfigtrayslate.caption
+msgctxt "tformconfigtrayslate.caption"
+msgid "Config Editor"
+msgstr "Trình chỉnh sửa cấu hình"
+
+#: tformconfigtrayslate.checkencodecustomparameters.caption
+msgid "Encode parameters"
+msgstr "Mã hóa tham số"
+
+#: tformconfigtrayslate.checkencodetext.caption
+msgctxt "tformconfigtrayslate.checkencodetext.caption"
+msgid "Encode {text} parameter"
+msgstr "Mã hóa tham số {text}"
+
+#: tformconfigtrayslate.checkserviceautoswap.caption
+msgctxt "tformconfigtrayslate.checkserviceautoswap.caption"
+msgid "Allow auto-swap language pair"
+msgstr "Cho phép tự động đảo ngược cặp ngôn ngữ"
+
+#: tformconfigtrayslate.checkserviceonlybutton.caption
+msgid "Allow translation only by translation button"
+msgstr "Chỉ cho phép dịch bằng nút dịch"
+
+#: tformconfigtrayslate.checkserviceproxy.caption
+msgid "Allow proxy"
+msgstr "Cho phép proxy"
+
+#: tformconfigtrayslate.checkservicerealtime.caption
+msgid "Allow translate as you type"
+msgstr "Cho phép dịch khi bạn nhập"
+
+#: tformconfigtrayslate.checkservicevisible.caption
+msgid "Visible in menu"
+msgstr "Hiển thị trong menu"
+
+#: tformconfigtrayslate.combomethod.text
+msgid "GET"
+msgstr "GET"
+
+#: tformconfigtrayslate.combovaluetype.text
+msgctxt "tformconfigtrayslate.combovaluetype.text"
+msgid "None"
+msgstr "Không có"
+
+#: tformconfigtrayslate.groupboxcustomparameters.caption
+msgid "Custom Parameters"
+msgstr "Tham số tùy chỉnh"
+
+#: tformconfigtrayslate.groupboxservice.caption
+msgctxt "tformconfigtrayslate.groupboxservice.caption"
+msgid "Service"
+msgstr "Dịch vụ"
+
+#: tformconfigtrayslate.groupinitparameters.caption
+msgid "Initial Request"
+msgstr "Yêu cầu ban đầu"
+
+#: tformconfigtrayslate.grouplanguages.caption
+msgctxt "tformconfigtrayslate.grouplanguages.caption"
+msgid "Languages"
+msgstr "Ngôn ngữ"
+
+#: tformconfigtrayslate.grouplanguagestarget.caption
+msgctxt "tformconfigtrayslate.grouplanguagestarget.caption"
+msgid "Target Languages"
+msgstr "Ngôn ngữ đích"
+
+#: tformconfigtrayslate.grouprequest.caption
+msgctxt "tformconfigtrayslate.grouprequest.caption"
+msgid "Request"
+msgstr "Yêu cầu"
+
+#: tformconfigtrayslate.groupresponse.caption
+msgctxt "tformconfigtrayslate.groupresponse.caption"
+msgid "Response"
+msgstr "Phản hồi"
+
+#: tformconfigtrayslate.imagepreview.hint
+msgid "Click to select the config icon, Middle-Click clears the icon"
+msgstr "Nhấp chuột để chọn biểu tượng cấu hình, Nhấp chuột giữa để xóa biểu tượng"
+
+#: tformconfigtrayslate.labelaccept.caption
+msgid "Accept"
+msgstr "Chấp nhận"
+
+#: tformconfigtrayslate.labelcolorrecent.caption
+msgid "Recent Color"
+msgstr "Màu gần đây"
+
+#: tformconfigtrayslate.labelcontenttype.caption
+msgctxt "tformconfigtrayslate.labelcontenttype.caption"
+msgid "Content Type"
+msgstr "Kiểu nội dung"
+
+#: tformconfigtrayslate.labelfilllanguages.caption
+msgid "Fill with default"
+msgstr "Điền bằng mặc định"
+
+#: tformconfigtrayslate.labelheaders.caption
+msgid "Additional request headers in key=value format, key: value is also supported"
+msgstr "Các tiêu đề yêu cầu bổ sung ở định dạng key=value, định dạng key: value cũng được hỗ trợ"
+
+#: tformconfigtrayslate.labelinitheaders.caption
+msgid "Additional initial request headers in key=value format, key: value is also supported"
+msgstr "Các tiêu đề yêu cầu ban đầu bổ sung ở định dạng key=value, định dạng key: value cũng được hỗ trợ"
+
+#: tformconfigtrayslate.labelinitheaders2.caption
+msgctxt "tformconfigtrayslate.labelinitheaders2.caption"
+msgid "Headers"
+msgstr "Tiêu đề"
+
+#: tformconfigtrayslate.labelinitlivetime.caption
+msgctxt "tformconfigtrayslate.labelinitlivetime.caption"
+msgid "Live time"
+msgstr "Thời gian tồn tại"
+
+#: tformconfigtrayslate.labelinitparameters.caption
+msgid "Parameters name=regexp are extracted from the response and used by name in requests"
+msgstr "Các tham số định dạng name=regexp được trích xuất từ phản hồi và được sử dụng theo tên trong các yêu cầu"
+
+#: tformconfigtrayslate.labelinitparameters1.caption
+msgid "Time in seconds to refresh parameters with a new request (0 = every request)"
+msgstr "Thời gian tính bằng giây để làm mới các tham số bằng một yêu cầu mới (0 = mọi yêu cầu)"
+
+#: tformconfigtrayslate.labelinitparameters2.caption
+msgctxt "tformconfigtrayslate.labelinitparameters2.caption"
+msgid "Parameters"
+msgstr "Tham số"
+
+#: tformconfigtrayslate.labelinitparameters3.caption
+msgctxt "tformconfigtrayslate.labelinitparameters3.caption"
+msgid "Parameters"
+msgstr "Tham số"
+
+#: tformconfigtrayslate.labelinitparameters4.caption
+msgid ""
+"Parameters in the form key=value used by {key} in requests. If the value is omitted (key=), it will be requested from the "
+"user."
+msgstr ""
+"Các tham số dưới dạng key=value được sử dụng bởi {key} trong các yêu cầu. Nếu giá trị bị bỏ trống (key=), ứng dụng sẽ yêu "
+"cầu người dùng nhập."
+
+#: tformconfigtrayslate.labelinitparemeters.caption
+msgid "Initial GET request to obtain required parameters."
+msgstr "Yêu cầu GET ban đầu để lấy các tham số bắt buộc."
+
+#: tformconfigtrayslate.labeliniturl.caption
+msgctxt "tformconfigtrayslate.labeliniturl.caption"
+msgid "URL"
+msgstr "URL"
+
+#: tformconfigtrayslate.labelinituseragent.caption
+msgctxt "tformconfigtrayslate.labelinituseragent.caption"
+msgid "User Agent"
+msgstr "User Agent"
+
+#: tformconfigtrayslate.labeljsonpointer2.caption
+msgid ""
+"Json Pointer: Use / for levels, keys for objects, and numbers for indexes. Use * for all items, *#10 to join items by "
+"newline. Use ~ at the end of the path to return the raw JSON branch. Separate multiple segments with semicolon ;.\n"
+"Literal: Text block in {…}. Special tag #10 for newlines. Use {{regex}} inside to extract data directly into the text.\n"
+"Logic: If a Pointer in a segment is empty, the whole segment is skipped. If a segment has no Pointer, only literal text "
+"blocks with embedded regular expressions are processed.\n"
+"Regex: {prefix {regex[index]} suffix} inside a text block. If no [index] is specified, the first match is used. Index can be "
+"a number, [*] (join by space), or [*#10] (join by newline). If the regex finds no match, the entire {…} block is removed. "
+"Using ~ inside a regex returns the entire text.\n"
+"Inversion: Start a segment with ! (e.g. !/path{Error}) to show its text only if the Pointer data is missing or the JSON is "
+"invalid.\n"
+"Commenting: /* text */ comments are stripped from the entire expression before any processing.\n"
+"Examples:\n"
+"responseData/translatedText; matches/*#10/translation; /texts/text; {literal text#10}; /result/text; /text{ ({(\\w+)})}; !/"
+"translations{Error: No data!#10}; /translations/0/text"
+msgstr ""
+"Json Pointer: Sử dụng / cho các cấp, khóa cho đối tượng và số cho chỉ mục. Sử dụng * cho tất cả các mục, *#10 để nối các mục "
+"bằng dòng mới. Sử dụng ~ ở cuối đường dẫn để trả về nhánh JSON thô. Phân tách các phân đoạn bằng dấu phẩy động ;.\n"
+"Literal: Khối văn bản trong {…}. Thẻ đặc biệt #10 cho dòng mới. Sử dụng {{regex}} bên trong để trích xuất dữ liệu trực tiếp "
+"vào văn bản.\n"
+"Logic: Nếu một Pointer trong phân đoạn trống, toàn bộ phân đoạn sẽ bị bỏ qua. Nếu phân đoạn không có Pointer, chỉ các khối "
+"văn bản thuần túy chứa biểu thức chính quy mới được xử lý.\n"
+"Regex: {prefix {regex[index]} suffix} bên trong khối văn bản. Nếu không chỉ định [index], kết quả khớp đầu tiên sẽ được "
+"dùng. Chỉ mục có thể là số, [*] (nối bằng khoảng trắng), hoặc [*#10] (nối bằng dòng mới). Nếu regex không tìm thấy kết quả "
+"khớp, toàn bộ khối {…} sẽ bị xóa. Sử dụng ~ bên trong một regex sẽ trả về toàn bộ văn bản.\n"
+"Inversion: Bắt đầu phân đoạn bằng ! (ví dụ: !/path{Error}) để chỉ hiển thị văn bản của nó nếu thiếu dữ liệu Pointer hoặc "
+"JSON không hợp lệ.\n"
+"Commenting: Các nhận xét /* text */ sẽ bị loại bỏ khỏi toàn bộ biểu thức trước khi xử lý.\n"
+"Ví dụ:\n"
+"responseData/translatedText; matches/*#10/translation; /texts/text; {literal text#10}; /result/text; /text{ ({(\\w+)})}; !/"
+"translations{Error: No data!#10}; /translations/0/text"
+
+#: tformconfigtrayslate.labellanguages.caption
+msgctxt "tformconfigtrayslate.labellanguages.caption"
+msgid "Supported languages e.g. en=en-US (en - internal, en-US - service). \"empty\" - do not send."
+msgstr "Các ngôn ngữ được hỗ trợ, ví dụ: en=en-US (en - nội bộ, en-US - dịch vụ). \"empty\" - không gửi."
+
+#: tformconfigtrayslate.labellanguages1.caption
+msgid "Value type for populating names. None keeps originals; None and Unit are case-sensitive."
+msgstr "Kiểu giá trị để điền tên. None sẽ giữ nguyên bản gốc; None và Unit có phân biệt chữ hoa chữ thường."
+
+#: tformconfigtrayslate.labellanguagestarget.caption
+msgid ""
+"Target languages e.g. en=en-US, en - internal, en-US - service code.\n"
+"If not specified, both source and target languages are taken from the languages section."
+msgstr ""
+"Ngôn ngữ đích, ví dụ: en=en-US, en - nội bộ, en-US - mã dịch vụ.\n"
+"Nếu không chỉ định, cả ngôn ngữ nguồn và đích đều được lấy từ phần ngôn ngữ."
+
+#: tformconfigtrayslate.labelmaxlength.caption
+msgid "Max Length, bytes"
+msgstr "Độ dài tối đa, byte"
+
+#: tformconfigtrayslate.labelmethod.caption
+msgctxt "tformconfigtrayslate.labelmethod.caption"
+msgid "Method"
+msgstr "Phương thức"
+
+#: tformconfigtrayslate.labelparemeters.caption
+msgctxt "tformconfigtrayslate.labelparemeters.caption"
+msgid ""
+"Use parameters: {text} – input text, {source} – source language, {target} – target language. Prefix the name with ! for "
+"lowercase or ^ for uppercase value. Also supported {timestamp}, {rand}. Use {parameter} from the parameters page."
+msgstr ""
+"Sử dụng các tham số: {text} – văn bản nhập, {source} – ngôn ngữ nguồn, {target} – ngôn ngữ đích. Thêm tiền tố ! trước tên "
+"cho giá trị chữ thường hoặc ^ cho chữ hoa. Cũng hỗ trợ {timestamp}, {rand}. Sử dụng {parameter} từ trang tham số."
+
+#: tformconfigtrayslate.labelpostdata.caption
+msgid "Post Data"
+msgstr "Dữ liệu Post"
+
+#: tformconfigtrayslate.labelpostdata1.caption
+msgctxt "tformconfigtrayslate.labelpostdata1.caption"
+msgid "Headers"
+msgstr "Tiêu đề"
+
+#: tformconfigtrayslate.labelservicedescription.caption
+msgid "Description"
+msgstr "Mô tả"
+
+#: tformconfigtrayslate.labelservicename.caption
+msgctxt "tformconfigtrayslate.labelservicename.caption"
+msgid "Name"
+msgstr "Tên"
+
+#: tformconfigtrayslate.labelserviceorder.caption
+msgid "Order"
+msgstr "Thứ tự"
+
+#: tformconfigtrayslate.labelurl.caption
+msgctxt "tformconfigtrayslate.labelurl.caption"
+msgid "URL"
+msgstr "URL"
+
+#: tformconfigtrayslate.labeluseragent.caption
+msgctxt "tformconfigtrayslate.labeluseragent.caption"
+msgid "User Agent"
+msgstr "User Agent"
+
+#: tformconfigtrayslate.labelvaluetype.caption
+msgid "Value Type"
+msgstr "Kiểu giá trị"
+
+#: tformconfigtrayslate.pagelanguages.caption
+msgctxt "tformconfigtrayslate.pagelanguages.caption"
+msgid "Languages"
+msgstr "Ngôn ngữ"
+
+#: tformconfigtrayslate.pagelanguagestarget.caption
+msgctxt "tformconfigtrayslate.pagelanguagestarget.caption"
+msgid "Target Languages"
+msgstr "Ngôn ngữ đích"
+
+#: tformconfigtrayslate.pageparameters.caption
+msgctxt "tformconfigtrayslate.pageparameters.caption"
+msgid "Parameters"
+msgstr "Tham số"
+
+#: tformconfigtrayslate.pagerequest.caption
+msgctxt "tformconfigtrayslate.pagerequest.caption"
+msgid "Request"
+msgstr "Yêu cầu"
+
+#: tformconfigtrayslate.pageresponse.caption
+msgctxt "tformconfigtrayslate.pageresponse.caption"
+msgid "Response"
+msgstr "Phản hồi"
+
+#: tformconfigtrayslate.pageservice.caption
+msgctxt "tformconfigtrayslate.pageservice.caption"
+msgid "Service"
+msgstr "Dịch vụ"
+
+#: tformconfigtrayslate.sbcopyconfig.hint
+msgid "Copy configuration"
+msgstr "Sao chép cấu hình"
+
+#: tformconfigtrayslate.sbnewconfig.hint
+msgid "New configuration"
+msgstr "Cấu hình mới"
+
+#: tformdonatetrayslate.btnok.caption
+msgctxt "tformdonatetrayslate.btnok.caption"
+msgid "OK"
+msgstr "OK"
+
+#: tformdonatetrayslate.caption
+msgid "Buy me a coffee"
+msgstr "Ủng hộ tôi một ly cà phê"
+
+#: tformdonatetrayslate.labelbank.caption
+msgctxt "tformdonatetrayslate.labelbank.caption"
+msgid "Donate with Bank Card or PayPal"
+msgstr "Quyên góp bằng Thẻ ngân hàng hoặc PayPal"
+
+#: tformdonatetrayslate.labelbank.hint
+msgctxt "tformdonatetrayslate.labelbank.hint"
+msgid "https://app.lava.top/en/astverskoy?tabId=about&currency=EUR"
+msgstr "https://app.lava.top/en/astverskoy?tabId=about&currency=EUR"
+
+#: tformdonatetrayslate.labelcontribution.caption
+msgctxt "tformdonatetrayslate.labelcontribution.caption"
+msgid "Every contribution helps keep the project active and moving forward. Thank you for your support!"
+msgstr "Mọi sự đóng góp đều giúp duy trì dự án hoạt động và tiếp tục phát triển. Cảm ơn sự hỗ trợ của bạn!"
+
+#: tformdonatetrayslate.labelcrypto.caption
+msgctxt "tformdonatetrayslate.labelcrypto.caption"
+msgid "Donate with Cryptocurrency"
+msgstr "Quyên góp bằng Tiền mã hóa"
+
+#: tformdonatetrayslate.labelcrypto.hint
+msgctxt "tformdonatetrayslate.labelcrypto.hint"
+msgid "https://nowpayments.io/donation/astverskoy"
+msgstr "https://nowpayments.io/donation/astverskoy"
+
+#: tformdonatetrayslate.labeldonate.caption
+msgctxt "tformdonatetrayslate.labeldonate.caption"
+msgid ""
+"Hey there! Fuel this passion project with a little caffeine boost! Every donation helps keep the code rolling and the coffee "
+"brewing. Thanks for supporting the work and the developer behind it!"
+msgstr ""
+"Xin chào! Hãy tiếp thêm chút caffeine cho dự án đầy tâm huyết này! Mỗi sự quyên góp đều giúp mã nguồn tiếp tục chạy và cà "
+"phê tiếp tục pha. Cảm ơn bạn đã ủng hộ sản phẩm và nhà phát triển đứng sau nó!"
+
+#: tformdonatetrayslate.labelsupport.caption
+msgctxt "tformdonatetrayslate.labelsupport.caption"
+msgid "You can support development through one of the following options:"
+msgstr "Bạn có thể hỗ trợ phát triển thông qua một trong các lựa chọn sau:"
+
+#: tformpopuptrayslate.acopytarget.hint
+msgctxt "tformpopuptrayslate.acopytarget.hint"
+msgid "Copy Translation"
+msgstr "Sao chép bản dịch"
+
+#: tformpopuptrayslate.anewtranslate.hint
+msgctxt "tformpopuptrayslate.anewtranslate.hint"
+msgid "New Translate"
+msgstr "Dịch mới"
+
+#: tformpopuptrayslate.asend.hint
+msgid "Send source and translation to main window"
+msgstr "Gửi văn bản nguồn và bản dịch sang cửa sổ chính"
+
+#: tformpopuptrayslate.caption
+msgctxt "tformpopuptrayslate.caption"
+msgid "Trayslate"
+msgstr "Trayslate"
+
+#: tformpopuptrayslate.labelwatermark.caption
+msgctxt "tformpopuptrayslate.labelwatermark.caption"
+msgid "Drag text here to translate"
+msgstr "Kéo văn bản vào đây để dịch"
+
+#: tformsettingstrayslate.btnapply.caption
+msgid "Apply"
+msgstr "Áp dụng"
+
+#: tformsettingstrayslate.btncancel.caption
+msgid "Cancel"
+msgstr "Hủy bỏ"
+
+#: tformsettingstrayslate.btndefault.caption
+msgctxt "tformsettingstrayslate.btndefault.caption"
+msgid "Restore Defaults"
+msgstr "Khôi phục mặc định"
+
+#: tformsettingstrayslate.btndefaulthotkeys.caption
+msgid "Restore Default Hotkeys"
+msgstr "Khôi phục phím tắt mặc định"
+
+#: tformsettingstrayslate.btnfont.caption
+msgctxt "tformsettingstrayslate.btnfont.caption"
+msgid "Font..."
+msgstr "Phông chữ..."
+
+#: tformsettingstrayslate.btnfontpopup.caption
+msgctxt "tformsettingstrayslate.btnfontpopup.caption"
+msgid "Font..."
+msgstr "Phông chữ..."
+
+#: tformsettingstrayslate.btnok.caption
+msgctxt "tformsettingstrayslate.btnok.caption"
+msgid "OK"
+msgstr "OK"
+
+#: tformsettingstrayslate.btnreset.caption
+msgctxt "tformsettingstrayslate.btnreset.caption"
+msgid "Reset"
+msgstr "Đặt lại"
+
+#: tformsettingstrayslate.btnresetpopup.caption
+msgctxt "tformsettingstrayslate.btnresetpopup.caption"
+msgid "Reset"
+msgstr "Đặt lại"
+
+#: tformsettingstrayslate.caption
+msgctxt "tformsettingstrayslate.caption"
+msgid "Settings"
+msgstr "Cài đặt"
+
+#: tformsettingstrayslate.checkallowhotkeys.caption
+msgctxt "tformsettingstrayslate.checkallowhotkeys.caption"
+msgid "Enable Global Hotkeys"
+msgstr "Bật phím tắt toàn hệ thống"
+
+#: tformsettingstrayslate.checkautoaddlangpairs.caption
+msgid "Auto-Add On Pair Change"
+msgstr "Tự động thêm khi đổi cặp ngôn ngữ"
+
+#: tformsettingstrayslate.checkautoaddlangpairs.hint
+msgid "Automatically adds a new language pair when you switch languages"
+msgstr "Tự động thêm cặp ngôn ngữ mới khi bạn chuyển đổi ngôn ngữ"
+
+#: tformsettingstrayslate.checkautocopy.caption
+msgctxt "tformsettingstrayslate.checkautocopy.caption"
+msgid "Auto-Copy Translation"
+msgstr "Tự động sao chép bản dịch"
+
+#: tformsettingstrayslate.checkautocopy.hint
+msgid "Automatically copy translations from the main and popup windows to the clipboard"
+msgstr "Tự động sao chép bản dịch từ cửa sổ chính và cửa sổ bật lên vào Clipboard"
+
+#: tformsettingstrayslate.checkautoheight.caption
+msgid "Auto Height"
+msgstr "Tự động điều chỉnh chiều cao"
+
+#: tformsettingstrayslate.checkautoheight.hint
+msgid "Popup window height calculated based on text height"
+msgstr "Chiều cao cửa sổ bật lên được tính toán dựa trên chiều cao của văn bản"
+
+#: tformsettingstrayslate.checkautostart.caption
+msgid "Launch At System Startup"
+msgstr "Khởi chạy cùng hệ thống"
+
+#: tformsettingstrayslate.checkautostart.hint
+msgid "Start the application automatically when the computer boots"
+msgstr "Tự động khởi động ứng dụng khi máy tính bật"
+
+#: tformsettingstrayslate.checkautoswap.caption
+msgctxt "tformsettingstrayslate.checkautoswap.caption"
+msgid "Auto-Swap Language Pair"
+msgstr "Tự động đảo ngược cặp ngôn ngữ"
+
+#: tformsettingstrayslate.checkautoswap.hint
+msgid "Automatically detect input language and swap pair if needed, does not work during Real-Time Translation"
+msgstr "Tự động phát hiện ngôn ngữ nhập và đảo ngược cặp ngôn ngữ nếu cần, không hoạt động khi đang Dịch trong thời gian thực"
+
+#: tformsettingstrayslate.checkenablemousemode.caption
+msgctxt "tformsettingstrayslate.checkenablemousemode.caption"
+msgid "Enable Mouse Mode"
+msgstr "Bật chế độ chuột"
+
+#: tformsettingstrayslate.checkenablemousemode.hint
+msgid "Allows translation by selecting text with the mouse in any application"
+msgstr "Cho phép dịch bằng cách bôi đen văn bản bằng chuột trong bất kỳ ứng dụng nào"
+
+#: tformsettingstrayslate.checkhidecontrols.caption
+msgid "Auto-Hide Controls"
+msgstr "Tự động ẩn các nút điều khiển"
+
+#: tformsettingstrayslate.checkhidecontrols.hint
+msgid "Hide window controls when the mouse is not over the popup window"
+msgstr "Ẩn các nút điều khiển của cửa sổ khi chuột không nằm trên cửa sổ bật lên"
+
+#: tformsettingstrayslate.checkmousemodectrl.caption
+msgctxt "tformsettingstrayslate.checkmousemodectrl.caption"
+msgid "Only When Ctrl Is Pressed"
+msgstr "Chỉ khi nhấn giữ phím Ctrl"
+
+#: tformsettingstrayslate.checkmousemodectrl.hint
+msgid "Works only when the Ctrl key is pressed"
+msgstr "Chỉ hoạt động khi phím Ctrl được nhấn giữ"
+
+#: tformsettingstrayslate.checkproxyauthentication.caption
+msgctxt "tformsettingstrayslate.checkproxyauthentication.caption"
+msgid "Authentication"
+msgstr "Xác thực"
+
+#: tformsettingstrayslate.checkproxyauthentication.hint
+msgid "Enables login and password authentication for proxy access"
+msgstr "Bật xác thực tên đăng nhập và mật khẩu để truy cập proxy"
+
+#: tformsettingstrayslate.checkrealtime.caption
+msgctxt "tformsettingstrayslate.checkrealtime.caption"
+msgid "Translate As You Type"
+msgstr "Dịch khi bạn nhập"
+
+#: tformsettingstrayslate.checkrealtime.hint
+msgctxt "tformsettingstrayslate.checkrealtime.hint"
+msgid "Automatically translate text while typing"
+msgstr "Tự động dịch văn bản trong khi gõ"
+
+#: tformsettingstrayslate.checksmarthard.caption
+msgid "Always Prefer Primary/Secondary Language"
+msgstr "Luôn ưu tiên Cặp ngôn ngữ Chính/Phụ"
+
+#: tformsettingstrayslate.checksmarthard.hint
+msgid ""
+"Always prefer the Primary/Secondary language pair when the detected language matches the current target language.\n"
+"Restore the configured pair instead of performing a normal swap."
+msgstr ""
+"Luôn ưu tiên cặp ngôn ngữ Chính/Phụ khi ngôn ngữ phát hiện trùng với ngôn ngữ đích hiện tại.\n"
+"Khôi phục cặp ngôn ngữ đã cấu hình thay vì thực hiện đảo ngược thông thường."
+
+#: tformsettingstrayslate.checksmartswap.caption
+msgctxt "tformsettingstrayslate.checksmartswap.caption"
+msgid "Smart Swap For Languages Outside Pair"
+msgstr "Đảo ngược thông minh cho ngôn ngữ ngoài cặp"
+
+#: tformsettingstrayslate.checksmartswap.hint
+msgctxt "tformsettingstrayslate.checksmartswap.hint"
+msgid ""
+"If Detected language is outside the current pair, the Source language is replaced with the Detected language and the Target "
+"language is set to Primary.\n"
+"If Detected language equals Primary, the translation pair is set to Primary - Secondary."
+msgstr ""
+"Nếu ngôn ngữ phát hiện nằm ngoài cặp hiện tại, ngôn ngữ Nguồn sẽ được thay thế bằng ngôn ngữ phát hiện và ngôn ngữ Đích được "
+"đặt thành Chính.\n"
+"Nếu ngôn ngữ phát hiện trùng với Chính, cặp dịch thuật sẽ được đặt thành Chính - Phụ."
+
+#: tformsettingstrayslate.checkstayontop.caption
+msgid "Stay On Top"
+msgstr "Luôn ở trên cùng"
+
+#: tformsettingstrayslate.checkstayontop.hint
+msgid "Keeps the window above all other windows"
+msgstr "Luôn giữ cửa sổ này hiển thị trên tất cả các cửa sổ khác"
+
+#: tformsettingstrayslate.checktwolang.caption
+msgid "Show Language Pair"
+msgstr "Hiện cặp ngôn ngữ"
+
+#: tformsettingstrayslate.checktwolang.hint
+msgid "Display source and/or target language on the tray icon"
+msgstr "Hiển thị ngôn ngữ nguồn và/hoặc ngôn ngữ đích trên biểu tượng khay"
+
+#: tformsettingstrayslate.checkverticalsplit.caption
+msgctxt "tformsettingstrayslate.checkverticalsplit.caption"
+msgid "Side-By-Side Layout"
+msgstr "Bố cục song song"
+
+#: tformsettingstrayslate.checkverticalsplit.hint
+msgid "Switches to side-by-side layout with source text beside translation"
+msgstr "Chuyển sang bố cục song song với văn bản nguồn nằm cạnh bản dịch"
+
+#: tformsettingstrayslate.combolangdetect.hint
+msgid "Config that auto-detects language for the source text"
+msgstr "Cấu hình tự động phát hiện ngôn ngữ cho văn bản nguồn"
+
+#: tformsettingstrayslate.combomousemode.hint
+msgid "Choose how translation appears on mouse text selection"
+msgstr "Chọn cách bản dịch xuất hiện khi bôi đen văn bản bằng chuột"
+
+#: tformsettingstrayslate.combomousemode.text
+msgctxt "tformsettingstrayslate.combomousemode.text"
+msgid "Show Translate Button"
+msgstr "Hiện nút dịch"
+
+#: tformsettingstrayslate.comboproxymode.hint
+msgid "Defines how proxy is used no proxy system proxy or custom configuration"
+msgstr "Xác định cách sử dụng proxy: không dùng proxy, proxy hệ thống hoặc cấu hình tùy chỉnh"
+
+#: tformsettingstrayslate.comboproxymode.text
+msgctxt "tformsettingstrayslate.comboproxymode.text"
+msgid "No Proxy"
+msgstr "Không dùng Proxy"
+
+#: tformsettingstrayslate.comboproxytype.hint
+msgid "Type of proxy protocol used for custom settings"
+msgstr "Loại giao thức proxy được sử dụng cho các cài đặt tùy chỉnh"
+
+#: tformsettingstrayslate.comboproxytype.text
+msgid "HTTP"
+msgstr "HTTP"
+
+#: tformsettingstrayslate.editproxyhost.hint
+msgid "Address of the proxy server IP or domain name"
+msgstr "Địa chỉ của máy chủ proxy (IP hoặc tên miền)"
+
+#: tformsettingstrayslate.editproxylogin.hint
+msgid "Username used for proxy authentication"
+msgstr "Tên đăng nhập dùng để xác thực proxy"
+
+#: tformsettingstrayslate.editproxypassword.hint
+msgid "Password used for proxy authentication"
+msgstr "Mật khẩu dùng để xác thực proxy"
+
+#: tformsettingstrayslate.gridhotkeys.columns[0].title.caption
+msgctxt "tformsettingstrayslate.gridhotkeys.columns[0].title.caption"
+msgid "Action"
+msgstr "Hành động"
+
+#: tformsettingstrayslate.gridhotkeys.columns[1].title.caption
+msgctxt "tformsettingstrayslate.gridhotkeys.columns[1].title.caption"
+msgid "Shortcut"
+msgstr "Phím tắt"
+
+#: tformsettingstrayslate.groupautostart.caption
+msgid "Autostart"
+msgstr "Tự động khởi động"
+
+#: tformsettingstrayslate.groupautoswap.caption
+msgid "Auto-Swap Languages"
+msgstr "Tự động đảo ngôn ngữ"
+
+#: tformsettingstrayslate.groupbox1.caption
+msgctxt "tformsettingstrayslate.groupbox1.caption"
+msgid "User Parameters"
+msgstr "Tham số người dùng"
+
+#: tformsettingstrayslate.grouplangpairs.caption
+msgctxt "tformsettingstrayslate.grouplangpairs.caption"
+msgid "Recent Language Pairs"
+msgstr "Các cặp ngôn ngữ gần đây"
+
+#: tformsettingstrayslate.groupmainwindow.caption
+msgid "Main Window"
+msgstr "Cửa sổ chính"
+
+#: tformsettingstrayslate.groupmousemode.caption
+msgctxt "tformsettingstrayslate.groupmousemode.caption"
+msgid "Mouse Mode"
+msgstr "Chế độ chuột"
+
+#: tformsettingstrayslate.grouppopup.caption
+msgid "Popup Window"
+msgstr "Cửa sổ bật lên"
+
+#: tformsettingstrayslate.groupproxy.caption
+msgid "Proxy"
+msgstr "Proxy"
+
+#: tformsettingstrayslate.grouprealtime.caption
+msgid "Real-Time Translation"
+msgstr "Dịch trong thời gian thực"
+
+#: tformsettingstrayslate.grouptimeouts.caption
+msgid "Timeout"
+msgstr "Thời gian chờ"
+
+#: tformsettingstrayslate.grouptransfromclipboard1.caption
+msgctxt "tformsettingstrayslate.grouptransfromclipboard1.caption"
+msgid "Hotkeys"
+msgstr "Phím tắt"
+
+#: tformsettingstrayslate.grouptrayicon.caption
+msgid "Tray Icon"
+msgstr "Biểu tượng khay"
+
+#: tformsettingstrayslate.labelconnecttimeout.caption
+msgid "Connection, sec"
+msgstr "Kết nối, giây"
+
+#: tformsettingstrayslate.labelhost.caption
+msgid "Host"
+msgstr "Máy chủ"
+
+#: tformsettingstrayslate.labeliconbackground.caption
+msgid "Background Color"
+msgstr "Màu nền"
+
+#: tformsettingstrayslate.labeliconfont.caption
+msgid "Font Color"
+msgstr "Màu chữ"
+
+#: tformsettingstrayslate.labeliconfont1.caption
+msgid "Font Name"
+msgstr "Tên phông chữ"
+
+#: tformsettingstrayslate.labellangdetectconfig.caption
+msgctxt "tformsettingstrayslate.labellangdetectconfig.caption"
+msgid "Lang Detect Config"
+msgstr "Cấu hình phát hiện ngôn ngữ"
+
+#: tformsettingstrayslate.labellogin.caption
+msgid "Login"
+msgstr "Tên đăng nhập"
+
+#: tformsettingstrayslate.labelmaxheight.caption
+msgid "Max Height"
+msgstr "Chiều cao tối đa"
+
+#: tformsettingstrayslate.labelmaxlangpairs.caption
+msgctxt "tformsettingstrayslate.labelmaxlangpairs.caption"
+msgid "Max Pairs"
+msgstr "Số cặp tối đa"
+
+#: tformsettingstrayslate.labelmousemode.caption
+msgctxt "tformsettingstrayslate.labelmousemode.caption"
+msgid "Mouse Mode"
+msgstr "Chế độ chuột"
+
+#: tformsettingstrayslate.labelopacityhover.caption
+msgid "Opacity On Hover"
+msgstr "Độ mờ khi di chuột qua"
+
+#: tformsettingstrayslate.labelopacityidle.caption
+msgid "Opacity Idle"
+msgstr "Độ mờ khi chờ"
+
+#: tformsettingstrayslate.labelpassword.caption
+msgid "Password"
+msgstr "Mật khẩu"
+
+#: tformsettingstrayslate.labelport.caption
+msgid "Port"
+msgstr "Cổng"
+
+#: tformsettingstrayslate.labelprimarylang.caption
+msgid "Primary Language"
+msgstr "Ngôn ngữ chính"
+
+#: tformsettingstrayslate.labelproxymode.caption
+msgid "Proxy Mode"
+msgstr "Chế độ Proxy"
+
+#: tformsettingstrayslate.labelproxytype.caption
+msgid "Proxy Type"
+msgstr "Loại Proxy"
+
+#: tformsettingstrayslate.labelrealtimedelay.caption
+msgid "Translation Delay, ms"
+msgstr "Độ trễ dịch, mili giây"
+
+#: tformsettingstrayslate.labelrequesttimeout.caption
+msgid "Request, sec"
+msgstr "Yêu cầu, giây"
+
+#: tformsettingstrayslate.labelsecondarylang.caption
+msgid "Secondary Language"
+msgstr "Ngôn ngữ phụ"
+
+#: tformsettingstrayslate.pagegeneral.caption
+msgid "General"
+msgstr "Chung"
+
+#: tformsettingstrayslate.pagehotkeys.caption
+msgctxt "tformsettingstrayslate.pagehotkeys.caption"
+msgid "Hotkeys"
+msgstr "Phím tắt"
+
+#: tformsettingstrayslate.pageinterface.caption
+msgctxt "tformsettingstrayslate.pageinterface.caption"
+msgid "Interface"
+msgstr "Giao diện"
+
+#: tformsettingstrayslate.pagenetwork.caption
+msgid "Network"
+msgstr "Mạng"
+
+#: tformsettingstrayslate.pageparameters.caption
+msgctxt "tformsettingstrayslate.pageparameters.caption"
+msgid "Parameters"
+msgstr "Tham số"
+
+#: tformsettingstrayslate.panelfont.caption
+msgctxt "tformsettingstrayslate.panelfont.caption"
+msgid "Default, 0"
+msgstr "Mặc định, 0"
+
+#: tformsettingstrayslate.panelfontpopup.caption
+msgctxt "tformsettingstrayslate.panelfontpopup.caption"
+msgid "Default, 0"
+msgstr "Mặc định, 0"
+
+#: tformsettingstrayslate.spinconnecttimeout.hint
+msgid "Time to establish connection If 0 default 10 seconds is used"
+msgstr "Thời gian thiết lập kết nối. Nếu đặt là 0, thời gian mặc định 10 giây sẽ được áp dụng"
+
+#: tformsettingstrayslate.spinmaxheight.hint
+msgid "Set maximum window height for auto-size; 0 indicates limit to screen height"
+msgstr "Đặt chiều cao cửa sổ tối đa khi tự động điều chỉnh kích thước; 0 nghĩa là giới hạn theo chiều cao màn hình"
+
+#: tformsettingstrayslate.spinmaxlangpairs.hint
+msgid "Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel"
+msgstr ""
+"Số lượng cặp ngôn ngữ gần đây trên bảng điều khiển; các cặp sẽ dịch sang phải khi được thêm; đặt bằng 0 sẽ ẩn bảng điều khiển"
+
+#: tformsettingstrayslate.spinproxyport.hint
+msgid "Network port used by the proxy server"
+msgstr "Cổng mạng được sử dụng bởi máy chủ proxy"
+
+#: tformsettingstrayslate.spinrealtimedelay.hint
+msgid "Translation Delay in milliseconds"
+msgstr "Độ trễ dịch tính bằng mili giây"
+
+#: tformsettingstrayslate.spinrequesttimeout.hint
+msgid "Time to wait for response and data If 0 default 300 seconds is used"
+msgstr "Thời gian chờ phản hồi và dữ liệu. Nếu đặt là 0, thời gian mặc định 300 giây sẽ được áp dụng"
+
+#: tformsettingstrayslate.trackopacityhover.hint
+msgid "Window transparency when the mouse is over the window"
+msgstr "Độ trong suốt của cửa sổ khi di chuột lên trên cửa sổ"
+
+#: tformsettingstrayslate.trackopacityidle.hint
+msgid "Window transparency when the mouse is not over the window"
+msgstr "Độ trong suốt của cửa sổ khi chuột không nằm trên cửa sổ"
+
+#: tformtrayslate.aabout.caption
+msgid "About..."
+msgstr "Giới thiệu..."
+
+#: tformtrayslate.aaddpair.hint
+msgid "Add Current Pair"
+msgstr "Thêm cặp hiện tại"
+
+#: tformtrayslate.aautocheckupdates.caption
+msgid "Auto Check Updates"
+msgstr "Tự động kiểm tra cập nhật"
+
+#: tformtrayslate.acheckforupdates.caption
+msgid "Check For Updates"
+msgstr "Kiểm tra cập nhật"
+
+#: tformtrayslate.aconfigeditor.caption
+msgid "Config Editor..."
+msgstr "Trình chỉnh sửa cấu hình..."
+
+#: tformtrayslate.acopysource.hint
+msgid "Copy"
+msgstr "Sao chép"
+
+#: tformtrayslate.acopytarget.hint
+msgctxt "tformtrayslate.acopytarget.hint"
+msgid "Copy Translation"
+msgstr "Sao chép bản dịch"
+
+#: tformtrayslate.adeletepair.caption
+msgid "Delete Pair"
+msgstr "Xóa cặp"
+
+#: tformtrayslate.adonate.caption
+msgid "Buy Me a Coffee..."
+msgstr "Ủng hộ tôi một ly cà phê..."
+
+#: tformtrayslate.aexit.caption
+msgid "Exit"
+msgstr "Thoát"
+
+#: tformtrayslate.afastallowhotkeys.caption
+msgctxt "tformtrayslate.afastallowhotkeys.caption"
+msgid "Enable Global Hotkeys"
+msgstr "Bật phím tắt toàn hệ thống"
+
+#: tformtrayslate.afastautoaddlangpairs.caption
+msgctxt "tformtrayslate.afastautoaddlangpairs.caption"
+msgid "Auto-Add Recent Language Pairs"
+msgstr "Tự động thêm cặp ngôn ngữ gần đây"
+
+#: tformtrayslate.afastautocopy.caption
+msgctxt "tformtrayslate.afastautocopy.caption"
+msgid "Auto-Copy Translation"
+msgstr "Tự động sao chép bản dịch"
+
+#: tformtrayslate.afastautoswap.caption
+msgctxt "tformtrayslate.afastautoswap.caption"
+msgid "Auto-Swap Language Pair"
+msgstr "Tự động đảo ngược cặp ngôn ngữ"
+
+#: tformtrayslate.afastenablemousemode.caption
+msgctxt "tformtrayslate.afastenablemousemode.caption"
+msgid "Enable Mouse Mode"
+msgstr "Bật chế độ chuột"
+
+#: tformtrayslate.afasthidecontrols.caption
+msgctxt "tformtrayslate.afasthidecontrols.caption"
+msgid "Auto-Hide Popup Controls"
+msgstr "Tự động ẩn các nút điều khiển bật lên"
+
+#: tformtrayslate.afastmousemodectrl.caption
+msgctxt "tformtrayslate.afastmousemodectrl.caption"
+msgid "Only When Ctrl Is Pressed"
+msgstr "Chỉ khi nhấn giữ phím Ctrl"
+
+#: tformtrayslate.afastrealtime.caption
+msgctxt "tformtrayslate.afastrealtime.caption"
+msgid "Translate As You Type"
+msgstr "Dịch khi bạn nhập"
+
+#: tformtrayslate.afastverticalsplit.caption
+msgctxt "tformtrayslate.afastverticalsplit.caption"
+msgid "Side-By-Side Layout"
+msgstr "Bố cục song song"
+
+#: tformtrayslate.alangarabic.caption
+msgid "Arabic"
+msgstr "Tiếng Ả Rập"
+
+#: tformtrayslate.alangbelarusian.caption
+msgid "Belarusian"
+msgstr "Tiếng Belarus"
+
+#: tformtrayslate.alangbulgarian.caption
+msgid "Bulgarian"
+msgstr "Tiếng Bulgaria"
+
+#: tformtrayslate.alangchinese.caption
+msgid "Chinese"
+msgstr "Tiếng Trung"
+
+#: tformtrayslate.alangcustom.caption
+msgid "Custom File..."
+msgstr "Tệp tùy chỉnh..."
+
+#: tformtrayslate.alangczech.caption
+msgid "Czech"
+msgstr "Tiếng Séc"
+
+#: tformtrayslate.alangdanish.caption
+msgid "Danish"
+msgstr "Tiếng Đan Mạch"
+
+#: tformtrayslate.alangdutch.caption
+msgid "Dutch"
+msgstr "Tiếng Hà Lan"
+
+#: tformtrayslate.alangenglish.caption
+msgid "English"
+msgstr "Tiếng Anh"
+
+#: tformtrayslate.alangfinnish.caption
+msgid "Finnish"
+msgstr "Tiếng Phần Lan"
+
+#: tformtrayslate.alangfrench.caption
+msgid "French"
+msgstr "Tiếng Pháp"
+
+#: tformtrayslate.alanggerman.caption
+msgid "German"
+msgstr "Tiếng Đức"
+
+#: tformtrayslate.alanggreek.caption
+msgid "Greek"
+msgstr "Tiếng Hy Lạp"
+
+#: tformtrayslate.alanghebrew.caption
+msgid "Hebrew"
+msgstr "Tiếng Do Thái"
+
+#: tformtrayslate.alanghindi.caption
+msgid "Hindi"
+msgstr "Tiếng Hindi"
+
+#: tformtrayslate.alangindonesian.caption
+msgid "Indonesian"
+msgstr "Tiếng Indonesia"
+
+#: tformtrayslate.alangitalian.caption
+msgid "Italian"
+msgstr "Tiếng Ý"
+
+#: tformtrayslate.alangjapanese.caption
+msgid "Japanese"
+msgstr "Tiếng Nhật"
+
+#: tformtrayslate.alangkorean.caption
+msgid "Korean"
+msgstr "Tiếng Hàn"
+
+#: tformtrayslate.alangpolish.caption
+msgid "Polish"
+msgstr "Tiếng Ba Lan"
+
+#: tformtrayslate.alangportuguese.caption
+msgid "Portuguese"
+msgstr "Tiếng Bồ Đào Nha"
+
+#: tformtrayslate.alangportuguesebrazil.caption
+msgid "Portuguese (Brazil)"
+msgstr "Tiếng Bồ Đào Nha (Brazil)"
+
+#: tformtrayslate.alangromanian.caption
+msgid "Romanian"
+msgstr "Tiếng Romania"
+
+#: tformtrayslate.alangrussian.caption
+msgid "Russian"
+msgstr "Tiếng Nga"
+
+#: tformtrayslate.alangspanish.caption
+msgid "Spanish"
+msgstr "Tiếng Tây Ban Nha"
+
+#: tformtrayslate.alangswedish.caption
+msgid "Swedish"
+msgstr "Tiếng Thụy Điển"
+
+#: tformtrayslate.alangturkish.caption
+msgid "Turkish"
+msgstr "Tiếng Thổ Nhĩ Kỳ"
+
+#: tformtrayslate.alangukrainian.caption
+msgid "Ukrainian"
+msgstr "Tiếng Ukraine"
+
+#: tformtrayslate.amenu.hint
+msgctxt "tformtrayslate.amenu.hint"
+msgid "Display Menu"
+msgstr "Hiển thị menu"
+
+#: tformtrayslate.amovefirst.caption
+msgid "Move First"
+msgstr "Chuyển lên đầu"
+
+#: tformtrayslate.amovelast.caption
+msgid "Move Last"
+msgstr "Chuyển xuống cuối"
+
+#: tformtrayslate.amoveleft.caption
+msgid "Move Left"
+msgstr "Dịch sang trái"
+
+#: tformtrayslate.amoveright.caption
+msgid "Move Right"
+msgstr "Dịch sang phải"
+
+#: tformtrayslate.anewtranslate.hint
+msgctxt "tformtrayslate.anewtranslate.hint"
+msgid "New Translate"
+msgstr "Dịch mới"
+
+#: tformtrayslate.apopuptranslate.caption
+msgid "Popup Translate"
+msgstr "Dịch trên cửa sổ bật lên"
+
+#: tformtrayslate.asettings.caption
+msgid "Settings..."
+msgstr "Cài đặt..."
+
+#: tformtrayslate.ashow.caption
+msgid "Show"
+msgstr "Hiện"
+
+#: tformtrayslate.atranslate.hint
+msgctxt "tformtrayslate.atranslate.hint"
+msgid "Translate (Ctrl ¦ Shift ¦ Enter + Enter)"
+msgstr "Dịch (Ctrl ¦ Shift ¦ Enter + Enter)"
+
+#: tformtrayslate.atranslateclipboard.caption
+msgid "Translate Clipboard"
+msgstr "Dịch Clipboard"
+
+#: tformtrayslate.caption
+msgctxt "tformtrayslate.caption"
+msgid "Trayslate"
+msgstr "Trayslate"
+
+#: tformtrayslate.menuconfig.caption
+msgid "Config"
+msgstr "Cấu hình"
+
+#: tformtrayslate.menufastsettings.caption
+msgid "Quick Settings"
+msgstr "Cài đặt nhanh"
+
+#: tformtrayslate.menuhelp.caption
+msgid "Help"
+msgstr "Trợ giúp"
+
+#: tformtrayslate.menulangpairs.caption
+msgid "Recent Pairs"
+msgstr "Các cặp gần đây"
+
+#: tformtrayslate.menulanguage.caption
+msgctxt "tformtrayslate.menulanguage.caption"
+msgid "Language"
+msgstr "Ngôn ngữ"
