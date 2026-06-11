@@ -56,6 +56,7 @@ type
     FOnLeftDown, FOnLeftUp: TMouseEvent;
     FOnRightDown, FOnRightUp: TMouseEvent;
     FOnMiddleDown, FOnMiddleUp: TMouseEvent;
+    FLeftDownAccepted: boolean;
     procedure SetEnabled(AValue: boolean);
     {$IFDEF WINDOWS}
     class var FActiveInstance: TGlobalMouseHook;
@@ -213,16 +214,25 @@ begin
   begin
     wndHandle := THandle(WindowFromPoint(p.pt));
     if IsDropDownWindow(wndHandle) then
-      Exit;   // Ignore clicks inside drop‑down lists (ComboBox, etc.)
+    begin
+      // Down inside drop‑down list – mark as not accepted
+      if wParam = WM_LBUTTONDOWN then
+        FLeftDownAccepted := False;
+      Exit;
+    end;
   end;
-  // ----------------------------------------------------
 
   // Apply EditFieldOnly filter only if the option is enabled
   if FEditFieldOnly then
   begin
     wndHandle := THandle(WindowFromPoint(p.pt));
     if (wndHandle = 0) or (not IsEditControl(wndHandle)) then
+    begin
+      // Down outside an edit control – mark as not accepted
+      if wParam = WM_LBUTTONDOWN then
+        FLeftDownAccepted := False;
       Exit;
+    end;
 
     // Additional check: release must be in the client area of the edit window
     if wParam = WM_LBUTTONUP then
@@ -232,9 +242,25 @@ begin
         Pt := p.pt;
         ScreenToClient(wndHandle, Pt);
         if not PtInRect(R, Pt) then
-          Exit;   // physically the cursor is outside the editing area - suppress the event
+        begin
+          // Up outside the edit area – ignore if the corresponding down was not accepted
+          if not FLeftDownAccepted then
+            Exit;
+          // Even if the down was accepted, release outside the edit area is suppressed
+          Exit;
+        end;
       end;
     end;
+  end;
+
+  // Left button down/up acceptance logic
+  if wParam = WM_LBUTTONDOWN then
+    FLeftDownAccepted := True          // we reached here → down is valid
+  else if wParam = WM_LBUTTONUP then
+  begin
+    if not FLeftDownAccepted then
+      Exit;                            // no valid down before this up
+    FLeftDownAccepted := True;        // consume the valid down
   end;
 
   handler := nil;
