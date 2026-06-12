@@ -920,7 +920,7 @@ object formTrayslate: TformTrayslate
     OnException = ApplicationPropException
     OnShowHint = ApplicationPropShowHint
     OnUserInput = ApplicationPropUserInput
-    Left = 200
+    Left = 208
     Top = 240
   end
   object PopupRecentPair: TPopupMenu

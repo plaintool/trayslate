@@ -8,6 +8,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
   ClientHeight = 630
   ClientWidth = 800
   ShowHint = True
+  ShowInTaskBar = stAlways
   LCLVersion = '4.6.0.0'
   OnChangeBounds = FormChangeBounds
   OnCloseQuery = FormCloseQuery
