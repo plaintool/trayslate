@@ -111,6 +111,7 @@ type
     MemoJsonPointer: TMemo;
     DialogOpen: TOpenDialog;
     Pages: TPageControl;
+    PanelResponse: TPanel;
     PanelTop: TPanel;
     SbCopyConfig: TSpeedButton;
     SbNewConfig: TSpeedButton;
@@ -309,7 +310,7 @@ begin
   try
     if (MemoJsonPointer.Text = string.empty) or (formTrayslate.MemoTarget.Text = string.Empty) or not TestChanges then exit;
     with formTrayslate.Trans do
-      OpenStringInTextEditor(ParseResponse(formTrayslate.MemoTarget.Text));
+      OpenStringInTextEditor(ParseResponse(formTrayslate.RawTranslate));
   finally
     Enabled := True;
     Screen.Cursor := crDefault;

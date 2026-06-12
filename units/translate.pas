@@ -269,23 +269,24 @@ begin
   Result := True;
 
   // User parameters {key=value}
-  with formTrayslate do
-    if Assigned(UserParameters) and (UserParameters.Count > 0) then
-    begin
-      for i := 0 to UserParameters.Count - 1 do
+  if Assigned(formTrayslate) then
+    with formTrayslate do
+      if Assigned(UserParameters) and (UserParameters.Count > 0) then
       begin
-        ParamName := UserParameters.Names[i];
-        Value := UserParameters.ValueFromIndex[i];
+        for i := 0 to UserParameters.Count - 1 do
+        begin
+          ParamName := UserParameters.Names[i];
+          Value := UserParameters.ValueFromIndex[i];
 
-        // Skip empty parameters
-        if (ParamName = string.Empty) or (Value = string.Empty) then
-          Continue;
+          // Skip empty parameters
+          if (ParamName = string.Empty) or (Value = string.Empty) then
+            Continue;
 
-        // Add or override parameter
-        FParameterValues.Values[ParamName] := Value;
-        FParameterEncode.Values[ParamName] := ifthen(FEncodeCustomParameters, '1', '0');
+          // Add or override parameter
+          FParameterValues.Values[ParamName] := Value;
+          FParameterEncode.Values[ParamName] := ifthen(FEncodeCustomParameters, '1', '0');
+        end;
       end;
-    end;
 
   // Custom parameters (key=value)
   if Assigned(FCustomParameters) then
@@ -895,6 +896,9 @@ begin
     content := Post
   else
     content := Get;
+
+  if Assigned(formTrayslate) then
+    formTrayslate.RawTranslate := content;
 
   if content <> string.Empty then
     Result := ParseResponse(content);

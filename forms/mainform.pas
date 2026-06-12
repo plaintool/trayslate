@@ -348,6 +348,7 @@ type
     FAutoHeightAfter: boolean;
     FPrevMouseDown: TMouseEventInfo;
     FPopupRecentPair: TComponent;
+    FRawTranslate: string;
 
     // Non sorted combo named languages
     FLanguages: TStringList;
@@ -565,6 +566,7 @@ type
     property FormAboutHeight: integer read FFormAboutHeight write FFormAboutHeight;
     property LastDarkMode: boolean read FLastDarkMode write FLastDarkMode;
     property CustomPoFile: string read FCustomPoFile write FCustomPoFile;
+    property RawTranslate: string read FRawTranslate write FRawTranslate;
     property MouseHook: TGlobalMouseHook read FMouseHook write FMouseHook;
     property KeyHook: TGlobalKeyboardHook read FKeyHook write FKeyHook;
     property HotKeyApp: THotKeyData read FHotKeyApp write FHotKeyApp;
