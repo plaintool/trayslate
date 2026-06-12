@@ -591,7 +591,7 @@ const
   DOUBLE_ENTER_INTERVAL = 200; // ms
   HOTKEY_INTERVAL = 500; // ms
   MOUSE_MODE_INTERVAL = 100; // ms
-  MOUSE_MODE_DELTA = 20; // pixel
+  MOUSE_MODE_DELTA = 10; // pixel
   MOUSE_DBL_INTERVAL = 500; // ms
   BUTTON_DELTA = 10;
 
@@ -741,7 +741,7 @@ begin
   FMouseHook := TGlobalMouseHook.Create;
   FMouseHook.OnLeftDown := @OnHookLeftDown;
   FMouseHook.OnLeftUp := @OnHookLeftUp;
-  FMouseHook.Enabled := FEnableMouseMode;
+  FMouseHook.Enabled := FEnableMouseMode and not FMouseModeCtrl;
   FMouseHook.EditFieldOnly := True;
 
   FKeyHook:=TGlobalKeyboardHook.Create;
@@ -1000,12 +1000,16 @@ var
 begin
   Tick := GetTickCountXp;
 
+  // Turn off the mouse mode if Ctrl is not pressed and it requires Ctrl
+  if MouseModeCtrl and (Info.KeyCode in [VK_CONTROL, VK_LCONTROL, VK_RCONTROL]) then
+    MouseHook.Enabled := Info.IsDown;
+
   if not Info.IsDown then Exit;
   if Info.IsInjected then Exit;
 
   // Signals about pressing physical keys
   FLastKeyTime := Tick;
-  if Info.KeyCode = VK_CONTROL then
+  if Info.KeyCode in [VK_CONTROL, VK_LCONTROL, VK_RCONTROL] then
     FLastCtrlTime := Tick;
   if Info.KeyCode = Ord('C') then
     FLastCTime := Tick;
@@ -1057,7 +1061,7 @@ begin
   DistanceSq := dx * dx + dy * dy;
 
   // Case 1: double-click or triple-click (triggers immediately on both)
-  if (FClickCount >= 2) and (DistanceSq < MOUSE_MODE_DELTA + MOUSE_MODE_DELTA) then
+  if (FClickCount >= 2) and (DistanceSq < MOUSE_MODE_DELTA * MOUSE_MODE_DELTA) then
   begin
     if (not MouseModeCtrl) or (FLastMouseInfo.CtrlDown and Info.CtrlDown) then
     begin
@@ -1634,7 +1638,7 @@ begin
 
     RegisterHotKeys;
     SetHints;
-    FMouseHook.Enabled := FEnableMouseMode;
+    FMouseHook.Enabled := FEnableMouseMode and not FMouseModeCtrl;
     FKeyHook.Enabled := FEnableMouseMode;
 
     FTrans.Proxy := FProxy;
@@ -3122,7 +3126,7 @@ begin
   else
   begin
     FEnableMouseMode := Value;
-    FMouseHook.Enabled := EnableMouseMode;
+    FMouseHook.Enabled := EnableMouseMode and not FMouseModeCtrl;
     FKeyHook.Enabled := EnableMouseMode;
   end;
 end;
@@ -3142,7 +3146,10 @@ begin
   if Assigned(formSettingsTrayslate) and (not formSettingsTrayslate.ApplySettings) then
     formSettingsTrayslate.CheckMouseModeCtrl.Checked := Value
   else
+  begin
     FMouseModeCtrl := Value;
+    FMouseHook.Enabled := FEnableMouseMode and not FMouseModeCtrl;
+  end;
 end;
 
 procedure TformTrayslate.SetRealTime(Value: boolean);
@@ -4077,7 +4084,7 @@ begin
     else
       TimerUnapplyTimer(Self);
   finally
-    FMouseHook.Enabled := FEnableMouseMode;
+    FMouseHook.Enabled := FEnableMouseMode and not FMouseModeCtrl;
   end;
 end;
 

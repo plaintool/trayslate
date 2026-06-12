@@ -95,9 +95,20 @@ var
 begin
   if (nCode >= 0) and (FActiveInstance <> nil) then
   begin
-    p := PMouseLLHookStruct(Pointer(PtrUInt(lParam)));
-    FActiveInstance.InternalMouseEvent(wParam, p^);
+    // Forward only button-down/up messages to our handler; ignore everything else
+    case wParam of
+      WM_LBUTTONDOWN, WM_LBUTTONUP,
+      WM_RBUTTONDOWN, WM_RBUTTONUP,
+      WM_MBUTTONDOWN, WM_MBUTTONUP:
+        begin
+          p := PMouseLLHookStruct(Pointer(PtrUInt(lParam)));
+          FActiveInstance.InternalMouseEvent(wParam, p^);
+        end;
+      // all other messages (move, wheel, etc.) are passed through without any processing
+    end;
   end;
+
+  // Always call the next hook in the chain
   if FActiveInstance <> nil then
     Result := CallNextHookEx(FActiveInstance.FHook, nCode, wParam, lParam)
   else
@@ -216,12 +227,29 @@ end;
 
 procedure TGlobalMouseHook.InternalMouseEvent(wParam: WPARAM; const p: TMouseLLHookStruct);
 var
-  info: TMouseEventInfo;
   handler: TMouseEvent;
+  info: TMouseEventInfo;
   wndHandle: THandle;
   R: TRect;
   Pt: TPoint;
 begin
+  // 1. Determine which handler (if any) is assigned for this message type
+  case wParam of
+    WM_LBUTTONDOWN: handler := FOnLeftDown;
+    WM_LBUTTONUP:   handler := FOnLeftUp;
+    WM_RBUTTONDOWN: handler := FOnRightDown;
+    WM_RBUTTONUP:   handler := FOnRightUp;
+    WM_MBUTTONDOWN: handler := FOnMiddleDown;
+    WM_MBUTTONUP:   handler := FOnMiddleUp;
+  else
+    Exit;   // ignore all other messages (move, wheel, etc.) immediately
+  end;
+
+  // 2. If no handler is assigned for this event, exit without any further work
+  if not Assigned(handler) then
+    Exit;
+
+  // 3. Only now, for events we actually care about, fill the event info
   info.X := p.pt.X;
   info.Y := p.pt.Y;
   info.Time := p.time;
@@ -229,19 +257,17 @@ begin
   info.ShiftDown := (GetAsyncKeyState(VK_SHIFT) and $8000) <> 0;
   info.AltDown := (GetAsyncKeyState(VK_MENU) and $8000) <> 0;
 
-  // Find the window under cursor
+  // 4. Find the window under the cursor and check if it's a valid input target
   wndHandle := THandle(WindowFromPoint(p.pt));
 
-  // Check if this window is a valid input target (respects EditFieldOnly and ignores blacklisted classes)
   if not IsInputWindow(wndHandle) then
   begin
-    // Left button down on an ignored window -> mark sequence as invalid
     if wParam = WM_LBUTTONDOWN then
       FLeftDownAccepted := False;
     Exit;
   end;
 
-  // In EditFieldOnly mode, additionally ensure up happens inside the client area
+  // 5. Extra check for EditFieldOnly mode: release must be inside client area
   if FEditFieldOnly and (wParam = WM_LBUTTONUP) then
   begin
     if GetClientRect(wndHandle, @R) then
@@ -249,32 +275,31 @@ begin
       Pt := p.pt;
       ScreenToClient(wndHandle, Pt);
       if not PtInRect(R, Pt) then
-        Exit;   // mouse released outside the edit control – ignore
+        Exit;
     end;
   end;
 
-  // Left button acceptance tracking (prevents stray up events from being passed)
+  // 6. Left button acceptance logic (prevents stray up events)
   if wParam = WM_LBUTTONDOWN then
     FLeftDownAccepted := True
   else if wParam = WM_LBUTTONUP then
   begin
     if not FLeftDownAccepted then
-      Exit;                        // no valid down before this up
-    FLeftDownAccepted := True;     // keep valid for potential multi‑click sequence
+      Exit;
+    FLeftDownAccepted := True;   // keep valid for subsequent clicks
   end;
 
-  handler := nil;
+  // 7. Set button type and call the assigned handler
   case wParam of
-    WM_LBUTTONDOWN: begin info.Button := mbLeft; handler := FOnLeftDown; end;
-    WM_LBUTTONUP:   begin info.Button := mbLeft; handler := FOnLeftUp;   end;
-    WM_RBUTTONDOWN: begin info.Button := mbRight; handler := FOnRightDown; end;
-    WM_RBUTTONUP:   begin info.Button := mbRight; handler := FOnRightUp;  end;
-    WM_MBUTTONDOWN: begin info.Button := mbMiddle; handler := FOnMiddleDown; end;
-    WM_MBUTTONUP:   begin info.Button := mbMiddle; handler := FOnMiddleUp;  end;
+    WM_LBUTTONDOWN,
+    WM_LBUTTONUP:   info.Button := mbLeft;
+    WM_RBUTTONDOWN,
+    WM_RBUTTONUP:   info.Button := mbRight;
+    WM_MBUTTONDOWN,
+    WM_MBUTTONUP:   info.Button := mbMiddle;
   end;
 
-  if Assigned(handler) then
-    handler(Self, info);
+  handler(Self, info);
 end;
 
 constructor TGlobalMouseHook.Create;
