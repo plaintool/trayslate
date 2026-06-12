@@ -581,6 +581,11 @@ begin
 end;
 
 function TTranslate.ParseResponse(content: string): string;
+const
+  // A unique marker that will not appear in user data.
+  // Used to temporarily escape literal '#10' substrings in extracted data
+  // so they are not converted to newline characters by the template substitution.
+  TEMP_NL_MARKER = '<!--#1#0-->';
 var
   Segments: TStringList;
   regex: TRegExpr;
@@ -591,7 +596,7 @@ var
   BlockContent, InnerBlock, MatchRes, MatchGlue, MatchIdxStr: string;
   PointerFound, IsInverted, HasAnyRegex, HasAnyMatch: boolean;
   MatchIdx, CurrentIdx: integer;
-  Expr: string; // Added for pre-processing
+  Expr: string; // Pre-processed expression (comments removed)
 begin
   Result := string.Empty;
   if (Trim(content) = string.Empty) then Exit;
@@ -689,6 +694,10 @@ begin
           PointerValue := ParseJsonByPointer(content, PointerPath);
 
         PointerValue := UnescapeUnicode(HTTPDecode(PointerValue));
+
+        // Temporarily replace literal '#10' in the extracted data with a unique marker.
+        // This prevents the final '#10' -> newline substitution from altering user data.
+        PointerValue := StringReplace(PointerValue, '#10', TEMP_NL_MARKER, [rfReplaceAll]);
 
         if IsInverted then
         begin
@@ -826,6 +835,10 @@ begin
                     end;
 
                     MatchRes := UnescapeUnicode(HTTPDecode(MatchRes));
+                    // Temporarily replace literal '#10' in extracted match data
+                    // with a unique marker to prevent corruption during final substitution.
+                    MatchRes := StringReplace(MatchRes, '#10', TEMP_NL_MARKER, [rfReplaceAll]);
+
                     Delete(BlockContent, innerStart, innerEnd - innerStart + 1);
                     Insert(MatchRes, BlockContent, innerStart);
                     innerStart := innerStart + Length(MatchRes);
@@ -854,12 +867,17 @@ begin
         end;
       end;
 
+      // Replace the pointer path with the actual data value (now containing markers instead of #10)
       if (PointerPath <> string.Empty) and (Segment <> string.Empty) then
         Segment := StringReplace(Segment, PointerPath, PointerValue, [rfReplaceAll]);
 
+      // Convert all remaining (template-only) '#10' sequences to actual newline characters.
       Segment := StringReplace(Segment, '#10', #10, [rfReplaceAll]);
       FinalResult := FinalResult + Segment;
     end;
+
+    // Restore literal '#10' that came from user data (currently stored as the marker)
+    FinalResult := StringReplace(FinalResult, TEMP_NL_MARKER, '#10', [rfReplaceAll]);
     Result := FinalResult;
   finally
     Segments.Free;
