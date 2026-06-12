@@ -53,6 +53,7 @@ type
     aAutoCheckUpdates: TAction;
     aCopySource: TAction;
     aCopyTarget: TAction;
+    aLangVietnamese: TAction;
     aDeletePair: TAction;
     aMoveLast: TAction;
     aMoveRight: TAction;
@@ -96,6 +97,7 @@ type
     MenuFastAutoAddLangPairs: TMenuItem;
     MenuFastHideControls: TMenuItem;
     MenuItem3: TMenuItem;
+    MenuVietnamese: TMenuItem;
     MenuMoveLeft: TMenuItem;
     MenuMoveRight: TMenuItem;
     MenuMoveFirst: TMenuItem;
@@ -203,6 +205,7 @@ type
     MenuUkrainian: TMenuItem;
     MenuBelarusian: TMenuItem;
     MenuHindi: TMenuItem;
+    procedure aLangVietnameseExecute(Sender: TObject);
     procedure ApplicationPropUserInput(Sender: TObject; Msg: cardinal);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -4103,6 +4106,7 @@ begin
   aLangSwedish.Checked := False;
   aLangTurkish.Checked := False;
   aLangUkrainian.Checked := False;
+  aLangVietnamese.Checked := False;
   aLangCustom.Checked := False;
 
   if FCustomPoFile <> string.Empty then
@@ -4169,6 +4173,7 @@ begin
       'sv': aLangSwedish.Checked := True;
       'tr': aLangTurkish.Checked := True;
       'uk': aLangUkrainian.Checked := True;
+      'vi': aLangVietnamese.Checked := True;
       else
       // nolang
     end;
@@ -4403,6 +4408,12 @@ procedure TformTrayslate.aLangUkrainianExecute(Sender: TObject);
 begin
   FCustomPoFile := string.empty;
   SetLanguage('uk');
+end;
+
+procedure TformTrayslate.aLangVietnameseExecute(Sender: TObject);
+begin
+  FCustomPoFile := string.empty;
+  SetLanguage('vi');
 end;
 
 end.

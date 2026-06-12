@@ -472,6 +472,9 @@ object formTrayslate: TformTrayslate
         object MenuUkrainian: TMenuItem
           Action = aLangUkrainian
         end
+        object MenuVietnamese: TMenuItem
+          Action = aLangVietnamese
+        end
         object MenuItem1: TMenuItem
           Action = aLangCustom
         end
@@ -788,11 +791,6 @@ object formTrayslate: TformTrayslate
       Caption = 'Ukrainian'
       OnExecute = aLangUkrainianExecute
     end
-    object aLangCustom: TAction
-      Category = 'Language'
-      Caption = 'Custom File...'
-      OnExecute = aLangCustomExecute
-    end
     object aDeletePair: TAction
       Category = 'RecentPair'
       Caption = 'Delete Pair'
@@ -817,6 +815,16 @@ object formTrayslate: TformTrayslate
       Category = 'RecentPair'
       Caption = 'Move Last'
       OnExecute = aMoveLastExecute
+    end
+    object aLangVietnamese: TAction
+      Category = 'Language'
+      Caption = 'Vietnamese'
+      OnExecute = aLangVietnameseExecute
+    end
+    object aLangCustom: TAction
+      Category = 'Language'
+      Caption = 'Custom File...'
+      OnExecute = aLangCustomExecute
     end
   end
   object TimerClick: TTimer

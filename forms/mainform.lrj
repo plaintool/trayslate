@@ -57,10 +57,11 @@
 {"hash":182169800,"name":"tformtrayslate.alangswedish.caption","sourcebytes":[83,119,101,100,105,115,104],"value":"Swedish"},
 {"hash":197730504,"name":"tformtrayslate.alangturkish.caption","sourcebytes":[84,117,114,107,105,115,104],"value":"Turkish"},
 {"hash":142611294,"name":"tformtrayslate.alangukrainian.caption","sourcebytes":[85,107,114,97,105,110,105,97,110],"value":"Ukrainian"},
-{"hash":6896878,"name":"tformtrayslate.alangcustom.caption","sourcebytes":[67,117,115,116,111,109,32,70,105,108,101,46,46,46],"value":"Custom File..."},
 {"hash":171943618,"name":"tformtrayslate.adeletepair.caption","sourcebytes":[68,101,108,101,116,101,32,80,97,105,114],"value":"Delete Pair"},
 {"hash":122310500,"name":"tformtrayslate.amovefirst.caption","sourcebytes":[77,111,118,101,32,70,105,114,115,116],"value":"Move First"},
 {"hash":209026996,"name":"tformtrayslate.amoveleft.caption","sourcebytes":[77,111,118,101,32,76,101,102,116],"value":"Move Left"},
 {"hash":123583284,"name":"tformtrayslate.amoveright.caption","sourcebytes":[77,111,118,101,32,82,105,103,104,116],"value":"Move Right"},
-{"hash":209026244,"name":"tformtrayslate.amovelast.caption","sourcebytes":[77,111,118,101,32,76,97,115,116],"value":"Move Last"}
+{"hash":209026244,"name":"tformtrayslate.amovelast.caption","sourcebytes":[77,111,118,101,32,76,97,115,116],"value":"Move Last"},
+{"hash":189002581,"name":"tformtrayslate.alangvietnamese.caption","sourcebytes":[86,105,101,116,110,97,109,101,115,101],"value":"Vietnamese"},
+{"hash":6896878,"name":"tformtrayslate.alangcustom.caption","sourcebytes":[67,117,115,116,111,109,32,70,105,108,101,46,46,46],"value":"Custom File..."}
 ]}

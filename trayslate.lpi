@@ -16,7 +16,7 @@
         <TextDesc Value=""/>
       </XPManifest>
       <Icon Value="0"/>
-      <Resources Count="27">
+      <Resources Count="28">
         <Resource_0 FileName="locale\trayslate.en.po" Type="RCDATA" ResourceName="TRAYSLATE.EN"/>
         <Resource_1 FileName="locale\trayslate.ru.po" Type="RCDATA" ResourceName="TRAYSLATE.RU"/>
         <Resource_2 FileName="locale\trayslate.ar.po" Type="RCDATA" ResourceName="TRAYSLATE.AR"/>
@@ -44,6 +44,7 @@
         <Resource_24 FileName="locale\trayslate.zh.po" Type="RCDATA" ResourceName="TRAYSLATE.ZH"/>
         <Resource_25 FileName="locale\trayslate.bg.po" Type="RCDATA" ResourceName="TRAYSLATE.BG"/>
         <Resource_26 FileName="locale\trayslate.pt-BR.po" Type="RCDATA" ResourceName="TRAYSLATE.PT-BR"/>
+        <Resource_27 FileName="locale\trayslate.vi.po" Type="RCDATA" ResourceName="TRAYSLATE.VI"/>
       </Resources>
     </General>
     <i18n>

@@ -350,9 +350,7 @@ msgstr "https://github.com/plaintool/trayslate"
 
 #: tformabouttrayslate.lblabout.caption
 msgid ""
-"Trayslate is a tray-based client for translation services. You can enter text directly, translate clipboard content, or "
-"translate selected text in any application. You can also replace text in another app with its translation using a hotkey. "
-"The app lets you choose and fully configure the translation service you use.\n"
+"Trayslate is a tray-based client for translation services. You can enter text directly, translate clipboard content, or translate selected text in any application. You can also replace text in another app with its translation using a hotkey. The app lets you choose and fully configure the translation service you use.\n"
 "\n"
 "This application uses third-party resources under the following licenses:\n"
 "\n"
@@ -373,9 +371,7 @@ msgid ""
 "   Copyright (c) 1999–2024, Lukas Gebauer\n"
 "   https://github.com/geby/synapse"
 msgstr ""
-"Trayslate là một ứng dụng chạy dưới khay hệ thống cho các dịch vụ dịch thuật. Bạn có thể nhập văn bản trực tiếp, dịch nội "
-"dung Clipboard hoặc dịch văn bản được chọn trong bất kỳ ứng dụng nào. Bạn cũng có thể thay thế văn bản trong ứng dụng khác "
-"bằng bản dịch của nó thông qua phím tắt. Ứng dụng cho phép bạn chọn và cấu hình đầy đủ dịch vụ dịch thuật mà bạn sử dụng.\n"
+"Trayslate là một ứng dụng chạy dưới khay hệ thống cho các dịch vụ dịch thuật. Bạn có thể nhập văn bản trực tiếp, dịch nội dung Clipboard hoặc dịch văn bản được chọn trong bất kỳ ứng dụng nào. Bạn cũng có thể thay thế văn bản trong ứng dụng khác bằng bản dịch của nó thông qua phím tắt. Ứng dụng cho phép bạn chọn và cấu hình đầy đủ dịch vụ dịch thuật mà bạn sử dụng.\n"
 "\n"
 "Ứng dụng này sử dụng tài nguyên của bên thứ ba theo các giấy phép sau:\n"
 "\n"
@@ -566,12 +562,8 @@ msgid "Parameters"
 msgstr "Tham số"
 
 #: tformconfigtrayslate.labelinitparameters4.caption
-msgid ""
-"Parameters in the form key=value used by {key} in requests. If the value is omitted (key=), it will be requested from the "
-"user."
-msgstr ""
-"Các tham số dưới dạng key=value được sử dụng bởi {key} trong các yêu cầu. Nếu giá trị bị bỏ trống (key=), ứng dụng sẽ yêu "
-"cầu người dùng nhập."
+msgid "Parameters in the form key=value used by {key} in requests. If the value is omitted (key=), it will be requested from the user."
+msgstr "Các tham số dưới dạng key=value được sử dụng bởi {key} trong các yêu cầu. Nếu giá trị bị bỏ trống (key=), ứng dụng sẽ yêu cầu người dùng nhập."
 
 #: tformconfigtrayslate.labelinitparemeters.caption
 msgid "Initial GET request to obtain required parameters."
@@ -589,36 +581,23 @@ msgstr "User Agent"
 
 #: tformconfigtrayslate.labeljsonpointer2.caption
 msgid ""
-"Json Pointer: Use / for levels, keys for objects, and numbers for indexes. Use * for all items, *#10 to join items by "
-"newline. Use ~ at the end of the path to return the raw JSON branch. Separate multiple segments with semicolon ;.\n"
+"Json Pointer: Use / for levels, keys for objects, and numbers for indexes. Use * for all items, *#10 to join items by newline. Use ~ at the end of the path to return the raw JSON branch. Separate multiple segments with semicolon ;.\n"
 "Literal: Text block in {…}. Special tag #10 for newlines. Use {{regex}} inside to extract data directly into the text.\n"
-"Logic: If a Pointer in a segment is empty, the whole segment is skipped. If a segment has no Pointer, only literal text "
-"blocks with embedded regular expressions are processed.\n"
-"Regex: {prefix {regex[index]} suffix} inside a text block. If no [index] is specified, the first match is used. Index can be "
-"a number, [*] (join by space), or [*#10] (join by newline). If the regex finds no match, the entire {…} block is removed. "
-"Using ~ inside a regex returns the entire text.\n"
-"Inversion: Start a segment with ! (e.g. !/path{Error}) to show its text only if the Pointer data is missing or the JSON is "
-"invalid.\n"
+"Logic: If a Pointer in a segment is empty, the whole segment is skipped. If a segment has no Pointer, only literal text blocks with embedded regular expressions are processed.\n"
+"Regex: {prefix {regex[index]} suffix} inside a text block. If no [index] is specified, the first match is used. Index can be a number, [*] (join by space), or [*#10] (join by newline). If the regex finds no match, the entire {…} block is removed. Using ~ inside a regex returns the entire text.\n"
+"Inversion: Start a segment with ! (e.g. !/path{Error}) to show its text only if the Pointer data is missing or the JSON is invalid.\n"
 "Commenting: /* text */ comments are stripped from the entire expression before any processing.\n"
 "Examples:\n"
-"responseData/translatedText; matches/*#10/translation; /texts/text; {literal text#10}; /result/text; /text{ ({(\\w+)})}; !/"
-"translations{Error: No data!#10}; /translations/0/text"
+"responseData/translatedText; matches/*#10/translation; /texts/text; {literal text#10}; /result/text; /text{ ({(\\w+)})}; !/translations{Error: No data!#10}; /translations/0/text"
 msgstr ""
-"Json Pointer: Sử dụng / cho các cấp, khóa cho đối tượng và số cho chỉ mục. Sử dụng * cho tất cả các mục, *#10 để nối các mục "
-"bằng dòng mới. Sử dụng ~ ở cuối đường dẫn để trả về nhánh JSON thô. Phân tách các phân đoạn bằng dấu phẩy động ;.\n"
-"Literal: Khối văn bản trong {…}. Thẻ đặc biệt #10 cho dòng mới. Sử dụng {{regex}} bên trong để trích xuất dữ liệu trực tiếp "
-"vào văn bản.\n"
-"Logic: Nếu một Pointer trong phân đoạn trống, toàn bộ phân đoạn sẽ bị bỏ qua. Nếu phân đoạn không có Pointer, chỉ các khối "
-"văn bản thuần túy chứa biểu thức chính quy mới được xử lý.\n"
-"Regex: {prefix {regex[index]} suffix} bên trong khối văn bản. Nếu không chỉ định [index], kết quả khớp đầu tiên sẽ được "
-"dùng. Chỉ mục có thể là số, [*] (nối bằng khoảng trắng), hoặc [*#10] (nối bằng dòng mới). Nếu regex không tìm thấy kết quả "
-"khớp, toàn bộ khối {…} sẽ bị xóa. Sử dụng ~ bên trong một regex sẽ trả về toàn bộ văn bản.\n"
-"Inversion: Bắt đầu phân đoạn bằng ! (ví dụ: !/path{Error}) để chỉ hiển thị văn bản của nó nếu thiếu dữ liệu Pointer hoặc "
-"JSON không hợp lệ.\n"
+"Json Pointer: Sử dụng / cho các cấp, khóa cho đối tượng và số cho chỉ mục. Sử dụng * cho tất cả các mục, *#10 để nối các mục bằng dòng mới. Sử dụng ~ ở cuối đường dẫn để trả về nhánh JSON thô. Phân tách các phân đoạn bằng dấu phẩy động ;.\n"
+"Literal: Khối văn bản trong {…}. Thẻ đặc biệt #10 cho dòng mới. Sử dụng {{regex}} bên trong để trích xuất dữ liệu trực tiếp vào văn bản.\n"
+"Logic: Nếu một Pointer trong phân đoạn trống, toàn bộ phân đoạn sẽ bị bỏ qua. Nếu phân đoạn không có Pointer, chỉ các khối văn bản thuần túy chứa biểu thức chính quy mới được xử lý.\n"
+"Regex: {prefix {regex[index]} suffix} bên trong khối văn bản. Nếu không chỉ định [index], kết quả khớp đầu tiên sẽ được dùng. Chỉ mục có thể là số, [*] (nối bằng khoảng trắng), hoặc [*#10] (nối bằng dòng mới). Nếu regex không tìm thấy kết quả khớp, toàn bộ khối {…} sẽ bị xóa. Sử dụng ~ bên trong một regex sẽ trả về toàn bộ văn bản.\n"
+"Inversion: Bắt đầu phân đoạn bằng ! (ví dụ: !/path{Error}) để chỉ hiển thị văn bản của nó nếu thiếu dữ liệu Pointer hoặc JSON không hợp lệ.\n"
 "Commenting: Các nhận xét /* text */ sẽ bị loại bỏ khỏi toàn bộ biểu thức trước khi xử lý.\n"
 "Ví dụ:\n"
-"responseData/translatedText; matches/*#10/translation; /texts/text; {literal text#10}; /result/text; /text{ ({(\\w+)})}; !/"
-"translations{Error: No data!#10}; /translations/0/text"
+"responseData/translatedText; matches/*#10/translation; /texts/text; {literal text#10}; /result/text; /text{ ({(\\w+)})}; !/translations{Error: No data!#10}; /translations/0/text"
 
 #: tformconfigtrayslate.labellanguages.caption
 msgctxt "tformconfigtrayslate.labellanguages.caption"
@@ -648,12 +627,8 @@ msgstr "Phương thức"
 
 #: tformconfigtrayslate.labelparemeters.caption
 msgctxt "tformconfigtrayslate.labelparemeters.caption"
-msgid ""
-"Use parameters: {text} – input text, {source} – source language, {target} – target language. Prefix the name with ! for "
-"lowercase or ^ for uppercase value. Also supported {timestamp}, {rand}. Use {parameter} from the parameters page."
-msgstr ""
-"Sử dụng các tham số: {text} – văn bản nhập, {source} – ngôn ngữ nguồn, {target} – ngôn ngữ đích. Thêm tiền tố ! trước tên "
-"cho giá trị chữ thường hoặc ^ cho chữ hoa. Cũng hỗ trợ {timestamp}, {rand}. Sử dụng {parameter} từ trang tham số."
+msgid "Use parameters: {text} – input text, {source} – source language, {target} – target language. Prefix the name with ! for lowercase or ^ for uppercase value. Also supported {timestamp}, {rand}. Use {parameter} from the parameters page."
+msgstr "Sử dụng các tham số: {text} – văn bản nhập, {source} – ngôn ngữ nguồn, {target} – ngôn ngữ đích. Thêm tiền tố ! trước tên cho giá trị chữ thường hoặc ^ cho chữ hoa. Cũng hỗ trợ {timestamp}, {rand}. Sử dụng {parameter} từ trang tham số."
 
 #: tformconfigtrayslate.labelpostdata.caption
 msgid "Post Data"
@@ -765,12 +740,8 @@ msgstr "https://nowpayments.io/donation/astverskoy"
 
 #: tformdonatetrayslate.labeldonate.caption
 msgctxt "tformdonatetrayslate.labeldonate.caption"
-msgid ""
-"Hey there! Fuel this passion project with a little caffeine boost! Every donation helps keep the code rolling and the coffee "
-"brewing. Thanks for supporting the work and the developer behind it!"
-msgstr ""
-"Xin chào! Hãy tiếp thêm chút caffeine cho dự án đầy tâm huyết này! Mỗi sự quyên góp đều giúp mã nguồn tiếp tục chạy và cà "
-"phê tiếp tục pha. Cảm ơn bạn đã ủng hộ sản phẩm và nhà phát triển đứng sau nó!"
+msgid "Hey there! Fuel this passion project with a little caffeine boost! Every donation helps keep the code rolling and the coffee brewing. Thanks for supporting the work and the developer behind it!"
+msgstr "Xin chào! Hãy tiếp thêm chút caffeine cho dự án đầy tâm huyết này! Mỗi sự quyên góp đều giúp mã nguồn tiếp tục chạy và cà phê tiếp tục pha. Cảm ơn bạn đã ủng hộ sản phẩm và nhà phát triển đứng sau nó!"
 
 #: tformdonatetrayslate.labelsupport.caption
 msgctxt "tformdonatetrayslate.labelsupport.caption"
@@ -960,12 +931,10 @@ msgstr "Đảo ngược thông minh cho ngôn ngữ ngoài cặp"
 #: tformsettingstrayslate.checksmartswap.hint
 msgctxt "tformsettingstrayslate.checksmartswap.hint"
 msgid ""
-"If Detected language is outside the current pair, the Source language is replaced with the Detected language and the Target "
-"language is set to Primary.\n"
+"If Detected language is outside the current pair, the Source language is replaced with the Detected language and the Target language is set to Primary.\n"
 "If Detected language equals Primary, the translation pair is set to Primary - Secondary."
 msgstr ""
-"Nếu ngôn ngữ phát hiện nằm ngoài cặp hiện tại, ngôn ngữ Nguồn sẽ được thay thế bằng ngôn ngữ phát hiện và ngôn ngữ Đích được "
-"đặt thành Chính.\n"
+"Nếu ngôn ngữ phát hiện nằm ngoài cặp hiện tại, ngôn ngữ Nguồn sẽ được thay thế bằng ngôn ngữ phát hiện và ngôn ngữ Đích được đặt thành Chính.\n"
 "Nếu ngôn ngữ phát hiện trùng với Chính, cặp dịch thuật sẽ được đặt thành Chính - Phụ."
 
 #: tformsettingstrayslate.checkstayontop.caption
@@ -1223,8 +1192,7 @@ msgstr "Đặt chiều cao cửa sổ tối đa khi tự động điều chỉnh
 
 #: tformsettingstrayslate.spinmaxlangpairs.hint
 msgid "Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel"
-msgstr ""
-"Số lượng cặp ngôn ngữ gần đây trên bảng điều khiển; các cặp sẽ dịch sang phải khi được thêm; đặt bằng 0 sẽ ẩn bảng điều khiển"
+msgstr "Số lượng cặp ngôn ngữ gần đây trên bảng điều khiển; các cặp sẽ dịch sang phải khi được thêm; đặt bằng 0 sẽ ẩn bảng điều khiển"
 
 #: tformsettingstrayslate.spinproxyport.hint
 msgid "Network port used by the proxy server"
@@ -1334,19 +1302,19 @@ msgstr "Bố cục song song"
 
 #: tformtrayslate.alangarabic.caption
 msgid "Arabic"
-msgstr "Tiếng Ả Rập"
+msgstr "العربية"
 
 #: tformtrayslate.alangbelarusian.caption
 msgid "Belarusian"
-msgstr "Tiếng Belarus"
+msgstr "Беларуская"
 
 #: tformtrayslate.alangbulgarian.caption
 msgid "Bulgarian"
-msgstr "Tiếng Bulgaria"
+msgstr "Български"
 
 #: tformtrayslate.alangchinese.caption
 msgid "Chinese"
-msgstr "Tiếng Trung"
+msgstr "中文"
 
 #: tformtrayslate.alangcustom.caption
 msgid "Custom File..."
@@ -1354,95 +1322,99 @@ msgstr "Tệp tùy chỉnh..."
 
 #: tformtrayslate.alangczech.caption
 msgid "Czech"
-msgstr "Tiếng Séc"
+msgstr "Čeština"
 
 #: tformtrayslate.alangdanish.caption
 msgid "Danish"
-msgstr "Tiếng Đan Mạch"
+msgstr "Dansk"
 
 #: tformtrayslate.alangdutch.caption
 msgid "Dutch"
-msgstr "Tiếng Hà Lan"
+msgstr "Nederlands"
 
 #: tformtrayslate.alangenglish.caption
 msgid "English"
-msgstr "Tiếng Anh"
+msgstr "English"
 
 #: tformtrayslate.alangfinnish.caption
 msgid "Finnish"
-msgstr "Tiếng Phần Lan"
+msgstr "Suomi"
 
 #: tformtrayslate.alangfrench.caption
 msgid "French"
-msgstr "Tiếng Pháp"
+msgstr "Français"
 
 #: tformtrayslate.alanggerman.caption
 msgid "German"
-msgstr "Tiếng Đức"
+msgstr "Deutsch"
 
 #: tformtrayslate.alanggreek.caption
 msgid "Greek"
-msgstr "Tiếng Hy Lạp"
+msgstr "Ελληνικά"
 
 #: tformtrayslate.alanghebrew.caption
 msgid "Hebrew"
-msgstr "Tiếng Do Thái"
+msgstr "עברית"
 
 #: tformtrayslate.alanghindi.caption
 msgid "Hindi"
-msgstr "Tiếng Hindi"
+msgstr "हिन्दी"
 
 #: tformtrayslate.alangindonesian.caption
 msgid "Indonesian"
-msgstr "Tiếng Indonesia"
+msgstr "Bahasa Indonesia"
 
 #: tformtrayslate.alangitalian.caption
 msgid "Italian"
-msgstr "Tiếng Ý"
+msgstr "Italiano"
 
 #: tformtrayslate.alangjapanese.caption
 msgid "Japanese"
-msgstr "Tiếng Nhật"
+msgstr "日本語"
 
 #: tformtrayslate.alangkorean.caption
 msgid "Korean"
-msgstr "Tiếng Hàn"
+msgstr "한국어"
 
 #: tformtrayslate.alangpolish.caption
 msgid "Polish"
-msgstr "Tiếng Ba Lan"
+msgstr "Polski"
 
 #: tformtrayslate.alangportuguese.caption
 msgid "Portuguese"
-msgstr "Tiếng Bồ Đào Nha"
+msgstr "Português"
 
 #: tformtrayslate.alangportuguesebrazil.caption
 msgid "Portuguese (Brazil)"
-msgstr "Tiếng Bồ Đào Nha (Brazil)"
+msgstr "Português (Brasil)"
 
 #: tformtrayslate.alangromanian.caption
 msgid "Romanian"
-msgstr "Tiếng Romania"
+msgstr "Română"
 
 #: tformtrayslate.alangrussian.caption
 msgid "Russian"
-msgstr "Tiếng Nga"
+msgstr "Русский"
 
 #: tformtrayslate.alangspanish.caption
 msgid "Spanish"
-msgstr "Tiếng Tây Ban Nha"
+msgstr "Español"
 
 #: tformtrayslate.alangswedish.caption
 msgid "Swedish"
-msgstr "Tiếng Thụy Điển"
+msgstr "Svenska"
 
 #: tformtrayslate.alangturkish.caption
 msgid "Turkish"
-msgstr "Tiếng Thổ Nhĩ Kỳ"
+msgstr "Türkçe"
 
 #: tformtrayslate.alangukrainian.caption
 msgid "Ukrainian"
-msgstr "Tiếng Ukraine"
+msgstr "Українська"
+
+#: tformtrayslate.alangvietnamese.caption
+msgid "Vietnamese"
+msgstr "Tiếng Việt"
 
 #: tformtrayslate.amenu.hint
 msgctxt "tformtrayslate.amenu.hint"
@@ -1516,3 +1488,4 @@ msgstr "Các cặp gần đây"
 msgctxt "tformtrayslate.menulanguage.caption"
 msgid "Language"
 msgstr "Ngôn ngữ"
+

@@ -1412,6 +1412,10 @@ msgstr "Türkçe"
 msgid "Ukrainian"
 msgstr "Українська"
 
+#: tformtrayslate.alangvietnamese.caption
+msgid "Vietnamese"
+msgstr "Tiếng Việt"
+
 #: tformtrayslate.amenu.hint
 msgctxt "tformtrayslate.amenu.hint"
 msgid "Display Menu"
