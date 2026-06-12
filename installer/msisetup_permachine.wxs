@@ -53,20 +53,21 @@
 							<File Id="CONFIG3" Name="google-post.ini" Source="..\config\google-post.ini" />
 							<File Id="CONFIG4" Name="simplytranslate-google.ini" Source="..\config\simplytranslate-google.ini" />
 							<File Id="CONFIG5" Name="microsofttranslator.ini" Source="..\config\microsofttranslator.ini" />
-							<File Id="CONFIG6" Name="deepl.ini" Source="..\config\deepl.ini" />
-							<File Id="CONFIG7" Name="mymemory.ini" Source="..\config\mymemory.ini" />
-							<File Id="CONFIG8" Name="papago.ini" Source="..\config\papago.ini" />
-							<File Id="CONFIG9" Name="google-get-dictionary.ini" Source="..\config\google-get-dictionary.ini" />
-							<File Id="CONFIG10" Name="wiktionary.ini" Source="..\config\wiktionary.ini" />
-							<File Id="CONFIG11" Name="marketshost.ini" Source="..\config\marketshost.ini" />
-							<File Id="CONFIG12" Name="coinconvert.ini" Source="..\config\coinconvert.ini" />
-							<File Id="CONFIG13" Name="mathjs.ini" Source="..\config\mathjs.ini" />
-							<File Id="CONFIG14" Name="pollinations-ai-get.ini" Source="..\config\pollinations-ai-get.ini" />
-							<File Id="CONFIG15" Name="pollinations-ai-post.ini" Source="..\config\pollinations-ai-post.ini" />
-							<File Id="CONFIG16" Name="pollinations-ai-post-ask.ini" Source="..\config\pollinations-ai-post-ask.ini" />
-							<File Id="CONFIG17" Name="pollinations-ai-api.ini" Source="..\config\pollinations-ai-api.ini" />
-							<File Id="CONFIG18" Name="pollinations-ai-api-ask.ini" Source="..\config\pollinations-ai-api-ask.ini" />
-							<File Id="CONFIG19" Name="languagedetect.ini" Source="..\config\languagedetect.ini" />             
+							<File Id="CONFIG6" Name="libretranslate.ini" Source="..\config\libretranslate.ini" />
+							<File Id="CONFIG7" Name="deepl.ini" Source="..\config\deepl.ini" />
+							<File Id="CONFIG8" Name="mymemory.ini" Source="..\config\mymemory.ini" />
+							<File Id="CONFIG9" Name="papago.ini" Source="..\config\papago.ini" />
+							<File Id="CONFIG10" Name="google-get-dictionary.ini" Source="..\config\google-get-dictionary.ini" />
+							<File Id="CONFIG11" Name="wiktionary.ini" Source="..\config\wiktionary.ini" />
+							<File Id="CONFIG12" Name="marketshost.ini" Source="..\config\marketshost.ini" />
+							<File Id="CONFIG13" Name="coinconvert.ini" Source="..\config\coinconvert.ini" />
+							<File Id="CONFIG14" Name="mathjs.ini" Source="..\config\mathjs.ini" />
+							<File Id="CONFIG15" Name="pollinations-ai-get.ini" Source="..\config\pollinations-ai-get.ini" />
+							<File Id="CONFIG16" Name="pollinations-ai-post.ini" Source="..\config\pollinations-ai-post.ini" />
+							<File Id="CONFIG17" Name="pollinations-ai-post-ask.ini" Source="..\config\pollinations-ai-post-ask.ini" />
+							<File Id="CONFIG18" Name="pollinations-ai-api.ini" Source="..\config\pollinations-ai-api.ini" />
+							<File Id="CONFIG19" Name="pollinations-ai-api-ask.ini" Source="..\config\pollinations-ai-api-ask.ini" />
+							<File Id="CONFIG20" Name="languagedetect.ini" Source="..\config\languagedetect.ini" />             
 							<!-- Registry KeyPath to satisfy ICE38 -->
 							<RegistryValue Root="HKLM" Key="Software\Alexander Tverskoy\Trayslate" Name="ConfigPath" Type="string" Value="[CONFIGDIR]" KeyPath="yes" />
 						</Component>
