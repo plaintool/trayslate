@@ -121,6 +121,10 @@ begin
 end;
 
 procedure TformButtonTrayslate.CreateParams(var Params: TCreateParams);
+{$IFDEF WINDOWS}
+const
+  WS_EX_NOACTIVATE = $08000000;
+{$ENDIF}
 begin
   inherited CreateParams(Params);
   {$IFDEF WINDOWS}

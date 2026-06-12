@@ -69,6 +69,8 @@ type
     FDropTarget: TTextDropTarget;
 
     procedure UpdateWatermarkVisibility;
+  protected
+    procedure CreateParams(var Params: TCreateParams); override;
   public
     procedure UpdateStayOnTop(Data: PtrInt);
 
@@ -253,6 +255,19 @@ begin
     PanelWaterMark.Visible := False;
 
   PanelButtonTarget.Visible := ((Width > 100) and (Height > 50 + FlowPairs.Height)) or not formTrayslate.HideControls;
+end;
+
+procedure TformPopupTrayslate.CreateParams(var Params: TCreateParams);
+{$IFDEF WINDOWS}
+const
+  WS_EX_NOACTIVATE = $08000000;
+{$ENDIF}
+begin
+  inherited CreateParams(Params);
+  {$IFDEF WINDOWS}
+  // Prevent the form from taking focus (tool window style)
+  Params.ExStyle := Params.ExStyle or WS_EX_NOACTIVATE;
+  {$ENDIF}
 end;
 
 procedure TformPopupTrayslate.UpdateStayOnTop(Data: PtrInt);
