@@ -1052,8 +1052,12 @@ var
   TimeDiff: DWORD;
   DistanceSq: integer;
 begin
+  dx := Info.X - FLastMouseInfo.X;
+  dy := Info.Y - FLastMouseInfo.Y;
+  DistanceSq := dx * dx + dy * dy;
+
   // Case 1: double-click or triple-click (triggers immediately on both)
-  if FClickCount >= 2 then
+  if (FClickCount >= 2) and (DistanceSq < MOUSE_MODE_DELTA + MOUSE_MODE_DELTA) then
   begin
     if (not MouseModeCtrl) or (FLastMouseInfo.CtrlDown and Info.CtrlDown) then
     begin
@@ -1069,10 +1073,6 @@ begin
     TimeDiff := Info.Time - FLastMouseInfo.Time
   else
     TimeDiff := 0;
-
-  dx := Info.X - FLastMouseInfo.X;
-  dy := Info.Y - FLastMouseInfo.Y;
-  DistanceSq := dx * dx + dy * dy;
 
   if (TimeDiff > MOUSE_MODE_INTERVAL) and (DistanceSq > MOUSE_MODE_DELTA * MOUSE_MODE_DELTA) then
   begin

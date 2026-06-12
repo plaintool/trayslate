@@ -51,7 +51,7 @@ function GetLanguageCodeDisplayPairs(AValueType: TValueType; ASort: boolean = Fa
 
 function ExtractCodeFromItem(const ItemText: string): string;
 
-function FindIndexByCode(const AStrings: TStrings; const ACode: string): Integer;
+function FindIndexByCode(const AStrings: TStrings; const ACode: string): integer;
 
 function IsSpecialCode(const Value: string): boolean;
 
@@ -1015,7 +1015,7 @@ end;
 function GetDisplayName(const ACode: string): string;
 var
   Langs: array of TAppValue;
-  i: Integer;
+  i: integer;
 begin
   Result := '';
   Langs := GetLanguages;
@@ -1056,9 +1056,9 @@ begin
     Result := ItemText;
 end;
 
-function FindIndexByCode(const AStrings: TStrings; const ACode: string): Integer;
+function FindIndexByCode(const AStrings: TStrings; const ACode: string): integer;
 var
-  i: Integer;
+  i: integer;
 begin
   Result := -1;
   for i := 0 to AStrings.Count - 1 do
