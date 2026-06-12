@@ -393,6 +393,7 @@ type
     FFormSettingsWidth: integer;
     FFormSettingsHeight: integer;
     FFormSettingsSplit: integer;
+    FLastDarkMode: boolean;
     FCustomPoFile: string;
     FHotKeyApp: THotKeyData;
     FHotKeyTransSwap: THotKeyData;
@@ -562,6 +563,7 @@ type
     property FormSettingsSplit: integer read FFormSettingsSplit write FFormSettingsSplit;
     property FormAboutWidth: integer read FFormAboutWidth write FFormAboutWidth;
     property FormAboutHeight: integer read FFormAboutHeight write FFormAboutHeight;
+    property LastDarkMode: boolean read FLastDarkMode write FLastDarkMode;
     property CustomPoFile: string read FCustomPoFile write FCustomPoFile;
     property MouseHook: TGlobalMouseHook read FMouseHook write FMouseHook;
     property KeyHook: TGlobalKeyboardHook read FKeyHook write FKeyHook;
@@ -687,6 +689,12 @@ begin
   // Set cursor to end of text
   MemoSource.SelStart := Length(MemoSource.Text);
   MemoSource.SelLength := 0;
+
+  if FLastDarkMode <> IsDarkMode then
+  begin
+    Font.Color := InvertColor(Font.Color);
+    FontPopup.Color := InvertColor(FontPopup.Color);
+  end;
 
   // Components config after load settings
   SetProxy(Proxy);

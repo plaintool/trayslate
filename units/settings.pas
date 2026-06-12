@@ -154,7 +154,7 @@ begin
     JSONObj.Add('FontSize', Form.Font.Size);
     JSONObj.Add('FontStyle', integer(Form.Font.Style));  // Convert font style to number
     JSONObj.Add('FontCharset', Form.Font.Charset);
-    //JSONObj.Add('FontColor', Form.Font.Color);
+    JSONObj.Add('FontColor', Form.Font.Color);
     JSONObj.Add('FontPitch', Ord(Form.Font.Pitch));
 
     // Save font popup
@@ -162,8 +162,10 @@ begin
     JSONObj.Add('PopupFontSize', Form.FontPopup.Size);
     JSONObj.Add('PopupFontStyle', integer(Form.FontPopup.Style));  // Convert font style to number
     JSONObj.Add('PopupFontCharset', Form.FontPopup.Charset);
-    //JSONObj.Add('PopupFontColor', Form.FontPopup.Color);
+    JSONObj.Add('PopupFontColor', Form.FontPopup.Color);
     JSONObj.Add('PopupFontPitch', Ord(Form.FontPopup.Pitch));
+
+    JSonObj.Add('LastDarkMode', IsDarkMode);
 
     // Save config
     JSONObj.Add('ConfigFile', Form.ConfigFile);
@@ -406,8 +408,8 @@ begin
           Form.Font.Style := TFontStyles(JSONObj.FindPath('FontStyle').AsInteger); // Convert integer back to TFontStyles
         if JSONObj.FindPath('FontCharset') <> nil then
           Form.Font.Charset := JSONObj.FindPath('FontCharset').AsInteger;
-        //if JSONObj.FindPath('FontColor') <> nil then
-        //  Form.Font.Color := JSONObj.FindPath('FontColor').AsInteger;
+        if JSONObj.FindPath('FontColor') <> nil then
+          Form.Font.Color := JSONObj.FindPath('FontColor').AsInteger;
         if JSONObj.FindPath('FontPitch') <> nil then
           Form.Font.Pitch := TFontPitch(JSONObj.FindPath('FontPitch').AsInteger);
 
@@ -420,10 +422,13 @@ begin
           Form.FontPopup.Style := TFontStyles(JSONObj.FindPath('PopupFontStyle').AsInteger); // Convert integer back to TFontStyles
         if JSONObj.FindPath('PopupFontCharset') <> nil then
           Form.FontPopup.Charset := JSONObj.FindPath('PopupFontCharset').AsInteger;
-        //if JSONObj.FindPath('PopupFontColor') <> nil then
-        //  Form.FontPopup.Color := JSONObj.FindPath('PopupFontColor').AsInteger;
+        if JSONObj.FindPath('PopupFontColor') <> nil then
+          Form.FontPopup.Color := JSONObj.FindPath('PopupFontColor').AsInteger;
         if JSONObj.FindPath('PopupFontPitch') <> nil then
           Form.FontPopup.Pitch := TFontPitch(JSONObj.FindPath('PopupFontPitch').AsInteger);
+
+        if JSONObj.FindPath('LastDarkMode') <> nil then
+          Form.LastDarkMode := JSONObj.FindPath('LastDarkMode').AsBoolean;
 
         // Load config
         if JSONObj.FindPath('ConfigFile') <> nil then
@@ -965,7 +970,7 @@ begin
     Translate.ServiceAutoSwap := Ini.ReadBool('Service', 'AutoSwapLanguage', False);
     Translate.ServiceRealTime := Ini.ReadBool('Service', 'RealTimeTranslation', False);
     Translate.ServiceOnlyButton := Ini.ReadBool('Service', 'TranslateOnlyByButton', False);
-    Translate.ServiceProxy:= Ini.ReadBool('Service', 'AllowProxy', False);
+    Translate.ServiceProxy := Ini.ReadBool('Service', 'AllowProxy', False);
     Translate.ServiceColorRecent := Ini.ReadInteger('Service', 'ColorRecent', clBlue);
 
     Translate.ServiceDescription.Clear;

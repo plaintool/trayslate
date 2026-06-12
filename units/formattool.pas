@@ -29,6 +29,8 @@ function ColorToHtml(AColor: TColor): string;
 
 function ColorFromHtml(const AHtml: string): TColor;
 
+function InvertColor(Color: TColor): TColor;
+
 function UnescapeUnicode(const S: string): string;
 
 function EscapeText(const AText: string): string;
@@ -113,6 +115,11 @@ begin
 
   // Build TColor
   Result := RGBToColor(R, G, B);
+end;
+
+function InvertColor(Color: TColor): TColor;
+begin
+  Result := RGB(255 - GetRValue(ColorToRGB(Color)), 255 - GetGValue(ColorToRGB(Color)), 255 - GetBValue(ColorToRGB(Color)));
 end;
 
 function UnescapeUnicode(const S: string): string;

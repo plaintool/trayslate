@@ -115,6 +115,8 @@ function ThemeColor(LightColor, DarkColor: TColor): TColor;
 
 function ThemeValue(LightValue, DarkValue: integer): integer;
 
+function IsDarkMode: boolean;
+
 {$IFDEF WINDOWS}
 
 function IsTaskbarDark: boolean;
@@ -374,6 +376,15 @@ begin
     Result := LightValue;
   {$ELSE}
   Result := LightValue;
+  {$ENDIF}
+end;
+
+function IsDarkMode: boolean;
+begin
+  {$IFDEF WINDOWS}
+    Result := g_darkModeEnabled;
+  {$ELSE}
+  Result := False;
   {$ENDIF}
 end;
 
