@@ -944,7 +944,8 @@ end;
 
 procedure TformTrayslate.ApplicationPropActivate(Sender: TObject);
 begin
-  FTopMost := True;
+  if Screen.ActiveForm = Self then
+    FTopMost := True;
   if Assigned(formConfigTrayslate) and formConfigTrayslate.HandleAllocated then
     formConfigTrayslate.Invalidate;
 end;
@@ -1127,6 +1128,9 @@ begin
 
   formConfigTrayslate.Show;
   formConfigTrayslate.BringToFront;
+
+  // Remove TopMost since the main form is not on the top
+  if Visible then FTopMost := False;
 end;
 
 procedure TformTrayslate.aSettingsExecute(Sender: TObject);
@@ -1164,6 +1168,9 @@ begin
   FKeyHook.Enabled := False;
 
   formSettingsTrayslate.Show;
+
+  // Remove TopMost since the main form is not on the top
+  if Visible then FTopMost := False;
 end;
 
 procedure TformTrayslate.aNewTranslateExecute(Sender: TObject);
@@ -2988,6 +2995,9 @@ begin
   // Restore focus
   if Assigned(PrevForm) and PrevForm.Visible and PrevForm.CanFocus then
     PrevForm.SetFocus;
+
+  // Remove TopMost since the main form is not on the top
+  if Visible then FTopMost := False;
 end;
 
 procedure TformTrayslate.ShowButton(const SourceText: string; X: integer = 0; Y: integer = 0);
@@ -3020,6 +3030,9 @@ begin
   // Restore focus
   if Assigned(PrevForm) and PrevForm.Visible and PrevForm.CanFocus then
     PrevForm.SetFocus;
+
+  // Remove TopMost since the main form is not on the top
+  if Visible then FTopMost := False;
 end;
 
 procedure TformTrayslate.SetVerticalMode;
