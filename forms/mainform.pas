@@ -1453,6 +1453,9 @@ procedure TformTrayslate.ComboSourceCloseUp(Sender: TObject);
 //var
 //  P: TPoint;
 begin
+  // Clearing to prevent false clicks
+  FClickCount := 0;
+
   // If value not changed - do nothing
   if ComboSource.Text = FPrevSourceText then
     Exit;
@@ -1491,6 +1494,9 @@ procedure TformTrayslate.ComboTargetCloseUp(Sender: TObject);
 //var
 //  P: TPoint;
 begin
+  // Clearing to prevent false clicks
+  FClickCount := 0;
+
   // If value not changed - do nothing
   if ComboTarget.Text = FPrevTargetText then
     Exit;
