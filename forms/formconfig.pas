@@ -735,7 +735,14 @@ end;
 procedure TformConfigTrayslate.SaveConfig;
 var
   TempHeaders: TStringList;
+  LastEnabled: boolean;
 begin
+  if formTrayslate.Visible then
+  begin
+    LastEnabled := formTrayslate.Enabled;
+    formTrayslate.Enabled := False;
+  end;
+
   if (formTrayslate.ConfigFile = string.Empty) then
     CreateConfig;
 
@@ -801,6 +808,9 @@ begin
   finally
     Screen.Cursor := crDefault;
     Caption := rcaption;
+    if formTrayslate.Visible then
+      formTrayslate.Enabled := LastEnabled;
+    if Visible and CanFocus then SetFocus;
   end;
 end;
 
