@@ -486,6 +486,7 @@ type
     {$IFDEF WINDOWS}
     procedure RegisterHotKeys;
     procedure UnregisterHotKeys;
+    procedure ReleaseHotKeyModifiers(const AHotKey: THotKeyData);
     {$ENDIF}
 
     function TranslateThread(ATrans: TTranslate; AText: string; AMemo: TMemo = nil): string;
@@ -879,48 +880,65 @@ begin
     case TheMessage.WParam of
 
       HOTKEY_APP:
-      begin
+      try
         if Showing then Hide
         else
           Show;
         BringToFront;
         FTopMost := True;
+      finally
+        // Release modifiers used in the "App" hotkey (e.g. Ctrl+Shift+A)
+        ReleaseHotKeyModifiers(FHotKeyApp);
       end;
 
       HOTKEY_TRANS_SWAP:
-      begin
+      try
         aSwap.Execute;
         ShowCustomHint(TrayIcon.Hint);
+      finally
+        ReleaseHotKeyModifiers(FHotKeyTransSwap);
       end;
 
       HOTKEY_TRANS_FROM_CLIPBOARD:
-      begin
+      try
         TranslateFromClipboard;
+      finally
+        ReleaseHotKeyModifiers(FHotKeyTransFromClipboard);
       end;
 
       HOTKEY_TRANS_CLIPBOARD:
-      begin
+      try
         TranslateClipboard;
+      finally
+        ReleaseHotKeyModifiers(FHotKeyTransClipboard);
       end;
 
       HOTKEY_TRANS_CLIPBOARD_POPUP:
-      begin
+      try
         TranslateClipboardPopup(True);
+      finally
+        ReleaseHotKeyModifiers(FHotKeyTransClipboardPopup);
       end;
 
       HOTKEY_TRANS_FROM_CONTROL:
-      begin
+      try
         Application.QueueAsyncCall(@TranslateFromControl, 0);
+      finally
+        ReleaseHotKeyModifiers(FHotKeyTransFromControl);
       end;
 
       HOTKEY_TRANS_CONTROL:
-      begin
+      try
         Application.QueueAsyncCall(@TranslateControl, 0);
+      finally
+        ReleaseHotKeyModifiers(FHotKeyTransControl);
       end;
 
       HOTKEY_TRANS_CONTROL_POPUP:
-      begin
+      try
         Application.QueueAsyncCall(@TranslateControlPopup, 0);
+      finally
+        ReleaseHotKeyModifiers(FHotKeyTransControlPopup);
       end;
 
       else
@@ -929,9 +947,22 @@ begin
           LangIndex := TheMessage.WParam - 11;
 
           if (LangIndex >= 0) and (LangIndex < MenuLangPairs.Count) then
-          begin
+          try
             MenuLangPairs.Items[LangIndex].Click;
             ShowCustomHint(TrayIcon.Hint);
+          finally
+            // Release modifiers for the specific recent pair hotkey that was pressed
+            case TheMessage.WParam of
+              HOTKEY_RECENT1: ReleaseHotKeyModifiers(FHotKeyRecent1);
+              HOTKEY_RECENT2: ReleaseHotKeyModifiers(FHotKeyRecent2);
+              HOTKEY_RECENT3: ReleaseHotKeyModifiers(FHotKeyRecent3);
+              HOTKEY_RECENT4: ReleaseHotKeyModifiers(FHotKeyRecent4);
+              HOTKEY_RECENT5: ReleaseHotKeyModifiers(FHotKeyRecent5);
+              HOTKEY_RECENT6: ReleaseHotKeyModifiers(FHotKeyRecent6);
+              HOTKEY_RECENT7: ReleaseHotKeyModifiers(FHotKeyRecent7);
+              HOTKEY_RECENT8: ReleaseHotKeyModifiers(FHotKeyRecent8);
+              HOTKEY_RECENT9: ReleaseHotKeyModifiers(FHotKeyRecent9);
+            end;
           end;
         end;
     end;
@@ -3468,10 +3499,10 @@ begin
     FUnapplyCtrl := True;
   TimerUnapply.Enabled := True;
 
-  if shift then
-    KeyInput.Apply([ssShift]);
-  if alt then
-    KeyInput.Apply([ssAlt]);
+  //if shift then
+  //  KeyInput.Apply([ssShift]);
+  //if alt then
+  //  KeyInput.Apply([ssAlt]);
 end;
 
 procedure TformTrayslate.GlobalCtrlV;
@@ -3498,29 +3529,13 @@ begin
     FUnapplyCtrl := True;
   TimerUnapply.Enabled := True;
 
-  if shift then
-    KeyInput.Apply([ssShift]);
-  if alt then
-    KeyInput.Apply([ssAlt]);
+  //if shift then
+  //  KeyInput.Apply([ssShift]);
+  //if alt then
+  //  KeyInput.Apply([ssAlt]);
 end;
 
 {$IFDEF WINDOWS}
-
-procedure TformTrayslate.UnregisterHotKeys;
-var
-  i:integer;
-begin
-  UnregisterHotKey(Handle, HOTKEY_APP);
-  UnregisterHotKey(Handle, HOTKEY_TRANS_SWAP);
-  UnregisterHotKey(Handle, HOTKEY_TRANS_FROM_CLIPBOARD);
-  UnregisterHotKey(Handle, HOTKEY_TRANS_CLIPBOARD);
-  UnregisterHotKey(Handle, HOTKEY_TRANS_CLIPBOARD_POPUP);
-  UnregisterHotKey(Handle, HOTKEY_TRANS_FROM_CONTROL);
-  UnregisterHotKey(Handle, HOTKEY_TRANS_CONTROL);
-  UnregisterHotKey(Handle, HOTKEY_TRANS_CONTROL_POPUP);
-  for i := 0 to 8 do
-    UnregisterHotKey(Handle, HOTKEY_RECENT1 + i);
-end;
 
 procedure TformTrayslate.RegisterHotKeys;
 begin
@@ -3572,6 +3587,37 @@ begin
       RegisterHotKey(Handle, HOTKEY_RECENT8, FHotKeyRecent8.Modifiers, FHotKeyRecent8.Key);
   if FHotKeyRecent9.Key <> 0 then
       RegisterHotKey(Handle, HOTKEY_RECENT9, FHotKeyRecent9.Modifiers, FHotKeyRecent9.Key);
+end;
+
+procedure TformTrayslate.UnregisterHotKeys;
+var
+  i:integer;
+begin
+  UnregisterHotKey(Handle, HOTKEY_APP);
+  UnregisterHotKey(Handle, HOTKEY_TRANS_SWAP);
+  UnregisterHotKey(Handle, HOTKEY_TRANS_FROM_CLIPBOARD);
+  UnregisterHotKey(Handle, HOTKEY_TRANS_CLIPBOARD);
+  UnregisterHotKey(Handle, HOTKEY_TRANS_CLIPBOARD_POPUP);
+  UnregisterHotKey(Handle, HOTKEY_TRANS_FROM_CONTROL);
+  UnregisterHotKey(Handle, HOTKEY_TRANS_CONTROL);
+  UnregisterHotKey(Handle, HOTKEY_TRANS_CONTROL_POPUP);
+  for i := 0 to 8 do
+    UnregisterHotKey(Handle, HOTKEY_RECENT1 + i);
+end;
+
+procedure TformTrayslate.ReleaseHotKeyModifiers(const AHotKey: THotKeyData);
+begin
+  if (AHotKey.Modifiers and MOD_SHIFT) <> 0 then
+    if GetAsyncKeyState(VK_SHIFT) >= 0 then   // >= 0 means not physically pressed
+      KeyInput.Unapply([ssShift]);
+
+  if (AHotKey.Modifiers and MOD_CONTROL) <> 0 then
+    if GetAsyncKeyState(VK_CONTROL) >= 0 then
+      KeyInput.Unapply([ssCtrl]);
+
+  if (AHotKey.Modifiers and MOD_ALT) <> 0 then
+    if GetAsyncKeyState(VK_MENU) >= 0 then
+      KeyInput.Unapply([ssAlt]);
 end;
 
 {$ENDIF}
