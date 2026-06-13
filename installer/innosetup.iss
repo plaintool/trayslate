@@ -141,6 +141,7 @@ Source: "..\config\google-post.ini";       DestDir: "{app}\config"; Flags: ignor
 Source: "..\config\simplytranslate-google.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\microsofttranslator.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\libretranslate.ini"; DestDir: "{app}\config"; Flags: ignoreversion
+Source: "..\config\laratranslate.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\deepl.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\mymemory.ini";         DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\papago.ini"; DestDir: "{app}\config"; Flags: ignoreversion
