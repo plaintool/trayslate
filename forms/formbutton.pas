@@ -105,11 +105,11 @@ begin
     Canvas.Brush.Style := bsClear;
 
   Canvas.Pen.Width := 2;
-  Canvas.Pen.Color := clSilver;
+  Canvas.Pen.Color := clGray;
   Canvas.RoundRect(-3, -3, Width - 1, Height - 1, 20, 20);
 
   Canvas.Pen.Width := 1;
-  Canvas.Pen.Color := clGray;
+  Canvas.Pen.Color := clSilver;
   Canvas.RoundRect(-2, -2, Width - 2, Height - 2, 17, 17);
 end;
 
