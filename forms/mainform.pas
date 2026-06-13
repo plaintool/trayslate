@@ -236,8 +236,8 @@ type
     procedure aCopyTargetExecute(Sender: TObject);
     procedure aShowExecute(Sender: TObject);
     procedure aAddPairExecute(Sender: TObject);
-    procedure aMenuExecute(Sender: TObject);
     procedure aDeletePairExecute(Sender: TObject);
+    procedure aMenuExecute(Sender: TObject);
     procedure aMoveFirstExecute(Sender: TObject);
     procedure aMoveLastExecute(Sender: TObject);
     procedure aMoveLeftExecute(Sender: TObject);
@@ -1265,6 +1265,38 @@ begin
   end;
 end;
 
+procedure TformTrayslate.aDeletePairExecute(Sender: TObject);
+var
+  Index: integer;
+  Pair: string;
+  Dlg: boolean;
+begin
+  if (Sender is TLabel) then
+  begin
+    Index := (Sender as TLabel).Tag;
+    Pair := (Sender as TLabel).Caption;
+    Dlg := False;
+  end
+  else
+  if (FPopupRecentPair is TLabel) then
+  begin
+    Index := (FPopupRecentPair as TLabel).Tag;
+    Pair := (FPopupRecentPair as TLabel).Caption;
+    Dlg := True;
+  end
+  else
+    Exit;
+
+  if Dlg and (MessageDlg(Format(rremovepair, [Pair]), mtConfirmation, [mbYes, mbNo], 0) <> mrYes) then
+    Exit;
+
+  // Remove pair from list
+  FLangPairs.Delete(Index);
+
+  // Rebuild panel
+  Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
+end;
+
 procedure TformTrayslate.aMenuExecute(Sender: TObject);
 var
   P: TPoint;
@@ -1283,35 +1315,6 @@ begin
   P := SbMenu.ClientToScreen(Point(SbMenu.Width, SbMenu.Height));
 
   PopupTray.PopUp(P.X, P.Y);
-end;
-
-procedure TformTrayslate.aDeletePairExecute(Sender: TObject);
-var
-  Index: integer;
-  Pair: string;
-begin
-  if (Sender is TLabel) then
-  begin
-    Index := (Sender as TLabel).Tag;
-    Pair := (Sender as TLabel).Caption;
-  end
-  else
-  if (FPopupRecentPair is TLabel) then
-  begin
-    Index := (FPopupRecentPair as TLabel).Tag;
-    Pair := (FPopupRecentPair as TLabel).Caption;
-  end
-  else
-    Exit;
-
-  if MessageDlg(Format(rremovepair, [Pair]), mtConfirmation, [mbYes, mbNo], 0) <> mrYes then
-    Exit;
-
-  // Remove pair from list
-  FLangPairs.Delete(Index);
-
-  // Rebuild panel
-  Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
 end;
 
 procedure TformTrayslate.aMoveFirstExecute(Sender: TObject);
