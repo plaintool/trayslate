@@ -1,4 +1,3 @@
-# PO file created with Obsidian PO Editor
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"

@@ -98,7 +98,7 @@ msgstr "Глобальные горячие клавиши"
 
 #: formsettings.rmousemodeballon
 msgid "Show Balloon Translation"
-msgstr "Показывать перевод в балуне"
+msgstr "Показывать перевод во всплывающем уведомлении"
 
 #: formsettings.rmousemodebutton
 msgctxt "formsettings.rmousemodebutton"
@@ -150,7 +150,7 @@ msgstr "Перевести буфер обмена в буфер обмена"
 
 #: formsettings.rtransclipboardpopup
 msgid "Translate Clipboard to Popup Window"
-msgstr "Перевести буфер обмена во всплывающее окно"
+msgstr "Перевести буфер обмена во всплывающем окне"
 
 #: formsettings.rtransclipboardpopup_default
 msgid "Default: Ctrl+Shift+P"
@@ -158,7 +158,7 @@ msgstr "По умолчанию: Ctrl+Shift+P"
 
 #: formsettings.rtransclipboardpopup_hint
 msgid "Translates clipboard text to a popup window near the mouse cursor"
-msgstr "Переводит текст из буфера обмена во всплывающее окно рядом с курсором мыши"
+msgstr "Переводит текст из буфера обмена во всплывающем окне рядом с курсором мыши"
 
 #: formsettings.rtransclipboard_default
 msgctxt "formsettings.rtransclipboard_default"
@@ -177,7 +177,7 @@ msgstr "Перевести в выделенном тексте активног
 
 #: formsettings.rtranscontrolpopup
 msgid "Translate Selected Text to Popup Window"
-msgstr "Перевести выделенный текст во всплывающее окно"
+msgstr "Перевести выделенный текст во всплывающем окне"
 
 #: formsettings.rtranscontrolpopup_default
 msgid "Default: Ctrl+Shift+X"
@@ -185,7 +185,7 @@ msgstr "По умолчанию: Ctrl+Shift+X"
 
 #: formsettings.rtranscontrolpopup_hint
 msgid "Translates selected text from the active application to a popup window near the mouse cursor"
-msgstr "Переводит выделенный текст из активного приложения во всплывающее окно рядом с курсором мыши"
+msgstr "Переводит выделенный текст из активного приложения во всплывающем окне рядом с курсором мыши"
 
 #: formsettings.rtranscontrol_default
 msgctxt "formsettings.rtranscontrol_default"
@@ -913,7 +913,7 @@ msgstr "Автоматически переводить текст во врем
 
 #: tformsettingstrayslate.checksmarthard.caption
 msgid "Always Prefer Primary/Secondary Language"
-msgstr "Всегда предпочитать основный/вторичный язык"
+msgstr "Всегда предпочитать основной/вторичный язык"
 
 #: tformsettingstrayslate.checksmarthard.hint
 msgid ""
