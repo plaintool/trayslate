@@ -118,7 +118,7 @@ end;
 function TGlobalMouseHook.IsInputWindow(Wnd: THandle): Boolean;
 const
   // Classes that we always ignore (blacklist)
- IgnoredClasses: array[0..9] of PChar = (
+  IgnoredClasses: array[0..13] of PChar = (
     'ComboLBox',          // popup list of a ComboBox
     'ScrollBar',          // standard scrollbar
     'msctls_updown32',    // up-down (spin) control
@@ -128,7 +128,17 @@ const
     'SysTabControl32',    // tab control (tabs)
     '#32768',             // system menu (popup) / window menu
     'tooltips_class32',   // tooltip window
-    'Static'              // static text / label (rarely needed, but safe to ignore)
+    'Static',             // static text / label
+    'SysListView32',      // classic file list in Explorer
+    'DirectUIHWND',       // modern Explorer file view (Vista+)
+    'CtrlNotifySink',     // sometimes used in Explorer details pane
+    'Shell DocObject View'// embedded Explorer views
+  );
+
+  // Virtual machine window classes – fast preliminary check
+  VMWindowClasses: array[0..1] of PChar = (
+    'QWidget',            // VirtualBox (older) / Qt main window
+    'VMwareUnityHostWnd'  // VMware Workstation/Player
   );
 
   // Classes that are treated as text editing fields (whitelist)
@@ -146,6 +156,14 @@ const
     'Windows.UI.Core.CoreWindow',   // UWP / WinRT text controls
     'Afx:FrameOrView:100'           // MFC-based applications
   );
+
+  // Process names of known virtual machines and emulators
+  VMProcessNames: array[0..2] of string = (
+    'virtualboxvm.exe',
+    'vboxheadless.exe',
+    'vmware-vmx.exe'
+  );
+
 type
   TQueryFullProcessImageNameW = function(hProcess: THandle; dwFlags: DWORD;
     lpExeName: PWideChar; lpdwSize: LPDWORD): BOOL; stdcall;
@@ -161,68 +179,154 @@ var
   dwStart, dwEnd: DWORD;
   QueryFull: TQueryFullProcessImageNameW;
   hKernel32: THandle;
+  isVM: Boolean;
+
+  //---------------------------------------------------------------
+  // Helper – returns True if the window belongs to a VM process
+  //---------------------------------------------------------------
+  function WindowBelongsToVM(Wnd: THandle): Boolean;
+  var
+    pidLocal: DWORD;
+    hP: THandle;
+    fname: array[0..MAX_PATH] of WideChar;
+    fLen: DWORD;
+    nameStr: WideString;
+    k: Integer;
+    ext: string;
+  begin
+    Result := False;
+    if not Assigned(QueryFull) then Exit;
+    GetWindowThreadProcessId(HWND(Wnd), @pidLocal);
+    hP := OpenProcess(PROCESS_QUERY_INFORMATION, False, pidLocal);
+    if hP = 0 then Exit;
+    try
+      fLen := MAX_PATH;
+      if QueryFull(hP, 0, @fname[0], @fLen) then
+      begin
+        SetString(nameStr, PWideChar(@fname[0]), fLen);
+        k := LastDelimiter('\', string(nameStr));
+        if k > 0 then
+          ext := LowerCase(Copy(string(nameStr), k + 1, MaxInt))
+        else
+          ext := LowerCase(string(nameStr));
+        for k := Low(VMProcessNames) to High(VMProcessNames) do
+          if ext = VMProcessNames[k] then
+            Exit(True);
+      end;
+    finally
+      CloseHandle(hP);
+    end;
+  end;
+
 begin
   Result := False;
   if Wnd = 0 then Exit;
 
-  // Get window class name
-  if GetClassName(HWND(Wnd), szClass, Length(szClass)) > 0 then
-  begin
-    // 1. Reject ignored classes immediately
-    for i := Low(IgnoredClasses) to High(IgnoredClasses) do
-      if StrIComp(szClass, IgnoredClasses[i]) = 0 then
-        Exit(False);   // always suppress events on these
-
-    // 2. If EditFieldOnly is not active, any non-ignored window is allowed
-    if not FEditFieldOnly then
-      Exit(True);
-
-    // 3. EditFieldOnly mode: check if the class is a known text editor
-    for i := Low(TextEditClasses) to High(TextEditClasses) do
-      if StrIComp(szClass, TextEditClasses[i]) = 0 then
-        Exit(True);
-
-    // 4. Not a recognized editor – fall through to additional checks
-  end;
-
-  // explorer.exe check (dynamic, XP-safe)
+  // Load kernel function once per call (can be cached in a class field)
   hKernel32 := GetModuleHandle('kernel32.dll');
   if hKernel32 <> 0 then
     Pointer(QueryFull) := GetProcAddress(hKernel32, 'QueryFullProcessImageNameW')
   else
     Pointer(QueryFull) := nil;
 
-  if Assigned(QueryFull) then
+  // Get window class name
+  if GetClassName(HWND(Wnd), szClass, Length(szClass)) > 0 then
   begin
-    GetWindowThreadProcessId(HWND(Wnd), @pid);
-    hProc := OpenProcess(PROCESS_QUERY_INFORMATION, False, pid);
-    if hProc <> 0 then
+    // 0. IMMEDIATE REJECTION – virtual machine window classes
+    for i := Low(VMWindowClasses) to High(VMWindowClasses) do
+      if StrIComp(szClass, VMWindowClasses[i]) = 0 then
+        Exit(False);
+
+    // 1. Reject ignored classes (blacklist)
+    for i := Low(IgnoredClasses) to High(IgnoredClasses) do
+      if StrIComp(szClass, IgnoredClasses[i]) = 0 then
+        Exit(False);
+
+    // ------------------------------------------------------------
+    // 2. MODE: not EditFieldOnly
+    // ------------------------------------------------------------
+    if not FEditFieldOnly then
     begin
-      len := MAX_PATH;
-      if QueryFull(hProc, 0, @fileName[0], @len) then
+      // a) Reject windows owned by explorer.exe
+      if Assigned(QueryFull) then
       begin
-        SetString(s, PWideChar(@fileName[0]), len);
-        j := LastDelimiter('\', string(s));
-        if (j > 0) and (StrIComp(PWideChar(@s[j+1]), 'explorer.exe') = 0) then
+        GetWindowThreadProcessId(HWND(Wnd), @pid);
+        hProc := OpenProcess(PROCESS_QUERY_INFORMATION, False, pid);
+        if hProc <> 0 then
         begin
+          len := MAX_PATH;
+          if QueryFull(hProc, 0, @fileName[0], @len) then
+          begin
+            SetString(s, PWideChar(@fileName[0]), len);
+            j := LastDelimiter('\', string(s));
+            if (j > 0) and (StrIComp(PWideChar(@s[j+1]), 'explorer.exe') = 0) then
+            begin
+              CloseHandle(hProc);
+              Exit(False);
+            end;
+          end;
           CloseHandle(hProc);
-          Exit(False);   // explorer.exe windows are not valid input targets
         end;
       end;
-      CloseHandle(hProc);
+
+      // b) Reject windows owned by known VM processes
+      if Assigned(QueryFull) then
+      begin
+        if WindowBelongsToVM(Wnd) then
+          Exit(False);
+      end;
+
+      // All remaining windows are valid input targets
+      Exit(True);
     end;
+
+    // ------------------------------------------------------------
+    // 3. MODE: EditFieldOnly
+    // ------------------------------------------------------------
+    // First, check if the class is a known text editor
+    for i := Low(TextEditClasses) to High(TextEditClasses) do
+      if StrIComp(szClass, TextEditClasses[i]) = 0 then
+        Exit(True);
+
+    // Unknown class – perform process-based checks BEFORE EM_GETSEL
+    if Assigned(QueryFull) then
+    begin
+      // a) Reject explorer.exe
+      GetWindowThreadProcessId(HWND(Wnd), @pid);
+      hProc := OpenProcess(PROCESS_QUERY_INFORMATION, False, pid);
+      if hProc <> 0 then
+      begin
+        len := MAX_PATH;
+        if QueryFull(hProc, 0, @fileName[0], @len) then
+        begin
+          SetString(s, PWideChar(@fileName[0]), len);
+          j := LastDelimiter('\', string(s));
+          if (j > 0) and (StrIComp(PWideChar(@s[j+1]), 'explorer.exe') = 0) then
+          begin
+            CloseHandle(hProc);
+            Exit(False);
+          end;
+        end;
+        CloseHandle(hProc);
+      end;
+
+      // b) Reject VM processes
+      if WindowBelongsToVM(Wnd) then
+        Exit(False);
+
+      // c) If the window belongs to none of the above, try EM_GETSEL
+      //    (allows non‑standard editors that support this message)
+      if SendMessageTimeout(HWND(Wnd), EM_GETSEL, WPARAM(@dwStart), LPARAM(@dwEnd),
+                            SMTO_ABORTIFHUNG, 20, nil) <> 0 then
+        Exit(True);
+    end;
+
+    // Not a recognised editor – reject
+    Exit(False);
   end;
 
-  // Fallback: try EM_GETSEL to detect editable controls
-  if SendMessageTimeout(HWND(Wnd), EM_GETSEL, WPARAM(@dwStart), LPARAM(@dwEnd),
-                        SMTO_ABORTIFHUNG, 20, nil) <> 0 then
-    Exit(True);
-
-  // If we reached here in EditFieldOnly mode, the window is not a valid editor
-  if FEditFieldOnly then
-    Result := False
-  else
-    Result := True;   // in normal mode, allow everything except blacklisted classes
+  // Should never reach here (GetClassName failed)
+  Exit(False);
 end;
 
 procedure TGlobalMouseHook.InternalMouseEvent(wParam: WPARAM; const p: TMouseLLHookStruct);
