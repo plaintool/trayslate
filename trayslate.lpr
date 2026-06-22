@@ -29,6 +29,9 @@ uses
   {$R *.res}
 
 begin
+  {$IFDEF DEBUG}
+  GlobalSkipIfNoLeaks := True;
+  {$ENDIF}
   RequireDerivedFormResource := True;
   Language := GetOSLanguage;
   Application.Title := 'Trayslate';
