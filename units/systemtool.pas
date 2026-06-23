@@ -187,6 +187,14 @@ function IsWindows11: boolean;
 
 function InputQueryLite(const ACaption, APrompt: string; var AValue: string): boolean;
 
+{ Clipboard }
+
+function AddClipboardExcludeFlag: boolean;
+
+function GetClipboardTextExcluded: string;
+
+function SetClipboardTextExcluded(const AText: string): boolean;
+
 var
   Language: string;
 
@@ -981,8 +989,12 @@ begin
             HTTP.Sock.SocksPassword := P.Password;
           end;
         end;
+        else
+          ;
       end;
     end;
+    else
+      ;
   end;
 end;
 
@@ -1853,6 +1865,115 @@ begin
   finally
     InputForm.Free;
   end;
+end;
+
+{ Clipboard }
+
+function AddClipboardExcludeFlag: boolean;
+  {$IFDEF WINDOWS}
+var
+  cfExclude: UINT;
+  {$ENDIF}
+begin
+  Result := False;
+  {$IFDEF WINDOWS}
+  if OpenClipboard(0) then
+  try
+    cfExclude := RegisterClipboardFormat('ExcludeClipboardContentFromMonitorProcessing');
+    if cfExclude <> 0 then
+      SetClipboardData(cfExclude, 0);
+  finally
+    CloseClipboard;
+    Result := True;
+  end;
+  {$ENDIF}
+end;
+
+function GetClipboardTextExcluded: string;
+  {$IFDEF WINDOWS}
+var
+  hText: HGLOBAL;
+  pText: PWideChar;
+  cfExclude: UINT;
+  {$ENDIF}
+begin
+  {$IFDEF WINDOWS}
+  Result := '';
+  if not OpenClipboard(0) then Exit;
+  try
+    if IsClipboardFormatAvailable(CF_UNICODETEXT) then
+    begin
+      hText := GetClipboardData(CF_UNICODETEXT);
+      if hText <> 0 then
+      begin
+        pText := GlobalLock(hText);
+        if pText <> nil then
+        begin
+          Result := pText;
+          GlobalUnlock(hText);
+        end;
+      end;
+    end;
+    // IMPORTANT: add exclusion flag to current content (restore will use it)
+    cfExclude := RegisterClipboardFormat('ExcludeClipboardContentFromMonitorProcessing');
+    if cfExclude <> 0 then
+      SetClipboardData(cfExclude, 0);
+  finally
+    CloseClipboard;
+  end;
+  {$ELSE}
+  Result := string.Empty;
+  {$ENDIF}
+end;
+
+function SetClipboardTextExcluded(const AText: string): boolean;
+  {$IFDEF WINDOWS}
+var
+  hMem: HGLOBAL;
+  pMem: Pointer;
+  cfExclude: UINT;
+  WideText: UnicodeString;
+  Len: Integer;
+  {$ENDIF}
+begin
+  {$IFDEF WINDOWS}
+  Result := False;
+  WideText := UTF8Decode(AText); // или просто AText если строка уже Unicode
+  Len := (Length(WideText) + 1) * SizeOf(WideChar);
+  hMem := GlobalAlloc(GMEM_MOVEABLE, Len);
+  if hMem = 0 then Exit;
+  pMem := GlobalLock(hMem);
+  if pMem = nil then
+  begin
+    GlobalFree(hMem);
+    Exit;
+  end;
+  Move(PWideChar(WideText)^, pMem^, Len);
+  GlobalUnlock(hMem);
+
+  if not OpenClipboard(0) then
+  begin
+    GlobalFree(hMem);
+    Exit;
+  end;
+  try
+    EmptyClipboard;
+    if SetClipboardData(CF_UNICODETEXT, hMem) = 0 then
+    begin
+      GlobalFree(hMem);
+      Exit;
+    end;
+    // Add exclusion flag
+    cfExclude := RegisterClipboardFormat('ExcludeClipboardContentFromMonitorProcessing');
+    if cfExclude <> 0 then
+      SetClipboardData(cfExclude, 0);
+    Result := True;
+  finally
+    CloseClipboard;
+  end;
+  {$ELSE}
+  Result := False;
+  {$ENDIF}
 end;
 
 end.

@@ -3968,6 +3968,7 @@ begin
   // Save current clipboard to restore later
   OriginalClip := Clipboard.AsText;
   Clipboard.AsText := string.Empty;
+  AddClipboardExcludeFlag;
   try
     // Copy selection from active window (Ctrl+C)
     GlobalCtrlC;
@@ -3984,6 +3985,7 @@ begin
   finally
     // Restore original clipboard
     Clipboard.AsText := OriginalClip;
+    AddClipboardExcludeFlag;
   end;
 end;
 
@@ -4007,6 +4009,7 @@ begin
     // Save current clipboard to restore later
     OriginalClip := Clipboard.AsText;
     Clipboard.AsText := string.Empty;
+    AddClipboardExcludeFlag;
     try
 
       // Copy selection from active window (Ctrl+C)
@@ -4028,6 +4031,7 @@ begin
     finally
       // Restore original clipboard
       Clipboard.AsText := OriginalClip;
+      AddClipboardExcludeFlag;
     end;
   finally
     {$IFDEF WINDOWS}
@@ -4050,6 +4054,7 @@ begin
   // Save current clipboard to restore later
   OriginalClip := Clipboard.AsText;
   Clipboard.AsText := string.Empty;
+  AddClipboardExcludeFlag;
   try
     if TimerTranslate.Enabled then
       TimerTranslate.Enabled := False;
@@ -4068,6 +4073,7 @@ begin
   finally
     // Restore original clipboard
     Clipboard.AsText := OriginalClip;
+    AddClipboardExcludeFlag;
   end;
 end;
 
@@ -4081,6 +4087,7 @@ begin
     // Save current clipboard to restore later
     OriginalClip := Clipboard.AsText;
     Clipboard.AsText := string.Empty;
+    AddClipboardExcludeFlag;
     try
       // Copy selection from active window (Ctrl+C)
       GlobalCtrlC;
@@ -4088,11 +4095,17 @@ begin
     finally
       // Restore original clipboard only if one of the copy combination keys is not pressed
       if (((GetTickCountXp - FLastCtrlTime) <= 100) and ((GetTickCountXp - FLastVTime) <= 100)) then
-        Clipboard.AsText := OriginalClip
+      begin
+        Clipboard.AsText := OriginalClip;
+        AddClipboardExcludeFlag;
+      end
       else
       if (((GetTickCountXp - FLastCtrlTime) > 100) and ((GetTickCountXp - FLastCTime) > 100) and
         ((GetTickCountXp - FLastXTime) > 100)) then
+      begin
         Clipboard.AsText := OriginalClip;
+        AddClipboardExcludeFlag;
+      end;
 
       if (GetTickCountXp - FLastKeyTime) > 200 then
         TimerUnapplyTimer(Self);
