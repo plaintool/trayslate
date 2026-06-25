@@ -229,6 +229,10 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="GlobalKeyboardHook"/>
       </Unit>
+      <Unit>
+        <Filename Value="units\stringshelper.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

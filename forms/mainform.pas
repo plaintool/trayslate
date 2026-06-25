@@ -39,7 +39,8 @@ uses
   globalmousehook,
   translate,
   langtool,
-  systemtool;
+  systemtool,
+  stringshelper;
 
 type
 
@@ -2017,7 +2018,7 @@ begin
   // Check if current ComboSource text is still valid
   if ComboSource.Items.IndexOf(ComboSource.Text) < 0 then
   begin
-    Id := FindSubstringIndex(Trans.Languages, LangSource);
+    Id := Trans.Languages.FindSubstringIndex(LangSource);
     if (Id >= 0) and (Id < FLanguages.Count) then
     begin
       ComboSource.Text := FLanguages.ValueFromIndex[Id];
@@ -2040,7 +2041,7 @@ begin
   else
   begin
     // Update the matched language in case of case change
-    id := GetIndexByValue(Trans.Languages, FLangSource);
+    id := Trans.Languages.GetIndexByValue(FLangSource);
     if Id < 0 then
       Trans.LangSource := Trans.Languages.Values[FLangSource]
     else
@@ -2067,7 +2068,7 @@ begin
     // If there are target languages
     if Trans.LanguagesTarget.Count > 0 then
     begin
-      Id := FindSubstringIndex(Trans.LanguagesTarget, LangTarget);
+      Id := Trans.LanguagesTarget.FindSubstringIndex(LangTarget);
       if (Id >= 0) and (Id < FLanguagesTarget.Count) then
       begin
         ComboTarget.Text := FLanguagesTarget.ValueFromIndex[Id];
@@ -2083,7 +2084,7 @@ begin
     else
     begin
       // If the languages are identical to sources
-      Id := FindSubstringIndex(Trans.Languages, LangTarget);
+      Id := Trans.Languages.FindSubstringIndex(LangTarget);
       if (Id >= 0) and (Id < FLanguages.Count) then
       begin
         ComboTarget.Text := FLanguages.ValueFromIndex[Id];
@@ -2110,7 +2111,7 @@ begin
     // Update the matched language in case of case change
     if Trans.LanguagesTarget.Count > 0 then
     begin
-      id := GetIndexByValue(Trans.LanguagesTarget, FLangTarget);
+      id := Trans.LanguagesTarget.GetIndexByValue(FLangTarget);
       if Id < 0 then
         Trans.LangTarget := Trans.LanguagesTarget.Values[FLangTarget]
       else
@@ -2118,7 +2119,7 @@ begin
     end
     else
     begin
-      id := GetIndexByValue(Trans.Languages, FLangTarget);
+      id := Trans.Languages.GetIndexByValue(FLangTarget);
       if Id < 0 then
         Trans.LangTarget := Trans.Languages.Values[FLangTarget]
       else
@@ -2143,8 +2144,8 @@ begin
     else
     begin
       // if system language in lists
-      if (((FLanguagesTarget.Count > 0) and (FindInStringList(FLanguagesTarget, '(' + Language + ')') >= 0)) or
-        ((FLanguagesTarget.Count = 0) and (FindInStringList(FLanguages, '(' + Language + ')') >= 0))) then
+      if (((FLanguagesTarget.Count > 0) and (FLanguagesTarget.FindInStringList('(' + Language + ')') >= 0)) or
+        ((FLanguagesTarget.Count = 0) and (FLanguages.FindInStringList('(' + Language + ')') >= 0))) then
       begin
         FTrans.LangTarget := Language; // Default system language
         FLangTarget := Language;
@@ -2801,7 +2802,7 @@ begin
 
   if Pos('(', ComboSource.Text) = 0 then
   begin
-    i := GetIndexByValue(Trans.Languages, Result);
+    i := Trans.Languages.GetIndexByValue(Result);
     if (i >= 0) and (i < FLanguages.Count) then
       Result := FLanguages[i];
   end;
@@ -2817,13 +2818,13 @@ begin
   begin
     if FLanguagesTarget.Count > 0 then
     begin
-      i := GetIndexByValue(Trans.LanguagesTarget, Result);
+      i := Trans.LanguagesTarget.GetIndexByValue(Result);
       if (i >= 0) and (i < FLanguagesTarget.Count) then
         Result := FLanguagesTarget[i];
     end
     else
     begin
-      i := GetIndexByValue(Trans.Languages, Result);
+      i := Trans.Languages.GetIndexByValue(Result);
       if (i >= 0) and (i < FLanguages.Count) then
         Result := FLanguages[i];
     end;
@@ -3399,9 +3400,9 @@ begin
     toLang := string.Empty;
   end;
 
-  idxnative := FindInStringList(FLanguages, '(' + fromLang + ')');
+  idxnative := FLanguages.FindInStringList('(' + fromLang + ')');
   if idxnative < 0 then
-    idxnative := FindInStringList(FLanguages, fromLang);
+    idxnative := FLanguages.FindInStringList(fromLang);
 
   if idxnative >= 0 then
     ChangeSourceLang(FLanguages[idxnative], False)
@@ -3410,9 +3411,9 @@ begin
 
   if FLanguagesTarget.Count > 0 then
   begin
-    idxnative := FindInStringList(FLanguagesTarget, '(' + toLang + ')');
+    idxnative := FLanguagesTarget.FindInStringList('(' + toLang + ')');
     if idxnative < 0 then
-      idxnative := FindInStringList(FLanguagesTarget, toLang);
+      idxnative := FLanguagesTarget.FindInStringList(toLang);
 
     if idxnative >= 0 then
       ChangeTargetLang(FLanguagesTarget[idxnative], False)
@@ -3421,9 +3422,9 @@ begin
   end
   else
   begin
-    idxnative := FindInStringList(FLanguages, '(' + toLang + ')');
+    idxnative := FLanguages.FindInStringList('(' + toLang + ')');
     if idxnative < 0 then
-      idxnative := FindInStringList(FLanguages, toLang);
+      idxnative := FLanguages.FindInStringList(toLang);
 
     if idxnative >= 0 then
       ChangeTargetLang(FLanguages[idxnative], False)
@@ -3719,7 +3720,7 @@ end;
 procedure TformTrayslate.DetectLanguage(AText: string);
 var
   langSrc, langTar, langDetect, langPrimary, langSecondary: string;
-  idxSrc, idxTar: integer;
+  idxSrc, idxTar, idx: integer;
   NeedHint: boolean = False;
 begin
   if FCancelled then Exit;
@@ -3782,13 +3783,21 @@ begin
         begin
           if (langSrc <> langPrimary) and (not IsSpecialCode(langSrc)) then
           begin
-            ChangeSourceLang(FLanguages[Trans.Languages.IndexOfName(langPrimary)], False);
-            NeedHint := True;
+            idx := Trans.Languages.IndexOfNameIgnoreCase(langPrimary);
+            if (idx > 0) and (idx < FLanguages.Count) then
+            begin
+              ChangeSourceLang(FLanguages[idx], False);
+              NeedHint := True;
+            end;
           end;
           if (langTar <> langSecondary) and (SmartHard) then
           begin
-            ChangeTargetLang(FLanguages[Trans.Languages.IndexOfName(langSecondary)]);
-            NeedHint := True;
+            idx := Trans.Languages.IndexOfNameIgnoreCase(langSecondary);
+            if (idx > 0) and (idx < FLanguages.Count) then
+            begin
+              ChangeTargetLang(FLanguages[idx]);
+              NeedHint := True;
+            end;
           end;
           if NeedHint then
             ShowCustomHint(TrayIcon.Hint);
@@ -3797,13 +3806,21 @@ begin
         begin
           if (langSrc <> langDetect) and (not IsSpecialCode(langSrc)) then
           begin
-            ChangeSourceLang(FLanguages[Trans.Languages.IndexOfName(langDetect)], False);
-            NeedHint := True;
+            idx := Trans.Languages.IndexOfNameIgnoreCase(langDetect);
+            if (idx > 0) and (idx < FLanguages.Count) then
+            begin
+              ChangeSourceLang(FLanguages[idx], False);
+              NeedHint := True;
+            end;
           end;
           if (langTar <> langPrimary) and (SmartHard) then
           begin
-            ChangeTargetLang(FLanguages[Trans.Languages.IndexOfName(langPrimary)]);
-            NeedHint := True;
+            idx := Trans.Languages.IndexOfNameIgnoreCase(langPrimary);
+            if (idx > 0) and (idx < FLanguages.Count) then
+            begin
+              ChangeTargetLang(FLanguages[idx]);
+              NeedHint := True;
+            end;
           end;
           if NeedHint then
             ShowCustomHint(TrayIcon.Hint);
@@ -4231,10 +4248,10 @@ begin
   // Update Language Names
   if OldAutoDetect <> string.Empty then
   begin
-    ReplaceInStrings(FLanguages, OldAutoDetect, rautodetect);
-    ReplaceInStrings(FLanguagesTarget, OldAutoDetect, rautodetect);
-    ReplaceInStrings(ComboSource.Items, OldAutoDetect, rautodetect);
-    ReplaceInStrings(ComboTarget.Items, OldAutoDetect, rautodetect);
+    FLanguages.ReplaceInStrings(OldAutoDetect, rautodetect);
+    FLanguagesTarget.ReplaceInStrings(OldAutoDetect, rautodetect);
+    ComboSource.Items.ReplaceInStrings(OldAutoDetect, rautodetect);
+    ComboTarget.Items.ReplaceInStrings(OldAutoDetect, rautodetect);
   end;
 
   // Update form text

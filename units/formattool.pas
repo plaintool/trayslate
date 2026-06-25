@@ -45,14 +45,6 @@ procedure PasteWithLineEnding(AMemo: TMemo);
 
 procedure RemoveSameNameValueFromMemo(Memo: TMemo);
 
-function FindInStringList(Strings: TStringList; const SubText: string): integer;
-
-function GetIndexByValue(Strings: TStrings; const AValue: string; CaseSensitive: boolean = True): integer;
-
-procedure RemoveEmptyValues(Strings: TStringList);
-
-procedure ReplaceInStrings(AList: TStrings; const AFrom, ATo: string; AReplaceAll: boolean = False);
-
 function RemoveEmptyParams(const AInput: string): string;
 
 procedure SaveStringToFile(const FileName, Data: string);
@@ -70,8 +62,6 @@ procedure AddCustomColors(AColorBox: TColorBox);
 function DarkThemeColor(BaseColor: TColor; Delta: integer = 60): TColor;
 
 function PosExReverse(const SubStr, S: unicodestring; Offset: SizeInt = -1): SizeInt;
-
-function FindSubstringIndex(Strings: TStringList; const AValue: string): integer;
 
 function Utf8Truncate(const S: string; MaxBytes: integer; Encode: boolean): string;
 
@@ -259,77 +249,6 @@ begin
     // Case-sensitive compare
     if (KeyPart = ValuePart) and (Length(KeyPart) > 10) then
       Memo.Lines[i] := KeyPart;
-  end;
-end;
-
-function FindInStringList(Strings: TStringList; const SubText: string): integer;
-var
-  i: integer;
-begin
-  Result := -1;
-  for i := 0 to Strings.Count - 1 do
-    if Pos(SubText, Strings[i]) > 0 then
-    begin
-      Result := i;
-      Exit;
-    end;
-end;
-
-function GetIndexByValue(Strings: TStrings; const AValue: string; CaseSensitive: boolean = True): integer;
-var
-  i: integer;
-begin
-  Result := -1;
-
-  for i := 0 to Strings.Count - 1 do
-    if (CaseSensitive and (Strings.ValueFromIndex[i] = AValue)) or (not CaseSensitive and
-      (UTF8CompareText(Strings.ValueFromIndex[i], AValue) = 0)) then
-    begin
-      Result := i;
-      Exit;
-    end;
-end;
-
-procedure RemoveEmptyValues(Strings: TStringList);
-var
-  i: integer;
-  EqualPos: integer;
-begin
-  // Traverse the list backwards so that deletions don't affect subsequent indices
-  for i := Strings.Count - 1 downto 0 do
-  begin
-    // Locate the position of the '=' character in the current line
-    EqualPos := Pos('=', Strings[i]);
-
-    // If '=' exists and there is no text after it, remove the line
-    if (EqualPos > 0) and (Copy(Strings[i], EqualPos + 1, MaxInt) = string.Empty) then
-      Strings.Delete(i);
-  end;
-end;
-
-procedure ReplaceInStrings(AList: TStrings; const AFrom, ATo: string; AReplaceAll: boolean = False);
-var
-  i: integer;
-  Flags: TReplaceFlags;
-begin
-  if (AFrom = string.Empty) or (AList.Count = 0) then Exit;
-
-  if AReplaceAll then
-    Flags := [rfReplaceAll]
-  else
-    Flags := []; // replace only first occurrence
-
-  for i := 0 to AList.Count - 1 do
-  begin
-    // Check first to avoid unnecessary StringReplace
-    if Pos(AFrom, AList[i]) > 0 then
-    begin
-      AList[i] := StringReplace(AList[i], AFrom, ATo, Flags);
-
-      // If only one replacement needed — exit after first match
-      if not AReplaceAll then
-        Exit;
-    end;
   end;
 end;
 
@@ -726,48 +645,6 @@ begin
       end;
     end;
   end;
-end;
-
-function FindSubstringIndex(Strings: TStringList; const AValue: string): integer;
-var
-  Parts: TStringArray;
-  Part: string;
-begin
-  Result := -1;
-
-  if (Strings = nil) or (AValue = string.Empty) then
-    Exit;
-
-  // Search by Name
-  Result := Strings.IndexOfName(AValue);
-  if Result >= 0 then
-    Exit;
-
-  // Search by Value
-  Result := GetIndexByValue(Strings, AValue);
-  if Result >= 0 then
-    Exit;
-
-  // Try split by string symbols
-  Parts := AValue.Split(['-', '_', ':', ',', ';']);
-
-  for Part in Parts do
-  begin
-    if Part = string.Empty then
-      Continue;
-
-    // Search split part by Name
-    Result := Strings.IndexOfName(Part);
-    if Result >= 0 then
-      Exit;
-
-    // Search split part by Value
-    Result := GetIndexByValue(Strings, Part);
-    if Result >= 0 then
-      Exit;
-  end;
-
-  Result := -1;
 end;
 
 function Utf8Truncate(const S: string; MaxBytes: integer; Encode: boolean): string;

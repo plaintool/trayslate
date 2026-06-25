@@ -57,7 +57,7 @@ procedure ClearSection(AIni: TIniFile; const ASection: string; AErase: boolean);
 
 implementation
 
-uses systemtool, langtool, formattool;
+uses systemtool, langtool, stringshelper;
 
 function GetSettingsDirectory(fileName: string = string.Empty): string;
   {$IFDEF WINDOWS}
@@ -1039,8 +1039,8 @@ begin
     LoadSection('Languages', Translate.Languages);
     LoadSection('LanguagesTarget', Translate.LanguagesTarget);
 
-    RemoveEmptyValues(Translate.Languages);
-    RemoveEmptyValues(Translate.LanguagesTarget);
+    Translate.Languages.RemoveEmptyValues;
+    Translate.LanguagesTarget.RemoveEmptyValues;
   finally
     Ini.Free;
   end;

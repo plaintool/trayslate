@@ -12,6 +12,7 @@ uses
   Classes,
   SysUtils,
   StrUtils,
+  stringshelper,
   translate;
 
 type
@@ -969,7 +970,7 @@ begin
           if CaseSensitiveSearch then
             idx := LangMap.IndexOfName(Key) // case-sensitive for vtUnit
           else
-            idx := LangMap.IndexOfName(Key); // case-insensitive for others
+            idx := LangMap.IndexOfNameIgnoreCase(Key); // case-insensitive for others
 
           if idx >= 0 then
             DisplayString := LangMap.ValueFromIndex[idx] + ' (' + ApiValue + ')'
