@@ -67,6 +67,7 @@ type
   private
     FSourceText: string;
     FDropTarget: TTextDropTarget;
+    FInWindow: boolean;
 
     procedure UpdateWatermarkVisibility;
   protected
@@ -75,6 +76,7 @@ type
     procedure UpdateStayOnTop(Data: PtrInt);
 
     property SourceText: string read FSourceText write FSourceText;
+    property InWindow: boolean read FInWindow;
   end;
 
 var
@@ -185,7 +187,6 @@ var
   CursorPos: TPoint;
   TargetAlpha: integer;
   DetectionRect: TRect;
-  InWindow: boolean;
 const
   // Individual margins for each side (in pixels)
   MARGIN_LEFT = 15;
@@ -217,13 +218,13 @@ begin
   if PtInRect(DetectionRect, CursorPos) then
   begin
     // Mouse is within range (including margins)
-    InWindow := True;
+    FInWindow := True;
     TargetAlpha := Round(Power(EnsureRange(formTrayslate.OpacityHover, 0, 100) / 100, 0.5) * 255);
   end
   else
   begin
     // Mouse is outside the detection zone
-    InWindow := False;
+    FInWindow := False;
     TargetAlpha := Round(Power(EnsureRange(formTrayslate.OpacityIdle, 0, 100) / 100, 0.5) * 255);
   end;
 
@@ -238,8 +239,8 @@ begin
     UpdateWatermarkVisibility;
   end;
 
-  PanelPairs.Visible := InWindow or not formTrayslate.HideControls;
-  PanelButtonTarget.Visible := (InWindow and (Width > 100) and (Height > 50 + FlowPairs.Height)) or not formTrayslate.HideControls;
+  PanelPairs.Visible := FInWindow or not formTrayslate.HideControls;
+  PanelButtonTarget.Visible := (FInWindow and (Width > 100) and (Height > 50 + FlowPairs.Height)) or not formTrayslate.HideControls;
 end;
 
 procedure TformPopupTrayslate.OnTextDroppedHandler(Sender: TObject; const AText: string);

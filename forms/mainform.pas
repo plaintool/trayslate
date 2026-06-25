@@ -479,6 +479,7 @@ type
     function GetParameterValue(AName: string; out ResultOk: boolean): string;
     procedure AdjustPopupHeight(AText: string);
     procedure ShowPopup(const SourceText: string; X: integer = 0; Y: integer = 0);
+    procedure ClosePopupAsync(Data: PtrInt);
     procedure ShowButton(const SourceText: string; X: integer = 0; Y: integer = 0);
     procedure SetVerticalMode;
     function GetLangCodeFromPoFile(const AFileName: string): string;
@@ -1048,6 +1049,9 @@ begin
 
   if not Info.IsDown then Exit;
   if Info.IsInjected then Exit;
+
+  if (Info.KeyCode = VK_ESCAPE) and Assigned(formPopupTrayslate) and formPopupTrayslate.Visible and formPopupTrayslate.InWindow then
+    Application.QueueAsyncCall(@ClosePopupAsync, 0);
 
   // Signals about pressing physical keys
   FLastKeyTime := Tick;
@@ -3053,6 +3057,12 @@ begin
 
   // Remove TopMost since the main form is not on the top
   if Visible then FTopMost := False;
+end;
+
+procedure TformTrayslate.ClosePopupAsync(Data: PtrInt);
+begin
+  if Assigned(formPopupTrayslate) and formPopupTrayslate.Visible then
+    formPopupTrayslate.Close;
 end;
 
 procedure TformTrayslate.ShowButton(const SourceText: string; X: integer = 0; Y: integer = 0);

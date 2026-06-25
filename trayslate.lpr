@@ -22,7 +22,7 @@ uses
   systemtool
   {$IFDEF WINDOWS}
   ,uDarkStyle
-  ,uWin32WidgetSetDark, StringsHelper
+  ,uWin32WidgetSetDark
   {$ENDIF}
   ;
 
