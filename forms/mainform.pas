@@ -222,7 +222,7 @@ type
     procedure ApplicationPropException(Sender: TObject; E: Exception);
     procedure PopupRecentPairPopup(Sender: TObject);
     procedure ScreenActiveFormChanged(Sender: TObject);
-    procedure OnKeyboardEvent(Sender: TObject; const Info: TKeyboardEventInfo);
+    procedure OnKeyboardEvent(Sender: TObject; var Info: TKeyboardEventInfo);
     procedure OnHookLeftDown(Sender: TObject; const Info: TMouseEventInfo);
     procedure OnHookLeftUp(Sender: TObject; const Info: TMouseEventInfo);
     procedure OnTranslateMouseMode(Data: PtrInt);
@@ -1036,7 +1036,7 @@ end;
 
 { MouseHook Events}
 
-procedure TFormTrayslate.OnKeyboardEvent(Sender: TObject; const Info: TKeyboardEventInfo);
+procedure TFormTrayslate.OnKeyboardEvent(Sender: TObject; var Info: TKeyboardEventInfo);
 var
   // packedCoords: PtrInt;
   Tick: DWORD;
@@ -1051,7 +1051,11 @@ begin
   if Info.IsInjected then Exit;
 
   if (Info.KeyCode = VK_ESCAPE) and Assigned(formPopupTrayslate) and formPopupTrayslate.Visible and formPopupTrayslate.InWindow then
+  begin
     Application.QueueAsyncCall(@ClosePopupAsync, 0);
+    Info.Handled := True;
+    Exit;
+  end;
 
   // Signals about pressing physical keys
   FLastKeyTime := Tick;
