@@ -34,19 +34,22 @@ uses
   IniFiles,
   LCLType,
   LMessages,
-  mouseandkeyinput,
+  MouseAndKeyInput,
+  OneShotTimer,
   globalkeyboardhook,
   globalmousehook,
   translate,
   langtool,
   systemtool,
-  stringshelper;
+  stringshelper,
+  clipboardhelper;
 
 type
 
   { TformTrayslate }
 
   TformTrayslate = class(TForm)
+    {%Region -fold Form Common}
     aAbout: TAction;
     aConfigEditor: TAction;
     aCheckForUpdates: TAction;
@@ -222,10 +225,6 @@ type
     procedure ApplicationPropException(Sender: TObject; E: Exception);
     procedure PopupRecentPairPopup(Sender: TObject);
     procedure ScreenActiveFormChanged(Sender: TObject);
-    procedure OnKeyboardEvent(Sender: TObject; var Info: TKeyboardEventInfo);
-    procedure OnHookLeftDown(Sender: TObject; const Info: TMouseEventInfo);
-    procedure OnHookLeftUp(Sender: TObject; const Info: TMouseEventInfo);
-    procedure OnTranslateMouseMode(Data: PtrInt);
     procedure aConfigEditorExecute(Sender: TObject);
     procedure aSettingsExecute(Sender: TObject);
     procedure aNewTranslateExecute(Sender: TObject);
@@ -315,6 +314,7 @@ type
     procedure aLangUkrainianExecute(Sender: TObject);
     procedure aLangBelarusianExecute(Sender: TObject);
     procedure aLangHindiExecute(Sender: TObject);
+    {%EndRegion}
   private
     FTrans: TTranslate;
     FTransDetect: TTranslate;
@@ -327,6 +327,8 @@ type
     FLastHotkeyTime: DWORD;
     FLastMouseInfo: TMouseEventInfo;
     FClickCount: integer;
+    FClickTimer: TTimer;
+    FClickPoint: TPoint;
     FMemoSourceCaretPos: integer;
     FPrevSourceText: string;
     FPrevTargetText: string;
@@ -440,9 +442,9 @@ type
     procedure AddLangPair(const Pair: string; ToEnd: boolean = True);
     procedure SelectPair(const Pair: string; RunTranslate: boolean = True);
     procedure SelectPairConfig(const LangPairIndex: integer; RunTranslate: boolean = True);
+    procedure SetLanguage(aLanguage: string = string.Empty);
     procedure GlobalCtrlC;
     procedure GlobalCtrlV;
-    procedure SetLanguage(aLanguage: string = string.Empty);
   protected
     {$IFDEF WINDOWS}
     procedure WMActivate(var Message: TLMActivate); message LM_ACTIVATE;
@@ -458,6 +460,19 @@ type
     FHideControls: boolean;
     FVerticalSplit: boolean;
     FAutoCopy: boolean;
+
+    {$IFDEF WINDOWS}
+    { MouseHook Events }
+    procedure OnKeyboardEvent(Sender: TObject; var Info: TKeyboardEventInfo);
+    procedure OnHookLeftDown(Sender: TObject; const Info: TMouseEventInfo);
+    procedure OnHookLeftUp(Sender: TObject; const Info: TMouseEventInfo);
+    procedure OnTranslateMouseMode(Data: PtrInt);
+    procedure OnTranslateMouseModeTimer;
+    { HotKeys Events }
+    procedure RegisterHotKeys;
+    procedure UnregisterHotKeys;
+    procedure ReleaseHotKeyModifiers(const AHotKey: THotKeyData);
+    {$ENDIF}
 
     procedure LoadConfig(SetDefault: boolean = True);
     procedure SetDefaultSettings;
@@ -484,12 +499,6 @@ type
     procedure SetVerticalMode;
     function GetLangCodeFromPoFile(const AFileName: string): string;
     function LoadCustomPoFile(const AFileName: string): string;
-
-    {$IFDEF WINDOWS}
-    procedure RegisterHotKeys;
-    procedure UnregisterHotKeys;
-    procedure ReleaseHotKeyModifiers(const AHotKey: THotKeyData);
-    {$ENDIF}
 
     function TranslateThread(ATrans: TTranslate; AText: string; AMemo: TMemo = nil): string;
     procedure ThreadDone(Sender: TObject);
@@ -605,6 +614,8 @@ const
   MIDDLE_MOUSE = 'Middle-Click';
   DEF_LANGDETECT = 'languagedetect.ini';
 
+  WM_USER_REGISTERVIEWER = WM_USER + 1;
+
 resourcestring
   rswap = 'Swap (%s) with text (%s)';
   rnoconfig = 'Configuration file not found! Create it in the configuration editor.';
@@ -622,7 +633,7 @@ uses formdonate, formabout, formsettings, formconfig, formpopup, formbutton, set
 
   { TformTrayslate }
 
-  { Form Events }
+  {%Region -fold Form Events }
 
 procedure TformTrayslate.FormCreate(Sender: TObject);
 begin
@@ -785,6 +796,7 @@ begin
   FKeyHook.Enabled:=False;
   FreeAndNil(FKeyHook);
   {$ENDIF}
+
   if FFormSettingsLoaded then
     SaveFormSettings(Self);
   FreeAndNil(FLangPairs);
@@ -859,7 +871,69 @@ begin
   end;
 end;
 
-{$IFDEF WINDOWS}
+{%EndRegion}
+
+{%Region -fold Application Events }
+
+procedure TformTrayslate.ScreenActiveFormChanged(Sender: TObject);
+begin
+  if Assigned(formConfigTrayslate) and formConfigTrayslate.HandleAllocated and (Screen.ActiveForm = formConfigTrayslate) then
+    formConfigTrayslate.Invalidate;
+end;
+
+procedure TformTrayslate.ApplicationPropActivate(Sender: TObject);
+begin
+  if Screen.ActiveForm = Self then
+    FTopMost := True;
+  if Assigned(formConfigTrayslate) and formConfigTrayslate.HandleAllocated then
+    formConfigTrayslate.Invalidate;
+end;
+
+procedure TformTrayslate.ApplicationPropDeactivate(Sender: TObject);
+begin
+  TimerActive.Enabled := True;
+end;
+
+procedure TformTrayslate.ApplicationPropShowHint(var HintStr: string; var CanShow: boolean; var HintInfo: THintInfo);
+begin
+  TimerHideHintTimer(Self);
+end;
+
+procedure TformTrayslate.ApplicationPropException(Sender: TObject; E: Exception);
+begin
+  MessageDlg(rtrayslate, E.Message, mtWarning, [mbOK], 0);
+end;
+
+procedure TformTrayslate.ApplicationPropUserInput(Sender: TObject; Msg: cardinal);
+var
+  MousePos: TPoint;
+  CtrlUnderMouse: TControl;
+begin
+  if Msg = LM_LBUTTONDOWN then
+  begin
+    MousePos := ScreenToClient(Mouse.CursorPos);
+    CtrlUnderMouse := ControlAtPos(MousePos, [capfRecursive, capfAllowWinControls]);
+
+    if (CtrlUnderMouse = ComboSource) or (CtrlUnderMouse = ComboTarget) then
+      Exit;
+
+    if (Screen.ActiveControl = ComboSource) then
+    begin
+      Self.ActiveControl := nil;
+      ComboSource.SelLength := 0;
+    end
+    else if (Screen.ActiveControl = ComboTarget) then
+    begin
+      Self.ActiveControl := nil;
+      ComboTarget.SelLength := 0;
+    end;
+  end;
+end;
+
+{%EndRegion}
+
+{%Region -fold Windows Specific Events}
+//{$IFDEF WINDOWS}
 
 procedure TformTrayslate.WMActivate(var Message: TLMActivate);
 begin
@@ -870,7 +944,7 @@ end;
 
 procedure TformTrayslate.WndProc(var TheMessage: TLMessage);
 var
-  LangIndex: Integer;
+  LangIndex: integer;
 begin
   if TheMessage.msg = WM_HOTKEY then
   begin
@@ -973,68 +1047,7 @@ begin
   inherited WndProc(TheMessage);
 end;
 
-{$ENDIF}
-
-{ Screen Events }
-
-procedure TformTrayslate.ScreenActiveFormChanged(Sender: TObject);
-begin
-  if Assigned(formConfigTrayslate) and formConfigTrayslate.HandleAllocated and (Screen.ActiveForm = formConfigTrayslate) then
-    formConfigTrayslate.Invalidate;
-end;
-
-{ Application Events }
-
-procedure TformTrayslate.ApplicationPropActivate(Sender: TObject);
-begin
-  if Screen.ActiveForm = Self then
-    FTopMost := True;
-  if Assigned(formConfigTrayslate) and formConfigTrayslate.HandleAllocated then
-    formConfigTrayslate.Invalidate;
-end;
-
-procedure TformTrayslate.ApplicationPropDeactivate(Sender: TObject);
-begin
-  TimerActive.Enabled := True;
-end;
-
-procedure TformTrayslate.ApplicationPropShowHint(var HintStr: string; var CanShow: boolean; var HintInfo: THintInfo);
-begin
-  TimerHideHintTimer(Self);
-end;
-
-procedure TformTrayslate.ApplicationPropException(Sender: TObject; E: Exception);
-begin
-  MessageDlg(rtrayslate, E.Message, mtWarning, [mbOK], 0);
-end;
-
-procedure TformTrayslate.ApplicationPropUserInput(Sender: TObject; Msg: cardinal);
-var
-  MousePos: TPoint;
-  CtrlUnderMouse: TControl;
-begin
-  if Msg = LM_LBUTTONDOWN then
-  begin
-    MousePos := ScreenToClient(Mouse.CursorPos);
-    CtrlUnderMouse := ControlAtPos(MousePos, [capfRecursive, capfAllowWinControls]);
-
-    if (CtrlUnderMouse = ComboSource) or (CtrlUnderMouse = ComboTarget) then
-      Exit;
-
-    if (Screen.ActiveControl = ComboSource) then
-    begin
-      Self.ActiveControl := nil;
-      ComboSource.SelLength := 0;
-    end
-    else if (Screen.ActiveControl = ComboTarget) then
-    begin
-      Self.ActiveControl := nil;
-      ComboTarget.SelLength := 0;
-    end;
-  end;
-end;
-
-{ MouseHook Events}
+{ MouseHook Events }
 
 procedure TFormTrayslate.OnKeyboardEvent(Sender: TObject; var Info: TKeyboardEventInfo);
 var
@@ -1141,10 +1154,109 @@ end;
 
 procedure TFormTrayslate.OnTranslateMouseMode(Data: PtrInt);
 begin
-  TranslateMouseMode(Point(Data and $FFFF, Data shr 16));
+  if FClickCount > 4 then Exit;
+  FClickPoint := Point(Data and $FFFF, Data shr 16);
+  ClearTimeout(FClickTimer);
+  if (FClickCount >= 1) and (FClickCount < 4) then
+    SetTimeoutSafe(FClickTimer, 100, @OnTranslateMouseModeTimer)
+  else
+    OnTranslateMouseModeTimer;
 end;
 
-{ Actions Events }
+procedure TFormTrayslate.OnTranslateMouseModeTimer;
+begin
+  TranslateMouseMode(FClickPoint);
+end;
+
+{ HotKeys Events }
+
+procedure TformTrayslate.RegisterHotKeys;
+begin
+  // Unregister first to avoid duplicate registration
+  UnregisterHotKeys;
+
+  if not AllowHotKeys then Exit;
+
+  // Register AllowHotKeys if key is assigned
+  if FHotKeyApp.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_APP, FHotKeyApp.Modifiers, FHotKeyApp.Key);
+
+  if FHotKeyTransSwap.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_TRANS_SWAP, FHotKeyTransSwap.Modifiers, FHotKeyTransSwap.Key);
+
+  if FHotKeyTransFromClipboard.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_TRANS_FROM_CLIPBOARD, FHotKeyTransFromClipboard.Modifiers, FHotKeyTransFromClipboard.Key);
+
+  if FHotKeyTransClipboard.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_TRANS_CLIPBOARD, FHotKeyTransClipboard.Modifiers, FHotKeyTransClipboard.Key);
+
+  if FHotKeyTransClipboardPopup.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_TRANS_CLIPBOARD_POPUP, FHotKeyTransClipboardPopup.Modifiers, FHotKeyTransClipboardPopup.Key);
+
+  if FHotKeyTransFromControl.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_TRANS_FROM_CONTROL, FHotKeyTransFromControl.Modifiers, FHotKeyTransFromControl.Key);
+
+  if FHotKeyTransControl.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_TRANS_CONTROL, FHotKeyTransControl.Modifiers, FHotKeyTransControl.Key);
+
+  if FHotKeyTransControlPopup.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_TRANS_CONTROL_POPUP, FHotKeyTransControlPopup.Modifiers, FHotKeyTransControlPopup.Key);
+
+  if FHotKeyRecent1.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_RECENT1, FHotKeyRecent1.Modifiers, FHotKeyRecent1.Key);
+  if FHotKeyRecent2.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_RECENT2, FHotKeyRecent2.Modifiers, FHotKeyRecent2.Key);
+  if FHotKeyRecent3.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_RECENT3, FHotKeyRecent3.Modifiers, FHotKeyRecent3.Key);
+  if FHotKeyRecent4.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_RECENT4, FHotKeyRecent4.Modifiers, FHotKeyRecent4.Key);
+  if FHotKeyRecent5.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_RECENT5, FHotKeyRecent5.Modifiers, FHotKeyRecent5.Key);
+  if FHotKeyRecent6.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_RECENT6, FHotKeyRecent6.Modifiers, FHotKeyRecent6.Key);
+  if FHotKeyRecent7.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_RECENT7, FHotKeyRecent7.Modifiers, FHotKeyRecent7.Key);
+  if FHotKeyRecent8.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_RECENT8, FHotKeyRecent8.Modifiers, FHotKeyRecent8.Key);
+  if FHotKeyRecent9.Key <> 0 then
+    RegisterHotKey(Handle, HOTKEY_RECENT9, FHotKeyRecent9.Modifiers, FHotKeyRecent9.Key);
+end;
+
+procedure TformTrayslate.UnregisterHotKeys;
+var
+  i: integer;
+begin
+  UnregisterHotKey(Handle, HOTKEY_APP);
+  UnregisterHotKey(Handle, HOTKEY_TRANS_SWAP);
+  UnregisterHotKey(Handle, HOTKEY_TRANS_FROM_CLIPBOARD);
+  UnregisterHotKey(Handle, HOTKEY_TRANS_CLIPBOARD);
+  UnregisterHotKey(Handle, HOTKEY_TRANS_CLIPBOARD_POPUP);
+  UnregisterHotKey(Handle, HOTKEY_TRANS_FROM_CONTROL);
+  UnregisterHotKey(Handle, HOTKEY_TRANS_CONTROL);
+  UnregisterHotKey(Handle, HOTKEY_TRANS_CONTROL_POPUP);
+  for i := 0 to 8 do
+    UnregisterHotKey(Handle, HOTKEY_RECENT1 + i);
+end;
+
+procedure TformTrayslate.ReleaseHotKeyModifiers(const AHotKey: THotKeyData);
+begin
+  if (AHotKey.Modifiers and MOD_SHIFT) <> 0 then
+    if GetAsyncKeyState(VK_SHIFT) >= 0 then   // >= 0 means not physically pressed
+      KeyInput.Unapply([ssShift]);
+
+  if (AHotKey.Modifiers and MOD_CONTROL) <> 0 then
+    if GetAsyncKeyState(VK_CONTROL) >= 0 then
+      KeyInput.Unapply([ssCtrl]);
+
+  if (AHotKey.Modifiers and MOD_ALT) <> 0 then
+    if GetAsyncKeyState(VK_MENU) >= 0 then
+      KeyInput.Unapply([ssAlt]);
+end;
+
+//{$ENDIF}
+{%EndRegion}
+
+{%Region -fold Actions Events }
 
 procedure TformTrayslate.aShowExecute(Sender: TObject);
 begin
@@ -1443,7 +1555,9 @@ begin
   Application.Terminate;
 end;
 
-{ Actions Fast Settings }
+{%EndRegion}
+
+{%Region -fold Actions Fast Settings }
 
 procedure TformTrayslate.aFastAllowHotKeysExecute(Sender: TObject);
 begin
@@ -1490,7 +1604,9 @@ begin
   AutoCopy := aFastAutoCopy.Checked;
 end;
 
-{ Control Events }
+{%EndRegion}
+
+{%Region -fold Control Events }
 
 procedure TformTrayslate.ComboSourceCloseUp(Sender: TObject);
 //var
@@ -1973,7 +2089,9 @@ begin
   FPopupRecentPair := PopupRecentPair.PopupComponent;
 end;
 
-{ Methods }
+{%EndRegion}
+
+{%Region -fold Methods }
 
 procedure TformTrayslate.LoadConfig(SetDefault: boolean = True);
 var
@@ -3493,154 +3611,9 @@ begin
   SelectPair(FLangPairs.ValueFromIndex[LangPairIndex], RunTranslate);
 end;
 
-procedure TformTrayslate.GlobalCtrlC;
-var
-  ctrl, shift, alt: boolean;
-begin
-  TimerUnapply.Enabled := False;
-  ctrl := GetAsyncKeyState(VK_CONTROL) < 0;
-  shift := GetAsyncKeyState(VK_SHIFT) < 0;
-  alt := GetAsyncKeyState(VK_MENU) < 0;
+{%EndRegion}
 
-  if not ctrl then
-    KeyInput.Apply([ssCtrl]);
-  if shift then
-    KeyInput.Unapply([ssShift]);
-  if alt then
-    KeyInput.Unapply([ssAlt]);
-
-  KeyInput.Down(Ord('C'));
-  SleepLoop(5, 1);
-
-  FUnapplyC := True;
-  if not ctrl then
-    FUnapplyCtrl := True;
-  TimerUnapply.Enabled := True;
-
-  //if shift then
-  //  KeyInput.Apply([ssShift]);
-  //if alt then
-  //  KeyInput.Apply([ssAlt]);
-end;
-
-procedure TformTrayslate.GlobalCtrlV;
-var
-  ctrl, shift, alt: boolean;
-begin
-  TimerUnapply.Enabled := False;
-  ctrl := GetAsyncKeyState(VK_CONTROL) < 0;
-  shift := GetAsyncKeyState(VK_SHIFT) < 0;
-  alt := GetAsyncKeyState(VK_MENU) < 0;
-
-  if not ctrl then
-    KeyInput.Apply([ssCtrl]);
-  if shift then
-    KeyInput.Unapply([ssShift]);
-  if alt then
-    KeyInput.Unapply([ssAlt]);
-
-  KeyInput.Down(Ord('V'));
-  SleepLoop(5, 1);
-
-  FUnapplyV := True;
-  if not ctrl then
-    FUnapplyCtrl := True;
-  TimerUnapply.Enabled := True;
-
-  //if shift then
-  //  KeyInput.Apply([ssShift]);
-  //if alt then
-  //  KeyInput.Apply([ssAlt]);
-end;
-
-{$IFDEF WINDOWS}
-
-procedure TformTrayslate.RegisterHotKeys;
-begin
-  // Unregister first to avoid duplicate registration
-  UnregisterHotKeys;
-
-  if not AllowHotKeys then Exit;
-
-  // Register AllowHotKeys if key is assigned
-  if FHotKeyApp.Key <> 0 then
-    RegisterHotKey(Handle, HOTKEY_APP, FHotKeyApp.Modifiers, FHotKeyApp.Key);
-
-  if FHotKeyTransSwap.Key <> 0 then
-    RegisterHotKey(Handle, HOTKEY_TRANS_SWAP, FHotKeyTransSwap.Modifiers, FHotKeyTransSwap.Key);
-
-  if FHotKeyTransFromClipboard.Key <> 0 then
-    RegisterHotKey(Handle, HOTKEY_TRANS_FROM_CLIPBOARD, FHotKeyTransFromClipboard.Modifiers, FHotKeyTransFromClipboard.Key);
-
-  if FHotKeyTransClipboard.Key <> 0 then
-    RegisterHotKey(Handle, HOTKEY_TRANS_CLIPBOARD, FHotKeyTransClipboard.Modifiers, FHotKeyTransClipboard.Key);
-
-  if FHotKeyTransClipboardPopup.Key <> 0 then
-    RegisterHotKey(Handle, HOTKEY_TRANS_CLIPBOARD_POPUP, FHotKeyTransClipboardPopup.Modifiers, FHotKeyTransClipboardPopup.Key);
-
-    if FHotKeyTransFromControl.Key <> 0 then
-    RegisterHotKey(Handle, HOTKEY_TRANS_FROM_CONTROL, FHotKeyTransFromControl.Modifiers, FHotKeyTransFromControl.Key);
-
-  if FHotKeyTransControl.Key <> 0 then
-    RegisterHotKey(Handle, HOTKEY_TRANS_CONTROL, FHotKeyTransControl.Modifiers, FHotKeyTransControl.Key);
-
-  if FHotKeyTransControlPopup.Key <> 0 then
-    RegisterHotKey(Handle, HOTKEY_TRANS_CONTROL_POPUP, FHotKeyTransControlPopup.Modifiers, FHotKeyTransControlPopup.Key);
-
-  if FHotKeyRecent1.Key <> 0 then
-      RegisterHotKey(Handle, HOTKEY_RECENT1, FHotKeyRecent1.Modifiers, FHotKeyRecent1.Key);
-  if FHotKeyRecent2.Key <> 0 then
-      RegisterHotKey(Handle, HOTKEY_RECENT2, FHotKeyRecent2.Modifiers, FHotKeyRecent2.Key);
-  if FHotKeyRecent3.Key <> 0 then
-      RegisterHotKey(Handle, HOTKEY_RECENT3, FHotKeyRecent3.Modifiers, FHotKeyRecent3.Key);
-  if FHotKeyRecent4.Key <> 0 then
-      RegisterHotKey(Handle, HOTKEY_RECENT4, FHotKeyRecent4.Modifiers, FHotKeyRecent4.Key);
-  if FHotKeyRecent5.Key <> 0 then
-      RegisterHotKey(Handle, HOTKEY_RECENT5, FHotKeyRecent5.Modifiers, FHotKeyRecent5.Key);
-  if FHotKeyRecent6.Key <> 0 then
-      RegisterHotKey(Handle, HOTKEY_RECENT6, FHotKeyRecent6.Modifiers, FHotKeyRecent6.Key);
-  if FHotKeyRecent7.Key <> 0 then
-      RegisterHotKey(Handle, HOTKEY_RECENT7, FHotKeyRecent7.Modifiers, FHotKeyRecent7.Key);
-  if FHotKeyRecent8.Key <> 0 then
-      RegisterHotKey(Handle, HOTKEY_RECENT8, FHotKeyRecent8.Modifiers, FHotKeyRecent8.Key);
-  if FHotKeyRecent9.Key <> 0 then
-      RegisterHotKey(Handle, HOTKEY_RECENT9, FHotKeyRecent9.Modifiers, FHotKeyRecent9.Key);
-end;
-
-procedure TformTrayslate.UnregisterHotKeys;
-var
-  i:integer;
-begin
-  UnregisterHotKey(Handle, HOTKEY_APP);
-  UnregisterHotKey(Handle, HOTKEY_TRANS_SWAP);
-  UnregisterHotKey(Handle, HOTKEY_TRANS_FROM_CLIPBOARD);
-  UnregisterHotKey(Handle, HOTKEY_TRANS_CLIPBOARD);
-  UnregisterHotKey(Handle, HOTKEY_TRANS_CLIPBOARD_POPUP);
-  UnregisterHotKey(Handle, HOTKEY_TRANS_FROM_CONTROL);
-  UnregisterHotKey(Handle, HOTKEY_TRANS_CONTROL);
-  UnregisterHotKey(Handle, HOTKEY_TRANS_CONTROL_POPUP);
-  for i := 0 to 8 do
-    UnregisterHotKey(Handle, HOTKEY_RECENT1 + i);
-end;
-
-procedure TformTrayslate.ReleaseHotKeyModifiers(const AHotKey: THotKeyData);
-begin
-  if (AHotKey.Modifiers and MOD_SHIFT) <> 0 then
-    if GetAsyncKeyState(VK_SHIFT) >= 0 then   // >= 0 means not physically pressed
-      KeyInput.Unapply([ssShift]);
-
-  if (AHotKey.Modifiers and MOD_CONTROL) <> 0 then
-    if GetAsyncKeyState(VK_CONTROL) >= 0 then
-      KeyInput.Unapply([ssCtrl]);
-
-  if (AHotKey.Modifiers and MOD_ALT) <> 0 then
-    if GetAsyncKeyState(VK_MENU) >= 0 then
-      KeyInput.Unapply([ssAlt]);
-end;
-
-{$ENDIF}
-
-{ Methods Translate }
+{%Region -fold Translate Methods }
 
 function TformTrayslate.TranslateThread(ATrans: TTranslate; AText: string; AMemo: TMemo = nil): string;
 var
@@ -3987,6 +3960,71 @@ begin
   end;
 end;
 
+{ Key Press Emulate Methods }
+
+procedure TformTrayslate.GlobalCtrlC;
+var
+  ctrl, shift, alt: boolean;
+begin
+  TimerUnapply.Enabled := False;
+  ctrl := GetAsyncKeyState(VK_CONTROL) < 0;
+  shift := GetAsyncKeyState(VK_SHIFT) < 0;
+  alt := GetAsyncKeyState(VK_MENU) < 0;
+
+  if not ctrl then
+    KeyInput.Apply([ssCtrl]);
+  if shift then
+    KeyInput.Unapply([ssShift]);
+  if alt then
+    KeyInput.Unapply([ssAlt]);
+
+  KeyInput.Down(Ord('C'));
+  Clipboard.AddExcludeFlag;
+  SleepLoop(1, 1);
+  Clipboard.AddExcludeFlag;
+  SleepLoop(5, 1);
+
+  FUnapplyC := True;
+  if not ctrl then
+    FUnapplyCtrl := True;
+  TimerUnapply.Enabled := True;
+
+  //if shift then
+  //  KeyInput.Apply([ssShift]);
+  //if alt then
+  //  KeyInput.Apply([ssAlt]);
+end;
+
+procedure TformTrayslate.GlobalCtrlV;
+var
+  ctrl, shift, alt: boolean;
+begin
+  TimerUnapply.Enabled := False;
+  ctrl := GetAsyncKeyState(VK_CONTROL) < 0;
+  shift := GetAsyncKeyState(VK_SHIFT) < 0;
+  alt := GetAsyncKeyState(VK_MENU) < 0;
+
+  if not ctrl then
+    KeyInput.Apply([ssCtrl]);
+  if shift then
+    KeyInput.Unapply([ssShift]);
+  if alt then
+    KeyInput.Unapply([ssAlt]);
+
+  KeyInput.Down(Ord('V'));
+  SleepLoop(6, 1);
+
+  FUnapplyV := True;
+  if not ctrl then
+    FUnapplyCtrl := True;
+  TimerUnapply.Enabled := True;
+
+  //if shift then
+  //  KeyInput.Apply([ssShift]);
+  //if alt then
+  //  KeyInput.Apply([ssAlt]);
+end;
+
 procedure TformTrayslate.TranslateFromControl(Data: PtrInt);
 var
   OriginalClip, SelectedText: string;
@@ -3999,30 +4037,30 @@ begin
   // Save current clipboard to restore later
   OriginalClip := Clipboard.AsText;
   Clipboard.AsText := string.Empty;
-  AddClipboardExcludeFlag;
+  Clipboard.AddExcludeFlag;
   try
     // Copy selection from active window (Ctrl+C)
     GlobalCtrlC;
-
     SelectedText := Clipboard.AsText;
-
-    if (not Showing) then
-      Show;
-    BringToFront;
-    FTopMost := True;
-    SleepLoop(0, 1);
-    MemoSource.Text := SelectedText;
-    TranslateMemo;
   finally
     // Restore original clipboard
     Clipboard.AsText := OriginalClip;
-    AddClipboardExcludeFlag;
+    Clipboard.AddExcludeFlag;
   end;
+
+  if (not Showing) then
+    Show;
+  BringToFront;
+  FTopMost := True;
+  SleepLoop(0, 1);
+  MemoSource.Text := SelectedText;
+  TranslateMemo;
 end;
 
 procedure TformTrayslate.TranslateControl(Data: PtrInt);
 var
   OriginalClip: string;
+  SelectedText: string;
   TranslatedText: string;
 begin
   FCancelled := False;
@@ -4040,29 +4078,30 @@ begin
     // Save current clipboard to restore later
     OriginalClip := Clipboard.AsText;
     Clipboard.AsText := string.Empty;
-    AddClipboardExcludeFlag;
+    Clipboard.AddExcludeFlag;
     try
-
       // Copy selection from active window (Ctrl+C)
       GlobalCtrlC;
-
-      if Clipboard.AsText <> string.Empty then
-      begin
-        DetectLanguage(Clipboard.AsText);
-
-        TranslatedText := TranslateThread(Trans, Clipboard.AsText);
-        if Trim(TranslatedText) <> string.Empty then
-        begin
-          Clipboard.AsText := TranslatedText;
-
-          // Paste clipboard to active window (Ctrl+V)
-          GlobalCtrlV;
-        end;
-      end;
+      SelectedText := Clipboard.AsText;
     finally
       // Restore original clipboard
       Clipboard.AsText := OriginalClip;
-      AddClipboardExcludeFlag;
+      Clipboard.AddExcludeFlag;
+    end;
+
+    if SelectedText <> string.Empty then
+    begin
+      DetectLanguage(SelectedText);
+
+      TranslatedText := TranslateThread(Trans, SelectedText);
+      if Trim(TranslatedText) <> string.Empty then
+      begin
+        Clipboard.AsText := TranslatedText;
+        Clipboard.AddExcludeFlag;
+
+        // Paste clipboard to active window (Ctrl+V)
+        GlobalCtrlV;
+      end;
     end;
   finally
     {$IFDEF WINDOWS}
@@ -4075,7 +4114,8 @@ end;
 
 procedure TformTrayslate.TranslateControlPopup(Data: PtrInt);
 var
-  OriginalClip, SelectedText: string;
+  OriginalClip: string;
+  SelectedText: string;
 begin
   FCancelled := False;
 
@@ -4085,27 +4125,26 @@ begin
   // Save current clipboard to restore later
   OriginalClip := Clipboard.AsText;
   Clipboard.AsText := string.Empty;
-  AddClipboardExcludeFlag;
+  Clipboard.AddExcludeFlag;
   try
     if TimerTranslate.Enabled then
       TimerTranslate.Enabled := False;
 
     // Copy selection from active window (Ctrl+C)
     GlobalCtrlC;
-
     SelectedText := Clipboard.AsText;
-
-    ShowPopup(SelectedText, Mouse.CursorPos.X, Mouse.CursorPos.Y);
-
-    DetectLanguage(SelectedText);
-
-    // Create translation thread (it will handle exceptions itself)
-    TranslateThread(Trans, SelectedText, formPopupTrayslate.MemoTarget);
   finally
     // Restore original clipboard
     Clipboard.AsText := OriginalClip;
-    AddClipboardExcludeFlag;
+    Clipboard.AddExcludeFlag;
   end;
+
+  ShowPopup(SelectedText, Mouse.CursorPos.X, Mouse.CursorPos.Y);
+
+  DetectLanguage(SelectedText);
+
+  // Create translation thread (it will handle exceptions itself)
+  TranslateThread(Trans, SelectedText, formPopupTrayslate.MemoTarget);
 end;
 
 procedure TformTrayslate.TranslateMouseMode(ACursorPos: TPoint);
@@ -4118,25 +4157,23 @@ begin
     // Save current clipboard to restore later
     OriginalClip := Clipboard.AsText;
     Clipboard.AsText := string.Empty;
-    AddClipboardExcludeFlag;
+    Clipboard.AddExcludeFlag;
     try
       // Copy selection from active window (Ctrl+C)
       GlobalCtrlC;
       SelectedText := Clipboard.AsText;
     finally
-      // Restore original clipboard only if one of the copy combination keys is not pressed
+      // Restore original clipboard quickly if paste combination was pressed (Ctrl+V)
       if (((GetTickCountXp - FLastCtrlTime) <= 100) and ((GetTickCountXp - FLastVTime) <= 100)) then
-      begin
-        Clipboard.AsText := OriginalClip;
-        AddClipboardExcludeFlag;
-      end
+        Clipboard.AsText := OriginalClip
       else
+      // Restore original clipboard only if one of the cut / copy combination keys is not pressed (Ctrl+X, Ctrl+C)
       if (((GetTickCountXp - FLastCtrlTime) > 100) and ((GetTickCountXp - FLastCTime) > 100) and
         ((GetTickCountXp - FLastXTime) > 100)) then
-      begin
         Clipboard.AsText := OriginalClip;
-        AddClipboardExcludeFlag;
-      end;
+
+      // In any case, add the system buffer flag
+      Clipboard.AddExcludeFlag;
 
       if (GetTickCountXp - FLastKeyTime) > 200 then
         TimerUnapplyTimer(Self);
@@ -4197,7 +4234,9 @@ begin
   end;
 end;
 
-{ Action Languages }
+{%EndRegion}
+
+{%Region -fold Action Languages}
 
 procedure TformTrayslate.SetLanguage(aLanguage: string = string.Empty);
 var
@@ -4544,5 +4583,7 @@ begin
   FCustomPoFile := string.empty;
   SetLanguage('vi');
 end;
+
+{%EndRegion}
 
 end.

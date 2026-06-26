@@ -233,6 +233,15 @@
         <Filename Value="units\stringshelper.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="units\clipboardhelper.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="common\oneshottimer.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="OneShotTimer"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
