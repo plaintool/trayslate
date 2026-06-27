@@ -33,8 +33,6 @@ function InvertColor(Color: TColor): TColor;
 
 function UnescapeUnicode(const S: string): string;
 
-function CleanUnicode(const S: string): string;
-
 function EscapeText(const AText: string): string;
 
 function GetTimestampNow: int64;
@@ -160,16 +158,6 @@ begin
       Inc(i);
     end;
   end;
-end;
-
-function CleanUnicode(const S: string): string;
-begin
-  Result := S;
-
-  Result := StringReplace(Result, #$200B, string.Empty, [rfReplaceAll]);
-  Result := StringReplace(Result, #$200C, string.Empty, [rfReplaceAll]);
-  Result := StringReplace(Result, #$200D, string.Empty, [rfReplaceAll]);
-  Result := StringReplace(Result, #$FEFF, string.Empty, [rfReplaceAll]);
 end;
 
 function EscapeText(const AText: string): string;
