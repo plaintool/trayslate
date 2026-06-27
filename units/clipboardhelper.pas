@@ -21,13 +21,36 @@ uses
   Clipbrd;
 
 type
+  // Holds a single clipboard format together with its duplicated data handle
+  TClipboardFormatData = record
+    Format: UINT;
+    Handle: HGLOBAL;
+  end;
+
+  TClipboardFormatDataArray = array of TClipboardFormatData;
+
   TClipboardHelper = class helper for TClipboard
   public
+    // Windows: adds the exclusion flag to the clipboard to hide the content from clipboard history (Win+V)
     function AddExcludeFlag: boolean;
+
+    // Windows: retrieves clipboard text while simultaneously marking it as excluded from history (high‑priority spin)
     function GetTextExcluded: string;
+
+    // Windows: waits briefly for text to appear on the clipboard, then retrieves it and adds the exclusion flag
     function GetTextExcludedWait: string;
+
+    // Windows: places the given text onto the clipboard and immediately marks it as excluded from history
     procedure SetTextExcluded(Value: string);
+
+    // Windows: creates a hidden window that monitors clipboard changes and adds the exclusion flag automatically
     function CreateClipboardViewerWindow: HWND;
+
+    // Saves every format currently on the clipboard into an array (data blocks are duplicated, original untouched)
+    function SaveAllFormats: TClipboardFormatDataArray;
+
+    // Restores all previously saved formats; the array is emptied after the call (handles transferred to clipboard)
+    procedure RestoreAllFormats(var ASaved: TClipboardFormatDataArray);
 
     property AsTextExcluded: string read GetTextExcluded write SetTextExcluded;
     property AsTextExcludedWait: string read GetTextExcludedWait write SetTextExcluded;
@@ -289,6 +312,130 @@ begin
 
   // Create the hidden window (WM_CREATE will call SetClipboardViewer)
   Result := CreateWindowExA(0, 'TrayslateClipViewer', string.Empty, WS_POPUP, 0, 0, 0, 0, 0, 0, HINSTANCE, nil);
+  {$ENDIF}
+end;
+
+function TClipboardHelper.SaveAllFormats: TClipboardFormatDataArray;
+  {$IFDEF WINDOWS}
+var
+  Fmt: UINT;
+  hOrig, hCopy: HGLOBAL;
+  pSrc, pDst: Pointer;
+  Size: NativeUInt;
+  Count, Idx: Integer;
+  {$ENDIF}
+begin
+  {$IFDEF WINDOWS}
+  Result := [];
+  SetLength(Result, 0);
+  // Open clipboard directly via Win API to avoid TClipboard caching conflicts
+  if not OpenClipboard(0) then
+    Exit;
+  try
+    // First pass: count formats (for pre‑allocation)
+    Count := 0;
+    Fmt := 0;
+    while True do
+    begin
+      Fmt := EnumClipboardFormats(Fmt);
+      if Fmt = 0 then Break;
+      Inc(Count);
+    end;
+    SetLength(Result, Count);   // maximum possible size, will be trimmed later
+
+    // Second pass: duplicate only supported formats
+    Idx := 0;
+    Fmt := 0;
+    while True do
+    begin
+      Fmt := EnumClipboardFormats(Fmt);
+      if Fmt = 0 then Break;
+
+      // Skip GDI‑object formats that don't use global memory
+      if (Fmt = CF_BITMAP) or (Fmt = CF_PALETTE) or (Fmt = CF_ENHMETAFILE) then
+        Continue;
+
+      Result[Idx].Format := Fmt;
+
+      hOrig := GetClipboardData(Fmt);
+      if hOrig = 0 then
+      begin
+        // Format with no data handle – store as empty
+        Result[Idx].Handle := 0;
+      end
+      else
+      begin
+        Size := GlobalSize(hOrig);   // safe now because we skipped GDI objects
+        hCopy := GlobalAlloc(GMEM_MOVEABLE, Size);
+        if hCopy = 0 then
+        begin
+          Result[Idx].Handle := 0;
+          Inc(Idx);
+          Continue;
+        end;
+
+        pSrc := GlobalLock(hOrig);
+        pDst := GlobalLock(hCopy);
+        try
+          Move(pSrc^, pDst^, Size);
+        finally
+          GlobalUnlock(hOrig);
+          GlobalUnlock(hCopy);
+        end;
+        Result[Idx].Handle := hCopy;
+      end;
+      Inc(Idx);
+    end;
+
+    // Trim array to actual number of saved formats
+    SetLength(Result, Idx);
+  finally
+    CloseClipboard;
+  end;
+  {$ELSE}
+  SetLength(Result, 0);
+  {$ENDIF}
+end;
+
+procedure TClipboardHelper.RestoreAllFormats(var ASaved: TClipboardFormatDataArray);
+{$IFDEF WINDOWS}
+var
+  I: Integer;
+{$ENDIF}
+begin
+  {$IFDEF WINDOWS}
+  // Nothing to restore – just ensure the array is cleared
+  if Length(ASaved) = 0 then
+    Exit;
+
+  // Open clipboard directly to avoid TClipboard state issues
+  if not OpenClipboard(0) then
+  begin
+    // If we can't open the clipboard, discard saved handles to prevent leaks
+    for I := 0 to High(ASaved) do
+      if ASaved[I].Handle <> 0 then
+        GlobalFree(ASaved[I].Handle);
+    SetLength(ASaved, 0);
+    Exit;
+  end;
+  try
+    EmptyClipboard;
+    for I := 0 to High(ASaved) do
+    begin
+      if ASaved[I].Handle <> 0 then
+        // Ownership of the handle moves to the clipboard
+        SetClipboardData(ASaved[I].Format, ASaved[I].Handle)
+      else if ASaved[I].Format <> 0 then
+        // Restore NULL‑handle formats (like the exclude flag)
+        SetClipboardData(ASaved[I].Format, 0);
+    end;
+  finally
+    CloseClipboard;
+  end;
+  // Handles are now owned by the clipboard – discard array references
+  SetLength(ASaved, 0);
+  {$ELSE}
+  SetLength(ASaved, 0);
   {$ENDIF}
 end;
 

@@ -4027,7 +4027,8 @@ end;
 
 procedure TformTrayslate.TranslateFromControl(Data: PtrInt);
 var
-  OriginalClip, SelectedText: string;
+  SavedClip: TClipboardFormatDataArray;
+  SelectedText: string;
 begin
   FCancelled := False;
 
@@ -4035,16 +4036,17 @@ begin
   TimerAnimate.Enabled := True;
 
   // Save current clipboard to restore later
-  OriginalClip := Clipboard.AsText;
-  Clipboard.AsText := string.Empty;
-  Clipboard.AddExcludeFlag;
+  SavedClip := Clipboard.SaveAllFormats;
   try
+    Clipboard.AsText := string.Empty;
+    Clipboard.AddExcludeFlag;
+
     // Copy selection from active window (Ctrl+C)
     GlobalCtrlC;
     SelectedText := Clipboard.AsText;
   finally
     // Restore original clipboard
-    Clipboard.AsText := OriginalClip;
+    Clipboard.RestoreAllFormats(SavedClip);
     Clipboard.AddExcludeFlag;
   end;
 
@@ -4059,7 +4061,7 @@ end;
 
 procedure TformTrayslate.TranslateControl(Data: PtrInt);
 var
-  OriginalClip: string;
+  SavedClip: TClipboardFormatDataArray;
   SelectedText: string;
   TranslatedText: string;
 begin
@@ -4076,16 +4078,16 @@ begin
       TimerTranslate.Enabled := False;
 
     // Save current clipboard to restore later
-    OriginalClip := Clipboard.AsText;
-    Clipboard.AsText := string.Empty;
-    Clipboard.AddExcludeFlag;
+    SavedClip := Clipboard.SaveAllFormats;
     try
+      Clipboard.AsText := string.Empty;
+      Clipboard.AddExcludeFlag;
       // Copy selection from active window (Ctrl+C)
       GlobalCtrlC;
       SelectedText := Clipboard.AsText;
     finally
       // Restore original clipboard
-      Clipboard.AsText := OriginalClip;
+      Clipboard.RestoreAllFormats(SavedClip);
       Clipboard.AddExcludeFlag;
     end;
 
@@ -4114,7 +4116,7 @@ end;
 
 procedure TformTrayslate.TranslateControlPopup(Data: PtrInt);
 var
-  OriginalClip: string;
+  SavedClip: TClipboardFormatDataArray;
   SelectedText: string;
 begin
   FCancelled := False;
@@ -4123,10 +4125,10 @@ begin
   TimerAnimate.Enabled := True;
 
   // Save current clipboard to restore later
-  OriginalClip := Clipboard.AsText;
-  Clipboard.AsText := string.Empty;
-  Clipboard.AddExcludeFlag;
+  SavedClip := Clipboard.SaveAllFormats;
   try
+    Clipboard.AsText := string.Empty;
+    Clipboard.AddExcludeFlag;
     if TimerTranslate.Enabled then
       TimerTranslate.Enabled := False;
 
@@ -4135,7 +4137,7 @@ begin
     SelectedText := Clipboard.AsText;
   finally
     // Restore original clipboard
-    Clipboard.AsText := OriginalClip;
+    Clipboard.RestoreAllFormats(SavedClip);
     Clipboard.AddExcludeFlag;
   end;
 
@@ -4149,28 +4151,30 @@ end;
 
 procedure TformTrayslate.TranslateMouseMode(ACursorPos: TPoint);
 var
-  OriginalClip, SelectedText, TranslatedText: string;
+  SavedClip: TClipboardFormatDataArray;
+  SelectedText, TranslatedText: string;
 begin
   FCancelled := False;
   FMouseHook.Enabled := False;
   try
     // Save current clipboard to restore later
-    OriginalClip := Clipboard.AsText;
+   SavedClip := Clipboard.SaveAllFormats;
+
+   try
     Clipboard.AsText := string.Empty;
     Clipboard.AddExcludeFlag;
-    try
-      // Copy selection from active window (Ctrl+C)
+    // Copy selection from active window (Ctrl+C)
       GlobalCtrlC;
       SelectedText := Clipboard.AsText;
     finally
       // Restore original clipboard quickly if paste combination was pressed (Ctrl+V)
       if (((GetTickCountXp - FLastCtrlTime) <= 100) and ((GetTickCountXp - FLastVTime) <= 100)) then
-        Clipboard.AsText := OriginalClip
+        Clipboard.RestoreAllFormats(SavedClip)
       else
       // Restore original clipboard only if one of the cut / copy combination keys is not pressed (Ctrl+X, Ctrl+C)
       if (((GetTickCountXp - FLastCtrlTime) > 100) and ((GetTickCountXp - FLastCTime) > 100) and
         ((GetTickCountXp - FLastXTime) > 100)) then
-        Clipboard.AsText := OriginalClip;
+        Clipboard.RestoreAllFormats(SavedClip);
 
       // In any case, add the system buffer flag
       Clipboard.AddExcludeFlag;
