@@ -36,6 +36,7 @@ type
   { TformSettingsTrayslate }
 
   TformSettingsTrayslate = class(TForm)
+    {%Region -fold Form Common}
     BtnDefaultHotkeys: TButton;
     BtnFont: TButton;
     BtnFontPopup: TButton;
@@ -165,6 +166,7 @@ type
     procedure GridHotkeysSelectEditor(Sender: TObject; aCol, aRow: integer; var Editor: TWinControl);
     procedure SettingChange(Sender: TObject);
     procedure SplitterPagesMoved(Sender: TObject);
+    {%EndRegion}
   private
     FOriginalAutoStart: boolean;
     FOriginalFont: TFont;
@@ -267,6 +269,8 @@ const
   ColorBevel = $00D9D9D9;
   ColorBevelDark = $00555555;
 
+  {%Region -fold Resource Strings}
+
 resourcestring
   rdefaultfont = 'Default';
   rdefaultsettings = 'Are you sure you want to restore default settings?';
@@ -323,6 +327,8 @@ resourcestring
   ruserparameterkey = 'Name';
   ruserparametervalue = 'Value';
 
+  {%EndRegion}
+
 implementation
 
 uses mainform, formattool, formpopup, languages, translate;
@@ -330,6 +336,8 @@ uses mainform, formattool, formpopup, languages, translate;
   {$R *.lfm}
 
   { TformSettingsTrayslate }
+
+  {%Region -fold Form Events}
 
 procedure TformSettingsTrayslate.FormCreate(Sender: TObject);
 var
@@ -399,6 +407,10 @@ procedure TformSettingsTrayslate.FormShow(Sender: TObject);
 begin
   formTrayslate.TopMost := False;
 end;
+
+{%EndRegion}
+
+{%Region -fold Events}
 
 procedure TformSettingsTrayslate.ComboIconFontNameMouseWheel(Sender: TObject; Shift: TShiftState;
   WheelDelta: integer; MousePos: TPoint; var Handled: boolean);
@@ -612,7 +624,7 @@ begin
   end;
 
   // Enter inside editor → confirm input
-  if (Key = VK_RETURN) and GridHotkeys.EditorMode then
+  if (Key = VK_RETURN) and (Shift = []) and GridHotkeys.EditorMode then
   begin
     GridHotkeys.EditorMode := False;
     Key := 0;
@@ -907,6 +919,10 @@ procedure TformSettingsTrayslate.ValueListUserParametersColRowInserted(Sender: T
 begin
   BtnApply.Enabled := True;
 end;
+
+{%EndRegion}
+
+{%Region -fold Methods}
 
 procedure TformSettingsTrayslate.SetPanelFont(Panel: TPanel; const AFont: TFont);
 begin
@@ -1354,5 +1370,7 @@ begin
   BtnApply.Enabled := False;
   SetState;
 end;
+
+{%EndRegion}
 
 end.
