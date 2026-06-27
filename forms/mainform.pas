@@ -2115,7 +2115,7 @@ begin
 
   // Loading source languages from the config
   FLanguages.Clear;
-  List := GetDisplayNamesFromCodeMap(Trans.Languages, Trans.ValueType);
+  List := TLanguages.GetDisplayNamesFromCodeMap(Trans.Languages, Trans.ValueType);
   try
     FLanguages.Assign(List); // Assign available source languages
   finally
@@ -2126,7 +2126,7 @@ begin
   FLanguagesTarget.Clear;
   if (Assigned(Trans.LanguagesTarget)) and (Trans.LanguagesTarget.Count > 0) then
   begin
-    List := GetDisplayNamesFromCodeMap(Trans.LanguagesTarget, Trans.ValueType);
+    List := TLanguages.GetDisplayNamesFromCodeMap(Trans.LanguagesTarget, Trans.ValueType);
     try
       FLanguagesTarget.Assign(List); // Assign available target languages
     finally
@@ -2135,7 +2135,7 @@ begin
   end;
 
   // Fill ComboSource with display names
-  List := GetDisplayNamesFromCodeMap(Trans.Languages, Trans.ValueType, True);
+  List := TLanguages.GetDisplayNamesFromCodeMap(Trans.Languages, Trans.ValueType, True);
   try
     ComboSource.Items.Assign(List); // Text with large letter
   finally
@@ -2179,7 +2179,7 @@ begin
   // Fill ComboTarget with display names
   if (Assigned(Trans.LanguagesTarget)) and (Trans.LanguagesTarget.Count > 0) then
   begin
-    List := GetDisplayNamesFromCodeMap(Trans.LanguagesTarget, Trans.ValueType, True);
+    List := TLanguages.GetDisplayNamesFromCodeMap(Trans.LanguagesTarget, Trans.ValueType, True);
     try
       ComboTarget.Items.Assign(List); // Text with large letter
     finally
@@ -2287,8 +2287,8 @@ begin
   end;
 
   // Set combobox selection by language code
-  SetComboBoxByCode(ComboSource, Trans.LangSource);
-  SetComboBoxByCode(ComboTarget, Trans.LangTarget);
+  TLanguages.SetComboBoxByCode(ComboSource, Trans.LangSource);
+  TLanguages.SetComboBoxByCode(ComboTarget, Trans.LangTarget);
 
   if ComboTarget.ItemIndex = -1 then
     ComboTarget.Text := string.Empty;
@@ -3741,7 +3741,7 @@ begin
   if not SmartSwap then
   begin
     // Ordinary swap
-    if ((langSrc = langDetect) or (langTar = langDetect)) and (not IsSpecialCode(langSrc)) and (not IsSpecialCode(langTar)) then
+    if ((langSrc = langDetect) or (langTar = langDetect)) and (not TLanguages.IsSpecialCode(langSrc)) and (not TLanguages.IsSpecialCode(langTar)) then
     begin
       if (langTar = langDetect) then
       begin
@@ -3753,8 +3753,8 @@ begin
   else
   begin
     // Smart swap
-    if ((langSrc = langDetect) or (langTar = langDetect)) and (not IsSpecialCode(langSrc)) and
-      (not IsSpecialCode(langTar)) and ((not SmartHard) or (((langSrc = langPrimary) and (langTar = langSecondary)) or
+    if ((langSrc = langDetect) or (langTar = langDetect)) and (not TLanguages.IsSpecialCode(langSrc)) and
+      (not TLanguages.IsSpecialCode(langTar)) and ((not SmartHard) or (((langSrc = langPrimary) and (langTar = langSecondary)) or
       ((langSrc = langSecondary) and (langTar = langPrimary)))) then
     begin
       if (langTar = langDetect) then
@@ -3765,11 +3765,11 @@ begin
     end
     else
     begin
-      if (langSrc <> langDetect) or (IsSpecialCode(langSrc)) then
+      if (langSrc <> langDetect) or (TLanguages.IsSpecialCode(langSrc)) then
       begin
         if (langDetect = langPrimary) then
         begin
-          if (langSrc <> langPrimary) and (not IsSpecialCode(langSrc)) then
+          if (langSrc <> langPrimary) and (not TLanguages.IsSpecialCode(langSrc)) then
           begin
             idx := Trans.Languages.IndexOfNameIgnoreCase(langPrimary);
             if (idx > 0) and (idx < FLanguages.Count) then
@@ -3792,7 +3792,7 @@ begin
         end
         else
         begin
-          if (langSrc <> langDetect) and (not IsSpecialCode(langSrc)) then
+          if (langSrc <> langDetect) and (not TLanguages.IsSpecialCode(langSrc)) then
           begin
             idx := Trans.Languages.IndexOfNameIgnoreCase(langDetect);
             if (idx > 0) and (idx < FLanguages.Count) then

@@ -416,7 +416,7 @@ begin
     MemoLanguages.Clear;
   end;
 
-  List := GetLanguageCodePairList(TValueType(ComboValueType.ItemIndex));
+  List := TLanguages.GetLanguageCodePairList(TValueType(ComboValueType.ItemIndex));
   try
     MemoLanguages.Lines.Assign(List);
   finally

@@ -360,7 +360,7 @@ begin
     ComboLangDetect.Items.Add(formTrayslate.ConfigTitles.Values[formTrayslate.ConfigFiles[i]]);
   ComboLangDetect.ItemIndex := formTrayslate.ConfigFiles.IndexOf(formTrayslate.ConfigLangDetect) + 1;
 
-  List := GetLanguageCodeDisplayPairs(vtLanguage, True);
+  List := TLanguages.GetLanguageCodeDisplayPairs(vtLanguage, True);
   try
     ComboPrimaryLang.Items.Assign(List);
     ComboSecondaryLang.Items.Assign(List);
@@ -1168,8 +1168,8 @@ begin
     formTrayslate.AutoSwap := CheckAutoSwap.Checked;
     formTrayslate.SmartSwap := CheckSmartSwap.Checked;
     formTrayslate.SmartHard := CheckSmartHard.Checked;
-    formTrayslate.PrimaryLang := ExtractCodeFromItem(ComboPrimaryLang.Text);
-    formTrayslate.SecondaryLang := ExtractCodeFromItem(ComboSecondaryLang.Text);
+    formTrayslate.PrimaryLang := TLanguages.ExtractCodeFromItem(ComboPrimaryLang.Text);
+    formTrayslate.SecondaryLang := TLanguages.ExtractCodeFromItem(ComboSecondaryLang.Text);
     formTrayslate.EnableMouseMode := CheckEnableMouseMode.Checked;
     formTrayslate.MouseModeCtrl := CheckMouseModeCtrl.Checked;
     formTrayslate.MouseMode := TMouseMode(ComboMouseMode.ItemIndex);
@@ -1330,8 +1330,8 @@ begin
   CheckAutoSwap.Checked := FOriginalAutoSwap;
   CheckSmartSwap.Checked := FOriginalSmartSwap;
   CheckSmartHard.Checked := FOriginalSmartHard;
-  ComboPrimaryLang.ItemIndex := FindIndexByCode(ComboPrimaryLang.Items, FOriginalPrimaryLang);
-  ComboSecondaryLang.ItemIndex := FindIndexByCode(ComboSecondaryLang.Items, FOriginalSecondaryLang);
+  ComboPrimaryLang.ItemIndex := TLanguages.FindIndexByCode(ComboPrimaryLang.Items, FOriginalPrimaryLang);
+  ComboSecondaryLang.ItemIndex := TLanguages.FindIndexByCode(ComboSecondaryLang.Items, FOriginalSecondaryLang);
   CheckEnableMouseMode.Checked := FOriginalEnableMouseMode;
   CheckMouseModeCtrl.Checked := FOriginalMouseModeCtrl;
   ComboMouseMode.ItemIndex := Ord(FOriginalMouseMode);

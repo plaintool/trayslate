@@ -6,12 +6,16 @@
 
 unit languages;
 
+{$mode objfpc}{$H+}
+{$modeswitch advancedrecords}
+
 interface
 
 uses
   Classes,
   SysUtils,
   StrUtils,
+  StdCtrls,
   stringshelper,
   translate;
 
@@ -21,47 +25,71 @@ type
     DisplayName: string; // Name shown in UI (English)
   end;
 
-type
   TValueArray = array of TAppValue;
 
 const
   SpecialCodes: array[0..1] of string = ('auto', 'empty');
   AutoDetect = 'Auto Detect';
 
-function GetLanguages: TValueArray;
+type
+  TAppValueHelper = record helper for TAppValue
+    function DisplayText: string;                      // "DisplayName (Code)"
+    class function ExtractCode(const ItemText: string): string; static;
+  end;
 
-function GetCurrencyFiat: TValueArray;
+type
+  // Static class that holds all language/currency/unit data and operations
+  TLanguages = class sealed
+  strict private
+    class procedure SortValues(var AValues: TValueArray); static;
+  public
+    // Data retrieval
+    class function GetLanguages: TValueArray; static;
+    class function GetCurrencyFiat: TValueArray; static;
+    class function GetCurrencyCrypto: TValueArray; static;
+    class function GetUnits: TValueArray; static;
+    class function GetValues(AValueType: TValueType; ASort: boolean = True): TValueArray; static;
 
-function GetCurrencyCrypto: TValueArray;
-
-function GetUnits: TValueArray;
-
-function GetValues(AValueType: TValueType = vtNone; ASort: boolean = True): TValueArray;
-
-function GetLanguageCodePairList(AValueType: TValueType): TStringList;
-
-function GetLanguageDisplayStrings(AValueType: TValueType): TStringList;
-
-function GetDisplayNamesFromCodeMap(ACodeMap: TStringList; AValueType: TValueType; Sort: boolean = False): TStringList;
-
-function GetDisplayName(const ACode: string): string;
-
-function GetLanguageCodeDisplayPairs(AValueType: TValueType; ASort: boolean = False; AIncludeSpecial: boolean = False): TStringList;
-
-function ExtractCodeFromItem(const ItemText: string): string;
-
-function FindIndexByCode(const AStrings: TStrings; const ACode: string): integer;
-
-function IsSpecialCode(const Value: string): boolean;
+    // Utility methods
+    class function GetLanguageCodePairList(AValueType: TValueType): TStringList; static;
+    class function GetLanguageDisplayStrings(AValueType: TValueType): TStringList; static;
+    class function GetDisplayNamesFromCodeMap(ACodeMap: TStringList; AValueType: TValueType; Sort: boolean = False): TStringList; static;
+    class function GetDisplayName(const ACode: string): string; static;
+    class function GetLanguageCodeDisplayPairs(AValueType: TValueType; ASort: boolean = False;
+      AIncludeSpecial: boolean = False): TStringList; static;
+    class function ExtractCodeFromItem(const ItemText: string): string; static;
+    class function FindIndexByCode(const AStrings: TStrings; const ACode: string): integer; static;
+    class function IsSpecialCode(const Value: string): boolean; static;
+    class procedure SetComboBoxByCode(ComboBox: TComboBox; const Code: string); static;
+  end;
 
 implementation
 
-function GetLanguages: TValueArray;
+{%Region -fold [TAppValue Helper Implementation]}
+function TAppValueHelper.DisplayText: string;
+begin
+  Result := Format('%s (%s)', [DisplayName, Code]);
+end;
+
+class function TAppValueHelper.ExtractCode(const ItemText: string): string;
+var
+  P: SizeInt;
+begin
+  P := RPos(' (', ItemText);
+  if P > 0 then
+    Result := Copy(ItemText, P + 2, Length(ItemText) - P - 2)
+  else
+    Result := ItemText;
+end;
+{%EndRegion}
+
+{%Region -fold [TLanguages - Data Retrieval]}
+class function TLanguages.GetLanguages: TValueArray;
 const
   Languages: array[0..267] of TAppValue = (
     // Languages
-    (Code: 'auto'; DisplayName: AutoDetect),
-    (Code: 'empty'; DisplayName: AutoDetect),
+    (Code: 'auto'; DisplayName: 'Auto Detect'),
+    (Code: 'empty'; DisplayName: 'Auto Detect'),
     (Code: 'ab'; DisplayName: 'Abkhazian'),
     (Code: 'awa'; DisplayName: 'Awadhi'),
     (Code: 'av'; DisplayName: 'Avar'),
@@ -338,7 +366,7 @@ begin
     Result[i] := Languages[i];
 end;
 
-function GetCurrencyFiat: TValueArray;
+class function TLanguages.GetCurrencyFiat: TValueArray;
 const
   currency: array[0..150] of TAppValue = (
     (Code: 'AED'; DisplayName: 'United Arab Emirates Dirham'),
@@ -502,7 +530,7 @@ begin
     Result[i] := currency[i];
 end;
 
-function GetCurrencyCrypto: TValueArray;
+class function TLanguages.GetCurrencyCrypto: TValueArray;
 const
   CurrencyCrypto: array[0..149] of TAppValue = (
     (Code: 'BTC'; DisplayName: 'Bitcoin'),
@@ -665,7 +693,7 @@ begin
     Result[i] := CurrencyCrypto[i];
 end;
 
-function GetUnits: TValueArray;
+class function TLanguages.GetUnits: TValueArray;
 const
   Units: array[0..166] of TAppValue = (
     (Code: 'acre'; DisplayName: 'acre - area'),
@@ -844,15 +872,33 @@ begin
   for i := 0 to High(Units) do
     Result[i] := Units[i];
 end;
+{%EndRegion}
 
-function GetValues(AValueType: TValueType = vtNone; ASort: boolean = True): TValueArray;
+{%Region -fold [TLanguages - GetValues and Sorting]}
+class procedure TLanguages.SortValues(var AValues: TValueArray);
 var
   i, j: integer;
   Temp: TAppValue;
+begin
+  for i := 1 to High(AValues) do
+  begin
+    Temp := AValues[i];
+    j := i - 1;
+    while (j >= 1) and (AValues[j].DisplayName > Temp.DisplayName) do
+    begin
+      AValues[j + 1] := AValues[j];
+      Dec(j);
+    end;
+    AValues[j + 1] := Temp;
+  end;
+end;
+
+class function TLanguages.GetValues(AValueType: TValueType; ASort: boolean): TValueArray;
+var
+  i: integer;
   Fiat, Crypto: TValueArray;
 begin
   Result := [];
-
   case AValueType of
     vtNone:
       SetLength(Result, 0);
@@ -879,22 +925,12 @@ begin
   end;
 
   if ASort then
-  begin
-    for i := 1 to High(Result) do
-    begin
-      Temp := Result[i];
-      j := i - 1;
-      while (j >= 1) and (Result[j].DisplayName > Temp.DisplayName) do
-      begin
-        Result[j + 1] := Result[j];
-        Dec(j);
-      end;
-      Result[j + 1] := Temp;
-    end;
-  end;
+    SortValues(Result);
 end;
+{%EndRegion}
 
-function GetLanguageCodePairList(AValueType: TValueType): TStringList;
+{%Region -fold [TLanguages - Utility Methods]}
+class function TLanguages.GetLanguageCodePairList(AValueType: TValueType): TStringList;
 var
   Langs: array of TAppValue;
   i: integer;
@@ -903,17 +939,15 @@ begin
   Result.TrailingLineBreak := False;
   try
     Langs := GetValues(AValueType, False);
-
     for i := 0 to Length(Langs) - 1 do
       Result.Add(Langs[i].Code + '=' + Langs[i].Code);
-
   except
     Result.Free;
     raise;
   end;
 end;
 
-function GetLanguageDisplayStrings(AValueType: TValueType): TStringList;
+class function TLanguages.GetLanguageDisplayStrings(AValueType: TValueType): TStringList;
 var
   Langs: array of TAppValue;
   L: TAppValue;
@@ -924,10 +958,10 @@ begin
     Result.Add(L.DisplayName + ' (' + L.Code + ')');
 end;
 
-function GetDisplayNamesFromCodeMap(ACodeMap: TStringList; AValueType: TValueType; Sort: boolean = False): TStringList;
+class function TLanguages.GetDisplayNamesFromCodeMap(ACodeMap: TStringList; AValueType: TValueType; Sort: boolean): TStringList;
 var
   Langs: array of TAppValue;
-  LangMap: TStringList;          // List of "code=displayname" for lookup
+  LangMap: TStringList;
   i, j, idx: integer;
   Key, ApiValue, DisplayString: string;
   SpecialsList, OthersList: TStringList;
@@ -936,10 +970,7 @@ var
 begin
   Result := TStringList.Create;
   try
-    // Retrieve the master language list
     Langs := GetValues(AValueType);
-
-    // Build a map from language code to display name
     LangMap := TStringList.Create;
     try
       CaseSensitiveSearch := AValueType in [vtUnit, vtNone];
@@ -948,34 +979,30 @@ begin
       for i := 0 to High(Langs) do
         LangMap.Add(Langs[i].Code + '=' + Langs[i].DisplayName);
 
-      // Create temporary lists for special and normal items
       SpecialsList := TStringList.Create;
       OthersList := TStringList.Create;
       try
-        // Process each entry in the input code map
         for i := 0 to ACodeMap.Count - 1 do
         begin
           if Trim(ACodeMap[i]) = string.Empty then
-            Continue; // Skip empty lines
+            Continue;
 
-          Key := Trim(ACodeMap.Names[i]);               // Left part (language code)
-          ApiValue := Trim(ACodeMap.ValueFromIndex[i]); // Right part (API code)
+          Key := Trim(ACodeMap.Names[i]);
+          ApiValue := Trim(ACodeMap.ValueFromIndex[i]);
 
           if (Key = string.Empty) or (ApiValue = string.Empty) then
-            Continue; // Skip malformed lines
+            Continue;
 
-          // Look up the key using IndexOfName
           if CaseSensitiveSearch then
-            idx := LangMap.IndexOfName(Key) // case-sensitive for vtUnit
+            idx := LangMap.IndexOfName(Key)
           else
-            idx := LangMap.IndexOfNameIgnoreCase(Key); // case-insensitive for others
+            idx := LangMap.IndexOfNameIgnoreCase(Key);
 
           if idx >= 0 then
             DisplayString := LangMap.ValueFromIndex[idx] + ' (' + ApiValue + ')'
           else
             DisplayString := Key;
 
-          // Check if the key is in the special codes list (case-insensitive)
           IsSpecial := False;
           for j := Low(SpecialCodes) to High(SpecialCodes) do
             if SameText(Key, SpecialCodes[j]) then
@@ -1011,7 +1038,7 @@ begin
   end;
 end;
 
-function GetDisplayName(const ACode: string): string;
+class function TLanguages.GetDisplayName(const ACode: string): string;
 var
   Langs: array of TAppValue;
   i: integer;
@@ -1023,7 +1050,7 @@ begin
       Exit(Langs[i].DisplayName);
 end;
 
-function GetLanguageCodeDisplayPairs(AValueType: TValueType; ASort: boolean = False; AIncludeSpecial: boolean = False): TStringList;
+class function TLanguages.GetLanguageCodeDisplayPairs(AValueType: TValueType; ASort: boolean; AIncludeSpecial: boolean): TStringList;
 var
   Langs: array of TAppValue;
   L: TAppValue;
@@ -1043,19 +1070,12 @@ begin
   end;
 end;
 
-function ExtractCodeFromItem(const ItemText: string): string;
-var
-  P: integer;
+class function TLanguages.ExtractCodeFromItem(const ItemText: string): string;
 begin
-  Result := '';
-  P := RPos(' (', ItemText);
-  if P > 0 then
-    Result := Copy(ItemText, P + 2, Length(ItemText) - P - 2)
-  else
-    Result := ItemText;
+  Result := TAppValue.ExtractCode(ItemText);
 end;
 
-function FindIndexByCode(const AStrings: TStrings; const ACode: string): integer;
+class function TLanguages.FindIndexByCode(const AStrings: TStrings; const ACode: string): integer;
 var
   i: integer;
 begin
@@ -1065,15 +1085,30 @@ begin
       Exit(i);
 end;
 
-function IsSpecialCode(const Value: string): boolean;
+class function TLanguages.IsSpecialCode(const Value: string): boolean;
 var
   i: integer;
 begin
   for i := Low(SpecialCodes) to High(SpecialCodes) do
     if SpecialCodes[i] = Value then
       Exit(True);
-
   Result := False;
 end;
+
+class procedure TLanguages.SetComboBoxByCode(ComboBox: TComboBox; const Code: string);
+var
+  i: integer;
+begin
+  for i := 0 to ComboBox.Items.Count - 1 do
+  begin
+    if SameText(ExtractCodeFromItem(ComboBox.Items[i]), Code) then
+    begin
+      ComboBox.ItemIndex := i;
+      Exit;
+    end;
+  end;
+end;
+
+{%EndRegion}
 
 end.
