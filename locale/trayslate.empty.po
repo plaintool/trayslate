@@ -251,7 +251,8 @@ msgstr ""
 msgid "Value"
 msgstr ""
 
-#: languages.rautodetect
+#: mainform.rautodetect
+msgctxt "mainform.rautodetect"
 msgid "Auto Detect"
 msgstr ""
 

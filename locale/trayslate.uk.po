@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.9\n"
+"X-Generator: PoBatch 1.0.0\n"
 
 #: formconfig.rcaption
 msgctxt "formconfig.rcaption"
@@ -251,7 +251,8 @@ msgstr "Ім'я"
 msgid "Value"
 msgstr "Значення"
 
-#: languages.rautodetect
+#: mainform.rautodetect
+msgctxt "mainform.rautodetect"
 msgid "Auto Detect"
 msgstr "Автовизначення"
 
@@ -1488,3 +1489,4 @@ msgstr "Нещодавні пари"
 msgctxt "tformtrayslate.menulanguage.caption"
 msgid "Language"
 msgstr "Language"
+

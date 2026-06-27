@@ -26,13 +26,16 @@ type
     procedure RemoveEmptyValues;
 
     // Replaces AFrom with ATo in all strings; optionally replaces only the first occurrence
-    procedure ReplaceInStrings(const AFrom, ATo: string; AReplaceAll: boolean = False);
+    procedure Replace(const AFrom, ATo: string; AReplaceAll: boolean = False);
 
     // Finds a name=value pair by its name (case‑insensitive)
     function IndexOfNameIgnoreCase(const AName: string): integer;
 
     // Searches for a string that matches AValue by exact name, exact value, or by parts after splitting
-    function FindSubstringIndex(const AValue: string): integer;
+    function FindSubstringIndex(const AValue: string;const Seps: TSysCharSet = ['-','_',' ',':',',',';']): integer;
+
+    // Returns True if any string in the list contains SubText
+    function Any(const SubText: string): Boolean;
   end;
 
 implementation
@@ -81,7 +84,7 @@ begin
   end;
 end;
 
-procedure TStringsHelper.ReplaceInStrings(const AFrom, ATo: string; AReplaceAll: boolean);
+procedure TStringsHelper.Replace(const AFrom, ATo: string; AReplaceAll: boolean);
 var
   i: integer;
   Flags: TReplaceFlags;
@@ -118,10 +121,12 @@ begin
   Result := -1;
 end;
 
-function TStringsHelper.FindSubstringIndex(const AValue: string): integer;
+function TStringsHelper.FindSubstringIndex(const AValue: string; const Seps: TSysCharSet = ['-','_',' ',':',',',';']): integer;
 var
   Parts: TStringArray;
   Part: string;
+  CharSet: set of Char absolute Seps;
+  SepStr: string;
 begin
   Result := -1;
   if (Self.Count = 0) or (AValue = string.Empty) then
@@ -137,8 +142,12 @@ begin
   if Result >= 0 then
     Exit;
 
+  SepStr := string.Empty;
+  for Part in CharSet do
+    SepStr := SepStr + Part;
+
   // Try to split by common delimiters and search each part
-  Parts := AValue.Split(['-', '_', ':', ',', ';']);
+  Parts := AValue.Split(SepStr.ToCharArray);
   for Part in Parts do
   begin
     if Part = string.Empty then
@@ -156,6 +165,11 @@ begin
   end;
 
   Result := -1;
+end;
+
+function TStringsHelper.Any(const SubText: string): Boolean;
+begin
+  Result := FindInStringList(SubText) >= 0;
 end;
 
 end.

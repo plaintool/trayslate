@@ -624,6 +624,7 @@ resourcestring
   ropenpofiletr = 'Language File (*.po)|*.po';
   renter = 'Enter';
   renterparameter = 'Enter the required parameter';
+  rautodetect = 'Auto Detect';
 
 implementation
 
@@ -4158,12 +4159,12 @@ begin
   FMouseHook.Enabled := False;
   try
     // Save current clipboard to restore later
-   SavedClip := Clipboard.SaveAllFormats;
+    SavedClip := Clipboard.SaveAllFormats;
 
-   try
-    Clipboard.AsText := string.Empty;
-    Clipboard.AddExcludeFlag;
-    // Copy selection from active window (Ctrl+C)
+    try
+      Clipboard.AsText := string.Empty;
+      Clipboard.AddExcludeFlag;
+      // Copy selection from active window (Ctrl+C)
       GlobalCtrlC;
       SelectedText := Clipboard.AsText;
     finally
@@ -4295,7 +4296,7 @@ begin
 
   if (LangCode <> string.Empty) then
   begin
-    OldAutoDetect := rautodetect;
+    OldAutoDetect := ifthen(FLanguages.Any(rautodetect), rautodetect, AutoDetect);
     Language := LangCode;
     ApplicationTranslate(DEFAULT_LANG);
     if not ApplicationTranslate(Language, nil, PoText) then
@@ -4305,10 +4306,10 @@ begin
   // Update Language Names
   if OldAutoDetect <> string.Empty then
   begin
-    FLanguages.ReplaceInStrings(OldAutoDetect, rautodetect);
-    FLanguagesTarget.ReplaceInStrings(OldAutoDetect, rautodetect);
-    ComboSource.Items.ReplaceInStrings(OldAutoDetect, rautodetect);
-    ComboTarget.Items.ReplaceInStrings(OldAutoDetect, rautodetect);
+    FLanguages.Replace(OldAutoDetect, rautodetect);
+    FLanguagesTarget.Replace(OldAutoDetect, rautodetect);
+    ComboSource.Items.Replace(OldAutoDetect, rautodetect);
+    ComboTarget.Items.Replace(OldAutoDetect, rautodetect);
   end;
 
   // Update form text

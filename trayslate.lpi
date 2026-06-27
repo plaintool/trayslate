@@ -13,7 +13,7 @@
       <XPManifest>
         <DpiAware Value="True"/>
         <TextName Value="trayslate"/>
-        <TextDesc Value=""/>
+        <TextDesc Value="Trayslate is a tray-based client for translation services. You can enter text directly, translate clipboard content, or translate selected text in any application. You can also replace text in another app with its translation using a hotkey. The app lets you choose and fully configure the translation service you use."/>
       </XPManifest>
       <Icon Value="0"/>
       <Resources Count="28">
