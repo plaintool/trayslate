@@ -732,9 +732,9 @@ begin
   FConfigTitles := TStringList.Create;
   FConfigColors := TStringList.Create;
   FConfigImages := TStringList.Create;
-  GetIniFiles(FConfigFiles);
+  TTranslate.GetIniFiles(FConfigFiles);
   BuildConfigMenu;
-  FConfigLangDetect := GetConfigFullPath(FConfigLangDetect, FConfigFiles);
+  FConfigLangDetect := TTranslate.GetConfigFullPath(FConfigLangDetect, FConfigFiles);
 
   if (FConfigFiles.IndexOf(FConfigFile) < 0) then
   begin
@@ -2102,11 +2102,11 @@ begin
   UpdateCheckConfigMenu;
 
   // Load settings from INI
-  LoadIniSettings(FTrans, FConfigFile);
+  FTrans.LoadIniSettings(FConfigFile);
 
   // Load language detection config settings
   if (FConfigLangDetect <> string.Empty) then
-    LoadIniSettings(FTransDetect, FConfigLangDetect)
+    FTransDetect.LoadIniSettings(FConfigLangDetect)
   else
   begin
     FreeAndNil(FTransDetect);
@@ -2354,7 +2354,7 @@ begin
   SetDefaultHotKeys;
 
   if (Assigned(FConfigFiles)) then
-    FConfigLangDetect := GetConfigFullPath(FConfigLangDetect, FConfigFiles);
+    FConfigLangDetect := TTranslate.GetConfigFullPath(FConfigLangDetect, FConfigFiles);
 end;
 
 procedure TFormTrayslate.SetDefaultHotKeys;
@@ -2477,7 +2477,7 @@ begin
       SL.AddObject(FilePath, TObject(Data));
     end;
 
-    SL.CustomSort(@ConfigSortByOrderPathName);
+    SL.CustomSort(@TTranslate.ConfigSortByOrderPathName);
 
     // rebuild original list order
     FConfigFiles.Clear;
@@ -3741,7 +3741,8 @@ begin
   if not SmartSwap then
   begin
     // Ordinary swap
-    if ((langSrc = langDetect) or (langTar = langDetect)) and (not TLanguages.IsSpecialCode(langSrc)) and (not TLanguages.IsSpecialCode(langTar)) then
+    if ((langSrc = langDetect) or (langTar = langDetect)) and (not TLanguages.IsSpecialCode(langSrc)) and
+      (not TLanguages.IsSpecialCode(langTar)) then
     begin
       if (langTar = langDetect) then
       begin

@@ -75,6 +75,8 @@ function LongestString(const Values: array of string): string;
 
 function TryFormatJson(const AText: string; out AFormatted: string): boolean;
 
+function HeadersFromMemo(AMemo: TMemo): TStringList;
+
 implementation
 
 function ColorToHtml(AColor: TColor): string;
@@ -866,6 +868,43 @@ begin
       // Not valid JSON
       Result := False;
     end;
+  end;
+end;
+
+function HeadersFromMemo(AMemo: TMemo): TStringList;
+var
+  i, p, pColon, pEqual: integer;
+  line, Key, Value: string;
+begin
+  Result := TStringList.Create;
+
+  if not Assigned(AMemo) then
+    Exit;
+
+  for i := 0 to AMemo.Lines.Count - 1 do
+  begin
+    line := Trim(AMemo.Lines[i]);
+    if line = string.Empty then
+      Continue;
+
+    pColon := Pos(':', line);
+    pEqual := Pos('=', line);
+
+    // If no separator at all, skip this line
+    if (pColon = 0) and (pEqual = 0) then
+      Continue;
+
+    // Determine the earliest separator
+    if (pColon > 0) and ((pEqual = 0) or (pColon < pEqual)) then
+      p := pColon
+    else
+      p := pEqual;
+
+    Key := Trim(Copy(line, 1, p - 1));
+    Value := Trim(Copy(line, p + 1, MaxInt));
+
+    if Key <> string.Empty then
+      Result.Values[Key] := Value;  // stored as Key=Value internally
   end;
 end;
 

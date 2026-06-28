@@ -22,6 +22,7 @@ uses
   Graphics,
   ExtCtrls,
   LazUTF8,
+  IniFiles,
   fpjson,
   jsonparser,
   systemtool;
@@ -101,6 +102,17 @@ type
     function ParseResponse(content: string): string;
     function Translate: string;
 
+    { Ini config }
+    procedure SaveIniSettings(AFileName: string);
+    procedure LoadIniSettings(AFileName: string);
+    class function IsValidIni(const FileName: string): boolean; static;
+    class procedure FindIniFiles(const Dir: string; List: TStrings); static;
+    class procedure GetIniFiles(List: TStrings); static;
+    class function GetConfigFullPath(const ConfigName: string; ConfigFiles: TStringList): string; static;
+    class function ConfigSortByOrderPathName(List: TStringList; Index1, Index2: integer): integer; static;
+    class procedure ClearSection(AIni: TIniFile; const ASection: string; AErase: boolean); static;
+    class function GetIniDirectory(fileName: string = string.Empty): string; static;
+
     property LangSource: string read FLangSource write FLangSource;
     property LangTarget: string read FLangTarget write FLangTarget;
     property TextToTranslate: string read FTextToTranslate write FTextToTranslate;
@@ -176,9 +188,9 @@ const
 
 implementation
 
-uses mainform, formattool;
+uses mainform, formattool, settings, stringshelper;
 
-  { TTranslate }
+  {%Region -fold TTranslate }
 
 constructor TTranslate.Create;
 begin
@@ -1085,7 +1097,469 @@ begin
   if FIsTruncated then Result := Result + '...';
 end;
 
-{ TTranslateThread }
+{%EndRegion}
+
+{%Region -fold TTranslate Ini Config }
+
+procedure TTranslate.SaveIniSettings(AFileName: string);
+var
+  Ini: TMemIniFile;
+  i: integer;
+  PostDataEscaped: string;
+begin
+  Ini := TMemIniFile.Create(AFileName);
+  try
+    // { Service page }
+    if Trim(ServiceName) <> string.Empty then
+      Ini.WriteString('Service', 'Name', ServiceName)
+    else
+      Ini.DeleteKey('Service', 'Name');
+    if Trim(ServiceIcon) <> string.Empty then
+      Ini.WriteString('Service', 'Icon', ServiceIcon)
+    else
+      Ini.DeleteKey('Service', 'Icon');
+    Ini.WriteInteger('Service', 'Order', ServiceOrder);
+    Ini.WriteBool('Service', 'Visible', ServiceVisible);
+    Ini.WriteBool('Service', 'AutoSwapLanguage', ServiceAutoSwap);
+    Ini.WriteBool('Service', 'RealTimeTranslation', ServiceRealTime);
+    Ini.WriteBool('Service', 'TranslateOnlyByButton', ServiceOnlyButton);
+    Ini.WriteBool('Service', 'AllowProxy', ServiceProxy);
+    Ini.WriteInteger('Service', 'ColorRecent', ServiceColorRecent);
+
+    case ValueType of
+      vtNone: Ini.WriteString('Service', 'ValueType', 'None');
+      vtLanguage: Ini.WriteString('Service', 'ValueType', 'Language');
+      vtCurrencyAll: Ini.WriteString('Service', 'ValueType', 'CurrencyAll');
+      vtCurrencyFiat: Ini.WriteString('Service', 'ValueType', 'CurrencyFiat');
+      vtCurrencyCrypto: Ini.WriteString('Service', 'ValueType', 'CurrencyCrypto');
+      vtUnit: Ini.WriteString('Service', 'ValueType', 'Unit');
+      else
+        ;
+    end;
+
+    // Save service description
+    ClearSection(Ini, 'Service Description', not Assigned(ServiceDescription) or (ServiceDescription.Count = 0));
+    if Assigned(ServiceDescription) then
+      for i := 0 to ServiceDescription.Count - 1 do
+        Ini.WriteString('Service Description',
+          IntToStr(i), // key: 0,1,2...
+          ServiceDescription[i]);
+
+    // { Request page }
+    if WebMethod = wmPost then
+      Ini.WriteString('Request', 'Method', 'POST')
+    else
+      Ini.WriteString('Request', 'Method', 'GET');
+
+    if Trim(UserAgent) <> string.Empty then
+      Ini.WriteString('Request', 'UserAgent', UserAgent)
+    else
+      Ini.DeleteKey('Request', 'UserAgent');
+
+    Ini.WriteBool('Request', 'EncodeText', EncodeText);
+    Ini.WriteInteger('Request', 'MaxLength', MaxLength);
+
+    if Trim(Url) <> string.Empty then
+      Ini.WriteString('Request', 'Url', Url)
+    else
+      Ini.DeleteKey('Request', 'Url');
+
+    if Trim(ContentType) <> string.Empty then
+      Ini.WriteString('Request', 'ContentType', ContentType)
+    else
+      Ini.DeleteKey('Request', 'ContentType');
+
+    // Replace line breaks with \r\n for single-line storage
+    if Trim(PostData) <> string.Empty then
+    begin
+      PostDataEscaped := StringReplace(PostData, LineEnding, '\r\n', [rfReplaceAll]);
+      Ini.WriteString('Request', 'PostData', PostDataEscaped);
+    end
+    else
+      Ini.DeleteKey('Request', 'PostData');
+
+    if Trim(Accept) <> string.Empty then
+      Ini.WriteString('Request', 'Accept', Accept)
+    else
+      Ini.DeleteKey('Request', 'Accept');
+
+    // Save headers
+    ClearSection(Ini, 'Headers', not Assigned(Headers) or (Headers.Count = 0));
+    if Assigned(Headers) then
+      for i := 0 to Headers.Count - 1 do
+        Ini.WriteString('Headers',
+          Headers.Names[i],
+          Headers.ValueFromIndex[i]);
+
+    // {  Response page }
+    if Trim(JsonPointer) <> string.Empty then
+      Ini.WriteString('Response', 'JsonPointer', JsonPointer)
+    else
+      Ini.DeleteKey('Response', 'JsonPointer');
+
+    // { Parameters page }
+    Ini.WriteBool('Parameters', 'EncodeCustomParameters', EncodeCustomParameters);
+
+    // Save custom parameters
+    ClearSection(Ini, 'Custom Parameters', not Assigned(CustomParameters) or (CustomParameters.Count = 0));
+    if Assigned(CustomParameters) then
+      for i := 0 to CustomParameters.Count - 1 do
+        Ini.WriteString('Custom Parameters',
+          CustomParameters.Names[i],
+          CustomParameters.ValueFromIndex[i]);
+
+    ClearSection(Ini, 'Initial Request', (Trim(InitUserAgent) = string.Empty) and (Trim(InitUrl) = string.Empty) and
+      (InitLiveTime = 0));
+    if Trim(InitUserAgent) <> string.Empty then
+      Ini.WriteString('Initial Request', 'UserAgent', InitUserAgent)
+    else
+      Ini.DeleteKey('Initial Request', 'UserAgent');
+
+    if Trim(InitUrl) <> string.Empty then
+      Ini.WriteString('Initial Request', 'Url', InitUrl)
+    else
+      Ini.DeleteKey('Initial Request', 'Url');
+
+    if InitLiveTime > 0 then
+      Ini.WriteInteger('Initial Request', 'LiveTime', InitLiveTime)
+    else
+      Ini.DeleteKey('Initial Request', 'LiveTime');
+
+    // Save initial headers
+    ClearSection(Ini, 'Initial Headers', not Assigned(InitHeaders) or (InitHeaders.Count = 0));
+    if Assigned(InitHeaders) then
+      for i := 0 to InitHeaders.Count - 1 do
+        Ini.WriteString('Initial Headers',
+          InitHeaders.Names[i],
+          InitHeaders.ValueFromIndex[i]);
+
+    // Save initial parameters
+    ClearSection(Ini, 'Initial Parameters', not Assigned(InitParameters) or (InitParameters.Count = 0));
+    if Assigned(InitParameters) then
+      for i := 0 to InitParameters.Count - 1 do
+        Ini.WriteString('Initial Parameters',
+          InitParameters.Names[i],
+          InitParameters.ValueFromIndex[i]);
+
+    // Languages Page
+    // Save language mappings (code=apiCode)
+    ClearSection(Ini, 'Languages', not Assigned(Languages) or (Languages.Count = 0));
+    if Assigned(Languages) then
+      for i := 0 to Languages.Count - 1 do
+        Ini.WriteString('Languages',
+          IfThen(Languages.Names[i] = string.Empty, Languages[i] + '_' + IntToStr(i), Languages.Names[i] + '_' + IntToStr(i)),
+          IfThen(Languages.ValueFromIndex[i] = string.Empty, IfThen(Languages.Names[i] = string.Empty,
+          Languages[i], Languages.Names[i]), Languages.ValueFromIndex[i]));
+
+    // Target Languages Page
+    // Save language target mappings (code=apiCode)
+    ClearSection(Ini, 'LanguagesTarget', not Assigned(LanguagesTarget) or (LanguagesTarget.Count = 0));
+    if Assigned(LanguagesTarget) then
+      for i := 0 to LanguagesTarget.Count - 1 do
+        Ini.WriteString('LanguagesTarget',
+          IfThen(LanguagesTarget.Names[i] = string.Empty, LanguagesTarget[i] + '_' + IntToStr(i),
+          LanguagesTarget.Names[i] + '_' + IntToStr(i)),
+          IfThen(LanguagesTarget.ValueFromIndex[i] = string.Empty, IfThen(LanguagesTarget.Names[i] =
+          string.Empty, LanguagesTarget[i], LanguagesTarget.Names[i]), LanguagesTarget.ValueFromIndex[i]));
+
+    Ini.UpdateFile;
+  finally
+    Ini.Free;
+  end;
+end;
+
+procedure TTranslate.LoadIniSettings(AFileName: string);
+var
+  Ini: TIniFile;
+  Method: string;
+  PostDataEscaped: string;
+  Value: string;
+  Keys: TStringList;
+  i: integer;
+
+  procedure LoadSection(const Section: string; Dest: TStrings);
+  var
+    Keys: TStringList;
+    i, Num: integer;
+    Key, Val: string;
+    UnderscorePos: integer;
+  begin
+    Dest.Clear;
+    Keys := TStringList.Create;
+    try
+      Ini.ReadSection(Section, Keys);
+      for i := 0 to Keys.Count - 1 do
+      begin
+        Key := Keys[i];
+        Val := Ini.ReadString(Section, Key, '');
+
+        // remove trailing _number
+        UnderscorePos := LastDelimiter('_', Key);
+        if (UnderscorePos > 0) and TryStrToInt(Copy(Key, UnderscorePos + 1, MaxInt), Num) then
+          Key := Copy(Key, 1, UnderscorePos - 1);
+
+        Dest.Add(Key + '=' + Val);
+      end;
+    finally
+      Keys.Free;
+    end;
+  end;
+
+begin
+  Ini := TIniFile.Create(AFileName);
+  try
+    ServiceName := Ini.ReadString('Service', 'Name', string.Empty);
+    ServiceIcon := Ini.ReadString('Service', 'Icon', string.Empty);
+    ServiceOrder := Ini.ReadInteger('Service', 'Order', 0);
+    ServiceVisible := Ini.ReadBool('Service', 'Visible', True);
+    ServiceAutoSwap := Ini.ReadBool('Service', 'AutoSwapLanguage', False);
+    ServiceRealTime := Ini.ReadBool('Service', 'RealTimeTranslation', False);
+    ServiceOnlyButton := Ini.ReadBool('Service', 'TranslateOnlyByButton', False);
+    ServiceProxy := Ini.ReadBool('Service', 'AllowProxy', False);
+    ServiceColorRecent := Ini.ReadInteger('Service', 'ColorRecent', clBlue);
+
+    ServiceDescription.Clear;
+    Keys := TStringList.Create;
+    try
+      Ini.ReadSection('Service Description', Keys);
+
+      for i := 0 to Keys.Count - 1 do
+        ServiceDescription.Add(
+          Ini.ReadString('Service Description', Keys[i], '')
+          );
+    finally
+      Keys.Free;
+    end;
+
+    Value := Ini.ReadString('Service', 'ValueType', 'None');
+    if SameText(Value, 'None') then
+      ValueType := vtNone
+    else if SameText(Value, 'Language') then
+      ValueType := vtLanguage
+    else if SameText(Value, 'CurrencyAll') then
+      ValueType := vtCurrencyAll
+    else if SameText(Value, 'CurrencyFiat') then
+      ValueType := vtCurrencyFiat
+    else if SameText(Value, 'CurrencyCrypto') then
+      ValueType := vtCurrencyCrypto
+    else if SameText(Value, 'Unit') then
+      ValueType := vtUnit
+    else
+      ValueType := vtNone; // default
+
+    Method := Ini.ReadString('Request', 'Method', 'GET');
+    if SameText(Method, 'POST') then
+      WebMethod := wmPost
+    else
+      WebMethod := wmGet;
+
+    UserAgent := Ini.ReadString('Request', 'UserAgent', string.Empty);
+    EncodeText := Ini.ReadBool('Request', 'EncodeText', True);
+    MaxLength := Ini.ReadInteger('Request', 'MaxLength', 0);
+
+    Url := Ini.ReadString('Request', 'Url', string.Empty);
+
+    ContentType := Ini.ReadString('Request', 'ContentType', string.Empty);
+    // Restore line breaks from \r\n
+    PostDataEscaped := Ini.ReadString('Request', 'PostData', string.Empty);
+    PostData := StringReplace(PostDataEscaped, '\r\n', LineEnding, [rfReplaceAll]);
+    Accept := Ini.ReadString('Request', 'Accept', string.Empty);
+    Headers.Clear;
+    Ini.ReadSectionValues('Headers', Headers);
+
+    JsonPointer := Ini.ReadString('Response', 'JsonPointer', string.Empty);
+
+    EncodeCustomParameters := Ini.ReadBool('Parameters', 'EncodeCustomParameters', True);
+    CustomParameters.Clear;
+    Ini.ReadSectionValues('Custom Parameters', CustomParameters);
+
+    InitUserAgent := Ini.ReadString('Initial Request', 'UserAgent', string.Empty);
+    InitUrl := Ini.ReadString('Initial Request', 'Url', string.Empty);
+    InitLiveTime := Ini.ReadInteger('Initial Request', 'LiveTime', 0);
+    InitHeaders.Clear;
+    Ini.ReadSectionValues('Initial Headers', InitHeaders);
+    InitParameters.Clear;
+    Ini.ReadSectionValues('Initial Parameters', InitParameters);
+
+    LoadSection('Languages', Languages);
+    LoadSection('LanguagesTarget', LanguagesTarget);
+
+    Languages.RemoveEmptyValues;
+    LanguagesTarget.RemoveEmptyValues;
+  finally
+    Ini.Free;
+  end;
+end;
+
+class function TTranslate.IsValidIni(const FileName: string): boolean;
+var
+  Ini: TIniFile;
+  Method: string;
+begin
+  Result := False;
+
+  if not FileExists(FileName) then
+    Exit;
+
+  Ini := TIniFile.Create(FileName);
+  try
+    // Check required keys
+    Method := Ini.ReadString('Request', 'Method', string.Empty);
+
+    if ((Method = 'GET') or (Method = 'POST')) and Ini.ValueExists('Request', 'EncodeText') and
+      Ini.ValueExists('Service', 'Order') then
+      Result := True;
+  finally
+    Ini.Free;
+  end;
+end;
+
+class procedure TTranslate.FindIniFiles(const Dir: string; List: TStrings);
+var
+  SR: TSearchRec;
+  FilePath: string;
+begin
+  if not DirectoryExists(Dir) then
+    Exit;
+
+  // Search for *.ini files in current directory
+  if FindFirst(IncludeTrailingPathDelimiter(Dir) + '*.ini', faAnyFile and not faDirectory, SR) = 0 then
+  begin
+    repeat
+      FilePath := IncludeTrailingPathDelimiter(Dir) + SR.Name;
+
+      if IsValidIni(FilePath) then
+        List.Add(FilePath);
+
+    until FindNext(SR) <> 0;
+
+    FindClose(SR);
+  end;
+
+  // Search subdirectories recursively
+  if FindFirst(IncludeTrailingPathDelimiter(Dir) + '*', faDirectory, SR) = 0 then
+  begin
+    repeat
+      if (SR.Name <> '.') and (SR.Name <> '..') then
+      begin
+        if (SR.Attr and faDirectory) <> 0 then
+        begin
+          FilePath := IncludeTrailingPathDelimiter(Dir) + SR.Name;
+          FindIniFiles(FilePath, List); // Recursive call
+        end;
+      end;
+    until FindNext(SR) <> 0;
+
+    FindClose(SR);
+  end;
+end;
+
+class procedure TTranslate.GetIniFiles(List: TStrings);
+var
+  ExeDir: string;
+  SettingsDir: string;
+begin
+  List.Clear;
+
+  // Executable directory
+  ExeDir := ExtractFilePath(ParamStr(0));
+  FindIniFiles(ExeDir, List);
+
+  // Settings directory
+  SettingsDir := GetSettingsDirectory('');
+  if CompareText(ExcludeTrailingPathDelimiter(ExeDir), ExcludeTrailingPathDelimiter(SettingsDir)) <> 0 then
+    FindIniFiles(SettingsDir, List);
+end;
+
+class function TTranslate.GetConfigFullPath(const ConfigName: string; ConfigFiles: TStringList): string;
+var
+  i: integer;
+  NameOnly: string;
+begin
+  // Initialize result as empty string
+  Result := string.Empty;
+
+  // Extract only the file name in case ConfigName contains a full path
+  NameOnly := ExtractFileName(ConfigName);
+
+  // Iterate through all config file paths
+  for i := 0 to ConfigFiles.Count - 1 do
+  begin
+    // Compare only the file name, case-insensitive
+    if SameText(ExtractFileName(ConfigFiles[i]), NameOnly) then
+    begin
+      Result := ConfigFiles[i]; // return full path
+      Exit;
+    end;
+  end;
+  // If not found, Result remains empty
+end;
+
+class function TTranslate.ConfigSortByOrderPathName(List: TStringList; Index1, Index2: integer): integer;
+var
+  Data1, Data2: PConfigData;
+  Ord1, Ord2: integer;
+begin
+  Data1 := PConfigData(List.Objects[Index1]);
+  Data2 := PConfigData(List.Objects[Index2]);
+
+  // Treat Order=0 as "largest" to push it to the bottom
+  if Data1^.Order = 0 then
+    Ord1 := MaxInt
+  else
+    Ord1 := Data1^.Order;
+
+  if Data2^.Order = 0 then
+    Ord2 := MaxInt
+  else
+    Ord2 := Data2^.Order;
+
+  Result := Ord1 - Ord2; // primary sort
+  if Result = 0 then
+  begin
+    Result := CompareText(Data1^.PathOnly, Data2^.PathOnly); // secondary sort
+    if Result = 0 then
+      Result := CompareText(Data1^.Name, Data2^.Name); // tertiary sort
+  end;
+end;
+
+class procedure TTranslate.ClearSection(AIni: TIniFile; const ASection: string; AErase: boolean);
+var
+  Keys: TStringList;
+  i: integer;
+begin
+  if AErase then
+  begin
+    // Completely remove section (may change file order)
+    AIni.EraseSection(ASection);
+    Exit;
+  end;
+
+  Keys := TStringList.Create;
+  try
+    // Read all keys from section
+    AIni.ReadSection(ASection, Keys);
+
+    // Delete each key individually (keeps section position)
+    for i := 0 to Keys.Count - 1 do
+      AIni.DeleteKey(ASection, Keys[i]);
+  finally
+    Keys.Free;
+  end;
+end;
+
+class function TTranslate.GetIniDirectory(fileName: string = string.Empty): string;
+begin
+  {$IFDEF WINDOWS}
+  Result := ExtractFilePath(ParamStr(0)) + fileName;
+  {$ELSE}
+  Result := IncludeTrailingPathDelimiter(GetUserDir) + '.config/trayslate/' + filename;
+  {$ENDIF}
+end;
+
+{EndRegion}
+
+{%Region -fold TTranslateThread }
 
 constructor TTranslateThread.Create(ATrans: TTranslate; AMemo: TMemo = nil; ATimer: TTimer = nil; AFreeOnTerminate: boolean = True);
 begin
@@ -1176,5 +1650,7 @@ begin
     end;
   end;
 end;
+
+{%EndRegion}
 
 end.

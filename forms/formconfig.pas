@@ -188,7 +188,7 @@ resourcestring
 
 implementation
 
-uses mainform, translate, settings, formattool, langtool, languages, systemtool;
+uses mainform, translate, settings, formattool, languages, systemtool;
 
   {$R *.lfm}
 
@@ -800,7 +800,7 @@ begin
       InitParameters.Text := MemoInitParameters.Text;
       InitLiveTime := SpinInitLiveTime.Value;
     end;
-    SaveIniSettings(formTrayslate.Trans, formTrayslate.ConfigFile);
+    formTrayslate.Trans.SaveIniSettings(formTrayslate.ConfigFile);
     aSave.Enabled := False;
     formTrayslate.LoadConfig;
     formTrayslate.BuildConfigMenu;

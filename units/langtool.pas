@@ -19,7 +19,6 @@ uses
   Math,
   Menus,
   SysUtils,
-  StdCtrls,
   StrUtils,
   LCLType,
   LCLIntf,
@@ -77,8 +76,6 @@ function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: str
   ABackgroundColor: TColor = clNone; AFontColor: TColor = clWhite; AFontName: string = string.Empty): TBitmap;
 
 function CreateTrayIconProgress(AAngle: integer; ABackgroundColor: TColor = clNone; APenColor: TColor = clWhite): TBitmap;
-
-function HeadersFromMemo(AMemo: TMemo): TStringList;
 
 function HotKeyToText(const AHotKey: THotKeyData): string;
 
@@ -247,43 +244,6 @@ begin
     Result := TempBitmap;
   finally
     TempIntfImg.Free;
-  end;
-end;
-
-function HeadersFromMemo(AMemo: TMemo): TStringList;
-var
-  i, p, pColon, pEqual: integer;
-  line, Key, Value: string;
-begin
-  Result := TStringList.Create;
-
-  if not Assigned(AMemo) then
-    Exit;
-
-  for i := 0 to AMemo.Lines.Count - 1 do
-  begin
-    line := Trim(AMemo.Lines[i]);
-    if line = string.Empty then
-      Continue;
-
-    pColon := Pos(':', line);
-    pEqual := Pos('=', line);
-
-    // If no separator at all, skip this line
-    if (pColon = 0) and (pEqual = 0) then
-      Continue;
-
-    // Determine the earliest separator
-    if (pColon > 0) and ((pEqual = 0) or (pColon < pEqual)) then
-      p := pColon
-    else
-      p := pEqual;
-
-    Key := Trim(Copy(line, 1, p - 1));
-    Value := Trim(Copy(line, p + 1, MaxInt));
-
-    if Key <> string.Empty then
-      Result.Values[Key] := Value;  // stored as Key=Value internally
   end;
 end;
 
