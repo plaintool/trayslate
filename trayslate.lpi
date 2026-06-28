@@ -166,7 +166,7 @@
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="units\langtool.pas"/>
+        <Filename Value="units\hotkeyhelper.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
@@ -241,6 +241,26 @@
         <Filename Value="common\oneshottimer.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="OneShotTimer"/>
+      </Unit>
+      <Unit>
+        <Filename Value="units\stringhelper.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="units\languages_data.inc"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="units\currency_data.inc"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="units\currencycrypto_data.inc"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="units\units_data.inc"/>
+        <IsPartOfProject Value="True"/>
       </Unit>
     </Units>
   </ProjectOptions>

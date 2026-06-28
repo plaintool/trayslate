@@ -26,9 +26,10 @@ uses
   Spin,
   Math,
   Grids,
+  ValEdit,
   LCLType,
-  LCLIntf, ValEdit,
-  langtool,
+  LCLIntf,
+  hotkeyhelper,
   systemtool;
 
 type
@@ -642,7 +643,7 @@ begin
     HK := GetOriginalHotKey(GridHotkeys.Row);
     SetHotKeyByRow(GridHotkeys.Row, HK);
 
-    GridHotkeys.Cells[1, GridHotkeys.Row] := HotKeyToText(HK);
+    GridHotkeys.Cells[1, GridHotkeys.Row] := HK.ToText;
 
     GridHotkeys.EditorMode := False;
 
@@ -693,7 +694,7 @@ begin
   // Apply hotkey
   SetHotKeyByRow(GridHotkeys.Row, HK);
 
-  GridHotkeys.Cells[1, GridHotkeys.Row] := HotKeyToText(HK);
+  GridHotkeys.Cells[1, GridHotkeys.Row] := HK.ToText;
 end;
 
 procedure TformSettingsTrayslate.GridHotkeysSelectEditor(Sender: TObject; aCol, aRow: integer; var Editor: TWinControl);
@@ -713,7 +714,7 @@ begin
   if (HK.Key = 0) and (HK.Modifiers <> 0) then
   begin
     SetHotKeyByRow(GridHotkeys.Row, OriginalHK);
-    GridHotkeys.Cells[1, GridHotkeys.Row] := HotKeyToText(OriginalHK);
+    GridHotkeys.Cells[1, GridHotkeys.Row] := OriginalHK.ToText;
   end
   else
   if FOldKeyValue <> GridHotkeys.Cells[1, GridHotkeys.Row] then
@@ -1041,38 +1042,28 @@ begin
     GridHotkeys.DeleteRow(GridHotkeys.RowCount - 1);
 
   GridHotkeys.InsertRowWithValues(1, [rglobal]);
-  GridHotkeys.InsertRowWithValues(2, [rapp, HotKeyToText(FHotKeyApp), rapp_hint, rapp_default]);
-  GridHotkeys.InsertRowWithValues(3, [rtransswap, HotKeyToText(FHotKeyTransSwap), rtransswap_hint, rtransswap_default]);
-  GridHotkeys.InsertRowWithValues(4, [rtransfromclipboard, HotKeyToText(FHotKeyTransFromClipboard),
-    rtransfromclipboard_hint, rtransfromclipboard_default]);
-  GridHotkeys.InsertRowWithValues(5, [rtransclipboard, HotKeyToText(FHotKeyTransClipboard), rtransclipboard_hint,
-    rtransclipboard_default]);
-  GridHotkeys.InsertRowWithValues(6, [rtransclipboardpopup, HotKeyToText(FHotKeyTransClipboardPopup),
-    rtransclipboardpopup_hint, rtransclipboardpopup_default]);
-  GridHotkeys.InsertRowWithValues(7, [rtransfromcontrol, HotKeyToText(FHotKeyTransFromControl),
-    rtransfromcontrol_hint, rtransfromcontrol_default]);
-  GridHotkeys.InsertRowWithValues(8, [rtranscontrol, HotKeyToText(FHotKeyTransControl), rtranscontrol_hint, rtranscontrol_default]);
-  GridHotkeys.InsertRowWithValues(9, [rtranscontrolpopup, HotKeyToText(FHotKeyTransControlPopup),
-    rtranscontrolpopup_hint, rtranscontrolpopup_default]);
+  GridHotkeys.InsertRowWithValues(2, [rapp, FHotKeyApp.ToText, rapp_hint, rapp_default]);
+  GridHotkeys.InsertRowWithValues(3, [rtransswap, FHotKeyTransSwap.ToText, rtransswap_hint, rtransswap_default]);
+  GridHotkeys.InsertRowWithValues(4, [rtransfromclipboard, FHotKeyTransFromClipboard.ToText, rtransfromclipboard_hint,
+    rtransfromclipboard_default]);
+  GridHotkeys.InsertRowWithValues(5, [rtransclipboard, FHotKeyTransClipboard.ToText, rtransclipboard_hint, rtransclipboard_default]);
+  GridHotkeys.InsertRowWithValues(6, [rtransclipboardpopup, FHotKeyTransClipboardPopup.ToText, rtransclipboardpopup_hint,
+    rtransclipboardpopup_default]);
+  GridHotkeys.InsertRowWithValues(7, [rtransfromcontrol, FHotKeyTransFromControl.ToText, rtransfromcontrol_hint,
+    rtransfromcontrol_default]);
+  GridHotkeys.InsertRowWithValues(8, [rtranscontrol, FHotKeyTransControl.ToText, rtranscontrol_hint, rtranscontrol_default]);
+  GridHotkeys.InsertRowWithValues(9, [rtranscontrolpopup, FHotKeyTransControlPopup.ToText, rtranscontrolpopup_hint,
+    rtranscontrolpopup_default]);
   GridHotkeys.InsertRowWithValues(10, [rrecent]);
-  GridHotkeys.InsertRowWithValues(11, [rrecentpair + ' 1', HotKeyToText(FHotKeyRecent1), rrecentpair_hint +
-    ' 1', rrecentpair_default + '1']);
-  GridHotkeys.InsertRowWithValues(12, [rrecentpair + ' 2', HotKeyToText(FHotKeyRecent2), rrecentpair_hint +
-    ' 2', rrecentpair_default + '2']);
-  GridHotkeys.InsertRowWithValues(13, [rrecentpair + ' 3', HotKeyToText(FHotKeyRecent3), rrecentpair_hint +
-    ' 3', rrecentpair_default + '3']);
-  GridHotkeys.InsertRowWithValues(14, [rrecentpair + ' 4', HotKeyToText(FHotKeyRecent4), rrecentpair_hint +
-    ' 4', rrecentpair_default + '4']);
-  GridHotkeys.InsertRowWithValues(15, [rrecentpair + ' 5', HotKeyToText(FHotKeyRecent5), rrecentpair_hint +
-    ' 5', rrecentpair_default + '5']);
-  GridHotkeys.InsertRowWithValues(16, [rrecentpair + ' 6', HotKeyToText(FHotKeyRecent6), rrecentpair_hint +
-    ' 6', rrecentpair_default + '6']);
-  GridHotkeys.InsertRowWithValues(17, [rrecentpair + ' 7', HotKeyToText(FHotKeyRecent7), rrecentpair_hint +
-    ' 7', rrecentpair_default + '7']);
-  GridHotkeys.InsertRowWithValues(18, [rrecentpair + ' 8', HotKeyToText(FHotKeyRecent8), rrecentpair_hint +
-    ' 8', rrecentpair_default + '8']);
-  GridHotkeys.InsertRowWithValues(19, [rrecentpair + ' 9', HotKeyToText(FHotKeyRecent9), rrecentpair_hint +
-    ' 9', rrecentpair_default + '9']);
+  GridHotkeys.InsertRowWithValues(11, [rrecentpair + ' 1', FHotKeyRecent1.ToText, rrecentpair_hint + ' 1', rrecentpair_default + '1']);
+  GridHotkeys.InsertRowWithValues(12, [rrecentpair + ' 2', FHotKeyRecent2.ToText, rrecentpair_hint + ' 2', rrecentpair_default + '2']);
+  GridHotkeys.InsertRowWithValues(13, [rrecentpair + ' 3', FHotKeyRecent3.ToText, rrecentpair_hint + ' 3', rrecentpair_default + '3']);
+  GridHotkeys.InsertRowWithValues(14, [rrecentpair + ' 4', FHotKeyRecent4.ToText, rrecentpair_hint + ' 4', rrecentpair_default + '4']);
+  GridHotkeys.InsertRowWithValues(15, [rrecentpair + ' 5', FHotKeyRecent5.ToText, rrecentpair_hint + ' 5', rrecentpair_default + '5']);
+  GridHotkeys.InsertRowWithValues(16, [rrecentpair + ' 6', FHotKeyRecent6.ToText, rrecentpair_hint + ' 6', rrecentpair_default + '6']);
+  GridHotkeys.InsertRowWithValues(17, [rrecentpair + ' 7', FHotKeyRecent7.ToText, rrecentpair_hint + ' 7', rrecentpair_default + '7']);
+  GridHotkeys.InsertRowWithValues(18, [rrecentpair + ' 8', FHotKeyRecent8.ToText, rrecentpair_hint + ' 8', rrecentpair_default + '8']);
+  GridHotkeys.InsertRowWithValues(19, [rrecentpair + ' 9', FHotKeyRecent9.ToText, rrecentpair_hint + ' 9', rrecentpair_default + '9']);
 
   // Restore safely
   if SavedRow < GridHotkeys.RowCount then

@@ -12,12 +12,16 @@ unit systemtool;
 interface
 
 uses
-  Forms,
   Classes,
-  SysUtils,
+  Types,
+  Forms,
   Controls,
+  Menus,
+  SysUtils,
   StdCtrls,
+  StrUtils,
   Graphics,
+  IntfGraphics,
   Math,
   FileInfo,
   gettext,
@@ -26,6 +30,7 @@ uses
   LResources,
   LCLTranslator,
   LCLIntf,
+  LCLType,
   Dialogs,
   PasZLib,
   FPImage,
@@ -35,7 +40,6 @@ uses
   FPWritePNG,
   FPWriteBMP,
   FPImgCanv,
-  IntfGraphics,
   fphttpclient,
   base64,
   {$IFDEF WINDOWS}
@@ -177,6 +181,13 @@ function Base64ToBitmap(const Base64Str: string): Graphics.TBitmap;
 
 function AddBase64ToImageList(const Base64Str: string; AList: TImageList): integer;
 
+{ Tray Icon }
+
+function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = string.Empty;
+  ABackgroundColor: TColor = clNone; AFontColor: TColor = clWhite; AFontName: string = string.Empty): Graphics.TBitmap;
+
+function CreateTrayIconProgress(AAngle: integer; ABackgroundColor: TColor = clNone; APenColor: TColor = clWhite): Graphics.TBitmap;
+
 {Win version}
 
 function IsWindows7: boolean;
@@ -202,6 +213,12 @@ const
 
   CONNECT_TIMEOUT = 10000;
   REQUEST_TIMEOUT = 300000;
+
+  ICON_SIZE = 16;
+
+  DEF_FONT = 'Tahoma';
+  DEF_NA = 'N/A';
+  DEF_AUTO = '*';
 
 implementation
 
@@ -1765,6 +1782,170 @@ begin
   finally
     Bmp.Free;
     FixedBmp.Free;
+  end;
+end;
+
+{ Tray Icon }
+
+function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = string.Empty;
+  ABackgroundColor: TColor = clNone; AFontColor: TColor = clWhite; AFontName: string = string.Empty): Graphics.TBitmap;
+var
+  Bmp: Graphics.TBitmap;
+  IntfImg: TLazIntfImage;
+  ImgHandle, ImgMaskHandle: HBitmap;
+  rect, rect1, rect2: TRect;
+  delta: integer;
+  Value: string;
+
+  function FormatValue(const Value: string; DefSize: integer = 8): string;
+  begin
+    Result := Value;
+
+    if Result = string.Empty then Result := DEF_NA;
+
+    if Pos('-', Result) > 0 then
+      Result := LeftStr(Result, Pos('-', Result + '-') - 1);
+
+    if (Length(Result) = 3) then
+      Bmp.Canvas.Font.Size := Form.ScaleScreenTo96(5)
+    else
+    begin
+      if (LowerCase(Result) = 'auto') then
+      begin
+        Bmp.Canvas.Font.Size := Form.ScaleScreenTo96(8);
+        Result := DEF_AUTO;
+      end
+      else
+      begin
+        Bmp.Canvas.Font.Size := Form.ScaleScreenTo96(DefSize);
+        Result := Result.Substring(0, 2);
+      end;
+    end;
+  end;
+
+begin
+  IntfImg := TLazIntfImage.Create(ICON_SIZE, ICON_SIZE);
+  Bmp := Graphics.TBitmap.Create;
+  try
+    Bmp.SetSize(ICON_SIZE, ICON_SIZE);  // standard tray icon size
+
+    // set background
+    if ABackgroundColor = clNone then
+    begin
+      Bmp.Canvas.Brush.Color := clFuchsia;
+      Bmp.Canvas.Font.Quality := fqNonAntialiased;
+      Bmp.TransparentColor := clFuchsia;
+      Bmp.Transparent := True;
+    end
+    else
+      Bmp.Canvas.Brush.Color := ABackgroundColor;
+    Bmp.Canvas.Brush.Style := bsSolid;
+    rect := Types.Rect(0, 0, Bmp.Width, Bmp.Height);
+    Bmp.Canvas.FillRect(rect);
+
+    // set text style
+    Bmp.Canvas.Font.Name := ifthen(AFontName = string.Empty, DEF_FONT, AFontName);
+    Bmp.Canvas.Font.Color := AFontColor;
+    Bmp.Canvas.Font.Style := [fsBold];
+
+    if (ALang2 = string.Empty) then
+    begin
+      // draw text centered
+      Value := FormatValue(ALang1);
+      DrawText(Bmp.Canvas.Handle, PChar(Value), Length(Value), rect,
+        DT_CENTER or DT_VCENTER or DT_SINGLELINE);
+    end
+    else
+    begin
+      // upper half
+      Value := FormatValue(ALang1, 7);
+      rect1 := Types.Rect(rect.Left, rect.Top, rect.Right, (rect.Top + rect.Bottom) div 2);
+      DrawText(Bmp.Canvas.Handle, PChar(Value), Length(Value), rect1,
+        DT_CENTER or DT_VCENTER or DT_SINGLELINE);
+
+      // lower half
+      Value := FormatValue(ALang2, 7);
+      delta := ifthen(Value = DEF_AUTO, 3, 0);
+      rect2 := Types.Rect(rect.Left, (rect.Top + rect.Bottom) div 2 + delta, rect.Right, rect.Bottom + delta);
+      DrawText(Bmp.Canvas.Handle, PChar(Value), Length(Value), rect2,
+        DT_CENTER or DT_VCENTER or DT_SINGLELINE);
+    end;
+
+    IntfImg.LoadFromBitmap(Bmp.Handle, Bmp.MaskHandle);
+
+    // Copy it to a TBitmap
+    IntfImg.CreateBitmaps(ImgHandle, ImgMaskHandle, False);
+    Bmp.Handle := ImgHandle;
+    Bmp.MaskHandle := ImgMaskHandle;
+
+    // create icon from bitmap
+    Result := Bmp;
+  finally
+    IntfImg.Free;
+  end;
+end;
+
+function CreateTrayIconProgress(AAngle: integer; ABackgroundColor: TColor = clNone; APenColor: TColor = clWhite): Graphics.TBitmap;
+var
+  TempIntfImg: TLazIntfImage;
+  ImgHandle, ImgMaskHandle: HBitmap;
+  TempBitmap: Graphics.TBitmap;
+  cx, cy, r: integer;
+  p1x, p1y, p2x, p2y: integer;
+  a1, a2: double;
+begin
+  TempIntfImg := TLazIntfImage.Create(ICON_SIZE, ICON_SIZE);
+  TempBitmap := Graphics.TBitmap.Create;
+
+  try
+    TempBitmap.SetSize(ICON_SIZE, ICON_SIZE);
+
+    // transparent background
+    TempBitmap.Canvas.AntialiasingMode := amOn;
+
+    if ABackgroundColor = clNone then
+    begin
+      TempBitmap.Canvas.Brush.Color := clFuchsia;
+      TempBitmap.Transparent := True;
+      TempBitmap.TransparentColor := clFuchsia;
+    end
+    else
+      TempBitmap.Canvas.Brush.Color := ABackgroundColor;
+
+    TempBitmap.Canvas.FillRect(Types.Rect(0, 0, ICON_SIZE, ICON_SIZE));
+    TempBitmap.Canvas.Pen.Color := APenColor;
+    TempBitmap.Canvas.Pen.Width := 3;
+
+    cx := ICON_SIZE div 2;
+    cy := ICON_SIZE div 2;
+    r := (ICON_SIZE div 2) - 2;
+
+    a1 := DegToRad(AAngle);
+    a2 := DegToRad(AAngle + 180);
+
+    // arc points
+    p1x := cx + Round(r * Cos(a1));
+    p1y := cy + Round(r * Sin(a1));
+
+    p2x := cx + Round(r * Cos(a2));
+    p2y := cy + Round(r * Sin(a2));
+    TempBitmap.Canvas.Arc(
+      cx - r, cy - r,
+      cx + r, cy + r,
+      p1x, p1y,
+      p2x, p2y
+      );
+
+    // create mask through TLazIntfImage
+    TempIntfImg.LoadFromBitmap(TempBitmap.Handle, TempBitmap.MaskHandle);
+    TempIntfImg.CreateBitmaps(ImgHandle, ImgMaskHandle, False);
+
+    TempBitmap.Handle := ImgHandle;
+    TempBitmap.MaskHandle := ImgMaskHandle;
+
+    Result := TempBitmap;
+  finally
+    TempIntfImg.Free;
   end;
 end;
 

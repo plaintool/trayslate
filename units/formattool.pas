@@ -27,55 +27,23 @@ uses
 
 function ColorToHtml(AColor: TColor): string;
 
-function ColorFromHtml(const AHtml: string): TColor;
-
 function InvertColor(Color: TColor): TColor;
 
-function UnescapeUnicode(const S: string): string;
-
-function EscapeText(const AText: string): string;
+function DarkThemeColor(BaseColor: TColor; Delta: integer = 60): TColor;
 
 function GetTimestampNow: int64;
 
 function GetRandomID(ALength: integer): int64;
 
-function IsJson(const S: string): boolean;
-
 procedure PasteWithLineEnding(AMemo: TMemo);
 
 procedure RemoveSameNameValueFromMemo(Memo: TMemo);
 
-function RemoveEmptyParams(const AInput: string): string;
-
-procedure SaveStringToFile(const FileName, Data: string);
-
-procedure OpenStringInTextEditor(const S: string);
-
-function RemoveTrailingLineBreak(const S: string): string;
+function HeadersFromMemo(AMemo: TMemo): TStringList;
 
 procedure FillFontCombo(ACombo: TComboBox);
 
-function ExtractTextSample(const AText: string; MaxLen: integer = 500): string;
-
 procedure AddCustomColors(AColorBox: TColorBox);
-
-function DarkThemeColor(BaseColor: TColor; Delta: integer = 60): TColor;
-
-function PosExReverse(const SubStr, S: unicodestring; Offset: SizeInt = -1): SizeInt;
-
-function Utf8Truncate(const S: string; MaxBytes: integer; Encode: boolean): string;
-
-function Utf8TruncateWithEncoding(const S: string; MaxBytes: integer; Encode: boolean): string;
-
-function EncodeURLElement(S: string): string;
-
-function HTTPDecode(const AStr: string): string;
-
-function LongestString(const Values: array of string): string;
-
-function TryFormatJson(const AText: string; out AFormatted: string): boolean;
-
-function HeadersFromMemo(AMemo: TMemo): TStringList;
 
 implementation
 
@@ -90,95 +58,46 @@ begin
   Result := Format('#%.2x%.2x%.2x', [Red(C), Green(C), Blue(C)]);
 end;
 
-function ColorFromHtml(const AHtml: string): TColor;
-var
-  S: string;
-  R, G, B: byte;
-begin
-  // Remove leading #
-  S := Trim(AHtml);
-  if (Length(S) = 7) and (S[1] = '#') then
-    Delete(S, 1, 1);
-
-  // Parse RRGGBB
-  R := StrToInt('$' + Copy(S, 1, 2));
-  G := StrToInt('$' + Copy(S, 3, 2));
-  B := StrToInt('$' + Copy(S, 5, 2));
-
-  // Build TColor
-  Result := RGBToColor(R, G, B);
-end;
-
 function InvertColor(Color: TColor): TColor;
 begin
   Result := RGB(255 - GetRValue(ColorToRGB(Color)), 255 - GetGValue(ColorToRGB(Color)), 255 - GetBValue(ColorToRGB(Color)));
 end;
 
-function UnescapeUnicode(const S: string): string;
+function DarkThemeColor(BaseColor: TColor; Delta: integer = 60): TColor;
 var
-  i: integer;
-  Code: string;
-  tmp: integer;
+  R, G, B: byte;
+  Bright: double;
+  Factor: double;
 begin
-  // Initialize result
-  Result := string.Empty;
-  i := 1;
+  R := GetRValue(BaseColor);
+  G := GetGValue(BaseColor);
+  B := GetBValue(BaseColor);
 
-  // Loop through the input string
-  while i <= Length(S) do
+  // Perceptual brightness (Luma) calculation
+  Bright := (0.299 * R + 0.587 * G + 0.114 * B);
+
+  // If the color is already bright enough (threshold 150), return original
+  if Bright > 150 then
   begin
-    // Handle Unicode escape sequence \uXXXX
-    if (S[i] = '\') and (i + 5 <= Length(S)) and (S[i + 1] = 'u') then
-    begin
-      Code := Copy(S, i + 2, 4);
-      // Convert hexadecimal code to integer
-      if TryStrToInt('$' + Code, tmp) and (tmp <= $FFFF) then
-        // Explicit conversion to AnsiChar to remove warnings
-        Result := Result + string(widechar(tmp))
-      else
-        Result := Result + '\u' + Code; // Keep original if conversion fails
-      Inc(i, 6);
-    end
-    // Handle standard escape sequences \r, \n, \t, \\, \"
-    else if (S[i] = '\') and (i < Length(S)) then
-    begin
-      case S[i + 1] of
-        'r': Result := Result + #13;
-        'n': Result := Result + #10;
-        't': Result := Result + #9;
-        '\': Result := Result + '\';
-        '"': Result := Result + '"';
-        else
-          Result := Result + '\' + S[i + 1]; // Keep unknown escapes as-is
-      end;
-      Inc(i, 2);
-    end
-    // Append normal character
-    else
-    begin
-      Result := Result + S[i];
-      Inc(i);
-    end;
+    Result := BaseColor;
+    Exit;
   end;
-end;
 
-function EscapeText(const AText: string): string;
-begin
-  Result := AText;
+  // Convert Delta (1..100) to a scale factor (0.0..1.0)
+  // 1 = almost no change, 100 = full white
+  Factor := Delta / 100.0;
 
-  // 1. Backslash must be escaped first!
-  Result := StringReplace(Result, '\', '\\', [rfReplaceAll]);
+  // Clamp factor for safety
+  if Factor < 0 then Factor := 0;
+  if Factor > 1 then Factor := 1;
 
-  // 2. Double quotes will break the JSON string if not escaped
-  Result := StringReplace(Result, '"', '\"', [rfReplaceAll]);
+  // Linear interpolation towards white (Tinting)
+  // This formula ensures that even 0 values (like in clBlue) become brighter
+  R := R + Round((255 - R) * Factor);
+  G := G + Round((255 - G) * Factor);
+  B := B + Round((255 - B) * Factor);
 
-  // 3. Line breaks (Enter) must be replaced with \n
-  Result := StringReplace(Result, #13#10, '\n', [rfReplaceAll]);
-  Result := StringReplace(Result, #10, '\n', [rfReplaceAll]);
-  Result := StringReplace(Result, #13, '\r', [rfReplaceAll]);
-
-  // 4. Tabs are also problematic
-  Result := StringReplace(Result, #9, '\t', [rfReplaceAll]);
+  Result := RGB(R, G, B);
 end;
 
 function GetTimestampNow: int64;
@@ -203,15 +122,6 @@ begin
   // Standard random range generation
   // Note: Ensure Randomize is called once in your FormCreate/Initialization
   Result := MinVal + RandomRange(0, MaxVal - MinVal + 1);
-end;
-
-function IsJson(const S: string): boolean;
-var
-  Trimmed: string;
-begin
-  Trimmed := TrimLeft(S);
-  // Check first character
-  Result := (Trimmed <> string.Empty) and ((Trimmed[1] = '{') or (Trimmed[1] = '['));
 end;
 
 procedure PasteWithLineEnding(AMemo: TMemo);
@@ -254,121 +164,41 @@ begin
   end;
 end;
 
-function RemoveEmptyParams(const AInput: string): string;
+function HeadersFromMemo(AMemo: TMemo): TStringList;
 var
-  JsonData: TJSONData;
-  JsonObj, ParamsObj, LangObjJson: TJSONObject;
-  LangObj: TJSONData;
-  I: integer;
-  Params: TStringList;
+  i, p, pColon, pEqual: integer;
+  line, Key, Value: string;
 begin
-  Result := AInput;
+  Result := TStringList.Create;
 
-  // Check if input looks like JSON
-  if (Length(AInput) > 0) and (AInput[1] = '{') then
+  if not Assigned(AMemo) then
+    Exit;
+
+  for i := 0 to AMemo.Lines.Count - 1 do
   begin
-    try
-      JsonData := GetJSON(AInput);
-      try
-        if JsonData.JSONType = jtObject then
-        begin
-          JsonObj := TJSONObject(JsonData);
+    line := Trim(AMemo.Lines[i]);
+    if line = string.Empty then
+      Continue;
 
-          if JsonObj.FindPath('params') <> nil then
-          begin
-            ParamsObj := TJSONObject(JsonObj.FindPath('params'));
+    pColon := Pos(':', line);
+    pEqual := Pos('=', line);
 
-            // Clean "lang" object
-            LangObj := ParamsObj.FindPath('lang');
-            if (LangObj <> nil) and (LangObj.JSONType = jtObject) then
-            begin
-              LangObjJson := TJSONObject(LangObj);
-              for I := LangObjJson.Count - 1 downto 0 do
-                if LangObjJson.Items[I].AsString = string.Empty then
-                  LangObjJson.Delete(I);
-            end;
+    // If no separator at all, skip this line
+    if (pColon = 0) and (pEqual = 0) then
+      Continue;
 
-            // Remove other empty string fields in params
-            for I := ParamsObj.Count - 1 downto 0 do
-              if (ParamsObj.Items[I].JSONType = jtString) and (ParamsObj.Items[I].AsString = string.Empty) then
-                ParamsObj.Delete(I);
-          end;
+    // Determine the earliest separator
+    if (pColon > 0) and ((pEqual = 0) or (pColon < pEqual)) then
+      p := pColon
+    else
+      p := pEqual;
 
-          Result := JsonObj.AsJSON;
-          Exit;
-        end;
-      finally
-        JsonData.Free;
-      end;
-    except
-      on E: Exception do
-        // Invalid JSON, fall through to URL processing
-    end;
+    Key := Trim(Copy(line, 1, p - 1));
+    Value := Trim(Copy(line, p + 1, MaxInt));
+
+    if Key <> string.Empty then
+      Result.Values[Key] := Value;  // stored as Key=Value internally
   end;
-
-  // Treat as URL parameters
-  Params := TStringList.Create;
-  try
-    Params.Delimiter := '&';
-    Params.StrictDelimiter := True;
-    Params.DelimitedText := AInput;
-
-    for I := Params.Count - 1 downto 0 do
-      if Pos('=', Params[I]) > 0 then
-        if Copy(Params[I], Pos('=', Params[I]) + 1, MaxInt) = string.Empty then
-          Params.Delete(I);
-
-    // Rebuild URL string with &
-    Result := string.Empty;
-    for I := 0 to Params.Count - 1 do
-      if I = 0 then
-        Result := Params[I]
-      else
-        Result := Result + '&' + Params[I];
-  finally
-    Params.Free;
-  end;
-end;
-
-procedure SaveStringToFile(const FileName, Data: string);
-var
-  SL: TStringList;
-begin
-  SL := TStringList.Create;
-  try
-    SL.Text := Data;
-    SL.SaveToFile(FileName, TEncoding.UTF8);
-  finally
-    SL.Free;
-  end;
-end;
-
-procedure OpenStringInTextEditor(const S: string);
-var
-  SL: TStringList;
-  FileName: string;
-begin
-  FileName := GetTempFileName(GetTempDir, 'txt_') + '.txt';
-
-  SL := TStringList.Create;
-  try
-    SL.Text := S;
-    SL.SaveToFile(FileName); // save string to temp file
-  finally
-    SL.Free;
-  end;
-
-  // open with associated editor
-  OpenDocument(FileName);
-end;
-
-function RemoveTrailingLineBreak(const S: string): string;
-begin
-  Result := S;
-  if (Length(Result) >= 2) and (Copy(Result, Length(Result) - 1, 2) = sLineBreak) then
-    Result := Copy(Result, 1, Length(Result) - 2)
-  else if (Length(Result) >= 1) and ((Result[Length(Result)] = #10) or (Result[Length(Result)] = #13)) then
-    Result := Copy(Result, 1, Length(Result) - 1);
 end;
 
 procedure FillFontCombo(ACombo: TComboBox);
@@ -383,48 +213,6 @@ begin
   finally
     ACombo.Items.EndUpdate;
   end;
-end;
-
-function ExtractTextSample(const AText: string; MaxLen: integer = 500): string;
-var
-  CutPos, i, L: integer;
-begin
-  Result := Trim(AText);
-  L := Length(Result);
-
-  // 1. If short enough
-  if L <= MaxLen then
-    Exit;
-
-  // 2. Try cut by sentence end (. ! ?) + space
-  CutPos := 0;
-  for i := MaxLen downto 1 do
-  begin
-    if (Result[i] in ['.', '!', '?']) and (i < L) and (Result[i + 1] = ' ') then
-    begin
-      CutPos := i;
-      Break;
-    end;
-  end;
-
-  // 3. Try cut by space
-  if CutPos = 0 then
-  begin
-    for i := MaxLen downto 1 do
-    begin
-      if Result[i] = ' ' then
-      begin
-        CutPos := i;
-        Break;
-      end;
-    end;
-  end;
-
-  // 4. Fallback
-  if CutPos = 0 then
-    CutPos := MaxLen;
-
-  Result := Trim(Copy(Result, 1, CutPos));
 end;
 
 procedure AddCustomColors(AColorBox: TColorBox);
@@ -575,337 +363,6 @@ begin
   AColorBox.Items.AddObject('Mulberry', TObject(PtrUInt($00302070)));
   AColorBox.Items.AddObject('Burgundy Pink', TObject(PtrUInt($00201060)));
   AColorBox.Items.AddObject('Dark Fuchsia', TObject(PtrUInt($004000A0)));
-end;
-
-function DarkThemeColor(BaseColor: TColor; Delta: integer = 60): TColor;
-var
-  R, G, B: byte;
-  Bright: double;
-  Factor: double;
-begin
-  R := GetRValue(BaseColor);
-  G := GetGValue(BaseColor);
-  B := GetBValue(BaseColor);
-
-  // Perceptual brightness (Luma) calculation
-  Bright := (0.299 * R + 0.587 * G + 0.114 * B);
-
-  // If the color is already bright enough (threshold 150), return original
-  if Bright > 150 then
-  begin
-    Result := BaseColor;
-    Exit;
-  end;
-
-  // Convert Delta (1..100) to a scale factor (0.0..1.0)
-  // 1 = almost no change, 100 = full white
-  Factor := Delta / 100.0;
-
-  // Clamp factor for safety
-  if Factor < 0 then Factor := 0;
-  if Factor > 1 then Factor := 1;
-
-  // Linear interpolation towards white (Tinting)
-  // This formula ensures that even 0 values (like in clBlue) become brighter
-  R := R + Round((255 - R) * Factor);
-  G := G + Round((255 - G) * Factor);
-  B := B + Round((255 - B) * Factor);
-
-  Result := RGB(R, G, B);
-end;
-
-function PosExReverse(const SubStr, S: unicodestring; Offset: SizeInt = -1): SizeInt;
-var
-  i, MaxLen, SubLen: SizeInt;
-  // SubFirst: widechar;
-  pc: pwidechar;
-begin
-  Result := 0; // Initialize result to 0 (not found)
-  SubLen := Length(SubStr); // Get length of the substring
-  if Offset < 0 then Offset := Length(S);
-
-  // Check if the substring is not empty and Offset is valid
-  if (SubLen > 0) and (Offset > 0) and (Offset <= Length(S)) then
-  begin
-    MaxLen := Length(S) - SubLen + 1; // Adjust max starting index to include end of the string
-    // SubFirst := SubStr[1]; // Get the first character of the substring
-
-    // Search backwards, starting from Offset
-    for i := Offset downto 1 do
-    begin
-      // Ensure there is enough space left for the substring
-      if (i <= MaxLen) then
-      begin
-        pc := @S[i]; // Pointer to the current position
-
-        // Check for a match with the substring
-        if (CompareWord(SubStr[1], pc^, SubLen) = 0) then
-        begin
-          Result := i; // Return the found position
-          Exit; // Exit the function
-        end;
-      end;
-    end;
-  end;
-end;
-
-function Utf8Truncate(const S: string; MaxBytes: integer; Encode: boolean): string;
-var
-  p, startPtr: pchar;
-  CharLen: integer;
-  PredictedSize: integer;
-  CurrentTotal: integer;
-begin
-  Result := '';
-  if (S = '') or (MaxBytes <= 0) then Exit;
-
-  p := PChar(S);
-  startPtr := p;
-  CurrentTotal := 0;
-
-  while (p^ <> #0) do
-  begin
-    // 1. Determine UTF-8 character length (1-4 bytes)
-    {$NOTES OFF}
-    CharLen := UTF8CodepointSize(p);
-    {$NOTES ON}
-
-    // 2. Predict the size of the character after encoding/escaping
-    if Encode then
-    begin
-      // URL Encoding logic:
-      // Safe chars [A-Z, a-z, 0-9, -, _, ., ~] remain 1 byte.
-      // All other bytes are converted to %XX format (3 bytes per 1 input byte).
-      if (p^ in ['A'..'Z', 'a'..'z', '0'..'9', '-', '_', '.', '~']) then
-        PredictedSize := 1
-      else
-        PredictedSize := CharLen * 3;
-    end
-    else
-    begin
-      // Escaping logic:
-      // Control chars \, ", LF, CR, Tab are replaced with 2-byte sequences (e.g. \n).
-      // Other UTF-8 characters remain as-is (their original byte length).
-      if (p^ in ['\', '"', #10, #13, #9]) then
-        PredictedSize := 2
-      else
-        PredictedSize := CharLen;
-    end;
-
-    // 3. Check if the encoded character fits within the remaining byte budget
-    if CurrentTotal + PredictedSize <= MaxBytes then
-    begin
-      Inc(CurrentTotal, PredictedSize);
-      Inc(p, CharLen); // Move pointer to the start of the next UTF-8 character
-    end
-    else
-      Break; // Limit exceeded, stop processing
-  end;
-
-  // 4. Perform a single memory allocation and copy the resulting substring
-  if p > startPtr then
-    SetString(Result, startPtr, p - startPtr)
-  else
-    Result := '';
-end;
-
-function Utf8TruncateWithEncoding(const S: string; MaxBytes: integer; Encode: boolean): string;
-var
-  p, startPtr: pchar;
-  CharLen: integer;
-  CurrentChar, EncodedChar: string;
-  CurrentTotalBytes: integer;
-begin
-  Result := '';
-  if (S = '') or (MaxBytes <= 0) then Exit;
-
-  p := PChar(S);
-  startPtr := p;
-  CurrentTotalBytes := 0;
-
-  while (p^ <> #0) do
-  begin
-    {$NOTES OFF}
-    CharLen := UTF8CodepointSize(p);
-    {$NOTES ON}
-    SetString(CurrentChar, p, CharLen);
-
-    if Encode then
-      EncodedChar := EncodeURLElement(CurrentChar)
-    else
-      EncodedChar := EscapeText(CurrentChar);
-
-    if CurrentTotalBytes + Length(EncodedChar) <= MaxBytes then
-    begin
-      Inc(CurrentTotalBytes, Length(EncodedChar));
-      Inc(p, CharLen);
-    end
-    else
-      Break;
-  end;
-
-  // Only allocate Result ONCE at the end
-  if p > startPtr then
-    SetString(Result, startPtr, p - startPtr);
-end;
-
-function EncodeURLElement(S: string): string;
-const
-  NotAllowed = [';', '/', '?', ':', '@', '=', '&', '#', '+', '_', '<', '>', '"', '%', '{', '}', '|', '\', '^', '~', '[', ']', '`'];
-var
-  i, o, l: integer;
-  h: string[2];
-  P: pchar;
-  c: ansichar;
-begin
-  Result := '';
-  l := Length(S);
-  if (l = 0) then Exit;
-  SetLength(Result, l * 3);
-  P := PChar(Result);
-  for I := 1 to L do
-  begin
-    C := S[i];
-    O := Ord(c);
-    if (O <= $20) or (O >= $7F) or (c in NotAllowed) then
-    begin
-      P^ := '%';
-      Inc(P);
-      h := IntToHex(Ord(c), 2);
-      p^ := h[1];
-      Inc(P);
-      p^ := h[2];
-      Inc(P);
-    end
-    else
-    begin
-      P^ := c;
-      Inc(p);
-    end;
-  end;
-  SetLength(Result, P - PChar(Result));
-end;
-
-function HTTPDecode(const AStr: string): string;
-var
-  S, SS, R: pchar;
-  H: string[3];
-  L, C: integer;
-begin
-  L := Length(Astr);
-  Result := '';
-  SetLength(Result, L);
-  if (L = 0) then
-    exit;
-  S := PChar(AStr);
-  SS := S;
-  R := PChar(Result);
-  while (S - SS) < L do
-  begin
-    case S^ of
-      '+': R^ := ' ';
-      '%': begin
-        Inc(S);
-        if ((S - SS) < L) then
-        begin
-          if (S^ = '%') then
-            R^ := '%'
-          else
-          begin
-            H := '$00';
-            H[2] := S^;
-            Inc(S);
-            if (S - SS) < L then
-            begin
-              H[3] := S^;
-              Val(H, pbyte(R)^, C);
-              if (C <> 0) then
-                R^ := ' ';
-            end;
-          end;
-        end;
-      end;
-      else
-        R^ := S^;
-    end;
-    Inc(R);
-    Inc(S);
-  end;
-  SetLength(Result, R - PChar(Result));
-end;
-
-function LongestString(const Values: array of string): string;
-var
-  I: integer;
-begin
-  Result := string.Empty;
-  for I := Low(Values) to High(Values) do
-    if Length(Values[I]) > Length(Result) then
-      Result := Values[I];
-end;
-
-function TryFormatJson(const AText: string; out AFormatted: string): boolean;
-var
-  JsonData: TJSONData;
-begin
-  Result := False;
-  AFormatted := string.Empty;
-
-  try
-    // Try parse JSON
-    JsonData := GetJSON(AText);
-    try
-      // Format with 2 spaces indent
-      if Assigned(JsonData) then
-        AFormatted := JsonData.FormatJSON([], 2);
-      Result := True;
-    finally
-      JsonData.Free;
-    end;
-  except
-    on E: Exception do
-    begin
-      // Not valid JSON
-      Result := False;
-    end;
-  end;
-end;
-
-function HeadersFromMemo(AMemo: TMemo): TStringList;
-var
-  i, p, pColon, pEqual: integer;
-  line, Key, Value: string;
-begin
-  Result := TStringList.Create;
-
-  if not Assigned(AMemo) then
-    Exit;
-
-  for i := 0 to AMemo.Lines.Count - 1 do
-  begin
-    line := Trim(AMemo.Lines[i]);
-    if line = string.Empty then
-      Continue;
-
-    pColon := Pos(':', line);
-    pEqual := Pos('=', line);
-
-    // If no separator at all, skip this line
-    if (pColon = 0) and (pEqual = 0) then
-      Continue;
-
-    // Determine the earliest separator
-    if (pColon > 0) and ((pEqual = 0) or (pColon < pEqual)) then
-      p := pColon
-    else
-      p := pEqual;
-
-    Key := Trim(Copy(line, 1, p - 1));
-    Value := Trim(Copy(line, p + 1, MaxInt));
-
-    if Key <> string.Empty then
-      Result.Values[Key] := Value;  // stored as Key=Value internally
-  end;
 end;
 
 end.

@@ -188,7 +188,7 @@ const
 
 implementation
 
-uses mainform, formattool, settings, stringshelper;
+uses mainform, formattool, settings, stringshelper, stringhelper;
 
   {%Region -fold TTranslate }
 
@@ -338,7 +338,7 @@ begin
   begin
     if (FMaxLength > 0) then
     begin
-      FParameterValues.Values['text'] := Utf8TruncateWithEncoding(FTextToTranslate, FMaxLength, FEncodeText);
+      FParameterValues.Values['text'] := FTextToTranslate.Utf8TruncateWithEncoding(FMaxLength, FEncodeText);
       FIsTruncated := Length(FParameterValues.Values['text']) < Length(FTextToTranslate);
     end
     else
@@ -404,9 +404,9 @@ var
     if (ParameterEncode.IndexOfName(AName) <> -1) then
     begin
       if (ParameterEncode.Values[AName] = '1') then
-        Result := EncodeURLElement(AValue)
+        Result := AValue.EncodeURLElement
       else
-        Result := EscapeText(AValue);
+        Result := AValue.EscapeText;
     end
     else
       Result := AValue;
@@ -421,7 +421,7 @@ begin
   for i := 0 to FParameterValues.Count - 1 do
   begin
     ParamName := FParameterValues.Names[i];
-    ParamValue := RemoveTrailingLineBreak(FParameterValues.ValueFromIndex[i]);
+    ParamValue := FParameterValues.ValueFromIndex[i].RemoveTrailingLineBreak;
 
     if IncludeSet and (Pos('{', ParamValue) > 0) and (Pos('}', ParamValue) > 0) then
       ParamValue := SetParameters(ParamValue, False);
@@ -496,7 +496,7 @@ begin
     TempUrl := FUrl;
     TempUrl := SetParameters(TempUrl);
     if (FLangSource = EMPTY_LANG) or (FLangSource = EMPTY_LANG) then
-      TempUrl := RemoveEmptyParams(TempUrl);
+      TempUrl := TempUrl.RemoveEmptyParams;
 
     // Prepare custom headers with parameter substitution
     TempHeaders := nil;
@@ -557,8 +557,8 @@ begin
 
     if (FLangSource = EMPTY_LANG) or (FLangSource = EMPTY_LANG) then
     begin
-      TempUrl := RemoveEmptyParams(TempUrl);
-      TempData := RemoveEmptyParams(TempData);
+      TempUrl := TempUrl.RemoveEmptyParams;
+      TempData := TempData.RemoveEmptyParams;
     end;
 
     // Prepare custom headers with parameter substitution
@@ -728,7 +728,7 @@ begin
   Result := string.Empty;
   if Trim(JsonStr) = string.Empty then Exit;
   if (JsonPointer = '~') or (JsonPointer = '/~') then Exit(JsonStr);
-  if not IsJson(JsonStr) then Exit;
+  if not JsonStr.IsJson then Exit;
 
   PathParts := TStringList.Create;
   try
@@ -874,7 +874,7 @@ begin
         else
           PointerValue := ParseJsonByPointer(content, PointerPath);
 
-        PointerValue := UnescapeUnicode(HTTPDecode(PointerValue));
+        PointerValue := PointerValue.HTTPDecode.UnescapeUnicode;
 
         // Temporarily replace literal '#10' in the extracted data with a unique marker.
         // This prevents the final '#10' -> newline substitution from altering user data.
@@ -1015,7 +1015,7 @@ begin
                       end;
                     end;
 
-                    MatchRes := UnescapeUnicode(HTTPDecode(MatchRes));
+                    MatchRes := MatchRes.HTTPDecode.UnescapeUnicode;
                     // Temporarily replace literal '#10' in extracted match data
                     // with a unique marker to prevent corruption during final substitution.
                     MatchRes := StringReplace(MatchRes, '#10', TEMP_NL_MARKER, [rfReplaceAll]);
@@ -1090,7 +1090,7 @@ begin
 
   if (Trim(Result) = string.Empty) then
   begin
-    if not TryFormatJson(content, Result) then
+    if not content.TryFormatJson(Result) then
       Result := content;
   end
   else

@@ -8,6 +8,7 @@ unit mainform;
 
 {$mode ObjFPC}{$H+}
 {$codepage utf8}
+{$modeswitch typehelpers}
 
 interface
 
@@ -39,8 +40,9 @@ uses
   globalkeyboardhook,
   globalmousehook,
   translate,
-  langtool,
   systemtool,
+  stringhelper,
+  hotkeyhelper,
   stringshelper,
   clipboardhelper;
 
@@ -484,6 +486,7 @@ type
     procedure SetAnimate(Angle: integer);
     procedure DoRealign(Data: PtrInt);
     procedure DoRealignSplit(Data: PtrInt);
+    procedure UpdateAutoDetect(Old, New: string);
     procedure UpdateCheckConfigMenu;
     procedure UpdateCheckMenuPair;
     function UpdateSourceLanguage(const Lang: string): string;
@@ -2296,6 +2299,7 @@ begin
   if MemoSource.Visible and MemoSource.CanFocus and MemoSource.CanSetFocus then
     MemoSource.SetFocus;
 
+  UpdateAutoDetect(AutoDetect, rautodetect);
   UpdateCheckMenuPair;
   SetIcon;
   SetHints;
@@ -2636,17 +2640,16 @@ procedure TformTrayslate.RebuildLangPairsPanel(Data: PtrInt);
           if AllowHotKeys and (i < 9) then
           begin
             case i of
-              0: mi.ShortCut := HotKeyToShortCut(HotKeyRecent1);
-              1: mi.ShortCut := HotKeyToShortCut(HotKeyRecent2);
-              2: mi.ShortCut := HotKeyToShortCut(HotKeyRecent3);
-              3: mi.ShortCut := HotKeyToShortCut(HotKeyRecent4);
-              4: mi.ShortCut := HotKeyToShortCut(HotKeyRecent5);
-              5: mi.ShortCut := HotKeyToShortCut(HotKeyRecent6);
-              6: mi.ShortCut := HotKeyToShortCut(HotKeyRecent7);
-              7: mi.ShortCut := HotKeyToShortCut(HotKeyRecent8);
-              8: mi.ShortCut := HotKeyToShortCut(HotKeyRecent9);
-              else
-                ;
+              0: mi.ShortCut := HotKeyRecent1.ToShortCut;
+              1: mi.ShortCut := HotKeyRecent2.ToShortCut;
+              2: mi.ShortCut := HotKeyRecent3.ToShortCut;
+              3: mi.ShortCut := HotKeyRecent4.ToShortCut;
+              4: mi.ShortCut := HotKeyRecent5.ToShortCut;
+              5: mi.ShortCut := HotKeyRecent6.ToShortCut;
+              6: mi.ShortCut := HotKeyRecent7.ToShortCut;
+              7: mi.ShortCut := HotKeyRecent8.ToShortCut;
+              8: mi.ShortCut := HotKeyRecent9.ToShortCut;
+              else;
             end;
           end;
           mi.Tag := i;
@@ -2713,7 +2716,7 @@ begin
   else
     Caption := rtrayslate + ifthen(FConfigFile <> string.Empty, ' - ' + ExtractFileName(FConfigFile), string.Empty);
 
-  aSwap.Hint := Format(rswap, [HotKeyToText(HotKeyTransSwap), MIDDLE_MOUSE]).Replace('() ', string.Empty);
+  aSwap.Hint := Format(rswap, [HotKeyTransSwap.ToText, MIDDLE_MOUSE]).Replace('() ', string.Empty);
 
   FlowPairs.Hint := MIDDLE_MOUSE + rtoremovepair;
 
@@ -2829,6 +2832,19 @@ begin
     end;
     else
       ;
+  end;
+end;
+
+procedure TformTrayslate.UpdateAutoDetect(Old, New: string);
+begin
+  if (Old <> string.Empty) and (New <> string.Empty) then
+  begin
+    FLanguages.Replace(Old, New);
+    FLanguagesTarget.Replace(Old, New);
+    ComboSource.Items.Replace(Old, New);
+    ComboTarget.Items.Replace(Old, New);
+    ComboSource.Text := ComboSource.Text.Replace(Old, New);
+    ComboTarget.Text := ComboTarget.Text.Replace(Old, New);
   end;
 end;
 
@@ -3724,7 +3740,7 @@ begin
   TimerAnimate.Enabled := True;
 
   // Detect language in source memo
-  langDetect := LowerCase(TranslateThread(TransDetect, ExtractTextSample(AText)));
+  langDetect := LowerCase(TranslateThread(TransDetect, AText.ExtractTextSample));
 
   if FCancelled or (langDetect = string.Empty) or (Length(langDetect) > 5) then Exit;
 
@@ -4304,14 +4320,7 @@ begin
       Language := DEFAULT_LANG;
   end;
 
-  // Update Language Names
-  if OldAutoDetect <> string.Empty then
-  begin
-    FLanguages.Replace(OldAutoDetect, rautodetect);
-    FLanguagesTarget.Replace(OldAutoDetect, rautodetect);
-    ComboSource.Items.Replace(OldAutoDetect, rautodetect);
-    ComboTarget.Items.Replace(OldAutoDetect, rautodetect);
-  end;
+  UpdateAutoDetect(OldAutoDetect, rautodetect);
 
   // Update form text
   SetHints;

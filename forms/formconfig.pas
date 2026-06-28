@@ -188,7 +188,7 @@ resourcestring
 
 implementation
 
-uses mainform, translate, settings, formattool, languages, systemtool;
+uses mainform, translate, settings, formattool, languages, systemtool, stringhelper;
 
   {$R *.lfm}
 
@@ -261,7 +261,7 @@ begin
     with formTrayslate.Trans do
     begin
       ParametersAge := Now + 3650;
-      OpenStringInTextEditor(Get(True));
+      Get(True).OpenStringInTextEditor;
     end;
   finally
     Enabled := True;
@@ -278,7 +278,7 @@ begin
     with formTrayslate.Trans do
     begin
       ParametersAge := Now + 3650;
-      OpenStringInTextEditor(Post(True));
+      Post(True).OpenStringInTextEditor;
     end;
   finally
     Enabled := True;
@@ -295,7 +295,7 @@ begin
     with formTrayslate.Trans do
     begin
       ParametersAge := Now + 3650;
-      OpenStringInTextEditor(GetInit);
+      GetInit.OpenStringInTextEditor;
     end;
   finally
     Enabled := True;
@@ -310,7 +310,7 @@ begin
   try
     if (MemoJsonPointer.Text = string.empty) or (formTrayslate.MemoTarget.Text = string.Empty) or not TestChanges then exit;
     with formTrayslate.Trans do
-      OpenStringInTextEditor(ParseResponse(formTrayslate.RawTranslate));
+      ParseResponse(formTrayslate.RawTranslate).OpenStringInTextEditor;
   finally
     Enabled := True;
     Screen.Cursor := crDefault;
@@ -327,7 +327,7 @@ begin
     begin
       ParametersAge := Now + 3650;
       if GetParameters(GetInit) then
-        OpenStringInTextEditor(ParameterValues.Text);
+        ParameterValues.Text.OpenStringInTextEditor;
     end;
   finally
     Enabled := True;
