@@ -40,7 +40,7 @@ function LoadFormSettings(Form: TformTrayslate): boolean;
 
 implementation
 
-uses hotkeyhelper, systemtool;
+uses hotkeyhelper, systemtool, network;
 
 function GetSettingsDirectory(fileName: string = string.Empty): string;
   {$IFDEF WINDOWS}

@@ -30,6 +30,7 @@ uses
   LCLType,
   LCLIntf,
   hotkeyhelper,
+  network,
   systemtool;
 
 type

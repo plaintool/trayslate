@@ -1,3 +1,9 @@
+//-----------------------------------------------------------------------------------
+//  Trayslate © 2026 by Alexander Tverskoy
+//  Licensed under the GNU General Public License, Version 3 (GPL-3.0)
+//  You may obtain a copy of the License at https://www.gnu.org/licenses/gpl-3.0.html
+//-----------------------------------------------------------------------------------
+
 unit stringhelper;
 
 {$mode objfpc}{$H+}
@@ -6,7 +12,9 @@ unit stringhelper;
 interface
 
 uses
+  Forms,
   Controls,
+  StdCtrls,
   SysUtils,
   Classes,
   Graphics,
@@ -45,6 +53,8 @@ type
 function PosExReverse(const SubStr, S: unicodestring; Offset: SizeInt = -1): SizeInt;
 
 function LongestString(const Values: array of string): string;
+
+function InputQueryLite(const ACaption, APrompt: string; var AValue: string): boolean;
 
 implementation
 
@@ -93,6 +103,76 @@ begin
   for I := Low(Values) to High(Values) do
     if Length(Values[I]) > Length(Result) then
       Result := Values[I];
+end;
+
+function InputQueryLite(const ACaption, APrompt: string; var AValue: string): boolean;
+var
+  InputForm: TForm;
+  PromptLabel: TLabel;
+  InputEdit: TEdit;
+  BtnOK, BtnCancel: TButton;
+begin
+  Result := False;
+
+  // Create the form dynamically
+  InputForm := TForm.Create(nil);
+  try
+    InputForm.Caption := ACaption;
+    InputForm.Position := poScreenCenter;
+    InputForm.BorderStyle := bsDialog;
+    InputForm.Width := 350;
+    InputForm.Font.Size := 10; // Make font a bit more modern
+
+    // Create the prompt label
+    PromptLabel := TLabel.Create(InputForm);
+    PromptLabel.Parent := InputForm;
+    PromptLabel.Caption := APrompt;
+    PromptLabel.Left := 12;
+    PromptLabel.Top := 12;
+    PromptLabel.AutoSize := True;
+
+    // Create the input field tightly below the label
+    InputEdit := TEdit.Create(InputForm);
+    InputEdit.Parent := InputForm;
+    InputEdit.Left := 12;
+    InputEdit.Top := PromptLabel.Top + PromptLabel.Height + 6;
+    InputEdit.Width := InputForm.ClientWidth - 24;
+    InputEdit.Text := AValue;
+
+    // Create the OK button tight below the input field
+    BtnOK := TButton.Create(InputForm);
+    BtnOK.Parent := InputForm;
+    BtnOK.Caption := 'OK';
+    BtnOK.ModalResult := mrOk;
+    BtnOK.Default := True; // Triggers on Enter key
+    BtnOK.Width := 75;
+    BtnOK.Height := 25;
+    BtnOK.Top := InputEdit.Top + InputEdit.Height + 12;
+    BtnOK.Left := InputForm.ClientWidth - (BtnOK.Width * 2) - 18;
+
+    // Create the Cancel button next to OK
+    BtnCancel := TButton.Create(InputForm);
+    BtnCancel.Parent := InputForm;
+    BtnCancel.Caption := 'Cancel';
+    BtnCancel.ModalResult := mrCancel;
+    BtnCancel.Cancel := True; // Triggers on Esc key
+    BtnCancel.Width := 75;
+    BtnCancel.Height := 25;
+    BtnCancel.Top := BtnOK.Top;
+    BtnCancel.Left := InputForm.ClientWidth - BtnCancel.Width - 12;
+
+    // Dynamically adjust form height to fit controls snugly
+    InputForm.ClientHeight := BtnOK.Top + BtnOK.Height + 12;
+
+    // Show the dialog and check the result
+    if InputForm.ShowModal = mrOk then
+    begin
+      AValue := InputEdit.Text;
+      Result := True;
+    end;
+  finally
+    InputForm.Free;
+  end;
 end;
 
 {%EndRegion}

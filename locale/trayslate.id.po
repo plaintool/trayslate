@@ -11,6 +11,69 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: PoBatch 1.0.0\n"
 
+#: checkupdates.newversion
+#, object-pascal-format
+msgctxt "checkupdates.newversion"
+msgid "New version available: %s. Open GitHub page to download?"
+msgstr "Versi baru tersedia: %s. Buka halaman GitHub untuk mengunduh?"
+
+#: checkupdates.newversioncheckerror
+msgctxt "checkupdates.newversioncheckerror"
+msgid "Error checking version:"
+msgstr "Kesalahan saat memeriksa versi:"
+
+#: checkupdates.newversionuptodate
+msgctxt "checkupdates.newversionuptodate"
+msgid "Your version is up to date."
+msgstr "Versi Anda sudah terbaru."
+
+#: consts.rappname
+msgctxt "consts.rappname"
+msgid "Trayslate"
+msgstr "Trayslate"
+
+#: consts.rautodetect
+msgctxt "consts.rautodetect"
+msgid "Auto Detect"
+msgstr "Deteksi otomatis"
+
+#: consts.renter
+msgctxt "consts.renter"
+msgid "Enter"
+msgstr "Masukkan"
+
+#: consts.renterparameter
+msgctxt "consts.renterparameter"
+msgid "Enter the required parameter"
+msgstr "Masukkan parameter yang diperlukan"
+
+#: consts.rnoconfig
+msgctxt "consts.rnoconfig"
+msgid "Configuration file not found! Create it in the configuration editor."
+msgstr "File konfigurasi tidak ditemukan! Buat di editor konfigurasi."
+
+#: consts.ropenpofiletr
+msgctxt "consts.ropenpofiletr"
+msgid "Language File (*.po)|*.po"
+msgstr "Berkas Bahasa (*.po)|*.po"
+
+#: consts.rremovepair
+#, object-pascal-format
+msgctxt "consts.rremovepair"
+msgid "Are you sure you want to remove the pair \"%s\"?"
+msgstr "Apakah Anda yakin ingin menghapus pasangan \"%s\"?"
+
+#: consts.rswap
+#, object-pascal-format
+msgctxt "consts.rswap"
+msgid "Swap (%s) with text (%s)"
+msgstr "Tukar (%s) dengan teks (%s)"
+
+#: consts.rtoremovepair
+msgctxt "consts.rtoremovepair"
+msgid " to remove pair"
+msgstr " untuk menghapus pasangan"
+
 #: formconfig.rcaption
 msgctxt "formconfig.rcaption"
 msgid "Config Editor"
@@ -250,61 +313,6 @@ msgstr "Nama"
 #: formsettings.ruserparametervalue
 msgid "Value"
 msgstr "Nilai"
-
-#: mainform.rautodetect
-msgctxt "mainform.rautodetect"
-msgid "Auto Detect"
-msgstr "Deteksi otomatis"
-
-#: mainform.renter
-msgid "Enter"
-msgstr "Masukkan"
-
-#: mainform.renterparameter
-msgid "Enter the required parameter"
-msgstr "Masukkan parameter yang diperlukan"
-
-#: mainform.rnoconfig
-msgctxt "mainform.rnoconfig"
-msgid "Configuration file not found! Create it in the configuration editor."
-msgstr "File konfigurasi tidak ditemukan! Buat di editor konfigurasi."
-
-#: mainform.ropenpofiletr
-msgid "Language File (*.po)|*.po"
-msgstr "Berkas Bahasa (*.po)|*.po"
-
-#: mainform.rremovepair
-#, object-pascal-format
-msgid "Are you sure you want to remove the pair \"%s\"?"
-msgstr "Apakah Anda yakin ingin menghapus pasangan \"%s\"?"
-
-#: mainform.rswap
-#, object-pascal-format
-msgctxt "mainform.rswap"
-msgid "Swap (%s) with text (%s)"
-msgstr "Tukar (%s) dengan teks (%s)"
-
-#: mainform.rtoremovepair
-msgid " to remove pair"
-msgstr " untuk menghapus pasangan"
-
-#: systemtool.newversion
-#, object-pascal-format
-msgid "New version available: %s. Open GitHub page to download?"
-msgstr "Versi baru tersedia: %s. Buka halaman GitHub untuk mengunduh?"
-
-#: systemtool.newversioncheckerror
-msgid "Error checking version:"
-msgstr "Kesalahan saat memeriksa versi:"
-
-#: systemtool.newversionuptodate
-msgid "Your version is up to date."
-msgstr "Versi Anda sudah terbaru."
-
-#: systemtool.rtrayslate
-msgctxt "systemtool.rtrayslate"
-msgid "Trayslate"
-msgstr "Trayslate"
 
 #: tformabouttrayslate.buttonok.caption
 msgctxt "tformabouttrayslate.buttonok.caption"

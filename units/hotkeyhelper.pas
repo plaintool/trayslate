@@ -4,7 +4,7 @@
 //  You may obtain a copy of the License at https://www.gnu.org/licenses/gpl-3.0.html
 //-----------------------------------------------------------------------------------
 
-unit HotKeyHelper;
+unit hotkeyhelper;
 
 {$mode ObjFPC}{$H+}
 {$modeswitch advancedrecords}   // <-- enables record helper in ObjFPC mode

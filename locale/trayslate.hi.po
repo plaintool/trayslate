@@ -11,6 +11,69 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: PoBatch 1.0.0\n"
 
+#: checkupdates.newversion
+#, object-pascal-format
+msgctxt "checkupdates.newversion"
+msgid "New version available: %s. Open GitHub page to download?"
+msgstr "नया संस्करण उपलब्ध: %s. डाउनलोड के लिए GitHub पृष्ठ खोलें?"
+
+#: checkupdates.newversioncheckerror
+msgctxt "checkupdates.newversioncheckerror"
+msgid "Error checking version:"
+msgstr "संस्करण जाँच में त्रुटि:"
+
+#: checkupdates.newversionuptodate
+msgctxt "checkupdates.newversionuptodate"
+msgid "Your version is up to date."
+msgstr "आपका संस्करण नवीनतम है।"
+
+#: consts.rappname
+msgctxt "consts.rappname"
+msgid "Trayslate"
+msgstr "Trayslate"
+
+#: consts.rautodetect
+msgctxt "consts.rautodetect"
+msgid "Auto Detect"
+msgstr "स्वतः पहचान"
+
+#: consts.renter
+msgctxt "consts.renter"
+msgid "Enter"
+msgstr "दर्ज करें"
+
+#: consts.renterparameter
+msgctxt "consts.renterparameter"
+msgid "Enter the required parameter"
+msgstr "आवश्यक पैरामीटर दर्ज करें"
+
+#: consts.rnoconfig
+msgctxt "consts.rnoconfig"
+msgid "Configuration file not found! Create it in the configuration editor."
+msgstr "कॉन्फ़िगरेशन फ़ाइल नहीं मिली! इसे कॉन्फ़िगरेशन संपादक में बनाएँ।"
+
+#: consts.ropenpofiletr
+msgctxt "consts.ropenpofiletr"
+msgid "Language File (*.po)|*.po"
+msgstr "भाषा फ़ाइल (*.po)|*.po"
+
+#: consts.rremovepair
+#, object-pascal-format
+msgctxt "consts.rremovepair"
+msgid "Are you sure you want to remove the pair \"%s\"?"
+msgstr "क्या आप वाकई \"%s\" जोड़ी को हटाना चाहते हैं?"
+
+#: consts.rswap
+#, object-pascal-format
+msgctxt "consts.rswap"
+msgid "Swap (%s) with text (%s)"
+msgstr "(%s) को पाठ (%s) से बदलें"
+
+#: consts.rtoremovepair
+msgctxt "consts.rtoremovepair"
+msgid " to remove pair"
+msgstr " युग्म हटाने के लिए"
+
 #: formconfig.rcaption
 msgctxt "formconfig.rcaption"
 msgid "Config Editor"
@@ -250,61 +313,6 @@ msgstr "नाम"
 #: formsettings.ruserparametervalue
 msgid "Value"
 msgstr "मान"
-
-#: mainform.rautodetect
-msgctxt "mainform.rautodetect"
-msgid "Auto Detect"
-msgstr "स्वतः पहचान"
-
-#: mainform.renter
-msgid "Enter"
-msgstr "दर्ज करें"
-
-#: mainform.renterparameter
-msgid "Enter the required parameter"
-msgstr "आवश्यक पैरामीटर दर्ज करें"
-
-#: mainform.rnoconfig
-msgctxt "mainform.rnoconfig"
-msgid "Configuration file not found! Create it in the configuration editor."
-msgstr "कॉन्फ़िगरेशन फ़ाइल नहीं मिली! इसे कॉन्फ़िगरेशन संपादक में बनाएँ।"
-
-#: mainform.ropenpofiletr
-msgid "Language File (*.po)|*.po"
-msgstr "भाषा फ़ाइल (*.po)|*.po"
-
-#: mainform.rremovepair
-#, object-pascal-format
-msgid "Are you sure you want to remove the pair \"%s\"?"
-msgstr "क्या आप वाकई \"%s\" जोड़ी को हटाना चाहते हैं?"
-
-#: mainform.rswap
-#, object-pascal-format
-msgctxt "mainform.rswap"
-msgid "Swap (%s) with text (%s)"
-msgstr "(%s) को पाठ (%s) से बदलें"
-
-#: mainform.rtoremovepair
-msgid " to remove pair"
-msgstr " युग्म हटाने के लिए"
-
-#: systemtool.newversion
-#, object-pascal-format
-msgid "New version available: %s. Open GitHub page to download?"
-msgstr "नया संस्करण उपलब्ध: %s. डाउनलोड के लिए GitHub पृष्ठ खोलें?"
-
-#: systemtool.newversioncheckerror
-msgid "Error checking version:"
-msgstr "संस्करण जाँच में त्रुटि:"
-
-#: systemtool.newversionuptodate
-msgid "Your version is up to date."
-msgstr "आपका संस्करण नवीनतम है।"
-
-#: systemtool.rtrayslate
-msgctxt "systemtool.rtrayslate"
-msgid "Trayslate"
-msgstr "Trayslate"
 
 #: tformabouttrayslate.buttonok.caption
 msgctxt "tformabouttrayslate.buttonok.caption"

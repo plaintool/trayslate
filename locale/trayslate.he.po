@@ -11,6 +11,69 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: PoBatch 1.0.0\n"
 
+#: checkupdates.newversion
+#, object-pascal-format
+msgctxt "checkupdates.newversion"
+msgid "New version available: %s. Open GitHub page to download?"
+msgstr "גרסה חדשה זמינה: %s. לפתוח דף GitHub להורדה?"
+
+#: checkupdates.newversioncheckerror
+msgctxt "checkupdates.newversioncheckerror"
+msgid "Error checking version:"
+msgstr "שגיאה בבדיקת גרסה:"
+
+#: checkupdates.newversionuptodate
+msgctxt "checkupdates.newversionuptodate"
+msgid "Your version is up to date."
+msgstr "הגרסה שלך מעודכנת."
+
+#: consts.rappname
+msgctxt "consts.rappname"
+msgid "Trayslate"
+msgstr "Trayslate"
+
+#: consts.rautodetect
+msgctxt "consts.rautodetect"
+msgid "Auto Detect"
+msgstr "זיהוי אוטומטי"
+
+#: consts.renter
+msgctxt "consts.renter"
+msgid "Enter"
+msgstr "הזן"
+
+#: consts.renterparameter
+msgctxt "consts.renterparameter"
+msgid "Enter the required parameter"
+msgstr "הזן את הפרמטר הנדרש"
+
+#: consts.rnoconfig
+msgctxt "consts.rnoconfig"
+msgid "Configuration file not found! Create it in the configuration editor."
+msgstr "קובץ תצורה לא נמצא! צור אותו בעורך התצורה."
+
+#: consts.ropenpofiletr
+msgctxt "consts.ropenpofiletr"
+msgid "Language File (*.po)|*.po"
+msgstr "קובץ שפה (*.po)|*.po"
+
+#: consts.rremovepair
+#, object-pascal-format
+msgctxt "consts.rremovepair"
+msgid "Are you sure you want to remove the pair \"%s\"?"
+msgstr "האם אתה בטוח שברצונך להסיר את הזוג \"%s\"?"
+
+#: consts.rswap
+#, object-pascal-format
+msgctxt "consts.rswap"
+msgid "Swap (%s) with text (%s)"
+msgstr "החלף (%s) עם טקסט (%s)"
+
+#: consts.rtoremovepair
+msgctxt "consts.rtoremovepair"
+msgid " to remove pair"
+msgstr " להסרת זוג"
+
 #: formconfig.rcaption
 msgctxt "formconfig.rcaption"
 msgid "Config Editor"
@@ -250,61 +313,6 @@ msgstr "שם"
 #: formsettings.ruserparametervalue
 msgid "Value"
 msgstr "ערך"
-
-#: mainform.rautodetect
-msgctxt "mainform.rautodetect"
-msgid "Auto Detect"
-msgstr "זיהוי אוטומטי"
-
-#: mainform.renter
-msgid "Enter"
-msgstr "הזן"
-
-#: mainform.renterparameter
-msgid "Enter the required parameter"
-msgstr "הזן את הפרמטר הנדרש"
-
-#: mainform.rnoconfig
-msgctxt "mainform.rnoconfig"
-msgid "Configuration file not found! Create it in the configuration editor."
-msgstr "קובץ תצורה לא נמצא! צור אותו בעורך התצורה."
-
-#: mainform.ropenpofiletr
-msgid "Language File (*.po)|*.po"
-msgstr "קובץ שפה (*.po)|*.po"
-
-#: mainform.rremovepair
-#, object-pascal-format
-msgid "Are you sure you want to remove the pair \"%s\"?"
-msgstr "האם אתה בטוח שברצונך להסיר את הזוג \"%s\"?"
-
-#: mainform.rswap
-#, object-pascal-format
-msgctxt "mainform.rswap"
-msgid "Swap (%s) with text (%s)"
-msgstr "החלף (%s) עם טקסט (%s)"
-
-#: mainform.rtoremovepair
-msgid " to remove pair"
-msgstr " להסרת זוג"
-
-#: systemtool.newversion
-#, object-pascal-format
-msgid "New version available: %s. Open GitHub page to download?"
-msgstr "גרסה חדשה זמינה: %s. לפתוח דף GitHub להורדה?"
-
-#: systemtool.newversioncheckerror
-msgid "Error checking version:"
-msgstr "שגיאה בבדיקת גרסה:"
-
-#: systemtool.newversionuptodate
-msgid "Your version is up to date."
-msgstr "הגרסה שלך מעודכנת."
-
-#: systemtool.rtrayslate
-msgctxt "systemtool.rtrayslate"
-msgid "Trayslate"
-msgstr "Trayslate"
 
 #: tformabouttrayslate.buttonok.caption
 msgctxt "tformabouttrayslate.buttonok.caption"

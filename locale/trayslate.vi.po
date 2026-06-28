@@ -11,6 +11,69 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: PoBatch 1.0.0\n"
 
+#: checkupdates.newversion
+#, object-pascal-format
+msgctxt "checkupdates.newversion"
+msgid "New version available: %s. Open GitHub page to download?"
+msgstr "Có phiên bản mới: %s. Mở trang GitHub để tải về?"
+
+#: checkupdates.newversioncheckerror
+msgctxt "checkupdates.newversioncheckerror"
+msgid "Error checking version:"
+msgstr "Lỗi kiểm tra phiên bản:"
+
+#: checkupdates.newversionuptodate
+msgctxt "checkupdates.newversionuptodate"
+msgid "Your version is up to date."
+msgstr "Phiên bản của bạn đã là mới nhất."
+
+#: consts.rappname
+msgctxt "consts.rappname"
+msgid "Trayslate"
+msgstr "Trayslate"
+
+#: consts.rautodetect
+msgctxt "consts.rautodetect"
+msgid "Auto Detect"
+msgstr "Tự động phát hiện"
+
+#: consts.renter
+msgctxt "consts.renter"
+msgid "Enter"
+msgstr "Nhập"
+
+#: consts.renterparameter
+msgctxt "consts.renterparameter"
+msgid "Enter the required parameter"
+msgstr "Nhập tham số bắt buộc"
+
+#: consts.rnoconfig
+msgctxt "consts.rnoconfig"
+msgid "Configuration file not found! Create it in the configuration editor."
+msgstr "Không tìm thấy tệp cấu hình! Hãy tạo tệp trong trình chỉnh sửa cấu hình."
+
+#: consts.ropenpofiletr
+msgctxt "consts.ropenpofiletr"
+msgid "Language File (*.po)|*.po"
+msgstr "Tệp ngôn ngữ (*.po)|*.po"
+
+#: consts.rremovepair
+#, object-pascal-format
+msgctxt "consts.rremovepair"
+msgid "Are you sure you want to remove the pair \"%s\"?"
+msgstr "Bạn có chắc chắn muốn xóa cặp \"%s\" không?"
+
+#: consts.rswap
+#, object-pascal-format
+msgctxt "consts.rswap"
+msgid "Swap (%s) with text (%s)"
+msgstr "Chuyển đổi (%s) với văn bản (%s)"
+
+#: consts.rtoremovepair
+msgctxt "consts.rtoremovepair"
+msgid " to remove pair"
+msgstr " để xóa cặp"
+
 #: formconfig.rcaption
 msgctxt "formconfig.rcaption"
 msgid "Config Editor"
@@ -250,61 +313,6 @@ msgstr "Tên"
 #: formsettings.ruserparametervalue
 msgid "Value"
 msgstr "Giá trị"
-
-#: mainform.rautodetect
-msgctxt "mainform.rautodetect"
-msgid "Auto Detect"
-msgstr "Tự động phát hiện"
-
-#: mainform.renter
-msgid "Enter"
-msgstr "Nhập"
-
-#: mainform.renterparameter
-msgid "Enter the required parameter"
-msgstr "Nhập tham số bắt buộc"
-
-#: mainform.rnoconfig
-msgctxt "mainform.rnoconfig"
-msgid "Configuration file not found! Create it in the configuration editor."
-msgstr "Không tìm thấy tệp cấu hình! Hãy tạo tệp trong trình chỉnh sửa cấu hình."
-
-#: mainform.ropenpofiletr
-msgid "Language File (*.po)|*.po"
-msgstr "Tệp ngôn ngữ (*.po)|*.po"
-
-#: mainform.rremovepair
-#, object-pascal-format
-msgid "Are you sure you want to remove the pair \"%s\"?"
-msgstr "Bạn có chắc chắn muốn xóa cặp \"%s\" không?"
-
-#: mainform.rswap
-#, object-pascal-format
-msgctxt "mainform.rswap"
-msgid "Swap (%s) with text (%s)"
-msgstr "Chuyển đổi (%s) với văn bản (%s)"
-
-#: mainform.rtoremovepair
-msgid " to remove pair"
-msgstr " để xóa cặp"
-
-#: systemtool.newversion
-#, object-pascal-format
-msgid "New version available: %s. Open GitHub page to download?"
-msgstr "Có phiên bản mới: %s. Mở trang GitHub để tải về?"
-
-#: systemtool.newversioncheckerror
-msgid "Error checking version:"
-msgstr "Lỗi kiểm tra phiên bản:"
-
-#: systemtool.newversionuptodate
-msgid "Your version is up to date."
-msgstr "Phiên bản của bạn đã là mới nhất."
-
-#: systemtool.rtrayslate
-msgctxt "systemtool.rtrayslate"
-msgid "Trayslate"
-msgstr "Trayslate"
 
 #: tformabouttrayslate.buttonok.caption
 msgctxt "tformabouttrayslate.buttonok.caption"

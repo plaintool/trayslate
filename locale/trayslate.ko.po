@@ -11,6 +11,69 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: PoBatch 1.0.0\n"
 
+#: checkupdates.newversion
+#, object-pascal-format
+msgctxt "checkupdates.newversion"
+msgid "New version available: %s. Open GitHub page to download?"
+msgstr "새 버전 사용 가능: %s. 다운로드할 GitHub 페이지를 열까요?"
+
+#: checkupdates.newversioncheckerror
+msgctxt "checkupdates.newversioncheckerror"
+msgid "Error checking version:"
+msgstr "버전 확인 오류:"
+
+#: checkupdates.newversionuptodate
+msgctxt "checkupdates.newversionuptodate"
+msgid "Your version is up to date."
+msgstr "현재 버전은 최신 버전입니다."
+
+#: consts.rappname
+msgctxt "consts.rappname"
+msgid "Trayslate"
+msgstr "Trayslate"
+
+#: consts.rautodetect
+msgctxt "consts.rautodetect"
+msgid "Auto Detect"
+msgstr "자동 감지"
+
+#: consts.renter
+msgctxt "consts.renter"
+msgid "Enter"
+msgstr "입력"
+
+#: consts.renterparameter
+msgctxt "consts.renterparameter"
+msgid "Enter the required parameter"
+msgstr "필수 매개변수를 입력하세요"
+
+#: consts.rnoconfig
+msgctxt "consts.rnoconfig"
+msgid "Configuration file not found! Create it in the configuration editor."
+msgstr "설정 파일을 찾을 수 없습니다! 설정 편집기에서 생성하세요."
+
+#: consts.ropenpofiletr
+msgctxt "consts.ropenpofiletr"
+msgid "Language File (*.po)|*.po"
+msgstr "언어 파일 (*.po)|*.po"
+
+#: consts.rremovepair
+#, object-pascal-format
+msgctxt "consts.rremovepair"
+msgid "Are you sure you want to remove the pair \"%s\"?"
+msgstr "\"%s\" 쌍을 삭제하시겠습니까?"
+
+#: consts.rswap
+#, object-pascal-format
+msgctxt "consts.rswap"
+msgid "Swap (%s) with text (%s)"
+msgstr "(%s)을(를) 텍스트 (%s)와(과) 교체"
+
+#: consts.rtoremovepair
+msgctxt "consts.rtoremovepair"
+msgid " to remove pair"
+msgstr " 쌍 제거하려면"
+
 #: formconfig.rcaption
 msgctxt "formconfig.rcaption"
 msgid "Config Editor"
@@ -250,61 +313,6 @@ msgstr "이름"
 #: formsettings.ruserparametervalue
 msgid "Value"
 msgstr "값"
-
-#: mainform.rautodetect
-msgctxt "mainform.rautodetect"
-msgid "Auto Detect"
-msgstr "자동 감지"
-
-#: mainform.renter
-msgid "Enter"
-msgstr "입력"
-
-#: mainform.renterparameter
-msgid "Enter the required parameter"
-msgstr "필수 매개변수를 입력하세요"
-
-#: mainform.rnoconfig
-msgctxt "mainform.rnoconfig"
-msgid "Configuration file not found! Create it in the configuration editor."
-msgstr "설정 파일을 찾을 수 없습니다! 설정 편집기에서 생성하세요."
-
-#: mainform.ropenpofiletr
-msgid "Language File (*.po)|*.po"
-msgstr "언어 파일 (*.po)|*.po"
-
-#: mainform.rremovepair
-#, object-pascal-format
-msgid "Are you sure you want to remove the pair \"%s\"?"
-msgstr "\"%s\" 쌍을 삭제하시겠습니까?"
-
-#: mainform.rswap
-#, object-pascal-format
-msgctxt "mainform.rswap"
-msgid "Swap (%s) with text (%s)"
-msgstr "(%s)을(를) 텍스트 (%s)와(과) 교체"
-
-#: mainform.rtoremovepair
-msgid " to remove pair"
-msgstr " 쌍 제거하려면"
-
-#: systemtool.newversion
-#, object-pascal-format
-msgid "New version available: %s. Open GitHub page to download?"
-msgstr "새 버전 사용 가능: %s. 다운로드할 GitHub 페이지를 열까요?"
-
-#: systemtool.newversioncheckerror
-msgid "Error checking version:"
-msgstr "버전 확인 오류:"
-
-#: systemtool.newversionuptodate
-msgid "Your version is up to date."
-msgstr "현재 버전은 최신 버전입니다."
-
-#: systemtool.rtrayslate
-msgctxt "systemtool.rtrayslate"
-msgid "Trayslate"
-msgstr "Trayslate"
 
 #: tformabouttrayslate.buttonok.caption
 msgctxt "tformabouttrayslate.buttonok.caption"

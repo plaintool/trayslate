@@ -47,7 +47,7 @@ var
 
 implementation
 
-uses mainform, systemtool;
+uses mainform, systemtool, checkupdates;
 
   {$R *.lfm}
 

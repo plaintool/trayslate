@@ -40,6 +40,8 @@ uses
   globalkeyboardhook,
   globalmousehook,
   translate,
+  network,
+  consts,
   systemtool,
   stringhelper,
   hotkeyhelper,
@@ -606,32 +608,9 @@ type
 var
   formTrayslate: TformTrayslate;
 
-const
-  DOUBLE_ENTER_INTERVAL = 200; // ms
-  HOTKEY_INTERVAL = 500; // ms
-  MOUSE_MODE_INTERVAL = 100; // ms
-  MOUSE_MODE_DELTA = 10; // pixel
-  MOUSE_DBL_INTERVAL = 500; // ms
-  BUTTON_DELTA = 10;
-
-  MIDDLE_MOUSE = 'Middle-Click';
-  DEF_LANGDETECT = 'languagedetect.ini';
-
-  WM_USER_REGISTERVIEWER = WM_USER + 1;
-
-resourcestring
-  rswap = 'Swap (%s) with text (%s)';
-  rnoconfig = 'Configuration file not found! Create it in the configuration editor.';
-  rtoremovepair = ' to remove pair';
-  rremovepair = 'Are you sure you want to remove the pair "%s"?';
-  ropenpofiletr = 'Language File (*.po)|*.po';
-  renter = 'Enter';
-  renterparameter = 'Enter the required parameter';
-  rautodetect = 'Auto Detect';
-
 implementation
 
-uses formdonate, formabout, formsettings, formconfig, formpopup, formbutton, settings, languages, formattool;
+uses formdonate, formabout, formsettings, formconfig, formpopup, formbutton, settings, languages, formattool, checkupdates;
 
   {$R *.lfm}
 
@@ -905,7 +884,7 @@ end;
 
 procedure TformTrayslate.ApplicationPropException(Sender: TObject; E: Exception);
 begin
-  MessageDlg(rtrayslate, E.Message, mtWarning, [mbOK], 0);
+  MessageDlg(rappname, E.Message, mtWarning, [mbOK], 0);
 end;
 
 procedure TformTrayslate.ApplicationPropUserInput(Sender: TObject; Msg: cardinal);
@@ -2701,7 +2680,7 @@ begin
     hintText += ' : ' + ComboTarget.Text;
   if FConfigTitles.Values[FConfigFile] <> string.Empty then
     hintText += sLineBreak + FConfigTitles.Values[FConfigFile];
-  TrayIcon.Hint := rtrayslate + ' - ' + hintText;
+  TrayIcon.Hint := rappname + ' - ' + hintText;
 
   // Set popup window caption
   if (Assigned(formPopupTrayslate)) then
@@ -2711,10 +2690,10 @@ end;
 procedure TformTrayslate.SetHints;
 begin
   if Assigned(Trans) then
-    Caption := rtrayslate + ifthen(Trans.ServiceName <> string.Empty, ' - ' + Trans.ServiceName,
+    Caption := rappname + ifthen(Trans.ServiceName <> string.Empty, ' - ' + Trans.ServiceName,
       ifthen(FConfigFile <> string.Empty, ' - ' + ExtractFileName(FConfigFile), string.Empty))
   else
-    Caption := rtrayslate + ifthen(FConfigFile <> string.Empty, ' - ' + ExtractFileName(FConfigFile), string.Empty);
+    Caption := rappname + ifthen(FConfigFile <> string.Empty, ' - ' + ExtractFileName(FConfigFile), string.Empty);
 
   aSwap.Hint := Format(rswap, [HotKeyTransSwap.ToText, MIDDLE_MOUSE]).Replace('() ', string.Empty);
 

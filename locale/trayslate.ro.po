@@ -11,6 +11,69 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: PoBatch 1.0.0\n"
 
+#: checkupdates.newversion
+#, object-pascal-format
+msgctxt "checkupdates.newversion"
+msgid "New version available: %s. Open GitHub page to download?"
+msgstr "Versiune nouă disponibilă: %s. Deschideți pagina GitHub pentru descărcare?"
+
+#: checkupdates.newversioncheckerror
+msgctxt "checkupdates.newversioncheckerror"
+msgid "Error checking version:"
+msgstr "Eroare la verificarea versiunii:"
+
+#: checkupdates.newversionuptodate
+msgctxt "checkupdates.newversionuptodate"
+msgid "Your version is up to date."
+msgstr "Versiunea dvs. este actualizată."
+
+#: consts.rappname
+msgctxt "consts.rappname"
+msgid "Trayslate"
+msgstr "Trayslate"
+
+#: consts.rautodetect
+msgctxt "consts.rautodetect"
+msgid "Auto Detect"
+msgstr "Detectare automată"
+
+#: consts.renter
+msgctxt "consts.renter"
+msgid "Enter"
+msgstr "Introdu"
+
+#: consts.renterparameter
+msgctxt "consts.renterparameter"
+msgid "Enter the required parameter"
+msgstr "Introduceți parametrul necesar"
+
+#: consts.rnoconfig
+msgctxt "consts.rnoconfig"
+msgid "Configuration file not found! Create it in the configuration editor."
+msgstr "Fișierul de configurare nu a fost găsit! Creați-l în editorul de configurații."
+
+#: consts.ropenpofiletr
+msgctxt "consts.ropenpofiletr"
+msgid "Language File (*.po)|*.po"
+msgstr "Fișier limbă (*.po)|*.po"
+
+#: consts.rremovepair
+#, object-pascal-format
+msgctxt "consts.rremovepair"
+msgid "Are you sure you want to remove the pair \"%s\"?"
+msgstr "Sigur doriți să ștergeți perechea \"%s\"?"
+
+#: consts.rswap
+#, object-pascal-format
+msgctxt "consts.rswap"
+msgid "Swap (%s) with text (%s)"
+msgstr "Schimbați (%s) cu textul (%s)"
+
+#: consts.rtoremovepair
+msgctxt "consts.rtoremovepair"
+msgid " to remove pair"
+msgstr " pentru a elimina perechea"
+
 #: formconfig.rcaption
 msgctxt "formconfig.rcaption"
 msgid "Config Editor"
@@ -250,61 +313,6 @@ msgstr "Nume"
 #: formsettings.ruserparametervalue
 msgid "Value"
 msgstr "Valoare"
-
-#: mainform.rautodetect
-msgctxt "mainform.rautodetect"
-msgid "Auto Detect"
-msgstr "Detectare automată"
-
-#: mainform.renter
-msgid "Enter"
-msgstr "Introdu"
-
-#: mainform.renterparameter
-msgid "Enter the required parameter"
-msgstr "Introduceți parametrul necesar"
-
-#: mainform.rnoconfig
-msgctxt "mainform.rnoconfig"
-msgid "Configuration file not found! Create it in the configuration editor."
-msgstr "Fișierul de configurare nu a fost găsit! Creați-l în editorul de configurații."
-
-#: mainform.ropenpofiletr
-msgid "Language File (*.po)|*.po"
-msgstr "Fișier limbă (*.po)|*.po"
-
-#: mainform.rremovepair
-#, object-pascal-format
-msgid "Are you sure you want to remove the pair \"%s\"?"
-msgstr "Sigur doriți să ștergeți perechea \"%s\"?"
-
-#: mainform.rswap
-#, object-pascal-format
-msgctxt "mainform.rswap"
-msgid "Swap (%s) with text (%s)"
-msgstr "Schimbați (%s) cu textul (%s)"
-
-#: mainform.rtoremovepair
-msgid " to remove pair"
-msgstr " pentru a elimina perechea"
-
-#: systemtool.newversion
-#, object-pascal-format
-msgid "New version available: %s. Open GitHub page to download?"
-msgstr "Versiune nouă disponibilă: %s. Deschideți pagina GitHub pentru descărcare?"
-
-#: systemtool.newversioncheckerror
-msgid "Error checking version:"
-msgstr "Eroare la verificarea versiunii:"
-
-#: systemtool.newversionuptodate
-msgid "Your version is up to date."
-msgstr "Versiunea dvs. este actualizată."
-
-#: systemtool.rtrayslate
-msgctxt "systemtool.rtrayslate"
-msgid "Trayslate"
-msgstr "Trayslate"
 
 #: tformabouttrayslate.buttonok.caption
 msgctxt "tformabouttrayslate.buttonok.caption"

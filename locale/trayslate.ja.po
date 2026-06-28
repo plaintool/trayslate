@@ -11,6 +11,69 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: PoBatch 1.0.0\n"
 
+#: checkupdates.newversion
+#, object-pascal-format
+msgctxt "checkupdates.newversion"
+msgid "New version available: %s. Open GitHub page to download?"
+msgstr "新しいバージョン %s が利用可能です。ダウンロードのためにGitHubページを開きますか？"
+
+#: checkupdates.newversioncheckerror
+msgctxt "checkupdates.newversioncheckerror"
+msgid "Error checking version:"
+msgstr "バージョン確認エラー："
+
+#: checkupdates.newversionuptodate
+msgctxt "checkupdates.newversionuptodate"
+msgid "Your version is up to date."
+msgstr "お使いのバージョンは最新です。"
+
+#: consts.rappname
+msgctxt "consts.rappname"
+msgid "Trayslate"
+msgstr "Trayslate"
+
+#: consts.rautodetect
+msgctxt "consts.rautodetect"
+msgid "Auto Detect"
+msgstr "自動検出"
+
+#: consts.renter
+msgctxt "consts.renter"
+msgid "Enter"
+msgstr "入力"
+
+#: consts.renterparameter
+msgctxt "consts.renterparameter"
+msgid "Enter the required parameter"
+msgstr "必要なパラメーターを入力してください"
+
+#: consts.rnoconfig
+msgctxt "consts.rnoconfig"
+msgid "Configuration file not found! Create it in the configuration editor."
+msgstr "設定ファイルが見つかりません！設定エディタで作成してください。"
+
+#: consts.ropenpofiletr
+msgctxt "consts.ropenpofiletr"
+msgid "Language File (*.po)|*.po"
+msgstr "言語ファイル (*.po)|*.po"
+
+#: consts.rremovepair
+#, object-pascal-format
+msgctxt "consts.rremovepair"
+msgid "Are you sure you want to remove the pair \"%s\"?"
+msgstr "ペア「%s」を削除してもよろしいですか？"
+
+#: consts.rswap
+#, object-pascal-format
+msgctxt "consts.rswap"
+msgid "Swap (%s) with text (%s)"
+msgstr "(%s) をテキスト (%s) と入れ替え"
+
+#: consts.rtoremovepair
+msgctxt "consts.rtoremovepair"
+msgid " to remove pair"
+msgstr " ペアを削除するには"
+
 #: formconfig.rcaption
 msgctxt "formconfig.rcaption"
 msgid "Config Editor"
@@ -250,61 +313,6 @@ msgstr "名前"
 #: formsettings.ruserparametervalue
 msgid "Value"
 msgstr "値"
-
-#: mainform.rautodetect
-msgctxt "mainform.rautodetect"
-msgid "Auto Detect"
-msgstr "自動検出"
-
-#: mainform.renter
-msgid "Enter"
-msgstr "入力"
-
-#: mainform.renterparameter
-msgid "Enter the required parameter"
-msgstr "必要なパラメーターを入力してください"
-
-#: mainform.rnoconfig
-msgctxt "mainform.rnoconfig"
-msgid "Configuration file not found! Create it in the configuration editor."
-msgstr "設定ファイルが見つかりません！設定エディタで作成してください。"
-
-#: mainform.ropenpofiletr
-msgid "Language File (*.po)|*.po"
-msgstr "言語ファイル (*.po)|*.po"
-
-#: mainform.rremovepair
-#, object-pascal-format
-msgid "Are you sure you want to remove the pair \"%s\"?"
-msgstr "ペア「%s」を削除してもよろしいですか？"
-
-#: mainform.rswap
-#, object-pascal-format
-msgctxt "mainform.rswap"
-msgid "Swap (%s) with text (%s)"
-msgstr "(%s) をテキスト (%s) と入れ替え"
-
-#: mainform.rtoremovepair
-msgid " to remove pair"
-msgstr " ペアを削除するには"
-
-#: systemtool.newversion
-#, object-pascal-format
-msgid "New version available: %s. Open GitHub page to download?"
-msgstr "新しいバージョン %s が利用可能です。ダウンロードのためにGitHubページを開きますか？"
-
-#: systemtool.newversioncheckerror
-msgid "Error checking version:"
-msgstr "バージョン確認エラー："
-
-#: systemtool.newversionuptodate
-msgid "Your version is up to date."
-msgstr "お使いのバージョンは最新です。"
-
-#: systemtool.rtrayslate
-msgctxt "systemtool.rtrayslate"
-msgid "Trayslate"
-msgstr "Trayslate"
 
 #: tformabouttrayslate.buttonok.caption
 msgctxt "tformabouttrayslate.buttonok.caption"

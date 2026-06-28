@@ -188,7 +188,7 @@ resourcestring
 
 implementation
 
-uses mainform, translate, settings, formattool, languages, systemtool, stringhelper;
+uses mainform, translate, settings, formattool, languages, systemtool, network, stringhelper;
 
   {$R *.lfm}
 

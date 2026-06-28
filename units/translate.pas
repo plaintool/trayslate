@@ -25,6 +25,7 @@ uses
   IniFiles,
   fpjson,
   jsonparser,
+  network,
   systemtool;
 
 type
@@ -460,7 +461,7 @@ begin
   if SecondsBetween(Now, FParametersAge) < FInitLiveTime then Exit;
   FParameterValues.Clear;
 
-  responseBody := WebRequest(wmGet, FInitUrl, string.Empty, InitHeaders, FInitUserAgent, string.Empty,
+  responseBody := TNetwork.WebRequest(wmGet, FInitUrl, string.Empty, InitHeaders, FInitUserAgent, string.Empty,
     string.Empty, FServiceProxy, FProxy, FTimeout, responseHeaders, Error);
   try
     if Error then Exit(responseBody);
@@ -506,7 +507,7 @@ begin
       TempHeaders.Assign(Headers);
       SetParametersList(TempHeaders);
     end;
-    responseBody := WebRequest(wmGet, TempUrl, string.Empty, TempHeaders, FUserAgent, FContentType, FAccept,
+    responseBody := TNetwork.WebRequest(wmGet, TempUrl, string.Empty, TempHeaders, FUserAgent, FContentType, FAccept,
       FServiceProxy, FProxy, FTimeout, responseHeaders, Error);
     try
       if Error then Exit(responseBody);
@@ -569,7 +570,7 @@ begin
       TempHeaders.Assign(Headers);
       SetParametersList(TempHeaders);
     end;
-    responseBody := WebRequest(wmPost, TempUrl, TempData, TempHeaders, FUserAgent, FContentType, FAccept,
+    responseBody := TNetwork.WebRequest(wmPost, TempUrl, TempData, TempHeaders, FUserAgent, FContentType, FAccept,
       FServiceProxy, FProxy, FTimeout, responseHeaders, Error);
     try
       if Error then Exit(responseBody);

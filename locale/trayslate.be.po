@@ -11,6 +11,69 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: PoBatch 1.0.0\n"
 
+#: checkupdates.newversion
+#, object-pascal-format
+msgctxt "checkupdates.newversion"
+msgid "New version available: %s. Open GitHub page to download?"
+msgstr "Даступная новая версія: %s. Адкрыць старонку на GitHub для загрузкі?"
+
+#: checkupdates.newversioncheckerror
+msgctxt "checkupdates.newversioncheckerror"
+msgid "Error checking version:"
+msgstr "Памылка пры праверцы версіі:"
+
+#: checkupdates.newversionuptodate
+msgctxt "checkupdates.newversionuptodate"
+msgid "Your version is up to date."
+msgstr "Ваша версія актуальная."
+
+#: consts.rappname
+msgctxt "consts.rappname"
+msgid "Trayslate"
+msgstr "Trayslate"
+
+#: consts.rautodetect
+msgctxt "consts.rautodetect"
+msgid "Auto Detect"
+msgstr "Аўтавызначэнне"
+
+#: consts.renter
+msgctxt "consts.renter"
+msgid "Enter"
+msgstr "Увесці"
+
+#: consts.renterparameter
+msgctxt "consts.renterparameter"
+msgid "Enter the required parameter"
+msgstr "Увядзіце неабходны параметр"
+
+#: consts.rnoconfig
+msgctxt "consts.rnoconfig"
+msgid "Configuration file not found! Create it in the configuration editor."
+msgstr "Файл канфігурацыі не знойдзены! Стварыце яго ў рэдактары канфігурацыі."
+
+#: consts.ropenpofiletr
+msgctxt "consts.ropenpofiletr"
+msgid "Language File (*.po)|*.po"
+msgstr "Файл мовы (*.po)"
+
+#: consts.rremovepair
+#, object-pascal-format
+msgctxt "consts.rremovepair"
+msgid "Are you sure you want to remove the pair \"%s\"?"
+msgstr "Вы ўпэўнены, што хочаце выдаліць пару \"%s\"?"
+
+#: consts.rswap
+#, object-pascal-format
+msgctxt "consts.rswap"
+msgid "Swap (%s) with text (%s)"
+msgstr "Памяняць (%s) з тэкстам (%s)"
+
+#: consts.rtoremovepair
+msgctxt "consts.rtoremovepair"
+msgid " to remove pair"
+msgstr " для выдалення пары"
+
 #: formconfig.rcaption
 msgctxt "formconfig.rcaption"
 msgid "Config Editor"
@@ -250,61 +313,6 @@ msgstr "Імя"
 #: formsettings.ruserparametervalue
 msgid "Value"
 msgstr "Значэнне"
-
-#: mainform.rautodetect
-msgctxt "mainform.rautodetect"
-msgid "Auto Detect"
-msgstr "Аўтавызначэнне"
-
-#: mainform.renter
-msgid "Enter"
-msgstr "Увесці"
-
-#: mainform.renterparameter
-msgid "Enter the required parameter"
-msgstr "Увядзіце неабходны параметр"
-
-#: mainform.rnoconfig
-msgctxt "mainform.rnoconfig"
-msgid "Configuration file not found! Create it in the configuration editor."
-msgstr "Файл канфігурацыі не знойдзены! Стварыце яго ў рэдактары канфігурацыі."
-
-#: mainform.ropenpofiletr
-msgid "Language File (*.po)|*.po"
-msgstr "Файл мовы (*.po)"
-
-#: mainform.rremovepair
-#, object-pascal-format
-msgid "Are you sure you want to remove the pair \"%s\"?"
-msgstr "Вы ўпэўнены, што хочаце выдаліць пару \"%s\"?"
-
-#: mainform.rswap
-#, object-pascal-format
-msgctxt "mainform.rswap"
-msgid "Swap (%s) with text (%s)"
-msgstr "Памяняць (%s) з тэкстам (%s)"
-
-#: mainform.rtoremovepair
-msgid " to remove pair"
-msgstr " для выдалення пары"
-
-#: systemtool.newversion
-#, object-pascal-format
-msgid "New version available: %s. Open GitHub page to download?"
-msgstr "Даступная новая версія: %s. Адкрыць старонку на GitHub для загрузкі?"
-
-#: systemtool.newversioncheckerror
-msgid "Error checking version:"
-msgstr "Памылка пры праверцы версіі:"
-
-#: systemtool.newversionuptodate
-msgid "Your version is up to date."
-msgstr "Ваша версія актуальная."
-
-#: systemtool.rtrayslate
-msgctxt "systemtool.rtrayslate"
-msgid "Trayslate"
-msgstr "Trayslate"
 
 #: tformabouttrayslate.buttonok.caption
 msgctxt "tformabouttrayslate.buttonok.caption"
