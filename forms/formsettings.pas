@@ -618,7 +618,7 @@ begin
       Exit;
     end
     else
-    if not IsSystemKey(Key) then
+    if not THotKeyData.Create(Key).IsSystemKey then
     begin
       Key := 0;
       Exit;

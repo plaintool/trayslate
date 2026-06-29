@@ -76,8 +76,6 @@ function SetCursorTo(Control: TControl; const ResName: string; CursorIndex: inte
 
 function SetFileTypeIcon(const Ext: string; IconIndex: integer): boolean;
 
-function IsSystemKey(Key: word): boolean;
-
 procedure RegAutoStart(const AEnable: boolean; const AppName: string);
 
 procedure BringToFrontNoFocus(AForm: TForm);
@@ -568,39 +566,6 @@ begin
     end;
   end;
   {$ENDIF}
-end;
-
-function IsSystemKey(Key: word): boolean;
-begin
-  case Key of
-    // Navigation keys
-    VK_TAB, VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT,
-    VK_HOME, VK_END, VK_PRIOR, VK_NEXT,
-
-    // Function keys
-    VK_F1..VK_F24,
-
-    // Modifiers
-    VK_SHIFT, VK_CONTROL, VK_MENU,
-    VK_LSHIFT, VK_RSHIFT, VK_LCONTROL, VK_RCONTROL,
-    VK_LMENU, VK_RMENU, VK_LWIN, VK_RWIN,
-
-    // Special keys
-    VK_ESCAPE, VK_INSERT, VK_DELETE, VK_SCROLL, VK_PAUSE,
-    VK_CAPITAL, VK_NUMLOCK, VK_SNAPSHOT, VK_CANCEL,
-    VK_BACK, VK_RETURN, VK_CLEAR,
-
-    // Numpad keys
-    VK_ADD, VK_SUBTRACT, VK_MULTIPLY, VK_DIVIDE, VK_DECIMAL,
-    VK_NUMPAD0..VK_NUMPAD9,
-
-    // Extended keys (multimedia/browser)
-    VK_BROWSER_BACK..VK_LAUNCH_APP2,
-    VK_KANA..VK_MODECHANGE:
-      Result := True;
-    else
-      Result := False;
-  end;
 end;
 
 procedure RegAutoStart(const AEnable: boolean; const AppName: string);

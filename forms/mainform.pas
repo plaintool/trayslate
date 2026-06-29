@@ -1759,7 +1759,7 @@ begin
 
   // List of keys that do not modify text content (Navigation, System, Modifiers)
   // We include VK_RETURN here as per your requirement to ignore it for translation triggers
-  if IsSystemKey(Key) and not (Key in [VK_RETURN, VK_DELETE, VK_BACK, VK_SHIFT, VK_LSHIFT, VK_RSHIFT]) then
+  if THotKeyData.Create(Key).IsSystemKey and not (Key in [VK_RETURN, VK_DELETE, VK_BACK, VK_SHIFT, VK_LSHIFT, VK_RSHIFT]) then
   begin
     TimerTranslate.Enabled := False;
     Exit;

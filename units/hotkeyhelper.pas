@@ -7,7 +7,7 @@
 unit hotkeyhelper;
 
 {$mode ObjFPC}{$H+}
-{$modeswitch advancedrecords}   // <-- enables record helper in ObjFPC mode
+{$modeswitch advancedrecords}
 {$codepage utf8}
 
 interface
@@ -26,10 +26,14 @@ type
 
   THotKeyDataHelper = record helper for THotKeyData
   public
+    // Create for THotKeyData.Create
+    class function Create(AKey: word; AModifiers: cardinal = 0): THotKeyData; static;
     // Converts the hotkey to a human-readable string, e.g. "Ctrl+Shift+F1"
     function ToText: string;
     // Converts the hotkey to a TShortCut value
     function ToShortCut: TShortCut;
+    // Check if system key
+    function IsSystemKey: boolean;
   end;
 
   TMouseMode = (
@@ -62,14 +66,19 @@ const
   {$ENDIF}
 
   // Modifier flags for THotKeyData.Modifiers
-  HOTKEY_CTRL  = 1 shl 1; // 2
+  HOTKEY_CTRL = 1 shl 1; // 2
   HOTKEY_SHIFT = 1 shl 2; // 4
-  HOTKEY_ALT   = 1 shl 0; // 1
-  HOTKEY_META  = 1 shl 3; // 8 (Win / Cmd)
+  HOTKEY_ALT = 1 shl 0; // 1
+  HOTKEY_META = 1 shl 3; // 8 (Win / Cmd)
 
 implementation
 
-{%Region -fold THotKeyDataHelper.ToText}
+class function THotKeyDataHelper.Create(AKey: word; AModifiers: cardinal = 0): THotKeyData;
+begin
+  Result.Modifiers := AModifiers;
+  Result.Key := AKey;
+end;
+
 function THotKeyDataHelper.ToText: string;
 begin
   Result := string.Empty;
@@ -137,9 +146,7 @@ begin
         Result := Result + Format('VK_%d', [Self.Key]);
   end;
 end;
-{%EndRegion}
 
-{%Region -fold THotKeyDataHelper.ToShortCut}
 function THotKeyDataHelper.ToShortCut: TShortCut;
 var
   Shift: TShiftState;
@@ -156,6 +163,38 @@ begin
 
   Result := Menus.ShortCut(Self.Key, Shift);
 end;
-{%EndRegion}
+
+function THotKeyDataHelper.IsSystemKey: boolean;
+begin
+  case Key of
+    // Navigation keys
+    VK_TAB, VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT,
+    VK_HOME, VK_END, VK_PRIOR, VK_NEXT,
+
+    // Function keys
+    VK_F1..VK_F24,
+
+    // Modifiers
+    VK_SHIFT, VK_CONTROL, VK_MENU,
+    VK_LSHIFT, VK_RSHIFT, VK_LCONTROL, VK_RCONTROL,
+    VK_LMENU, VK_RMENU, VK_LWIN, VK_RWIN,
+
+    // Special keys
+    VK_ESCAPE, VK_INSERT, VK_DELETE, VK_SCROLL, VK_PAUSE,
+    VK_CAPITAL, VK_NUMLOCK, VK_SNAPSHOT, VK_CANCEL,
+    VK_BACK, VK_RETURN, VK_CLEAR,
+
+    // Numpad keys
+    VK_ADD, VK_SUBTRACT, VK_MULTIPLY, VK_DIVIDE, VK_DECIMAL,
+    VK_NUMPAD0..VK_NUMPAD9,
+
+    // Extended keys (multimedia/browser)
+    VK_BROWSER_BACK..VK_LAUNCH_APP2,
+    VK_KANA..VK_MODECHANGE:
+      Result := True;
+    else
+      Result := False;
+  end;
+end;
 
 end.
