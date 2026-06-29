@@ -45,7 +45,7 @@ var
 
 implementation
 
-uses mainform, systemtool;
+uses mainform, systemtool, localize;
 
   {$R *.lfm}
 
@@ -53,7 +53,7 @@ uses mainform, systemtool;
 
 procedure TformDonateTrayslate.FormCreate(Sender: TObject);
 begin
-  ApplicationTranslate(language, self, formTrayslate.LoadCustomPoFile(formTrayslate.CustomPoFile));
+  TLocalize.ApplicationTranslate(language, self, TLocalize.LoadCustomPoFile(formTrayslate.CustomPoFile));
 
   labelBank.Font.Color := ThemeColor(clBlue, clSkyBlue);
   labelCrypto.Font.Color := ThemeColor(clBlue, clSkyBlue);

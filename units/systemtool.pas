@@ -22,22 +22,9 @@ uses
   Graphics,
   IntfGraphics,
   Math,
-  gettext,
-  DefaultTranslator,
-  Translations,
-  LResources,
-  LCLTranslator,
   LCLIntf,
   LCLType,
   Dialogs,
-  FPImage,
-  FPReadJPEG,
-  FPReadPNG,
-  FPReadBMP,
-  FPWritePNG,
-  FPWriteBMP,
-  FPImgCanv,
-  base64,
   {$IFDEF WINDOWS}
   Windows,
   Registry,
@@ -55,10 +42,6 @@ uses
   {$ENDIF}
   fpjson,
   jsonparser;
-
-function GetOSLanguage: string;
-
-function ApplicationTranslate(const Language: string; AForm: TCustomForm = nil; PoText: string = string.Empty): boolean;
 
 function ThemeColor(LightColor, DarkColor: TColor): TColor;
 
@@ -80,25 +63,15 @@ procedure RegAutoStart(const AEnable: boolean; const AppName: string);
 
 procedure BringToFrontNoFocus(AForm: TForm);
 
+function IsWindows7: boolean;
+
+function IsWindows11: boolean;
+
 function GetTickCountXp: DWORD;
 
 procedure SleepBusy(MS: integer);
 
 procedure SleepLoop(ALoop: integer = 0; ASleep: integer = 0; AProcessMessages: boolean = True);
-
-{ Base64 }
-
-function StreamToBase64(const MS: TMemoryStream): string;
-
-procedure Base64ToStream(const S: string; MS: TMemoryStream);
-
-function FPImageToBitmap(Img: TFPMemoryImage): Graphics.TBitmap;
-
-function LoadImageFileToBase64(const FileName: string): string;
-
-function Base64ToBitmap(const Base64Str: string): Graphics.TBitmap;
-
-function AddBase64ToImageList(const Base64Str: string; AList: TImageList): integer;
 
 { Tray Icon }
 
@@ -106,15 +79,6 @@ function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: str
   ABackgroundColor: TColor = clNone; AFontColor: TColor = clWhite; AFontName: string = string.Empty): Graphics.TBitmap;
 
 function CreateTrayIconProgress(AAngle: integer; ABackgroundColor: TColor = clNone; APenColor: TColor = clWhite): Graphics.TBitmap;
-
-{ Win version }
-
-function IsWindows7: boolean;
-
-function IsWindows11: boolean;
-
-var
-  Language: string;
 
 const
   ICON_SIZE = 16;
@@ -124,142 +88,6 @@ const
   DEF_AUTO = '*';
 
 implementation
-
-function GetOSLanguage: string;
-  {platform-independent method to read the language of the user interface}
-var
-  fbl: string;
-  {$IFDEF WINDOWS}
-  l:string;
-  {$ENDIF}
-  {$IFDEF LCLCarbon}
-  l:string;
-  theLocaleRef: CFLocaleRef;
-  locale: CFStringRef;
-  buffer: StringPtr;
-  bufferSize: CFIndex;
-  encoding: CFStringEncoding;
-  success: boolean;
-  {$ENDIF}
-begin
-  fbl := string.Empty;
-  {$IFDEF LCLCarbon}
-  l := string.Empty;
-  theLocaleRef := CFLocaleCopyCurrent;
-  locale := CFLocaleGetIdentifier(theLocaleRef);
-  encoding := 0;
-  bufferSize := 256;
-  buffer := new(StringPtr);
-  success := CFStringGetPascalString(locale, buffer, bufferSize, encoding);
-  if success then
-    l := string(buffer^)
-  else
-    l := '';
-  fbl := Copy(l, 1, 2);
-  dispose(buffer);
-  {$ELSE}
-  {$IFDEF LINUX}
-  fbl := Copy(GetEnvironmentVariable('LANG'), 1, 2);
-  {$ELSE}
-  l := string.Empty;
-  GetLanguageIDs(l, fbl);
-  {$ENDIF}
-  {$ENDIF}
-  Result := fbl;
-end;
-
-function ApplicationTranslate(const Language: string; AForm: TCustomForm = nil; PoText: string = string.Empty): boolean;
-var
-  Res: TResourceStream;
-  PoStringStream: TStringStream;
-  PoFile: TPOFile;
-  LocalTranslator: TUpdateTranslator;
-  i: integer;
-  LangToUse: string;
-  LangFound: boolean;
-begin
-  Result := False;
-  Res := nil;
-  PoStringStream := nil;
-  PoFile := nil;
-  LocalTranslator := nil;
-
-  // Determine which language to load
-  LangToUse := Language;
-
-  try
-    try
-      PoFile := TPOFile.Create(False);
-      if (PoText = string.Empty) then
-      begin
-        PoStringStream := TStringStream.Create('');
-
-        // Try to load the language resource file
-        try
-          Res := TResourceStream.Create(HInstance, 'trayslate.' + LangToUse, RT_RCDATA);
-          LangFound := True;
-        except
-          // If language resource not found, fall back to English
-          LangToUse := 'en';
-          Res := TResourceStream.Create(HInstance, 'trayslate.en', RT_RCDATA);
-          LangFound := False;
-        end;
-
-        // Save resource to string stream
-        Res.SaveToStream(PoStringStream);
-
-        // Read PO strings
-        PoFile.ReadPOText(PoStringStream.DataString);
-      end
-      else
-        PoFile.ReadPOText(PoText);
-
-      // Apply translations to resource strings
-      if not Assigned(AForm) then
-        Result := TranslateResourceStrings(PoFile);
-
-      if Result or Assigned(AForm) then
-      begin
-        // Create a local translator for the form or all forms
-        LocalTranslator := TPOTranslator.Create(PoFile);
-        if Assigned(LRSTranslator) then
-          LRSTranslator.Free;
-        LRSTranslator := LocalTranslator;
-
-        // Translate only the specified form
-        if Assigned(AForm) then
-          LocalTranslator.UpdateTranslation(AForm)
-        else
-        begin
-          // Translate all forms
-          for i := 0 to Screen.CustomFormCount - 1 do
-            LocalTranslator.UpdateTranslation(Screen.CustomForms[i]);
-          // Translate all data modules
-          for i := 0 to Screen.DataModuleCount - 1 do
-            LocalTranslator.UpdateTranslation(Screen.DataModules[i]);
-        end;
-      end;
-    except
-      Result := False;
-    end;
-
-    Result := Result and LangFound;
-  finally
-    // Free all used resources
-    if Assigned(LocalTranslator) then
-    begin
-      LRSTranslator := nil;
-      LocalTranslator.Free;
-    end
-    else if Assigned(PoFile) then
-      PoFile.Free;
-
-    if Assigned(PoStringStream) then
-      PoStringStream.Free;
-    if Assigned(Res) then
-      Res.Free;
-  end;
-end;
 
 function ThemeColor(LightColor, DarkColor: TColor): TColor;
 begin
@@ -626,6 +454,24 @@ begin
   {$ENDIF}
 end;
 
+function IsWindows7: boolean;
+begin
+  {$IFDEF WINDOWS}
+  Result := (Win32MajorVersion = 6) and (Win32MinorVersion = 1);
+  {$ELSE}
+  Result := False;
+  {$ENDIF}
+end;
+
+function IsWindows11: boolean;
+begin
+  {$IFDEF WINDOWS}
+  Result := (Win32MajorVersion >= 10) and (Win32BuildNumber >= 22000);
+  {$ELSE}
+  Result := False;
+  {$ENDIF}
+end;
+
 function GetTickCountXp: DWORD;
   {$IFDEF WINDOWS}
 type
@@ -679,201 +525,6 @@ begin
       if ASleep > 0 then
         SleepBusy(ASleep);
     end;
-end;
-
-{ Base64 }
-
-function StreamToBase64(const MS: TMemoryStream): string;
-var
-  Encoder: TBase64EncodingStream;
-  SS: TStringStream;
-begin
-  Result := string.Empty;
-
-  MS.Position := 0;
-  SS := TStringStream.Create('');
-  try
-    Encoder := TBase64EncodingStream.Create(SS);
-    try
-      Encoder.CopyFrom(MS, MS.Size);
-    finally
-      Encoder.Free;
-    end;
-
-    Result := SS.DataString;
-  finally
-    SS.Free;
-  end;
-end;
-
-procedure Base64ToStream(const S: string; MS: TMemoryStream);
-var
-  Decoder: TBase64DecodingStream;
-  SS: TStringStream;
-  Buffer: array of byte = ();
-  Readed: integer;
-begin
-  MS.Clear;
-
-  SS := TStringStream.Create(S, TEncoding.ASCII); // important
-  try
-    Decoder := TBase64DecodingStream.Create(SS);
-    try
-      SetLength(Buffer, 4096); // allocate buffer
-
-      repeat
-        Readed := Decoder.Read(Buffer[0], Length(Buffer)); // correct!
-        if Readed > 0 then
-          MS.WriteBuffer(Buffer[0], Readed);
-      until Readed = 0;
-
-      MS.Position := 0;
-    finally
-      Decoder.Free;
-    end;
-  finally
-    SS.Free;
-  end;
-end;
-
-function LoadImageFileToBase64(const FileName: string): string;
-var
-  Img, Resized: TFPMemoryImage;
-  Reader: TFPCustomImageReader;
-  Writer: TFPWriterBMP;
-  MS: TMemoryStream;
-  Canvas: TFPImageCanvas;
-begin
-  Result := string.Empty;
-
-  if not FileExists(FileName) then Exit;
-
-  Img := TFPMemoryImage.Create(0, 0);
-  Resized := TFPMemoryImage.Create(16, 16);
-  MS := TMemoryStream.Create;
-  Writer := TFPWriterBMP.Create;
-
-  try
-    case LowerCase(ExtractFileExt(FileName)) of
-      '.png': Reader := TFPReaderPNG.Create;
-      '.bmp': Reader := TFPReaderBMP.Create;
-      '.jpg', '.jpeg': Reader := TFPReaderJPEG.Create;
-      else
-        Exit;
-    end;
-
-    try
-      Img.LoadFromFile(FileName, Reader);
-    finally
-      Reader.Free;
-    end;
-
-    Canvas := TFPImageCanvas.Create(Resized);
-    try
-      // Fill white background
-      Canvas.Brush.FPColor := colWhite;
-      Canvas.FillRect(0, 0, 16, 16);
-
-      // Draw image
-      Canvas.StretchDraw(0, 0, 16, 16, Img);
-    finally
-      Canvas.Free;
-    end;
-
-    Resized.SaveToStream(MS, Writer);
-
-    MS.Position := 0;
-    Result := StreamToBase64(MS);
-
-  finally
-    Img.Free;
-    Resized.Free;
-    MS.Free;
-    Writer.Free;
-  end;
-end;
-
-function FPImageToBitmap(Img: TFPMemoryImage): Graphics.TBitmap;
-var
-  IntfImg: TLazIntfImage;
-begin
-  Result := Graphics.TBitmap.Create;
-  // Create IntfImg and initialize its format manually
-  IntfImg := TLazIntfImage.Create(0, 0);
-  try
-    // This is the key: we define the raw image format (32-bit RGBA)
-    // before copying any data.
-    IntfImg.DataDescription := GetDescriptionFromDevice(0);
-    IntfImg.SetSize(Img.Width, Img.Height);
-
-    // Manual pixel copy to be 100% sure it works everywhere
-    IntfImg.CopyPixels(Img);
-
-    // Now convert to LCL Bitmap handle
-    Result.LoadFromIntfImage(IntfImg);
-  finally
-    IntfImg.Free;
-  end;
-end;
-
-function Base64ToBitmap(const Base64Str: string): Graphics.TBitmap;
-var
-  MS: TMemoryStream;
-  Img: TFPMemoryImage;
-  Reader: TFPReaderBMP;
-begin
-  Result := nil;
-  if Base64Str = string.Empty then exit;
-  MS := TMemoryStream.Create;
-  Img := TFPMemoryImage.Create(0, 0);
-  Reader := TFPReaderBMP.Create;
-  try
-    try
-      // If Base64ToStream is your custom function, ensure it's correct
-      Base64ToStream(Base64Str, MS);
-      MS.Position := 0;
-
-      Img.LoadFromStream(MS, Reader);
-      Result := FPImageToBitmap(Img);
-    except
-      if Assigned(Result) then FreeAndNil(Result);
-      // Optional: raise;
-    end;
-  finally
-    Reader.Free;
-    Img.Free;
-    MS.Free;
-  end;
-end;
-
-function AddBase64ToImageList(const Base64Str: string; AList: TImageList): integer;
-var
-  Bmp, FixedBmp: Graphics.TBitmap;
-begin
-  Result := -1;
-
-  if (Base64Str = '') or not Assigned(AList) then Exit;
-
-  Bmp := Base64ToBitmap(Base64Str);
-  FixedBmp := Graphics.TBitmap.Create;
-  try
-    if Assigned(Bmp) and (Bmp.Width > 0) then
-    begin
-      FixedBmp.SetSize(16, 16);
-
-      // White background
-      FixedBmp.Canvas.Brush.Color := clWhite;
-      FixedBmp.Canvas.FillRect(0, 0, 16, 16);
-
-      // Draw image
-      FixedBmp.Canvas.Draw(0, 0, Bmp);
-
-      Result := AList.AddMasked(FixedBmp, clWhite);
-    end;
-  finally
-    Bmp.Free;
-    FixedBmp.Free;
-  end;
 end;
 
 { Tray Icon }
@@ -1038,26 +689,6 @@ begin
   finally
     TempIntfImg.Free;
   end;
-end;
-
-{Win version}
-
-function IsWindows7: boolean;
-begin
-  {$IFDEF WINDOWS}
-  Result := (Win32MajorVersion = 6) and (Win32MinorVersion = 1);
-  {$ELSE}
-  Result := False;
-  {$ENDIF}
-end;
-
-function IsWindows11: boolean;
-begin
-  {$IFDEF WINDOWS}
-  Result := (Win32MajorVersion >= 10) and (Win32BuildNumber >= 22000);
-  {$ELSE}
-  Result := False;
-  {$ENDIF}
 end;
 
 end.

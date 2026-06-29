@@ -47,7 +47,7 @@ var
 
 implementation
 
-uses mainform, systemtool, checkupdates;
+uses mainform, systemtool, checkupdates, localize;
 
   {$R *.lfm}
 
@@ -55,7 +55,7 @@ uses mainform, systemtool, checkupdates;
 
 procedure TformAboutTrayslate.FormCreate(Sender: TObject);
 begin
-  ApplicationTranslate(language, self, formTrayslate.LoadCustomPoFile(formTrayslate.CustomPoFile));
+  TLocalize.ApplicationTranslate(language, self, TLocalize.LoadCustomPoFile(formTrayslate.CustomPoFile));
 
   MemoAbout.Text := LblAbout.Caption;
   labelName.Caption := 'Trayslate © ' + GetAppVersion;

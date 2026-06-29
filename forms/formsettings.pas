@@ -333,7 +333,7 @@ resourcestring
 
 implementation
 
-uses mainform, formattool, formpopup, languages, translate;
+uses mainform, formattool, formpopup, languages, translate, localize;
 
   {$R *.lfm}
 
@@ -346,7 +346,7 @@ var
   i: integer;
   List: TStringList;
 begin
-  ApplicationTranslate(language, self, formTrayslate.LoadCustomPoFile(formTrayslate.CustomPoFile));
+  TLocalize.ApplicationTranslate(language, self, TLocalize.LoadCustomPoFile(formTrayslate.CustomPoFile));
 
   PanelPages.BevelColor := ThemeColor(ColorBevel, ColorBevelDark);
   PagesSettings.PageIndex := 0;

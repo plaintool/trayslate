@@ -55,7 +55,7 @@ const
 
 implementation
 
-uses mainform, systemtool;
+uses mainform, systemtool, localize;
 
   {$R *.lfm}
 
@@ -68,7 +68,7 @@ var
 {$ENDIF}
 begin
   // Apply localization
-  ApplicationTranslate(language, self, formTrayslate.LoadCustomPoFile(formTrayslate.CustomPoFile));
+  TLocalize.ApplicationTranslate(language, self, TLocalize.LoadCustomPoFile(formTrayslate.CustomPoFile));
 
   // Set the appropriate icon based on the theme
   ImageTranslate.ImageIndex := ThemeValue(2, 3);

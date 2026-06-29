@@ -84,7 +84,7 @@ var
 
 implementation
 
-uses mainform, systemtool;
+uses mainform, localize, systemtool;
 
   {$R *.lfm}
 
@@ -92,7 +92,7 @@ uses mainform, systemtool;
 
 procedure TformPopupTrayslate.FormCreate(Sender: TObject);
 begin
-  ApplicationTranslate(language, self, formTrayslate.LoadCustomPoFile(formTrayslate.CustomPoFile));
+  TLocalize.ApplicationTranslate(language, self, TLocalize.LoadCustomPoFile(formTrayslate.CustomPoFile));
 
   FDropTarget := TTextDropTarget.Create(Self);
   FDropTarget.Target := MemoTarget;

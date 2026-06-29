@@ -127,6 +127,41 @@
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
+        <Filename Value="common\udarkstyle.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uDarkStyle"/>
+      </Unit>
+      <Unit>
+        <Filename Value="common\uimport.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uImport"/>
+      </Unit>
+      <Unit>
+        <Filename Value="common\uwin32widgetsetdark.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWin32WidgetSetDark"/>
+      </Unit>
+      <Unit>
+        <Filename Value="common\globalkeyboardhook.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="GlobalKeyboardHook"/>
+      </Unit>
+      <Unit>
+        <Filename Value="common\globalmousehook.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="GlobalMouseHook"/>
+      </Unit>
+      <Unit>
+        <Filename Value="common\textdroptarget.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="TextDropTarget"/>
+      </Unit>
+      <Unit>
+        <Filename Value="common\oneshottimer.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="OneShotTimer"/>
+      </Unit>
+      <Unit>
         <Filename Value="forms\mainform.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="formTrayslate"/>
@@ -148,6 +183,20 @@
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
+        <Filename Value="forms\formpopup.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="formPopupTrayslate"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="forms\formbutton.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="formButtonTrayslate"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
         <Filename Value="forms\formdonate.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="formDonateTrayslate"/>
@@ -162,11 +211,11 @@
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
-        <Filename Value="units\settings.pas"/>
+        <Filename Value="units\consts.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="units\hotkeyhelper.pas"/>
+        <Filename Value="units\settings.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
@@ -186,48 +235,28 @@
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="common\udarkstyle.pas"/>
+        <Filename Value="units\network.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uDarkStyle"/>
       </Unit>
       <Unit>
-        <Filename Value="common\uimport.pas"/>
+        <Filename Value="units\localize.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uImport"/>
       </Unit>
       <Unit>
-        <Filename Value="common\uwin32widgetsetdark.pas"/>
+        <Filename Value="units\checkupdates.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uWin32WidgetSetDark"/>
       </Unit>
       <Unit>
-        <Filename Value="forms\formpopup.pas"/>
+        <Filename Value="units\base64utils.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="formPopupTrayslate"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
-        <Filename Value="common\globalmousehook.pas"/>
+        <Filename Value="units\hotkeyhelper.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="GlobalMouseHook"/>
       </Unit>
       <Unit>
-        <Filename Value="common\textdroptarget.pas"/>
+        <Filename Value="units\stringhelper.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="TextDropTarget"/>
-      </Unit>
-      <Unit>
-        <Filename Value="forms\formbutton.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="formButtonTrayslate"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit>
-      <Unit>
-        <Filename Value="common\globalkeyboardhook.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="GlobalKeyboardHook"/>
       </Unit>
       <Unit>
         <Filename Value="units\stringshelper.pas"/>
@@ -235,15 +264,6 @@
       </Unit>
       <Unit>
         <Filename Value="units\clipboardhelper.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
-        <Filename Value="common\oneshottimer.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="OneShotTimer"/>
-      </Unit>
-      <Unit>
-        <Filename Value="units\stringhelper.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
@@ -260,18 +280,6 @@
       </Unit>
       <Unit>
         <Filename Value="units\units_data.inc"/>
-        <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
-        <Filename Value="units\network.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
-        <Filename Value="units\checkupdates.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
-        <Filename Value="units\consts.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
     </Units>

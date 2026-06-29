@@ -19,10 +19,10 @@ uses
   openssl,
   opensslsockets,
   mainform,
-  systemtool
+  localize
   {$IFDEF WINDOWS}
   ,uDarkStyle
-  ,uWin32WidgetSetDark, checkupdates, consts
+  ,uWin32WidgetSetDark
   {$ENDIF}
   ;
 
@@ -33,7 +33,7 @@ begin
   GlobalSkipIfNoLeaks := True;
   {$ENDIF}
   RequireDerivedFormResource := True;
-  Language := GetOSLanguage;
+  Language := TLocalize.GetOSLanguage;
   Application.Title := 'Trayslate';
   Application.Scaled := True;
   Application.Initialize;
@@ -43,6 +43,6 @@ begin
   {$ENDIF}
   Application.ShowMainForm := False;
   Application.CreateForm(TformTrayslate, formTrayslate);
-  ApplicationTranslate(Language, nil, formTrayslate.LoadCustomPoFile(formTrayslate.CustomPoFile));
+  TLocalize.ApplicationTranslate(Language, nil, TLocalize.LoadCustomPoFile(formTrayslate.CustomPoFile));
   Application.Run;
 end.

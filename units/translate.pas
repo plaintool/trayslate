@@ -25,8 +25,7 @@ uses
   IniFiles,
   fpjson,
   jsonparser,
-  network,
-  systemtool;
+  network;
 
 type
   { TValueType}
@@ -189,7 +188,7 @@ const
 
 implementation
 
-uses mainform, formattool, settings, stringshelper, stringhelper;
+uses mainform, formattool, settings, stringshelper, stringhelper, localize;
 
   {%Region -fold TTranslate }
 

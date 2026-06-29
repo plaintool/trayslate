@@ -41,7 +41,7 @@ uses
   globalmousehook,
   translate,
   network,
-  consts,
+  Consts,
   systemtool,
   stringhelper,
   hotkeyhelper,
@@ -502,8 +502,6 @@ type
     procedure ClosePopupAsync(Data: PtrInt);
     procedure ShowButton(const SourceText: string; X: integer = 0; Y: integer = 0);
     procedure SetVerticalMode;
-    function GetLangCodeFromPoFile(const AFileName: string): string;
-    function LoadCustomPoFile(const AFileName: string): string;
 
     function TranslateThread(ATrans: TTranslate; AText: string; AMemo: TMemo = nil): string;
     procedure ThreadDone(Sender: TObject);
@@ -610,7 +608,8 @@ var
 
 implementation
 
-uses formdonate, formabout, formsettings, formconfig, formpopup, formbutton, settings, languages, formattool, checkupdates;
+uses formdonate, formabout, formsettings, formconfig, formpopup, formbutton, settings, languages, formattool,
+  checkupdates, base64utils, localize;
 
   {$R *.lfm}
 
@@ -2311,7 +2310,7 @@ begin
   FAutoSwap := False;
   FSmartSwap := False;
   FSmartHard := False;
-  FPrimaryLang := GetOSLanguage;
+  FPrimaryLang := TLocalize.GetOSLanguage;
   FSecondaryLang := DEFAULT_LANG;
   FEnableMouseMode := False;
   FMouseModeCtrl := False;
@@ -2451,7 +2450,7 @@ begin
           Data^.Visible := Ini.ReadBool('Service', 'Visible', True);
           Data^.Order := Ini.ReadInteger('Service', 'Order', 0);
 
-          Data^.ImageIndex := AddBase64ToImageList(Ini.ReadString('Service', 'Icon', string.Empty), ImageConfig);
+          Data^.ImageIndex := TBase64.AddBase64ToImageList(Ini.ReadString('Service', 'Icon', string.Empty), ImageConfig);
         finally
           Ini.Free;
         end;
@@ -4280,22 +4279,22 @@ begin
 
   if FCustomPoFile <> string.Empty then
   begin
-    PoText := LoadCustomPoFile(FCustomPoFile);
+    PoText := TLocalize.LoadCustomPoFile(FCustomPoFile);
     if PoText = string.Empty then
     begin
       FCustomPoFile := string.Empty;
-      LangCode := GetOSLanguage;
+      LangCode := TLocalize.GetOSLanguage;
     end
     else
-      LangCode := GetLangCodeFromPoFile(FCustomPoFile);
+      LangCode := TLocalize.GetLangCodeFromPoFile(FCustomPoFile);
   end;
 
   if (LangCode <> string.Empty) then
   begin
     OldAutoDetect := ifthen(FLanguages.Any(rautodetect), rautodetect, AutoDetect);
     Language := LangCode;
-    ApplicationTranslate(DEFAULT_LANG);
-    if not ApplicationTranslate(Language, nil, PoText) then
+    TLocalize.ApplicationTranslate(DEFAULT_LANG);
+    if not TLocalize.ApplicationTranslate(Language, nil, PoText) then
       Language := DEFAULT_LANG;
   end;
 
@@ -4342,63 +4341,6 @@ begin
   end
   else
     aLangCustom.Checked := True;
-end;
-
-function TformTrayslate.GetLangCodeFromPoFile(const AFileName: string): string;
-var
-  BaseName: string;
-  ExtPos: integer;
-  c1, c2: char;
-begin
-  Result := DEFAULT_LANG;
-
-  if AFileName = string.Empty then
-    Exit;
-
-  BaseName := ExtractFileName(AFileName);
-
-  // Find ".po"
-  ExtPos := Pos('.po', LowerCase(BaseName));
-  if ExtPos = 0 then
-    Exit;
-
-  BaseName := Copy(BaseName, 1, ExtPos - 1);
-
-  if Length(BaseName) < 2 then
-    Exit;
-
-  // Take last 2 chars
-  c1 := BaseName[Length(BaseName) - 1];
-  c2 := BaseName[Length(BaseName)];
-
-  // Check if both are latin letters
-  if (c1 in ['a'..'z', 'A'..'Z']) and (c2 in ['a'..'z', 'A'..'Z']) then
-    Result := LowerCase(c1 + c2)
-  else
-    Result := DEFAULT_LANG;
-end;
-
-function TformTrayslate.LoadCustomPoFile(const AFileName: string): string;
-var
-  FileContent: TStringList;
-begin
-  Result := string.Empty;
-
-  if AFileName = string.Empty then
-    Exit;
-
-  FileContent := TStringList.Create;
-  try
-    try
-      FileContent.LoadFromFile(AFileName); // Unicode-safe
-      Result := FileContent.Text;
-    except
-      // On any error return empty string
-      Result := string.Empty;
-    end;
-  finally
-    FileContent.Free;
-  end;
 end;
 
 procedure TformTrayslate.aLangCustomExecute(Sender: TObject);

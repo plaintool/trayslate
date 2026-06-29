@@ -188,7 +188,7 @@ resourcestring
 
 implementation
 
-uses mainform, translate, settings, formattool, languages, systemtool, network, stringhelper;
+uses mainform, translate, settings, formattool, languages, systemtool, network, stringhelper, base64utils, localize;
 
   {$R *.lfm}
 
@@ -196,7 +196,7 @@ uses mainform, translate, settings, formattool, languages, systemtool, network, 
 
 procedure TformConfigTrayslate.FormCreate(Sender: TObject);
 begin
-  ApplicationTranslate(language, self, formTrayslate.LoadCustomPoFile(formTrayslate.CustomPoFile));
+  TLocalize.ApplicationTranslate(language, self, TLocalize.LoadCustomPoFile(formTrayslate.CustomPoFile));
 
   Pages.PageIndex := 0;
   BtnClose.Cancel := True;
@@ -388,7 +388,7 @@ procedure TformConfigTrayslate.ImagePreviewClick(Sender: TObject);
 begin
   if DialogOpen.Execute then
   begin
-    FIconBase64 := LoadImageFileToBase64(DialogOpen.FileName);
+    FIconBase64 := TBase64.LoadImageFileToBase64(DialogOpen.FileName);
     UpdateIconPreview;
     ValueChange(Self);
   end;
@@ -456,7 +456,7 @@ procedure TformConfigTrayslate.UpdateIconPreview;
 var
   Bmp: TBitmap;
 begin
-  Bmp := Base64ToBitmap(FIconBase64);
+  Bmp := TBase64.Base64ToBitmap(FIconBase64);
   if Assigned(Bmp) then
   begin
     try
