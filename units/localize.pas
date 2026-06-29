@@ -19,7 +19,14 @@ uses
   DefaultTranslator,
   Translations,
   LResources,
-  LCLTranslator;
+  LCLTranslator,
+  {$IFDEF WINDOWS}
+  Windows
+  {$ENDIF}
+  {$IFDEF LCLCarbon}
+  MacOSAll
+  {$ENDIF}
+  ;
 
 type
   { TLocalize }
@@ -50,16 +57,7 @@ var
 
 implementation
 
-uses
-  {$IFDEF WINDOWS}
-  Windows,
-  {$ENDIF}
-  {$IFDEF LCLCarbon}
-  MacOSAll,
-  {$ENDIF}
-  LCLProc;
-
-  { TLocalize }
+{ TLocalize }
 
 class function TLocalize.GetOSLanguage: string;
 var

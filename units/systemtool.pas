@@ -28,7 +28,6 @@ uses
   {$IFDEF WINDOWS}
   Windows,
   Registry,
-  uDarkStyle,
   {$ENDIF}
   {$IFDEF Linux}
   Unix,
@@ -42,18 +41,6 @@ uses
   {$ENDIF}
   fpjson,
   jsonparser;
-
-function ThemeColor(LightColor, DarkColor: TColor): TColor;
-
-function ThemeValue(LightValue, DarkValue: integer): integer;
-
-function IsDarkMode: boolean;
-
-{$IFDEF WINDOWS}
-
-function IsTaskbarDark: boolean;
-
-{$ENDIF}
 
 function SetCursorTo(Control: TControl; const ResName: string; CursorIndex: integer = 1001): boolean;
 
@@ -88,69 +75,6 @@ const
   DEF_AUTO = '*';
 
 implementation
-
-function ThemeColor(LightColor, DarkColor: TColor): TColor;
-begin
-  {$IFDEF WINDOWS}
-  if g_darkModeEnabled then
-    Result := DarkColor
-  else
-    Result := LightColor;
-  {$ELSE}
-  Result := LightColor;
-  {$ENDIF}
-end;
-
-function ThemeValue(LightValue, DarkValue: integer): integer;
-begin
-  {$IFDEF WINDOWS}
-  if g_darkModeEnabled then
-    Result := DarkValue
-  else
-    Result := LightValue;
-  {$ELSE}
-  Result := LightValue;
-  {$ENDIF}
-end;
-
-function IsDarkMode: boolean;
-begin
-  {$IFDEF WINDOWS}
-    Result := g_darkModeEnabled;
-  {$ELSE}
-  Result := False;
-  {$ENDIF}
-end;
-
-{$IFDEF WINDOWS}
-
-function IsTaskbarDark: boolean;
-var
-  Reg: TRegistry;
-begin
-  // Default to dark mode, as it is the standard for Windows 10 and 11
-  Result := True;
-  Reg := TRegistry.Create(KEY_READ);
-  try
-    Reg.RootKey := HKEY_CURRENT_USER;
-    // Open the registry key where theme personalization settings are stored
-    if Reg.OpenKeyReadOnly('Software\Microsoft\Windows\CurrentVersion\Themes\Personalize') then
-    begin
-      if Reg.ValueExists('SystemUsesLightTheme') then
-      begin
-        // SystemUsesLightTheme = 0 means the taskbar is DARK
-        // SystemUsesLightTheme = 1 means it is LIGHT
-        // We return True if it is dark (0)
-        Result := Reg.ReadInteger('SystemUsesLightTheme') = 0;
-      end;
-      Reg.CloseKey;
-    end;
-  finally
-    Reg.Free;
-  end;
-end;
-
-{$ENDIF}
 
 function SetCursorTo(Control: TControl; const ResName: string; CursorIndex: integer = 1001): boolean;
 var

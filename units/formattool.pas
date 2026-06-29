@@ -25,12 +25,6 @@ uses
   LazUTF8,
   fpjson;
 
-function ColorToHtml(AColor: TColor): string;
-
-function InvertColor(Color: TColor): TColor;
-
-function DarkThemeColor(BaseColor: TColor; Delta: integer = 60): TColor;
-
 function GetTimestampNow: int64;
 
 function GetRandomID(ALength: integer): int64;
@@ -46,59 +40,6 @@ procedure FillFontCombo(ACombo: TComboBox);
 procedure AddCustomColors(AColorBox: TColorBox);
 
 implementation
-
-function ColorToHtml(AColor: TColor): string;
-var
-  C: TColor;
-begin
-  // Convert to pure RGB value
-  C := ColorToRGB(AColor);
-
-  // Format as #RRGGBB
-  Result := Format('#%.2x%.2x%.2x', [Red(C), Green(C), Blue(C)]);
-end;
-
-function InvertColor(Color: TColor): TColor;
-begin
-  Result := RGB(255 - GetRValue(ColorToRGB(Color)), 255 - GetGValue(ColorToRGB(Color)), 255 - GetBValue(ColorToRGB(Color)));
-end;
-
-function DarkThemeColor(BaseColor: TColor; Delta: integer = 60): TColor;
-var
-  R, G, B: byte;
-  Bright: double;
-  Factor: double;
-begin
-  R := GetRValue(BaseColor);
-  G := GetGValue(BaseColor);
-  B := GetBValue(BaseColor);
-
-  // Perceptual brightness (Luma) calculation
-  Bright := (0.299 * R + 0.587 * G + 0.114 * B);
-
-  // If the color is already bright enough (threshold 150), return original
-  if Bright > 150 then
-  begin
-    Result := BaseColor;
-    Exit;
-  end;
-
-  // Convert Delta (1..100) to a scale factor (0.0..1.0)
-  // 1 = almost no change, 100 = full white
-  Factor := Delta / 100.0;
-
-  // Clamp factor for safety
-  if Factor < 0 then Factor := 0;
-  if Factor > 1 then Factor := 1;
-
-  // Linear interpolation towards white (Tinting)
-  // This formula ensures that even 0 values (like in clBlue) become brighter
-  R := R + Round((255 - R) * Factor);
-  G := G + Round((255 - G) * Factor);
-  B := B + Round((255 - B) * Factor);
-
-  Result := RGB(R, G, B);
-end;
 
 function GetTimestampNow: int64;
 begin

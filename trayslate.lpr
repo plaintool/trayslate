@@ -19,7 +19,7 @@ uses
   openssl,
   opensslsockets,
   mainform,
-  localize
+  localize, colorhelper
   {$IFDEF WINDOWS}
   ,uDarkStyle
   ,uWin32WidgetSetDark

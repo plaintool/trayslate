@@ -30,8 +30,7 @@ uses
   LCLType,
   LCLIntf,
   hotkeyhelper,
-  network,
-  systemtool;
+  network;
 
 type
 
@@ -333,7 +332,7 @@ resourcestring
 
 implementation
 
-uses mainform, formattool, formpopup, languages, translate, localize;
+uses mainform, formattool, formpopup, languages, translate, localize, colorhelper;
 
   {$R *.lfm}
 
@@ -348,7 +347,7 @@ var
 begin
   TLocalize.ApplicationTranslate(language, self, TLocalize.LoadCustomPoFile(formTrayslate.CustomPoFile));
 
-  PanelPages.BevelColor := ThemeColor(ColorBevel, ColorBevelDark);
+  PanelPages.BevelColor := TColor.ThemeColor(ColorBevel, ColorBevelDark);
   PagesSettings.PageIndex := 0;
   BtnCancel.Cancel := True;
   BtnReset.Enabled := True;

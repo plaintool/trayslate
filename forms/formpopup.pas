@@ -84,7 +84,7 @@ var
 
 implementation
 
-uses mainform, localize, systemtool;
+uses mainform, localize, colorhelper;
 
   {$R *.lfm}
 
@@ -102,10 +102,10 @@ begin
   FDropTarget.InsertText := False;
   FDropTarget.OnTextDropped := @OnTextDroppedHandler;
 
-  aNewTranslate.ImageIndex := ThemeValue(8, 9);
-  aSend.ImageIndex := ThemeValue(14, 15);
-  aCopyTarget.ImageIndex := ThemeValue(10, 11);
-  SbCopyTarget.PressedImageIndex := ThemeValue(12, 13);
+  aNewTranslate.ImageIndex := TColor.ThemeValue(8, 9);
+  aSend.ImageIndex := TColor.ThemeValue(14, 15);
+  aCopyTarget.ImageIndex := TColor.ThemeValue(10, 11);
+  SbCopyTarget.PressedImageIndex := TColor.ThemeValue(12, 13);
 
   UpdateWatermarkVisibility;
 end;

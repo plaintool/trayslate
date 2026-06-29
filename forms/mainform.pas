@@ -609,7 +609,7 @@ var
 implementation
 
 uses formdonate, formabout, formsettings, formconfig, formpopup, formbutton, settings, languages, formattool,
-  checkupdates, base64utils, localize;
+  checkupdates, base64utils, localize, colorhelper;
 
   {$R *.lfm}
 
@@ -663,15 +663,15 @@ begin
   Left := Screen.WorkAreaRect.Right - Width - 30;
   Top := Screen.WorkAreaRect.Bottom - Height - 50;
 
-  aNewTranslate.ImageIndex := ThemeValue(8, 9);
-  aSwap.ImageIndex := ThemeValue(0, 1);
-  aTranslate.ImageIndex := ThemeValue(2, 3);
-  aAddPair.ImageIndex := ThemeValue(4, 5);
-  aMenu.ImageIndex := ThemeValue(6, 7);
-  aCopySource.ImageIndex := ThemeValue(10, 11);
-  aCopyTarget.ImageIndex := ThemeValue(10, 11);
-  SbCopySource.PressedImageIndex := ThemeValue(12, 13);
-  SbCopyTarget.PressedImageIndex := ThemeValue(12, 13);
+  aNewTranslate.ImageIndex := TColor.ThemeValue(8, 9);
+  aSwap.ImageIndex := TColor.ThemeValue(0, 1);
+  aTranslate.ImageIndex := TColor.ThemeValue(2, 3);
+  aAddPair.ImageIndex := TColor.ThemeValue(4, 5);
+  aMenu.ImageIndex := TColor.ThemeValue(6, 7);
+  aCopySource.ImageIndex := TColor.ThemeValue(10, 11);
+  aCopyTarget.ImageIndex := TColor.ThemeValue(10, 11);
+  SbCopySource.PressedImageIndex := TColor.ThemeValue(12, 13);
+  SbCopyTarget.PressedImageIndex := TColor.ThemeValue(12, 13);
   FLeftButton := True;
 
   FTrans := TTranslate.Create;
@@ -688,7 +688,7 @@ begin
   MemoSource.SelStart := Length(MemoSource.Text);
   MemoSource.SelLength := 0;
 
-  if FLastDarkMode <> IsDarkMode then
+  if FLastDarkMode <> TColor.IsDarkMode then
   begin
     Font.Color := InvertColor(Font.Color);
     FontPopup.Color := InvertColor(FontPopup.Color);
@@ -2292,7 +2292,7 @@ begin
   else
     FIconBackgroundColor := clNone;
   {$IFDEF WINDOWS}
-  if IsTaskbarDark then
+  if TColor.IsTaskbarDark then
     FIconFontColor := clWhite
   else
     FIconFontColor := clBlack;
@@ -2602,7 +2602,7 @@ procedure TformTrayslate.RebuildLangPairsPanel(Data: PtrInt);
 
         if not TryStrToInt(FConfigColors.Values[FLangPairs.Names[i]], ColorRecent) then
           ColorRecent := clBlue;
-        lbl.Font.Color := ThemeColor(ColorRecent, DarkThemeColor(ColorRecent));
+        lbl.Font.Color := TColor.ThemeColor(ColorRecent, ColorRecent.ToDarkTheme);
 
         // Events only on label
         lbl.OnMouseEnter := @LabelMouseEnter;

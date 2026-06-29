@@ -188,7 +188,7 @@ resourcestring
 
 implementation
 
-uses mainform, translate, settings, formattool, languages, systemtool, network, stringhelper, base64utils, localize;
+uses mainform, translate, settings, formattool, languages, network, stringhelper, base64utils, localize, colorhelper;
 
   {$R *.lfm}
 
@@ -200,7 +200,7 @@ begin
 
   Pages.PageIndex := 0;
   BtnClose.Cancel := True;
-  LabelFillLanguages.Font.Color := ThemeColor(clBlue, clSkyBlue);
+  LabelFillLanguages.Font.Color := TColor.ThemeColor(clBlue, clSkyBlue);
   AddCustomColors(ColorServiceColorRecent);
 
   ComboValueType.Items.Clear;
