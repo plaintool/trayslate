@@ -34,8 +34,8 @@ begin
   {$ENDIF}
   RequireDerivedFormResource := True;
   Language := TLocalize.GetOSLanguage;
-  Application.Title := 'Trayslate';
-  Application.Scaled := True;
+  Application.Title:='Trayslate';
+  Application.Scaled:=True;
   Application.Initialize;
   InitSSLInterface;
   {$IFDEF WINDOWS}
