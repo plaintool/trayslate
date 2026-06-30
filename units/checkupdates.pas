@@ -34,14 +34,22 @@ uses
 type
   TCheckUpdateThread = class(TThread)
   private
+    FRepo: string;       // GitHub repository (e.g. 'user/repo')
+    FAppName: string;    // Application name for dialog captions
     FLatestVersion: string;
   protected
     procedure Execute; override;
     procedure UpdateAvailable;
+  public
+    // Pass all required parameters through the constructor
+    constructor Create(const ARepo, AAppName: string; CreateSuspended: Boolean = True);
   end;
 
 { Check Github Version }
-function CheckGithubLatestVersion(out Version: string; const Repo: string; const Silent: boolean = False): boolean;
+// Added AppName parameter to avoid global 'rappname' dependency.
+// When Silent = True, AppName is not used and can be empty.
+function CheckGithubLatestVersion(out Version: string; const Repo: string;
+  const AppName: string; const Silent: boolean = False): boolean;
 
 function GetAppVersion: string;
 
@@ -52,13 +60,20 @@ resourcestring
 
 implementation
 
-uses consts;
-
 {%Region -fold CheckUpdateThread}
+
+constructor TCheckUpdateThread.Create(const ARepo, AAppName: string; CreateSuspended: Boolean);
+begin
+  inherited Create(CreateSuspended);
+  FRepo := ARepo;
+  FAppName := AAppName;
+  FreeOnTerminate := True;   // optional, as before
+end;
 
 procedure TCheckUpdateThread.Execute;
 begin
-  if CheckGithubLatestVersion(FLatestVersion, REPO, True) then
+  // Use fields instead of global REPO
+  if CheckGithubLatestVersion(FLatestVersion, FRepo, '', True) then
   begin
     Synchronize(@UpdateAvailable);
   end;
@@ -66,15 +81,17 @@ end;
 
 procedure TCheckUpdateThread.UpdateAvailable;
 begin
-  if MessageDlg(rappname, Format(newversion, [FLatestVersion]), mtConfirmation, [mbYes, mbNo], 0) = mrYes then
-    OpenURL(Format('https://github.com/%s/releases/latest', [REPO]));
+  // Use fields instead of global rappname and REPO
+  if MessageDlg(FAppName, Format(newversion, [FLatestVersion]), mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+    OpenURL(Format('https://github.com/%s/releases/latest', [FRepo]));
 end;
 
 {%EndRegion}
 
 {%Region -fold Check Github Version}
 
-function CheckGithubLatestVersion(out Version: string; const Repo: string; const Silent: boolean = False): boolean;
+function CheckGithubLatestVersion(out Version: string; const Repo: string;
+  const AppName: string; const Silent: boolean = False): boolean;
 var
   JsonData: TJSONData;
   LatestVersion, Msg: string;
@@ -127,22 +144,16 @@ var
     try
       HttpClient := TFPHTTPClient.Create(nil);
       try
-        // Set request headers and options
         HttpClient.AddHeader('User-Agent', 'TrayslateVersionChecker');
         HttpClient.AllowRedirect := True;
-
-        // Set connection and IO timeouts in milliseconds
         HttpClient.ConnectTimeout := 5000;
         HttpClient.IOTimeout := 5000;
-
-        // Execute the GET request
-        // Exceptions are handled by the caller
         Result := HttpClient.Get(AUrl);
       finally
         HttpClient.Free;
       end;
     except
-      Result:=string.Empty;
+      Result := string.Empty;
     end;
   end;
 
@@ -360,7 +371,8 @@ begin
           if not Silent then
           begin
             Msg := Format(newversion, [LatestVersion]);
-            if MessageDlg(rappname, Msg, mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+            // Use the passed AppName instead of global rappname
+            if MessageDlg(AppName, Msg, mtConfirmation, [mbYes, mbNo], 0) = mrYes then
               OpenURL(Format('https://github.com/%s/releases/latest', [Repo]));
           end;
           Result := True;

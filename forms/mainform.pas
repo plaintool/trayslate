@@ -1496,7 +1496,7 @@ procedure TformTrayslate.aCheckForUpdatesExecute(Sender: TObject);
 var
   LatestVersion: string;
 begin
-  CheckGithubLatestVersion(LatestVersion, REPO);
+  CheckGithubLatestVersion(LatestVersion, REPO, rappname);
   FUpdatesChecked := True;
 end;
 
@@ -2977,7 +2977,7 @@ procedure TformTrayslate.DoCheckUpdates(Data: PtrInt);
 var
   Th: TCheckUpdateThread;
 begin
-  Th := TCheckUpdateThread.Create(False);
+  Th := TCheckUpdateThread.Create(REPO, rappname, False);
   Th.FreeOnTerminate := True;
 end;
 
