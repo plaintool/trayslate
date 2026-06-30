@@ -27,6 +27,13 @@ if not exist "%LAZARUS_DIR%\lazbuild.exe" (
 
 SET "LAZBUILD=%LAZARUS_DIR%\lazbuild.exe"
 
+:: Updating and building dependencies
+call "%~dp0dependencies.cmd"
+if %ERRORLEVEL% neq 0 (
+    echo Dependency build failed!
+    exit /b %ERRORLEVEL%
+)
+
 echo Building project: %PROJECT_PATH%
 "%LAZBUILD%" %PROJECT_PATH% --build-mode=%BUILD_MODE%
 

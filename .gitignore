@@ -7,7 +7,7 @@
 *.mo
 *.tar.gz
 *.zip
-/lib
+**/lib/
 /installer/*.wixobj
 /installer/*.wixpdb
 /installer/*.pfx
