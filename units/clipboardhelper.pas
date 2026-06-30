@@ -58,7 +58,7 @@ type
 
 implementation
 
-uses systemtool;
+uses osutils;
 
 {$IFDEF WINDOWS}
 var
@@ -208,8 +208,8 @@ function TClipboardHelper.GetTextExcludedWait: string;
 begin
   Result := string.Empty;
   {$IFDEF WINDOWS}
-  Start := GetTickCountXp;
-  while GetTickCountXp - Start < TimeoutMs do
+  Start := TOS.GetTickCountXp;
+  while TOS.GetTickCountXp - Start < TimeoutMs do
   begin
     // Check if text is available using standard TClipboard
     if Clipboard.HasFormat(CF_UNICODETEXT) then

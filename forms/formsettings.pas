@@ -332,7 +332,7 @@ resourcestring
 
 implementation
 
-uses mainform, formattool, formpopup, languages, translate, localize, colorhelper;
+uses mainform, formpopup, languages, translate, localize, colorhelper, controlshelper;
 
   {$R *.lfm}
 
@@ -371,9 +371,9 @@ begin
 
   FOriginalUserParameters := TStringList.Create;
 
-  AddCustomColors(ColorIconBackground);
-  AddCustomColors(ColorIconFont);
-  FillFontCombo(ComboIconFontName);
+  ColorIconBackground.AddCustomColors;
+  ColorIconFont.AddCustomColors;
+  ComboIconFontName.FillFontCombo;
   Reset;
   FillListPages;
   FillGridHotkeys;

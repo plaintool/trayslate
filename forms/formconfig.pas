@@ -188,7 +188,7 @@ resourcestring
 
 implementation
 
-uses mainform, translate, settings, formattool, languages, network, stringhelper, base64utils, localize, colorhelper;
+uses mainform, translate, settings, languages, network, stringhelper, base64utils, localize, colorhelper, controlshelper;
 
   {$R *.lfm}
 
@@ -201,7 +201,7 @@ begin
   Pages.PageIndex := 0;
   BtnClose.Cancel := True;
   LabelFillLanguages.Font.Color := TColor.ThemeColor(clBlue, clSkyBlue);
-  AddCustomColors(ColorServiceColorRecent);
+  ColorServiceColorRecent.AddCustomColors;
 
   ComboValueType.Items.Clear;
   ComboValueType.Items.Add(rvaluetype1);
@@ -428,7 +428,7 @@ procedure TformConfigTrayslate.MemoKeyDown(Sender: TObject; var Key: word; Shift
 begin
   if (ssCtrl in Shift) and (Key = VK_V) then // Ctrl + V
   begin
-    PasteWithLineEnding(Sender as TMemo);
+    (Sender as TMemo).PasteWithLineEnding;
     Key := 0;
   end;
 end;
@@ -644,10 +644,10 @@ begin
     MemoJsonPointer.Text := JsonPointer;
 
     MemoLanguages.Lines.Assign(Languages);
-    RemoveSameNameValueFromMemo(MemoLanguages);
+    MemoLanguages.RemoveSameNameValueFromMemo;
 
     MemoLanguagesTarget.Lines.Assign(LanguagesTarget);
-    RemoveSameNameValueFromMemo(MemoLanguagesTarget);
+    MemoLanguagesTarget.RemoveSameNameValueFromMemo;
 
     ComboValueType.ItemIndex := Ord(ValueType);
     EditInitUserAgent.Text := InitUserAgent;
@@ -770,7 +770,7 @@ begin
       EncodeText := CheckEncodeText.Checked;
       MaxLength := SpinMaxLength.Value;
 
-      TempHeaders := HeadersFromMemo(MemoHeaders);
+      TempHeaders := MemoHeaders.HeadersFromMemo;
       try
         Headers.Text := TempHeaders.Text;
       finally
@@ -789,7 +789,7 @@ begin
       CustomParameters.Text := MemoCustomParameters.Text;
       InitUserAgent := EditInitUserAgent.Text;
 
-      TempHeaders := HeadersFromMemo(MemoInitHeaders);
+      TempHeaders := MemoInitHeaders.HeadersFromMemo;
       try
         InitHeaders.Text := TempHeaders.Text;
       finally

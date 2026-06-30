@@ -188,7 +188,7 @@ const
 
 implementation
 
-uses mainform, formattool, settings, stringshelper, stringhelper, localize;
+uses mainform, settings, stringshelper, stringhelper, localize, osutils;
 
   {%Region -fold TTranslate }
 
@@ -352,10 +352,10 @@ begin
   FParameterValues.Values['target'] := FLangTarget;
 
   // TimeStamp
-  FParameterValues.Values['timestamp'] := GetTimestampNow.ToString;
+  FParameterValues.Values['timestamp'] := TOS.GetTimestampNow.ToString;
 
   // Random
-  FullRandom := GetRandomID(9);
+  FullRandom := TOS.GetRandomID(9);
   FParameterValues.Values['random'] := FullRandom.ToString;
   FParameterValues.Values['rand'] := FullRandom.ToString;
   for i := 1 to Length(FullRandom.ToString) do
@@ -506,8 +506,8 @@ begin
       TempHeaders.Assign(Headers);
       SetParametersList(TempHeaders);
     end;
-    responseBody := TNetwork.WebRequest(wmGet, TempUrl, string.Empty, TempHeaders, FUserAgent, FContentType, FAccept,
-      FServiceProxy, FProxy, FTimeout, responseHeaders, Error);
+    responseBody := TNetwork.WebRequest(wmGet, TempUrl, string.Empty, TempHeaders, FUserAgent, FContentType,
+      FAccept, FServiceProxy, FProxy, FTimeout, responseHeaders, Error);
     try
       if Error then Exit(responseBody);
 
@@ -569,8 +569,8 @@ begin
       TempHeaders.Assign(Headers);
       SetParametersList(TempHeaders);
     end;
-    responseBody := TNetwork.WebRequest(wmPost, TempUrl, TempData, TempHeaders, FUserAgent, FContentType, FAccept,
-      FServiceProxy, FProxy, FTimeout, responseHeaders, Error);
+    responseBody := TNetwork.WebRequest(wmPost, TempUrl, TempData, TempHeaders, FUserAgent, FContentType,
+      FAccept, FServiceProxy, FProxy, FTimeout, responseHeaders, Error);
     try
       if Error then Exit(responseBody);
 

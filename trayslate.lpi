@@ -213,17 +213,18 @@
       <Unit>
         <Filename Value="units\consts.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="Consts"/>
       </Unit>
       <Unit>
         <Filename Value="units\settings.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="units\formattool.pas"/>
+        <Filename Value="units\controlshelper.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="units\systemtool.pas"/>
+        <Filename Value="units\osutils.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>

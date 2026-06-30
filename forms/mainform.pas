@@ -17,12 +17,14 @@ uses
   Windows,
   Messages,
   {$ENDIF}
+  Types,
   Classes,
   SysUtils,
   DateUtils,
   Forms,
   Controls,
   Graphics,
+  IntfGraphics,
   Dialogs,
   ExtCtrls,
   Menus,
@@ -42,7 +44,7 @@ uses
   translate,
   network,
   Consts,
-  systemtool,
+  osutils,
   stringhelper,
   hotkeyhelper,
   stringshelper,
@@ -446,6 +448,11 @@ type
     procedure AddLangPair(const Pair: string; ToEnd: boolean = True);
     procedure SelectPair(const Pair: string; RunTranslate: boolean = True);
     procedure SelectPairConfig(const LangPairIndex: integer; RunTranslate: boolean = True);
+    // Tray Icon
+    function CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = string.Empty;
+      ABackgroundColor: TColor = clNone; AFontColor: TColor = clWhite; AFontName: string = string.Empty): Graphics.TBitmap;
+    function CreateTrayIconProgress(AAngle: integer; ABackgroundColor: TColor = clNone; APenColor: TColor = clWhite): Graphics.TBitmap;
+    // Action Languages
     procedure SetLanguage(aLanguage: string = string.Empty);
     procedure GlobalCtrlC;
     procedure GlobalCtrlV;
@@ -466,18 +473,18 @@ type
     FAutoCopy: boolean;
 
     {$IFDEF WINDOWS}
-    { MouseHook Events }
+    // MouseHook Events
     procedure OnKeyboardEvent(Sender: TObject; var Info: TKeyboardEventInfo);
     procedure OnHookLeftDown(Sender: TObject; const Info: TMouseEventInfo);
     procedure OnHookLeftUp(Sender: TObject; const Info: TMouseEventInfo);
     procedure OnTranslateMouseMode(Data: PtrInt);
     procedure OnTranslateMouseModeTimer;
-    { HotKeys Events }
+    // HotKeys Events
     procedure RegisterHotKeys;
     procedure UnregisterHotKeys;
     procedure ReleaseHotKeyModifiers(const AHotKey: THotKeyData);
     {$ENDIF}
-
+    // Methods
     procedure LoadConfig(SetDefault: boolean = True);
     procedure SetDefaultSettings;
     procedure SetDefaultHotKeys;
@@ -502,7 +509,7 @@ type
     procedure ClosePopupAsync(Data: PtrInt);
     procedure ShowButton(const SourceText: string; X: integer = 0; Y: integer = 0);
     procedure SetVerticalMode;
-
+    // Translate Methods
     function TranslateThread(ATrans: TTranslate; AText: string; AMemo: TMemo = nil): string;
     procedure ThreadDone(Sender: TObject);
     procedure CancelTranslate;
@@ -608,14 +615,14 @@ var
 
 implementation
 
-uses formdonate, formabout, formsettings, formconfig, formpopup, formbutton, settings, languages, formattool,
-  checkupdates, base64utils, localize, colorhelper;
+uses formdonate, formabout, formsettings, formconfig, formpopup, formbutton, settings, languages,
+  checkupdates, base64utils, localize, colorhelper, controlshelper;
 
   {$R *.lfm}
 
   { TformTrayslate }
 
-  {%Region -fold Form Events }
+  {%Region -fold Form Events}
 
 procedure TformTrayslate.FormCreate(Sender: TObject);
 begin
@@ -855,7 +862,7 @@ end;
 
 {%EndRegion}
 
-{%Region -fold Application Events }
+{%Region -fold Application Events}
 
 procedure TformTrayslate.ScreenActiveFormChanged(Sender: TObject);
 begin
@@ -930,10 +937,10 @@ var
 begin
   if TheMessage.msg = WM_HOTKEY then
   begin
-    if GetTickCountXp - FLastHotkeyTime < HOTKEY_INTERVAL then
+    if TOS.GetTickCountXp - FLastHotkeyTime < HOTKEY_INTERVAL then
       exit;
 
-    FLastHotkeyTime := GetTickCountXp;
+    FLastHotkeyTime := TOS.GetTickCountXp;
 
     case TheMessage.WParam of
 
@@ -1036,7 +1043,7 @@ var
   // packedCoords: PtrInt;
   Tick: DWORD;
 begin
-  Tick := GetTickCountXp;
+  Tick := TOS.GetTickCountXp;
 
   // Turn off the mouse mode if Ctrl is not pressed and it requires Ctrl
   if MouseModeCtrl and (Info.KeyCode in [VK_CONTROL, VK_LCONTROL, VK_RCONTROL]) then
@@ -1238,7 +1245,7 @@ end;
 //{$ENDIF}
 {%EndRegion}
 
-{%Region -fold Actions Events }
+{%Region -fold Actions Events}
 
 procedure TformTrayslate.aShowExecute(Sender: TObject);
 begin
@@ -1539,7 +1546,7 @@ end;
 
 {%EndRegion}
 
-{%Region -fold Actions Fast Settings }
+{%Region -fold Actions Fast Settings}
 
 procedure TformTrayslate.aFastAllowHotKeysExecute(Sender: TObject);
 begin
@@ -1588,7 +1595,7 @@ end;
 
 {%EndRegion}
 
-{%Region -fold Control Events }
+{%Region -fold Control Events}
 
 procedure TformTrayslate.ComboSourceCloseUp(Sender: TObject);
 //var
@@ -1700,7 +1707,7 @@ var
 begin
   if (ssCtrl in Shift) and (Key = VK_V) then
   begin
-    PasteWithLineEnding(Sender as TMemo);
+    (Sender as TMemo).PasteWithLineEnding;
     Key := 0;
     Exit;
   end;
@@ -1717,7 +1724,7 @@ begin
   begin
     FMemoSourceCaretPos := MemoSource.SelStart; // save current caret
 
-    NowTime := GetTickCountXp;
+    NowTime := TOS.GetTickCountXp;
     if NowTime - FLastEnterTime <= DOUBLE_ENTER_INTERVAL then
     begin
       // Delete the previous Enter inserted
@@ -1750,7 +1757,7 @@ begin
     Exit;
 
   // Ignore KeyUp if it happened right after a global hotkey
-  if GetTickCountXp - FLastHotkeyTime < HOTKEY_INTERVAL then
+  if TOS.GetTickCountXp - FLastHotkeyTime < HOTKEY_INTERVAL then
   begin
     TimerTranslate.Enabled := False;
     Exit;
@@ -1782,7 +1789,7 @@ procedure TformTrayslate.MemoTargetKeyDown(Sender: TObject; var Key: word; Shift
 begin
   if (ssCtrl in Shift) and (Key = VK_V) then // Ctrl + V
   begin
-    PasteWithLineEnding(Sender as TMemo);
+    (Sender as TMemo).PasteWithLineEnding;
     Key := 0;
   end;
 end;
@@ -2073,7 +2080,7 @@ end;
 
 {%EndRegion}
 
-{%Region -fold Methods }
+{%Region -fold Methods}
 
 procedure TformTrayslate.LoadConfig(SetDefault: boolean = True);
 var
@@ -2287,7 +2294,7 @@ procedure TFormTrayslate.SetDefaultSettings;
 begin
   FAutoStart := True;
   FConfigLangDetect := DEF_LANGDETECT;
-  if IsWindows7 then
+  if TOS.IsWindows7 then
     FIconBackgroundColor := $00905000
   else
     FIconBackgroundColor := clNone;
@@ -2994,7 +3001,7 @@ begin
 
   // Position the hint near the system tray (bottom-right)
   // Note: This is a generic position.
-  // Finding the exact coordinates of the icon is OS-specific and complex.
+  // Finding the exact coordinates of the icon is TOS-specific and complex.
   DisplayPos.X := ifthen(X = 0, Screen.Width - (HintRect.Right - HintRect.Left) - 20, X);
   DisplayPos.Y := ifthen(Y = 0, Screen.WorkAreaHeight - (HintRect.Bottom - HintRect.Top) - 5, Y);
 
@@ -3166,7 +3173,7 @@ begin
   if not formPopupTrayslate.Visible then
     formPopupTrayslate.Visible := True;
   if not StayOnTop then
-    BringToFrontNoFocus(formPopupTrayslate);
+    TOS.BringToFrontNoFocus(formPopupTrayslate);
 
   // Restore focus
   if Assigned(PrevForm) and PrevForm.Visible and PrevForm.CanFocus then
@@ -3263,7 +3270,7 @@ begin
   // Build unique registry key per installation path
   AppName := 'Trayslate (' + AppPath + ')';
 
-  RegAutoStart(FAutoStart, AppName);
+  TOS.RegAutoStart(FAutoStart, AppName);
 end;
 
 procedure TformTrayslate.SetAutoAddLangPairs(Value: boolean);
@@ -3608,7 +3615,173 @@ end;
 
 {%EndRegion}
 
-{%Region -fold Translate Methods }
+{%Region -fold Tray Icon}
+
+function TformTrayslate.CreateTrayIconLang(Form: TForm; const ALang1: string; const ALang2: string = string.Empty;
+  ABackgroundColor: TColor = clNone; AFontColor: TColor = clWhite; AFontName: string = string.Empty): Graphics.TBitmap;
+var
+  Bmp: Graphics.TBitmap;
+  IntfImg: TLazIntfImage;
+  ImgHandle, ImgMaskHandle: HBitmap;
+  rect, rect1, rect2: TRect;
+  delta: integer;
+  Value: string;
+
+  function FormatValue(const Value: string; DefSize: integer = 8): string;
+  begin
+    Result := Value;
+
+    if Result = string.Empty then Result := DEF_NA;
+
+    if Pos('-', Result) > 0 then
+      Result := LeftStr(Result, Pos('-', Result + '-') - 1);
+
+    if (Length(Result) = 3) then
+      Bmp.Canvas.Font.Size := Form.ScaleScreenTo96(5)
+    else
+    begin
+      if (LowerCase(Result) = 'auto') then
+      begin
+        Bmp.Canvas.Font.Size := Form.ScaleScreenTo96(8);
+        Result := DEF_AUTO;
+      end
+      else
+      begin
+        Bmp.Canvas.Font.Size := Form.ScaleScreenTo96(DefSize);
+        Result := Result.Substring(0, 2);
+      end;
+    end;
+  end;
+
+begin
+  IntfImg := TLazIntfImage.Create(ICON_SIZE, ICON_SIZE);
+  Bmp := Graphics.TBitmap.Create;
+  try
+    Bmp.SetSize(ICON_SIZE, ICON_SIZE);  // standard tray icon size
+
+    // set background
+    if ABackgroundColor = clNone then
+    begin
+      Bmp.Canvas.Brush.Color := clFuchsia;
+      Bmp.Canvas.Font.Quality := fqNonAntialiased;
+      Bmp.TransparentColor := clFuchsia;
+      Bmp.Transparent := True;
+    end
+    else
+      Bmp.Canvas.Brush.Color := ABackgroundColor;
+    Bmp.Canvas.Brush.Style := bsSolid;
+    rect := Types.Rect(0, 0, Bmp.Width, Bmp.Height);
+    Bmp.Canvas.FillRect(rect);
+
+    // set text style
+    Bmp.Canvas.Font.Name := ifthen(AFontName = string.Empty, DEF_FONT, AFontName);
+    Bmp.Canvas.Font.Color := AFontColor;
+    Bmp.Canvas.Font.Style := [fsBold];
+
+    if (ALang2 = string.Empty) then
+    begin
+      // draw text centered
+      Value := FormatValue(ALang1);
+      DrawText(Bmp.Canvas.Handle, PChar(Value), Length(Value), rect,
+        DT_CENTER or DT_VCENTER or DT_SINGLELINE);
+    end
+    else
+    begin
+      // upper half
+      Value := FormatValue(ALang1, 7);
+      rect1 := Types.Rect(rect.Left, rect.Top, rect.Right, (rect.Top + rect.Bottom) div 2);
+      DrawText(Bmp.Canvas.Handle, PChar(Value), Length(Value), rect1,
+        DT_CENTER or DT_VCENTER or DT_SINGLELINE);
+
+      // lower half
+      Value := FormatValue(ALang2, 7);
+      delta := ifthen(Value = DEF_AUTO, 3, 0);
+      rect2 := Types.Rect(rect.Left, (rect.Top + rect.Bottom) div 2 + delta, rect.Right, rect.Bottom + delta);
+      DrawText(Bmp.Canvas.Handle, PChar(Value), Length(Value), rect2,
+        DT_CENTER or DT_VCENTER or DT_SINGLELINE);
+    end;
+
+    IntfImg.LoadFromBitmap(Bmp.Handle, Bmp.MaskHandle);
+
+    // Copy it to a TBitmap
+    IntfImg.CreateBitmaps(ImgHandle, ImgMaskHandle, False);
+    Bmp.Handle := ImgHandle;
+    Bmp.MaskHandle := ImgMaskHandle;
+
+    // create icon from bitmap
+    Result := Bmp;
+  finally
+    IntfImg.Free;
+  end;
+end;
+
+function TformTrayslate.CreateTrayIconProgress(AAngle: integer; ABackgroundColor: TColor = clNone; APenColor: TColor = clWhite): Graphics.TBitmap;
+var
+  TempIntfImg: TLazIntfImage;
+  ImgHandle, ImgMaskHandle: HBitmap;
+  TempBitmap: Graphics.TBitmap;
+  cx, cy, r: integer;
+  p1x, p1y, p2x, p2y: integer;
+  a1, a2: double;
+begin
+  TempIntfImg := TLazIntfImage.Create(ICON_SIZE, ICON_SIZE);
+  TempBitmap := Graphics.TBitmap.Create;
+
+  try
+    TempBitmap.SetSize(ICON_SIZE, ICON_SIZE);
+
+    // transparent background
+    TempBitmap.Canvas.AntialiasingMode := amOn;
+
+    if ABackgroundColor = clNone then
+    begin
+      TempBitmap.Canvas.Brush.Color := clFuchsia;
+      TempBitmap.Transparent := True;
+      TempBitmap.TransparentColor := clFuchsia;
+    end
+    else
+      TempBitmap.Canvas.Brush.Color := ABackgroundColor;
+
+    TempBitmap.Canvas.FillRect(Types.Rect(0, 0, ICON_SIZE, ICON_SIZE));
+    TempBitmap.Canvas.Pen.Color := APenColor;
+    TempBitmap.Canvas.Pen.Width := 3;
+
+    cx := ICON_SIZE div 2;
+    cy := ICON_SIZE div 2;
+    r := (ICON_SIZE div 2) - 2;
+
+    a1 := DegToRad(AAngle);
+    a2 := DegToRad(AAngle + 180);
+
+    // arc points
+    p1x := cx + Round(r * Cos(a1));
+    p1y := cy + Round(r * Sin(a1));
+
+    p2x := cx + Round(r * Cos(a2));
+    p2y := cy + Round(r * Sin(a2));
+    TempBitmap.Canvas.Arc(
+      cx - r, cy - r,
+      cx + r, cy + r,
+      p1x, p1y,
+      p2x, p2y
+      );
+
+    // create mask through TLazIntfImage
+    TempIntfImg.LoadFromBitmap(TempBitmap.Handle, TempBitmap.MaskHandle);
+    TempIntfImg.CreateBitmaps(ImgHandle, ImgMaskHandle, False);
+
+    TempBitmap.Handle := ImgHandle;
+    TempBitmap.MaskHandle := ImgMaskHandle;
+
+    Result := TempBitmap;
+  finally
+    TempIntfImg.Free;
+  end;
+end;
+
+{%EndRegion}
+
+{%Region -fold Translate Methods}
 
 function TformTrayslate.TranslateThread(ATrans: TTranslate; AText: string; AMemo: TMemo = nil): string;
 var
@@ -3878,7 +4051,7 @@ begin
     Show;
   BringToFront;
   FTopMost := True;
-  SleepLoop(0, 1);
+  TOS.SleepLoop(0, 1);
   if (Clipboard.AsText <> string.empty) then
   begin
     MemoSource.Text := Clipboard.AsText;
@@ -3976,9 +4149,9 @@ begin
 
   KeyInput.Down(Ord('C'));
   Clipboard.AddExcludeFlag;
-  SleepLoop(1, 1);
+  TOS.SleepLoop(1, 1);
   Clipboard.AddExcludeFlag;
-  SleepLoop(5, 1);
+  TOS.SleepLoop(5, 1);
 
   FUnapplyC := True;
   if not ctrl then
@@ -4008,7 +4181,7 @@ begin
     KeyInput.Unapply([ssAlt]);
 
   KeyInput.Down(Ord('V'));
-  SleepLoop(6, 1);
+  TOS.SleepLoop(6, 1);
 
   FUnapplyV := True;
   if not ctrl then
@@ -4050,7 +4223,7 @@ begin
     Show;
   BringToFront;
   FTopMost := True;
-  SleepLoop(0, 1);
+  TOS.SleepLoop(0, 1);
   MemoSource.Text := SelectedText;
   TranslateMemo;
 end;
@@ -4164,18 +4337,18 @@ begin
       SelectedText := Clipboard.AsText;
     finally
       // Restore original clipboard quickly if paste combination was pressed (Ctrl+V)
-      if (((GetTickCountXp - FLastCtrlTime) <= 100) and ((GetTickCountXp - FLastVTime) <= 100)) then
+      if (((TOS.GetTickCountXp - FLastCtrlTime) <= 100) and ((TOS.GetTickCountXp - FLastVTime) <= 100)) then
         Clipboard.RestoreAllFormats(SavedClip)
       else
       // Restore original clipboard only if one of the cut / copy combination keys is not pressed (Ctrl+X, Ctrl+C)
-      if (((GetTickCountXp - FLastCtrlTime) > 100) and ((GetTickCountXp - FLastCTime) > 100) and
-        ((GetTickCountXp - FLastXTime) > 100)) then
+      if (((TOS.GetTickCountXp - FLastCtrlTime) > 100) and ((TOS.GetTickCountXp - FLastCTime) > 100) and
+        ((TOS.GetTickCountXp - FLastXTime) > 100)) then
         Clipboard.RestoreAllFormats(SavedClip);
 
       // In any case, add the system buffer flag
       Clipboard.AddExcludeFlag;
 
-      if (GetTickCountXp - FLastKeyTime) > 200 then
+      if (TOS.GetTickCountXp - FLastKeyTime) > 200 then
         TimerUnapplyTimer(Self);
     end;
 
@@ -4219,7 +4392,7 @@ begin
             Show;
           BringToFront;
           FTopMost := True;
-          SleepLoop(0, 1);
+          TOS.SleepLoop(0, 1);
           MemoSource.Text := SelectedText;
           TranslateMemo;
         end;

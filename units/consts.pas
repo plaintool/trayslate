@@ -4,7 +4,7 @@
 //  You may obtain a copy of the License at https://www.gnu.org/licenses/gpl-3.0.html
 //-----------------------------------------------------------------------------------
 
-unit consts;
+unit Consts;
 
 {$mode ObjFPC}{$H+}
 
@@ -45,6 +45,12 @@ const
 
   MIDDLE_MOUSE = 'Middle-Click';
   DEF_LANGDETECT = 'languagedetect.ini';
+
+  ICON_SIZE = 16;
+
+  DEF_FONT = 'Tahoma';
+  DEF_NA = 'N/A';
+  DEF_AUTO = '*';
 
 implementation
 
