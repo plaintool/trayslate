@@ -922,7 +922,7 @@ end;
 {%EndRegion}
 
 {%Region -fold Windows Specific Events}
-//{$IFDEF WINDOWS}
+{$IFDEF WINDOWS}
 
 procedure TformTrayslate.WMActivate(var Message: TLMActivate);
 begin
@@ -1242,7 +1242,7 @@ begin
       KeyInput.Unapply([ssAlt]);
 end;
 
-//{$ENDIF}
+{$ENDIF}
 {%EndRegion}
 
 {%Region -fold Actions Events}
@@ -1535,6 +1535,9 @@ end;
 
 procedure TformTrayslate.aExitExecute(Sender: TObject);
 begin
+  if Assigned(formPopupTrayslate) then
+    formPopupTrayslate.Close;
+
   CancelTranslate;
 
   Self.Enabled := False;

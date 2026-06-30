@@ -147,7 +147,8 @@ begin
   formTrayslate.FormPopupHeight := Height;
 
   PanelWatermark.Left := PanelTarget.Left + (PanelTarget.Width - PanelWatermark.Width) div 2;
-  PanelWatermark.Top := PanelTarget.Top + (PanelTarget.Height - PanelWatermark.Height) div 2;
+  PanelWatermark.Top := PanelTarget.Top + (PanelTarget.Height - ifthen(PanelPairs.Visible, 0, PanelPairs.Height) -
+    PanelWatermark.Height) div 2;
 
   SbCopyTargetPanel.Left := FlowPairs.Left + FlowPairs.Width;
   SbSend.Left := SbCopyTargetPanel.Left + SbCopyTargetPanel.Width;
