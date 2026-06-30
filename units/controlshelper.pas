@@ -14,13 +14,16 @@ interface
 uses
   Forms,
   Classes,
+  Types,
   SysUtils,
   StdCtrls,
   Clipbrd,
   Graphics,
   ColorBox,
   LCLIntf,
-  LazUTF8;
+  LCLType,
+  LazUTF8
+  ;
 
 type
   { Helper methods for TMemo }
@@ -29,6 +32,7 @@ type
     procedure PasteWithLineEnding;
     procedure RemoveSameNameValueFromMemo;
     function HeadersFromMemo: TStringList;
+    function GetBottomSpace: integer;
   end;
 
   { Helper methods for TComboBox }
@@ -117,6 +121,53 @@ begin
 
     if Key <> '' then
       Result.Values[Key] := Value;  // stored as Key=Value internally
+  end;
+end;
+
+function TMemoHelper.GetBottomSpace: Integer;
+var
+  Bmp: TBitmap;
+  TextRect: TRect;
+  Txt: string;
+  Flags: Cardinal;
+begin
+  Txt := Self.Text;                     // or Self.Lines.Text
+  if Txt = '' then
+  begin
+    Result := Self.ClientHeight;        // entire client area is free
+    Exit;
+  end;
+
+  // Base flags: calculate rectangle, edit control behaviour, no accelerators
+  Flags := DT_CALCRECT or DT_EDITCONTROL or DT_NOPREFIX;
+  if Self.WordWrap then
+    Flags := Flags or DT_WORDBREAK;
+
+  Bmp := TBitmap.Create;
+  try
+    Bmp.Canvas.Font.Assign(Self.Font);
+
+    // Width for calculation: ClientWidth minus a small inner margin (optional)
+    // With WordWrap, width is limited to ClientWidth, otherwise use a very large width
+    if Self.WordWrap then
+      TextRect := Rect(0, 0, Self.ClientWidth - 4, 0)
+    else
+      TextRect := Rect(0, 0, 32767, 0);  // large enough to avoid wrapping
+
+    DrawText(
+      Bmp.Canvas.Handle,
+      PChar(Txt),
+      Length(Txt),
+      TextRect,
+      Flags
+    );
+
+    // Free space = visible height – actual text height
+    Result := Self.ClientHeight - (TextRect.Bottom - TextRect.Top);
+    if Result < 0 then
+      Result := 0;
+  finally
+    Bmp.Free;
   end;
 end;
 

@@ -45,6 +45,7 @@ type
     PanelPairs: TPanel;
     PanelWatermark: TPanel;
     PanelButtonTarget: TPanel;
+    SbCopyTargetPanel: TSpeedButton;
     SbNewTranslate: TSpeedButton;
     SbCopyTarget: TSpeedButton;
     SbSend: TSpeedButton;
@@ -69,7 +70,7 @@ type
     FDropTarget: TTextDropTarget;
     FInWindow: boolean;
 
-    procedure UpdateWatermarkVisibility;
+    procedure UpdateControlsVisibility;
   protected
     procedure CreateParams(var Params: TCreateParams); override;
   public
@@ -84,7 +85,7 @@ var
 
 implementation
 
-uses mainform, localize, colorhelper;
+uses mainform, localize, colorhelper, controlshelper;
 
   {$R *.lfm}
 
@@ -106,8 +107,9 @@ begin
   aSend.ImageIndex := TColor.ThemeValue(14, 15);
   aCopyTarget.ImageIndex := TColor.ThemeValue(10, 11);
   SbCopyTarget.PressedImageIndex := TColor.ThemeValue(12, 13);
+  SbCopyTargetPanel.PressedImageIndex := TColor.ThemeValue(12, 13);
 
-  UpdateWatermarkVisibility;
+  UpdateControlsVisibility;
 end;
 
 procedure TformPopupTrayslate.FormDestroy(Sender: TObject);
@@ -142,7 +144,10 @@ begin
   PanelWatermark.Left := PanelTarget.Left + (PanelTarget.Width - PanelWatermark.Width) div 2;
   PanelWatermark.Top := PanelTarget.Top + (PanelTarget.Height - PanelWatermark.Height) div 2;
 
-  UpdateWatermarkVisibility;
+  SbCopyTargetPanel.Left := FlowPairs.Left + FlowPairs.Width;
+  SbSend.Left := SbCopyTargetPanel.Left + SbCopyTargetPanel.Width;
+
+  UpdateControlsVisibility;
 end;
 
 procedure TformPopupTrayslate.FormChangeBounds(Sender: TObject);
@@ -155,6 +160,7 @@ procedure TformPopupTrayslate.aNewTranslateExecute(Sender: TObject);
 begin
   MemoTarget.Clear;
   SourceText := string.Empty;
+  FormResize(Self);
 end;
 
 procedure TformPopupTrayslate.aSendExecute(Sender: TObject);
@@ -172,7 +178,7 @@ end;
 
 procedure TformPopupTrayslate.MemoTargetChange(Sender: TObject);
 begin
-  UpdateWatermarkVisibility;
+  UpdateControlsVisibility;
   TimerTimer(Self);
 end;
 
@@ -235,12 +241,9 @@ begin
       Self.AlphaBlend := True;
 
     Self.AlphaBlendValue := TargetAlpha;
-
-    UpdateWatermarkVisibility;
   end;
 
-  PanelPairs.Visible := FInWindow or not formTrayslate.HideControls;
-  PanelButtonTarget.Visible := (FInWindow and (Width > 100) and (Height > 50 + FlowPairs.Height)) or not formTrayslate.HideControls;
+  UpdateControlsVisibility;
 end;
 
 procedure TformPopupTrayslate.OnTextDroppedHandler(Sender: TObject; const AText: string);
@@ -248,14 +251,26 @@ begin
   formTrayslate.TranslatePopup(AText);
 end;
 
-procedure TformPopupTrayslate.UpdateWatermarkVisibility;
+procedure TformPopupTrayslate.UpdateControlsVisibility;
+var
+  SizeOk: boolean;
+  EnoughSpace: boolean;
 begin
-  PanelWatermark.Visible := (MemoTarget.Text = string.Empty);
+  // Watermark
+  PanelWatermark.Visible := (MemoTarget.Text = '') and (Width >= PanelWatermark.Width) and
+    (Height >= PanelWatermark.Height + FlowPairs.Height);
 
-  if (Width < PanelWatermark.Width) or (Height < PanelWatermark.Height + FlowPairs.Height) then
-    PanelWaterMark.Visible := False;
+  // Pairs panel
+  PanelPairs.Visible := FInWindow or not formTrayslate.HideControls;
 
-  PanelButtonTarget.Visible := ((Width > 100) and (Height > 50 + FlowPairs.Height)) or not formTrayslate.HideControls;
+  // Main button panel (Send, New, Copy)
+  SizeOk := (Width > 100) and (Height > 50 + FlowPairs.Height);
+  EnoughSpace := MemoTarget.GetBottomSpace >= 20;
+  PanelButtonTarget.Visible :=
+    ((FInWindow and SizeOk) or not formTrayslate.HideControls) and EnoughSpace;
+
+  // Small copy panel (opposite of main)
+  SbCopyTargetPanel.Visible := not PanelButtonTarget.Visible;
 end;
 
 procedure TformPopupTrayslate.CreateParams(var Params: TCreateParams);

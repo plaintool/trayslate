@@ -22,18 +22,18 @@ object formPopupTrayslate: TformPopupTrayslate
   OnShow = FormShow
   object PanelTarget: TPanel
     Left = 3
-    Height = 209
+    Height = 208
     Top = 3
     Width = 474
     Align = alClient
     BorderSpacing.Around = 3
     BevelOuter = bvNone
-    ClientHeight = 209
+    ClientHeight = 208
     ClientWidth = 474
     TabOrder = 1
     object MemoTarget: TMemo
       Left = 0
-      Height = 209
+      Height = 208
       Top = 0
       Width = 474
       Align = alClient
@@ -44,9 +44,9 @@ object formPopupTrayslate: TformPopupTrayslate
       OnChange = MemoTargetChange
     end
     object PanelButtonTarget: TPanel
-      Left = 427
+      Left = 435
       Height = 16
-      Top = 179
+      Top = 185
       Width = 16
       Anchors = [akRight, akBottom]
       BevelOuter = bvNone
@@ -104,26 +104,25 @@ object formPopupTrayslate: TformPopupTrayslate
   end
   object PanelPairs: TPanel
     Left = 0
-    Height = 25
-    Top = 215
+    Height = 26
+    Top = 214
     Width = 480
     Align = alBottom
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 25
+    ClientHeight = 26
     ClientWidth = 480
     Color = clBtnFace
     ParentBackground = False
     ParentColor = False
     TabOrder = 0
     object SbSend: TSpeedButton
-      Left = 453
-      Height = 24
+      Left = 456
+      Height = 26
       Top = 0
       Width = 24
       Action = aSend
-      Anchors = [akTop, akRight]
-      BorderSpacing.Bottom = 1
+      Align = alRight
       Flat = True
       Images = formTrayslate.ImageButtons
       ImageIndex = 14
@@ -131,15 +130,13 @@ object formPopupTrayslate: TformPopupTrayslate
       ParentShowHint = False
     end
     object FlowPairs: TFlowPanel
-      Left = 32
-      Height = 25
+      Left = 24
+      Height = 26
       Top = 0
-      Width = 416
+      Width = 408
       Align = alClient
       AutoSize = True
       BevelOuter = bvNone
-      BorderSpacing.Left = 32
-      BorderSpacing.Right = 32
       ControlList = <>
       FlowLayout = tlCenter
       FlowStyle = fsLeftRightTopBottom
@@ -148,16 +145,30 @@ object formPopupTrayslate: TformPopupTrayslate
       TabOrder = 0
     end
     object SbNewTranslate: TSpeedButton
-      Left = 3
-      Height = 24
+      Left = 0
+      Height = 26
       Top = 0
       Width = 24
       Action = aNewTranslate
-      BorderSpacing.Left = 3
-      BorderSpacing.Bottom = 1
+      Align = alLeft
       Flat = True
       Images = formTrayslate.ImageButtons
       ImageIndex = 8
+      ShowHint = True
+      ParentShowHint = False
+    end
+    object SbCopyTargetPanel: TSpeedButton
+      Left = 432
+      Height = 26
+      Top = 0
+      Width = 24
+      Action = aCopyTarget
+      Align = alRight
+      Color = clNone
+      Flat = True
+      Images = formTrayslate.ImageButtons
+      ImageIndex = 10
+      PressedImageIndex = 12
       ShowHint = True
       ParentShowHint = False
     end
