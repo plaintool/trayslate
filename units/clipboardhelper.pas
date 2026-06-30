@@ -46,6 +46,9 @@ type
     // Windows: creates a hidden window that monitors clipboard changes and adds the exclusion flag automatically
     function CreateClipboardViewerWindow: HWND;
 
+    // Returns True when the clipboard contains ONLY plain text formats
+    function IsText: boolean;
+
     // Saves every format currently on the clipboard into an array (data blocks are duplicated, original untouched)
     function SaveAllFormats: TClipboardFormatDataArray;
 
@@ -312,6 +315,59 @@ begin
 
   // Create the hidden window (WM_CREATE will call SetClipboardViewer)
   Result := CreateWindowExA(0, 'TrayslateClipViewer', string.Empty, WS_POPUP, 0, 0, 0, 0, 0, 0, HINSTANCE, nil);
+  {$ENDIF}
+end;
+
+function TClipboardHelper.IsText: boolean;
+  {$IFDEF WINDOWS}
+var
+  fmt: UINT;
+  {$ENDIF}
+begin
+  Result := False;
+  {$IFDEF WINDOWS}
+
+  // Empty clipboard is considered valid
+  if CountClipboardFormats = 0 then
+    Exit(True);
+
+  if not OpenClipboard(0) then
+    Exit;
+
+  try
+    fmt := 0;
+    while True do
+    begin
+      fmt := EnumClipboardFormats(fmt);
+      if fmt = 0 then
+        Break;
+
+      // Plain text formats – always allowed
+      if (fmt in [1, CF_TEXT, CF_UNICODETEXT, CF_OEMTEXT]) then
+        Continue;
+
+      // Windows often adds CF_LOCALE alongside text
+      if (fmt = CF_LOCALE) then
+        Continue;
+
+      // Our internal exclude flag
+      if (CachedExcludeFormat <> 0) and (fmt = CachedExcludeFormat) then
+        Continue;
+
+      // Ignore OLE and registered formats (IDs >= 0xC000)
+      if fmt >= $C000 then
+        Continue;
+
+      // Standard binary formats (bitmap, files, etc.) – not plain text
+      Exit;
+    end;
+
+    // Ensure we actually have text, not just empty OLE data
+    Result := IsClipboardFormatAvailable(CF_UNICODETEXT) or
+              IsClipboardFormatAvailable(CF_TEXT);
+  finally
+    CloseClipboard;
+  end;
   {$ENDIF}
 end;
 
