@@ -370,7 +370,7 @@ begin
   end;
 end;
 
-// ----- Primary target registration -----
+{ Primary target registration }
 
 procedure TTextDropTarget.RegisterTarget;
 begin
@@ -456,7 +456,7 @@ begin
   FSubImpls.Clear;
 end;
 
-// ----- Sub-target management -----
+{ Sub-target management }
 
 procedure TTextDropTarget.RegisterSubTarget(AControl: TWinControl);
 var

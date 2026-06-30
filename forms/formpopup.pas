@@ -27,7 +27,11 @@ uses
   LCLType,
   LCLIntf,
   LMessages,
-  textdroptarget;
+  textdroptarget
+  {$IFDEF WINDOWS}
+  ,Windows
+  {$ENDIF}
+  ;
 
 type
 
@@ -74,6 +78,7 @@ type
   protected
     procedure CreateParams(var Params: TCreateParams); override;
   public
+    procedure DestroyWnd; override;
     procedure UpdateStayOnTop(Data: PtrInt);
 
     property SourceText: string read FSourceText write FSourceText;
@@ -282,16 +287,44 @@ begin
   inherited CreateParams(Params);
   {$IFDEF WINDOWS}
   // Prevent the form from taking focus (tool window style)
-  Params.ExStyle := Params.ExStyle or WS_EX_NOACTIVATE;
+  if FormStyle = fsSystemStayOnTop then
+    Params.ExStyle := Params.ExStyle or WS_EX_NOACTIVATE;
   {$ENDIF}
 end;
 
+procedure TformPopupTrayslate.DestroyWnd;
+begin
+  if Assigned(FDropTarget) then
+    FDropTarget.Unregister;
+  inherited DestroyWnd;
+end;
+
 procedure TformPopupTrayslate.UpdateStayOnTop(Data: PtrInt);
+{$IFDEF WINDOWS}
+var
+  ExStyle: LONG_PTR;
+{$ENDIF}
 begin
   if formTrayslate.StayOnTop then
-    formPopupTrayslate.FormStyle := fsSystemStayOnTop
+    FormStyle := fsSystemStayOnTop
   else
-    formPopupTrayslate.FormStyle := fsNormal;
+    FormStyle := fsNormal;
+
+  {$IFDEF WINDOWS}
+  // Applying WS_EX_NOACTIVATE in a real window
+  if HandleAllocated then
+  begin
+    ExStyle := GetWindowLongPtr(Handle, GWL_EXSTYLE);
+    if FormStyle = fsSystemStayOnTop then
+      ExStyle := ExStyle or WS_EX_NOACTIVATE
+    else
+      ExStyle := ExStyle and (not WS_EX_NOACTIVATE);
+    SetWindowLongPtr(Handle, GWL_EXSTYLE, ExStyle);
+    // We force the window manager to redraw non-client areas (frames, title)
+    SetWindowPos(Handle, 0, 0, 0, 0, 0,
+      SWP_FRAMECHANGED or SWP_NOMOVE or SWP_NOSIZE or SWP_NOZORDER or SWP_NOACTIVATE);
+  end;
+  {$ENDIF}
 end;
 
 end.
