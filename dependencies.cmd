@@ -1,17 +1,25 @@
 @echo off
 setlocal
 
-:: Use LAZARUS_DIR and LAZBUILD from the calling script
+:: Determine LAZARUS_DIR if not provided by caller
 if not defined LAZARUS_DIR (
-    echo ERROR: LAZARUS_DIR is not set. Run the main build script first.
+    for %%D in ("C:\Lazarus" "C:\lazarus") do (
+        if exist "%%~D\lazbuild.exe" (
+            set "LAZARUS_DIR=%%~D"
+        )
+    )
+)
+
+if not defined LAZARUS_DIR (
+    echo ERROR: LAZARUS_DIR is not set and Lazarus was not found automatically.
     pause
     exit /b 1
 )
+
 if not defined LAZBUILD (
-    echo ERROR: LAZBUILD is not set. Run the main build script first.
-    pause
-    exit /b 1
+    set "LAZBUILD=%LAZARUS_DIR%\lazbuild.exe"
 )
+
 if not exist "%LAZBUILD%" (
     echo ERROR: lazbuild.exe not found at "%LAZBUILD%"
     pause
@@ -69,6 +77,14 @@ if exist "%SYNAPSE_LPK%" (
         exit /b %errorlevel%
     )
     echo Synapse LPK processed successfully
+
+    :: Revert auto-generated changes in laz_synapse.pas to keep working tree clean
+    if exist "%SYNAPSE_PATH%\laz_synapse.pas" (
+        git checkout -- "%SYNAPSE_PATH%\laz_synapse.pas"
+        if not errorlevel 1 (
+            echo Reverted auto-changes in laz_synapse.pas
+        )
+    )
 ) else (
     echo WARNING: laz_synapse.lpk not found, skipping
 )
