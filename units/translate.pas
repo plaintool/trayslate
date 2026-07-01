@@ -205,6 +205,7 @@ begin
   FWebMethod := wmGet;
   FUserAgent := 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:148.0) Gecko/20100101 Firefox/148.0';
   FHeaders := TStringList.Create;
+  FHeaders.Duplicates := dupAccept;
   FHeaders.TrailingLineBreak := False;
   FHeaders.SkipLastLineBreak := True;
   FCustomParameters := TStringList.Create;
@@ -268,6 +269,34 @@ procedure TTranslate.SyncGetParameterValue;
 begin
   if not Application.Terminated and Assigned(formTrayslate) then
     FResultValue := formTrayslate.GetParameterValue(FParamName, FResultOk);
+end;
+
+function GetTimestampModI(const SourceText: string): string;
+var
+  i, TotalI, id: integer;
+  CurrentMillis, Timestamp: int64;
+begin
+  // 1. Counting lowercase Latin 'i'
+  TotalI := 0;
+  for i := 1 to Length(SourceText) do
+    if SourceText[i] = 'i' then
+      Inc(TotalI);
+
+  // 2.Calculate the divisor
+  id := 1 + TotalI;
+
+  // 3. Take the current Unix time in milliseconds (UTC)
+  //    assumes TOS.GetTimestampNow returns Int64
+  CurrentMillis := TOS.GetTimestampNow;
+
+  // 4. Round up to a multiple of id
+  if CurrentMillis mod id = 0 then
+    Timestamp := CurrentMillis
+  else
+    Timestamp := CurrentMillis + id - (CurrentMillis mod id);
+
+  // 5. Return as a string (ready to insert into JSON)
+  Result := IntToStr(Timestamp);
 end;
 
 function TTranslate.GetParameters(Data: string): boolean;
@@ -354,12 +383,16 @@ begin
   // TimeStamp
   FParameterValues.Values['timestamp'] := TOS.GetTimestampNow.ToString;
 
+
   // Random
   FullRandom := TOS.GetRandomID(9);
   FParameterValues.Values['random'] := FullRandom.ToString;
   FParameterValues.Values['rand'] := FullRandom.ToString;
   for i := 1 to Length(FullRandom.ToString) do
     FParameterValues.Values['rand' + IntToStr(i)] := Copy(FullRandom.ToString, 1, i);
+
+  // Timestamp mod i
+  FParameterValues.Values['timestampmod'] := GetTimestampModI(FTextToTranslate);
 
   // Extract additional parameters using regex
   if not Assigned(FInitParameters) or (Data = string.Empty) or (SecondsBetween(Now, FParametersAge) < FInitLiveTime) then
@@ -503,6 +536,7 @@ begin
     if Assigned(Headers) then
     begin
       TempHeaders := TStringList.Create;
+      TempHeaders.Duplicates := dupAccept;
       TempHeaders.Assign(Headers);
       SetParametersList(TempHeaders);
     end;
@@ -566,6 +600,7 @@ begin
     if Assigned(Headers) then
     begin
       TempHeaders := TStringList.Create;
+      TempHeaders.Duplicates := dupAccept;
       TempHeaders.Assign(Headers);
       SetParametersList(TempHeaders);
     end;
@@ -1188,8 +1223,8 @@ begin
     if Assigned(Headers) then
       for i := 0 to Headers.Count - 1 do
         Ini.WriteString('Headers',
-          Headers.Names[i],
-          Headers.ValueFromIndex[i]);
+          IntToStr(i),
+          Headers[i]);
 
     // {  Response page }
     if Trim(JsonPointer) <> string.Empty then
@@ -1365,7 +1400,21 @@ begin
     PostData := StringReplace(PostDataEscaped, '\r\n', LineEnding, [rfReplaceAll]);
     Accept := Ini.ReadString('Request', 'Accept', string.Empty);
     Headers.Clear;
-    Ini.ReadSectionValues('Headers', Headers);
+    if Ini.ValueExists('Headers', '0') then
+    begin
+      // New format: indexed entries
+      i := 0;
+      while Ini.ValueExists('Headers', IntToStr(i)) do
+      begin
+        Headers.Add(Ini.ReadString('Headers', IntToStr(i), string.Empty));
+        Inc(i);
+      end;
+    end
+    else
+    begin
+      // Old format: Key=Value
+      Ini.ReadSectionValues('Headers', Headers);
+    end;
 
     JsonPointer := Ini.ReadString('Response', 'JsonPointer', string.Empty);
 
@@ -1557,7 +1606,7 @@ begin
   {$ENDIF}
 end;
 
-{EndRegion}
+{%EndRegion}
 
 {%Region -fold TTranslateThread }
 

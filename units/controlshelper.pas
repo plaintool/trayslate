@@ -22,8 +22,7 @@ uses
   ColorBox,
   LCLIntf,
   LCLType,
-  LazUTF8
-  ;
+  LazUTF8;
 
 type
   { Helper methods for TMemo }
@@ -93,18 +92,19 @@ end;
 function TMemoHelper.HeadersFromMemo: TStringList;
 var
   i, p, pColon, pEqual: integer;
-  line, Key, Value: string;
+  Line, Key, Value: string;
 begin
   Result := TStringList.Create;
+  Result.Duplicates := dupAccept;
 
   for i := 0 to Self.Lines.Count - 1 do
   begin
-    line := Trim(Self.Lines[i]);
-    if line = '' then
+    Line := Trim(Self.Lines[i]);
+    if Line = string.Empty then
       Continue;
 
-    pColon := Pos(':', line);
-    pEqual := Pos('=', line);
+    pColon := Pos(':', Line);
+    pEqual := Pos('=', Line);
 
     // If no separator at all, skip this line
     if (pColon = 0) and (pEqual = 0) then
@@ -116,20 +116,21 @@ begin
     else
       p := pEqual;
 
-    Key := Trim(Copy(line, 1, p - 1));
-    Value := Trim(Copy(line, p + 1, MaxInt));
+    Key := Trim(Copy(Line, 1, p - 1));
+    Value := Trim(Copy(Line, p + 1, MaxInt));
 
-    if Key <> '' then
-      Result.Values[Key] := Value;  // stored as Key=Value internally
+    if Key <> string.Empty then
+      // Store as Key=Value. Duplicates are preserved.
+      Result.Add(Key + '=' + Value);
   end;
 end;
 
-function TMemoHelper.GetBottomSpace: Integer;
+function TMemoHelper.GetBottomSpace: integer;
 var
   Bmp: TBitmap;
   TextRect: TRect;
   Txt: string;
-  Flags: Cardinal;
+  Flags: cardinal;
 begin
   Txt := Self.Text;                     // or Self.Lines.Text
   if Txt = '' then
@@ -160,7 +161,7 @@ begin
       Length(Txt),
       TextRect,
       Flags
-    );
+      );
 
     // Free space = visible height – actual text height
     Result := Self.ClientHeight - (TextRect.Bottom - TextRect.Top);
