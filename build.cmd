@@ -34,6 +34,12 @@ if %ERRORLEVEL% neq 0 (
     exit /b %ERRORLEVEL%
 )
 
+echo.
+echo ############################################################
+echo #                     Build x64                            #
+echo ############################################################
+echo.
+
 echo Building project: %PROJECT_PATH%
 "%LAZBUILD%" %PROJECT_PATH% --build-mode=%BUILD_MODE%
 
@@ -43,6 +49,12 @@ IF %ERRORLEVEL% NEQ 0 (
 )
 
 echo Build completed successfully
+
+echo.
+echo ############################################################
+echo #                       Signing x64                        #
+echo ############################################################
+echo.
 
 :: Copy 64-bit OpenSSL DLLs to output folder
 copy /y "%~dp0installer\redist\libcrypto-1_1-x64.dll" "%~dp0" >NUL

@@ -1,6 +1,12 @@
 @echo off
 setlocal
 
+echo.
+echo ############################################################
+echo #                     Build x86                            #
+echo ############################################################
+echo.
+
 ::Build 32-bit Lazarus project "trayslate" using lazbuild
 SET "PROJECT_PATH=trayslate.lpi"
 SET "BUILD_MODE=Release"
@@ -64,6 +70,12 @@ if exist "trayslate64.exe" (
 )
 
 echo 32-bit build completed successfully
+
+echo.
+echo ############################################################
+echo #                       Signing x86                        #
+echo ############################################################
+echo.
 
 :: Copy 32-bit OpenSSL DLLs to output folder
 copy /Y "%~dp0installer\redist\libcrypto-1_1.dll" "%~dp0"

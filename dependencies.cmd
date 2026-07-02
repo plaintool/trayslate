@@ -26,6 +26,12 @@ if not exist "%LAZBUILD%" (
     exit /b 1
 )
 
+echo.
+echo ############################################################
+echo #                    Build Synapse                         #
+echo ############################################################
+echo.
+
 :start_deps
 
 :: Dependency settings

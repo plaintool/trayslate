@@ -1,6 +1,12 @@
 @echo off
 setlocal
 
+echo.
+echo ############################################################
+echo #                Build InnoSetup installer                 #
+echo ############################################################
+echo.
+
 :: Define paths
 SET "SOURCE_DIR=%~dp0"
 SET "VERSION=%VERSION%"
@@ -23,6 +29,12 @@ echo.
 
 ::Wait 2 seconds to ensure file is free
 ping 127.0.0.1 -n 3 >nul
+
+echo.
+echo ############################################################
+echo #                Sign InnoSetup installer                  #
+echo ############################################################
+echo.
 
 :: --- Sign installers ---
 IF "%SIGNTOOL%"=="" (
