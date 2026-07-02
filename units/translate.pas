@@ -45,6 +45,8 @@ type
     FLangTarget: string;
     FTextToTranslate: string;
     FIsTruncated: boolean;
+    FCookies: TStringList;
+
     FServiceName: string;
     FServiceIcon: string;
     FServiceOrder: integer;
@@ -248,15 +250,17 @@ begin
 
   FLangSource := DEFAULT_LANG;
   FLangTarget := Language;
+  FCookies := TStringList.Create;
 end;
 
 destructor TTranslate.Destroy;
 begin
-  FHeaders.Free;
-  FCustomParameters.Free;
-  FServiceDescription.Free;
-  FLanguages.Free;
-  FLanguagesTarget.Free;
+  FreeAndNil(FCookies);
+  FreeAndNil(FHeaders);
+  FreeAndNil(FCustomParameters);
+  FreeAndNil(FServiceDescription);
+  FreeAndNil(FLanguages);
+  FreeAndNil(FLanguagesTarget);
 
   FInitHeaders.Free;
   FInitParameters.Free;
@@ -271,7 +275,7 @@ begin
     FResultValue := formTrayslate.GetParameterValue(FParamName, FResultOk);
 end;
 
-function GetTimestampModI(const SourceText: string): string;
+function GetTimestampMod(const SourceText: string): string;
 var
   i, TotalI, id: integer;
   CurrentMillis, Timestamp: int64;
@@ -290,10 +294,7 @@ begin
   CurrentMillis := TOS.GetTimestampNow;
 
   // 4. Round up to a multiple of id
-  if CurrentMillis mod id = 0 then
-    Timestamp := CurrentMillis
-  else
-    Timestamp := CurrentMillis + id - (CurrentMillis mod id);
+  Timestamp := CurrentMillis + id - (CurrentMillis mod id);
 
   // 5. Return as a string (ready to insert into JSON)
   Result := IntToStr(Timestamp);
@@ -392,7 +393,7 @@ begin
     FParameterValues.Values['rand' + IntToStr(i)] := Copy(FullRandom.ToString, 1, i);
 
   // Timestamp mod i
-  FParameterValues.Values['timestampmod'] := GetTimestampModI(FTextToTranslate);
+  FParameterValues.Values['timestampmod'] := GetTimestampMod(FTextToTranslate);
 
   // Extract additional parameters using regex
   if not Assigned(FInitParameters) or (Data = string.Empty) or (SecondsBetween(Now, FParametersAge) < FInitLiveTime) then
@@ -492,9 +493,10 @@ begin
   if FInitUrl = string.Empty then Exit;
   if SecondsBetween(Now, FParametersAge) < FInitLiveTime then Exit;
   FParameterValues.Clear;
+  FCookies.Clear;
 
   responseBody := TNetwork.WebRequest(wmGet, FInitUrl, string.Empty, InitHeaders, FInitUserAgent, string.Empty,
-    string.Empty, FServiceProxy, FProxy, FTimeout, responseHeaders, Error);
+    string.Empty, FServiceProxy, FProxy, FTimeout, FCookies, responseHeaders, Error);
   try
     if Error then Exit(responseBody);
 
@@ -541,9 +543,14 @@ begin
       SetParametersList(TempHeaders);
     end;
     responseBody := TNetwork.WebRequest(wmGet, TempUrl, string.Empty, TempHeaders, FUserAgent, FContentType,
-      FAccept, FServiceProxy, FProxy, FTimeout, responseHeaders, Error);
+      FAccept, FServiceProxy, FProxy, FTimeout, FCookies, responseHeaders, Error);
     try
-      if Error then Exit(responseBody);
+      if Error then
+      begin
+        FCookies.Clear;
+        FParametersAge := 0;
+        Exit(responseBody);
+      end;
 
       // Optionally prepend headers
       if ReturnHeaders then
@@ -605,9 +612,14 @@ begin
       SetParametersList(TempHeaders);
     end;
     responseBody := TNetwork.WebRequest(wmPost, TempUrl, TempData, TempHeaders, FUserAgent, FContentType,
-      FAccept, FServiceProxy, FProxy, FTimeout, responseHeaders, Error);
+      FAccept, FServiceProxy, FProxy, FTimeout, FCookies, responseHeaders, Error);
     try
-      if Error then Exit(responseBody);
+      if Error then
+      begin
+        FCookies.Clear;
+        FParametersAge := 0;
+        Exit(responseBody);
+      end;
 
       if ReturnHeaders then
       begin
@@ -1343,6 +1355,8 @@ var
 begin
   Ini := TIniFile.Create(AFileName);
   try
+    FCookies.Clear;
+    FParametersAge := 0;
     ServiceName := Ini.ReadString('Service', 'Name', string.Empty);
     ServiceIcon := Ini.ReadString('Service', 'Icon', string.Empty);
     ServiceOrder := Ini.ReadInteger('Service', 'Order', 0);

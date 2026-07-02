@@ -83,7 +83,7 @@ type
     class procedure ApplyProxy(HTTP: THTTPSend; const P: TProxy);
     class function WebRequest(AMethod: TWebMethod; const AUrl: string; const APostData: string; AHeaders: TStrings;
       const AUserAgent, AContentType, AAccept: string; AllowProxy: boolean; AProxy: TProxy; ATimeout: TTimeout;
-      out AResponseHeaders: TStringList; out AError: boolean): string; static;
+      var ACookies: TStringList; out AResponseHeaders: TStringList; out AError: boolean): string;
     { Gzip }
     class function IsGzip(Stream: TMemoryStream): boolean; static;
     class function DecompressGzipToStream(Compressed: TMemoryStream): TMemoryStream; static;
@@ -266,7 +266,7 @@ end;
 
 class function TNetwork.WebRequest(AMethod: TWebMethod; const AUrl: string; const APostData: string;
   AHeaders: TStrings; const AUserAgent, AContentType, AAccept: string; AllowProxy: boolean; AProxy: TProxy;
-  ATimeout: TTimeout; out AResponseHeaders: TStringList; out AError: boolean): string;
+  ATimeout: TTimeout; var ACookies: TStringList; out AResponseHeaders: TStringList; out AError: boolean): string;
 var
   HTTP: THTTPSend;
   SSL: TSSLOpenSSL;
@@ -332,6 +332,10 @@ begin
       end;
     end;
 
+    // Apply cookies before the request
+    if Assigned(ACookies) and (ACookies.Count > 0) then
+      HTTP.Cookies.Assign(ACookies);
+
     // Execute request
     rawStream.Clear;
     HTTP.OutputStream := rawStream;
@@ -339,6 +343,10 @@ begin
       HTTP.HTTPMethod('POST', AUrl)
     else
       HTTP.HTTPMethod('GET', AUrl);
+
+    // Save cookies received in the response
+    if Assigned(ACookies) then
+      ACookies.Assign(HTTP.Cookies);
 
     // Capture response headers
     AResponseHeaders.Assign(HTTP.Headers);
