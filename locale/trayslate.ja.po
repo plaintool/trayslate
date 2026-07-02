@@ -1031,11 +1031,6 @@ msgstr "自動起動"
 msgid "Auto-Swap Languages"
 msgstr "言語の自動入れ替え"
 
-#: tformsettingstrayslate.groupbox1.caption
-msgctxt "tformsettingstrayslate.groupbox1.caption"
-msgid "User Parameters"
-msgstr "ユーザーパラメーター"
-
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
@@ -1074,6 +1069,11 @@ msgstr "ホットキー"
 #: tformsettingstrayslate.grouptrayicon.caption
 msgid "Tray Icon"
 msgstr "トレイアイコン"
+
+#: tformsettingstrayslate.groupuserparameters.caption
+msgctxt "tformsettingstrayslate.groupuserparameters.caption"
+msgid "User Parameters"
+msgstr "ユーザーパラメーター"
 
 #: tformsettingstrayslate.labelconnecttimeout.caption
 msgid "Connection, sec"

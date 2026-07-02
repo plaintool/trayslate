@@ -1031,11 +1031,6 @@ msgstr "Авто-старт"
 msgid "Auto-Swap Languages"
 msgstr "Автоматична смяна на езици"
 
-#: tformsettingstrayslate.groupbox1.caption
-msgctxt "tformsettingstrayslate.groupbox1.caption"
-msgid "User Parameters"
-msgstr "Потребителски параметри"
-
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
@@ -1074,6 +1069,11 @@ msgstr "Бързи клавиши"
 #: tformsettingstrayslate.grouptrayicon.caption
 msgid "Tray Icon"
 msgstr "Икона в системния трей"
+
+#: tformsettingstrayslate.groupuserparameters.caption
+msgctxt "tformsettingstrayslate.groupuserparameters.caption"
+msgid "User Parameters"
+msgstr "Потребителски параметри"
 
 #: tformsettingstrayslate.labelconnecttimeout.caption
 msgid "Connection, sec"

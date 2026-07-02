@@ -1031,11 +1031,6 @@ msgstr "Autostart"
 msgid "Auto-Swap Languages"
 msgstr "Auto Swap Languages"
 
-#: tformsettingstrayslate.groupbox1.caption
-msgctxt "tformsettingstrayslate.groupbox1.caption"
-msgid "User Parameters"
-msgstr "User Parameters"
-
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
@@ -1074,6 +1069,11 @@ msgstr "Hotkeys"
 #: tformsettingstrayslate.grouptrayicon.caption
 msgid "Tray Icon"
 msgstr "Tray Icon"
+
+#: tformsettingstrayslate.groupuserparameters.caption
+msgctxt "tformsettingstrayslate.groupuserparameters.caption"
+msgid "User Parameters"
+msgstr "User Parameters"
 
 #: tformsettingstrayslate.labelconnecttimeout.caption
 msgid "Connection, sec"

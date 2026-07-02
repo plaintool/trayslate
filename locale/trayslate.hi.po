@@ -1031,11 +1031,6 @@ msgstr "स्वतः प्रारंभ"
 msgid "Auto-Swap Languages"
 msgstr "स्वतः भाषाएँ बदलें"
 
-#: tformsettingstrayslate.groupbox1.caption
-msgctxt "tformsettingstrayslate.groupbox1.caption"
-msgid "User Parameters"
-msgstr "उपयोगकर्ता पैरामीटर"
-
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
@@ -1074,6 +1069,11 @@ msgstr "शॉर्टकट कुंजियाँ"
 #: tformsettingstrayslate.grouptrayicon.caption
 msgid "Tray Icon"
 msgstr "ट्रे आइकन"
+
+#: tformsettingstrayslate.groupuserparameters.caption
+msgctxt "tformsettingstrayslate.groupuserparameters.caption"
+msgid "User Parameters"
+msgstr "उपयोगकर्ता पैरामीटर"
 
 #: tformsettingstrayslate.labelconnecttimeout.caption
 msgid "Connection, sec"

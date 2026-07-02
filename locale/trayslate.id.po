@@ -1031,11 +1031,6 @@ msgstr "Mulai Otomatis"
 msgid "Auto-Swap Languages"
 msgstr "Tukar Bahasa Secara Otomatis"
 
-#: tformsettingstrayslate.groupbox1.caption
-msgctxt "tformsettingstrayslate.groupbox1.caption"
-msgid "User Parameters"
-msgstr "Parameter Pengguna"
-
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
@@ -1074,6 +1069,11 @@ msgstr "Tombol pintas"
 #: tformsettingstrayslate.grouptrayicon.caption
 msgid "Tray Icon"
 msgstr "Ikon Baki"
+
+#: tformsettingstrayslate.groupuserparameters.caption
+msgctxt "tformsettingstrayslate.groupuserparameters.caption"
+msgid "User Parameters"
+msgstr "Parameter Pengguna"
 
 #: tformsettingstrayslate.labelconnecttimeout.caption
 msgid "Connection, sec"

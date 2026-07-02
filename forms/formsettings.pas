@@ -79,7 +79,7 @@ type
     FontDialog: TFontDialog;
     GroupAutoSwap: TGroupBox;
     GroupAutostart: TGroupBox;
-    GroupBox1: TGroupBox;
+    GroupUserParameters: TGroupBox;
     GroupTimeouts: TGroupBox;
     GroupMainWindow: TGroupBox;
     GroupMouseMode: TGroupBox;
@@ -118,6 +118,7 @@ type
     PanelFont: TPanel;
     PageInterface: TTabSheet;
     PageHotkeys: TTabSheet;
+    ScrollNetwork: TScrollBox;
     ScrollHotkeys: TScrollBox;
     ScrollInterface: TScrollBox;
     ScrollGeneral: TScrollBox;

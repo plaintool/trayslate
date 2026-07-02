@@ -1031,11 +1031,6 @@ msgstr "Automaattinen käynnistys"
 msgid "Auto-Swap Languages"
 msgstr "Kielten automaattinen vaihto"
 
-#: tformsettingstrayslate.groupbox1.caption
-msgctxt "tformsettingstrayslate.groupbox1.caption"
-msgid "User Parameters"
-msgstr "Käyttäjäparametrit"
-
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
@@ -1074,6 +1069,11 @@ msgstr "Pikanäppäimet"
 #: tformsettingstrayslate.grouptrayicon.caption
 msgid "Tray Icon"
 msgstr "Järjestelmäkuvake"
+
+#: tformsettingstrayslate.groupuserparameters.caption
+msgctxt "tformsettingstrayslate.groupuserparameters.caption"
+msgid "User Parameters"
+msgstr "Käyttäjäparametrit"
 
 #: tformsettingstrayslate.labelconnecttimeout.caption
 msgid "Connection, sec"

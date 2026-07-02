@@ -1031,11 +1031,6 @@ msgstr "Automatické spuštění"
 msgid "Auto-Swap Languages"
 msgstr "Automatické prohazování jazyků"
 
-#: tformsettingstrayslate.groupbox1.caption
-msgctxt "tformsettingstrayslate.groupbox1.caption"
-msgid "User Parameters"
-msgstr "Uživatelské parametry"
-
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
@@ -1074,6 +1069,11 @@ msgstr "Klávesové zkratky"
 #: tformsettingstrayslate.grouptrayicon.caption
 msgid "Tray Icon"
 msgstr "Ikona v systémové liště"
+
+#: tformsettingstrayslate.groupuserparameters.caption
+msgctxt "tformsettingstrayslate.groupuserparameters.caption"
+msgid "User Parameters"
+msgstr "Uživatelské parametry"
 
 #: tformsettingstrayslate.labelconnecttimeout.caption
 msgid "Connection, sec"

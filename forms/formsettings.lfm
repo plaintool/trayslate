@@ -779,220 +779,239 @@ object formSettingsTrayslate: TformSettingsTrayslate
       Caption = 'Network'
       ClientHeight = 557
       ClientWidth = 606
-      object GroupTimeouts: TGroupBox
-        Left = 5
-        Height = 105
-        Top = 5
-        Width = 596
-        Align = alTop
-        BorderSpacing.Around = 5
-        Caption = 'Timeout'
-        ClientHeight = 85
-        ClientWidth = 592
+      object ScrollNetwork: TScrollBox
+        Left = 0
+        Height = 557
+        Top = 0
+        Width = 606
+        HorzScrollBar.Increment = 15
+        HorzScrollBar.Page = 158
+        HorzScrollBar.Smooth = True
+        HorzScrollBar.Tracking = True
+        VertScrollBar.Increment = 41
+        VertScrollBar.Page = 413
+        VertScrollBar.Smooth = True
+        VertScrollBar.Tracking = True
+        Align = alClient
+        BorderStyle = bsNone
+        ClientHeight = 557
+        ClientWidth = 606
         TabOrder = 0
-        object LabelConnectTimeout: TLabel
-          Left = 8
-          Height = 32
-          Top = 9
-          Width = 136
-          Alignment = taRightJustify
-          AutoSize = False
-          Caption = 'Connection, sec'
-          WordWrap = True
-        end
-        object SpinConnectTimeout: TSpinEdit
-          Left = 152
-          Height = 23
-          Hint = 'Time to establish connection If 0 default 10 seconds is used'
-          Top = 8
-          Width = 417
-          Anchors = [akTop, akLeft, akRight]
+        object GroupTimeouts: TGroupBox
+          Left = 5
+          Height = 105
+          Top = 5
+          Width = 596
+          Align = alTop
+          BorderSpacing.Around = 5
+          Caption = 'Timeout'
+          ClientHeight = 85
+          ClientWidth = 592
           TabOrder = 0
-          Value = 10
-          OnChange = SettingChange
+          object LabelConnectTimeout: TLabel
+            Left = 8
+            Height = 32
+            Top = 9
+            Width = 136
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Connection, sec'
+            WordWrap = True
+          end
+          object SpinConnectTimeout: TSpinEdit
+            Left = 152
+            Height = 23
+            Hint = 'Time to establish connection If 0 default 10 seconds is used'
+            Top = 8
+            Width = 417
+            Anchors = [akTop, akLeft, akRight]
+            TabOrder = 0
+            Value = 10
+            OnChange = SettingChange
+          end
+          object LabelRequestTimeout: TLabel
+            Left = 8
+            Height = 32
+            Top = 48
+            Width = 136
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Request, sec'
+            WordWrap = True
+          end
+          object SpinRequestTimeout: TSpinEdit
+            Left = 152
+            Height = 23
+            Hint = 'Time to wait for response and data If 0 default 300 seconds is used'
+            Top = 48
+            Width = 417
+            Anchors = [akTop, akLeft, akRight]
+            TabOrder = 1
+            Value = 10
+            OnChange = SettingChange
+          end
         end
-        object LabelRequestTimeout: TLabel
-          Left = 8
-          Height = 32
-          Top = 48
-          Width = 136
-          Alignment = taRightJustify
-          AutoSize = False
-          Caption = 'Request, sec'
-          WordWrap = True
-        end
-        object SpinRequestTimeout: TSpinEdit
-          Left = 152
-          Height = 23
-          Hint = 'Time to wait for response and data If 0 default 300 seconds is used'
-          Top = 48
-          Width = 417
-          Anchors = [akTop, akLeft, akRight]
+        object GroupProxy: TGroupBox
+          Left = 5
+          Height = 293
+          Top = 115
+          Width = 596
+          Align = alTop
+          BorderSpacing.Around = 5
+          Caption = 'Proxy'
+          ClientHeight = 273
+          ClientWidth = 592
           TabOrder = 1
-          Value = 10
-          OnChange = SettingChange
-        end
-      end
-      object GroupProxy: TGroupBox
-        Left = 5
-        Height = 293
-        Top = 115
-        Width = 596
-        Align = alTop
-        BorderSpacing.Around = 5
-        Caption = 'Proxy'
-        ClientHeight = 273
-        ClientWidth = 592
-        TabOrder = 1
-        object ComboProxyMode: TComboBox
-          Left = 152
-          Height = 23
-          Hint = 'Defines how proxy is used no proxy system proxy or custom configuration'
-          Top = 8
-          Width = 417
-          Anchors = [akTop, akLeft, akRight]
-          ItemHeight = 15
-          ItemIndex = 0
-          Items.Strings = (
-            'No Proxy'
-            'System Proxy'
-            'Custom Proxy'
-          )
-          Style = csDropDownList
-          TabOrder = 0
-          Text = 'No Proxy'
-          OnChange = SettingChange
-        end
-        object LabelProxyMode: TLabel
-          Left = 8
-          Height = 32
-          Top = 8
-          Width = 136
-          Alignment = taRightJustify
-          AutoSize = False
-          Caption = 'Proxy Mode'
-          WordWrap = True
-        end
-        object LabelProxyType: TLabel
-          Left = 8
-          Height = 32
-          Top = 48
-          Width = 136
-          Alignment = taRightJustify
-          AutoSize = False
-          Caption = 'Proxy Type'
-          WordWrap = True
-        end
-        object ComboProxyType: TComboBox
-          Left = 152
-          Height = 23
-          Hint = 'Type of proxy protocol used for custom settings'
-          Top = 48
-          Width = 417
-          Anchors = [akTop, akLeft, akRight]
-          ItemHeight = 15
-          ItemIndex = 0
-          Items.Strings = (
-            'HTTP'
-            'SOCKS4'
-            'SOCKS5'
-          )
-          Style = csDropDownList
-          TabOrder = 1
-          Text = 'HTTP'
-          OnChange = SettingChange
-        end
-        object EditProxyHost: TEdit
-          Left = 152
-          Height = 23
-          Hint = 'Address of the proxy server IP or domain name'
-          Top = 84
-          Width = 417
-          Anchors = [akTop, akLeft, akRight]
-          TabOrder = 2
-          OnChange = SettingChange
-        end
-        object LabelHost: TLabel
-          Left = 8
-          Height = 32
-          Top = 84
-          Width = 136
-          Alignment = taRightJustify
-          AutoSize = False
-          Caption = 'Host'
-          WordWrap = True
-        end
-        object LabelPort: TLabel
-          Left = 8
-          Height = 32
-          Top = 120
-          Width = 136
-          Alignment = taRightJustify
-          AutoSize = False
-          Caption = 'Port'
-          WordWrap = True
-        end
-        object CheckProxyAuthentication: TCheckBox
-          Left = 16
-          Height = 19
-          Hint = 'Enables login and password authentication for proxy access'
-          Top = 160
-          Width = 97
-          Caption = 'Authentication'
-          TabOrder = 4
-          OnChange = SettingChange
-        end
-        object LabelLogin: TLabel
-          Left = 8
-          Height = 32
-          Top = 192
-          Width = 136
-          Alignment = taRightJustify
-          AutoSize = False
-          Caption = 'Login'
-          WordWrap = True
-        end
-        object LabelPassword: TLabel
-          Left = 8
-          Height = 32
-          Top = 228
-          Width = 136
-          Alignment = taRightJustify
-          AutoSize = False
-          Caption = 'Password'
-          WordWrap = True
-        end
-        object EditProxyLogin: TEdit
-          Left = 152
-          Height = 23
-          Hint = 'Username used for proxy authentication'
-          Top = 192
-          Width = 417
-          Anchors = [akTop, akLeft, akRight]
-          Enabled = False
-          TabOrder = 5
-          OnChange = SettingChange
-        end
-        object EditProxyPassword: TEdit
-          Left = 152
-          Height = 23
-          Hint = 'Password used for proxy authentication'
-          Top = 228
-          Width = 417
-          Anchors = [akTop, akLeft, akRight]
-          Enabled = False
-          TabOrder = 6
-          OnChange = SettingChange
-        end
-        object SpinProxyPort: TSpinEdit
-          Left = 152
-          Height = 23
-          Hint = 'Network port used by the proxy server'
-          Top = 120
-          Width = 417
-          Anchors = [akTop, akLeft, akRight]
-          TabOrder = 3
-          OnChange = SettingChange
+          object ComboProxyMode: TComboBox
+            Left = 152
+            Height = 23
+            Hint = 'Defines how proxy is used no proxy system proxy or custom configuration'
+            Top = 8
+            Width = 417
+            Anchors = [akTop, akLeft, akRight]
+            ItemHeight = 15
+            ItemIndex = 0
+            Items.Strings = (
+              'No Proxy'
+              'System Proxy'
+              'Custom Proxy'
+            )
+            Style = csDropDownList
+            TabOrder = 0
+            Text = 'No Proxy'
+            OnChange = SettingChange
+          end
+          object LabelProxyMode: TLabel
+            Left = 8
+            Height = 32
+            Top = 8
+            Width = 136
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Proxy Mode'
+            WordWrap = True
+          end
+          object LabelProxyType: TLabel
+            Left = 8
+            Height = 32
+            Top = 48
+            Width = 136
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Proxy Type'
+            WordWrap = True
+          end
+          object ComboProxyType: TComboBox
+            Left = 152
+            Height = 23
+            Hint = 'Type of proxy protocol used for custom settings'
+            Top = 48
+            Width = 417
+            Anchors = [akTop, akLeft, akRight]
+            ItemHeight = 15
+            ItemIndex = 0
+            Items.Strings = (
+              'HTTP'
+              'SOCKS4'
+              'SOCKS5'
+            )
+            Style = csDropDownList
+            TabOrder = 1
+            Text = 'HTTP'
+            OnChange = SettingChange
+          end
+          object EditProxyHost: TEdit
+            Left = 152
+            Height = 23
+            Hint = 'Address of the proxy server IP or domain name'
+            Top = 84
+            Width = 417
+            Anchors = [akTop, akLeft, akRight]
+            TabOrder = 2
+            OnChange = SettingChange
+          end
+          object LabelHost: TLabel
+            Left = 8
+            Height = 32
+            Top = 84
+            Width = 136
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Host'
+            WordWrap = True
+          end
+          object LabelPort: TLabel
+            Left = 8
+            Height = 32
+            Top = 120
+            Width = 136
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Port'
+            WordWrap = True
+          end
+          object CheckProxyAuthentication: TCheckBox
+            Left = 16
+            Height = 19
+            Hint = 'Enables login and password authentication for proxy access'
+            Top = 160
+            Width = 97
+            Caption = 'Authentication'
+            TabOrder = 4
+            OnChange = SettingChange
+          end
+          object LabelLogin: TLabel
+            Left = 8
+            Height = 32
+            Top = 192
+            Width = 136
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Login'
+            WordWrap = True
+          end
+          object LabelPassword: TLabel
+            Left = 8
+            Height = 32
+            Top = 228
+            Width = 136
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Password'
+            WordWrap = True
+          end
+          object EditProxyLogin: TEdit
+            Left = 152
+            Height = 23
+            Hint = 'Username used for proxy authentication'
+            Top = 192
+            Width = 417
+            Anchors = [akTop, akLeft, akRight]
+            Enabled = False
+            TabOrder = 5
+            OnChange = SettingChange
+          end
+          object EditProxyPassword: TEdit
+            Left = 152
+            Height = 23
+            Hint = 'Password used for proxy authentication'
+            Top = 228
+            Width = 417
+            Anchors = [akTop, akLeft, akRight]
+            Enabled = False
+            TabOrder = 6
+            OnChange = SettingChange
+          end
+          object SpinProxyPort: TSpinEdit
+            Left = 152
+            Height = 23
+            Hint = 'Network port used by the proxy server'
+            Top = 120
+            Width = 417
+            Anchors = [akTop, akLeft, akRight]
+            TabOrder = 3
+            OnChange = SettingChange
+          end
         end
       end
     end
@@ -1000,7 +1019,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
       Caption = 'Parameters'
       ClientHeight = 557
       ClientWidth = 606
-      object GroupBox1: TGroupBox
+      object GroupUserParameters: TGroupBox
         Left = 5
         Height = 547
         Top = 5

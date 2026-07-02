@@ -1031,11 +1031,6 @@ msgstr "자동 시작"
 msgid "Auto-Swap Languages"
 msgstr "언어 자동 교체"
 
-#: tformsettingstrayslate.groupbox1.caption
-msgctxt "tformsettingstrayslate.groupbox1.caption"
-msgid "User Parameters"
-msgstr "사용자 매개변수"
-
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
@@ -1074,6 +1069,11 @@ msgstr "단축키"
 #: tformsettingstrayslate.grouptrayicon.caption
 msgid "Tray Icon"
 msgstr "트레이 아이콘"
+
+#: tformsettingstrayslate.groupuserparameters.caption
+msgctxt "tformsettingstrayslate.groupuserparameters.caption"
+msgid "User Parameters"
+msgstr "사용자 매개변수"
 
 #: tformsettingstrayslate.labelconnecttimeout.caption
 msgid "Connection, sec"

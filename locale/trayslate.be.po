@@ -1031,11 +1031,6 @@ msgstr "Аўтазапуск"
 msgid "Auto-Swap Languages"
 msgstr "Аўта-пераключэнне моў"
 
-#: tformsettingstrayslate.groupbox1.caption
-msgctxt "tformsettingstrayslate.groupbox1.caption"
-msgid "User Parameters"
-msgstr "Карыстальніцкія параметры"
-
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
@@ -1074,6 +1069,11 @@ msgstr "Гарачыя клавішы"
 #: tformsettingstrayslate.grouptrayicon.caption
 msgid "Tray Icon"
 msgstr "Іконка ў трэі"
+
+#: tformsettingstrayslate.groupuserparameters.caption
+msgctxt "tformsettingstrayslate.groupuserparameters.caption"
+msgid "User Parameters"
+msgstr "Карыстальніцкія параметры"
 
 #: tformsettingstrayslate.labelconnecttimeout.caption
 msgid "Connection, sec"

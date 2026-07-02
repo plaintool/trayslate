@@ -1031,11 +1031,6 @@ msgstr "הפעלה אוטומטית"
 msgid "Auto-Swap Languages"
 msgstr "החלפת שפות אוטומטית"
 
-#: tformsettingstrayslate.groupbox1.caption
-msgctxt "tformsettingstrayslate.groupbox1.caption"
-msgid "User Parameters"
-msgstr "פרמטרי משתמש"
-
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
@@ -1074,6 +1069,11 @@ msgstr "צירופי מקשים גלובלייםמקשי קיצור"
 #: tformsettingstrayslate.grouptrayicon.caption
 msgid "Tray Icon"
 msgstr "סמל מגש"
+
+#: tformsettingstrayslate.groupuserparameters.caption
+msgctxt "tformsettingstrayslate.groupuserparameters.caption"
+msgid "User Parameters"
+msgstr "פרמטרי משתמש"
 
 #: tformsettingstrayslate.labelconnecttimeout.caption
 msgid "Connection, sec"

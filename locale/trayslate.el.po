@@ -1031,11 +1031,6 @@ msgstr "Αυτόματη εκκίνηση"
 msgid "Auto-Swap Languages"
 msgstr "Αυτόματη εναλλαγή γλωσσών"
 
-#: tformsettingstrayslate.groupbox1.caption
-msgctxt "tformsettingstrayslate.groupbox1.caption"
-msgid "User Parameters"
-msgstr "Παράμετροι χρήστη"
-
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
@@ -1074,6 +1069,11 @@ msgstr "Συντομεύσεις πληκτρολογίου"
 #: tformsettingstrayslate.grouptrayicon.caption
 msgid "Tray Icon"
 msgstr "Εικονίδιο δίσκου συστήματος"
+
+#: tformsettingstrayslate.groupuserparameters.caption
+msgctxt "tformsettingstrayslate.groupuserparameters.caption"
+msgid "User Parameters"
+msgstr "Παράμετροι χρήστη"
 
 #: tformsettingstrayslate.labelconnecttimeout.caption
 msgid "Connection, sec"

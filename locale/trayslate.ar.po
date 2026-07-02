@@ -1031,11 +1031,6 @@ msgstr "تشغيل تلقائي"
 msgid "Auto-Swap Languages"
 msgstr "تبديل اللغات تلقائياً"
 
-#: tformsettingstrayslate.groupbox1.caption
-msgctxt "tformsettingstrayslate.groupbox1.caption"
-msgid "User Parameters"
-msgstr "معلمات المستخدم"
-
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
@@ -1074,6 +1069,11 @@ msgstr "مفاتيح الاختصار"
 #: tformsettingstrayslate.grouptrayicon.caption
 msgid "Tray Icon"
 msgstr "أيقونة العلبة"
+
+#: tformsettingstrayslate.groupuserparameters.caption
+msgctxt "tformsettingstrayslate.groupuserparameters.caption"
+msgid "User Parameters"
+msgstr "معلمات المستخدم"
 
 #: tformsettingstrayslate.labelconnecttimeout.caption
 msgid "Connection, sec"
