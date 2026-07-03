@@ -161,6 +161,7 @@ type
     procedure ValueListUserParametersColRowDeleted(Sender: TObject; IsColumn: boolean; sIndex, tIndex: integer);
     procedure ValueListUserParametersColRowInserted(Sender: TObject; IsColumn: boolean; sIndex, tIndex: integer);
     procedure ValueListUserParametersEditingDone(Sender: TObject);
+    procedure ValueListUserParametersKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure ValueListUserParametersSelectEditor(Sender: TObject; aCol, aRow: integer; var Editor: TWinControl);
     procedure ListPagesClick(Sender: TObject);
     procedure ListPagesDrawItem(Control: TWinControl; Index: integer; ARect: TRect; State: TOwnerDrawState);
@@ -888,6 +889,37 @@ begin
     BtnApply.Enabled := True;
 end;
 
+procedure TformSettingsTrayslate.ValueListUserParametersKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+var
+  ValueList: TValueListEditor;
+  CurrentRow: integer;
+begin
+  if (Key = VK_DELETE) and (ssCtrl in Shift) then
+  begin
+    ValueList := Sender as TValueListEditor;
+    Key := 0; // Block default processing
+
+    // Safety check: row index must be valid
+    if (ValueList.Row < ValueList.FixedRows) or (ValueList.Row >= ValueList.RowCount) then
+      Exit; // Row is invalid, do nothing (prevents the out-of-bounds error)
+
+    CurrentRow := ValueList.Row;
+
+    // Don't delete fixed rows or the last data row
+    if (ValueList.RowCount <= ValueList.FixedRows + 1) or (CurrentRow < ValueList.FixedRows) then
+      Exit;
+
+    // Move selection to a safe row before deleting (avoids dangling editor)
+    if CurrentRow > ValueList.FixedRows then
+      ValueList.Row := CurrentRow - 1
+    else
+      ValueList.Row := ValueList.FixedRows;
+
+    // Now safe to delete
+    ValueList.DeleteRow(CurrentRow);
+  end;
+end;
+
 procedure TformSettingsTrayslate.ValueListUserParametersColRowDeleted(Sender: TObject; IsColumn: boolean; sIndex, tIndex: integer);
 begin
   BtnApply.Enabled := True;
@@ -1041,8 +1073,21 @@ end;
 
 procedure TformSettingsTrayslate.ClbProxiedConfigsMouseWheel(Sender: TObject; Shift: TShiftState;
   WheelDelta: integer; MousePos: TPoint; var Handled: boolean);
+var
+  Lines: integer;
 begin
-  ClbProxiedConfigs.Invalidate;
+  // Get system wheel scroll setting (usually 3 lines, or -1 for full page)
+  Lines := Mouse.WheelScrollLines;
+  if Lines = -1 then
+    Lines := ClbProxiedConfigs.Items.Count; // Full page if needed
+
+  // Scroll the list manually
+  if WheelDelta > 0 then
+    ClbProxiedConfigs.TopIndex := Max(0, ClbProxiedConfigs.TopIndex - Lines)
+  else
+    ClbProxiedConfigs.TopIndex := Min(ClbProxiedConfigs.Items.Count - 1, ClbProxiedConfigs.TopIndex + Lines);
+
+  Handled := True; // Block parent ScrollBox
 end;
 
 {%EndRegion}
