@@ -23,14 +23,17 @@ uses
   StdCtrls,
   ExtCtrls,
   ColorBox,
+  Clipbrd,
   Themes,
   Spin,
   Math,
   Grids,
   ValEdit,
+  CheckLst,
   LCLType,
-  LCLIntf, CheckLst,
+  LCLIntf,
   hotkeyhelper,
+  stringhelper,
   network;
 
 type
@@ -147,6 +150,9 @@ type
     procedure FormResize(Sender: TObject);
     procedure FormChangeBounds(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
+    procedure SettingChange(Sender: TObject);
+    procedure ListPagesClick(Sender: TObject);
+    procedure EditProxyHostKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure BtnApplyClick(Sender: TObject);
     procedure BtnCancelClick(Sender: TObject);
     procedure BtnFontClick(Sender: TObject);
@@ -156,14 +162,11 @@ type
     procedure BtnDefaultHotkeysClick(Sender: TObject);
     procedure BtnFontPopupClick(Sender: TObject);
     procedure BtnResetPopupClick(Sender: TObject);
-    procedure ComboIconFontNameMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: integer;
-      MousePos: TPoint; var Handled: boolean);
     procedure ValueListUserParametersColRowDeleted(Sender: TObject; IsColumn: boolean; sIndex, tIndex: integer);
     procedure ValueListUserParametersColRowInserted(Sender: TObject; IsColumn: boolean; sIndex, tIndex: integer);
     procedure ValueListUserParametersEditingDone(Sender: TObject);
     procedure ValueListUserParametersKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure ValueListUserParametersSelectEditor(Sender: TObject; aCol, aRow: integer; var Editor: TWinControl);
-    procedure ListPagesClick(Sender: TObject);
     procedure ListPagesDrawItem(Control: TWinControl; Index: integer; ARect: TRect; State: TOwnerDrawState);
     procedure ClbProxiedConfigsDrawItem(Control: TWinControl; Index: integer; ARect: TRect; State: TOwnerDrawState);
     procedure ClbProxiedConfigsMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: integer;
@@ -173,8 +176,9 @@ type
     procedure GridHotkeysGetCellHint(Sender: TObject; ACol, ARow: integer; var HintText: string);
     procedure GridHotkeysKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure GridHotkeysSelectEditor(Sender: TObject; aCol, aRow: integer; var Editor: TWinControl);
-    procedure SettingChange(Sender: TObject);
     procedure SplitterPagesMoved(Sender: TObject);
+    procedure ComboIconFontNameMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: integer;
+      MousePos: TPoint; var Handled: boolean);
     {%EndRegion}
   private
     FOriginalAutoStart: boolean;
@@ -431,10 +435,87 @@ end;
 
 {%Region -fold Events}
 
-procedure TformSettingsTrayslate.ComboIconFontNameMouseWheel(Sender: TObject; Shift: TShiftState;
-  WheelDelta: integer; MousePos: TPoint; var Handled: boolean);
+procedure TformSettingsTrayslate.SettingChange(Sender: TObject);
 begin
-  Handled := True;
+  if ApplySettings then exit;
+
+  BtnApply.Enabled := True;
+
+  if (Sender is TSpinEdit) then
+  begin
+    if (Sender as TSpinEdit).Value < 0 then
+      (Sender as TSpinEdit).Value := 0;
+  end;
+
+  if (Sender = ColorIconBackground) or (Sender = ColorIconFont) or (Sender = ComboIconFontName) or (Sender = CheckTwoLang) then
+  begin
+    // Apply real time properies
+    formTrayslate.IconBackgroundColor := ColorIconBackground.Selected;
+    formTrayslate.IconFontColor := ColorIconFont.Selected;
+    formTrayslate.IconFontName := ComboIconFontName.Text;
+    formTrayslate.IconTwoLang := CheckTwoLang.Checked;
+    formTrayslate.SetIcon;
+  end
+  else
+  if Sender = TrackOpacityHover then
+  begin
+    SpinHover.Value := TrackOpacityHover.Position;
+    SetPopup;
+  end
+  else
+  if Sender = TrackOpacityIdle then
+  begin
+    SpinIdle.Value := TrackOpacityIdle.Position;
+    SetPopup;
+  end
+  else
+  if Sender = SpinHover then
+  begin
+    TrackOpacityHover.Position := SpinHover.Value;
+    SetPopup;
+  end
+  else
+  if Sender = SpinIdle then
+  begin
+    TrackOpacityIdle.Position := SpinIdle.Value;
+    SetPopup;
+  end
+  else
+  if Sender = CheckAutoAddLangPairs then
+    formTrayslate.aFastAutoAddLangPairs.Checked := CheckAutoAddLangPairs.Checked
+  else
+  if Sender = CheckAutoSwap then
+    formTrayslate.aFastAutoSwap.Checked := CheckAutoSwap.Checked
+  else
+  if Sender = CheckAllowHotkeys then
+  begin
+    formTrayslate.aFastAllowHotkeys.Checked := CheckAllowHotkeys.Checked;
+    SetState;
+  end
+  else
+  if Sender = CheckEnableMouseMode then
+    formTrayslate.aFastEnableMouseMode.Checked := CheckEnableMouseMode.Checked
+  else
+  if Sender = CheckHideControls then
+    formTrayslate.aFastHideControls.Checked := CheckHideControls.Checked
+  else
+  if Sender = CheckMouseModeCtrl then
+    formTrayslate.aFastMouseModeCtrl.Checked := CheckMouseModeCtrl.Checked
+  else
+  if Sender = CheckRealTime then
+    formTrayslate.aFastRealTime.Checked := CheckRealTime.Checked
+  else
+  if Sender = CheckVerticalSplit then
+    formTrayslate.aFastVerticalSplit.Checked := CheckVerticalSplit.Checked
+  else
+  if Sender = CheckAutoCopy then
+    formTrayslate.aFastAutoCopy.Checked := CheckAutoCopy.Checked
+  else
+  if Sender = CheckProxyAuthentication then
+    SetState
+  else
+  if Sender = ComboProxyMode then
+    SetState;
 end;
 
 procedure TformSettingsTrayslate.ListPagesClick(Sender: TObject);
@@ -699,92 +780,39 @@ begin
     SettingChange(Sender);
 end;
 
-procedure TformSettingsTrayslate.SettingChange(Sender: TObject);
-begin
-  if ApplySettings then exit;
-
-  BtnApply.Enabled := True;
-
-  if (Sender is TSpinEdit) then
-  begin
-    if (Sender as TSpinEdit).Value < 0 then
-      (Sender as TSpinEdit).Value := 0;
-  end;
-
-  if (Sender = ColorIconBackground) or (Sender = ColorIconFont) or (Sender = ComboIconFontName) or (Sender = CheckTwoLang) then
-  begin
-    // Apply real time properies
-    formTrayslate.IconBackgroundColor := ColorIconBackground.Selected;
-    formTrayslate.IconFontColor := ColorIconFont.Selected;
-    formTrayslate.IconFontName := ComboIconFontName.Text;
-    formTrayslate.IconTwoLang := CheckTwoLang.Checked;
-    formTrayslate.SetIcon;
-  end
-  else
-  if Sender = TrackOpacityHover then
-  begin
-    SpinHover.Value := TrackOpacityHover.Position;
-    SetPopup;
-  end
-  else
-  if Sender = TrackOpacityIdle then
-  begin
-    SpinIdle.Value := TrackOpacityIdle.Position;
-    SetPopup;
-  end
-  else
-  if Sender = SpinHover then
-  begin
-    TrackOpacityHover.Position := SpinHover.Value;
-    SetPopup;
-  end
-  else
-  if Sender = SpinIdle then
-  begin
-    TrackOpacityIdle.Position := SpinIdle.Value;
-    SetPopup;
-  end
-  else
-  if Sender = CheckAutoAddLangPairs then
-    formTrayslate.aFastAutoAddLangPairs.Checked := CheckAutoAddLangPairs.Checked
-  else
-  if Sender = CheckAutoSwap then
-    formTrayslate.aFastAutoSwap.Checked := CheckAutoSwap.Checked
-  else
-  if Sender = CheckAllowHotkeys then
-  begin
-    formTrayslate.aFastAllowHotkeys.Checked := CheckAllowHotkeys.Checked;
-    SetState;
-  end
-  else
-  if Sender = CheckEnableMouseMode then
-    formTrayslate.aFastEnableMouseMode.Checked := CheckEnableMouseMode.Checked
-  else
-  if Sender = CheckHideControls then
-    formTrayslate.aFastHideControls.Checked := CheckHideControls.Checked
-  else
-  if Sender = CheckMouseModeCtrl then
-    formTrayslate.aFastMouseModeCtrl.Checked := CheckMouseModeCtrl.Checked
-  else
-  if Sender = CheckRealTime then
-    formTrayslate.aFastRealTime.Checked := CheckRealTime.Checked
-  else
-  if Sender = CheckVerticalSplit then
-    formTrayslate.aFastVerticalSplit.Checked := CheckVerticalSplit.Checked
-  else
-  if Sender = CheckAutoCopy then
-    formTrayslate.aFastAutoCopy.Checked := CheckAutoCopy.Checked
-  else
-  if Sender = CheckProxyAuthentication then
-    SetState
-  else
-  if Sender = ComboProxyMode then
-    SetState;
-end;
-
 procedure TformSettingsTrayslate.SplitterPagesMoved(Sender: TObject);
 begin
   formTrayslate.FormSettingsSplit := ListPages.Width;
+end;
+
+procedure TformSettingsTrayslate.EditProxyHostKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+var
+  s, ip: string;
+  port: word;
+begin
+  // Check for paste shortcut: Ctrl+V or Shift+Insert
+  if ((Key = VK_V) and (ssCtrl in Shift)) or ((Key = VK_INSERT) and (Shift = [ssShift])) then
+  begin
+    if ((EditProxyHost.Text = string.empty) or (EditProxyHost.SelLength = Length(EditProxyHost.Text))) and
+      Clipboard.HasFormat(CF_TEXT) then
+    begin
+      s := Trim(Clipboard.AsText);
+      if s.TryParseIPPort(ip, port) then
+      begin
+        // Replace the current selection with IP only
+        EditProxyHost.SelText := ip;
+        SpinProxyPort.Value := port;
+        if SpinProxyPort.CanFocus then
+        begin
+          SpinProxyPort.SetFocus;
+          SpinProxyPort.SelStart := Length(SpinProxyPort.Text);
+        end;
+        // Mark the key as handled so default paste does not occur
+        Key := 0;
+      end;
+    end;
+    // If it's not an IP:PORT string, the normal paste will happen (Key not set to 0)
+  end;
 end;
 
 procedure TformSettingsTrayslate.BtnDefaultClick(Sender: TObject);
@@ -1088,6 +1116,12 @@ begin
     ClbProxiedConfigs.TopIndex := Min(ClbProxiedConfigs.Items.Count - 1, ClbProxiedConfigs.TopIndex + Lines);
 
   Handled := True; // Block parent ScrollBox
+end;
+
+procedure TformSettingsTrayslate.ComboIconFontNameMouseWheel(Sender: TObject; Shift: TShiftState;
+  WheelDelta: integer; MousePos: TPoint; var Handled: boolean);
+begin
+  Handled := True;
 end;
 
 {%EndRegion}

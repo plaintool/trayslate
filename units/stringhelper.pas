@@ -40,6 +40,7 @@ type
     function RemoveTrailingLineBreak: string;
     function ExtractTextSample(MaxLen: integer = 500): string;
     function TryFormatJson(out AFormatted: string): boolean;
+    function TryParseIPPort(out IP: string; out Port: Word): Boolean;
   end;
 
   { TCaptionHelper }
@@ -643,6 +644,60 @@ begin
       // Not valid JSON
       Result := False;
     end;
+  end;
+end;
+
+function TStringHelperEx.TryParseIPPort(out IP: string; out Port: Word): Boolean;
+var
+  Parts, IPParts: TStringList;
+  i, Val: Integer;
+  ok: Boolean;
+  S: string;
+begin
+  S := Self.Trim;
+  Result := False;
+  Parts := TStringList.Create;
+  try
+    Parts.Delimiter := ':';
+    Parts.StrictDelimiter := True;
+    Parts.DelimitedText := S;
+    if Parts.Count <> 2 then
+      Exit;
+
+    IP := Parts[0];
+
+    // Validate the IP part (four numbers 0..255 separated by dots)
+    IPParts := TStringList.Create;
+    try
+      IPParts.Delimiter := '.';
+      IPParts.StrictDelimiter := True;
+      IPParts.DelimitedText := IP;
+      if IPParts.Count <> 4 then
+        Exit;
+
+      ok := True;
+      for i := 0 to 3 do
+      begin
+        if not TryStrToInt(IPParts[i], Val) or (Val < 0) or (Val > 255) then
+        begin
+          ok := False;
+          Break;
+        end;
+      end;
+      if not ok then
+        Exit;
+    finally
+      IPParts.Free;
+    end;
+
+    // Validate the port number (1..65535)
+    if not TryStrToInt(Parts[1], Val) or (Val < 1) or (Val > 65535) then
+      Exit;
+
+    Port := Val;
+    Result := True;
+  finally
+    Parts.Free;
   end;
 end;
 

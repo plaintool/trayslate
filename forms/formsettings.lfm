@@ -22,11 +22,11 @@ object formSettingsTrayslate: TformSettingsTrayslate
     Top = 5
     Width = 614
     TabStop = False
-    ActivePage = PageGeneral
+    ActivePage = PageNetwork
     Align = alClient
     BorderSpacing.Top = 5
     BorderSpacing.Bottom = 5
-    TabIndex = 0
+    TabIndex = 3
     TabOrder = 1
     object PageGeneral: TTabSheet
       Caption = 'General'
@@ -927,8 +927,10 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Top = 84
             Width = 400
             Anchors = [akTop, akLeft, akRight]
+            HideSelection = False
             TabOrder = 2
             OnChange = SettingChange
+            OnKeyDown = EditProxyHostKeyDown
           end
           object LabelHost: TLabel
             Left = 8
@@ -1082,7 +1084,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           )
           ColWidths = (
             200
-            382
+            365
           )
         end
       end
