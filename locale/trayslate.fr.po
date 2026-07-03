@@ -1049,6 +1049,10 @@ msgstr "Mode souris"
 msgid "Popup Window"
 msgstr "Fenêtre contextuelle"
 
+#: tformsettingstrayslate.groupproxiedconfigs.caption
+msgid "Proxied Configs (Default: All)"
+msgstr "Configurations via proxy (Par défaut : Toutes)"
+
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"
 msgstr "Proxy"

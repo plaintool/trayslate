@@ -1049,6 +1049,10 @@ msgstr "Λειτουργία ποντικιού"
 msgid "Popup Window"
 msgstr "Αναδυόμενο παράθυρο"
 
+#: tformsettingstrayslate.groupproxiedconfigs.caption
+msgid "Proxied Configs (Default: All)"
+msgstr "Ρυθμίσεις μέσω διακομιστή μεσολάβησης (Προεπιλογή: Όλες)"
+
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"
 msgstr "Διακομιστής μεσολάβησης"

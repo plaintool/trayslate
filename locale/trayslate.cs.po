@@ -1049,6 +1049,10 @@ msgstr "Režim myši"
 msgid "Popup Window"
 msgstr "Vyskakovací okno"
 
+#: tformsettingstrayslate.groupproxiedconfigs.caption
+msgid "Proxied Configs (Default: All)"
+msgstr "Proxyované konfigurace (výchozí: všechny)"
+
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"
 msgstr "Proxy"

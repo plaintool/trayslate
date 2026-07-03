@@ -190,6 +190,11 @@ begin
     TimeoutObj.Add('Request', Form.Timeout.Request);
     TimeoutObj.Add('Connection', Form.Timeout.Connection);
 
+    arrParams := TJSONArray.Create;
+    for i := 0 to Form.ProxiedConfigs.Count - 1 do
+      arrParams.Add(Form.ProxiedConfigs[i]);
+    JSONObj.Add('ProxiedConfigs', arrParams);
+
     JSONObj.Add('Timeout', TimeoutObj);
 
     // Save hotkeys
@@ -530,6 +535,15 @@ begin
             Proxy.Password := ProxyObj.FindPath('Password').AsString;
 
           Form.Proxy := Proxy;
+        end;
+
+        // Load proxied configs
+        Form.ProxiedConfigs.Clear;
+        if JSONObj.FindPath('ProxiedConfigs') <> nil then
+        begin
+          arrParams := JSONObj.FindPath('ProxiedConfigs') as TJSONArray;
+          for i := 0 to arrParams.Count - 1 do
+            Form.ProxiedConfigs.Add(arrParams.Items[i].AsString);
         end;
 
         // Timeout Settings

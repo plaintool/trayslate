@@ -1,4 +1,4 @@
-ar be bg cs da de el en es fi fr he hi id it ja ko nl pl pt ro ru sv tr uk zh
+ar be bg cs da de el en es fi fr he hi id it ja ko nl pl pt ro ru sv tr uk vi zh
 
 Arabic - ar
 Belarusian - be
@@ -26,3 +26,4 @@ Spanish - es
 Swedish - sv
 Turkish - tr
 Ukrainian - uk
+Vietnamese - vi

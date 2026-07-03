@@ -1049,6 +1049,11 @@ msgstr "Mouse Mode"
 msgid "Popup Window"
 msgstr "Popup Window"
 
+#: checkupdates.newversion
+#, object-pascal-format
+msgid "Proxied Configs (Default: All)"
+msgstr "Proxied Configs (Default: All)"
+
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"
 msgstr "Proxy"

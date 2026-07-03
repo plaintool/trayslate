@@ -405,6 +405,7 @@ type
     FFormSettingsSplit: integer;
     FLastDarkMode: boolean;
     FCustomPoFile: string;
+    FProxiedConfigs: TStringList;
     FHotKeyApp: THotKeyData;
     FHotKeyTransSwap: THotKeyData;
     FHotKeyTransFromClipboard: THotKeyData;
@@ -537,6 +538,7 @@ type
     property ConfigImages: TStringList read FConfigImages write FConfigImages;
     property ConfigLangDetect: string read FConfigLangDetect write FConfigLangDetect;
     property Proxy: TProxy read FProxy write SetProxy;
+    property ProxiedConfigs: TStringList read FProxiedConfigs write FProxiedConfigs;
     property Timeout: TTimeout read FTimeout write FTimeout;
     property AutoStart: boolean read FAutoStart write SetAutoStart;
     property IconBackgroundColor: TColor read FIconBackgroundColor write FIconBackgroundColor;
@@ -687,6 +689,7 @@ begin
   FLanguagesTarget := TStringList.Create;
   FLangPairs := TStringList.Create;
   FUserParameters := TStringList.Create;
+  FProxiedConfigs := TStringList.Create;
 
   // Load form settings
   FFormSettingsLoaded := LoadFormSettings(Self);
@@ -790,6 +793,7 @@ begin
     SaveFormSettings(Self);
   FreeAndNil(FLangPairs);
   FreeAndNil(FUserParameters);
+  FreeAndNil(FProxiedConfigs);
   FreeAndNil(FLanguages);
   FreeAndNil(FLanguagesTarget);
   FreeAndNil(FConfigFiles);
@@ -2102,6 +2106,13 @@ begin
   begin
     FreeAndNil(FTransDetect);
     FTransDetect := TTranslate.Create;
+  end;
+
+  // Disable proxy if not in the proxied list
+  if ProxiedConfigs.Count > 0 then
+  begin
+    if not ProxiedConfigs.Contains(FConfigFile) then FTrans.ServiceProxy := False;
+    if not ProxiedConfigs.Contains(FConfigLangDetect) then FTransDetect.ServiceProxy := False;
   end;
 
   // Loading source languages from the config

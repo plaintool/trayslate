@@ -36,7 +36,10 @@ type
 
     // Returns True if any string in the list contains SubText
     function Any(const SubText: string): Boolean;
-  end;
+
+    // Returns True if the list contains value
+    function Contains(const Value: string): Boolean;
+ end;
 
 implementation
 
@@ -170,6 +173,11 @@ end;
 function TStringsHelper.Any(const SubText: string): Boolean;
 begin
   Result := FindInStringList(SubText) >= 0;
+end;
+
+function TStringsHelper.Contains(const Value: string): Boolean;
+begin
+  Result := Self.IndexOf(Value) >= 0;
 end;
 
 end.

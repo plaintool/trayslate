@@ -1049,6 +1049,10 @@ msgstr "鼠标模式"
 msgid "Popup Window"
 msgstr "弹出窗口"
 
+#: tformsettingstrayslate.groupproxiedconfigs.caption
+msgid "Proxied Configs (Default: All)"
+msgstr "代理配置（默认：全部）"
+
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"
 msgstr "代理"

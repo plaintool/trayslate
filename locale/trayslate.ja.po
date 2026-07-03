@@ -1049,6 +1049,10 @@ msgstr "マウスモード"
 msgid "Popup Window"
 msgstr "ポップアップウィンドウ"
 
+#: tformsettingstrayslate.groupproxiedconfigs.caption
+msgid "Proxied Configs (Default: All)"
+msgstr "プロキシ対象の設定 (既定: すべて)"
+
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"
 msgstr "プロキシ"

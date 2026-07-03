@@ -95,6 +95,7 @@
 {"hash":47842462,"name":"tformsettingstrayslate.editproxylogin.hint","sourcebytes":[85,115,101,114,110,97,109,101,32,117,115,101,100,32,102,111,114,32,112,114,111,120,121,32,97,117,116,104,101,110,116,105,99,97,116,105,111,110],"value":"Username used for proxy authentication"},
 {"hash":41542798,"name":"tformsettingstrayslate.editproxypassword.hint","sourcebytes":[80,97,115,115,119,111,114,100,32,117,115,101,100,32,102,111,114,32,112,114,111,120,121,32,97,117,116,104,101,110,116,105,99,97,116,105,111,110],"value":"Password used for proxy authentication"},
 {"hash":119891154,"name":"tformsettingstrayslate.spinproxyport.hint","sourcebytes":[78,101,116,119,111,114,107,32,112,111,114,116,32,117,115,101,100,32,98,121,32,116,104,101,32,112,114,111,120,121,32,115,101,114,118,101,114],"value":"Network port used by the proxy server"},
+{"hash":261665961,"name":"tformsettingstrayslate.groupproxiedconfigs.caption","sourcebytes":[80,114,111,120,105,101,100,32,67,111,110,102,105,103,115,32,40,68,101,102,97,117,108,116,58,32,65,108,108,41],"value":"Proxied Configs (Default: All)"},
 {"hash":138003475,"name":"tformsettingstrayslate.pageparameters.caption","sourcebytes":[80,97,114,97,109,101,116,101,114,115],"value":"Parameters"},
 {"hash":209295491,"name":"tformsettingstrayslate.groupuserparameters.caption","sourcebytes":[85,115,101,114,32,80,97,114,97,109,101,116,101,114,115],"value":"User Parameters"},
 {"hash":1339,"name":"tformsettingstrayslate.btnok.caption","sourcebytes":[79,75],"value":"OK"},

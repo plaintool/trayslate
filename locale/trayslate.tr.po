@@ -1049,6 +1049,11 @@ msgstr "Fare modu"
 msgid "Popup Window"
 msgstr "Açılır pencere"
 
+#: checkupdates.newversion
+#, object-pascal-format
+msgid "Proxied Configs (Default: All)"
+msgstr "Proxy Yapılandırmaları (Varsayılan: Tümü)"
+
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"
 msgstr "Proxy"

@@ -1049,6 +1049,10 @@ msgstr "माउस मोड"
 msgid "Popup Window"
 msgstr "पॉपअप विंडो"
 
+#: tformsettingstrayslate.groupproxiedconfigs.caption
+msgid "Proxied Configs (Default: All)"
+msgstr "प्रॉक्सी कॉन्फ़िगरेशन (डिफ़ॉल्ट: सभी)"
+
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"
 msgstr "प्रॉक्सी"

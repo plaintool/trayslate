@@ -1005,6 +1005,10 @@ msgstr ""
 msgid "Popup Window"
 msgstr ""
 
+#: tformsettingstrayslate.groupproxiedconfigs.caption
+msgid "Proxied Configs (Default: All)"
+msgstr ""
+
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"
 msgstr ""

@@ -1049,6 +1049,10 @@ msgstr "Режим на мишка"
 msgid "Popup Window"
 msgstr "Изскачащ прозорец"
 
+#: tformsettingstrayslate.groupproxiedconfigs.caption
+msgid "Proxied Configs (Default: All)"
+msgstr "Конфигурации прокси (по умолчанию: все)"
+
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"
 msgstr "Прокси"

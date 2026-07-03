@@ -23,12 +23,13 @@ uses
   StdCtrls,
   ExtCtrls,
   ColorBox,
+  Themes,
   Spin,
   Math,
   Grids,
   ValEdit,
   LCLType,
-  LCLIntf,
+  LCLIntf, CheckLst,
   hotkeyhelper,
   network;
 
@@ -49,6 +50,7 @@ type
     BtnResetPopup: TButton;
     CheckAllowHotkeys: TCheckBox;
     CheckAutoHeight: TCheckBox;
+    ClbProxiedConfigs: TCheckListBox;
     CheckProxyAuthentication: TCheckBox;
     CheckSmartSwap: TCheckBox;
     CheckEnableMouseMode: TCheckBox;
@@ -79,6 +81,7 @@ type
     FontDialog: TFontDialog;
     GroupAutoSwap: TGroupBox;
     GroupAutostart: TGroupBox;
+    GroupProxiedConfigs: TGroupBox;
     GroupUserParameters: TGroupBox;
     GroupTimeouts: TGroupBox;
     GroupMainWindow: TGroupBox;
@@ -138,29 +141,32 @@ type
     TrackOpacityHover: TTrackBar;
     TrackOpacityIdle: TTrackBar;
     ValueListUserParameters: TValueListEditor;
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormResize(Sender: TObject);
+    procedure FormChangeBounds(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
+    procedure BtnApplyClick(Sender: TObject);
+    procedure BtnCancelClick(Sender: TObject);
+    procedure BtnFontClick(Sender: TObject);
+    procedure BtnOkClick(Sender: TObject);
+    procedure BtnResetClick(Sender: TObject);
     procedure BtnDefaultClick(Sender: TObject);
     procedure BtnDefaultHotkeysClick(Sender: TObject);
     procedure BtnFontPopupClick(Sender: TObject);
     procedure BtnResetPopupClick(Sender: TObject);
     procedure ComboIconFontNameMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: integer;
       MousePos: TPoint; var Handled: boolean);
-    procedure FormChangeBounds(Sender: TObject);
-    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
-    procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
-    procedure FormResize(Sender: TObject);
-    procedure FormShow(Sender: TObject);
-    procedure BtnApplyClick(Sender: TObject);
-    procedure BtnCancelClick(Sender: TObject);
-    procedure BtnFontClick(Sender: TObject);
-    procedure BtnOkClick(Sender: TObject);
-    procedure BtnResetClick(Sender: TObject);
     procedure ValueListUserParametersColRowDeleted(Sender: TObject; IsColumn: boolean; sIndex, tIndex: integer);
     procedure ValueListUserParametersColRowInserted(Sender: TObject; IsColumn: boolean; sIndex, tIndex: integer);
     procedure ValueListUserParametersEditingDone(Sender: TObject);
     procedure ValueListUserParametersSelectEditor(Sender: TObject; aCol, aRow: integer; var Editor: TWinControl);
     procedure ListPagesClick(Sender: TObject);
     procedure ListPagesDrawItem(Control: TWinControl; Index: integer; ARect: TRect; State: TOwnerDrawState);
+    procedure ClbProxiedConfigsDrawItem(Control: TWinControl; Index: integer; ARect: TRect; State: TOwnerDrawState);
+    procedure ClbProxiedConfigsMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: integer;
+      MousePos: TPoint; var Handled: boolean);
     procedure GridHotkeysDrawCell(Sender: TObject; aCol, aRow: integer; aRect: TRect; aState: TGridDrawState);
     procedure GridHotkeysEditingDone(Sender: TObject);
     procedure GridHotkeysGetCellHint(Sender: TObject; ACol, ARow: integer; var HintText: string);
@@ -202,6 +208,7 @@ type
     FOriginalProxy: TProxy;
     FOriginalTimeout: TTimeout;
     FOriginalUserParameters: TStringList;
+    FOriginalProxiedConfigs: TStringList;
 
     FOriginalHotKeyApp: THotKeyData;
     FOriginalHotKeyTransSwap: THotKeyData;
@@ -333,7 +340,7 @@ resourcestring
 
 implementation
 
-uses mainform, formpopup, languages, translate, localize, colorhelper, controlshelper;
+uses mainform, formpopup, languages, translate, localize, colorhelper, controlshelper, stringshelper;
 
   {$R *.lfm}
 
@@ -345,6 +352,7 @@ procedure TformSettingsTrayslate.FormCreate(Sender: TObject);
 var
   i: integer;
   List: TStringList;
+  Item, Path: string;
 begin
   TLocalize.ApplicationTranslate(language, self, TLocalize.LoadCustomPoFile(formTrayslate.CustomPoFile));
 
@@ -357,9 +365,15 @@ begin
   FOldKeyValue := string.Empty;
 
   ComboLangDetect.Items.Clear;
+  ClbProxiedConfigs.Items.Clear;
   ComboLangDetect.Items.Add(string.Empty);
   for i := 0 to formTrayslate.ConfigFiles.Count - 1 do
-    ComboLangDetect.Items.Add(formTrayslate.ConfigTitles.Values[formTrayslate.ConfigFiles[i]]);
+  begin
+    Item := formTrayslate.ConfigTitles.Values[formTrayslate.ConfigFiles[i]];
+    Path := formTrayslate.ConfigFiles[i];
+    ComboLangDetect.Items.Add(Item);
+    ClbProxiedConfigs.Checked[ClbProxiedConfigs.Items.Add(Item)] := formTrayslate.ProxiedConfigs.Contains(Path);
+  end;
   ComboLangDetect.ItemIndex := formTrayslate.ConfigFiles.IndexOf(formTrayslate.ConfigLangDetect) + 1;
 
   List := TLanguages.GetLanguageCodeDisplayPairs(vtLanguage, True);
@@ -371,6 +385,7 @@ begin
   end;
 
   FOriginalUserParameters := TStringList.Create;
+  FOriginalProxiedConfigs := TStringList.Create;
 
   ColorIconBackground.AddCustomColors;
   ColorIconFont.AddCustomColors;
@@ -386,6 +401,12 @@ end;
 procedure TformSettingsTrayslate.FormDestroy(Sender: TObject);
 begin
   FreeAndNil(FOriginalUserParameters);
+  FreeAndNil(FOriginalProxiedConfigs);
+end;
+
+procedure TformSettingsTrayslate.FormShow(Sender: TObject);
+begin
+  formTrayslate.TopMost := False;
 end;
 
 procedure TformSettingsTrayslate.FormResize(Sender: TObject);
@@ -405,11 +426,6 @@ begin
   ResetRealTimeSettings;
 end;
 
-procedure TformSettingsTrayslate.FormShow(Sender: TObject);
-begin
-  formTrayslate.TopMost := False;
-end;
-
 {%EndRegion}
 
 {%Region -fold Events}
@@ -427,46 +443,6 @@ begin
   begin
     PagesSettings.ActivePageIndex := ListPages.ItemIndex;
   end;
-end;
-
-procedure TformSettingsTrayslate.ListPagesDrawItem(Control: TWinControl; Index: integer; ARect: TRect; State: TOwnerDrawState);
-var
-  ListBox: TListBox;
-  ImgY: integer;
-  TextOffset: integer;
-  TextRect: TRect;
-  TextStyle: TTextStyle;
-begin
-  ListBox := Control as TListBox;
-
-  // Draw item background
-  ListBox.Canvas.FillRect(ARect);
-
-  TextOffset := 4;
-
-  // Calculate vertical centering for the image
-  ImgY := ARect.Top + (ARect.Height - ImagesPages.Height) div 2;
-
-  // Draw image if index is valid
-  if (Index >= 0) and (Index < ImagesPages.Count) then
-  begin
-    ImagesPages.Draw(ListBox.Canvas, ARect.Left + TextOffset, ImgY, Index);
-  end;
-
-  // Prepare text rectangle
-  TextRect := ARect;
-  TextRect.Left := ARect.Left + ImagesPages.Width + (TextOffset * 2);
-  TextRect.Right := ARect.Right - TextOffset;
-
-  // Configure text style for LCL (Lazarus)
-  TextStyle := ListBox.Canvas.TextStyle;
-  TextStyle.Wordbreak := True;
-  TextStyle.SingleLine := False;
-  TextStyle.Layout := tlCenter; // In LCL use 'Layout' and 'tlCenter' for vertical centering
-
-  // Draw wrapped text
-  ListBox.Canvas.Brush.Style := bsClear;
-  ListBox.Canvas.TextRect(TextRect, TextRect.Left, TextRect.Top, ListBox.Items[Index], TextStyle);
 end;
 
 procedure TformSettingsTrayslate.GridHotkeysDrawCell(Sender: TObject; aCol, aRow: integer; aRect: TRect; aState: TGridDrawState);
@@ -922,6 +898,153 @@ begin
   BtnApply.Enabled := True;
 end;
 
+procedure TformSettingsTrayslate.ListPagesDrawItem(Control: TWinControl; Index: integer; ARect: TRect; State: TOwnerDrawState);
+var
+  ListBox: TListBox;
+  ImgY: integer;
+  TextOffset: integer;
+  TextRect: TRect;
+  TextStyle: TTextStyle;
+begin
+  ListBox := Control as TListBox;
+
+  // Draw item background
+  ListBox.Canvas.FillRect(ARect);
+
+  TextOffset := 4;
+
+  // Calculate vertical centering for the image
+  ImgY := ARect.Top + (ARect.Height - ImagesPages.Height) div 2;
+
+  // Draw image if index is valid
+  if (Index >= 0) and (Index < ImagesPages.Count) then
+  begin
+    ImagesPages.Draw(ListBox.Canvas, ARect.Left + TextOffset, ImgY, Index);
+  end;
+
+  // Prepare text rectangle
+  TextRect := ARect;
+  TextRect.Left := ARect.Left + ImagesPages.Width + (TextOffset * 2);
+  TextRect.Right := ARect.Right - TextOffset;
+
+  // Configure text style for LCL (Lazarus)
+  TextStyle := ListBox.Canvas.TextStyle;
+  TextStyle.Wordbreak := True;
+  TextStyle.SingleLine := False;
+  TextStyle.Layout := tlCenter; // In LCL use 'Layout' and 'tlCenter' for vertical centering
+
+  // Draw wrapped text
+  ListBox.Canvas.Brush.Style := bsClear;
+  ListBox.Canvas.TextRect(TextRect, TextRect.Left, TextRect.Top, ListBox.Items[Index], TextStyle);
+end;
+
+procedure TformSettingsTrayslate.ClbProxiedConfigsDrawItem(Control: TWinControl; Index: integer; ARect: TRect; State: TOwnerDrawState);
+const
+  PADDING = 4; // Spacing between elements
+var
+  CheckRect, IconRect: TRect;
+  Txt: string;
+  Bmp: TBitmap;
+  IconIdx: integer;
+  Details: TThemedElementDetails;
+  CheckSize: TSize;
+begin
+  with ClbProxiedConfigs.Canvas do
+  begin
+    // Draw background according to selection state
+    if odSelected in State then
+    begin
+      Brush.Color := clHighlight;
+      Font.Color := clHighlightText;
+    end
+    else
+    begin
+      Brush.Color := ClbProxiedConfigs.Color;
+      Font.Color := ClbProxiedConfigs.Font.Color;
+    end;
+    FillRect(ARect);
+
+    // Get standard checkbox size from system metrics (themed or classic)
+    CheckSize.cx := GetSystemMetrics(SM_CXMENUCHECK);
+    CheckSize.cy := GetSystemMetrics(SM_CYMENUCHECK);
+
+    // Calculate checkbox rectangle (vertically centered)
+    CheckRect := Bounds(ARect.Left + 2, ARect.Top + (ARect.Height - CheckSize.cy) div 2, CheckSize.cx, CheckSize.cy);
+
+    // Draw themed checkbox
+    if ThemeServices.ThemesEnabled then
+    begin
+      if ClbProxiedConfigs.Checked[Index] then
+      begin
+        if not ClbProxiedConfigs.Enabled then
+          Details := ThemeServices.GetElementDetails(tbCheckBoxCheckedDisabled)
+        else if (odSelected in State) and ClbProxiedConfigs.Focused then
+          Details := ThemeServices.GetElementDetails(tbCheckBoxCheckedHot)
+        else
+          Details := ThemeServices.GetElementDetails(tbCheckBoxCheckedNormal);
+      end
+      else
+      begin
+        if not ClbProxiedConfigs.Enabled then
+          Details := ThemeServices.GetElementDetails(tbCheckBoxUncheckedDisabled)
+        else if (odSelected in State) and ClbProxiedConfigs.Focused then
+          Details := ThemeServices.GetElementDetails(tbCheckBoxUncheckedHot)
+        else
+          Details := ThemeServices.GetElementDetails(tbCheckBoxUncheckedNormal);
+      end;
+      ThemeServices.DrawElement(Handle, Details, CheckRect, nil);
+    end
+    else
+    begin
+      // Fallback to classic DrawFrameControl if themes are off
+      DrawFrameControl(Handle, CheckRect, DFC_BUTTON,
+        DFCS_BUTTONCHECK or IfThen(ClbProxiedConfigs.Checked[Index], DFCS_CHECKED, 0));
+    end;
+
+    // Draw icon if available for this item
+    if Assigned(formTrayslate.ImageConfig) and Assigned(formTrayslate.ConfigImages) and
+      (Index < formTrayslate.ConfigImages.Count) then
+    begin
+      IconIdx := formTrayslate.ConfigImages.ValueFromIndex[Index].ToInteger;
+      if (IconIdx >= 0) and (IconIdx < formTrayslate.ImageConfig.Count) then
+      begin
+        Bmp := TBitmap.Create;
+        try
+          formTrayslate.ImageConfig.GetBitmap(IconIdx, Bmp);
+          Bmp.Transparent := True;
+          Bmp.TransparentColor := clWhite;   // Adjust if needed
+
+          IconRect := Bounds(CheckRect.Right + PADDING, ARect.Top + (ARect.Height - formTrayslate.ImageConfig.Height) div
+            2, formTrayslate.ImageConfig.Width, formTrayslate.ImageConfig.Height);
+          Draw(IconRect.Left, IconRect.Top, Bmp);
+        finally
+          Bmp.Free;
+        end;
+      end;
+    end;
+
+    // Draw item text after checkbox and optional icon
+    Txt := ClbProxiedConfigs.Items[Index];
+    // Calculate horizontal position of text
+    if (IconIdx >= 0) and (IconIdx < formTrayslate.ImageConfig.Count) and Assigned(formTrayslate.ImageConfig) then
+      TextOut(CheckRect.Right + PADDING + formTrayslate.ImageConfig.Width + PADDING,
+        ARect.Top + (ARect.Height - TextHeight(Txt)) div 2, Txt)
+    else
+      TextOut(CheckRect.Right + PADDING,
+        ARect.Top + (ARect.Height - TextHeight(Txt)) div 2, Txt);
+
+    // Draw focus rectangle if the item has focus
+    if odFocused in State then
+      DrawFocusRect(ARect);
+  end;
+end;
+
+procedure TformSettingsTrayslate.ClbProxiedConfigsMouseWheel(Sender: TObject; Shift: TShiftState;
+  WheelDelta: integer; MousePos: TPoint; var Handled: boolean);
+begin
+  ClbProxiedConfigs.Invalidate;
+end;
+
 {%EndRegion}
 
 {%Region -fold Methods}
@@ -1147,6 +1270,7 @@ procedure TformSettingsTrayslate.Apply;
 var
   T: TTimeout;
   P: TProxy;
+  i: integer;
 begin
   FApplySettings := True;
   ValueListUserParameters.EditingDone;
@@ -1177,6 +1301,10 @@ begin
       formTrayslate.ConfigLangDetect := formTrayslate.ConfigFiles[ComboLangDetect.ItemIndex - 1]
     else
       formTrayslate.ConfigLangDetect := string.Empty;
+    formTrayslate.ProxiedConfigs.Clear;
+    for i := 0 to ClbProxiedConfigs.Count - 1 do
+      if ClbProxiedConfigs.Checked[i] then
+        formTrayslate.ProxiedConfigs.Add(formTrayslate.ConfigFiles[i]);
     formTrayslate.UserParameters.Assign(ValueListUserParameters.Strings);
     T := formTrayslate.Timeout;
     T.Connection := SpinConnectTimeout.Value * 1000;
@@ -1277,6 +1405,8 @@ begin
 end;
 
 procedure TformSettingsTrayslate.Reset;
+var
+  i: integer;
 begin
   FOriginalAutoStart := formTrayslate.AutoStart;
   FOriginalMaxLangPairs := formTrayslate.MaxLangPairs;
@@ -1301,6 +1431,7 @@ begin
   FOriginalOpacityHover := formTrayslate.OpacityHover;
   FOriginalOpacityIdle := formTrayslate.OpacityIdle;
   FOriginalConfigLangDetect := formTrayslate.ConfigLangDetect;
+  FOriginalProxiedConfigs.Assign(formTrayslate.ProxiedConfigs);
   FOriginalProxy := formTrayslate.Proxy;
   FOriginalTimeout := formTrayslate.Timeout;
   FOriginalUserParameters.Assign(formTrayslate.UserParameters);
@@ -1339,6 +1470,8 @@ begin
     ComboLangDetect.ItemIndex := Max(formTrayslate.ConfigFiles.IndexOf(FOriginalConfigLangDetect) + 1, 0)
   else
     ComboLangDetect.ItemIndex := 0;
+  for i := 0 to ClbProxiedConfigs.Count - 1 do
+    ClbProxiedConfigs.Checked[i] := FOriginalProxiedConfigs.Contains(formTrayslate.ConfigFiles[i]);
   ValueListUserParameters.Strings.Assign(FOriginalUserParameters);
   SpinConnectTimeout.Value := FOriginalTimeout.Connection div 1000;
   SpinRequestTimeout.Value := FOriginalTimeout.Request div 1000;

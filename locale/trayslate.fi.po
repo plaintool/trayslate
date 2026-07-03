@@ -1049,6 +1049,10 @@ msgstr "Hiiritila"
 msgid "Popup Window"
 msgstr "Ponnahdusikkuna"
 
+#: tformsettingstrayslate.groupproxiedconfigs.caption
+msgid "Proxied Configs (Default: All)"
+msgstr "Välitetyt asetukset (Oletus: Kaikki)"
+
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"
 msgstr "Välityspalvelin"

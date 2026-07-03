@@ -1049,6 +1049,10 @@ msgstr "마우스 모드"
 msgid "Popup Window"
 msgstr "팝업 창"
 
+#: tformsettingstrayslate.groupproxiedconfigs.caption
+msgid "Proxied Configs (Default: All)"
+msgstr "프록시 구성 (기본값: 모두)"
+
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"
 msgstr "프록시"

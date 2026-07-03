@@ -1049,6 +1049,10 @@ msgstr "Mode mouse"
 msgid "Popup Window"
 msgstr "Jendela Popup"
 
+#: tformsettingstrayslate.groupproxiedconfigs.caption
+msgid "Proxied Configs (Default: All)"
+msgstr "Konfigurasi melalui proxy (Bawaan: Semua)"
+
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"
 msgstr "Proxy"

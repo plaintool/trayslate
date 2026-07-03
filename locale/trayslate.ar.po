@@ -1049,6 +1049,10 @@ msgstr "وضع الماوس"
 msgid "Popup Window"
 msgstr "نافذة منبثقة"
 
+#: tformsettingstrayslate.groupproxiedconfigs.caption
+msgid "Proxied Configs (Default: All)"
+msgstr "تكوينات البروكسية (الافتراضي: الكل)"
+
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"
 msgstr "الوكيل"

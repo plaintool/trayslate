@@ -1049,6 +1049,10 @@ msgstr "מצב עכבר"
 msgid "Popup Window"
 msgstr "חלון קופץ"
 
+#: tformsettingstrayslate.groupproxiedconfigs.caption
+msgid "Proxied Configs (Default: All)"
+msgstr "תצורות דרך פרוקסי (ברירת מחדל: הכל)"
+
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"
 msgstr "פרוקסי"

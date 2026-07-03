@@ -22,11 +22,11 @@ object formSettingsTrayslate: TformSettingsTrayslate
     Top = 5
     Width = 614
     TabStop = False
-    ActivePage = PageGeneral
+    ActivePage = PageNetwork
     Align = alClient
     BorderSpacing.Top = 5
     BorderSpacing.Bottom = 5
-    TabIndex = 0
+    TabIndex = 3
     TabOrder = 1
     object PageGeneral: TTabSheet
       Caption = 'General'
@@ -784,29 +784,29 @@ object formSettingsTrayslate: TformSettingsTrayslate
         Height = 557
         Top = 0
         Width = 606
-        HorzScrollBar.Increment = 15
-        HorzScrollBar.Page = 158
+        HorzScrollBar.Increment = 18
+        HorzScrollBar.Page = 182
         HorzScrollBar.Smooth = True
         HorzScrollBar.Tracking = True
-        VertScrollBar.Increment = 41
-        VertScrollBar.Page = 413
+        VertScrollBar.Increment = 55
+        VertScrollBar.Page = 557
         VertScrollBar.Smooth = True
         VertScrollBar.Tracking = True
         Align = alClient
         BorderStyle = bsNone
         ClientHeight = 557
-        ClientWidth = 606
+        ClientWidth = 589
         TabOrder = 0
         object GroupTimeouts: TGroupBox
           Left = 5
           Height = 105
           Top = 5
-          Width = 596
+          Width = 579
           Align = alTop
           BorderSpacing.Around = 5
           Caption = 'Timeout'
           ClientHeight = 85
-          ClientWidth = 592
+          ClientWidth = 575
           TabOrder = 0
           object LabelConnectTimeout: TLabel
             Left = 8
@@ -823,7 +823,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Height = 23
             Hint = 'Time to establish connection If 0 default 10 seconds is used'
             Top = 8
-            Width = 417
+            Width = 400
             Anchors = [akTop, akLeft, akRight]
             TabOrder = 0
             Value = 10
@@ -844,7 +844,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Height = 23
             Hint = 'Time to wait for response and data If 0 default 300 seconds is used'
             Top = 48
-            Width = 417
+            Width = 400
             Anchors = [akTop, akLeft, akRight]
             TabOrder = 1
             Value = 10
@@ -855,19 +855,19 @@ object formSettingsTrayslate: TformSettingsTrayslate
           Left = 5
           Height = 293
           Top = 115
-          Width = 596
+          Width = 579
           Align = alTop
           BorderSpacing.Around = 5
           Caption = 'Proxy'
           ClientHeight = 273
-          ClientWidth = 592
+          ClientWidth = 575
           TabOrder = 1
           object ComboProxyMode: TComboBox
             Left = 152
             Height = 23
             Hint = 'Defines how proxy is used no proxy system proxy or custom configuration'
             Top = 8
-            Width = 417
+            Width = 400
             Anchors = [akTop, akLeft, akRight]
             ItemHeight = 15
             ItemIndex = 0
@@ -906,7 +906,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Height = 23
             Hint = 'Type of proxy protocol used for custom settings'
             Top = 48
-            Width = 417
+            Width = 400
             Anchors = [akTop, akLeft, akRight]
             ItemHeight = 15
             ItemIndex = 0
@@ -925,7 +925,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Height = 23
             Hint = 'Address of the proxy server IP or domain name'
             Top = 84
-            Width = 417
+            Width = 400
             Anchors = [akTop, akLeft, akRight]
             TabOrder = 2
             OnChange = SettingChange
@@ -985,7 +985,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Height = 23
             Hint = 'Username used for proxy authentication'
             Top = 192
-            Width = 417
+            Width = 400
             Anchors = [akTop, akLeft, akRight]
             Enabled = False
             TabOrder = 5
@@ -996,7 +996,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Height = 23
             Hint = 'Password used for proxy authentication'
             Top = 228
-            Width = 417
+            Width = 400
             Anchors = [akTop, akLeft, akRight]
             Enabled = False
             TabOrder = 6
@@ -1007,10 +1007,37 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Height = 23
             Hint = 'Network port used by the proxy server'
             Top = 120
-            Width = 417
+            Width = 400
             Anchors = [akTop, akLeft, akRight]
             TabOrder = 3
             OnChange = SettingChange
+          end
+        end
+        object GroupProxiedConfigs: TGroupBox
+          Left = 5
+          Height = 243
+          Top = 413
+          Width = 579
+          Align = alTop
+          BorderSpacing.Around = 5
+          Caption = 'Proxied Configs (Default: All)'
+          ClientHeight = 223
+          ClientWidth = 575
+          TabOrder = 2
+          object ClbProxiedConfigs: TCheckListBox
+            Left = 5
+            Height = 213
+            Top = 5
+            Width = 565
+            Align = alClient
+            BorderSpacing.Around = 5
+            ItemHeight = 20
+            Options = []
+            Style = lbOwnerDrawFixed
+            TabOrder = 0
+            OnClickCheck = SettingChange
+            OnDrawItem = ClbProxiedConfigsDrawItem
+            OnMouseWheel = ClbProxiedConfigsMouseWheel
           end
         end
       end
@@ -1054,7 +1081,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           )
           ColWidths = (
             200
-            382
+            365
           )
         end
       end

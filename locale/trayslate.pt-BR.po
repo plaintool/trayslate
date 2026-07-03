@@ -1049,6 +1049,10 @@ msgstr "Modo Mouse"
 msgid "Popup Window"
 msgstr "Janela Pop-up"
 
+#: tformsettingstrayslate.groupproxiedconfigs.caption
+msgid "Proxied Configs (Default: All)"
+msgstr "Configurações com proxy (Padrão: Todas)"
+
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"
 msgstr "Proxy"
