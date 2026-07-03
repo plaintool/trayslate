@@ -36,7 +36,7 @@ echo.
 
 :: Dependency settings
 set "SYNAPSE_REPO=https://github.com/plainlib/synapse.git"
-set "SYNAPSE_PATH=libs\synapse"
+set "SYNAPSE_PATH=libs/synapse"
 set "SYNAPSE_LPK=%~dp0libs\synapse\laz_synapse.lpk"
 
 echo Dependencies update started
@@ -67,6 +67,7 @@ if errorlevel 1 (
 ) else (
     echo Synapse subtree updated successfully
 )
+
 goto process_lpk
 
 :skip_update
