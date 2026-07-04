@@ -1,7 +1,7 @@
 @echo off
 setlocal
 
-:: Determine LAZARUS_DIR if not provided by caller
+:: Determine LAZARUS_DIR if not provided
 if not defined LAZARUS_DIR (
     for %%D in ("C:\Lazarus" "C:\lazarus") do (
         if exist "%%~D\lazbuild.exe" (
@@ -26,11 +26,25 @@ if not exist "%LAZBUILD%" (
     exit /b 1
 )
 
+:: Path to 32-bit FPC compiler (if not already set by caller)
+if not defined FPC32 (
+    for /d %%F in ("%LAZARUS_DIR%\fpc\*") do (
+        if exist "%%~F\bin\i386-win32\fpc.exe" (
+            set "FPC32=%%~F\bin\i386-win32\fpc.exe"
+        )
+    )
+)
+if not defined FPC32 (
+    echo ERROR: 32-bit FPC compiler not found. Set FPC32_PATH or ensure i386-win32 target is installed.
+    pause
+    exit /b 1
+)
+
 :start_deps
 
 echo.
 echo ############################################################
-echo #                    Build Synapse                         #
+echo #                 Build Synapse (32-bit)                   #
 echo ############################################################
 echo.
 
@@ -74,16 +88,16 @@ goto process_lpk
 echo Skipping Synapse subtree update due to local changes.
 
 :process_lpk
-echo Processing Lazarus package
+echo Processing Lazarus package for 32-bit
 if exist "%SYNAPSE_LPK%" (
-    echo Building laz_synapse.lpk
-    "%LAZBUILD%" "%SYNAPSE_LPK%" -q -q
+    echo Building laz_synapse.lpk (32-bit)
+    "%LAZBUILD%" "%SYNAPSE_LPK%" --cpu=i386 --ws=win32 --compiler="%FPC32%" -q -q
     if errorlevel 1 (
-        echo ERROR: Synapse LPK build failed
+        echo ERROR: Synapse LPK 32-bit build failed
         pause
         exit /b %errorlevel%
     )
-    echo Synapse LPK processed successfully
+    echo Synapse LPK (32-bit) processed successfully
 
     :: Revert auto-generated changes in laz_synapse.pas to keep working tree clean
     if exist "%SYNAPSE_PATH%\laz_synapse.pas" (

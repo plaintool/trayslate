@@ -27,14 +27,14 @@ xcopy "%source%\*" "%destination%\" /y /i /s
 echo File created: trayslate-any-x86-x64.exe
 echo.
 
-::Wait 2 seconds to ensure file is free
-ping 127.0.0.1 -n 3 >nul
-
 echo.
 echo ############################################################
 echo #                Sign InnoSetup installer                  #
 echo ############################################################
 echo.
+
+::Wait 2 seconds to ensure file is free
+ping 127.0.0.1 -n 3 >nul
 
 :: --- Sign installers ---
 IF "%SIGNTOOL%"=="" (

@@ -1,12 +1,6 @@
 @echo off
 setlocal
 
-echo.
-echo ############################################################
-echo #                     Build x86                            #
-echo ############################################################
-echo.
-
 ::Build 32-bit Lazarus project "trayslate" using lazbuild
 SET "PROJECT_PATH=trayslate.lpi"
 SET "BUILD_MODE=Release"
@@ -38,6 +32,19 @@ if not exist "%FPC32%" (
     echo 32-bit FPC compiler not found. Set FPC32_PATH.
     exit /b 1
 )
+
+:: Updating and building dependencies
+call "%~dp0dependencies32.cmd"
+if %ERRORLEVEL% neq 0 (
+    echo Dependency build failed!
+    exit /b %ERRORLEVEL%
+)
+
+echo.
+echo ############################################################
+echo #                     Build x86                            #
+echo ############################################################
+echo.
 
 ::Rename existing 64-bit exe to trayslate64.exe to avoid overwriting
 if exist "trayslate.exe" (
