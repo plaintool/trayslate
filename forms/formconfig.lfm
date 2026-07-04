@@ -164,11 +164,11 @@ object formConfigTrayslate: TformConfigTrayslate
     Height = 559
     Top = 41
     Width = 590
-    ActivePage = PageService
+    ActivePage = PageParameters
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
-    TabIndex = 0
+    TabIndex = 3
     TabOrder = 1
     object PageService: TTabSheet
       Caption = 'Service'
@@ -685,6 +685,943 @@ object formConfigTrayslate: TformConfigTrayslate
         end
       end
     end
+    object PageInitialRequest: TTabSheet
+      Caption = 'Initial Request'
+      ClientHeight = 531
+      ClientWidth = 582
+      object ScrollBoxInitialRequest: TScrollBox
+        Left = 0
+        Height = 531
+        Top = 0
+        Width = 582
+        HorzScrollBar.Page = 1
+        HorzScrollBar.Visible = False
+        VertScrollBar.Increment = 50
+        VertScrollBar.Page = 501
+        VertScrollBar.Smooth = True
+        VertScrollBar.Tracking = True
+        Align = alClient
+        BorderStyle = bsNone
+        ClientHeight = 531
+        ClientWidth = 582
+        TabOrder = 0
+        object GroupInitParameters: TGroupBox
+          Left = 5
+          Height = 491
+          Top = 5
+          Width = 572
+          Align = alTop
+          BorderSpacing.Around = 5
+          Caption = 'Initial Request'
+          ClientHeight = 471
+          ClientWidth = 568
+          ParentBackground = False
+          TabOrder = 0
+          object EditInitUserAgent: TEdit
+            Left = 120
+            Height = 23
+            Top = 32
+            Width = 423
+            Anchors = [akTop, akLeft, akRight]
+            TabOrder = 0
+            OnChange = ValueChange
+          end
+          object LabelInitUserAgent: TLabel
+            Left = 8
+            Height = 32
+            Top = 32
+            Width = 104
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'User Agent'
+            WordWrap = True
+          end
+          object LabelInitUrl: TLabel
+            Left = 8
+            Height = 34
+            Top = 199
+            Width = 104
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'URL'
+            WordWrap = True
+          end
+          object MemoInitURL: TMemo
+            Left = 120
+            Height = 64
+            Top = 199
+            Width = 423
+            Anchors = [akTop, akLeft, akRight]
+            ScrollBars = ssAutoVertical
+            TabOrder = 2
+            WantReturns = False
+            OnChange = ValueChange
+          end
+          object LabelInitParameters2: TLabel
+            Left = 8
+            Height = 33
+            Top = 295
+            Width = 104
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Parameters'
+            WordWrap = True
+          end
+          object MemoInitParameters: TMemo
+            Left = 120
+            Height = 100
+            Top = 295
+            Width = 423
+            Anchors = [akTop, akLeft, akRight]
+            ScrollBars = ssAutoVertical
+            TabOrder = 3
+            OnChange = ValueChange
+            OnKeyDown = MemoKeyDown
+          end
+          object LabelInitHeaders2: TLabel
+            Left = 8
+            Height = 33
+            Top = 87
+            Width = 104
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Headers'
+            WordWrap = True
+          end
+          object MemoInitHeaders: TMemo
+            Left = 120
+            Height = 100
+            Top = 87
+            Width = 423
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Top = 45
+            BorderSpacing.Right = 15
+            BorderSpacing.Around = 5
+            ScrollBars = ssAutoVertical
+            TabOrder = 1
+            OnChange = ValueChange
+            OnKeyDown = MemoKeyDown
+          end
+          object LabelInitHeaders: TLabel
+            Left = 8
+            Height = 15
+            Top = 63
+            Width = 535
+            Anchors = [akTop, akLeft, akRight]
+            Caption = 'Additional initial request headers in key=value format, key: value is also supported'
+            Color = clInfoBk
+            ParentColor = False
+            Transparent = False
+          end
+          object LabelInitParameters: TLabel
+            Left = 8
+            Height = 15
+            Top = 272
+            Width = 538
+            Anchors = [akTop, akLeft, akRight]
+            Caption = 'Parameters name=regexp are extracted from the response and used by name in requests'
+            Color = clInfoBk
+            ParentColor = False
+            Transparent = False
+          end
+          object SpinInitLiveTime: TSpinEdit
+            Left = 120
+            Height = 23
+            Top = 432
+            Width = 423
+            Anchors = [akTop, akLeft, akRight]
+            TabOrder = 4
+            OnChange = ValueChange
+          end
+          object LabelInitLiveTime: TLabel
+            Left = 0
+            Height = 32
+            Top = 432
+            Width = 112
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Live time'
+            WordWrap = True
+          end
+          object LabelInitParameters1: TLabel
+            Left = 8
+            Height = 15
+            Top = 408
+            Width = 535
+            Anchors = [akTop, akLeft, akRight]
+            Caption = 'Time in seconds to refresh parameters with a new request (0 = every request)'
+            Color = clInfoBk
+            ParentColor = False
+            Transparent = False
+          end
+          object BtnInitUrlTest: TSpeedButton
+            Left = 545
+            Height = 22
+            Hint = 'Execute request and view the result'
+            Top = 199
+            Width = 23
+            Anchors = [akTop, akRight]
+            Flat = True
+            Glyph.Data = {
+              36040000424D3604000000000000360000002800000010000000100000000100
+              2000000000000004000064000000640000000000000000000000000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              00000000000000000000000000000000001E0000000000000000000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000CD0000002500000000000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000E8000000E100000020000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000EFFFFFFFFF000000DD0000001C0000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000F0FFFFFFFFFFFFFFFF000000D90000
+              0019000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000F7FFFFFFFFFFFFFFFFFFFFFFFF0000
+              00D4000000150000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000F8FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFF000000D00000001300000000000000000000000000000000000000000000
+              0000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFF000000D70000001A00000000000000000000000000000000000000000000
+              0000000000000000000000000001000000FFFFFFFFFFFFFFFFFFFFFFFFFF0000
+              00D2000000170000000000000000000000000000000000000000000000000000
+              0000000000000000000000000008000000FFFFFFFFFFFFFFFFFF000000CD0000
+              0013000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000009000000FFFFFFFFFF000000C8000000100000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000010000000FF000000C30000000E000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000014000000BE0000000B00000000000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000008000000090000000000000000000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000000000000000000000
+            }
+            ShowHint = True
+            ParentShowHint = False
+            OnClick = BtnInitUrlTestClick
+          end
+          object BtnInitParametersTest: TSpeedButton
+            Left = 545
+            Height = 22
+            Hint = 'Execute request and view the parameters'
+            Top = 295
+            Width = 23
+            Anchors = [akTop, akRight]
+            Flat = True
+            Glyph.Data = {
+              36040000424D3604000000000000360000002800000010000000100000000100
+              2000000000000004000064000000640000000000000000000000000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              00000000000000000000000000000000001E0000000000000000000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000CD0000002500000000000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000E8000000E100000020000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000EFFFFFFFFF000000DD0000001C0000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000F0FFFFFFFFFFFFFFFF000000D90000
+              0019000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000F7FFFFFFFFFFFFFFFFFFFFFFFF0000
+              00D4000000150000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000F8FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFF000000D00000001300000000000000000000000000000000000000000000
+              0000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFF000000D70000001A00000000000000000000000000000000000000000000
+              0000000000000000000000000001000000FFFFFFFFFFFFFFFFFFFFFFFFFF0000
+              00D2000000170000000000000000000000000000000000000000000000000000
+              0000000000000000000000000008000000FFFFFFFFFFFFFFFFFF000000CD0000
+              0013000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000009000000FFFFFFFFFF000000C8000000100000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000010000000FF000000C30000000E000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000014000000BE0000000B00000000000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000008000000090000000000000000000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000000000000000000000
+            }
+            ShowHint = True
+            ParentShowHint = False
+            OnClick = BtnInitParametersTestClick
+          end
+          object LabelInitParemeters: TLabel
+            Left = 8
+            Height = 15
+            Top = 8
+            Width = 535
+            Anchors = [akTop, akLeft, akRight]
+            Caption = 'Initial GET request to obtain required parameters.'
+            Color = clInfoBk
+            ParentColor = False
+            Transparent = False
+          end
+        end
+      end
+    end
+    object PageParameters: TTabSheet
+      Caption = 'Parameters'
+      ClientHeight = 531
+      ClientWidth = 582
+      object ScrollBoxParameters: TScrollBox
+        Left = 0
+        Height = 531
+        Top = 0
+        Width = 582
+        HorzScrollBar.Page = 1
+        HorzScrollBar.Visible = False
+        VertScrollBar.Increment = 36
+        VertScrollBar.Page = 363
+        VertScrollBar.Smooth = True
+        VertScrollBar.Tracking = True
+        Align = alClient
+        BorderStyle = bsNone
+        ClientHeight = 531
+        ClientWidth = 582
+        TabOrder = 0
+        object GroupBoxCustomParameters: TGroupBox
+          Left = 5
+          Height = 243
+          Top = 5
+          Width = 572
+          Align = alTop
+          BorderSpacing.Around = 5
+          Caption = 'Custom Parameters'
+          ClientHeight = 223
+          ClientWidth = 568
+          TabOrder = 0
+          object MemoCustomParameters: TMemo
+            Left = 120
+            Height = 128
+            Top = 80
+            Width = 423
+            Anchors = [akTop, akLeft, akRight]
+            ScrollBars = ssAutoVertical
+            TabOrder = 1
+            OnChange = ValueChange
+            OnKeyDown = MemoKeyDown
+          end
+          object LabelInitParameters3: TLabel
+            Left = 8
+            Height = 32
+            Top = 80
+            Width = 104
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Parameters'
+            WordWrap = True
+          end
+          object LabelInitParameters4: TLabel
+            Left = 8
+            Height = 30
+            Top = 8
+            Width = 535
+            Anchors = [akTop, akLeft, akRight]
+            Caption = 'Parameters in the form key=value used by {key} in requests. If the value is omitted (key=), it will be requested from the user.'
+            Color = clInfoBk
+            ParentColor = False
+            Transparent = False
+            WordWrap = True
+          end
+          object CheckEncodeCustomParameters: TCheckBox
+            Left = 120
+            Height = 19
+            Top = 48
+            Width = 119
+            Caption = 'Encode parameters'
+            TabOrder = 0
+            OnChange = ValueChange
+          end
+        end
+        object GroupScript: TGroupBox
+          Left = 5
+          Height = 273
+          Top = 253
+          Width = 572
+          Align = alClient
+          BorderSpacing.Around = 5
+          Caption = 'Script'
+          ClientHeight = 253
+          ClientWidth = 568
+          ParentBackground = False
+          TabOrder = 1
+          object LabelScript: TLabel
+            Left = 5
+            Height = 15
+            Top = 5
+            Width = 538
+            Align = alTop
+            BorderSpacing.Right = 20
+            BorderSpacing.Bottom = 5
+            BorderSpacing.Around = 5
+            Caption = 'The script takes parameters: text, source, target, and other supported parameters.'
+            Color = clInfoBk
+            ParentColor = False
+            Transparent = False
+            WordWrap = True
+          end
+          object PanelResponse1: TPanel
+            Left = 5
+            Height = 218
+            Top = 30
+            Width = 563
+            Align = alClient
+            BorderSpacing.Left = 5
+            BorderSpacing.Top = 10
+            BorderSpacing.Bottom = 5
+            BevelOuter = bvNone
+            ClientHeight = 218
+            ClientWidth = 563
+            TabOrder = 0
+            object BtnScroptTest: TSpeedButton
+              Left = 540
+              Height = 22
+              Hint = 'Converts the current response'
+              Top = 0
+              Width = 23
+              Anchors = [akTop, akRight]
+              Flat = True
+              Glyph.Data = {
+                36040000424D3604000000000000360000002800000010000000100000000100
+                2000000000000004000064000000640000000000000000000000000000000000
+                0000000000000000000000000000000000000000000000000000000000000000
+                0000000000000000000000000000000000000000000000000000000000000000
+                00000000000000000000000000000000001E0000000000000000000000000000
+                0000000000000000000000000000000000000000000000000000000000000000
+                0000000000000000000000000000000000CD0000002500000000000000000000
+                0000000000000000000000000000000000000000000000000000000000000000
+                0000000000000000000000000000000000E8000000E100000020000000000000
+                0000000000000000000000000000000000000000000000000000000000000000
+                0000000000000000000000000000000000EFFFFFFFFF000000DD0000001C0000
+                0000000000000000000000000000000000000000000000000000000000000000
+                0000000000000000000000000000000000F0FFFFFFFFFFFFFFFF000000D90000
+                0019000000000000000000000000000000000000000000000000000000000000
+                0000000000000000000000000000000000F7FFFFFFFFFFFFFFFFFFFFFFFF0000
+                00D4000000150000000000000000000000000000000000000000000000000000
+                0000000000000000000000000000000000F8FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFF000000D00000001300000000000000000000000000000000000000000000
+                0000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFF000000D70000001A00000000000000000000000000000000000000000000
+                0000000000000000000000000001000000FFFFFFFFFFFFFFFFFFFFFFFFFF0000
+                00D2000000170000000000000000000000000000000000000000000000000000
+                0000000000000000000000000008000000FFFFFFFFFFFFFFFFFF000000CD0000
+                0013000000000000000000000000000000000000000000000000000000000000
+                0000000000000000000000000009000000FFFFFFFFFF000000C8000000100000
+                0000000000000000000000000000000000000000000000000000000000000000
+                0000000000000000000000000010000000FF000000C30000000E000000000000
+                0000000000000000000000000000000000000000000000000000000000000000
+                0000000000000000000000000014000000BE0000000B00000000000000000000
+                0000000000000000000000000000000000000000000000000000000000000000
+                0000000000000000000000000008000000090000000000000000000000000000
+                0000000000000000000000000000000000000000000000000000000000000000
+                0000000000000000000000000000000000000000000000000000000000000000
+                0000000000000000000000000000000000000000000000000000
+              }
+              ShowHint = True
+              ParentShowHint = False
+              OnClick = BtnResponseTestClick
+            end
+            inline SynScript: TSynEdit
+              Left = 0
+              Height = 218
+              Top = 0
+              Width = 538
+              Align = alClient
+              BorderSpacing.Right = 25
+              ParentColor = False
+              TabOrder = 0
+              Gutter.Width = 41
+              Gutter.MouseActions = <>
+              RightGutter.Width = 0
+              RightGutter.MouseActions = <>
+              Highlighter = SynPasSyn
+              Keystrokes = <              
+                item
+                  Command = ecUp
+                  ShortCut = 38
+                end              
+                item
+                  Command = ecSelUp
+                  ShortCut = 8230
+                end              
+                item
+                  Command = ecScrollUp
+                  ShortCut = 16422
+                end              
+                item
+                  Command = ecDown
+                  ShortCut = 40
+                end              
+                item
+                  Command = ecSelDown
+                  ShortCut = 8232
+                end              
+                item
+                  Command = ecScrollDown
+                  ShortCut = 16424
+                end              
+                item
+                  Command = ecLeft
+                  ShortCut = 37
+                end              
+                item
+                  Command = ecSelLeft
+                  ShortCut = 8229
+                end              
+                item
+                  Command = ecWordLeft
+                  ShortCut = 16421
+                end              
+                item
+                  Command = ecSelWordLeft
+                  ShortCut = 24613
+                end              
+                item
+                  Command = ecRight
+                  ShortCut = 39
+                end              
+                item
+                  Command = ecSelRight
+                  ShortCut = 8231
+                end              
+                item
+                  Command = ecWordRight
+                  ShortCut = 16423
+                end              
+                item
+                  Command = ecSelWordRight
+                  ShortCut = 24615
+                end              
+                item
+                  Command = ecPageDown
+                  ShortCut = 34
+                end              
+                item
+                  Command = ecSelPageDown
+                  ShortCut = 8226
+                end              
+                item
+                  Command = ecPageBottom
+                  ShortCut = 16418
+                end              
+                item
+                  Command = ecSelPageBottom
+                  ShortCut = 24610
+                end              
+                item
+                  Command = ecPageUp
+                  ShortCut = 33
+                end              
+                item
+                  Command = ecSelPageUp
+                  ShortCut = 8225
+                end              
+                item
+                  Command = ecPageTop
+                  ShortCut = 16417
+                end              
+                item
+                  Command = ecSelPageTop
+                  ShortCut = 24609
+                end              
+                item
+                  Command = ecLineStart
+                  ShortCut = 36
+                end              
+                item
+                  Command = ecSelLineStart
+                  ShortCut = 8228
+                end              
+                item
+                  Command = ecEditorTop
+                  ShortCut = 16420
+                end              
+                item
+                  Command = ecSelEditorTop
+                  ShortCut = 24612
+                end              
+                item
+                  Command = ecLineEnd
+                  ShortCut = 35
+                end              
+                item
+                  Command = ecSelLineEnd
+                  ShortCut = 8227
+                end              
+                item
+                  Command = ecEditorBottom
+                  ShortCut = 16419
+                end              
+                item
+                  Command = ecSelEditorBottom
+                  ShortCut = 24611
+                end              
+                item
+                  Command = ecToggleMode
+                  ShortCut = 45
+                end              
+                item
+                  Command = ecCopy
+                  ShortCut = 16429
+                end              
+                item
+                  Command = ecPaste
+                  ShortCut = 8237
+                end              
+                item
+                  Command = ecDeleteChar
+                  ShortCut = 46
+                end              
+                item
+                  Command = ecCut
+                  ShortCut = 8238
+                end              
+                item
+                  Command = ecDeleteLastChar
+                  ShortCut = 8
+                end              
+                item
+                  Command = ecDeleteLastChar
+                  ShortCut = 8200
+                end              
+                item
+                  Command = ecDeleteLastWord
+                  ShortCut = 16392
+                end              
+                item
+                  Command = ecUndo
+                  ShortCut = 32776
+                end              
+                item
+                  Command = ecRedo
+                  ShortCut = 40968
+                end              
+                item
+                  Command = ecLineBreak
+                  ShortCut = 13
+                end              
+                item
+                  Command = ecSelectAll
+                  ShortCut = 16449
+                end              
+                item
+                  Command = ecCopy
+                  ShortCut = 16451
+                end              
+                item
+                  Command = ecBlockIndent
+                  ShortCut = 16457
+                end              
+                item
+                  Command = ecLineBreak
+                  ShortCut = 16461
+                end              
+                item
+                  Command = ecInsertLine
+                  ShortCut = 16462
+                end              
+                item
+                  Command = ecDeleteWord
+                  ShortCut = 16468
+                end              
+                item
+                  Command = ecBlockUnindent
+                  ShortCut = 16469
+                end              
+                item
+                  Command = ecPaste
+                  ShortCut = 16470
+                end              
+                item
+                  Command = ecCut
+                  ShortCut = 16472
+                end              
+                item
+                  Command = ecDeleteLine
+                  ShortCut = 16473
+                end              
+                item
+                  Command = ecDeleteEOL
+                  ShortCut = 24665
+                end              
+                item
+                  Command = ecUndo
+                  ShortCut = 16474
+                end              
+                item
+                  Command = ecRedo
+                  ShortCut = 24666
+                end              
+                item
+                  Command = ecGotoMarker0
+                  ShortCut = 16432
+                end              
+                item
+                  Command = ecGotoMarker1
+                  ShortCut = 16433
+                end              
+                item
+                  Command = ecGotoMarker2
+                  ShortCut = 16434
+                end              
+                item
+                  Command = ecGotoMarker3
+                  ShortCut = 16435
+                end              
+                item
+                  Command = ecGotoMarker4
+                  ShortCut = 16436
+                end              
+                item
+                  Command = ecGotoMarker5
+                  ShortCut = 16437
+                end              
+                item
+                  Command = ecGotoMarker6
+                  ShortCut = 16438
+                end              
+                item
+                  Command = ecGotoMarker7
+                  ShortCut = 16439
+                end              
+                item
+                  Command = ecGotoMarker8
+                  ShortCut = 16440
+                end              
+                item
+                  Command = ecGotoMarker9
+                  ShortCut = 16441
+                end              
+                item
+                  Command = ecSetMarker0
+                  ShortCut = 24624
+                end              
+                item
+                  Command = ecSetMarker1
+                  ShortCut = 24625
+                end              
+                item
+                  Command = ecSetMarker2
+                  ShortCut = 24626
+                end              
+                item
+                  Command = ecSetMarker3
+                  ShortCut = 24627
+                end              
+                item
+                  Command = ecSetMarker4
+                  ShortCut = 24628
+                end              
+                item
+                  Command = ecSetMarker5
+                  ShortCut = 24629
+                end              
+                item
+                  Command = ecSetMarker6
+                  ShortCut = 24630
+                end              
+                item
+                  Command = ecSetMarker7
+                  ShortCut = 24631
+                end              
+                item
+                  Command = ecSetMarker8
+                  ShortCut = 24632
+                end              
+                item
+                  Command = ecSetMarker9
+                  ShortCut = 24633
+                end              
+                item
+                  Command = EcFoldLevel1
+                  ShortCut = 41009
+                end              
+                item
+                  Command = EcFoldLevel2
+                  ShortCut = 41010
+                end              
+                item
+                  Command = EcFoldLevel3
+                  ShortCut = 41011
+                end              
+                item
+                  Command = EcFoldLevel4
+                  ShortCut = 41012
+                end              
+                item
+                  Command = EcFoldLevel5
+                  ShortCut = 41013
+                end              
+                item
+                  Command = EcFoldLevel6
+                  ShortCut = 41014
+                end              
+                item
+                  Command = EcFoldLevel7
+                  ShortCut = 41015
+                end              
+                item
+                  Command = EcFoldLevel8
+                  ShortCut = 41016
+                end              
+                item
+                  Command = EcFoldLevel9
+                  ShortCut = 41017
+                end              
+                item
+                  Command = EcFoldLevel0
+                  ShortCut = 41008
+                end              
+                item
+                  Command = EcFoldCurrent
+                  ShortCut = 41005
+                end              
+                item
+                  Command = EcUnFoldCurrent
+                  ShortCut = 41003
+                end              
+                item
+                  Command = EcToggleMarkupWord
+                  ShortCut = 32845
+                end              
+                item
+                  Command = ecNormalSelect
+                  ShortCut = 24654
+                end              
+                item
+                  Command = ecColumnSelect
+                  ShortCut = 24643
+                end              
+                item
+                  Command = ecLineSelect
+                  ShortCut = 24652
+                end              
+                item
+                  Command = ecTab
+                  ShortCut = 9
+                end              
+                item
+                  Command = ecShiftTab
+                  ShortCut = 8201
+                end              
+                item
+                  Command = ecMatchBracket
+                  ShortCut = 24642
+                end              
+                item
+                  Command = ecColSelUp
+                  ShortCut = 40998
+                end              
+                item
+                  Command = ecColSelDown
+                  ShortCut = 41000
+                end              
+                item
+                  Command = ecColSelLeft
+                  ShortCut = 40997
+                end              
+                item
+                  Command = ecColSelRight
+                  ShortCut = 40999
+                end              
+                item
+                  Command = ecColSelPageDown
+                  ShortCut = 40994
+                end              
+                item
+                  Command = ecColSelPageBottom
+                  ShortCut = 57378
+                end              
+                item
+                  Command = ecColSelPageUp
+                  ShortCut = 40993
+                end              
+                item
+                  Command = ecColSelPageTop
+                  ShortCut = 57377
+                end              
+                item
+                  Command = ecColSelLineStart
+                  ShortCut = 40996
+                end              
+                item
+                  Command = ecColSelLineEnd
+                  ShortCut = 40995
+                end              
+                item
+                  Command = ecColSelEditorTop
+                  ShortCut = 57380
+                end              
+                item
+                  Command = ecColSelEditorBottom
+                  ShortCut = 57379
+                end>
+              MouseActions = <>
+              MouseTextActions = <>
+              MouseSelActions = <>
+              VisibleSpecialChars = [vscSpace, vscTabAtLast]
+              SelectedColor.BackPriority = 50
+              SelectedColor.ForePriority = 50
+              SelectedColor.FramePriority = 50
+              SelectedColor.BoldPriority = 50
+              SelectedColor.ItalicPriority = 50
+              SelectedColor.UnderlinePriority = 50
+              SelectedColor.StrikeOutPriority = 50
+              BracketHighlightStyle = sbhsBoth
+              BracketMatchColor.Background = clNone
+              BracketMatchColor.Foreground = clNone
+              BracketMatchColor.Style = [fsBold]
+              FoldedCodeColor.Background = clNone
+              FoldedCodeColor.Foreground = clGray
+              FoldedCodeColor.FrameColor = clGray
+              MouseLinkColor.Background = clNone
+              MouseLinkColor.Foreground = clBlue
+              LineHighlightColor.Background = clNone
+              LineHighlightColor.Foreground = clNone
+              inline SynLeftGutterPartList1: TSynGutterPartList
+                object SynGutterLineNumber1: TSynGutterLineNumber
+                  Width = 25
+                  MouseActions = <>
+                  MarkupInfo.Background = clBtnFace
+                  MarkupInfo.Foreground = clNone
+                  DigitCount = 2
+                  ShowOnlyLineNumbersMultiplesOf = 1
+                  ZeroStart = False
+                  LeadingZeros = False
+                end
+                object SynGutterChanges1: TSynGutterChanges
+                  Width = 4
+                  MouseActions = <>
+                  ModifiedColor = 59900
+                  SavedColor = clGreen
+                  MarkupInfo.Background = clNone
+                  MarkupInfo.Foreground = clGreen
+                  MarkupInfo.FrameColor = 59900
+                end
+                object SynGutterSeparator1: TSynGutterSeparator
+                  Width = 2
+                  MouseActions = <>
+                  MarkupInfo.Background = clWhite
+                  MarkupInfo.Foreground = clGray
+                end
+                object SynGutterCodeFolding1: TSynGutterCodeFolding
+                  MouseActions = <>
+                  MarkupInfo.Background = clNone
+                  MarkupInfo.Foreground = clGray
+                  MouseActionsExpanded = <>
+                  MouseActionsCollapsed = <>
+                end
+              end
+            end
+          end
+        end
+      end
+    end
     object PageResponse: TTabSheet
       Caption = 'Response'
       ClientHeight = 531
@@ -805,339 +1742,6 @@ object formConfigTrayslate: TformConfigTrayslate
               ParentShowHint = False
               OnClick = BtnResponseTestClick
             end
-          end
-        end
-      end
-    end
-    object PageParameters: TTabSheet
-      Caption = 'Parameters'
-      ClientHeight = 531
-      ClientWidth = 582
-      object ScrollBoxParameters: TScrollBox
-        Left = 0
-        Height = 531
-        Top = 0
-        Width = 582
-        HorzScrollBar.Page = 1
-        HorzScrollBar.Visible = False
-        VertScrollBar.Increment = 53
-        VertScrollBar.Page = 531
-        VertScrollBar.Smooth = True
-        VertScrollBar.Tracking = True
-        Align = alClient
-        BorderStyle = bsNone
-        ClientHeight = 531
-        ClientWidth = 565
-        TabOrder = 0
-        object GroupInitParameters: TGroupBox
-          Left = 5
-          Height = 491
-          Top = 253
-          Width = 555
-          Align = alTop
-          BorderSpacing.Around = 5
-          Caption = 'Initial Request'
-          ClientHeight = 471
-          ClientWidth = 551
-          ParentBackground = False
-          TabOrder = 1
-          object EditInitUserAgent: TEdit
-            Left = 120
-            Height = 23
-            Top = 32
-            Width = 406
-            Anchors = [akTop, akLeft, akRight]
-            TabOrder = 0
-            OnChange = ValueChange
-          end
-          object LabelInitUserAgent: TLabel
-            Left = 8
-            Height = 32
-            Top = 32
-            Width = 104
-            Alignment = taRightJustify
-            AutoSize = False
-            Caption = 'User Agent'
-            WordWrap = True
-          end
-          object LabelInitUrl: TLabel
-            Left = 8
-            Height = 34
-            Top = 199
-            Width = 104
-            Alignment = taRightJustify
-            AutoSize = False
-            Caption = 'URL'
-            WordWrap = True
-          end
-          object MemoInitURL: TMemo
-            Left = 120
-            Height = 64
-            Top = 199
-            Width = 406
-            Anchors = [akTop, akLeft, akRight]
-            ScrollBars = ssAutoVertical
-            TabOrder = 2
-            WantReturns = False
-            OnChange = ValueChange
-          end
-          object LabelInitParameters2: TLabel
-            Left = 8
-            Height = 33
-            Top = 295
-            Width = 104
-            Alignment = taRightJustify
-            AutoSize = False
-            Caption = 'Parameters'
-            WordWrap = True
-          end
-          object MemoInitParameters: TMemo
-            Left = 120
-            Height = 100
-            Top = 295
-            Width = 406
-            Anchors = [akTop, akLeft, akRight]
-            ScrollBars = ssAutoVertical
-            TabOrder = 3
-            OnChange = ValueChange
-            OnKeyDown = MemoKeyDown
-          end
-          object LabelInitHeaders2: TLabel
-            Left = 8
-            Height = 33
-            Top = 87
-            Width = 104
-            Alignment = taRightJustify
-            AutoSize = False
-            Caption = 'Headers'
-            WordWrap = True
-          end
-          object MemoInitHeaders: TMemo
-            Left = 120
-            Height = 100
-            Top = 87
-            Width = 406
-            Anchors = [akTop, akLeft, akRight]
-            BorderSpacing.Top = 45
-            BorderSpacing.Right = 15
-            BorderSpacing.Around = 5
-            ScrollBars = ssAutoVertical
-            TabOrder = 1
-            OnChange = ValueChange
-            OnKeyDown = MemoKeyDown
-          end
-          object LabelInitHeaders: TLabel
-            Left = 8
-            Height = 15
-            Top = 63
-            Width = 518
-            Anchors = [akTop, akLeft, akRight]
-            Caption = 'Additional initial request headers in key=value format, key: value is also supported'
-            Color = clInfoBk
-            ParentColor = False
-            Transparent = False
-          end
-          object LabelInitParameters: TLabel
-            Left = 8
-            Height = 15
-            Top = 272
-            Width = 521
-            Anchors = [akTop, akLeft, akRight]
-            Caption = 'Parameters name=regexp are extracted from the response and used by name in requests'
-            Color = clInfoBk
-            ParentColor = False
-            Transparent = False
-          end
-          object SpinInitLiveTime: TSpinEdit
-            Left = 120
-            Height = 23
-            Top = 432
-            Width = 406
-            Anchors = [akTop, akLeft, akRight]
-            TabOrder = 4
-            OnChange = ValueChange
-          end
-          object LabelInitLiveTime: TLabel
-            Left = 0
-            Height = 32
-            Top = 432
-            Width = 112
-            Alignment = taRightJustify
-            AutoSize = False
-            Caption = 'Live time'
-            WordWrap = True
-          end
-          object LabelInitParameters1: TLabel
-            Left = 8
-            Height = 15
-            Top = 408
-            Width = 518
-            Anchors = [akTop, akLeft, akRight]
-            Caption = 'Time in seconds to refresh parameters with a new request (0 = every request)'
-            Color = clInfoBk
-            ParentColor = False
-            Transparent = False
-          end
-          object BtnInitUrlTest: TSpeedButton
-            Left = 528
-            Height = 22
-            Hint = 'Execute request and view the result'
-            Top = 199
-            Width = 23
-            Anchors = [akTop, akRight]
-            Flat = True
-            Glyph.Data = {
-              36040000424D3604000000000000360000002800000010000000100000000100
-              2000000000000004000064000000640000000000000000000000000000000000
-              0000000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000000000000000000000000000000000000000000
-              00000000000000000000000000000000001E0000000000000000000000000000
-              0000000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000000000000CD0000002500000000000000000000
-              0000000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000000000000E8000000E100000020000000000000
-              0000000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000000000000EFFFFFFFFF000000DD0000001C0000
-              0000000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000000000000F0FFFFFFFFFFFFFFFF000000D90000
-              0019000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000000000000F7FFFFFFFFFFFFFFFFFFFFFFFF0000
-              00D4000000150000000000000000000000000000000000000000000000000000
-              0000000000000000000000000000000000F8FFFFFFFFFFFFFFFFFFFFFFFFFFFF
-              FFFF000000D00000001300000000000000000000000000000000000000000000
-              0000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-              FFFF000000D70000001A00000000000000000000000000000000000000000000
-              0000000000000000000000000001000000FFFFFFFFFFFFFFFFFFFFFFFFFF0000
-              00D2000000170000000000000000000000000000000000000000000000000000
-              0000000000000000000000000008000000FFFFFFFFFFFFFFFFFF000000CD0000
-              0013000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000009000000FFFFFFFFFF000000C8000000100000
-              0000000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000010000000FF000000C30000000E000000000000
-              0000000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000014000000BE0000000B00000000000000000000
-              0000000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000008000000090000000000000000000000000000
-              0000000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000000000000000000000000000000
-            }
-            ShowHint = True
-            ParentShowHint = False
-            OnClick = BtnInitUrlTestClick
-          end
-          object BtnInitParametersTest: TSpeedButton
-            Left = 528
-            Height = 22
-            Hint = 'Execute request and view the parameters'
-            Top = 295
-            Width = 23
-            Anchors = [akTop, akRight]
-            Flat = True
-            Glyph.Data = {
-              36040000424D3604000000000000360000002800000010000000100000000100
-              2000000000000004000064000000640000000000000000000000000000000000
-              0000000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000000000000000000000000000000000000000000
-              00000000000000000000000000000000001E0000000000000000000000000000
-              0000000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000000000000CD0000002500000000000000000000
-              0000000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000000000000E8000000E100000020000000000000
-              0000000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000000000000EFFFFFFFFF000000DD0000001C0000
-              0000000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000000000000F0FFFFFFFFFFFFFFFF000000D90000
-              0019000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000000000000F7FFFFFFFFFFFFFFFFFFFFFFFF0000
-              00D4000000150000000000000000000000000000000000000000000000000000
-              0000000000000000000000000000000000F8FFFFFFFFFFFFFFFFFFFFFFFFFFFF
-              FFFF000000D00000001300000000000000000000000000000000000000000000
-              0000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-              FFFF000000D70000001A00000000000000000000000000000000000000000000
-              0000000000000000000000000001000000FFFFFFFFFFFFFFFFFFFFFFFFFF0000
-              00D2000000170000000000000000000000000000000000000000000000000000
-              0000000000000000000000000008000000FFFFFFFFFFFFFFFFFF000000CD0000
-              0013000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000009000000FFFFFFFFFF000000C8000000100000
-              0000000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000010000000FF000000C30000000E000000000000
-              0000000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000014000000BE0000000B00000000000000000000
-              0000000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000008000000090000000000000000000000000000
-              0000000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000000000000000000000000000000
-            }
-            ShowHint = True
-            ParentShowHint = False
-            OnClick = BtnInitParametersTestClick
-          end
-          object LabelInitParemeters: TLabel
-            Left = 8
-            Height = 15
-            Top = 8
-            Width = 518
-            Anchors = [akTop, akLeft, akRight]
-            Caption = 'Initial GET request to obtain required parameters.'
-            Color = clInfoBk
-            ParentColor = False
-            Transparent = False
-          end
-        end
-        object GroupBoxCustomParameters: TGroupBox
-          Left = 5
-          Height = 243
-          Top = 5
-          Width = 555
-          Align = alTop
-          BorderSpacing.Around = 5
-          Caption = 'Custom Parameters'
-          ClientHeight = 223
-          ClientWidth = 551
-          TabOrder = 0
-          object MemoCustomParameters: TMemo
-            Left = 120
-            Height = 128
-            Top = 80
-            Width = 406
-            Anchors = [akTop, akLeft, akRight]
-            ScrollBars = ssAutoVertical
-            TabOrder = 1
-            OnChange = ValueChange
-            OnKeyDown = MemoKeyDown
-          end
-          object LabelInitParameters3: TLabel
-            Left = 8
-            Height = 32
-            Top = 80
-            Width = 104
-            Alignment = taRightJustify
-            AutoSize = False
-            Caption = 'Parameters'
-            WordWrap = True
-          end
-          object LabelInitParameters4: TLabel
-            Left = 8
-            Height = 30
-            Top = 8
-            Width = 518
-            Anchors = [akTop, akLeft, akRight]
-            Caption = 'Parameters in the form key=value used by {key} in requests. If the value is omitted (key=), it will be requested from the user.'
-            Color = clInfoBk
-            ParentColor = False
-            Transparent = False
-            WordWrap = True
-          end
-          object CheckEncodeCustomParameters: TCheckBox
-            Left = 120
-            Height = 19
-            Top = 48
-            Width = 119
-            Caption = 'Encode parameters'
-            TabOrder = 0
-            OnChange = ValueChange
           end
         end
       end
@@ -1327,5 +1931,14 @@ object formConfigTrayslate: TformConfigTrayslate
     Options = [ofFileMustExist, ofEnableSizing, ofViewDetail]
     Left = 464
     Top = 104
+  end
+  object SynPasSyn: TSynPasSyn
+    Enabled = False
+    CompilerMode = pcmDelphi
+    NestedComments = False
+    TypeHelpers = True
+    StringMultilineMode = []
+    Left = 88
+    Top = 384
   end
 end

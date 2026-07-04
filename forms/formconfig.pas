@@ -21,7 +21,7 @@ uses
   Dialogs,
   StdCtrls,
   ExtCtrls,
-  FileUtil,
+  FileUtil, SynEdit, SynHighlighterPas,
   Buttons,
   ActnList,
   ComCtrls,
@@ -38,6 +38,7 @@ type
     ActionList: TActionList;
     BtnClose: TButton;
     BtnInitParametersTest: TSpeedButton;
+    BtnScroptTest: TSpeedButton;
     BtnUrlTest: TSpeedButton;
     BtnSave: TButton;
     BtnPostDataTest: TSpeedButton;
@@ -66,6 +67,7 @@ type
     GroupRequest: TGroupBox;
     GroupResponse: TGroupBox;
     GroupLanguages: TGroupBox;
+    GroupScript: TGroupBox;
     ImagePreview: TImage;
     LabelAccept: TLabel;
     LabelInitHeaders: TLabel;
@@ -74,6 +76,7 @@ type
     LabelInitParameters3: TLabel;
     LabelInitParameters4: TLabel;
     LabelInitParemeters: TLabel;
+    LabelScript: TLabel;
     LabelLanguages1: TLabel;
     LabelLanguagesTarget: TLabel;
     LabelFillLanguages: TLabel;
@@ -112,9 +115,11 @@ type
     DialogOpen: TOpenDialog;
     Pages: TPageControl;
     PanelResponse: TPanel;
+    PanelResponse1: TPanel;
     PanelTop: TPanel;
     SbCopyConfig: TSpeedButton;
     SbNewConfig: TSpeedButton;
+    ScrollBoxInitialRequest: TScrollBox;
     ScrollBoxRequest: TScrollBox;
     ScrollBoxResponse: TScrollBox;
     ScrollBoxParameters: TScrollBox;
@@ -130,6 +135,9 @@ type
     SpinServiceOrder: TSpinEdit;
     PageRequest: TTabSheet;
     SpinMaxLength: TSpinEdit;
+    PageInitialRequest: TTabSheet;
+    SynPasSyn: TSynPasSyn;
+    SynScript: TSynEdit;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
