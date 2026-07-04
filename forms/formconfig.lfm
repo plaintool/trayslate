@@ -164,11 +164,11 @@ object formConfigTrayslate: TformConfigTrayslate
     Height = 559
     Top = 41
     Width = 590
-    ActivePage = PageParameters
+    ActivePage = PageService
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
-    TabIndex = 3
+    TabIndex = 0
     TabOrder = 1
     object PageService: TTabSheet
       Caption = 'Service'
@@ -1123,6 +1123,8 @@ object formConfigTrayslate: TformConfigTrayslate
               Width = 538
               Align = alClient
               BorderSpacing.Right = 25
+              Color = clWindow
+              Font.Color = clWindowText
               Font.Height = -13
               Font.Name = 'Courier New'
               Font.Pitch = fpFixed
