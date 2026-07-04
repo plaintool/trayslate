@@ -21,12 +21,14 @@ uses
   Dialogs,
   StdCtrls,
   ExtCtrls,
-  FileUtil, SynEdit, SynHighlighterPas,
+  FileUtil,
   Buttons,
   ActnList,
   ComCtrls,
   Spin,
   ColorBox,
+  SynEdit,
+  SynHighlighterPas,
   LCLType;
 
 type
@@ -34,6 +36,7 @@ type
   { TformConfigTrayslate }
 
   TformConfigTrayslate = class(TForm)
+    {%Region -fold Form Common}
     aSave: TAction;
     ActionList: TActionList;
     BtnClose: TButton;
@@ -137,7 +140,8 @@ type
     SpinMaxLength: TSpinEdit;
     PageInitialRequest: TTabSheet;
     SynPasSyn: TSynPasSyn;
-    SynScript: TSynEdit;
+    SynScriptParameters: TSynEdit;
+    procedure BtnScroptTestClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -161,6 +165,7 @@ type
     procedure SbNewConfigClick(Sender: TObject);
     procedure ValueChange(Sender: TObject);
     procedure SbCopyConfigClick(Sender: TObject);
+    {%EndRegion}
   private
     FLastConfig: integer;
     FInUpdateConfig: boolean;
@@ -341,6 +346,11 @@ begin
     Enabled := True;
     Screen.Cursor := crDefault;
   end;
+end;
+
+procedure TformConfigTrayslate.BtnScroptTestClick(Sender: TObject);
+begin
+
 end;
 
 procedure TformConfigTrayslate.BtnCloseClick(Sender: TObject);
@@ -642,6 +652,7 @@ begin
     EditUserAgent.Text := UserAgent;
     MemoHeaders.Lines.Assign(Headers);
     MemoCustomParameters.Lines.Assign(CustomParameters);
+    SynScriptParameters.Lines.Assign(ScriptParameters);
     CheckEncodeText.Checked := EncodeText;
     SpinMaxLength.Value := MaxLength;
     CheckEncodeCustomParameters.Checked := EncodeCustomParameters;
@@ -694,6 +705,7 @@ begin
     JsonPointer := string.Empty;
     EncodeCustomParameters := False;
     CustomParameters.Clear;
+    ScriptParameters.Clear;
     Languages.Clear;
     LanguagesTarget.Clear;
     InitUserAgent := string.Empty;
@@ -731,6 +743,7 @@ begin
     MemoLanguagesTarget.Clear;
     MemoHeaders.Clear;
     MemoCustomParameters.Clear;
+    SynScriptParameters.Clear;
     MemoServiceDescription.Clear;
 
     FIconBase64 := string.Empty;
@@ -795,6 +808,7 @@ begin
       ValueType := TValueType(ComboValueType.ItemIndex);
       EncodeCustomParameters := CheckEncodeCustomParameters.Checked;
       CustomParameters.Text := MemoCustomParameters.Text;
+      ScriptParameters.Text := SynScriptParameters.Text;
       InitUserAgent := EditInitUserAgent.Text;
 
       TempHeaders := MemoInitHeaders.HeadersFromMemo;

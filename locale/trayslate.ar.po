@@ -429,6 +429,13 @@ msgid "Execute post request and view the result"
 msgstr "تنفيذ طلب POST وعرض النتيجة"
 
 #: tformconfigtrayslate.btnresponsetest.hint
+msgctxt "tformconfigtrayslate.btnresponsetest.hint"
+msgid "Converts the current response"
+msgstr "يحوّل الاستجابة الحالية"
+
+#: tformconfigtrayslate.btnscropttest.hint
+#, fuzzy
+msgctxt "tformconfigtrayslate.btnscropttest.hint"
 msgid "Converts the current response"
 msgstr "يحوّل الاستجابة الحالية"
 
@@ -490,6 +497,7 @@ msgid "Service"
 msgstr "الخدمة"
 
 #: tformconfigtrayslate.groupinitparameters.caption
+msgctxt "tformconfigtrayslate.groupinitparameters.caption"
 msgid "Initial Request"
 msgstr "الطلب الأولي"
 
@@ -512,6 +520,10 @@ msgstr "الطلب"
 msgctxt "tformconfigtrayslate.groupresponse.caption"
 msgid "Response"
 msgstr "الاستجابة"
+
+#: tformconfigtrayslate.groupscript.caption
+msgid "Script Parameters"
+msgstr ""
 
 #: tformconfigtrayslate.imagepreview.hint
 msgid "Click to select the config icon, Middle-Click clears the icon"
@@ -648,6 +660,10 @@ msgctxt "tformconfigtrayslate.labelpostdata1.caption"
 msgid "Headers"
 msgstr "Headers"
 
+#: tformconfigtrayslate.labelscript.caption
+msgid "The script takes parameters: text, source, target, and other supported parameters."
+msgstr ""
+
 #: tformconfigtrayslate.labelservicedescription.caption
 msgid "Description"
 msgstr "الوصف"
@@ -674,6 +690,12 @@ msgstr "User Agent"
 #: tformconfigtrayslate.labelvaluetype.caption
 msgid "Value Type"
 msgstr "نوع القيمة"
+
+#: tformconfigtrayslate.pageinitialrequest.caption
+#, fuzzy
+msgctxt "tformconfigtrayslate.pageinitialrequest.caption"
+msgid "Initial Request"
+msgstr "الطلب الأولي"
 
 #: tformconfigtrayslate.pagelanguages.caption
 msgctxt "tformconfigtrayslate.pagelanguages.caption"

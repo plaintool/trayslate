@@ -429,6 +429,13 @@ msgid "Execute post request and view the result"
 msgstr "POST 요청 실행 및 결과 보기"
 
 #: tformconfigtrayslate.btnresponsetest.hint
+msgctxt "tformconfigtrayslate.btnresponsetest.hint"
+msgid "Converts the current response"
+msgstr "현재 응답을 변환합니다"
+
+#: tformconfigtrayslate.btnscropttest.hint
+#, fuzzy
+msgctxt "tformconfigtrayslate.btnscropttest.hint"
 msgid "Converts the current response"
 msgstr "현재 응답을 변환합니다"
 
@@ -490,6 +497,7 @@ msgid "Service"
 msgstr "서비스"
 
 #: tformconfigtrayslate.groupinitparameters.caption
+msgctxt "tformconfigtrayslate.groupinitparameters.caption"
 msgid "Initial Request"
 msgstr "초기 요청"
 
@@ -512,6 +520,10 @@ msgstr "요청"
 msgctxt "tformconfigtrayslate.groupresponse.caption"
 msgid "Response"
 msgstr "응답"
+
+#: tformconfigtrayslate.groupscript.caption
+msgid "Script Parameters"
+msgstr ""
 
 #: tformconfigtrayslate.imagepreview.hint
 msgid "Click to select the config icon, Middle-Click clears the icon"
@@ -648,6 +660,10 @@ msgctxt "tformconfigtrayslate.labelpostdata1.caption"
 msgid "Headers"
 msgstr "Headers"
 
+#: tformconfigtrayslate.labelscript.caption
+msgid "The script takes parameters: text, source, target, and other supported parameters."
+msgstr ""
+
 #: tformconfigtrayslate.labelservicedescription.caption
 msgid "Description"
 msgstr "설명"
@@ -674,6 +690,12 @@ msgstr "User Agent"
 #: tformconfigtrayslate.labelvaluetype.caption
 msgid "Value Type"
 msgstr "값 유형"
+
+#: tformconfigtrayslate.pageinitialrequest.caption
+#, fuzzy
+msgctxt "tformconfigtrayslate.pageinitialrequest.caption"
+msgid "Initial Request"
+msgstr "초기 요청"
 
 #: tformconfigtrayslate.pagelanguages.caption
 msgctxt "tformconfigtrayslate.pagelanguages.caption"

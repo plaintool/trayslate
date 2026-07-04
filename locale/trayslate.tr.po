@@ -12,10 +12,11 @@ msgstr ""
 "X-Generator: PoBatch 1.0.0\n"
 
 #: checkupdates.newversion
-#, object-pascal-format
+#, object-pascal-format, fuzzy, badformat
+#| msgid "Proxied Configs (Default: All)"
 msgctxt "checkupdates.newversion"
 msgid "New version available: %s. Open GitHub page to download?"
-msgstr "Yeni sürüm mevcut: %s. İndirmek için GitHub sayfası açılsın mı?"
+msgstr "Proxy Yapılandırmaları (Varsayılan: Tümü)"
 
 #: checkupdates.newversioncheckerror
 msgctxt "checkupdates.newversioncheckerror"
@@ -429,6 +430,13 @@ msgid "Execute post request and view the result"
 msgstr "POST isteğini yürüt ve sonucu görüntüle"
 
 #: tformconfigtrayslate.btnresponsetest.hint
+msgctxt "tformconfigtrayslate.btnresponsetest.hint"
+msgid "Converts the current response"
+msgstr "Geçerli yanıtı dönüştürür"
+
+#: tformconfigtrayslate.btnscropttest.hint
+#, fuzzy
+msgctxt "tformconfigtrayslate.btnscropttest.hint"
 msgid "Converts the current response"
 msgstr "Geçerli yanıtı dönüştürür"
 
@@ -490,6 +498,7 @@ msgid "Service"
 msgstr "Hizmet"
 
 #: tformconfigtrayslate.groupinitparameters.caption
+msgctxt "tformconfigtrayslate.groupinitparameters.caption"
 msgid "Initial Request"
 msgstr "Başlangıç İsteği"
 
@@ -512,6 +521,10 @@ msgstr "İstek"
 msgctxt "tformconfigtrayslate.groupresponse.caption"
 msgid "Response"
 msgstr "Yanıt"
+
+#: tformconfigtrayslate.groupscript.caption
+msgid "Script Parameters"
+msgstr ""
 
 #: tformconfigtrayslate.imagepreview.hint
 msgid "Click to select the config icon, Middle-Click clears the icon"
@@ -648,6 +661,10 @@ msgctxt "tformconfigtrayslate.labelpostdata1.caption"
 msgid "Headers"
 msgstr "Headers"
 
+#: tformconfigtrayslate.labelscript.caption
+msgid "The script takes parameters: text, source, target, and other supported parameters."
+msgstr ""
+
 #: tformconfigtrayslate.labelservicedescription.caption
 msgid "Description"
 msgstr "Açıklama"
@@ -674,6 +691,12 @@ msgstr "User Agent"
 #: tformconfigtrayslate.labelvaluetype.caption
 msgid "Value Type"
 msgstr "Değer Türü"
+
+#: tformconfigtrayslate.pageinitialrequest.caption
+#, fuzzy
+msgctxt "tformconfigtrayslate.pageinitialrequest.caption"
+msgid "Initial Request"
+msgstr "Başlangıç İsteği"
 
 #: tformconfigtrayslate.pagelanguages.caption
 msgctxt "tformconfigtrayslate.pagelanguages.caption"
@@ -1049,10 +1072,10 @@ msgstr "Fare modu"
 msgid "Popup Window"
 msgstr "Açılır pencere"
 
-#: checkupdates.newversion
-#, object-pascal-format
+#: tformsettingstrayslate.groupproxiedconfigs.caption
+msgctxt "tformsettingstrayslate.groupproxiedconfigs.caption"
 msgid "Proxied Configs (Default: All)"
-msgstr "Proxy Yapılandırmaları (Varsayılan: Tümü)"
+msgstr ""
 
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"

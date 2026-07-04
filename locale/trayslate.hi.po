@@ -429,6 +429,13 @@ msgid "Execute post request and view the result"
 msgstr "POST अनुरोध निष्पादित करें और परिणाम देखें"
 
 #: tformconfigtrayslate.btnresponsetest.hint
+msgctxt "tformconfigtrayslate.btnresponsetest.hint"
+msgid "Converts the current response"
+msgstr "वर्तमान उत्तर को परिवर्तित करता है"
+
+#: tformconfigtrayslate.btnscropttest.hint
+#, fuzzy
+msgctxt "tformconfigtrayslate.btnscropttest.hint"
 msgid "Converts the current response"
 msgstr "वर्तमान उत्तर को परिवर्तित करता है"
 
@@ -490,6 +497,7 @@ msgid "Service"
 msgstr "सेवा"
 
 #: tformconfigtrayslate.groupinitparameters.caption
+msgctxt "tformconfigtrayslate.groupinitparameters.caption"
 msgid "Initial Request"
 msgstr "प्रारंभिक अनुरोध"
 
@@ -512,6 +520,10 @@ msgstr "अनुरोध"
 msgctxt "tformconfigtrayslate.groupresponse.caption"
 msgid "Response"
 msgstr "प्रतिक्रिया"
+
+#: tformconfigtrayslate.groupscript.caption
+msgid "Script Parameters"
+msgstr ""
 
 #: tformconfigtrayslate.imagepreview.hint
 msgid "Click to select the config icon, Middle-Click clears the icon"
@@ -648,6 +660,10 @@ msgctxt "tformconfigtrayslate.labelpostdata1.caption"
 msgid "Headers"
 msgstr "Headers"
 
+#: tformconfigtrayslate.labelscript.caption
+msgid "The script takes parameters: text, source, target, and other supported parameters."
+msgstr ""
+
 #: tformconfigtrayslate.labelservicedescription.caption
 msgid "Description"
 msgstr "विवरण"
@@ -674,6 +690,12 @@ msgstr "User Agent"
 #: tformconfigtrayslate.labelvaluetype.caption
 msgid "Value Type"
 msgstr "मान प्रकार"
+
+#: tformconfigtrayslate.pageinitialrequest.caption
+#, fuzzy
+msgctxt "tformconfigtrayslate.pageinitialrequest.caption"
+msgid "Initial Request"
+msgstr "प्रारंभिक अनुरोध"
 
 #: tformconfigtrayslate.pagelanguages.caption
 msgctxt "tformconfigtrayslate.pagelanguages.caption"

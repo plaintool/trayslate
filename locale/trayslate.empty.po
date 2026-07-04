@@ -409,6 +409,12 @@ msgid "Execute post request and view the result"
 msgstr ""
 
 #: tformconfigtrayslate.btnresponsetest.hint
+msgctxt "tformconfigtrayslate.btnresponsetest.hint"
+msgid "Converts the current response"
+msgstr ""
+
+#: tformconfigtrayslate.btnscropttest.hint
+msgctxt "tformconfigtrayslate.btnscropttest.hint"
 msgid "Converts the current response"
 msgstr ""
 
@@ -470,6 +476,7 @@ msgid "Service"
 msgstr ""
 
 #: tformconfigtrayslate.groupinitparameters.caption
+msgctxt "tformconfigtrayslate.groupinitparameters.caption"
 msgid "Initial Request"
 msgstr ""
 
@@ -491,6 +498,10 @@ msgstr ""
 #: tformconfigtrayslate.groupresponse.caption
 msgctxt "tformconfigtrayslate.groupresponse.caption"
 msgid "Response"
+msgstr ""
+
+#: tformconfigtrayslate.groupscript.caption
+msgid "Script Parameters"
 msgstr ""
 
 #: tformconfigtrayslate.imagepreview.hint
@@ -618,6 +629,10 @@ msgctxt "tformconfigtrayslate.labelpostdata1.caption"
 msgid "Headers"
 msgstr ""
 
+#: tformconfigtrayslate.labelscript.caption
+msgid "The script takes parameters: text, source, target, and other supported parameters."
+msgstr ""
+
 #: tformconfigtrayslate.labelservicedescription.caption
 msgid "Description"
 msgstr ""
@@ -643,6 +658,11 @@ msgstr ""
 
 #: tformconfigtrayslate.labelvaluetype.caption
 msgid "Value Type"
+msgstr ""
+
+#: tformconfigtrayslate.pageinitialrequest.caption
+msgctxt "tformconfigtrayslate.pageinitialrequest.caption"
+msgid "Initial Request"
 msgstr ""
 
 #: tformconfigtrayslate.pagelanguages.caption

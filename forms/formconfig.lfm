@@ -1045,7 +1045,7 @@ object formConfigTrayslate: TformConfigTrayslate
           Width = 572
           Align = alClient
           BorderSpacing.Around = 5
-          Caption = 'Script'
+          Caption = 'Script Parameters'
           ClientHeight = 253
           ClientWidth = 568
           ParentBackground = False
@@ -1124,18 +1124,23 @@ object formConfigTrayslate: TformConfigTrayslate
               }
               ShowHint = True
               ParentShowHint = False
-              OnClick = BtnResponseTestClick
+              OnClick = BtnScroptTestClick
             end
-            inline SynScript: TSynEdit
+            inline SynScriptParameters: TSynEdit
               Left = 0
               Height = 218
               Top = 0
               Width = 538
               Align = alClient
               BorderSpacing.Right = 25
+              Font.Height = -13
+              Font.Name = 'Courier New'
+              Font.Pitch = fpFixed
+              Font.Quality = fqNonAntialiased
               ParentColor = False
+              ParentFont = False
               TabOrder = 0
-              Gutter.Width = 41
+              Gutter.Width = 33
               Gutter.MouseActions = <>
               RightGutter.Width = 0
               RightGutter.MouseActions = <>
@@ -1583,9 +1588,10 @@ object formConfigTrayslate: TformConfigTrayslate
               MouseLinkColor.Foreground = clBlue
               LineHighlightColor.Background = clNone
               LineHighlightColor.Foreground = clNone
+              OnChange = ValueChange
               inline SynLeftGutterPartList1: TSynGutterPartList
                 object SynGutterLineNumber1: TSynGutterLineNumber
-                  Width = 25
+                  Width = 17
                   MouseActions = <>
                   MarkupInfo.Background = clBtnFace
                   MarkupInfo.Foreground = clNone

@@ -59,6 +59,7 @@ type
     FUserAgent: string;
     FHeaders: TStringList;
     FCustomParameters: TStringList;
+    FScriptParameters: TStringList;
     FServiceColorRecent: TColor;
     FServiceDescription: TStringList;
     FEncodeText: boolean;
@@ -144,6 +145,7 @@ type
     property JsonPointer: string read FJsonPointer write FJsonPointer;
     property EncodeCustomParameters: boolean read FEncodeCustomParameters write FEncodeCustomParameters;
     property CustomParameters: TStringList read FCustomParameters write FCustomParameters;
+    property ScriptParameters: TStringList read FScriptParameters write FScriptParameters;
     property Proxy: TProxy read FProxy write FProxy;
     property Timeout: TTimeout read FTimeout write FTimeout;
 
@@ -213,6 +215,9 @@ begin
   FCustomParameters := TStringList.Create;
   FCustomParameters.TrailingLineBreak := False;
   FCustomParameters.SkipLastLineBreak := True;
+  FScriptParameters := TStringList.Create;
+  FScriptParameters.TrailingLineBreak := False;
+  FScriptParameters.SkipLastLineBreak := True;
   FServiceDescription := TStringList.Create;
   FServiceDescription.TrailingLineBreak := False;
   FServiceDescription.SkipLastLineBreak := True;
@@ -258,6 +263,7 @@ begin
   FreeAndNil(FCookies);
   FreeAndNil(FHeaders);
   FreeAndNil(FCustomParameters);
+  FreeAndNil(FScriptParameters);
   FreeAndNil(FServiceDescription);
   FreeAndNil(FLanguages);
   FreeAndNil(FLanguagesTarget);
@@ -1166,7 +1172,7 @@ begin
           IntToStr(i), // key: 0,1,2...
           ServiceDescription[i]);
 
-    // { Request page }
+    // Request page
     if WebMethod = wmPost then
       Ini.WriteString('Request', 'Method', 'POST')
     else
@@ -1212,13 +1218,13 @@ begin
           IntToStr(i),
           Headers[i]);
 
-    // {  Response page }
+    // Response page
     if Trim(JsonPointer) <> string.Empty then
       Ini.WriteString('Response', 'JsonPointer', JsonPointer)
     else
       Ini.DeleteKey('Response', 'JsonPointer');
 
-    // { Parameters page }
+    // Parameters page
     Ini.WriteBool('Parameters', 'EncodeCustomParameters', EncodeCustomParameters);
 
     // Save custom parameters
@@ -1228,6 +1234,14 @@ begin
         Ini.WriteString('Custom Parameters',
           CustomParameters.Names[i],
           CustomParameters.ValueFromIndex[i]);
+
+    // Save script parameters
+    ClearSection(Ini, 'Script Parameters', not Assigned(ScriptParameters) or (ScriptParameters.Count = 0));
+    if Assigned(ScriptParameters) then
+      for i := 0 to ScriptParameters.Count - 1 do
+        Ini.WriteString('Script Parameters',
+          IntToStr(i),
+          '#' + ScriptParameters[i]);
 
     ClearSection(Ini, 'Initial Request', (Trim(InitUserAgent) = string.Empty) and (Trim(InitUrl) = string.Empty) and
       (InitLiveTime = 0));
@@ -1406,9 +1420,29 @@ begin
 
     JsonPointer := Ini.ReadString('Response', 'JsonPointer', string.Empty);
 
+    // Custom Parameters
     EncodeCustomParameters := Ini.ReadBool('Parameters', 'EncodeCustomParameters', True);
     CustomParameters.Clear;
     Ini.ReadSectionValues('Custom Parameters', CustomParameters);
+
+    // Script Parameters
+    ScriptParameters.Clear;
+    Keys := TStringList.Create;
+    try
+      Ini.ReadSection('Script Parameters', Keys);
+
+      for i := 0 to Keys.Count - 1 do
+      begin
+        Value := Ini.ReadString('Script Parameters', Keys[i], '');
+
+        if (Value <> string.Empty) and (Value[1] = '#') then
+          Delete(Value, 1, 1);
+
+        ScriptParameters.Add(Value);
+      end;
+    finally
+      Keys.Free;
+    end;
 
     InitUserAgent := Ini.ReadString('Initial Request', 'UserAgent', string.Empty);
     InitUrl := Ini.ReadString('Initial Request', 'Url', string.Empty);
