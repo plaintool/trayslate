@@ -34,9 +34,10 @@ begin
   {$ENDIF}
   RequireDerivedFormResource := True;
   Language := TLocalize.GetOSLanguage;
-  Application.Title:='Trayslate';
-  Application.Scaled:=True;
+  Application.Title := 'Trayslate';
+  Application.Scaled := True;
   Application.Initialize;
+  Randomize;
   InitSSLInterface;
   {$IFDEF WINDOWS}
   ApplyDarkStyle;

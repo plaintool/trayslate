@@ -47,8 +47,9 @@ type
     class function GetTickCountXp: DWORD; static;
     class procedure SleepBusy(MS: integer); static;
     class procedure SleepLoop(ALoop: integer = 0; ASleep: integer = 0; AProcessMessages: boolean = True); static;
-    class function GetTimestampNow: int64; static;
-    class function GetRandomID(ALength: integer): int64; static;
+    class function GetTimestamp: int64; static;
+    class function GetTimestampMod(const SourceText: string): string;
+    class function GetRandom(ALength: integer): int64; static;
   end;
 
 implementation
@@ -427,14 +428,58 @@ begin
     end;
 end;
 
-class function TOS.GetTimestampNow: int64;
+class function TOS.GetTimestamp: int64;
+var
+  SystemTime: TFileTime = (dwLowDateTime: 0; dwHighDateTime: 0);
+  Bias: int64;
 begin
-  // Unix timestamp in milliseconds (UTC) with true millisecond precision
-  // LocalTimeToUniversal converts local time (Now) to UTC, available since FPC 2.x
-  Result := Round((LocalTimeToUniversal(Now) - EncodeDate(1970, 1, 1)) * MSecsPerDay);
+
+  // Get current system time in UTC (100-nanosecond intervals since January 1, 1601)
+  GetSystemTimeAsFileTime(SystemTime);
+
+  // Combine into a single 64-bit integer
+  Result := int64(SystemTime.dwHighDateTime) shl 32 or SystemTime.dwLowDateTime;
+
+  // Difference in 100-nanosecond intervals between 1601 and 1970
+  Bias := 116444736000000000;
+
+  // Convert to Unix Timestamp in milliseconds
+  Result := (Result - Bias) div 10000;
 end;
 
-class function TOS.GetRandomID(ALength: integer): int64;
+class function TOS.GetTimestampMod(const SourceText: string): string;
+var
+  i, TotalI, id: integer;
+  CurrentMillis, Timestamp: int64;
+begin
+  // 1. Counting char
+  TotalI := 0;
+  for i := 1 to Length(SourceText) do
+    if SourceText[i] = 'i' then
+      Inc(TotalI);
+
+  // 2. Take the current Unix time in milliseconds (UTC)
+  //    assumes TOS.GetTimestamp returns Int64
+  CurrentMillis := TOS.GetTimestamp;
+
+  // 3. If there are no 'i' characters, return the timestamp unchanged
+  if TotalI = 0 then
+    Timestamp := CurrentMillis
+  else
+  begin
+    // 4. Calculate the divisor
+    id := TotalI + 1;
+
+    // 5. Round up to the next multiple of id
+    //    (matches the original JavaScript implementation)
+    Timestamp := CurrentMillis - (CurrentMillis mod id) + id;
+  end;
+
+  // 6. Return as a string (ready to insert into JSON)
+  Result := IntToStr(Timestamp);
+end;
+
+class function TOS.GetRandom(ALength: integer): int64;
 var
   MinVal, MaxVal: int64;
 begin

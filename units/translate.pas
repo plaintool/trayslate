@@ -275,31 +275,6 @@ begin
     FResultValue := formTrayslate.GetParameterValue(FParamName, FResultOk);
 end;
 
-function GetTimestampMod(const SourceText: string): string;
-var
-  i, TotalI, id: integer;
-  CurrentMillis, Timestamp: int64;
-begin
-  // 1. Counting lowercase Latin 'i'
-  TotalI := 0;
-  for i := 1 to Length(SourceText) do
-    if SourceText[i] = 'i' then
-      Inc(TotalI);
-
-  // 2.Calculate the divisor
-  id := 1 + TotalI;
-
-  // 3. Take the current Unix time in milliseconds (UTC)
-  //    assumes TOS.GetTimestampNow returns Int64
-  CurrentMillis := TOS.GetTimestampNow;
-
-  // 4. Round up to a multiple of id
-  Timestamp := CurrentMillis + id - (CurrentMillis mod id);
-
-  // 5. Return as a string (ready to insert into JSON)
-  Result := IntToStr(Timestamp);
-end;
-
 function TTranslate.GetParameters(Data: string): boolean;
 var
   i: integer;
@@ -382,18 +357,17 @@ begin
   FParameterValues.Values['target'] := FLangTarget;
 
   // TimeStamp
-  FParameterValues.Values['timestamp'] := TOS.GetTimestampNow.ToString;
-
+  FParameterValues.Values['timestamp'] := TOS.GetTimestamp.ToString;
 
   // Random
-  FullRandom := TOS.GetRandomID(9);
+  FullRandom := TOS.GetRandom(9);
   FParameterValues.Values['random'] := FullRandom.ToString;
   FParameterValues.Values['rand'] := FullRandom.ToString;
   for i := 1 to Length(FullRandom.ToString) do
     FParameterValues.Values['rand' + IntToStr(i)] := Copy(FullRandom.ToString, 1, i);
 
   // Timestamp mod i
-  FParameterValues.Values['timestampmod'] := GetTimestampMod(FTextToTranslate);
+  FParameterValues.Values['timestampmod'] := TOS.GetTimestampMod(FTextToTranslate);
 
   // Extract additional parameters using regex
   if not Assigned(FInitParameters) or (Data = string.Empty) or (SecondsBetween(Now, FParametersAge) < FInitLiveTime) then

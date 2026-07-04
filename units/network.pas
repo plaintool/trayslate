@@ -269,7 +269,6 @@ class function TNetwork.WebRequest(AMethod: TWebMethod; const AUrl: string; cons
   ATimeout: TTimeout; var ACookies: TStringList; out AResponseHeaders: TStringList; out AError: boolean): string;
 var
   HTTP: THTTPSend;
-  SSL: TSSLOpenSSL;
   rawStream: TMemoryStream;
   decompressedStream: TMemoryStream;
   bodyStream: TStringStream;
@@ -286,7 +285,6 @@ begin
   try
     // Common setup
     HTTP.Protocol := '1.1';
-    SSL := TSSLOpenSSL.Create(HTTP.Sock);
     HTTP.Sock.SSL.SSLType := LT_TLSv1_2;
 
     // Timeouts
@@ -417,7 +415,6 @@ begin
     end;
   finally
     FreeAndNil(rawStream);
-    FreeAndNil(SSL);
     FreeAndNil(HTTP);
   end;
 end;
