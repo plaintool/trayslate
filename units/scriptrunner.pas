@@ -85,6 +85,21 @@ end;
 // These are registered in OnCompile and can be called from the script.
 // ---------------------------------------------------------------------------
 
+{ Returns a pseudo‑random floating‑point number in the range [0, 1).
+  This is the same as the standard System.Random when called without arguments. }
+function PS_Random: extended;
+begin
+  Result := System.Random;
+end;
+
+{ Converts an integer value to a hexadecimal string representation,
+  exactly like SysUtils.IntToHex. Digits specifies the minimum number
+  of characters in the result (padded with leading zeros if needed). }
+function PS_IntToHex(Value: integer; Digits: integer): string;
+begin
+  Result := SysUtils.IntToHex(Value, Digits);
+end;
+
 { Retrieves a named input parameter that was passed by the host. }
 function PS_GetParam(const Name: string): string;
 begin
@@ -137,6 +152,11 @@ begin
   // Basic utility functions from TOS
   Sender.AddFunction(@PS_GetTimestamp, 'function GetTimestamp: Int64;');
   Sender.AddFunction(@PS_GetRandom, 'function GetRandom(ALength: Integer): Int64;');
+
+  // Pseudo‑random generator
+  Sender.AddFunction(@PS_Random, 'function Random: Extended;');
+  // Hexadecimal conversion
+  Sender.AddFunction(@PS_IntToHex, 'function IntToHex(Value: Integer; Digits: Integer): string;');
 
   // Input reader: allows the script to retrieve any parameter by name.
   // We register the plain wrapper PS_GetParam, not the method.
