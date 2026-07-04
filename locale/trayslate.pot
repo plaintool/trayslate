@@ -491,7 +491,7 @@ msgid "Response"
 msgstr ""
 
 #: tformconfigtrayslate.groupscript.caption
-msgid "Script Parameters"
+msgid "Script Retrieved Parameters"
 msgstr ""
 
 #: tformconfigtrayslate.imagepreview.hint
@@ -543,11 +543,6 @@ msgstr ""
 
 #: tformconfigtrayslate.labelinitparameters2.caption
 msgctxt "tformconfigtrayslate.labelinitparameters2.caption"
-msgid "Parameters"
-msgstr ""
-
-#: tformconfigtrayslate.labelinitparameters3.caption
-msgctxt "tformconfigtrayslate.labelinitparameters3.caption"
 msgid "Parameters"
 msgstr ""
 
@@ -620,7 +615,7 @@ msgid "Headers"
 msgstr ""
 
 #: tformconfigtrayslate.labelscript.caption
-msgid "The script takes parameters: text, source, target, and other supported parameters."
+msgid "The script can access any parameters defined above using GetParam('name') and return values with SetOutput('name', 'value'). Additional helper functions are available: GetTimestamp() and GetRandom(Length)."
 msgstr ""
 
 #: tformconfigtrayslate.labelservicedescription.caption

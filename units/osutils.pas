@@ -433,7 +433,6 @@ var
   SystemTime: TFileTime = (dwLowDateTime: 0; dwHighDateTime: 0);
   Bias: int64;
 begin
-
   // Get current system time in UTC (100-nanosecond intervals since January 1, 1601)
   GetSystemTimeAsFileTime(SystemTime);
 

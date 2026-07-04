@@ -975,8 +975,8 @@ object formConfigTrayslate: TformConfigTrayslate
         Width = 582
         HorzScrollBar.Page = 1
         HorzScrollBar.Visible = False
-        VertScrollBar.Increment = 36
-        VertScrollBar.Page = 363
+        VertScrollBar.Increment = 39
+        VertScrollBar.Page = 393
         VertScrollBar.Smooth = True
         VertScrollBar.Tracking = True
         Align = alClient
@@ -996,25 +996,15 @@ object formConfigTrayslate: TformConfigTrayslate
           ClientWidth = 568
           TabOrder = 0
           object MemoCustomParameters: TMemo
-            Left = 120
+            Left = 8
             Height = 128
             Top = 80
-            Width = 423
+            Width = 535
             Anchors = [akTop, akLeft, akRight]
             ScrollBars = ssAutoVertical
             TabOrder = 1
             OnChange = ValueChange
             OnKeyDown = MemoKeyDown
-          end
-          object LabelInitParameters3: TLabel
-            Left = 8
-            Height = 32
-            Top = 80
-            Width = 104
-            Alignment = taRightJustify
-            AutoSize = False
-            Caption = 'Parameters'
-            WordWrap = True
           end
           object LabelInitParameters4: TLabel
             Left = 8
@@ -1029,7 +1019,7 @@ object formConfigTrayslate: TformConfigTrayslate
             WordWrap = True
           end
           object CheckEncodeCustomParameters: TCheckBox
-            Left = 120
+            Left = 8
             Height = 19
             Top = 48
             Width = 119
@@ -1045,21 +1035,21 @@ object formConfigTrayslate: TformConfigTrayslate
           Width = 572
           Align = alClient
           BorderSpacing.Around = 5
-          Caption = 'Script Parameters'
+          Caption = 'Script Retrieved Parameters'
           ClientHeight = 253
           ClientWidth = 568
           ParentBackground = False
           TabOrder = 1
           object LabelScript: TLabel
             Left = 5
-            Height = 15
+            Height = 45
             Top = 5
             Width = 538
             Align = alTop
             BorderSpacing.Right = 20
             BorderSpacing.Bottom = 5
             BorderSpacing.Around = 5
-            Caption = 'The script takes parameters: text, source, target, and other supported parameters.'
+            Caption = 'The script can access any parameters defined above using GetParam(''name'') and return values with SetOutput(''name'', ''value''). Additional helper functions are available: GetTimestamp() and GetRandom(Length).'
             Color = clInfoBk
             ParentColor = False
             Transparent = False
@@ -1067,15 +1057,15 @@ object formConfigTrayslate: TformConfigTrayslate
           end
           object PanelResponse1: TPanel
             Left = 5
-            Height = 218
-            Top = 30
+            Height = 188
+            Top = 60
             Width = 563
             Align = alClient
             BorderSpacing.Left = 5
             BorderSpacing.Top = 10
             BorderSpacing.Bottom = 5
             BevelOuter = bvNone
-            ClientHeight = 218
+            ClientHeight = 188
             ClientWidth = 563
             TabOrder = 0
             object BtnScroptTest: TSpeedButton
@@ -1128,7 +1118,7 @@ object formConfigTrayslate: TformConfigTrayslate
             end
             inline SynScriptParameters: TSynEdit
               Left = 0
-              Height = 218
+              Height = 188
               Top = 0
               Width = 538
               Align = alClient
@@ -1136,7 +1126,6 @@ object formConfigTrayslate: TformConfigTrayslate
               Font.Height = -13
               Font.Name = 'Courier New'
               Font.Pitch = fpFixed
-              Font.Quality = fqNonAntialiased
               ParentColor = False
               ParentFont = False
               TabOrder = 0
@@ -1588,6 +1577,7 @@ object formConfigTrayslate: TformConfigTrayslate
               MouseLinkColor.Foreground = clBlue
               LineHighlightColor.Background = clNone
               LineHighlightColor.Foreground = clNone
+              TabWidth = 2
               OnChange = ValueChange
               inline SynLeftGutterPartList1: TSynGutterPartList
                 object SynGutterLineNumber1: TSynGutterLineNumber
@@ -1944,7 +1934,7 @@ object formConfigTrayslate: TformConfigTrayslate
     NestedComments = False
     TypeHelpers = True
     StringMultilineMode = []
-    Left = 88
-    Top = 384
+    Left = 72
+    Top = 416
   end
 end

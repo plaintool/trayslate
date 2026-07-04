@@ -522,7 +522,7 @@ msgid "Response"
 msgstr "Отговор"
 
 #: tformconfigtrayslate.groupscript.caption
-msgid "Script Parameters"
+msgid "Script Retrieved Parameters"
 msgstr ""
 
 #: tformconfigtrayslate.imagepreview.hint
@@ -574,11 +574,6 @@ msgstr "Време в секунди за обновяване на параме
 
 #: tformconfigtrayslate.labelinitparameters2.caption
 msgctxt "tformconfigtrayslate.labelinitparameters2.caption"
-msgid "Parameters"
-msgstr "Параметри"
-
-#: tformconfigtrayslate.labelinitparameters3.caption
-msgctxt "tformconfigtrayslate.labelinitparameters3.caption"
 msgid "Parameters"
 msgstr "Параметри"
 
@@ -661,7 +656,7 @@ msgid "Headers"
 msgstr "Headers"
 
 #: tformconfigtrayslate.labelscript.caption
-msgid "The script takes parameters: text, source, target, and other supported parameters."
+msgid "The script can access any parameters defined above using GetParam('name') and return values with SetOutput('name', 'value'). Additional helper functions are available: GetTimestamp() and GetRandom(Length)."
 msgstr ""
 
 #: tformconfigtrayslate.labelservicedescription.caption

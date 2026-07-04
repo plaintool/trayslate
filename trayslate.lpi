@@ -107,6 +107,9 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="pascalscript"/>
+      </Item>
+      <Item>
         <PackageName Value="SynEditDsgn"/>
       </Item>
       <Item>
@@ -291,6 +294,10 @@
       </Unit>
       <Unit>
         <Filename Value="units\units_data.inc"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="units\scriptrunner.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
     </Units>

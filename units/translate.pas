@@ -25,6 +25,7 @@ uses
   IniFiles,
   fpjson,
   jsonparser,
+  scriptrunner,
   network;
 
 type
@@ -95,6 +96,7 @@ type
     constructor Create;
     destructor Destroy; override;
 
+    procedure ExecuteScript;
     function GetParameters(Data: string): boolean;
     function SetParameters(Data: string; IncludeSet: boolean = True): string;
     procedure SetParametersList(Strings: TStrings);
@@ -281,6 +283,33 @@ begin
     FResultValue := formTrayslate.GetParameterValue(FParamName, FResultOk);
 end;
 
+procedure TTranslate.ExecuteScript;
+var
+  Runner: TScriptRunner;
+  i: integer;
+begin
+  if FScriptParameters.Count = 0 then Exit;
+
+  // 1. Create the script runner instance
+  Runner := TScriptRunner.Create;
+  try
+    // 2. Load the script source
+    Runner.LoadScript(FScriptParameters);
+
+    // 3. Pass input parameters
+    Runner.Params.Assign(FParameterValues);
+
+    // 4. Compile and run the script
+    Runner.Execute;   // automatically compiles if needed
+
+    // 5. Retrieve all outputs in a loop
+    for i := 0 to Runner.OutputList.Count - 1 do
+      FParameterValues.Values[Runner.OutputList.Names[i]] := Runner.OutputList.ValueFromIndex[i];
+  finally
+    Runner.Free;
+  end;
+end;
+
 function TTranslate.GetParameters(Data: string): boolean;
 var
   i: integer;
@@ -372,8 +401,8 @@ begin
   for i := 1 to Length(FullRandom.ToString) do
     FParameterValues.Values['rand' + IntToStr(i)] := Copy(FullRandom.ToString, 1, i);
 
-  // Timestamp mod i
-  FParameterValues.Values['timestampmod'] := TOS.GetTimestampMod(FTextToTranslate);
+  // ScriptParameters
+  ExecuteScript;
 
   // Extract additional parameters using regex
   if not Assigned(FInitParameters) or (Data = string.Empty) or (SecondsBetween(Now, FParametersAge) < FInitLiveTime) then
@@ -591,6 +620,7 @@ begin
       TempHeaders.Assign(Headers);
       SetParametersList(TempHeaders);
     end;
+
     responseBody := TNetwork.WebRequest(wmPost, TempUrl, TempData, TempHeaders, FUserAgent, FContentType,
       FAccept, FServiceProxy, FProxy, FTimeout, FCookies, responseHeaders, Error);
     try

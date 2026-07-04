@@ -76,7 +76,6 @@ type
     LabelInitHeaders: TLabel;
     LabelInitParameters: TLabel;
     LabelInitParameters1: TLabel;
-    LabelInitParameters3: TLabel;
     LabelInitParameters4: TLabel;
     LabelInitParemeters: TLabel;
     LabelScript: TLabel;
