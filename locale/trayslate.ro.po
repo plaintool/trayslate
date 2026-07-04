@@ -434,7 +434,6 @@ msgid "Converts the current response"
 msgstr "Convertește răspunsul curent"
 
 #: tformconfigtrayslate.btnscropttest.hint
-#, fuzzy
 msgctxt "tformconfigtrayslate.btnscropttest.hint"
 msgid "Converts the current response"
 msgstr "Convertește răspunsul curent"
@@ -523,7 +522,7 @@ msgstr "Răspuns"
 
 #: tformconfigtrayslate.groupscript.caption
 msgid "Script Retrieved Parameters"
-msgstr ""
+msgstr "Parametrii preluați de script"
 
 #: tformconfigtrayslate.imagepreview.hint
 msgid "Click to select the config icon, Middle-Click clears the icon"
@@ -657,7 +656,7 @@ msgstr "Headers"
 
 #: tformconfigtrayslate.labelscript.caption
 msgid "The script can access any parameters defined above using GetParam('name') and return values with SetOutput('name', 'value'). Additional helper functions are available: GetTimestamp() and GetRandom(Length)."
-msgstr ""
+msgstr "Scriptul poate accesa orice parametri definiți mai sus folosind GetParam('name') și poate returna valori cu SetOutput('name', 'value'). Sunt disponibile și funcțiile ajutătoare: GetTimestamp() și GetRandom(Length)."
 
 #: tformconfigtrayslate.labelservicedescription.caption
 msgid "Description"
@@ -687,7 +686,6 @@ msgid "Value Type"
 msgstr "Tipul valorii"
 
 #: tformconfigtrayslate.pageinitialrequest.caption
-#, fuzzy
 msgctxt "tformconfigtrayslate.pageinitialrequest.caption"
 msgid "Initial Request"
 msgstr "Cerere inițială"

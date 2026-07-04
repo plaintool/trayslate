@@ -434,7 +434,6 @@ msgid "Converts the current response"
 msgstr "Преобразува текущия отговор"
 
 #: tformconfigtrayslate.btnscropttest.hint
-#, fuzzy
 msgctxt "tformconfigtrayslate.btnscropttest.hint"
 msgid "Converts the current response"
 msgstr "Преобразува текущия отговор"
@@ -523,7 +522,7 @@ msgstr "Отговор"
 
 #: tformconfigtrayslate.groupscript.caption
 msgid "Script Retrieved Parameters"
-msgstr ""
+msgstr "Получени параметри на скрипта"
 
 #: tformconfigtrayslate.imagepreview.hint
 msgid "Click to select the config icon, Middle-Click clears the icon"
@@ -657,7 +656,7 @@ msgstr "Headers"
 
 #: tformconfigtrayslate.labelscript.caption
 msgid "The script can access any parameters defined above using GetParam('name') and return values with SetOutput('name', 'value'). Additional helper functions are available: GetTimestamp() and GetRandom(Length)."
-msgstr ""
+msgstr "Скриптът може да получи достъп до всички параметри, дефинирани по-горе, чрез GetParam('name') и да върне стойности чрез SetOutput('name', 'value'). Налични са и помощните функции: GetTimestamp() и GetRandom(Length)."
 
 #: tformconfigtrayslate.labelservicedescription.caption
 msgid "Description"
@@ -687,7 +686,6 @@ msgid "Value Type"
 msgstr "Тип стойност"
 
 #: tformconfigtrayslate.pageinitialrequest.caption
-#, fuzzy
 msgctxt "tformconfigtrayslate.pageinitialrequest.caption"
 msgid "Initial Request"
 msgstr "Начална заявка"

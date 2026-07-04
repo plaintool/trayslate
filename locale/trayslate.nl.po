@@ -434,7 +434,6 @@ msgid "Converts the current response"
 msgstr "Converteert de huidige reactie"
 
 #: tformconfigtrayslate.btnscropttest.hint
-#, fuzzy
 msgctxt "tformconfigtrayslate.btnscropttest.hint"
 msgid "Converts the current response"
 msgstr "Converteert de huidige reactie"
@@ -523,7 +522,7 @@ msgstr "Reactie"
 
 #: tformconfigtrayslate.groupscript.caption
 msgid "Script Retrieved Parameters"
-msgstr ""
+msgstr "Door het script opgehaalde parameters"
 
 #: tformconfigtrayslate.imagepreview.hint
 msgid "Click to select the config icon, Middle-Click clears the icon"
@@ -657,7 +656,7 @@ msgstr "Headers"
 
 #: tformconfigtrayslate.labelscript.caption
 msgid "The script can access any parameters defined above using GetParam('name') and return values with SetOutput('name', 'value'). Additional helper functions are available: GetTimestamp() and GetRandom(Length)."
-msgstr ""
+msgstr "Het script kan toegang krijgen tot alle hierboven gedefinieerde parameters met GetParam('name') en waarden retourneren met SetOutput('name', 'value'). Daarnaast zijn de hulpfuncties GetTimestamp() en GetRandom(Length) beschikbaar."
 
 #: tformconfigtrayslate.labelservicedescription.caption
 msgid "Description"
@@ -687,7 +686,6 @@ msgid "Value Type"
 msgstr "Waardetype"
 
 #: tformconfigtrayslate.pageinitialrequest.caption
-#, fuzzy
 msgctxt "tformconfigtrayslate.pageinitialrequest.caption"
 msgid "Initial Request"
 msgstr "Initieel verzoek"

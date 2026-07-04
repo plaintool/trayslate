@@ -434,7 +434,6 @@ msgid "Converts the current response"
 msgstr "현재 응답을 변환합니다"
 
 #: tformconfigtrayslate.btnscropttest.hint
-#, fuzzy
 msgctxt "tformconfigtrayslate.btnscropttest.hint"
 msgid "Converts the current response"
 msgstr "현재 응답을 변환합니다"
@@ -523,7 +522,7 @@ msgstr "응답"
 
 #: tformconfigtrayslate.groupscript.caption
 msgid "Script Retrieved Parameters"
-msgstr ""
+msgstr "스크립트에서 가져온 매개변수"
 
 #: tformconfigtrayslate.imagepreview.hint
 msgid "Click to select the config icon, Middle-Click clears the icon"
@@ -657,7 +656,7 @@ msgstr "Headers"
 
 #: tformconfigtrayslate.labelscript.caption
 msgid "The script can access any parameters defined above using GetParam('name') and return values with SetOutput('name', 'value'). Additional helper functions are available: GetTimestamp() and GetRandom(Length)."
-msgstr ""
+msgstr "스크립트는 GetParam('name')을 사용하여 위에서 정의된 모든 매개변수에 접근할 수 있으며 SetOutput('name', 'value')를 사용하여 값을 반환할 수 있습니다. 추가 도우미 함수인 GetTimestamp() 및 GetRandom(Length)도 사용할 수 있습니다."
 
 #: tformconfigtrayslate.labelservicedescription.caption
 msgid "Description"
@@ -687,7 +686,6 @@ msgid "Value Type"
 msgstr "값 유형"
 
 #: tformconfigtrayslate.pageinitialrequest.caption
-#, fuzzy
 msgctxt "tformconfigtrayslate.pageinitialrequest.caption"
 msgid "Initial Request"
 msgstr "초기 요청"

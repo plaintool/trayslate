@@ -434,7 +434,6 @@ msgid "Converts the current response"
 msgstr "वर्तमान उत्तर को परिवर्तित करता है"
 
 #: tformconfigtrayslate.btnscropttest.hint
-#, fuzzy
 msgctxt "tformconfigtrayslate.btnscropttest.hint"
 msgid "Converts the current response"
 msgstr "वर्तमान उत्तर को परिवर्तित करता है"
@@ -523,7 +522,7 @@ msgstr "प्रतिक्रिया"
 
 #: tformconfigtrayslate.groupscript.caption
 msgid "Script Retrieved Parameters"
-msgstr ""
+msgstr "स्क्रिप्ट द्वारा प्राप्त पैरामीटर"
 
 #: tformconfigtrayslate.imagepreview.hint
 msgid "Click to select the config icon, Middle-Click clears the icon"
@@ -657,7 +656,7 @@ msgstr "Headers"
 
 #: tformconfigtrayslate.labelscript.caption
 msgid "The script can access any parameters defined above using GetParam('name') and return values with SetOutput('name', 'value'). Additional helper functions are available: GetTimestamp() and GetRandom(Length)."
-msgstr ""
+msgstr "स्क्रिप्ट ऊपर परिभाषित किसी भी पैरामीटर तक GetParam('name') का उपयोग करके पहुँच सकती है और SetOutput('name', 'value') के माध्यम से मान वापस कर सकती है। अतिरिक्त सहायक फ़ंक्शन भी उपलब्ध हैं: GetTimestamp() और GetRandom(Length)."
 
 #: tformconfigtrayslate.labelservicedescription.caption
 msgid "Description"
@@ -687,7 +686,6 @@ msgid "Value Type"
 msgstr "मान प्रकार"
 
 #: tformconfigtrayslate.pageinitialrequest.caption
-#, fuzzy
 msgctxt "tformconfigtrayslate.pageinitialrequest.caption"
 msgid "Initial Request"
 msgstr "प्रारंभिक अनुरोध"

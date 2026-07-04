@@ -434,7 +434,6 @@ msgid "Converts the current response"
 msgstr "يحوّل الاستجابة الحالية"
 
 #: tformconfigtrayslate.btnscropttest.hint
-#, fuzzy
 msgctxt "tformconfigtrayslate.btnscropttest.hint"
 msgid "Converts the current response"
 msgstr "يحوّل الاستجابة الحالية"
@@ -523,7 +522,7 @@ msgstr "الاستجابة"
 
 #: tformconfigtrayslate.groupscript.caption
 msgid "Script Retrieved Parameters"
-msgstr ""
+msgstr "معلمات البرنامج النصي المسترجعة"
 
 #: tformconfigtrayslate.imagepreview.hint
 msgid "Click to select the config icon, Middle-Click clears the icon"
@@ -657,7 +656,7 @@ msgstr "Headers"
 
 #: tformconfigtrayslate.labelscript.caption
 msgid "The script can access any parameters defined above using GetParam('name') and return values with SetOutput('name', 'value'). Additional helper functions are available: GetTimestamp() and GetRandom(Length)."
-msgstr ""
+msgstr "يمكن للبرنامج النصي الوصول إلى أي معلمات معرّفة أعلاه باستخدام ‎GetParam('name')‎ وإرجاع القيم باستخدام ‎SetOutput('name', 'value')‎. كما تتوفر الدوال المساعدة التالية: ‎GetTimestamp()‎ و‎GetRandom(Length)‎."
 
 #: tformconfigtrayslate.labelservicedescription.caption
 msgid "Description"
@@ -687,7 +686,6 @@ msgid "Value Type"
 msgstr "نوع القيمة"
 
 #: tformconfigtrayslate.pageinitialrequest.caption
-#, fuzzy
 msgctxt "tformconfigtrayslate.pageinitialrequest.caption"
 msgid "Initial Request"
 msgstr "الطلب الأولي"

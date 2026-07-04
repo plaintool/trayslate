@@ -12,11 +12,11 @@ msgstr ""
 "X-Generator: PoBatch 1.0.0\n"
 
 #: checkupdates.newversion
-#, object-pascal-format, fuzzy, badformat
+#, object-pascal-format
 #| msgid "Proxied Configs (Default: All)"
 msgctxt "checkupdates.newversion"
 msgid "New version available: %s. Open GitHub page to download?"
-msgstr "Proxied Configs (Default: All)"
+msgstr "New version available: %s. Open GitHub page to download?"
 
 #: checkupdates.newversioncheckerror
 msgctxt "checkupdates.newversioncheckerror"
@@ -435,7 +435,6 @@ msgid "Converts the current response"
 msgstr "Converts the current response"
 
 #: tformconfigtrayslate.btnscropttest.hint
-#, fuzzy
 msgctxt "tformconfigtrayslate.btnscropttest.hint"
 msgid "Converts the current response"
 msgstr "Converts the current response"
@@ -524,7 +523,7 @@ msgstr "Response"
 
 #: tformconfigtrayslate.groupscript.caption
 msgid "Script Retrieved Parameters"
-msgstr ""
+msgstr "Script Retrieved Parameters"
 
 #: tformconfigtrayslate.imagepreview.hint
 msgid "Click to select the config icon, Middle-Click clears the icon"
@@ -658,7 +657,7 @@ msgstr "Headers"
 
 #: tformconfigtrayslate.labelscript.caption
 msgid "The script can access any parameters defined above using GetParam('name') and return values with SetOutput('name', 'value'). Additional helper functions are available: GetTimestamp() and GetRandom(Length)."
-msgstr ""
+msgstr "The script can access any parameters defined above using GetParam('name') and return values with SetOutput('name', 'value'). Additional helper functions are available: GetTimestamp() and GetRandom(Length)."
 
 #: tformconfigtrayslate.labelservicedescription.caption
 msgid "Description"
@@ -688,7 +687,6 @@ msgid "Value Type"
 msgstr "Value Type"
 
 #: tformconfigtrayslate.pageinitialrequest.caption
-#, fuzzy
 msgctxt "tformconfigtrayslate.pageinitialrequest.caption"
 msgid "Initial Request"
 msgstr "Initial Request"
@@ -1070,7 +1068,7 @@ msgstr "Popup Window"
 #: tformsettingstrayslate.groupproxiedconfigs.caption
 msgctxt "tformsettingstrayslate.groupproxiedconfigs.caption"
 msgid "Proxied Configs (Default: All)"
-msgstr ""
+msgstr "Proxied Configs (Default: All)"
 
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"
@@ -1520,4 +1518,3 @@ msgstr "Recent Pairs"
 msgctxt "tformtrayslate.menulanguage.caption"
 msgid "Language"
 msgstr "Language"
-

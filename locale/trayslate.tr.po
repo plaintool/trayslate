@@ -12,11 +12,11 @@ msgstr ""
 "X-Generator: PoBatch 1.0.0\n"
 
 #: checkupdates.newversion
-#, object-pascal-format, fuzzy, badformat
+#, object-pascal-format, badformat
 #| msgid "Proxied Configs (Default: All)"
 msgctxt "checkupdates.newversion"
 msgid "New version available: %s. Open GitHub page to download?"
-msgstr "Proxy Yapılandırmaları (Varsayılan: Tümü)"
+msgstr "New version available: %s. Open GitHub page to download?"
 
 #: checkupdates.newversioncheckerror
 msgctxt "checkupdates.newversioncheckerror"
@@ -435,7 +435,6 @@ msgid "Converts the current response"
 msgstr "Geçerli yanıtı dönüştürür"
 
 #: tformconfigtrayslate.btnscropttest.hint
-#, fuzzy
 msgctxt "tformconfigtrayslate.btnscropttest.hint"
 msgid "Converts the current response"
 msgstr "Geçerli yanıtı dönüştürür"
@@ -524,7 +523,7 @@ msgstr "Yanıt"
 
 #: tformconfigtrayslate.groupscript.caption
 msgid "Script Retrieved Parameters"
-msgstr ""
+msgstr "Betik Tarafından Alınan Parametreler"
 
 #: tformconfigtrayslate.imagepreview.hint
 msgid "Click to select the config icon, Middle-Click clears the icon"
@@ -658,7 +657,7 @@ msgstr "Headers"
 
 #: tformconfigtrayslate.labelscript.caption
 msgid "The script can access any parameters defined above using GetParam('name') and return values with SetOutput('name', 'value'). Additional helper functions are available: GetTimestamp() and GetRandom(Length)."
-msgstr ""
+msgstr "Betik, yukarıda tanımlanan tüm parametrelere GetParam('name') kullanarak erişebilir ve değerleri SetOutput('name', 'value') ile döndürebilir. Ek yardımcı işlevler de kullanılabilir: GetTimestamp() ve GetRandom(Length)."
 
 #: tformconfigtrayslate.labelservicedescription.caption
 msgid "Description"
@@ -688,7 +687,6 @@ msgid "Value Type"
 msgstr "Değer Türü"
 
 #: tformconfigtrayslate.pageinitialrequest.caption
-#, fuzzy
 msgctxt "tformconfigtrayslate.pageinitialrequest.caption"
 msgid "Initial Request"
 msgstr "Başlangıç İsteği"
@@ -1070,7 +1068,7 @@ msgstr "Açılır pencere"
 #: tformsettingstrayslate.groupproxiedconfigs.caption
 msgctxt "tformsettingstrayslate.groupproxiedconfigs.caption"
 msgid "Proxied Configs (Default: All)"
-msgstr ""
+msgstr "Proxy Yapılandırmaları (Varsayılan: Tümü)"
 
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"

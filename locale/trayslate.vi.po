@@ -434,7 +434,6 @@ msgid "Converts the current response"
 msgstr "Chuyển đổi phản hồi hiện tại"
 
 #: tformconfigtrayslate.btnscropttest.hint
-#, fuzzy
 msgctxt "tformconfigtrayslate.btnscropttest.hint"
 msgid "Converts the current response"
 msgstr "Chuyển đổi phản hồi hiện tại"
@@ -523,7 +522,7 @@ msgstr "Phản hồi"
 
 #: tformconfigtrayslate.groupscript.caption
 msgid "Script Retrieved Parameters"
-msgstr ""
+msgstr "Các tham số được tập lệnh truy xuất"
 
 #: tformconfigtrayslate.imagepreview.hint
 msgid "Click to select the config icon, Middle-Click clears the icon"
@@ -657,7 +656,7 @@ msgstr "Tiêu đề"
 
 #: tformconfigtrayslate.labelscript.caption
 msgid "The script can access any parameters defined above using GetParam('name') and return values with SetOutput('name', 'value'). Additional helper functions are available: GetTimestamp() and GetRandom(Length)."
-msgstr ""
+msgstr "Tập lệnh có thể truy cập bất kỳ tham số nào được định nghĩa ở trên bằng GetParam('name') và trả về giá trị bằng SetOutput('name', 'value'). Ngoài ra còn có các hàm trợ giúp: GetTimestamp() và GetRandom(Length)."
 
 #: tformconfigtrayslate.labelservicedescription.caption
 msgid "Description"
@@ -687,7 +686,6 @@ msgid "Value Type"
 msgstr "Kiểu giá trị"
 
 #: tformconfigtrayslate.pageinitialrequest.caption
-#, fuzzy
 msgctxt "tformconfigtrayslate.pageinitialrequest.caption"
 msgid "Initial Request"
 msgstr "Yêu cầu ban đầu"
