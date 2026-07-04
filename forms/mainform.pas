@@ -358,6 +358,7 @@ type
     FPrevMouseDown: TMouseEventInfo;
     FPopupRecentPair: TComponent;
     FRawTranslate: string;
+    FSettingsPage: integer;
 
     // Non sorted combo named languages
     FLanguages: TStringList;
@@ -667,6 +668,7 @@ begin
   FLastVTime := 0;
   FillChar(FPrevMouseDown, SizeOf(FPrevMouseDown), 0);
   FClickCount := 0;
+  FSettingsPage := 0;
 
   // Components config
   Left := Screen.WorkAreaRect.Right - Width - 30;
@@ -1322,6 +1324,9 @@ begin
   if FormSettingsSplit > 0 then
     formSettingsTrayslate.ListPages.Width := FormSettingsSplit;
 
+  formSettingsTrayslate.PagesSettings.ActivePageIndex := FSettingsPage;
+  formSettingsTrayslate.ListPages.ItemIndex := FSettingsPage;
+
   UnregisterHotKeys;
   FMouseHook.Enabled := False;
   FKeyHook.Enabled := False;
@@ -1806,6 +1811,8 @@ begin
   try
     // Save changes immediately
     SaveFormSettings(Self);
+
+    FSettingsPage := formSettingsTrayslate.PagesSettings.ActivePageIndex;
 
     RegisterHotKeys;
     SetHints;
