@@ -164,11 +164,11 @@ object formConfigTrayslate: TformConfigTrayslate
     Height = 559
     Top = 41
     Width = 590
-    ActivePage = PageParameters
+    ActivePage = PageService
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
-    TabIndex = 3
+    TabIndex = 0
     TabOrder = 1
     object PageService: TTabSheet
       Caption = 'Service'
@@ -975,8 +975,8 @@ object formConfigTrayslate: TformConfigTrayslate
         Width = 582
         HorzScrollBar.Page = 1
         HorzScrollBar.Visible = False
-        VertScrollBar.Increment = 39
-        VertScrollBar.Page = 393
+        VertScrollBar.Increment = 40
+        VertScrollBar.Page = 408
         VertScrollBar.Smooth = True
         VertScrollBar.Tracking = True
         Align = alClient
@@ -994,13 +994,14 @@ object formConfigTrayslate: TformConfigTrayslate
           Caption = 'Custom Parameters'
           ClientHeight = 223
           ClientWidth = 568
+          Constraints.MinHeight = 20
           TabOrder = 0
           object MemoCustomParameters: TMemo
             Left = 8
             Height = 128
             Top = 80
             Width = 535
-            Anchors = [akTop, akLeft, akRight]
+            Anchors = [akTop, akLeft, akRight, akBottom]
             ScrollBars = ssAutoVertical
             TabOrder = 1
             OnChange = ValueChange
@@ -1028,15 +1029,26 @@ object formConfigTrayslate: TformConfigTrayslate
             OnChange = ValueChange
           end
         end
+        object SplitterParameters: TSplitter
+          Cursor = crVSplit
+          Left = 0
+          Height = 10
+          Top = 253
+          Width = 582
+          Align = alTop
+          AutoSnap = False
+          MinSize = 20
+          ResizeAnchor = akTop
+        end
         object GroupScript: TGroupBox
           Left = 5
-          Height = 273
-          Top = 253
+          Height = 258
+          Top = 268
           Width = 572
           Align = alClient
           BorderSpacing.Around = 5
           Caption = 'Script Retrieved Parameters'
-          ClientHeight = 253
+          ClientHeight = 238
           ClientWidth = 568
           ParentBackground = False
           TabOrder = 1
@@ -1057,7 +1069,7 @@ object formConfigTrayslate: TformConfigTrayslate
           end
           object PanelScript: TPanel
             Left = 5
-            Height = 188
+            Height = 173
             Top = 60
             Width = 563
             Align = alClient
@@ -1065,7 +1077,7 @@ object formConfigTrayslate: TformConfigTrayslate
             BorderSpacing.Top = 10
             BorderSpacing.Bottom = 5
             BevelOuter = bvNone
-            ClientHeight = 188
+            ClientHeight = 173
             ClientWidth = 563
             TabOrder = 0
             object BtnScroptTest: TSpeedButton
@@ -1118,7 +1130,7 @@ object formConfigTrayslate: TformConfigTrayslate
             end
             inline SynScriptParameters: TSynEdit
               Left = 0
-              Height = 188
+              Height = 173
               Top = 0
               Width = 538
               Align = alClient

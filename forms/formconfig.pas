@@ -139,6 +139,7 @@ type
     PageRequest: TTabSheet;
     SpinMaxLength: TSpinEdit;
     PageInitialRequest: TTabSheet;
+    SplitterParameters: TSplitter;
     SynPasSyn: TSynPasSyn;
     SynScriptParameters: TSynEdit;
     procedure BtnScroptTestClick(Sender: TObject);
