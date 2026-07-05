@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="5">
+    <PathDelim Value="\"/>
+    <Name Value="darkmode"/>
+    <Type Value="RunAndDesignTime"/>
+    <Author Value="Alexander Tverskoy (astverskoy@gmail.com)"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+    </CompilerOptions>
+    <Description Value="Provides dark mode support and theme integration for Lazarus applications"/>
+    <License Value="Dark theme support for Lazarus applications.
+
+Based on modules from the Double Commander project:
+udarkstyle.pas, uimport.pas, uwin32widgetsetdark.pas
+
+Original project: https://github.com/doublecmd/doublecmd
+License: GPL-2.0"/>
+    <Version Major="1"/>
+    <Files>
+      <Item>
+        <Filename Value="udarkstyle.pas"/>
+        <UnitName Value="uDarkStyle"/>
+      </Item>
+      <Item>
+        <Filename Value="uimport.pas"/>
+        <UnitName Value="uImport"/>
+      </Item>
+      <Item>
+        <Filename Value="uwin32widgetsetdark.pas"/>
+        <UnitName Value="uWin32WidgetSetDark"/>
+      </Item>
+    </Files>
+    <RequiredPkgs>
+      <Item>
+        <PackageName Value="LCL"/>
+      </Item>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <UseFileFilters Value="True"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

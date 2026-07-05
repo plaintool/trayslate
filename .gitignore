@@ -1,0 +1,10 @@
+*.exe
+*.dll
+*.res
+*.lps
+*.dbg
+*.msi
+*.mo
+*.tar.gz
+*.zip
+**/lib/
