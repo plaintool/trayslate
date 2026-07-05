@@ -150,6 +150,7 @@ type
     procedure FormResize(Sender: TObject);
     procedure FormChangeBounds(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
+    procedure ScreenActiveControlChanged(Sender: TObject);
     procedure SettingChange(Sender: TObject);
     procedure ListPagesClick(Sender: TObject);
     procedure EditProxyHostKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
@@ -254,6 +255,7 @@ type
     FApplySettings: boolean;
     FOldKeyValue: string;
     FOldValueList: string;
+    FLastFocused: TWinControl;
 
     procedure SetPanelFont(Panel: TPanel; const AFont: TFont);
     procedure ResetRealTimeSettings;
@@ -401,6 +403,8 @@ begin
   FillUserParameters;
   FillMouseMode;
   FillProxyMode;
+
+  Screen.OnActiveControlChange := @ScreenActiveControlChanged;
 end;
 
 procedure TformSettingsTrayslate.FormDestroy(Sender: TObject);
@@ -429,6 +433,19 @@ end;
 procedure TformSettingsTrayslate.FormCloseQuery(Sender: TObject; var CanClose: boolean);
 begin
   ResetRealTimeSettings;
+end;
+
+{%EndRegion}
+
+{%Region -fold Screen Events}
+
+procedure TformSettingsTrayslate.ScreenActiveControlChanged(Sender: TObject);
+begin
+  if FApplySettings then Exit;
+
+  // Save focus only if it is not the Apply button itself
+  if (Screen.ActiveControl <> nil) and (not (Screen.ActiveControl is TButton)) then
+    FLastFocused := Screen.ActiveControl;
 end;
 
 {%EndRegion}
@@ -898,6 +915,9 @@ end;
 
 procedure TformSettingsTrayslate.BtnApplyClick(Sender: TObject);
 begin
+  if Assigned(FLastFocused) and FLastFocused.Visible and FLastFocused.CanFocus and FLastFocused.CanSetFocus then
+    FLastFocused.SetFocus;
+
   Apply;
 
   formTrayslate.UnregisterHotKeys;

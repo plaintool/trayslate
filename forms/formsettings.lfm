@@ -1032,6 +1032,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
             Width = 565
             Align = alClient
             BorderSpacing.Around = 5
+            ExtendedSelect = False
             ItemHeight = 20
             Options = []
             Style = lbOwnerDrawFixed
