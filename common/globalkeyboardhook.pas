@@ -59,6 +59,13 @@ type
     FOnKeyEvent: TKeyboardEvent;
     {$IFDEF WINDOWS}
     FHook: HHOOK;
+    // Internal modifier state (updated from key events, always accurate)
+    FLeftCtrl: Boolean;
+    FRightCtrl: Boolean;
+    FLeftShift: Boolean;
+    FRightShift: Boolean;
+    FLeftAlt: Boolean;
+    FRightAlt: Boolean;
     class var FActiveInstance: TGlobalKeyboardHook;
     class function HookProc(nCode: integer; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall; static;
     procedure InternalKeyboardEvent(wParam: WPARAM; const KBDLLHOOKSTRUCT: TKeyboardLLHookStruct; var Info: TKeyboardEventInfo);
@@ -132,19 +139,37 @@ end;
 
 procedure TGlobalKeyboardHook.InternalKeyboardEvent(wParam: WPARAM; const KBDLLHOOKSTRUCT: TKeyboardLLHookStruct;
   var Info: TKeyboardEventInfo);
+var
+  IsDown: Boolean;
 begin
+  IsDown := (wParam = WM_KEYDOWN) or (wParam = WM_SYSKEYDOWN);
+
+  // Update internal modifier state based on the current event.
+  // This ensures that modifier flags are correct even when the modifier key
+  // itself is pressed or released (GetAsyncKeyState would lag behind).
+  case KBDLLHOOKSTRUCT.vkCode of
+    VK_LCONTROL: FLeftCtrl := IsDown;
+    VK_RCONTROL: FRightCtrl := IsDown;
+    VK_LSHIFT:   FLeftShift := IsDown;
+    VK_RSHIFT:   FRightShift := IsDown;
+    VK_LMENU:    FLeftAlt := IsDown;
+    VK_RMENU:    FRightAlt := IsDown;
+    VK_MENU:     begin FLeftAlt := IsDown; FRightAlt := False; end;   // generic Alt
+    VK_CONTROL:  begin FLeftCtrl := IsDown; FRightCtrl := False; end;  // generic Ctrl
+    VK_SHIFT:    begin FLeftShift := IsDown; FRightShift := False; end; // generic Shift
+  end;
+
   // Fill event information
   Info.KeyCode := KBDLLHOOKSTRUCT.vkCode;
   Info.ScanCode := KBDLLHOOKSTRUCT.scanCode;
   Info.Flags := KBDLLHOOKSTRUCT.flags;
   Info.Time := KBDLLHOOKSTRUCT.time;
 
-  // Determine key state: down = WM_KEYDOWN or WM_SYSKEYDOWN
-  Info.IsDown := (wParam = WM_KEYDOWN) or (wParam = WM_SYSKEYDOWN);
-  // Modifier states at the moment of the event
-  Info.CtrlDown := (GetAsyncKeyState(VK_CONTROL) and $8000) <> 0;
-  Info.ShiftDown := (GetAsyncKeyState(VK_SHIFT) and $8000) <> 0;
-  Info.AltDown := (GetAsyncKeyState(VK_MENU) and $8000) <> 0;
+  Info.IsDown := IsDown;
+  // Modifier states taken from our internal tracking – always accurate
+  Info.CtrlDown := FLeftCtrl or FRightCtrl;
+  Info.ShiftDown := FLeftShift or FRightShift;
+  Info.AltDown := FLeftAlt or FRightAlt;
 
   Info.IsInjected := (KBDLLHOOKSTRUCT.flags and LLKHF_INJECTED) <> 0;
 
@@ -164,6 +189,13 @@ begin
   FEnabled := False;
   FEditFieldOnly := False;
   FBlockedKeys := [];
+  // Initialize internal modifier flags
+  FLeftCtrl := False;
+  FRightCtrl := False;
+  FLeftShift := False;
+  FRightShift := False;
+  FLeftAlt := False;
+  FRightAlt := False;
 end;
 
 destructor TGlobalKeyboardHook.Destroy;
@@ -193,6 +225,14 @@ begin
         MB_ICONWARNING);
       Exit;   // FEnabled stays False, FActiveInstance stays nil
     end;
+
+    // Sync initial modifier state (in case a key was already held down)
+    FLeftCtrl  := (GetAsyncKeyState(VK_LCONTROL) and $8000) <> 0;
+    FRightCtrl := (GetAsyncKeyState(VK_RCONTROL) and $8000) <> 0;
+    FLeftShift := (GetAsyncKeyState(VK_LSHIFT)   and $8000) <> 0;
+    FRightShift:= (GetAsyncKeyState(VK_RSHIFT)   and $8000) <> 0;
+    FLeftAlt   := (GetAsyncKeyState(VK_LMENU)    and $8000) <> 0;
+    FRightAlt  := (GetAsyncKeyState(VK_RMENU)    and $8000) <> 0;
 
     // Success – mark as active
     FActiveInstance := Self;

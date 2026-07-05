@@ -1058,10 +1058,37 @@ begin
   if not Info.IsDown then Exit;
   if Info.IsInjected then Exit;
 
-  if (Info.KeyCode = VK_ESCAPE) and Assigned(formPopupTrayslate) and formPopupTrayslate.Visible and formPopupTrayslate.InWindow then
+  if Assigned(formPopupTrayslate) and formPopupTrayslate.Visible and formPopupTrayslate.InWindow then
   begin
-    Application.QueueAsyncCall(@ClosePopupAsync, 0);
-    Info.Handled := True;
+    if Info.KeyCode = VK_ESCAPE then
+    begin
+      Application.QueueAsyncCall(@ClosePopupAsync, 0);
+      Info.Handled := True;
+    end
+    else
+    if Info.CtrlDown and (Info.KeyCode = VK_A) then
+    begin
+      formPopupTrayslate.MemoTarget.SelectAll;
+      Info.Handled := True;
+    end
+    else
+    if Info.CtrlDown and (Info.KeyCode = VK_C) then
+    begin
+      formPopupTrayslate.MemoTarget.CopyToClipboard;
+      Info.Handled := True;
+    end
+    else
+    if Info.CtrlDown and (Info.KeyCode = VK_V) then
+    begin
+      formPopupTrayslate.MemoTarget.PasteFromClipboard;
+      Info.Handled := True;
+    end
+    else
+    if Info.CtrlDown and (Info.KeyCode = VK_Z) then
+    begin
+      formPopupTrayslate.MemoTarget.Undo;
+      Info.Handled := True;
+    end;
     Exit;
   end;
 
