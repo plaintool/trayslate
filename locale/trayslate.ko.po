@@ -434,9 +434,10 @@ msgid "Converts the current response"
 msgstr "현재 응답을 변환합니다"
 
 #: tformconfigtrayslate.btnscropttest.hint
+#| msgid "Converts the current response"
 msgctxt "tformconfigtrayslate.btnscropttest.hint"
-msgid "Converts the current response"
-msgstr "현재 응답을 변환합니다"
+msgid "Execute script and view the result"
+msgstr "스크립트를 실행하고 결과 보기"
 
 #: tformconfigtrayslate.btnurltest.hint
 msgid "Execute get request and view the result"

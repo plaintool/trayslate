@@ -364,7 +364,20 @@ end;
 
 procedure TformConfigTrayslate.BtnScroptTestClick(Sender: TObject);
 begin
-
+  Enabled := False;
+  Screen.Cursor := crHourGlass;
+  try
+    if (SynScriptParameters.Text = string.empty) or not TestChanges then exit;
+    with formTrayslate.Trans do
+    begin
+      ParametersAge := Now + 3650;
+      if GetParameters(GetInit) then
+        ParameterValues.Text.OpenStringInTextEditor;
+    end;
+  finally
+    Enabled := True;
+    Screen.Cursor := crDefault;
+  end;
 end;
 
 procedure TformConfigTrayslate.BtnCloseClick(Sender: TObject);

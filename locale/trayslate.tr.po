@@ -12,8 +12,7 @@ msgstr ""
 "X-Generator: PoBatch 1.0.0\n"
 
 #: checkupdates.newversion
-#, object-pascal-format, badformat
-#| msgid "Proxied Configs (Default: All)"
+#, object-pascal-format
 msgctxt "checkupdates.newversion"
 msgid "New version available: %s. Open GitHub page to download?"
 msgstr "New version available: %s. Open GitHub page to download?"
@@ -435,9 +434,10 @@ msgid "Converts the current response"
 msgstr "Geçerli yanıtı dönüştürür"
 
 #: tformconfigtrayslate.btnscropttest.hint
+#| msgid "Converts the current response"
 msgctxt "tformconfigtrayslate.btnscropttest.hint"
-msgid "Converts the current response"
-msgstr "Geçerli yanıtı dönüştürür"
+msgid "Execute script and view the result"
+msgstr "Betiği çalıştır ve sonucu görüntüle"
 
 #: tformconfigtrayslate.btnurltest.hint
 msgid "Execute get request and view the result"

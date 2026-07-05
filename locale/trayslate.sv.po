@@ -434,9 +434,10 @@ msgid "Converts the current response"
 msgstr "Konverterar det aktuella svaret"
 
 #: tformconfigtrayslate.btnscropttest.hint
+#| msgid "Converts the current response"
 msgctxt "tformconfigtrayslate.btnscropttest.hint"
-msgid "Converts the current response"
-msgstr "Konverterar det aktuella svaret"
+msgid "Execute script and view the result"
+msgstr "Kör skriptet och visa resultatet"
 
 #: tformconfigtrayslate.btnurltest.hint
 msgid "Execute get request and view the result"

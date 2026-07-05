@@ -415,7 +415,7 @@ msgstr ""
 
 #: tformconfigtrayslate.btnscropttest.hint
 msgctxt "tformconfigtrayslate.btnscropttest.hint"
-msgid "Converts the current response"
+msgid "Execute script and view the result"
 msgstr ""
 
 #: tformconfigtrayslate.btnurltest.hint

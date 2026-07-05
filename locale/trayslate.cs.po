@@ -434,9 +434,10 @@ msgid "Converts the current response"
 msgstr "Převede aktuální odpověď"
 
 #: tformconfigtrayslate.btnscropttest.hint
+#| msgid "Converts the current response"
 msgctxt "tformconfigtrayslate.btnscropttest.hint"
-msgid "Converts the current response"
-msgstr "Převede aktuální odpověď"
+msgid "Execute script and view the result"
+msgstr "Spustit skript a zobrazit výsledek"
 
 #: tformconfigtrayslate.btnurltest.hint
 msgid "Execute get request and view the result"

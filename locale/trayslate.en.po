@@ -13,7 +13,6 @@ msgstr ""
 
 #: checkupdates.newversion
 #, object-pascal-format
-#| msgid "Proxied Configs (Default: All)"
 msgctxt "checkupdates.newversion"
 msgid "New version available: %s. Open GitHub page to download?"
 msgstr "New version available: %s. Open GitHub page to download?"
@@ -435,9 +434,10 @@ msgid "Converts the current response"
 msgstr "Converts the current response"
 
 #: tformconfigtrayslate.btnscropttest.hint
+#| msgid "Converts the current response"
 msgctxt "tformconfigtrayslate.btnscropttest.hint"
-msgid "Converts the current response"
-msgstr "Converts the current response"
+msgid "Execute script and view the result"
+msgstr "Execute script and view the result"
 
 #: tformconfigtrayslate.btnurltest.hint
 msgid "Execute get request and view the result"
@@ -1518,3 +1518,4 @@ msgstr "Recent Pairs"
 msgctxt "tformtrayslate.menulanguage.caption"
 msgid "Language"
 msgstr "Language"
+

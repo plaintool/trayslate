@@ -1071,7 +1071,7 @@ object formConfigTrayslate: TformConfigTrayslate
             object BtnScroptTest: TSpeedButton
               Left = 540
               Height = 22
-              Hint = 'Converts the current response'
+              Hint = 'Execute script and view the result'
               Top = 0
               Width = 23
               Anchors = [akTop, akRight]
