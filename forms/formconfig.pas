@@ -29,7 +29,8 @@ uses
   ColorBox,
   SynEdit,
   SynHighlighterPas,
-  LCLType;
+  LCLType,
+  LCLIntf;
 
 type
 
@@ -117,7 +118,7 @@ type
     DialogOpen: TOpenDialog;
     Pages: TPageControl;
     PanelResponse: TPanel;
-    PanelResponse1: TPanel;
+    PanelScript: TPanel;
     PanelTop: TPanel;
     SbCopyConfig: TSpeedButton;
     SbNewConfig: TSpeedButton;
@@ -160,6 +161,7 @@ type
     procedure ImagePreviewClick(Sender: TObject);
     procedure ImagePreviewMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
     procedure LabelFillLanguagesClick(Sender: TObject);
+    procedure CustomEditEnter(Sender: TObject);
     procedure MemoKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure SbNewConfigClick(Sender: TObject);
     procedure ValueChange(Sender: TObject);
@@ -207,6 +209,8 @@ uses mainform, translate, settings, languages, network, stringhelper, base64util
   { TformConfigTrayslate }
 
 procedure TformConfigTrayslate.FormCreate(Sender: TObject);
+var
+  i: integer;
 begin
   TLocalize.ApplicationTranslate(language, self, TLocalize.LoadCustomPoFile(formTrayslate.CustomPoFile));
 
@@ -223,6 +227,17 @@ begin
   ComboValueType.Items.Add(rvaluetype5);
   ComboValueType.Items.Add(rvaluetype6);
   ComboValueType.ItemIndex := Ord(formTrayslate.Trans.ValueType);
+
+  for i := 0 to ComponentCount - 1 do
+  begin
+    if Components[i] is TCustomEdit then
+    begin
+      (Components[i] as TCustomEdit).Font.Assign(SynScriptParameters.Font);
+      (Components[i] as TCustomEdit).OnEnter := @CustomEditEnter;
+    end;
+    if Components[i] is TCustomComboBox then
+    (Components[i] as TCustomComboBox).Font.Assign(SynScriptParameters.Font);
+  end;
 end;
 
 procedure TformConfigTrayslate.FormShow(Sender: TObject);
@@ -439,6 +454,12 @@ begin
   finally
     List.Free;
   end;
+end;
+
+procedure TformConfigTrayslate.CustomEditEnter(Sender: TObject);
+begin
+  if Sender is TCustomEdit then
+    TCustomEdit(Sender).SetCaretWidth;
 end;
 
 procedure TformConfigTrayslate.MemoKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);

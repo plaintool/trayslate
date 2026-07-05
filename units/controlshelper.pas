@@ -34,6 +34,12 @@ type
     function GetBottomSpace: integer;
   end;
 
+    { Helper methods for TCustomEdit }
+  TCustomEditHelper = class helper for TCustomEdit
+  public
+    procedure SetCaretWidth(const AWidth: integer = 2);
+  end;
+
   { Helper methods for TComboBox }
   TComboBoxHelper = class helper for TComboBox
   public
@@ -170,6 +176,34 @@ begin
   finally
     Bmp.Free;
   end;
+end;
+
+{ TCustomEdit Helper }
+
+procedure TCustomEditHelper.SetCaretWidth(const AWidth: integer = 2);
+var
+  Bmp: TBitmap;
+  CaretHeight: integer;
+begin
+  if not Assigned(Self) then Exit;
+  if not Self.HandleAllocated then Exit;
+
+  // Get actual font height via a temporary bitmap (cross-platform, no API)
+  Bmp := TBitmap.Create;
+  try
+    Bmp.Canvas.Font.Assign(Self.Font);
+    CaretHeight := Bmp.Canvas.TextHeight('Ag');  // 'Ag' has typical ascender/descender
+  finally
+    Bmp.Free;
+  end;
+
+  // Replace the system caret
+  DestroyCaret(Self.Handle);
+  CreateCaret(Self.Handle, 0, AWidth, CaretHeight);
+
+  // Show caret if the control has focus
+  if Self.Focused then
+    ShowCaret(Self.Handle);
 end;
 
 { TComboBoxHelper }

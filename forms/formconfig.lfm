@@ -164,11 +164,11 @@ object formConfigTrayslate: TformConfigTrayslate
     Height = 559
     Top = 41
     Width = 590
-    ActivePage = PageService
+    ActivePage = PageParameters
     Align = alClient
     BorderSpacing.Bottom = 35
     BorderSpacing.Around = 5
-    TabIndex = 0
+    TabIndex = 3
     TabOrder = 1
     object PageService: TTabSheet
       Caption = 'Service'
@@ -498,7 +498,7 @@ object formConfigTrayslate: TformConfigTrayslate
           object MemoPostData: TMemo
             Left = 120
             Height = 288
-            Top = 449
+            Top = 448
             Width = 406
             Anchors = [akTop, akLeft, akRight]
             ScrollBars = ssAutoBoth
@@ -1055,7 +1055,7 @@ object formConfigTrayslate: TformConfigTrayslate
             Transparent = False
             WordWrap = True
           end
-          object PanelResponse1: TPanel
+          object PanelScript: TPanel
             Left = 5
             Height = 188
             Top = 60
@@ -1124,10 +1124,10 @@ object formConfigTrayslate: TformConfigTrayslate
               Align = alClient
               BorderSpacing.Right = 25
               Color = clWindow
-              Font.Color = clWindowText
               Font.Height = -13
               Font.Name = 'Courier New'
               Font.Pitch = fpFixed
+              Font.Quality = fqNonAntialiased
               ParentColor = False
               ParentFont = False
               TabOrder = 0
