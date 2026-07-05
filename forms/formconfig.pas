@@ -237,7 +237,7 @@ begin
       (Components[i] as TCustomEdit).OnEnter := @CustomEditEnter;
     end;
     if Components[i] is TCustomComboBox then
-    (Components[i] as TCustomComboBox).Font.Assign(SynScriptParameters.Font);
+      (Components[i] as TCustomComboBox).Font.Assign(SynScriptParameters.Font);
   end;
 end;
 
@@ -572,6 +572,8 @@ begin
   SourceFile := ComboConfig.Text;
   DestFile := IncludeTrailingPathDelimiter(GetSettingsDirectory) + NewName;
 
+  if FileExists(DestFile) then Exit;
+
   try
     if (SourceFile = string.Empty) then
     begin
@@ -717,71 +719,8 @@ procedure TformConfigTrayslate.ClearConfig;
 begin
   with formTrayslate.Trans do
   begin
-    ServiceName := string.Empty;
-    ServiceIcon := string.Empty;
-    ServiceOrder := 0;
-    ServiceVisible := True;
-    ServiceAutoSwap := False;
-    ServiceRealTime := False;
-    ServiceOnlyButton := False;
-    ServiceProxy := True;
-    ServiceColorRecent := clBlue;
-    ServiceDescription.Clear;
-    WebMethod := wmGet;
-    UserAgent := string.Empty;
-    Headers.Clear;
-    EncodeText := False;
-    MaxLength := 0;
-    Url := string.Empty;
-    ContentType := string.Empty;
-    PostData := string.Empty;
-    Accept := string.Empty;
-    JsonPointer := string.Empty;
-    EncodeCustomParameters := False;
-    CustomParameters.Clear;
-    ScriptParameters.Clear;
-    Languages.Clear;
-    LanguagesTarget.Clear;
-    InitUserAgent := string.Empty;
-    InitHeaders.Clear;
-    InitUrl := string.Empty;
-    InitParameters.Clear;
-    ServiceIcon := string.Empty;
-
-    // Clear controls
-    EditServiceName.Text := string.Empty;
-    SpinServiceOrder.Value := 0;
-    CheckServiceVisible.Checked := True;
-    CheckServiceAutoSwap.Checked := False;
-    CheckServiceRealTime.Checked := False;
-    CheckServiceOnlyButton.Checked := False;
-    CheckServiceProxy.Checked := True;
-    ColorServiceColorRecent.Selected := clBlue;
-    ComboMethod.ItemIndex := 0;
-    ComboValueType.ItemIndex := 0;
-    EditUserAgent.Text := string.Empty;
-    EditContentType.Text := string.Empty;
-    SpinMaxLength.Value := 0;
-    MemoUrl.Clear;
-    MemoPostData.Clear;
-    EditAccept.Text := string.Empty;
-    MemoJsonPointer.Text := string.Empty;
-    EditInitUserAgent.Text := string.Empty;
-    MemoInitURL.Clear;
-    MemoInitParameters.Clear;
-    MemoInitHeaders.Clear;
-    SpinInitLiveTime.Value := 0;
-    CheckEncodeText.Checked := False;
-    CheckEncodeCustomParameters.Checked := False;
-    MemoLanguages.Clear;
-    MemoLanguagesTarget.Clear;
-    MemoHeaders.Clear;
-    MemoCustomParameters.Clear;
-    SynScriptParameters.Clear;
-    MemoServiceDescription.Clear;
-
-    FIconBase64 := string.Empty;
-    UpdateIconPreview;
+    Clear;
+    UpdateConfig;
   end;
 
   aSave.Enabled := False;

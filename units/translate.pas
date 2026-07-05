@@ -96,6 +96,7 @@ type
     constructor Create;
     destructor Destroy; override;
 
+    procedure Clear;
     procedure ExecuteScript;
     function GetParameters(Data: string): boolean;
     function SetParameters(Data: string; IncludeSet: boolean = True): string;
@@ -281,6 +282,42 @@ procedure TTranslate.SyncGetParameterValue;
 begin
   if not Application.Terminated and Assigned(formTrayslate) then
     FResultValue := formTrayslate.GetParameterValue(FParamName, FResultOk);
+end;
+
+procedure TTranslate.Clear;
+begin
+  FServiceName := string.Empty;
+  FServiceIcon := string.Empty;
+  FServiceOrder := 0;
+  FServiceVisible := True;
+  FServiceAutoSwap := False;
+  FServiceRealTime := False;
+  FServiceOnlyButton := False;
+  FServiceProxy := True;
+  FServiceColorRecent := clBlue;
+  FServiceDescription.Clear;
+  FWebMethod := wmGet;
+  FUserAgent := string.Empty;
+  FHeaders.Clear;
+  FEncodeText := False;
+  FMaxLength := 0;
+  FUrl := string.Empty;
+  FContentType := string.Empty;
+  FPostData := string.Empty;
+  FAccept := string.Empty;
+  FJsonPointer := string.Empty;
+  FEncodeCustomParameters := False;
+  FCustomParameters.Clear;
+  FScriptParameters.Clear;
+  FValueType := vtNone;
+  FLanguages.Clear;
+  FLanguagesTarget.Clear;
+  FInitUserAgent := string.Empty;
+  FInitHeaders.Clear;
+  FInitUrl := string.Empty;
+  FInitParameters.Clear;
+  FInitLiveTime := 0;
+  FServiceIcon := string.Empty;
 end;
 
 procedure TTranslate.ExecuteScript;
