@@ -4289,8 +4289,9 @@ begin
   end;
 
   if (not Showing) then
-    Show;
-  BringToFront;
+    Visible := True;
+  TOS.BringToFrontNoFocus(Self);
+
   FTopMost := True;
   TOS.SleepLoop(0, 1);
   MemoSource.Text := SelectedText;
