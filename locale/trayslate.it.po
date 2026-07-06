@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Trayslate - Italian - 08.06.2026\n"
+"Project-Id-Version: Trayslate - Italian - 06.07.2026\n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: plaintool <astverskoy@gmail.com>\n"
+"Last-Translator: bovirus <bovirus@gmail.com>\n"
 "Language-Team: bovirus (bovirus@gmail.com)\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: PoBatch 1.0.0\n"
+"X-Generator: Poedit 3.9\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: checkupdates.newversion
@@ -17,7 +17,7 @@ msgstr ""
 msgctxt "checkupdates.newversion"
 msgid "New version available: %s. Open GitHub page to download?"
 msgstr ""
-"Nuova versione disponibile: %s.\n"
+"Disponibile nuova versione: %s.\n"
 "Per il download vuoi aprire la pagina GitHub?"
 
 #: checkupdates.newversioncheckerror
@@ -64,7 +64,7 @@ msgstr "File lingua (*.po)|*.po"
 #, object-pascal-format
 msgctxt "consts.rremovepair"
 msgid "Are you sure you want to remove the pair \"%s\"?"
-msgstr "Sei sicuro di voler rimuovere la coppia '%s'?"
+msgstr "Vuoi rimuovere la coppia '%s'?"
 
 #: consts.rswap
 #, object-pascal-format
@@ -127,7 +127,7 @@ msgstr "Solo valuta Fiat"
 
 #: formconfig.rvaluetype5
 msgid "Currency Crypto Only"
-msgstr "Solo valute crypto"
+msgstr "Solo valuta crypto"
 
 #: formconfig.rvaluetype6
 msgid "Measurement Units"
@@ -155,11 +155,11 @@ msgstr "Predefinito"
 
 #: formsettings.rdefaulthotkeys
 msgid "Are you sure you want to restore default hotkeys?"
-msgstr "Sei sicuro di voler ripristinare i tasti di scelta rapida predefiniti?"
+msgstr "Vuoi ripristinare i tasti di scelta rapida predefiniti?"
 
 #: formsettings.rdefaultsettings
 msgid "Are you sure you want to restore default settings?"
-msgstr "Sei sicuro di voler ripristinare le impostazioni predefinite?"
+msgstr "Vuoi ripristinare le impostazioni predefinite?"
 
 #: formsettings.rglobal
 msgctxt "formsettings.rglobal"
@@ -173,7 +173,7 @@ msgstr "Visualizza fumetto traduzione"
 #: formsettings.rmousemodebutton
 msgctxt "formsettings.rmousemodebutton"
 msgid "Show Translate Button"
-msgstr "Visualizza pulsante Traduci"
+msgstr "Visualizza pulsante 'Traduci'"
 
 #: formsettings.rmousemodemain
 msgid "Show Main Window"
@@ -336,7 +336,7 @@ msgstr "di Alexander Tverskoy è concesso in licenza con"
 
 #: tformabouttrayslate.labelby1.caption
 msgid "the GNU General Public License, Version 3"
-msgstr "la GNU General Public License, versione 3"
+msgstr "la licenza GNU General Public, versione 3"
 
 #: tformabouttrayslate.labellic.caption
 msgid "For questions or feedback, contact me at"
@@ -440,13 +440,12 @@ msgstr "Esegui richiesta POST e visualizza il risultato"
 #: tformconfigtrayslate.btnresponsetest.hint
 msgctxt "tformconfigtrayslate.btnresponsetest.hint"
 msgid "Converts the current response"
-msgstr "Converte la risposta corrente"
+msgstr "Converti la risposta attuale"
 
 #: tformconfigtrayslate.btnscropttest.hint
-#| msgid "Converts the current response"
 msgctxt "tformconfigtrayslate.btnscropttest.hint"
-msgid "Execute script and view the result"
-msgstr "Esegui lo script e visualizza il risultato"
+msgid "Converts the current response"
+msgstr "Converti la risposta attuale"
 
 #: tformconfigtrayslate.btnurltest.hint
 msgid "Execute get request and view the result"
@@ -540,7 +539,7 @@ msgstr "Fai clic per selezionare l’icona di configurazione, clic centrale elim
 
 #: tformconfigtrayslate.labelaccept.caption
 msgid "Accept"
-msgstr "Accept"
+msgstr "Accetto"
 
 #: tformconfigtrayslate.labelcolorrecent.caption
 msgid "Recent Color"
@@ -666,7 +665,7 @@ msgstr "Intestazioni"
 
 #: tformconfigtrayslate.labelscript.caption
 msgid "The script can access any parameters defined above using GetParam('name') and return values with SetOutput('name', 'value'). Additional helper functions are available: GetTimestamp() and GetRandom(Length)."
-msgstr "Lo script può accedere a qualsiasi parametro definito sopra utilizzando GetParam('name') e restituire valori con SetOutput('name', 'value'). Sono inoltre disponibili le funzioni di supporto: GetTimestamp() e GetRandom(Length)."
+msgstr "Lo script può accedere a qualsiasi parametro definito sopra usando GetParam('name') e restituire valori con SetOutput('name', 'value'). Sono inoltre disponibili le funzioni di supporto: GetTimestamp() e GetRandom(Length)."
 
 #: tformconfigtrayslate.labelservicedescription.caption
 msgid "Description"
@@ -820,11 +819,11 @@ msgstr "Annulla"
 #: tformsettingstrayslate.btndefault.caption
 msgctxt "tformsettingstrayslate.btndefault.caption"
 msgid "Restore Defaults"
-msgstr "Ripristina Default"
+msgstr "Ripristina predefinite"
 
 #: tformsettingstrayslate.btndefaulthotkeys.caption
 msgid "Restore Default Hotkeys"
-msgstr "Ripristina Tasti"
+msgstr "Ripristina tasti"
 
 #: tformsettingstrayslate.btnfont.caption
 msgctxt "tformsettingstrayslate.btnfont.caption"
@@ -923,11 +922,11 @@ msgstr "Quando il mouse non si trova sulla finestra popup nascondi controlli fin
 #: tformsettingstrayslate.checkmousemodectrl.caption
 msgctxt "tformsettingstrayslate.checkmousemodectrl.caption"
 msgid "Only When Ctrl Is Pressed"
-msgstr "Solo quando si preme Ctrl"
+msgstr "Solo quando si preme 'Ctrl'"
 
 #: tformsettingstrayslate.checkmousemodectrl.hint
 msgid "Works only when the Ctrl key is pressed"
-msgstr "Funziona solo quando viene premuto il tasto Ctrl"
+msgstr "Funziona solo quando viene premuto il tasto 'Ctrl'"
 
 #: tformsettingstrayslate.checkproxyauthentication.caption
 msgctxt "tformsettingstrayslate.checkproxyauthentication.caption"
@@ -993,7 +992,7 @@ msgstr "Visualizza lingua sorgente e/o destinazione nell'icona nella barra appli
 #: tformsettingstrayslate.checkverticalsplit.caption
 msgctxt "tformsettingstrayslate.checkverticalsplit.caption"
 msgid "Side-By-Side Layout"
-msgstr "Visualizza pulsante Traduci"
+msgstr "Visualizza pulsante 'Traduci'"
 
 #: tformsettingstrayslate.checkverticalsplit.hint
 msgid "Switches to side-by-side layout with source text beside translation"
@@ -1001,7 +1000,7 @@ msgstr "Passa alla disposizione affiancata con il testo sorgente accanto alla tr
 
 #: tformsettingstrayslate.combolangdetect.hint
 msgid "Config that auto-detects language for the source text"
-msgstr "Configurazione che rileva automaticamente lingua destinazione per il testo sorgente"
+msgstr "Configurazione che rileva automaticamente lingua traduzione per il testo sorgente"
 
 #: tformsettingstrayslate.combomousemode.hint
 msgid "Choose how translation appears on mouse text selection"
@@ -1010,7 +1009,7 @@ msgstr "Scegli come appare la traduzione quando selezioni il testo con il mouse"
 #: tformsettingstrayslate.combomousemode.text
 msgctxt "tformsettingstrayslate.combomousemode.text"
 msgid "Show Translate Button"
-msgstr "Viusalizza pulsante Traduci"
+msgstr "Viusalizza pulsante 'Traduci'"
 
 #: tformsettingstrayslate.comboproxymode.hint
 msgid "Defines how proxy is used no proxy system proxy or custom configuration"
@@ -1282,7 +1281,7 @@ msgstr "Copia"
 #: tformtrayslate.acopytarget.hint
 msgctxt "tformtrayslate.acopytarget.hint"
 msgid "Copy Translation"
-msgstr "Copy Translation"
+msgstr "Copia traduzione"
 
 #: tformtrayslate.adeletepair.caption
 msgid "Delete Pair"
@@ -1329,7 +1328,7 @@ msgstr "Nascondi automaticamente controlli popup"
 #: tformtrayslate.afastmousemodectrl.caption
 msgctxt "tformtrayslate.afastmousemodectrl.caption"
 msgid "Only When Ctrl Is Pressed"
-msgstr "Solo quando si preme Ctrl"
+msgstr "Solo quando si preme 'Ctrl'"
 
 #: tformtrayslate.afastrealtime.caption
 msgctxt "tformtrayslate.afastrealtime.caption"
@@ -1529,4 +1528,3 @@ msgstr "Coppie recenti"
 msgctxt "tformtrayslate.menulanguage.caption"
 msgid "Language"
 msgstr "Lingua"
-
