@@ -30,7 +30,6 @@ uses
   SynEdit,
   SynHighlighterPas,
   SynEditHighlighterFoldBase,
-  SynEditTypes,
   LCLType,
   LCLIntf;
 

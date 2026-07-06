@@ -60,5 +60,13 @@ if errorlevel 1 exit /b %errorlevel%
 call "%~dp0dependency.cmd" DarkMode libs/darkmode https://github.com/plainlib/darkmode.git main "%~dp0libs\darkmode\darkmode.lpk"
 if errorlevel 1 exit /b %errorlevel%
 
+:: Build Toolkit
+call "%~dp0dependency.cmd" Toolkit libs/toolkit https://github.com/plainlib/toolkit.git main "%~dp0libs\toolkit\toolkit.lpk"
+if errorlevel 1 exit /b %errorlevel%
+
+:: Build Helpers
+call "%~dp0dependency.cmd" Helpers libs/helpers https://github.com/plainlib/helpers.git main "%~dp0libs\helpers\helpers.lpk"
+if errorlevel 1 exit /b %errorlevel%
+
 echo Dependencies OK
 exit /b 0
