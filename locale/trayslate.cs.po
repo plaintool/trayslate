@@ -11,22 +11,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: PoBatch 1.0.0\n"
 
-#: checkupdates.newversion
-#, object-pascal-format
-msgctxt "checkupdates.newversion"
-msgid "New version available: %s. Open GitHub page to download?"
-msgstr "K dispozici je nová verze: %s. Otevřít stránku na GitHubu pro stažení?"
-
-#: checkupdates.newversioncheckerror
-msgctxt "checkupdates.newversioncheckerror"
-msgid "Error checking version:"
-msgstr "Chyba při kontrole verze:"
-
-#: checkupdates.newversionuptodate
-msgctxt "checkupdates.newversionuptodate"
-msgid "Your version is up to date."
-msgstr "Vaše verze je aktuální."
-
 #: consts.rappname
 msgctxt "consts.rappname"
 msgid "Trayslate"
@@ -434,7 +418,6 @@ msgid "Converts the current response"
 msgstr "Převede aktuální odpověď"
 
 #: tformconfigtrayslate.btnscropttest.hint
-#| msgid "Converts the current response"
 msgctxt "tformconfigtrayslate.btnscropttest.hint"
 msgid "Execute script and view the result"
 msgstr "Spustit skript a zobrazit výsledek"

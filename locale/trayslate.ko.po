@@ -11,22 +11,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: PoBatch 1.0.0\n"
 
-#: checkupdates.newversion
-#, object-pascal-format
-msgctxt "checkupdates.newversion"
-msgid "New version available: %s. Open GitHub page to download?"
-msgstr "새 버전 사용 가능: %s. 다운로드할 GitHub 페이지를 열까요?"
-
-#: checkupdates.newversioncheckerror
-msgctxt "checkupdates.newversioncheckerror"
-msgid "Error checking version:"
-msgstr "버전 확인 오류:"
-
-#: checkupdates.newversionuptodate
-msgctxt "checkupdates.newversionuptodate"
-msgid "Your version is up to date."
-msgstr "현재 버전은 최신 버전입니다."
-
 #: consts.rappname
 msgctxt "consts.rappname"
 msgid "Trayslate"
@@ -434,7 +418,6 @@ msgid "Converts the current response"
 msgstr "현재 응답을 변환합니다"
 
 #: tformconfigtrayslate.btnscropttest.hint
-#| msgid "Converts the current response"
 msgctxt "tformconfigtrayslate.btnscropttest.hint"
 msgid "Execute script and view the result"
 msgstr "스크립트를 실행하고 결과 보기"

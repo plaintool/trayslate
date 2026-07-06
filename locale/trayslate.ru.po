@@ -11,22 +11,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: PoBatch 1.0.0\n"
 
-#: checkupdates.newversion
-#, object-pascal-format
-msgctxt "checkupdates.newversion"
-msgid "New version available: %s. Open GitHub page to download?"
-msgstr "Доступна новая версия: %s. Открыть страницу на GitHub для загрузки?"
-
-#: checkupdates.newversioncheckerror
-msgctxt "checkupdates.newversioncheckerror"
-msgid "Error checking version:"
-msgstr "Ошибка при проверке версии:"
-
-#: checkupdates.newversionuptodate
-msgctxt "checkupdates.newversionuptodate"
-msgid "Your version is up to date."
-msgstr "Ваша версия актуальна."
-
 #: consts.rappname
 msgctxt "consts.rappname"
 msgid "Trayslate"
@@ -434,7 +418,6 @@ msgid "Converts the current response"
 msgstr "Преобразует текущий ответ"
 
 #: tformconfigtrayslate.btnscropttest.hint
-#| msgid "Converts the current response"
 msgctxt "tformconfigtrayslate.btnscropttest.hint"
 msgid "Execute script and view the result"
 msgstr "Выполнить скрипт и посмотреть результат"
