@@ -331,9 +331,6 @@
       </Options>
     </Linking>
     <Other>
-      <Verbosity>
-        <ShowAll Value="True"/>
-      </Verbosity>
       <CompilerMessages>
         <IgnoredMessages idx5024="True"/>
       </CompilerMessages>

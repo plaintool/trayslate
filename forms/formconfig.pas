@@ -29,6 +29,8 @@ uses
   ColorBox,
   SynEdit,
   SynHighlighterPas,
+  SynEditHighlighterFoldBase,
+  SynEditTypes,
   LCLType,
   LCLIntf;
 
@@ -229,6 +231,12 @@ begin
   ComboValueType.Items.Add(rvaluetype6);
   ComboValueType.ItemIndex := Ord(formTrayslate.Trans.ValueType);
 
+  SynScriptParameters.Font.Color := clWindowText;
+  SynScriptParameters.Gutter.LineNumberPart.MarkupInfo.Foreground := clWindowText;
+  for i := 0 to SynPasSyn.FoldConfigCount - 1 do
+    SynPasSyn.FoldConfig[i].Modes :=
+      SynPasSyn.FoldConfig[i].Modes - [fmHide];
+
   for i := 0 to ComponentCount - 1 do
   begin
     if Components[i] is TCustomEdit then
@@ -236,7 +244,7 @@ begin
       (Components[i] as TCustomEdit).Font.Assign(SynScriptParameters.Font);
       (Components[i] as TCustomEdit).OnEnter := @CustomEditEnter;
     end;
-    if Components[i] is TCustomComboBox then
+    if Components[i] is TCustomComboBox and (Components[i] <> ComboConfig) then
       (Components[i] as TCustomComboBox).Font.Assign(SynScriptParameters.Font);
   end;
 end;
