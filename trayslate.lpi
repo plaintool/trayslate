@@ -240,6 +240,10 @@
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
+        <Filename Value="units\scriptrunner.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
         <Filename Value="units\localize.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
@@ -285,10 +289,6 @@
       </Unit>
       <Unit>
         <Filename Value="units\units_data.inc"/>
-        <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
-        <Filename Value="units\scriptrunner.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
     </Units>

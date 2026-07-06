@@ -53,11 +53,11 @@ IF "%ARCH%"=="32" (
 cd /d "%~dp0"
 
 :: Build Synapse
-call "%~dp0dependency.cmd" Synapse libs/synapse https://github.com/plainlib/synapse.git "%~dp0libs\synapse\laz_synapse.lpk" laz_synapse.pas
+call "%~dp0dependency.cmd" Synapse libs/synapse https://github.com/plainlib/synapse.git master "%~dp0libs\synapse\laz_synapse.lpk" laz_synapse.pas
 if errorlevel 1 exit /b %errorlevel%
 
 :: Build DarkMode
-call "%~dp0dependency.cmd" DarkMode libs/darkmode https://github.com/plainlib/darkmode.git "%~dp0libs\darkmode\darkmode.lpk"
+call "%~dp0dependency.cmd" DarkMode libs/darkmode https://github.com/plainlib/darkmode.git main "%~dp0libs\darkmode\darkmode.lpk"
 if errorlevel 1 exit /b %errorlevel%
 
 echo Dependencies OK

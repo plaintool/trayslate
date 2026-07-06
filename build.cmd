@@ -76,9 +76,9 @@ IF "%ARCH%"=="32" (
 
 echo Building project: %PROJECT_PATH%
 IF "%ARCH%"=="32" (
-    "%LAZBUILD%" %PROJECT_PATH% --cpu=i386 --ws=win32 --build-mode=%BUILD_MODE% --compiler=%FPC32%
+    "%LAZBUILD%" %PROJECT_PATH% --cpu=i386 --ws=win32 --build-mode=%BUILD_MODE% --compiler=%FPC32% -q
 ) ELSE (
-    "%LAZBUILD%" %PROJECT_PATH% --build-mode=%BUILD_MODE%
+    "%LAZBUILD%" %PROJECT_PATH% --build-mode=%BUILD_MODE% -q
 )
 
 IF %ERRORLEVEL% NEQ 0 (

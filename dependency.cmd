@@ -11,11 +11,16 @@ setlocal
 set "DEP_NAME=%~1"
 set "DEP_PATH=%~2"
 set "DEP_REPO=%~3"
-set "DEP_LPK=%~4"
-set "DEP_REVERT=%~5"
+set "DEP_BRANCH=%~4"
+set "DEP_LPK=%~5"
+set "DEP_REVERT=%~6"
 
 if "%DEP_NAME%"=="" (
     echo ERROR: Missing dependency name
+    exit /b 1
+)
+if "%DEP_BRANCH%"=="" (
+    echo ERROR: Missing dependency branch
     exit /b 1
 )
 if "%DEP_PATH%"=="" (
@@ -55,7 +60,7 @@ if errorlevel 1 (
 
 :: No local changes – safe to attempt pull
 echo Updating %DEP_NAME% subtree
-git subtree pull --prefix=%DEP_PATH% %DEP_REPO% master --squash
+git subtree pull --prefix=%DEP_PATH% %DEP_REPO% %DEP_BRANCH% --squash
 if errorlevel 1 (
     echo WARNING: %DEP_NAME% subtree update failed, continuing with existing code
 ) else (
