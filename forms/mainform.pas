@@ -523,7 +523,7 @@ type
     procedure TranslateClipboardPopup(NearMouse: boolean = False);
     procedure TranslateFromControl(Data: PtrInt);
     procedure TranslateControl(Data: PtrInt);
-    procedure TranslateControlPopup(Data: PtrInt);
+    procedure TranslateFromControlPopup(Data: PtrInt);
     procedure TranslateMouseMode(ACursorPos: TPoint);
 
     // Base properties
@@ -1007,7 +1007,7 @@ begin
 
       HOTKEY_TRANS_CONTROL_POPUP:
       try
-        Application.QueueAsyncCall(@TranslateControlPopup, 0);
+        Application.QueueAsyncCall(@TranslateFromControlPopup, 0);
       finally
         ReleaseHotKeyModifiers(FHotKeyTransControlPopup);
       end;
@@ -4200,7 +4200,7 @@ begin
   Clipboard.AddExcludeFlag;
   TOS.SleepLoop(1, 1);
   Clipboard.AddExcludeFlag;
-  TOS.SleepLoop(5, 1);
+  TOS.SleepLoop(6, 1);
 
   FUnapplyC := True;
   if not ctrl then
@@ -4288,14 +4288,17 @@ begin
     RestoreClipboard;
   end;
 
-  if (not Showing) then
-    Visible := True;
-  TOS.BringToFrontNoFocus(Self);
+  if Trim(SelectedText) <> string.Empty then
+  begin
+    if (not Showing) then
+      Visible := True;
+    TOS.BringToFrontNoFocus(Self);
 
-  FTopMost := True;
-  TOS.SleepLoop(0, 1);
-  MemoSource.Text := SelectedText;
-  TranslateMemo;
+    FTopMost := True;
+    TOS.SleepLoop(0, 1);
+    MemoSource.Text := SelectedText;
+    TranslateMemo;
+  end;
 end;
 
 procedure TformTrayslate.TranslateControl(Data: PtrInt);
@@ -4380,7 +4383,7 @@ begin
   end;
 end;
 
-procedure TformTrayslate.TranslateControlPopup(Data: PtrInt);
+procedure TformTrayslate.TranslateFromControlPopup(Data: PtrInt);
 var
   SelectedText: string;
   SavedClip: TClipboardFormatDataArray;
@@ -4427,12 +4430,15 @@ begin
     RestoreClipboard;
   end;
 
-  ShowPopup(SelectedText, Mouse.CursorPos.X, Mouse.CursorPos.Y);
+  if Trim(SelectedText) <> string.Empty then
+  begin
+    ShowPopup(SelectedText, Mouse.CursorPos.X, Mouse.CursorPos.Y);
 
-  DetectLanguage(SelectedText);
+    DetectLanguage(SelectedText);
 
-  // Create translation thread (it will handle exceptions itself)
-  TranslateThread(Trans, SelectedText, formPopupTrayslate.MemoTarget);
+    // Create translation thread (it will handle exceptions itself)
+    TranslateThread(Trans, SelectedText, formPopupTrayslate.MemoTarget);
+  end;
 end;
 
 procedure TformTrayslate.TranslateMouseMode(ACursorPos: TPoint);
@@ -4490,7 +4496,7 @@ begin
         TimerUnapplyTimer(Self);
     end;
 
-    if (Trim(SelectedText) <> string.Empty) then
+    if Trim(SelectedText) <> string.Empty then
     begin
       if TimerTranslate.Enabled then
         TimerTranslate.Enabled := False;
