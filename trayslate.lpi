@@ -69,7 +69,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="forms;units;common;libs;libs\synapse"/>
+            <OtherUnitFiles Value="forms;units;common"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -107,6 +107,12 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="laz_synapse"/>
+      </Item>
+      <Item>
+        <PackageName Value="darkmode"/>
+      </Item>
+      <Item>
         <PackageName Value="pascalscript"/>
       </Item>
       <Item>
@@ -134,21 +140,6 @@
       <Unit>
         <Filename Value="THIRD_PARTIES"/>
         <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
-        <Filename Value="common\udarkstyle.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="uDarkStyle"/>
-      </Unit>
-      <Unit>
-        <Filename Value="common\uimport.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="uImport"/>
-      </Unit>
-      <Unit>
-        <Filename Value="common\uwin32widgetsetdark.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="uWin32WidgetSetDark"/>
       </Unit>
       <Unit>
         <Filename Value="common\globalkeyboardhook.pas"/>
@@ -310,7 +301,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="forms;units;common;libs;libs\synapse"/>
+      <OtherUnitFiles Value="forms;units;common"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>
@@ -340,6 +331,9 @@
       </Options>
     </Linking>
     <Other>
+      <Verbosity>
+        <ShowAll Value="True"/>
+      </Verbosity>
       <CompilerMessages>
         <IgnoredMessages idx5024="True"/>
       </CompilerMessages>
