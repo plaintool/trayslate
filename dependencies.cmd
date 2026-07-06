@@ -1,6 +1,13 @@
 @echo off
 setlocal
 
+:: Determine build architecture: 64-bit by default, 32-bit if first argument is "32"
+SET "ARCH=64"
+IF /I "%1"=="32" SET "ARCH=32"
+
+:: Label for console output
+IF "%ARCH%"=="32" (SET "ARCH_LABEL=x86") ELSE (SET "ARCH_LABEL=x64")
+
 :: Determine LAZARUS_DIR if not provided by caller
 if not defined LAZARUS_DIR (
     for %%D in ("C:\Lazarus" "C:\lazarus") do (
@@ -26,75 +33,32 @@ if not exist "%LAZBUILD%" (
     exit /b 1
 )
 
-:start_deps
-
-echo.
-echo ############################################################
-echo #                    Build Synapse                         #
-echo ############################################################
-echo.
-
-:: Dependency settings
-set "SYNAPSE_REPO=https://github.com/plainlib/synapse.git"
-set "SYNAPSE_PATH=libs/synapse"
-set "SYNAPSE_LPK=%~dp0libs\synapse\laz_synapse.lpk"
-
-echo Dependencies update started
-cd /d "%~dp0"
-echo Current directory: %CD%
-
-echo Checking Synapse subtree state
-
-:: Check for unstaged changes in the subtree
-git diff --quiet -- %SYNAPSE_PATH%
-if errorlevel 1 (
-    echo WARNING: Synapse has unstaged changes, skipping subtree update
-    goto skip_update
-)
-
-:: Check for staged changes in the subtree
-git diff --cached --quiet -- %SYNAPSE_PATH%
-if errorlevel 1 (
-    echo WARNING: Synapse has staged changes, skipping subtree update
-    goto skip_update
-)
-
-:: No local changes – safe to attempt pull
-echo Updating Synapse subtree
-git subtree pull --prefix=%SYNAPSE_PATH% %SYNAPSE_REPO% master --squash
-if errorlevel 1 (
-    echo WARNING: Synapse subtree update failed, continuing with existing code
-) else (
-    echo Synapse subtree updated successfully
-)
-
-goto process_lpk
-
-:skip_update
-echo Skipping Synapse subtree update due to local changes.
-
-:process_lpk
-echo Processing Lazarus package
-if exist "%SYNAPSE_LPK%" (
-    echo Building laz_synapse.lpk
-    "%LAZBUILD%" "%SYNAPSE_LPK%" -q -q
-    if errorlevel 1 (
-        echo ERROR: Synapse LPK build failed
-        pause
-        exit /b %errorlevel%
-    )
-    echo Synapse LPK processed successfully
-
-    :: Revert auto-generated changes in laz_synapse.pas to keep working tree clean
-    if exist "%SYNAPSE_PATH%\laz_synapse.pas" (
-        git checkout -- "%SYNAPSE_PATH%\laz_synapse.pas"
-        if not errorlevel 1 (
-            echo Reverted auto-changes in laz_synapse.pas
+:: 32-bit specific: find FPC32 and set LAZBUILD_OPTS
+IF "%ARCH%"=="32" (
+    if not defined FPC32 (
+        for /d %%F in ("%LAZARUS_DIR%\fpc\*") do (
+            if exist "%%~F\bin\i386-win32\fpc.exe" (
+                set "FPC32=%%~F\bin\i386-win32\fpc.exe"
+            )
         )
     )
-) else (
-    echo WARNING: laz_synapse.lpk not found, skipping
+    if not defined FPC32 (
+        echo ERROR: 32-bit FPC compiler not found. Set FPC32 or ensure i386-win32 target is installed.
+        pause
+        exit /b 1
+    )
+    set "LAZBUILD_OPTS=--cpu=i386 --ws=win32 --compiler="%FPC32%""
 )
+
+cd /d "%~dp0"
+
+:: Build Synapse
+call "%~dp0dependency.cmd" Synapse libs/synapse https://github.com/plainlib/synapse.git "%~dp0libs\synapse\laz_synapse.lpk" laz_synapse.pas
+if errorlevel 1 exit /b %errorlevel%
+
+:: Build DarkMode
+call "%~dp0dependency.cmd" DarkMode libs/darkmode https://github.com/plainlib/darkmode.git "%~dp0libs\darkmode\darkmode.lpk"
+if errorlevel 1 exit /b %errorlevel%
 
 echo Dependencies OK
 exit /b 0
