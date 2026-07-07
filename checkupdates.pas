@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------------
-//  Trayslate © 2026 by Alexander Tverskoy
-//  Licensed under the GNU General Public License, Version 3 (GPL-3.0)
-//  You may obtain a copy of the License at https://www.gnu.org/licenses/gpl-3.0.html
+//  Helpers Package © 2026 by Alexander Tverskoy
+//  Licensed under the MIT License
+//  You may obtain a copy of the License at https://opensource.org/licenses/MIT
 //-----------------------------------------------------------------------------------
 
 unit checkupdates;
@@ -20,6 +20,8 @@ uses
   FileInfo,
   LCLIntf,
   fphttpclient,
+  openssl,
+  opensslsockets,
   {$IFDEF WINDOWS}
   wininet,
   {$ENDIF}
@@ -44,16 +46,20 @@ type
     procedure UpdateAvailable;
   public
     // Pass all required parameters through the constructor
-    constructor Create(const ARepo, AAppName: string; CreateSuspended: Boolean = True);
+    constructor Create(const ARepo, AAppName: string; CreateSuspended: boolean = True);
   end;
 
 { Check Github Version }
 // Added AppName parameter to avoid global 'rappname' dependency.
 // When Silent = True, AppName is not used and can be empty.
-function CheckGithubLatestVersion(out Version: string; const Repo: string;
-  const AppName: string; const Silent: boolean = False): boolean;
+function CheckGithubLatestVersion(out Version: string; const Repo: string; const AppName: string; const Silent: boolean = False): boolean;
 
 function GetAppVersion: string;
+function IsSSLAvailable: boolean;
+
+var
+  _SSLChecked: boolean = False;
+  _SSLAvailable: boolean = False;
 
 resourcestring
   newversion = 'New version available: %s. Open GitHub page to download?';
@@ -62,9 +68,42 @@ resourcestring
 
 implementation
 
+{%Region -fold Methods}
+
+function GetAppVersion: string;
+var
+  Info: TFileVersionInfo;
+begin
+  Info := TFileVersionInfo.Create(nil);
+  try
+    Info.FileName := ParamStr(0);
+    Info.ReadFileInfo;
+    Result := Info.VersionStrings.Values['ProductVersion'];
+  finally
+    Info.Free;
+  end;
+end;
+
+function IsSSLAvailable: boolean;
+begin
+  if not _SSLChecked then
+  begin
+    try
+      // InitSSLInterface returns True if OpenSSL libraries loaded successfully
+      _SSLAvailable := InitSSLInterface;
+    except
+      _SSLAvailable := False;
+    end;
+    _SSLChecked := True;
+  end;
+  Result := _SSLAvailable;
+end;
+
+{%EndRegion}
+
 {%Region -fold CheckUpdateThread}
 
-constructor TCheckUpdateThread.Create(const ARepo, AAppName: string; CreateSuspended: Boolean);
+constructor TCheckUpdateThread.Create(const ARepo, AAppName: string; CreateSuspended: boolean);
 begin
   inherited Create(CreateSuspended);
   FRepo := ARepo;
@@ -92,8 +131,7 @@ end;
 
 {%Region -fold Check Github Version}
 
-function CheckGithubLatestVersion(out Version: string; const Repo: string;
-  const AppName: string; const Silent: boolean = False): boolean;
+function CheckGithubLatestVersion(out Version: string; const Repo: string; const AppName: string; const Silent: boolean = False): boolean;
 var
   JsonData: TJSONData;
   LatestVersion, Msg: string;
@@ -115,7 +153,7 @@ var
       Buffer[I] := #0;
 
     Result := '';
-    hInet := InternetOpen('TrayslateVersionChecker', INTERNET_OPEN_TYPE_PRECONFIG, nil, nil, 0);
+    hInet := InternetOpen('PlaintoolVersionChecker', INTERNET_OPEN_TYPE_PRECONFIG, nil, nil, 0);
     if hInet = nil then
       Exit;
 
@@ -143,10 +181,13 @@ var
   var
     HttpClient: TFPHTTPClient;
   begin
+    if AUrl.StartsWith('https://', True) and not IsSSLAvailable then
+      Exit(string.Empty);
+
     try
       HttpClient := TFPHTTPClient.Create(nil);
       try
-        HttpClient.AddHeader('User-Agent', 'TrayslateVersionChecker');
+        HttpClient.AddHeader('User-Agent', 'PlaintoolVersionChecker');
         HttpClient.AllowRedirect := True;
         HttpClient.ConnectTimeout := 5000;
         HttpClient.IOTimeout := 5000;
@@ -178,7 +219,7 @@ var
       Process.Parameters.Add('-s');
       Process.Parameters.Add('-L');
       Process.Parameters.Add('-H');
-      Process.Parameters.Add('User-Agent: TrayslateVersionChecker');
+      Process.Parameters.Add('User-Agent: PlaintoolVersionChecker');
       Process.Parameters.Add(AUrl);
 
       Process.Options := [poUsePipes, poNoConsole];
@@ -251,7 +292,7 @@ var
       Process.Parameters.Add('-q');
       Process.Parameters.Add('-O');
       Process.Parameters.Add('-');
-      Process.Parameters.Add('--header=User-Agent: TrayslateVersionChecker');
+      Process.Parameters.Add('--header=User-Agent: PlaintoolVersionChecker');
       Process.Parameters.Add(AUrl);
 
       Process.Options := [poUsePipes, poNoConsole];
@@ -316,7 +357,7 @@ begin
     try
       with TFPHttpClient.Create(nil) do
       try
-        AddHeader('User-Agent', 'TrayslateVersionChecker');
+        AddHeader('User-Agent', 'PlaintoolVersionChecker');
         ResponseContent := Get(Url);
       finally
         Free;
@@ -400,20 +441,6 @@ begin
       if not Silent then
         ShowMessage(newversioncheckerror + LineEnding + Url + LineEnding + E.Message);
     end;
-  end;
-end;
-
-function GetAppVersion: string;
-var
-  Info: TFileVersionInfo;
-begin
-  Info := TFileVersionInfo.Create(nil);
-  try
-    Info.FileName := ParamStr(0);
-    Info.ReadFileInfo;
-    Result := Info.VersionStrings.Values['ProductVersion'];
-  finally
-    Info.Free;
   end;
 end;
 
