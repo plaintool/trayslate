@@ -8,14 +8,8 @@ unit darkmode;
 interface
 
 uses
-  uDarkStyle, uImport, uWin32WidgetSetDark, LazarusPackageIntf;
+  uDarkStyle, uImport, uWin32WidgetSetDark;
 
 implementation
 
-procedure Register;
-begin
-end;
-
-initialization
-  RegisterPackage('darkmode', @Register);
 end.
