@@ -8,6 +8,8 @@ unit checkupdates;
 
 {$mode ObjFPC}{$H+}
 
+{$R helpers.rc}
+
 interface
 
 uses

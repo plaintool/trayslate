@@ -19,12 +19,12 @@ uses
   DefaultTranslator,
   Translations,
   LResources,
-  LCLTranslator,
+  LCLTranslator
   {$IFDEF WINDOWS}
-  Windows
+    , Windows
   {$ENDIF}
   {$IFDEF LCLCarbon}
-  MacOSAll
+    , MacOSAll
   {$ENDIF}
   ;
 
@@ -50,6 +50,12 @@ type
 
     // Reads the content of a .po file into a string. Returns an empty string on error.
     class function LoadCustomPoFile(const AFileName: string): string; static;
+
+    // Load PO text from a resource of the package. AResourcePrefix: prefix of resource names (e.g., 'MYLANG')
+    class function LoadPackagePoResource(const AResourcePrefix, ALang: string): string;
+
+    // Call this from the main application on startup and every time the language changes.
+    class procedure UpdatePackageTranslations(const APackagePrefix, ALang: string);
   end;
 
 var
@@ -233,6 +239,38 @@ begin
   finally
     FileContent.Free;
   end;
+end;
+
+class function TLocalize.LoadPackagePoResource(const AResourcePrefix, ALang: string): string;
+var
+  ResStream: TResourceStream;
+  StrStream: TStringStream;
+  ResName: string;
+begin
+  Result := '';
+  ResName := AResourcePrefix + '_' + UpperCase(ALang); // e.g., MYLANG_RU
+  ResStream := nil;
+  StrStream := nil;
+  try
+    // HInstance inside a package refers to the package's own module
+    ResStream := TResourceStream.Create(HInstance, ResName, RT_RCDATA);
+    StrStream := TStringStream.Create('');
+    ResStream.SaveToStream(StrStream);
+    Result := StrStream.DataString;
+  except
+    Result := '';
+  end;
+  StrStream.Free;
+  ResStream.Free;
+end;
+
+class procedure TLocalize.UpdatePackageTranslations(const APackagePrefix, ALang: string);
+var
+  PoText: string;
+begin
+  PoText := TLocalize.LoadPackagePoResource(APackagePrefix, ALang);
+  if PoText <> '' then
+    TLocalize.ApplicationTranslate(ALang, nil, PoText);
 end;
 
 end.

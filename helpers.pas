@@ -9,15 +9,8 @@ interface
 
 uses
   base64utils, checkupdates, clipboardhelper, colorhelper, controlshelper, 
-  hotkeyhelper, localize, osutils, stringhelper, stringshelper, 
-  LazarusPackageIntf;
+  hotkeyhelper, localize, osutils, stringhelper, stringshelper;
 
 implementation
 
-procedure Register;
-begin
-end;
-
-initialization
-  RegisterPackage('helpers', @Register);
 end.

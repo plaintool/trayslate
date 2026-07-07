@@ -3,7 +3,7 @@
   <Package Version="5">
     <PathDelim Value="\"/>
     <Name Value="helpers"/>
-    <Type Value="RunAndDesignTime"/>
+    <Type Value="RunTimeOnly"/>
     <Author Value="Alexander Tverskoy (astverskoy@gmail.com)"/>
     <CompilerOptions>
       <Version Value="11"/>
@@ -77,7 +77,16 @@ SOFTWARE.
         <Filename Value="stringshelper.pas"/>
         <UnitName Value="stringshelper"/>
       </Item>
+      <Item>
+        <Filename Value="helpers.rc"/>
+        <Type Value="Text"/>
+      </Item>
     </Files>
+    <i18n>
+      <EnableI18N Value="True"/>
+      <OutDir Value="locale"/>
+      <EnableI18NForLFM Value="True"/>
+    </i18n>
     <RequiredPkgs>
       <Item>
         <PackageName Value="darkmode"/>
