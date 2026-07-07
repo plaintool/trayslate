@@ -1,9 +1,9 @@
-{-----------------------------------------------------------------------------------
-  PoBatch © 2026 by Alexander Tverskoy
-  https://github.com/plaintool/pobatch
-  Licensed under the GNU General Public License, Version 3 (GPL-3.0)
-  You may obtain a copy of the License at https://www.gnu.org/licenses/gpl-3.0.html
-
+//-----------------------------------------------------------------------------------
+//  Toolkit Package © 2026 by Alexander Tverskoy
+//  Licensed under the MIT License
+//  You may obtain a copy of the License at https://opensource.org/licenses/MIT
+//-----------------------------------------------------------------------------------
+{
   Safe "setTimeout" implementation for Lazarus / FPC 3.2.2+
   No anonymous methods required – uses plain procedure of object.
 
