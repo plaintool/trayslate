@@ -3,7 +3,9 @@ setlocal
 
 :: ============================================================
 :: Universal build script for a single Lazarus dependency
-:: Usage: build_dependency.cmd <Name> <SubtreePath> <RepoURL> <LpkFile> [RevertFile]
+:: Usage: build_dependency.cmd <Name> <SubtreePath> <RepoURL> <Branch> <LpkFile> [RevertFile] [DoPull]
+::   DoPull  - set to "true" (case insensitive) to perform git subtree pull; 
+::             any other value, empty or "false" skips the pull.
 :: Expects LAZBUILD to point to lazbuild.exe
 :: Optionally uses LAZBUILD_OPTS for additional flags (e.g. 32-bit target)
 :: ============================================================
@@ -14,6 +16,7 @@ set "DEP_REPO=%~3"
 set "DEP_BRANCH=%~4"
 set "DEP_LPK=%~5"
 set "DEP_REVERT=%~6"
+set "DO_PULL=%~7"
 
 if "%DEP_NAME%"=="" (
     echo ERROR: Missing dependency name
@@ -41,6 +44,12 @@ echo ############################################################
 echo                 Build %DEP_NAME% (%ARCH_LABEL%)           
 echo ############################################################
 echo.
+
+:: ----- Decide whether to attempt subtree pull -----
+if /i not "%DO_PULL%"=="true" (
+    echo Skipping %DEP_NAME% subtree pull because DO_PULL is not "true".
+    goto skip_update
+)
 
 echo Checking %DEP_NAME% subtree state
 
@@ -70,7 +79,7 @@ if errorlevel 1 (
 goto process_lpk
 
 :skip_update
-echo Skipping %DEP_NAME% subtree update due to local changes.
+echo Skipping %DEP_NAME% subtree update due to local changes or DO_PULL policy.
 
 :process_lpk
 echo Processing Lazarus package
