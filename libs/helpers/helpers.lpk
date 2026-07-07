@@ -89,9 +89,6 @@ SOFTWARE.
     </i18n>
     <RequiredPkgs>
       <Item>
-        <PackageName Value="darkmode"/>
-      </Item>
-      <Item>
         <PackageName Value="LCLBase"/>
       </Item>
     </RequiredPkgs>

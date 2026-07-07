@@ -14,11 +14,7 @@ interface
 uses
   Graphics,
   SysUtils,
-  LCLIntf,
-{$IFDEF WINDOWS}
-  uDarkStyle,
-  Registry;
-{$ENDIF}
+  LCLIntf;
 
 type
   TColorHelper = type helper for TColor
@@ -37,20 +33,6 @@ type
 
     // Lighten a dark color for dark themes (blend toward white)
     function ToDarkTheme(Delta: integer = 60): TColor;
-
-    // Return LightColor or DarkColor depending on dark mode
-    class function ThemeColor(LightColor, DarkColor: TColor): TColor; static;
-
-    // Return LightValue or DarkValue depending on dark mode
-    class function ThemeValue(LightValue, DarkValue: integer): integer; static;
-
-    // Check if dark mode is enabled
-    class function IsDarkMode: boolean; static;
-
-    {$IFDEF WINDOWS}
-    // Check if taskbar is dark (Windows only)
-    class function IsTaskbarDark: boolean; static;
-    {$ENDIF}
   end;
 
 implementation
@@ -185,73 +167,6 @@ begin
 
   Result := RGB(R, G, B);
 end;
-
-{%EndRegion}
-
-{%Region -fold DarkTheme}
-
-class function TColorHelper.ThemeColor(LightColor, DarkColor: TColor): TColor;
-begin
-  {$IFDEF WINDOWS}
-  if g_darkModeEnabled then
-    Result := DarkColor
-  else
-    Result := LightColor;
-  {$ELSE}
-  Result := LightColor;
-  {$ENDIF}
-end;
-
-class function TColorHelper.ThemeValue(LightValue, DarkValue: integer): integer;
-begin
-  {$IFDEF WINDOWS}
-  if g_darkModeEnabled then
-    Result := DarkValue
-  else
-    Result := LightValue;
-  {$ELSE}
-  Result := LightValue;
-  {$ENDIF}
-end;
-
-class function TColorHelper.IsDarkMode: boolean;
-begin
-  {$IFDEF WINDOWS}
-    Result := g_darkModeEnabled;
-  {$ELSE}
-  Result := False;
-  {$ENDIF}
-end;
-
-{$IFDEF WINDOWS}
-
-class function TColorHelper.IsTaskbarDark: boolean;
-var
-  Reg: TRegistry;
-begin
-  // Default to dark mode, as it is the standard for Windows 10 and 11
-  Result := True;
-  Reg := TRegistry.Create(KEY_READ);
-  try
-    Reg.RootKey := HKEY_CURRENT_USER;
-    // Open the registry key where theme personalization settings are stored
-    if Reg.OpenKeyReadOnly('Software\Microsoft\Windows\CurrentVersion\Themes\Personalize') then
-    begin
-      if Reg.ValueExists('SystemUsesLightTheme') then
-      begin
-        // SystemUsesLightTheme = 0 means the taskbar is DARK
-        // SystemUsesLightTheme = 1 means it is LIGHT
-        // We return True if it is dark (0)
-        Result := Reg.ReadInteger('SystemUsesLightTheme') = 0;
-      end;
-      Reg.CloseKey;
-    end;
-  finally
-    Reg.Free;
-  end;
-end;
-
-{$ENDIF}
 
 {%EndRegion}
 

@@ -17,10 +17,10 @@ type
   TStringsHelper = class helper for TStrings
   public
     // Searches for the first string containing SubText
-    function FindInStringList(const SubText: string): integer;
+    function FindIndex(const AValue: string): integer;
 
     // Finds a name=value pair by its value part (case‑sensitive by default)
-    function GetIndexByValue(const AValue: string; CaseSensitive: boolean = True): integer;
+    function FindEqualIndex(const AValue: string; CaseSensitive: boolean = True): integer;
 
     // Removes all lines where '=' is followed by an empty value
     procedure RemoveEmptyValues;
@@ -32,31 +32,31 @@ type
     function IndexOfNameIgnoreCase(const AName: string): integer;
 
     // Searches for a string that matches AValue by exact name, exact value, or by parts after splitting
-    function FindSubstringIndex(const AValue: string;const Seps: TSysCharSet = ['-','_',' ',':',',',';']): integer;
+    function FindSubstringIndex(const AValue: string; const Seps: TSysCharSet = ['-', '_', ' ', ':', ',', ';']): integer;
 
     // Returns True if any string in the list contains SubText
-    function Any(const SubText: string): Boolean;
+    function Any(const SubText: string): boolean;
 
     // Returns True if the list contains value
-    function Contains(const Value: string): Boolean;
- end;
+    function Contains(const Value: string): boolean;
+  end;
 
 implementation
 
-function TStringsHelper.FindInStringList(const SubText: string): integer;
+function TStringsHelper.FindIndex(const AValue: string): integer;
 var
   i: integer;
 begin
   Result := -1;
   for i := 0 to Self.Count - 1 do
-    if Pos(SubText, Self[i]) > 0 then
+    if Pos(AValue, Self[i]) > 0 then
     begin
       Result := i;
       Exit;
     end;
 end;
 
-function TStringsHelper.GetIndexByValue(const AValue: string; CaseSensitive: boolean): integer;
+function TStringsHelper.FindEqualIndex(const AValue: string; CaseSensitive: boolean): integer;
 var
   i: integer;
 begin
@@ -124,11 +124,11 @@ begin
   Result := -1;
 end;
 
-function TStringsHelper.FindSubstringIndex(const AValue: string; const Seps: TSysCharSet = ['-','_',' ',':',',',';']): integer;
+function TStringsHelper.FindSubstringIndex(const AValue: string; const Seps: TSysCharSet = ['-', '_', ' ', ':', ',', ';']): integer;
 var
   Parts: TStringArray;
   Part: string;
-  CharSet: set of Char absolute Seps;
+  CharSet: set of char absolute Seps;
   SepStr: string;
 begin
   Result := -1;
@@ -141,7 +141,7 @@ begin
     Exit;
 
   // Search by Value (using our helper method)
-  Result := Self.GetIndexByValue(AValue);
+  Result := Self.FindEqualIndex(AValue);
   if Result >= 0 then
     Exit;
 
@@ -162,7 +162,7 @@ begin
       Exit;
 
     // Search split part by Value
-    Result := Self.GetIndexByValue(Part);
+    Result := Self.FindEqualIndex(Part);
     if Result >= 0 then
       Exit;
   end;
@@ -170,12 +170,12 @@ begin
   Result := -1;
 end;
 
-function TStringsHelper.Any(const SubText: string): Boolean;
+function TStringsHelper.Any(const SubText: string): boolean;
 begin
-  Result := FindInStringList(SubText) >= 0;
+  Result := FindIndex(SubText) >= 0;
 end;
 
-function TStringsHelper.Contains(const Value: string): Boolean;
+function TStringsHelper.Contains(const Value: string): boolean;
 begin
   Result := Self.IndexOf(Value) >= 0;
 end;
