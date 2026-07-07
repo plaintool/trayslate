@@ -34,6 +34,10 @@ License: GPL-2.0"/>
         <Filename Value="uwin32widgetsetdark.pas"/>
         <UnitName Value="uWin32WidgetSetDark"/>
       </Item>
+      <Item>
+        <Filename Value="darkutils.pas"/>
+        <UnitName Value="darkutils"/>
+      </Item>
     </Files>
     <RequiredPkgs>
       <Item>
