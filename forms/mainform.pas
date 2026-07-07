@@ -4613,6 +4613,8 @@ begin
     TLocalize.ApplicationTranslate(DEFAULT_LANG);
     if not TLocalize.ApplicationTranslate(Language, nil, PoText) then
       Language := DEFAULT_LANG;
+
+    TLocalize.UpdatePackageTranslations('checkupdates', Language);
   end;
 
   UpdateAutoDetect(OldAutoDetect, rautodetect);

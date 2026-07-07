@@ -34,8 +34,8 @@ begin
   {$ENDIF}
   RequireDerivedFormResource := True;
   Language := TLocalize.GetOSLanguage;
-  Application.Title:='Trayslate';
-  Application.Scaled:=True;
+  Application.Title := 'Trayslate';
+  Application.Scaled := True;
   Application.Initialize;
   Randomize;
   InitSSLInterface;
@@ -45,5 +45,6 @@ begin
   Application.ShowMainForm := False;
   Application.CreateForm(TformTrayslate, formTrayslate);
   TLocalize.ApplicationTranslate(Language, nil, TLocalize.LoadCustomPoFile(formTrayslate.CustomPoFile));
+  TLocalize.UpdatePackageTranslations('checkupdates', Language);
   Application.Run;
 end.
