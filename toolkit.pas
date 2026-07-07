@@ -8,16 +8,8 @@ unit toolkit;
 interface
 
 uses
-  GlobalKeyboardHook, GlobalMouseHook, OneShotTimer, TextDropTarget, 
-  LazarusPackageIntf;
+  GlobalKeyboardHook, GlobalMouseHook, OneShotTimer, TextDropTarget;
 
 implementation
 
-procedure Register;
-begin
-  RegisterUnit('TextDropTarget', @TextDropTarget.Register);
-end;
-
-initialization
-  RegisterPackage('toolkit', @Register);
 end.
