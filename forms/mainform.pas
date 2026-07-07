@@ -619,7 +619,7 @@ var
 implementation
 
 uses formdonate, formabout, formsettings, formconfig, formpopup, formbutton, settings, languages,
-  checkupdates, base64utils, localize, colorhelper, controlshelper;
+  checkupdates, base64utils, localize, colorhelper, controlshelper, darkutils;
 
   {$R *.lfm}
 
@@ -674,15 +674,15 @@ begin
   Left := Screen.WorkAreaRect.Right - Width - 30;
   Top := Screen.WorkAreaRect.Bottom - Height - 50;
 
-  aNewTranslate.ImageIndex := TColor.ThemeValue(8, 9);
-  aSwap.ImageIndex := TColor.ThemeValue(0, 1);
-  aTranslate.ImageIndex := TColor.ThemeValue(2, 3);
-  aAddPair.ImageIndex := TColor.ThemeValue(4, 5);
-  aMenu.ImageIndex := TColor.ThemeValue(6, 7);
-  aCopySource.ImageIndex := TColor.ThemeValue(10, 11);
-  aCopyTarget.ImageIndex := TColor.ThemeValue(10, 11);
-  SbCopySource.PressedImageIndex := TColor.ThemeValue(12, 13);
-  SbCopyTarget.PressedImageIndex := TColor.ThemeValue(12, 13);
+  aNewTranslate.ImageIndex := TDarkUtils.ThemeValue(8, 9);
+  aSwap.ImageIndex := TDarkUtils.ThemeValue(0, 1);
+  aTranslate.ImageIndex := TDarkUtils.ThemeValue(2, 3);
+  aAddPair.ImageIndex := TDarkUtils.ThemeValue(4, 5);
+  aMenu.ImageIndex := TDarkUtils.ThemeValue(6, 7);
+  aCopySource.ImageIndex := TDarkUtils.ThemeValue(10, 11);
+  aCopyTarget.ImageIndex := TDarkUtils.ThemeValue(10, 11);
+  SbCopySource.PressedImageIndex := TDarkUtils.ThemeValue(12, 13);
+  SbCopyTarget.PressedImageIndex := TDarkUtils.ThemeValue(12, 13);
   FLeftButton := True;
 
   FTrans := TTranslate.Create;
@@ -700,7 +700,7 @@ begin
   MemoSource.SelStart := Length(MemoSource.Text);
   MemoSource.SelLength := 0;
 
-  if FLastDarkMode <> TColor.IsDarkMode then
+  if FLastDarkMode <> TDarkUtils.IsDarkMode then
   begin
     Font.Color := InvertColor(Font.Color);
     FontPopup.Color := InvertColor(FontPopup.Color);
@@ -2204,7 +2204,7 @@ begin
   else
   begin
     // Update the matched language in case of case change
-    id := Trans.Languages.GetIndexByValue(FLangSource);
+    id := Trans.Languages.FindEqualIndex(FLangSource);
     if Id < 0 then
       Trans.LangSource := Trans.Languages.Values[FLangSource]
     else
@@ -2274,7 +2274,7 @@ begin
     // Update the matched language in case of case change
     if Trans.LanguagesTarget.Count > 0 then
     begin
-      id := Trans.LanguagesTarget.GetIndexByValue(FLangTarget);
+      id := Trans.LanguagesTarget.FindEqualIndex(FLangTarget);
       if Id < 0 then
         Trans.LangTarget := Trans.LanguagesTarget.Values[FLangTarget]
       else
@@ -2282,7 +2282,7 @@ begin
     end
     else
     begin
-      id := Trans.Languages.GetIndexByValue(FLangTarget);
+      id := Trans.Languages.FindEqualIndex(FLangTarget);
       if Id < 0 then
         Trans.LangTarget := Trans.Languages.Values[FLangTarget]
       else
@@ -2307,8 +2307,8 @@ begin
     else
     begin
       // if system language in lists
-      if (((FLanguagesTarget.Count > 0) and (FLanguagesTarget.FindInStringList('(' + Language + ')') >= 0)) or
-        ((FLanguagesTarget.Count = 0) and (FLanguages.FindInStringList('(' + Language + ')') >= 0))) then
+      if (((FLanguagesTarget.Count > 0) and (FLanguagesTarget.FindIndex('(' + Language + ')') >= 0)) or
+        ((FLanguagesTarget.Count = 0) and (FLanguages.FindIndex('(' + Language + ')') >= 0))) then
       begin
         FTrans.LangTarget := Language; // Default system language
         FLangTarget := Language;
@@ -2347,7 +2347,7 @@ begin
   else
     FIconBackgroundColor := clNone;
   {$IFDEF WINDOWS}
-  if TColor.IsTaskbarDark then
+  if TDarkUtils.IsTaskbarDark then
     FIconFontColor := clWhite
   else
     FIconFontColor := clBlack;
@@ -2657,7 +2657,7 @@ procedure TformTrayslate.RebuildLangPairsPanel(Data: PtrInt);
 
         if not TryStrToInt(FConfigColors.Values[FLangPairs.Names[i]], ColorRecent) then
           ColorRecent := clBlue;
-        lbl.Font.Color := TColor.ThemeColor(ColorRecent, ColorRecent.ToDarkTheme);
+        lbl.Font.Color := TDarkUtils.ThemeColor(ColorRecent, ColorRecent.ToDarkTheme);
 
         // Events only on label
         lbl.OnMouseEnter := @LabelMouseEnter;
@@ -2978,7 +2978,7 @@ begin
 
   if Pos('(', ComboSource.Text) = 0 then
   begin
-    i := Trans.Languages.GetIndexByValue(Result);
+    i := Trans.Languages.FindEqualIndex(Result);
     if (i >= 0) and (i < FLanguages.Count) then
       Result := FLanguages[i];
   end;
@@ -2994,13 +2994,13 @@ begin
   begin
     if FLanguagesTarget.Count > 0 then
     begin
-      i := Trans.LanguagesTarget.GetIndexByValue(Result);
+      i := Trans.LanguagesTarget.FindEqualIndex(Result);
       if (i >= 0) and (i < FLanguagesTarget.Count) then
         Result := FLanguagesTarget[i];
     end
     else
     begin
-      i := Trans.Languages.GetIndexByValue(Result);
+      i := Trans.Languages.FindEqualIndex(Result);
       if (i >= 0) and (i < FLanguages.Count) then
         Result := FLanguages[i];
     end;
@@ -3582,9 +3582,9 @@ begin
     toLang := string.Empty;
   end;
 
-  idxnative := FLanguages.FindInStringList('(' + fromLang + ')');
+  idxnative := FLanguages.FindIndex('(' + fromLang + ')');
   if idxnative < 0 then
-    idxnative := FLanguages.FindInStringList(fromLang);
+    idxnative := FLanguages.FindIndex(fromLang);
 
   if idxnative >= 0 then
     ChangeSourceLang(FLanguages[idxnative], False)
@@ -3593,9 +3593,9 @@ begin
 
   if FLanguagesTarget.Count > 0 then
   begin
-    idxnative := FLanguagesTarget.FindInStringList('(' + toLang + ')');
+    idxnative := FLanguagesTarget.FindIndex('(' + toLang + ')');
     if idxnative < 0 then
-      idxnative := FLanguagesTarget.FindInStringList(toLang);
+      idxnative := FLanguagesTarget.FindIndex(toLang);
 
     if idxnative >= 0 then
       ChangeTargetLang(FLanguagesTarget[idxnative], False)
@@ -3604,9 +3604,9 @@ begin
   end
   else
   begin
-    idxnative := FLanguages.FindInStringList('(' + toLang + ')');
+    idxnative := FLanguages.FindIndex('(' + toLang + ')');
     if idxnative < 0 then
-      idxnative := FLanguages.FindInStringList(toLang);
+      idxnative := FLanguages.FindIndex(toLang);
 
     if idxnative >= 0 then
       ChangeTargetLang(FLanguages[idxnative], False)

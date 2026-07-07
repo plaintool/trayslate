@@ -90,7 +90,7 @@ var
 
 implementation
 
-uses mainform, localize, colorhelper, controlshelper;
+uses mainform, localize, darkutils, controlshelper;
 
   {$R *.lfm}
 
@@ -108,11 +108,11 @@ begin
   FDropTarget.InsertText := False;
   FDropTarget.OnTextDropped := @OnTextDroppedHandler;
 
-  aNewTranslate.ImageIndex := TColor.ThemeValue(8, 9);
-  aSend.ImageIndex := TColor.ThemeValue(14, 15);
-  aCopyTarget.ImageIndex := TColor.ThemeValue(10, 11);
-  SbCopyTarget.PressedImageIndex := TColor.ThemeValue(12, 13);
-  SbCopyTargetPanel.PressedImageIndex := TColor.ThemeValue(12, 13);
+  aNewTranslate.ImageIndex := TDarkUtils.ThemeValue(8, 9);
+  aSend.ImageIndex := TDarkUtils.ThemeValue(14, 15);
+  aCopyTarget.ImageIndex := TDarkUtils.ThemeValue(10, 11);
+  SbCopyTarget.PressedImageIndex := TDarkUtils.ThemeValue(12, 13);
+  SbCopyTargetPanel.PressedImageIndex := TDarkUtils.ThemeValue(12, 13);
 
   UpdateControlsVisibility;
 end;

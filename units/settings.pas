@@ -40,7 +40,7 @@ function LoadFormSettings(Form: TformTrayslate): boolean;
 
 implementation
 
-uses hotkeyhelper, localize, network, colorhelper;
+uses hotkeyhelper, localize, network, darkutils;
 
 function GetSettingsDirectory(fileName: string = string.Empty): string;
   {$IFDEF WINDOWS}
@@ -139,7 +139,7 @@ begin
     JSONObj.Add('PopupFontColor', Form.FontPopup.Color);
     JSONObj.Add('PopupFontPitch', Ord(Form.FontPopup.Pitch));
 
-    JSonObj.Add('LastDarkMode', TColor.IsDarkMode);
+    JSonObj.Add('LastDarkMode', TDarkUtils.IsDarkMode);
 
     // Save config
     JSONObj.Add('ConfigFile', Form.ConfigFile);

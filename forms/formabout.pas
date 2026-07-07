@@ -47,7 +47,7 @@ var
 
 implementation
 
-uses mainform, checkupdates, localize, colorhelper;
+uses mainform, checkupdates, localize, darkutils;
 
   {$R *.lfm}
 
@@ -59,8 +59,8 @@ begin
 
   MemoAbout.Text := LblAbout.Caption;
   labelName.Caption := 'Trayslate © ' + GetAppVersion;
-  LabelUrlEmail.Font.Color := TColor.ThemeColor(clBlue, clSkyBlue);
-  LabelUrlGithub.Font.Color := TColor.ThemeColor(clBlue, clSkyBlue);
+  LabelUrlEmail.Font.Color := TDarkUtils.ThemeColor(clBlue, clSkyBlue);
+  LabelUrlGithub.Font.Color := TDarkUtils.ThemeColor(clBlue, clSkyBlue);
 end;
 
 procedure TformAboutTrayslate.FormResize(Sender: TObject);

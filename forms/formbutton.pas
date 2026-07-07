@@ -55,7 +55,7 @@ const
 
 implementation
 
-uses mainform, localize, colorhelper;
+uses mainform, localize, darkutils;
 
   {$R *.lfm}
 
@@ -71,8 +71,8 @@ begin
   TLocalize.ApplicationTranslate(language, self, TLocalize.LoadCustomPoFile(formTrayslate.CustomPoFile));
 
   // Set the appropriate icon based on the theme
-  ImageTranslate.ImageIndex := TColor.ThemeValue(2, 3);
-  FHoverColor := TColor.ThemeColor(clHotterlight, clNavy);
+  ImageTranslate.ImageIndex := TDarkUtils.ThemeValue(2, 3);
+  FHoverColor := TDarkUtils.ThemeColor(clHotterlight, clNavy);
   Width := 27;
   Height := 27;
 

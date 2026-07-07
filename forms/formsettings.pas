@@ -347,7 +347,7 @@ resourcestring
 
 implementation
 
-uses mainform, formpopup, languages, translate, localize, colorhelper, controlshelper, stringshelper;
+uses mainform, formpopup, languages, translate, localize, darkutils, controlshelper, stringshelper;
 
   {$R *.lfm}
 
@@ -363,7 +363,7 @@ var
 begin
   TLocalize.ApplicationTranslate(language, self, TLocalize.LoadCustomPoFile(formTrayslate.CustomPoFile));
 
-  PanelPages.BevelColor := TColor.ThemeColor(ColorBevel, ColorBevelDark);
+  PanelPages.BevelColor := TDarkUtils.ThemeColor(ColorBevel, ColorBevelDark);
   PagesSettings.PageIndex := 0;
   BtnCancel.Cancel := True;
   BtnReset.Enabled := True;
