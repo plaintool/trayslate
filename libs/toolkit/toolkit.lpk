@@ -3,7 +3,7 @@
   <Package Version="5">
     <PathDelim Value="\"/>
     <Name Value="toolkit"/>
-    <Type Value="RunAndDesignTime"/>
+    <Type Value="RunTimeOnly"/>
     <Author Value="Alexander Tverskoy (astverskoy@gmail.com)"/>
     <CompilerOptions>
       <Version Value="11"/>
