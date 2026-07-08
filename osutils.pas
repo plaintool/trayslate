@@ -50,6 +50,10 @@ type
     class function GetTimestamp: int64; static;
     class function GetTimestampMod(const SourceText: string): string;
     class function GetRandom(ALength: integer): int64; static;
+    class procedure FindFilesByMasks(const Directory: string; const Masks: array of string; TempFiles: TStringList);
+    class function BufferEndsWithLineBreak(const Buffer: TBytes): boolean;
+    class function FileEndsWithLineBreak(const FileName: string): boolean;
+    class function LoadFileAsBytes(const FileName: string): TBytes;
   end;
 
 implementation
@@ -490,6 +494,62 @@ begin
 
   // Note: Randomize should be called once during app startup
   Result := MinVal + RandomRange(0, MaxVal - MinVal + 1);
+end;
+
+class procedure TOS.FindFilesByMasks(const Directory: string; const Masks: array of string; TempFiles: TStringList);
+var
+  SR: TSearchRec;
+  Mask: string;
+  FullPath: string;
+begin
+  for Mask in Masks do
+  begin
+    FullPath := IncludeTrailingPathDelimiter(Directory) + Mask;
+    if FindFirst(FullPath, faAnyFile, SR) = 0 then
+    begin
+      repeat
+        TempFiles.Add(IncludeTrailingPathDelimiter(Directory) + SR.Name);
+      until FindNext(SR) <> 0;
+      // Pass the raw search handle to FindClose, because the available
+      // declaration expects a QWord, not a TSearchRec.
+      FindClose(SR.FindHandle);
+    end;
+  end;
+end;
+
+class function TOS.BufferEndsWithLineBreak(const Buffer: TBytes): boolean;
+begin
+  Result := False;
+  if Length(Buffer) = 0 then Exit;
+
+  if (Buffer[High(Buffer)] = byte(#10)) or (Buffer[High(Buffer)] = byte(#13)) then
+    Result := True;
+end;
+
+class function TOS.FileEndsWithLineBreak(const FileName: string): boolean;
+var
+  Bytes: TBytes;
+begin
+  Bytes := LoadFileAsBytes(FileName);
+  Result := BufferEndsWithLineBreak(Bytes);
+end;
+
+class function TOS.LoadFileAsBytes(const FileName: string): TBytes;
+var
+  FS: TFileStream;
+begin
+  Result := nil;
+  SetLength(Result, 0);
+  if not FileExists(FileName) then Exit;
+
+  FS := TFileStream.Create(FileName, fmOpenRead or fmShareDenyNone);
+  try
+    SetLength(Result, FS.Size);
+    if FS.Size > 0 then
+      FS.ReadBuffer(Result[0], FS.Size);
+  finally
+    FS.Free;
+  end;
 end;
 
 end.
