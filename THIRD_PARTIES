@@ -11,7 +11,10 @@ This application uses third-party resources under the following licenses:
    https://github.com/doublecmd/doublecmd
    
 3. OpenSSL libraries (32-bit and 64-bit versions)
-   License: Apache License 2.0
+   OpenSSL 1.1.x
+     License: OpenSSL License + Original SSLeay License
+   OpenSSL 3.x
+     License: Apache License 2.0
    https://www.openssl.org
 
 4. Synapse networking library (laz_synapse / synapse41.0)   

@@ -228,6 +228,9 @@ Every contribution helps improve Trayslate and keep the project active. Thank yo
 
 Trayslate is licensed under the GPL v3 license. See the LICENSE file for details.
 
+Additional permissions under GPLv3 section 7 are provided in the
+LICENSE.EXCEPTION file.
+
 The Trayslate application uses third-party resources licensed as described in the [THIRD_PARTIES](THIRD_PARTIES) file.
 
 ## Disclaimer
