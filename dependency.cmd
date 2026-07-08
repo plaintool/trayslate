@@ -17,6 +17,7 @@ set "DEP_BRANCH=%~4"
 set "DEP_LPK=%~5"
 set "DEP_REVERT=%~6"
 set "DO_PULL=%~7"
+set "DO_BUILD=%~8"
 
 if "%DEP_NAME%"=="" (
     echo ERROR: Missing dependency name
@@ -32,10 +33,6 @@ if "%DEP_PATH%"=="" (
 )
 if "%DEP_REPO%"=="" (
     echo ERROR: Missing repo URL
-    exit /b 1
-)
-if "%DEP_LPK%"=="" (
-    echo ERROR: Missing LPK file path
     exit /b 1
 )
 
@@ -82,6 +79,12 @@ goto process_lpk
 echo Skipping %DEP_NAME% subtree update due to local changes or DO_PULL policy.
 
 :process_lpk
+:: ----- Decide whether to attempt build lpk -----
+if /i not "%DO_BUILD%"=="true" (
+    echo Skipping %DEP_NAME% build because DO_BUILD is not "true".
+    goto skip_build
+)
+
 echo Processing Lazarus package
 if exist "%DEP_LPK%" (
     echo Building %DEP_LPK%
@@ -106,4 +109,10 @@ if exist "%DEP_LPK%" (
     echo WARNING: %DEP_LPK% not found, skipping
 )
 
+goto fin
+
+:skip_build
+echo Skipping %DEP_NAME% build lpk due to local changes or DO_BUILD policy.
+
+:fin
 exit /b 0
