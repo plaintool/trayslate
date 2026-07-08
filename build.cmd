@@ -120,11 +120,11 @@ echo.
 
 :: Copy OpenSSL DLLs (paths differ per architecture)
 IF "%ARCH%"=="32" (
-    copy /Y "%~dp0installer\redist\libcrypto-1_1.dll" "%~dp0"
-    copy /Y "%~dp0installer\redist\libssl-1_1.dll" "%~dp0"
+    copy /Y "%~dp0libs\openssl\libcrypto-1_1.dll" "%~dp0"
+    copy /Y "%~dp0libs\openssl\libssl-1_1.dll" "%~dp0"
 ) ELSE (
-    copy /y "%~dp0installer\redist\libcrypto-1_1-x64.dll" "%~dp0" >NUL
-    copy /Y "%~dp0installer\redist\libssl-1_1-x64.dll"    "%~dp0" >NUL
+    copy /y "%~dp0libs\openssl\libcrypto-1_1-x64.dll" "%~dp0" >NUL
+    copy /Y "%~dp0libs\openssl\libssl-1_1-x64.dll"    "%~dp0" >NUL
 )
 
 echo Wait 2 seconds to ensure file is free
