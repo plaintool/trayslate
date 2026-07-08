@@ -58,6 +58,10 @@ SOFTWARE.
         <UnitName Value="controlshelper"/>
       </Item>
       <Item>
+        <Filename Value="helpers.rc"/>
+        <Type Value="Text"/>
+      </Item>
+      <Item>
         <Filename Value="hotkeyhelper.pas"/>
         <UnitName Value="hotkeyhelper"/>
       </Item>
@@ -70,16 +74,16 @@ SOFTWARE.
         <UnitName Value="osutils"/>
       </Item>
       <Item>
+        <Filename Value="stringgridhelper.pas"/>
+        <UnitName Value="stringgridhelper"/>
+      </Item>
+      <Item>
         <Filename Value="stringhelper.pas"/>
         <UnitName Value="stringhelper"/>
       </Item>
       <Item>
         <Filename Value="stringshelper.pas"/>
         <UnitName Value="stringshelper"/>
-      </Item>
-      <Item>
-        <Filename Value="helpers.rc"/>
-        <Type Value="Text"/>
       </Item>
     </Files>
     <i18n>
