@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: plaintool <astverskoy@gmail.com>\n"
+"PO-Revision-Date: 09072026\n"
+"Last-Translator: Havokdan\n"
 "Language-Team: \n"
-"Language: en\n"
+"Language: pt-BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: PoBatch 1.0.0\n"
+"X-Generator: Poedit 3.5\n"
 
 #: consts.rappname
 msgctxt "consts.rappname"
@@ -383,7 +383,8 @@ msgstr ""
 "4. Biblioteca de rede Synapse (laz_synapse / synapse41.0)\n"
 "Licença: licença do tipo BSD\n"
 "Copyright (c) 1999–2024, Lukas Gebauer\n"
-"https://github.com/geby/synaps"
+"https://github.com/geby/synapse
+\n"
 
 #: tformbuttontrayslate.imagetranslate.hint
 msgctxt "tformbuttontrayslate.imagetranslate.hint"
@@ -420,7 +421,7 @@ msgstr "Converte a resposta atual"
 #: tformconfigtrayslate.btnscropttest.hint
 msgctxt "tformconfigtrayslate.btnscropttest.hint"
 msgid "Execute script and view the result"
-msgstr "Executar o script e visualizar o resultado"
+msgstr "Execute o script e veja o resultado"
 
 #: tformconfigtrayslate.btnurltest.hint
 msgid "Execute get request and view the result"
@@ -506,7 +507,7 @@ msgstr "Resposta"
 
 #: tformconfigtrayslate.groupscript.caption
 msgid "Script Retrieved Parameters"
-msgstr "Parâmetros recuperados pelo script"
+msgstr "Parâmetros Recuperados do Script"
 
 #: tformconfigtrayslate.imagepreview.hint
 msgid "Click to select the config icon, Middle-Click clears the icon"
@@ -593,10 +594,10 @@ msgstr ""
 "Literal: Bloco de texto em {…}. Tag especial #10 para quebras de linha. Use {{regex}} internamente para extrair dados diretamente no texto.\n"
 "Lógica: Se um Ponteiro em um segmento estiver vazio, o segmento inteiro é ignorado. Se um segmento não tiver Ponteiro, apenas os blocos de texto literal com expressões regulares incorporadas serão processados.\n"
 "Regex: {prefixo {regex[índice]} sufixo} dentro de um bloco de texto. Se nenhum [índice] for especificado, a primeira correspondência é utilizada. O índice pode ser um número, [] (unir por espaço) ou [#10] (unir por quebra de linha). Se a regex não encontrar correspondência, o bloco {…} inteiro é removido. O uso de ~ dentro de uma regex retorna o texto completo.\n"
-"Inversão: Inicie um segmento com ! (ex.: !/caminho{Error}) para exibir seu texto somente se os dados do Ponteiro estiverem ausentes ou o JSON for inválido.\n"
+"Inversão: Inicie um segmento com ! (ex.: !/caminho{Erro}) para exibir seu texto somente se os dados do Ponteiro estiverem ausentes ou o JSON for inválido.\n"
 "Comentários: Comentários no formato / texto / são removidos de toda a expressão antes de qualquer processamento.\n"
 "Exemplos:\n"
-"responseData/translatedText; matches/#10/translation; /texts/text; {texto literal#10}; /result/text; /text{ ({(\\w+)})}; !/translations{Erro: Sem dados!#10}; /translations/0/text"
+"responseData/translatedText; matches/#10/translation; /texts/text; {texto literal#10}; /result/text; /text{ ({(\w+)})}; !/translations{Erro: Sem dados!#10}; /translations/0/text"
 
 #: tformconfigtrayslate.labellanguages.caption
 msgctxt "tformconfigtrayslate.labellanguages.caption"
@@ -605,7 +606,7 @@ msgstr "Idiomas suportados, ex.: en=en-US (en — interno, en-US — serviço). 
 
 #: tformconfigtrayslate.labellanguages1.caption
 msgid "Value type for populating names. None keeps originals; None and Unit are case-sensitive."
-msgstr "Tipo de valor para preenchimento de nomes. \"None\" mantém os originais; \"None\" e \"Unit\" diferenciam maiúsculas de minúsculas."
+msgstr "Tipo de valor para preenchimento de nomes. "None" mantém os originais; "None" e "Unit" diferenciam maiúsculas de minúsculas."
 
 #: tformconfigtrayslate.labellanguagestarget.caption
 msgid ""
@@ -640,7 +641,7 @@ msgstr "Cabeçalhos"
 
 #: tformconfigtrayslate.labelscript.caption
 msgid "The script can access any parameters defined above using GetParam('name') and return values with SetOutput('name', 'value'). Additional helper functions are available: GetTimestamp() and GetRandom(Length)."
-msgstr "O script pode acessar qualquer parâmetro definido acima usando GetParam('name') e retornar valores com SetOutput('name', 'value'). Também estão disponíveis as funções auxiliares: GetTimestamp() e GetRandom(Length)."
+msgstr "O script pode acessar quaisquer parâmetros definidos acima usando GetParam('name') e retornar valores com SetOutput('name', 'value'). Funções auxiliares adicionais estão disponíveis: GetTimestamp() e GetRandom(Length)."
 
 #: tformconfigtrayslate.labelservicedescription.caption
 msgid "Description"
@@ -1050,7 +1051,7 @@ msgstr "Janela Pop-up"
 
 #: tformsettingstrayslate.groupproxiedconfigs.caption
 msgid "Proxied Configs (Default: All)"
-msgstr "Configurações com proxy (Padrão: Todas)"
+msgstr "Configurações via Proxy (Padrão: Todas)"
 
 #: tformsettingstrayslate.groupproxy.caption
 msgid "Proxy"
@@ -1426,7 +1427,7 @@ msgstr "Українська"
 
 #: tformtrayslate.alangvietnamese.caption
 msgid "Vietnamese"
-msgstr "Tiếng Việt"
+msgstr "Vietnamita"
 
 #: tformtrayslate.amenu.hint
 msgctxt "tformtrayslate.amenu.hint"
@@ -1500,4 +1501,3 @@ msgstr "Pares Recentes"
 msgctxt "tformtrayslate.menulanguage.caption"
 msgid "Language"
 msgstr "Idioma"
-
