@@ -310,7 +310,7 @@ msgstr "Бързи настройки"
 #: formsettings.rfastallowhotkeys
 msgctxt "formsettings.rfastallowhotkeys"
 msgid "Enable Global Hotkeys"
-msgstr "Активирай глобални бързи клавиши"
+msgstr "Активирай глобалните бързи клавиши"
 
 #: formsettings.rfastallowhotkeys_default
 msgid "Shift+F1"
@@ -362,7 +362,7 @@ msgstr "Автоматично регулиране на височината н
 #: formsettings.rfastautoswap
 msgctxt "formsettings.rfastautoswap"
 msgid "Auto-Swap Language Pair"
-msgstr "Автоматична смяна на езикова двойка"
+msgstr "Автоматична смяна на езиковата двойка"
 
 #: formsettings.rfastautoswap_default
 msgid "Shift+F4"
@@ -375,7 +375,7 @@ msgstr "Автоматично сменяне на посоката на ези�
 #: formsettings.rfastenablemousemode
 msgctxt "formsettings.rfastenablemousemode"
 msgid "Enable Mouse Mode"
-msgstr "Активирай режим на мишка"
+msgstr "Активирай режима на мишка"
 
 #: formsettings.rfastenablemousemode_default
 msgid "Shift+F2"
@@ -388,7 +388,7 @@ msgstr "Превключване на режима на превод с мишк
 #: formsettings.rfasthidecontrols
 msgctxt "formsettings.rfasthidecontrols"
 msgid "Auto-Hide Popup Controls"
-msgstr "Автоматично скриване на изскачащи контроли"
+msgstr "Автоматично скриване на изскачащите контроли"
 
 #: formsettings.rfasthidecontrols_default
 msgid "Shift+F10"
@@ -787,11 +787,11 @@ msgstr "Кодиране на параметър {text}"
 #: tformconfigtrayslate.checkserviceautoswap.caption
 msgctxt "tformconfigtrayslate.checkserviceautoswap.caption"
 msgid "Allow auto-swap language pair"
-msgstr "Разреши автоматична смяна на езикови двойки"
+msgstr "Разреши автоматична смяна на езиковите двойки"
 
 #: tformconfigtrayslate.checkserviceonlybutton.caption
 msgid "Allow translation only by translation button"
-msgstr "Разреши превод само чрез бутон за превод"
+msgstr "Разреши превод само чрез бутона за превод"
 
 #: tformconfigtrayslate.checkserviceproxy.caption
 msgid "Allow proxy"
@@ -1203,15 +1203,15 @@ msgstr "Настройки"
 #: tformsettingstrayslate.checkallowhotkeys.caption
 msgctxt "tformsettingstrayslate.checkallowhotkeys.caption"
 msgid "Enable Global Hotkeys"
-msgstr "Активирай глобални бързи клавиши"
+msgstr "Активирай глобалните бързи клавиши"
 
 #: tformsettingstrayslate.checkautoaddlangpairs.caption
 msgid "Auto-Add On Pair Change"
-msgstr "Автоматично добави при промяна на двойка"
+msgstr "Автоматично добави при промяна на двойката"
 
 #: tformsettingstrayslate.checkautoaddlangpairs.hint
 msgid "Automatically adds a new language pair when you switch languages"
-msgstr "Автоматично добави нова езикова двойка, с превключване на езици"
+msgstr "Автоматично добави нова езикова двойка, с превключване на езиците"
 
 #: tformsettingstrayslate.checkautocopy.caption
 msgctxt "tformsettingstrayslate.checkautocopy.caption"
@@ -1241,7 +1241,7 @@ msgstr "Авто-старт на приложението при старт на
 #: tformsettingstrayslate.checkautoswap.caption
 msgctxt "tformsettingstrayslate.checkautoswap.caption"
 msgid "Auto-Swap Language Pair"
-msgstr "Автоматична смяна на езикова двойка"
+msgstr "Автоматична смяна на езиковата двойка"
 
 #: tformsettingstrayslate.checkautoswap.hint
 msgid "Automatically detect input language and swap pair if needed, does not work during Real-Time Translation"
@@ -1267,15 +1267,15 @@ msgstr "Икона, показана в кръгла форма"
 #: tformsettingstrayslate.checkenablemousemode.caption
 msgctxt "tformsettingstrayslate.checkenablemousemode.caption"
 msgid "Enable Mouse Mode"
-msgstr "Активирай режим на мишка"
+msgstr "Активирай режима на мишка"
 
 #: tformsettingstrayslate.checkenablemousemode.hint
 msgid "Allows translation by selecting text with the mouse in any application"
-msgstr "Позволява превод чрез избиране на текст с мишката във всяко приложение"
+msgstr "Позволи превод чрез избиране на текст с мишката във всяко приложение"
 
 #: tformsettingstrayslate.checkhidecontrols.caption
 msgid "Auto-Hide Controls"
-msgstr "Автоматично скриване на контроли"
+msgstr "Автоматично скриване на контролите"
 
 #: tformsettingstrayslate.checkhidecontrols.hint
 msgid "Hide window controls when the mouse is not over the popup window"
@@ -1297,7 +1297,7 @@ msgstr "Удостоверяване"
 
 #: tformsettingstrayslate.checkproxyauthentication.hint
 msgid "Enables login and password authentication for proxy access"
-msgstr "Активира удостоверяване с вход и парола за достъп чрез прокси"
+msgstr "Активирай удостоверяване с вход и парола за достъп чрез прокси"
 
 #: tformsettingstrayslate.checkrealtime.caption
 msgctxt "tformsettingstrayslate.checkrealtime.caption"
@@ -1311,13 +1311,13 @@ msgstr "Автоматичен превод на текста докато се 
 
 #: tformsettingstrayslate.checksmarthard.caption
 msgid "Always Prefer Primary/Secondary Language"
-msgstr "Винаги предпочитай основен/вторичен език"
+msgstr "Винаги предпочитай основния/вторичния език"
 
 #: tformsettingstrayslate.checksmarthard.hint
 msgid ""
 "Always prefer the Primary/Secondary language pair when the detected language matches the current target language.\n"
 "Restore the configured pair instead of performing a normal swap."
-msgstr "Винаги предпочитай двойка основен/вторичен език, когато откритият език съвпада с текущия целеви език. \nВъзстанови конфигурирана двойка вместо нормална смяна."
+msgstr "Винаги предпочитай двойка с основен/вторичен език, когато откритият език съвпада с текущия целеви език. \nВъзстанови конфигурираната двойка вместо нормална смяна."
 
 #: tformsettingstrayslate.checksmartswap.caption
 msgctxt "tformsettingstrayslate.checksmartswap.caption"
@@ -1367,7 +1367,7 @@ msgstr "Цвят на шрифта за иконата в системния т�
 
 #: tformsettingstrayslate.colormousemodeframe.hint
 msgid "Color of the frame around the icon when mouse mode is enabled"
-msgstr "Цвят на рамката около иконата, при активиран режим на мишка"
+msgstr "Цвят на рамката около иконата, при активиран режим на мишката"
 
 #: tformsettingstrayslate.comboiconfontname.hint
 msgid "Name of the font used for the tray icon"
@@ -1431,7 +1431,7 @@ msgstr "Авто-старт"
 
 #: tformsettingstrayslate.groupautoswap.caption
 msgid "Auto-Swap Languages"
-msgstr "Автоматична смяна на езици"
+msgstr "Автоматична смяна на езиците"
 
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
@@ -1445,7 +1445,7 @@ msgstr "Главен прозорец"
 #: tformsettingstrayslate.groupmousemode.caption
 msgctxt "tformsettingstrayslate.groupmousemode.caption"
 msgid "Mouse Mode"
-msgstr "Режим на мишка"
+msgstr "Режим на мишката"
 
 #: tformsettingstrayslate.grouppopup.caption
 msgid "Popup Window"
@@ -1523,11 +1523,11 @@ msgstr "Максимален брой двойки"
 #: tformsettingstrayslate.labelmousemode.caption
 msgctxt "tformsettingstrayslate.labelmousemode.caption"
 msgid "Mouse Mode"
-msgstr "Режим на мишка"
+msgstr "Режим на мишката"
 
 #: tformsettingstrayslate.labelmousemodeframe.caption
 msgid "Mouse Mode Frame"
-msgstr "Рамка за режим на мишката"
+msgstr "Рамка за режима на мишката"
 
 #: tformsettingstrayslate.labelopacityhover.caption
 msgid "Opacity On Hover"
@@ -1678,7 +1678,7 @@ msgstr "Изход"
 #: tformtrayslate.afastallowhotkeys.caption
 msgctxt "tformtrayslate.afastallowhotkeys.caption"
 msgid "Enable Global Hotkeys"
-msgstr "Активирай глобални бързи клавиши"
+msgstr "Активирай глобалните бързи клавиши"
 
 #: tformtrayslate.afastautoaddlangpairs.caption
 msgctxt "tformtrayslate.afastautoaddlangpairs.caption"
@@ -1698,17 +1698,17 @@ msgstr "Автоматична височина на изскачащия про
 #: tformtrayslate.afastautoswap.caption
 msgctxt "tformtrayslate.afastautoswap.caption"
 msgid "Auto-Swap Language Pair"
-msgstr "Автоматична смяна на езикова двойка"
+msgstr "Автоматична смяна на езиковата двойка"
 
 #: tformtrayslate.afastenablemousemode.caption
 msgctxt "tformtrayslate.afastenablemousemode.caption"
 msgid "Enable Mouse Mode"
-msgstr "Активирай режим на мишка"
+msgstr "Активирай режима на мишка"
 
 #: tformtrayslate.afasthidecontrols.caption
 msgctxt "tformtrayslate.afasthidecontrols.caption"
 msgid "Auto-Hide Popup Controls"
-msgstr "Автоматично скриване на изскачащи контроли"
+msgstr "Автоматично скриване на изскачащите контроли"
 
 #: tformtrayslate.afastmousemodectrl.caption
 msgctxt "tformtrayslate.afastmousemodectrl.caption"
