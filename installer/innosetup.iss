@@ -89,7 +89,7 @@ begin
     KillTrayslate();
 end;
 
-#include "innosetup_languages.iss£
+#include "innosetup_languages.iss"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
