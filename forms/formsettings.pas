@@ -522,6 +522,7 @@ end;
 procedure TformSettingsTrayslate.FormShow(Sender: TObject);
 begin
   formTrayslate.TopMost := False;
+  Self.FitToScreen;
 end;
 
 procedure TformSettingsTrayslate.FormResize(Sender: TObject);

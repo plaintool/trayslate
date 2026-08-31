@@ -381,6 +381,7 @@ begin
   UpdateConfigList;
   UpdateConfig;
   formTrayslate.TopMost := False;
+  Self.FitToScreen;
 end;
 
 procedure TformConfigTrayslate.FormDestroy(Sender: TObject);

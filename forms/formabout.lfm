@@ -267,6 +267,7 @@ object formAboutTrayslate: TformAboutTrayslate
     Hint = 'https://github.com/plaintool/trayslate'
     Top = 132
     Width = 137
+    Anchors = [akTop, akRight]
     Caption = 'github: plaintool/trayslate'
     Font.Color = clBlue
     Font.Style = [fsUnderline]

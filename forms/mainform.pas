@@ -937,11 +937,6 @@ begin
   aFastRealTime.Checked := FRealTime;
   aFastAutoCopy.Checked := FAutoCopy;
 
-  ComboSource.Font.Assign(Font);
-  ComboTarget.Font.Assign(Font);
-  ComboSource.AdjustComboHeight;
-  ComboTarget.AdjustComboHeight;
-
   // Load config files
   FConfigFiles := TStringList.Create;
   FConfigTitles := TStringList.Create;
@@ -1127,6 +1122,15 @@ begin
   SetHints;
   SetVerticalMode;
   UpdatePopupState;
+
+  // Apply comboboxes font and height
+  ComboSource.Font.Assign(Font);
+  ComboTarget.Font.Assign(Font);
+  ComboSource.AdjustComboHeight;
+  ComboTarget.AdjustComboHeight;
+
+  // Ensure the window is within the screen
+  Self.FitToScreen;
 end;
 
 procedure TformTrayslate.FormHide(Sender: TObject);
@@ -4590,17 +4594,6 @@ begin
 
     formPopupTrayslate.Height := NewHeight;
   end;
-
-  // Keep inside screen always
-  with formPopupTrayslate do
-    if Position <> poDesktopCenter then
-    begin
-      if Left + Width > Screen.WorkAreaRect.Right then
-        Left := Screen.WorkAreaRect.Right - Width - 10;
-
-      if Top + Height > Screen.WorkAreaRect.Bottom then
-        Top := Screen.WorkAreaRect.Bottom - Height + 8;
-    end;
 end;
 
 procedure TformTrayslate.ShowPopup(const SourceText: string; X: integer = 0; Y: integer = 0);
@@ -4694,14 +4687,7 @@ begin
     formButtonTrayslate.Position := poDesktopCenter;
 
   // Keep button inside screen always (same as AdjustPopupHeight)
-  if formButtonTrayslate.Position <> poDesktopCenter then
-  begin
-    if formButtonTrayslate.Left + formButtonTrayslate.Width > Screen.WorkAreaRect.Right then
-      formButtonTrayslate.Left := Screen.WorkAreaRect.Right - formButtonTrayslate.Width - 10;
-
-    if formButtonTrayslate.Top + formButtonTrayslate.Height > Screen.WorkAreaRect.Bottom then
-      formButtonTrayslate.Top := Screen.WorkAreaRect.Bottom - formButtonTrayslate.Height + 8;
-  end;
+  formButtonTrayslate.FitToScreen;
 
   formButtonTrayslate.SourceText := SourceText;
   formButtonTrayslate.TimerHide.Enabled := False;
@@ -5028,7 +5014,12 @@ begin
       FAutoHeightAfter := False;
       AdjustPopupHeight(FRawTranslate);
     end;
+
+    // Update StayOnTop NoFocus
     Application.QueueAsyncCall(@formPopupTrayslate.UpdateStayOnTop, iif(SetWindowParam, 1, 0));
+
+    // Keep inside screen always
+    formPopupTrayslate.FitToScreen;
   end;
 end;
 
