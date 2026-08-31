@@ -52,7 +52,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           issues: true
-          pullRequests: false
+          pullRequests: true
           onlyLastTag: true
           excludeLabels: 'duplicate,question,invalid,wontfix'
           configureSections: |
