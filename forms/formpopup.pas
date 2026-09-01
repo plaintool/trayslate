@@ -166,6 +166,8 @@ begin
     aFastAutoHeight.ImageIndex := iif(formTrayslate.AutoHeight, 19, 18);
     aFastAutoHeight.Caption := iif(formTrayslate.AutoHeight, rlockheight, runlockheight);
     MemoTarget.ZoomFactor := formTrayslate.FormPopupZoomFactor;
+    MemoTarget.BiDiMode := formTrayslate.FormPopupBidiMode;
+    aBidiRightToLeft.Checked := MemoTarget.BiDiMode = bdRightToLeft;
   end;
 
   MemoTarget.DisableBuiltInDragDrop;
@@ -190,7 +192,8 @@ begin
   FPopupOpen := False;
   FInWindow := False;
 
-  MemoTarget.SetLeftIndent(3);
+  MemoTarget.SetLeftIndent;
+  MemoTarget.ApplyBidiMode;
 
   UpdateControlsVisibility;
 end;
@@ -361,6 +364,8 @@ begin
     MemoTarget.BiDiMode := bdRightToLeft
   else
     MemoTarget.BiDiMode := bdLeftToRight;
+  if Assigned(formTrayslate) then
+    formTrayslate.FormPopupBidiMode := MemoTarget.BiDiMode;
   MemoTarget.ApplyBidiMode;
 end;
 

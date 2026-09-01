@@ -64,6 +64,9 @@ begin
     JSONObj.Add('SourceZoomFactor', Form.MemoSource.ZoomFactor);
     JSONObj.Add('TargetZoomFactor', Form.MemoTarget.ZoomFactor);
     JSONObj.Add('PopupZoomFactor', Form.FormPopupZoomFactor);
+    JSONObj.Add('SourceMemoBidiMode', Ord(Form.MemoSource.BiDiMode));
+    JSONObj.Add('TargetMemoBidiMode', Ord(Form.MemoTarget.BiDiMode));
+    JSONObj.Add('PopupMemoBidiMode', Ord(Form.FormPopupBidiMode));
 
     JSONObj.Add('FormConfigLeft', Round(Form.FormConfigLeft * 96 / DPI));
     JSONObj.Add('FormConfigTop', Round(Form.FormConfigTop * 96 / DPI));
@@ -357,6 +360,21 @@ begin
 
         if JSONObj.FindPath('PopupZoomFactor') <> nil then
           Form.FormPopupZoomFactor := JSONObj.FindPath('PopupZoomFactor').AsFloat;
+
+        if JSONObj.FindPath('SourceMemoBidiMode') <> nil then
+        begin
+          Form.MemoSource.BiDiMode := TBiDiMode(JSONObj.FindPath('SourceMemoBidiMode').AsInteger);
+          Form.aSourceBidiRightToLeft.Checked := Form.MemoSource.BiDiMode = bdRightToLeft;
+        end;
+
+        if JSONObj.FindPath('TargetMemoBidiMode') <> nil then
+        begin
+          Form.MemoTarget.BiDiMode := TBiDiMode(JSONObj.FindPath('TargetMemoBidiMode').AsInteger);
+          Form.aTargetBidiRightToLeft.Checked := Form.MemoTarget.BiDiMode = bdRightToLeft;
+        end;
+
+        if JSONObj.FindPath('PopupMemoBidiMode') <> nil then
+          Form.FormPopupBidiMode := TBiDiMode(JSONObj.FindPath('PopupMemoBidiMode').AsInteger);
 
         if JSONObj.FindPath('FormConfigLeft') <> nil then
           Form.FormConfigLeft := Round(JSONObj.FindPath('FormConfigLeft').AsInteger * DPI / 96);

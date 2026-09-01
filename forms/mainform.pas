@@ -488,6 +488,7 @@ type
     FFormPopupWidth: integer;
     FFormPopupHeight: integer;
     FFormPopupZoomFactor: double;
+    FFormPopupBidiMode: TBiDiMode;
     FFormAboutWidth: integer;
     FFormAboutHeight: integer;
     FFormSettingsLeft: integer;
@@ -572,6 +573,7 @@ type
     procedure SelectPairConfig(const LangPairIndex: integer; RunTranslate: boolean = True);
     procedure UpdateTranslateButtonState(ForceTranslateButton: boolean = False);
     procedure UpdatePopupState(SetWindowParam: boolean = True);
+    procedure UpdateMemoState(AMemo: TRichMemo);
     procedure MoveButtonTo(AFromIndex, AToIndex: integer);
 
     function GetConfigIndex: integer;
@@ -743,6 +745,7 @@ type
     property FormPopupWidth: integer read FFormPopupWidth write FFormPopupWidth;
     property FormPopupHeight: integer read FFormPopupHeight write FFormPopupHeight;
     property FormPopupZoomFactor: double read FFormPopupZoomFactor write FFormPopupZoomFactor;
+    property FormPopupBidiMode: TBiDiMode read FFormPopupBidiMode write FFormPopupBidiMode;
     property FormSettingsLeft: integer read FFormSettingsLeft write FFormSettingsLeft;
     property FormSettingsTop: integer read FFormSettingsTop write FFormSettingsTop;
     property FormSettingsWidth: integer read FFormSettingsWidth write FFormSettingsWidth;
@@ -906,8 +909,8 @@ begin
   end;
 
   // RichMemo Setup
-  MemoSource.SetLeftIndent;
-  MemoTarget.SetLeftIndent;
+  UpdateMemoState(MemoSource);
+  UpdateMemoState(MemoTarget);
 
   PanelSource.SetComposited(True);
   PanelTarget.SetComposited(True);
@@ -1522,7 +1525,7 @@ begin
     if Info.CtrlDown and (Info.KeyCode = VK_V) then
     begin
       formPopupTrayslate.MemoTarget.PasteFromClipboard;
-      formPopupTrayslate.MemoTarget.SetLeftIndent;
+      UpdateMemoState(formPopupTrayslate.MemoTarget);
       Info.Handled := True;
     end
     else
@@ -2132,7 +2135,7 @@ begin
   begin
     Memo := Self.ActiveControl as TRichMemo;
     Memo.PasteFromClipboard;
-    Memo.SetLeftIndent;
+    UpdateMemoState(Memo);
   end;
 end;
 
@@ -2517,7 +2520,7 @@ begin
     SetTimeout(FSpellTimer, 1000, @UpdateSpellCheck);
   end;
   if MemoSource.Lines.Count = 0 then
-    MemoSource.SetLeftIndent;
+    UpdateMemoState(MemoSource);
 end;
 
 procedure TformTrayslate.MemoSourceContextPopup(Sender: TObject; MousePos: TPoint; var Handled: boolean);
@@ -2538,7 +2541,7 @@ begin
   if (ssCtrl in Shift) and (Key = VK_V) then
   begin
     (Sender as TRichMemo).PasteFromClipboard;
-    (Sender as TRichMemo).SetLeftIndent;
+    UpdateMemoState((Sender as TRichMemo));
     Key := 0;
     Exit;
   end;
@@ -4850,9 +4853,9 @@ begin
   begin
     srcMemoText := MemoSource.Text;
     MemoSource.SetTextSafe(MemoTarget.Text);
-    MemoSource.SetLeftIndent;
+    UpdateMemoState(MemoSource);
     MemoTarget.SetTextSafe(srcMemoText);
-    MemoTarget.SetLeftIndent;
+    UpdateMemoState(MemoTarget);
   end;
 
   Result := True;
@@ -5021,6 +5024,12 @@ begin
     // Keep inside screen always
     formPopupTrayslate.FitToScreen;
   end;
+end;
+
+procedure TformTrayslate.UpdateMemoState(AMemo: TRichMemo);
+begin
+  AMemo.SetLeftIndent;
+  AMemo.ApplyBidiMode;
 end;
 
 procedure TformTrayslate.MoveButtonTo(AFromIndex, AToIndex: integer);
@@ -5386,7 +5395,7 @@ begin
         begin
           Zoom := AMemo.ZoomFactor;
           AMemo.Text := FRawTranslate;
-          AMemo.SetLeftIndent;
+          UpdateMemoState(AMemo);
           AMemo.ZoomFactor := Zoom;
         end;
       end;
@@ -5862,7 +5871,7 @@ begin
     FTopMost := True;
     TOS.SleepLoop(0, 1);
     MemoSource.SetTextSafe(SelectedText);
-    MemoSource.SetLeftIndent;
+    UpdateMemoState(MemoSource);
     TranslateMemo;
   end;
 end;
