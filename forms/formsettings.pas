@@ -11,6 +11,9 @@ unit formsettings;
 interface
 
 uses
+  {$IFDEF WINDOWS}
+  Windows,
+  {$ENDIF}
   Forms,
   Classes,
   Types,
@@ -195,6 +198,8 @@ type
     procedure SplitterPagesMoved(Sender: TObject);
     procedure LabelInstalledLangClick(Sender: TObject);
     procedure ClbProxiedConfigsMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: integer;
+      MousePos: TPoint; var Handled: boolean);
+    procedure ClbEnabledLangMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: integer;
       MousePos: TPoint; var Handled: boolean);
     procedure ComboMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: integer; MousePos: TPoint; var Handled: boolean);
     procedure GridHotkeysMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: integer; MousePos: TPoint; var Handled: boolean);
@@ -1179,6 +1184,30 @@ begin
     ClbProxiedConfigs.TopIndex := Min(ClbProxiedConfigs.Items.Count - 1, ClbProxiedConfigs.TopIndex + Lines);
 
   Handled := True; // Block parent ScrollBox
+end;
+
+procedure TformSettingsTrayslate.ClbEnabledLangMouseWheel(Sender: TObject;
+  Shift: TShiftState; WheelDelta: integer; MousePos: TPoint; var Handled: boolean);
+{$IFDEF MSWINDOWS}
+var
+  CurrPos, NewPos: integer;
+{$ENDIF}
+begin
+{$IFDEF MSWINDOWS}
+  if ClbEnabledLang.Columns > 1 then
+  begin
+    // Get current horizontal scroll position
+    CurrPos := Windows.GetScrollPos(ClbEnabledLang.Handle, SB_HORZ);
+    // Calculate new position (invert wheel delta, scale factor 40)
+    NewPos := CurrPos - (WheelDelta div 100);
+    if NewPos < 0 then NewPos := 0;
+
+    // Send WM_HSCROLL with SB_THUMBPOSITION - Windows updates both thumb and content
+    SendMessage(ClbEnabledLang.Handle, WM_HSCROLL, SB_THUMBPOSITION or (NewPos shl 16), 0);
+
+    Handled := True;
+  end;
+{$ENDIF}
 end;
 
 procedure TformSettingsTrayslate.ComboMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: integer;

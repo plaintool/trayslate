@@ -889,7 +889,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           OnClickCheck = SettingChange
           OnDrawItem = ClbEnabledLangDrawItem
           OnKeyDown = ClbEnabledLangKeyDown
-          OnMouseWheel = ClbProxiedConfigsMouseWheel
+          OnMouseWheel = ClbEnabledLangMouseWheel
         end
       end
     end
