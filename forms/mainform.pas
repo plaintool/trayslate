@@ -1165,6 +1165,20 @@ procedure TformTrayslate.FormKeyDown(Sender: TObject; var Key: word; Shift: TShi
 begin
   if Key = VK_ESCAPE then
   begin
+    if ComboSource.DroppedDown then
+    begin
+      ComboSource.DroppedDown := False;
+      Key := 0;
+      Exit;
+    end;
+
+    if ComboTarget.DroppedDown then
+    begin
+      ComboTarget.DroppedDown := False;
+      Key := 0;
+      Exit;
+    end;
+
     if aTranslate.Tag = 1 then
       aTranslate.Execute
     else
@@ -2412,6 +2426,7 @@ procedure TformTrayslate.ComboSourceCloseUp(Sender: TObject);
 begin
   // Clearing to prevent false clicks
   FClickCount := 0;
+  FMouseHook.Resume;
 
   // If value not changed - do nothing
   if ComboSource.Text = FPrevSourceText then
@@ -2455,6 +2470,7 @@ procedure TformTrayslate.ComboTargetCloseUp(Sender: TObject);
 begin
   // Clearing to prevent false clicks
   FClickCount := 0;
+  FMouseHook.Resume;
 
   // If value not changed - do nothing
   if ComboTarget.Text = FPrevTargetText then
@@ -2493,11 +2509,13 @@ end;
 procedure TformTrayslate.ComboSourceDropDown(Sender: TObject);
 begin
   FPrevSourceText := ComboSource.Text;
+  FMouseHook.Pause;
 end;
 
 procedure TformTrayslate.ComboTargetDropDown(Sender: TObject);
 begin
   FPrevTargetText := ComboTarget.Text;
+  FMouseHook.Pause;
 end;
 
 procedure TformTrayslate.ComboSourceKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
