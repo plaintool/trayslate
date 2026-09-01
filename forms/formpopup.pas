@@ -205,12 +205,20 @@ begin
   // Ensure no control gets focus, as the form is shown without activation
   ActiveControl := nil;
 
+  // Add this popup window to the global mouse hook ignore list
+  if Assigned(formTrayslate) and Assigned(formTrayslate.MouseHook) and HandleAllocated then
+    formTrayslate.MouseHook.AddIgnoredWindow(Handle);
+
   FDropTarget.ForceRegister;
 end;
 
 procedure TformPopupTrayslate.FormHide(Sender: TObject);
 begin
   FDropTarget.Unregister;
+
+  // Remove this popup window from the global mouse hook ignore list
+  if Assigned(formTrayslate) and Assigned(formTrayslate.MouseHook) and HandleAllocated then
+    formTrayslate.MouseHook.RemoveIgnoredWindow(Handle);
 
   if Assigned(formTrayslate) and Assigned(formTrayslate.TranslateTarget) and (formTrayslate.TranslateTarget is TRichMemo) and
     (formTrayslate.TranslateTarget = MemoTarget) then
