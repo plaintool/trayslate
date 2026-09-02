@@ -1,1 +1,1 @@
-C:\Windows\System32\tar -cvf trayslate.tar --exclude=trayslate.tar --exclude=samples --exclude=installer --exclude=lib --exclude=.git *
+C:\Windows\System32\tar -cvf trayslate.tar --exclude=trayslate.tar --exclude=samples --exclude=installer --exclude=lib --exclude=.git --exclude=*.exe *
