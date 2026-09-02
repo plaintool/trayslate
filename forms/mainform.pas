@@ -4880,6 +4880,7 @@ begin
     UpdateMemoState(MemoTarget);
   end;
 
+  UpdateSpellCheck;
   Result := True;
 end;
 
