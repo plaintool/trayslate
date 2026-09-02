@@ -4659,6 +4659,8 @@ begin
   end;
 
   formPopupTrayslate.SourceText := SourceText;
+  if SourceText <> string.Empty then
+    formpopupTrayslate.MemoTarget.SetTextSafe(SourceText);
 
   SetTrayIcon;
   Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
