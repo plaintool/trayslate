@@ -4003,6 +4003,7 @@ procedure TformTrayslate.RebuildLangPairsPanel(Data: PtrInt);
     mi: TMenuItem;
     ColorRecent: TColor;
     ServiceIcon: integer;
+    configTitle: string;
     i: integer;
   begin
     Target.DisableAlign;
@@ -4043,7 +4044,8 @@ procedure TformTrayslate.RebuildLangPairsPanel(Data: PtrInt);
         btn.Alignment := taCenter;
         btn.Transparent := False;
         btn.Caption := FLangPairs.ValueFromIndex[i];
-        btn.Hint := FConfigTitles.Values[FLangPairs.Names[i]] + iif(FLangPairsHint[i] = string.Empty, '', ' - ' + FLangPairsHint[i]);
+        configTitle := FConfigTitles.Values[FLangPairs.Names[i]];
+        btn.Hint := configTitle + iif(FLangPairsHint[i] = string.Empty, '', ' - ' + FLangPairsHint[i]);
         btn.ShowHint := True;
         btn.PopupMenu := PopupRecentPair;
 
@@ -4077,7 +4079,7 @@ procedure TformTrayslate.RebuildLangPairsPanel(Data: PtrInt);
         if FillMenu then
         begin
           mi := TMenuItem.Create(MenuLangPairs);
-          mi.Caption := btn.Caption + ' - ' + btn.Hint;
+          mi.Caption := btn.Caption + ' - ' + configTitle;
           mi.Hint := FLangPairs[i];
           if AllowHotKeys and (i < 9) then
           begin
