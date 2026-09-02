@@ -184,8 +184,10 @@ Settings allow you to configure the behavior, appearance, and global hotkeys of 
 | General | Interface |
 |-------------|-------------|
 | ![img](samples/settings1.png) | ![img](samples/settings2.png) | 
-| **Hotkeys** | **Network** |
+| **Languages** | **Hotkeys** |
 | ![img](samples/settings3.png) | ![img](samples/settings4.png) |
+| **Network** | **User Parameters** |
+| ![img](samples/settings5.png) | ![img](samples/settings6.png) |
 
 ---
 
@@ -196,9 +198,9 @@ The application comes with a powerful configuration editor, allowing you to crea
 | Service | Request |
 |---------|------------|
 | ![configeditor1](samples/configeditor1.png) | ![configeditor1](samples/configeditor2.png) |
-| **Response** | **Parameters** |
+| **Initial Request** | **Parameters** |
 | ![configeditor1](samples/configeditor3.png) | ![configeditor1](samples/configeditor4.png) |
-| **Languages** | **Target Languages** |
+| **Response** | **Languages** |
 | ![configeditor1](samples/configeditor5.png) | ![configeditor1](samples/configeditor6.png) |
 
 ---
