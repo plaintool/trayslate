@@ -52,8 +52,10 @@ The interface is available in **twenty-five widely used languages**, making it a
 - **Tray Indicator** — Shows the current language pair and translation progress on the tray icon  
 - **Recent Pairs** — Manage and automatically save recently used language pairs  
 - **Mouse Mode** — Translate text by simply selecting it with the mouse in any application  
-- **Multilingual UI** — Interface available in twenty-five widely used languages  
 - **Dark Mode** — Supports Windows dark mode and adapts to system theme  
+- **Windows Spell Check** — Uses the built-in Windows spell checker
+- **Language Flags** — Displays country flags for languages
+- **Multilingual UI** — Interface available in twenty-five widely used languages  
 
 ## Tray Icon
 
