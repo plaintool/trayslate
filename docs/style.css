@@ -149,6 +149,23 @@ code {
   text-align: center !important;
 }
 
+.badges {
+    display: inline-flex;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+    vertical-align: middle;
+}
+
+.badges a,
+.badges img {
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
 .zoom-img {
     cursor: pointer;
 }
