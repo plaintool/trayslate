@@ -4037,7 +4037,6 @@ procedure TformTrayslate.RebuildLangPairsPanel(Data: PtrInt);
         btn := TFlatButton.Create(Target);
         btn.Tag := i;
         btn.Parent := Target;
-        btn.Flat := True;
         btn.GroupIndex := 1;
         btn.AllowAllUp := True;
         btn.AutoSize := True;

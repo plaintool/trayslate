@@ -26,3 +26,7 @@
 	path = libs/richkit
 	url = https://github.com/plainlib/richkit.git
 	branch = main
+[submodule "libs/designkit"]
+	path = libs/designkit
+	url = https://github.com/plainlib/designkit.git
+	branch = main

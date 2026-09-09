@@ -107,13 +107,31 @@
     </RunParams>
     <RequiredPackages>
       <Item>
-        <PackageName Value="richmemo_design"/>
+        <PackageName Value="LCL"/>
+      </Item>
+      <Item>
+        <PackageName Value="lazmouseandkeyinput"/>
+      </Item>
+      <Item>
+        <PackageName Value="pascalscript"/>
+      </Item>
+      <Item>
+        <PackageName Value="SynEdit"/>
+      </Item>
+      <Item>
+        <PackageName Value="SynEditDsgn"/>
       </Item>
       <Item>
         <PackageName Value="richmemopackage"/>
       </Item>
       <Item>
-        <PackageName Value="richkit"/>
+        <PackageName Value="richmemo_design"/>
+      </Item>
+      <Item>
+        <PackageName Value="darkmode"/>
+      </Item>
+      <Item>
+        <PackageName Value="laz_synapse"/>
       </Item>
       <Item>
         <PackageName Value="helpers"/>
@@ -122,25 +140,10 @@
         <PackageName Value="toolkit"/>
       </Item>
       <Item>
-        <PackageName Value="laz_synapse"/>
+        <PackageName Value="richkit"/>
       </Item>
       <Item>
-        <PackageName Value="darkmode"/>
-      </Item>
-      <Item>
-        <PackageName Value="pascalscript"/>
-      </Item>
-      <Item>
-        <PackageName Value="SynEditDsgn"/>
-      </Item>
-      <Item>
-        <PackageName Value="SynEdit"/>
-      </Item>
-      <Item>
-        <PackageName Value="lazmouseandkeyinput"/>
-      </Item>
-      <Item>
-        <PackageName Value="LCL"/>
+        <PackageName Value="designkit"/>
       </Item>
     </RequiredPackages>
     <Units>
