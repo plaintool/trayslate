@@ -47,6 +47,7 @@ uses
   OneShotTimer,
   globalkeyboardhook,
   globalmousehook,
+  FormGrip,
   translate,
   network,
   Consts,
@@ -112,6 +113,7 @@ type
     aDonate: TAction;
     aExit: TAction;
     ActionList: TActionList;
+    FormGrip: TFormGrip;
     ImageConfig: TImageList;
     MenuBulgarian: TMenuItem;
     MenuItem1: TMenuItem;
@@ -883,6 +885,8 @@ begin
   aCopyTarget.ImageIndex := TDarkUtils.ThemeValue(10, 11);
   SbCopySource.PressedImageIndex := TDarkUtils.ThemeValue(12, 13);
   SbCopyTarget.PressedImageIndex := TDarkUtils.ThemeValue(12, 13);
+  FormGrip.Color := TDarkUtils.ThemeColor(clWindow, clForm);
+  FormGrip.GripColor := TDarkUtils.ThemeColor(clActiveBorder, clGray);
   FLeftButton := True;
   //PanelLang.Color := TDarkUtils.ThemeValue(clBtnFace, clBtnHighlight);
   //PanelPairs.Color := TDarkUtils.ThemeValue(clBtnFace, clBtnHighlight);

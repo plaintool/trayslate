@@ -317,6 +317,16 @@ object formTrayslate: TformTrayslate
       end
     end
   end
+  object FormGrip: TFormGrip
+    Cursor = crSizeNWSE
+    Left = 500
+    Height = 12
+    Top = 500
+    Width = 12
+    Anchors = [akRight, akBottom]
+    Color = clWindow
+    ParentColor = False
+  end
   object TrayIcon: TTrayIcon
     PopUpMenu = PopupTray
     Hint = 'Trayslate'

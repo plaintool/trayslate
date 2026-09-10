@@ -122,6 +122,9 @@ call :BuildComponent Synapse synapse master laz_synapse.lpk laz_synapse.pas %DO_
 :: Build Toolkit
 call :BuildComponent Toolkit toolkit main toolkit.lpk "" %DO_PULL% %DO_BUILD%
 
+:: Build DesignKit
+call :BuildComponent DesignKit designkit main designkit.lpk "" %DO_PULL% %DO_BUILD%
+
 echo.
 echo Dependencies OK
 exit /b 0
