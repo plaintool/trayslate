@@ -3752,7 +3752,7 @@ begin
   FEnableMouseMode := False;
   FMouseModeCtrl := False;
   FMouseMode := mmShowTranslateButton;
-  FInsertKey := True;
+  FInsertKey := False;
   FVerticalSplit := False;
   FSpellCheck := True;
   FSpellCheckEmptySuggestions := True;
