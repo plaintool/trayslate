@@ -403,6 +403,8 @@ type
     FCancelled: boolean;
     FTopMost: boolean;
     FLeftButton: boolean;
+    FCtrlArmed: boolean;
+    FSuppressNextUp: boolean;
     FLastEnterTime: DWORD;
     FEnterCount: integer;
     FLastHotkeyTime: DWORD;
@@ -646,6 +648,7 @@ type
     function UpdateTargetLanguage(const Lang: string): string;
     function UpdatePairLanguage(const Pair: string): string;
     procedure UpdateInputState(AEnabled: boolean; ReenableHotKeys: boolean = True);
+    procedure UpdateMouseHookState;
     procedure UpdateSpellCheck;
     procedure DoSpellCheck;
     procedure ApplySpellCheck;
@@ -888,6 +891,8 @@ begin
   FormGrip.Color := TDarkUtils.ThemeColor(clWindow, clForm);
   FormGrip.GripColor := TDarkUtils.ThemeColor(clActiveBorder, clGray);
   FLeftButton := True;
+  FCtrlArmed := False;
+  FSuppressNextUp := False;
   //PanelLang.Color := TDarkUtils.ThemeValue(clBtnFace, clBtnHighlight);
   //PanelPairs.Color := TDarkUtils.ThemeValue(clBtnFace, clBtnHighlight);
   //Splitter.Color := TDarkUtils.ThemeValue(clBtnFace, clBtnHighlight);
@@ -1128,6 +1133,7 @@ begin
   FDropTarget.ForceRegister;
   SetHints;
   SetVerticalMode;
+  UpdateMouseHookState;
   UpdatePopupState;
 
   // Apply comboboxes font and height
@@ -1510,10 +1516,11 @@ var
 begin
   Tick := TOS.GetTickCountXp;
 
-  // Turn off the mouse mode if Ctrl is not pressed and it requires Ctrl
+  // Track Ctrl state to arm translation and to draw the tray icon frame
   if MouseModeCtrl and (Info.KeyCode in [VK_CONTROL, VK_LCONTROL, VK_RCONTROL]) then
   begin
-    MouseHook.Enabled := Info.IsDown;
+    FCtrlArmed := Info.IsDown;
+    UpdateMouseHookState;
     SetTrayIcon;
   end;
 
@@ -1599,6 +1606,8 @@ begin
     if not PtInRect(DetectionRect, Pt) then
     begin
       formPopupTrayslate.Hide;
+      UpdateMouseHookState;
+      FSuppressNextUp := True;
       Exit;
     end;
   end;
@@ -1624,6 +1633,14 @@ var
   TimeDiff: DWORD;
   DistanceSq: integer;
 begin
+  // The click that hid the popup must not trigger translation
+  if FSuppressNextUp then
+  begin
+    FSuppressNextUp := False;
+    FClickCount := 0;
+    Exit;
+  end;
+
   dx := Info.X - FLastMouseInfo.X;
   dy := Info.Y - FLastMouseInfo.Y;
   DistanceSq := dx * dx + dy * dy;
@@ -3250,8 +3267,8 @@ begin
     FEnableMouseMode := Value;
     if OldValue <> Value then
     begin
-      FMouseHook.Enabled := EnableMouseMode and not FMouseModeCtrl;
       FKeyHook.Enabled := EnableMouseMode;
+      UpdateMouseHookState;
       SetTrayIcon;
     end;
   end;
@@ -3273,8 +3290,8 @@ begin
     FMouseModeCtrl := Value;
     if OldValue <> Value then
     begin
-      FMouseHook.Enabled := EnableMouseMode and not FMouseModeCtrl;
       FKeyHook.Enabled := EnableMouseMode;
+      UpdateMouseHookState;
       SetTrayIcon;
     end;
   end;
@@ -4466,7 +4483,7 @@ begin
   if AEnabled then
   begin
     KeyHook.Enabled := FEnableMouseMode;
-    MouseHook.Enabled := FEnableMouseMode and not FMouseModeCtrl;
+    UpdateMouseHookState;
     if ReenableHotKeys then
       RegisterHotKeys;
   end
@@ -4479,6 +4496,15 @@ begin
   end;
 
   SetTrayIcon;
+end;
+
+procedure TformTrayslate.UpdateMouseHookState;
+begin
+  if not Assigned(FMouseHook) then Exit;
+
+  // Hook is active when armed by Ctrl (or non Ctrl mode) or while the autohide popup needs outside clicks
+  FMouseHook.Enabled := (FEnableMouseMode and ((not FMouseModeCtrl) or FCtrlArmed)) or (FAutoHidePopup and
+    Assigned(formPopupTrayslate) and formPopupTrayslate.Visible and (not formPopupTrayslate.PopupOpen));
 end;
 
 procedure TformTrayslate.UpdateSpellCheck;
@@ -4675,6 +4701,7 @@ begin
   if not StayOnTop then
     TOS.BringToFrontNoFocus(formPopupTrayslate);
 
+  UpdateMouseHookState;
   UpdatePopupState;
 
   // Set auto-height after translate in any case
@@ -4691,7 +4718,10 @@ end;
 procedure TformTrayslate.ClosePopupAsync(Data: PtrInt);
 begin
   if Assigned(formPopupTrayslate) and formPopupTrayslate.Visible then
+  begin
     formPopupTrayslate.Close;
+    UpdateMouseHookState;
+  end;
 end;
 
 procedure TformTrayslate.ShowButton(const SourceText: string; X: integer = 0; Y: integer = 0);
@@ -5206,7 +5236,7 @@ begin
     end;
 
     // Draw mouse mode frame if enabled, before text so text stays on top
-    if Assigned(MouseHook) and MouseHook.Enabled and FEnableMouseMode and (FIconMouseModeFrameColor <> clNone) then
+    if FEnableMouseMode and (FIconMouseModeFrameColor <> clNone) and (not FMouseModeCtrl or FCtrlArmed) then
     begin
       Bmp.Canvas.Pen.Color := FIconMouseModeFrameColor;
       Bmp.Canvas.Pen.Width := 1;
@@ -5312,7 +5342,7 @@ begin
     end;
 
     // Draw mouse mode frame if enabled, before progress arc so arc stays on top
-    if Assigned(MouseHook) and MouseHook.Enabled and FEnableMouseMode and (FIconMouseModeFrameColor <> clNone) then
+    if FEnableMouseMode and (FIconMouseModeFrameColor <> clNone) and (not FMouseModeCtrl or FCtrlArmed) then
     begin
       TempBitmap.Canvas.Pen.Color := FIconMouseModeFrameColor;
       TempBitmap.Canvas.Pen.Width := 1;
