@@ -649,6 +649,7 @@ type
     function UpdatePairLanguage(const Pair: string): string;
     procedure UpdateInputState(AEnabled: boolean; ReenableHotKeys: boolean = True);
     procedure UpdateMouseHookState;
+    procedure DoSetTrayIcon(Data: PtrInt);
     procedure UpdateSpellCheck;
     procedure DoSpellCheck;
     procedure ApplySpellCheck;
@@ -1133,6 +1134,14 @@ begin
   FDropTarget.ForceRegister;
   SetHints;
   SetVerticalMode;
+
+  // Prime the mouse hook so the very first Ctrl press does not miss events
+  if EnableMouseMode then
+  begin
+    FMouseHook.Enabled := True;
+    FMouseHook.Enabled := False;
+  end;
+
   UpdateMouseHookState;
   UpdatePopupState;
 
@@ -1521,7 +1530,7 @@ begin
   begin
     FCtrlArmed := Info.IsDown;
     UpdateMouseHookState;
-    SetTrayIcon;
+    Application.QueueAsyncCall(@DoSetTrayIcon, 0);
   end;
 
   if not Info.IsDown then Exit;
@@ -1637,6 +1646,13 @@ begin
   if FSuppressNextUp then
   begin
     FSuppressNextUp := False;
+    FClickCount := 0;
+    Exit;
+  end;
+
+  // Guard against a missing down event or uninitialized timestamps
+  if (FLastMouseInfo.Time = 0) or (Info.Time = 0) then
+  begin
     FClickCount := 0;
     Exit;
   end;
@@ -4505,6 +4521,11 @@ begin
   // Hook is active when armed by Ctrl (or non Ctrl mode) or while the autohide popup needs outside clicks
   FMouseHook.Enabled := (FEnableMouseMode and ((not FMouseModeCtrl) or FCtrlArmed)) or (FAutoHidePopup and
     Assigned(formPopupTrayslate) and formPopupTrayslate.Visible and (not formPopupTrayslate.PopupOpen));
+end;
+
+procedure TformTrayslate.DoSetTrayIcon(Data: PtrInt);
+begin
+  SetTrayIcon;
 end;
 
 procedure TformTrayslate.UpdateSpellCheck;
