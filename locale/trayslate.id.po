@@ -1505,8 +1505,8 @@ msgid ""
 "Always prefer the Primary/Secondary language pair when the detected language matches the current target language.\n"
 "Restore the configured pair instead of performing a normal swap."
 msgstr ""
-"Selalu utamakan pasangan bahasa utama/sekunder saat bahasa terdeteksi cocok dengan bahasa target saat ini.\n"
-"Kembalikan pasangan yang dikonfigurasi вместо pertukaran normal."
+"Selalu prioritaskan pasangan bahasa Utama/Sekunder ketika bahasa yang terdeteksi sesuai dengan bahasa target saat ini.\n"
+"Pulihkan pasangan yang telah dikonfigurasi, bukan melakukan pertukaran seperti biasa."
 
 #: tformsettingstrayslate.checksmartswap.caption
 msgctxt "tformsettingstrayslate.checksmartswap.caption"
