@@ -4575,11 +4575,10 @@ begin
 end;
 
 procedure TformTrayslate.DoCheckUpdates(Data: PtrInt);
-var
-  Th: TCheckUpdateThread;
 begin
-  Th := TCheckUpdateThread.Create(REPO, rappname, False);
-  Th.FreeOnTerminate := True;
+  // Delegate the whole lifetime to the update check unit, so this form does
+  // not have to track or free the thread itself
+  StartUpdateCheck(REPO, rappname);
 end;
 
 procedure TformTrayslate.ShowCustomHint(const AText: string; X: integer = 0; Y: integer = 0; Duration: integer = 3000);
