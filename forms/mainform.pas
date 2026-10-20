@@ -584,6 +584,9 @@ type
     function GetIconIndex: integer;
     function GetLangCode(ComboValue: string; Target: boolean = False): string;
 
+    procedure TranslateGetParameter(const AParamName: string; var AValue: string; var AHandled: boolean);
+    function GetParameterValue(AName: string; out ResultOk: boolean): string;
+
     // Tray Icon
     function CreateTrayIconLang(const ALang1: string; const ALang2: string = string.Empty): Graphics.TBitmap;
     function CreateTrayIconProgress(AAngle: integer; ABackgroundColor: TColor = clNone; APenColor: TColor = clWhite): Graphics.TBitmap;
@@ -653,7 +656,6 @@ type
     procedure DoSetTrayIcon(Data: PtrInt);
     procedure DoCheckUpdates(Data: PtrInt);
     procedure ShowCustomHint(const AText: string; X: integer = 0; Y: integer = 0; Duration: integer = 3000);
-    function GetParameterValue(AName: string; out ResultOk: boolean): string;
     procedure AdjustPopupHeight(AText: string; Force: boolean = False);
     procedure ShowPopup(const SourceText: string; X: integer = 0; Y: integer = 0);
     procedure ClosePopupAsync(Data: PtrInt);
@@ -895,15 +897,22 @@ begin
   //PanelPairs.Color := TDarkUtils.ThemeValue(clBtnFace, clBtnHighlight);
   //Splitter.Color := TDarkUtils.ThemeValue(clBtnFace, clBtnHighlight);
 
-  FTrans := TTranslate.Create;
-  FTransDetect := TTranslate.Create;
+  // Create string lists first so engines can hold references to them
+  FUserParameters := TStringList.Create;
   FLanguages := TStringList.Create;
   FLanguagesTarget := TStringList.Create;
   FLangPairs := TStringList.Create;
   FLangPairsHint := TStringList.Create;
-  FUserParameters := TStringList.Create;
   FProxiedConfigs := TStringList.Create;
   FEnabledLanguages := TStringList.Create;
+
+  // Then create engines and wire host-owned references
+  FTrans := TTranslate.Create;
+  FTrans.OnGetParameter := @TranslateGetParameter;
+  FTrans.UserParameters := FUserParameters;
+  FTransDetect := TTranslate.Create;
+  FTransDetect.OnGetParameter := @TranslateGetParameter;
+  FTransDetect.UserParameters := FUserParameters;
 
   // Force memo handles before loading text: TRichMemo may drop content
   // assigned through Lines when its native window is created later
@@ -3526,6 +3535,8 @@ begin
   begin
     FreeAndNil(FTransDetect);
     FTransDetect := TTranslate.Create;
+    FTransDetect.OnGetParameter := @TranslateGetParameter;
+    FTransDetect.UserParameters := FUserParameters;
   end;
 end;
 
@@ -4574,57 +4585,6 @@ begin
   FHint.ShowHintText(AText, X, Y, 0, 0, Duration);
 end;
 
-function TformTrayslate.GetParameterValue(AName: string; out ResultOk: boolean): string;
-var
-  Value: string;
-  SavedCursor: TCursor;
-  SavedTimer: boolean;
-begin
-  Result := string.Empty;
-  ResultOk := True;
-
-  // Check if application or form is destroying
-  if Application.Terminated or (Self = nil) or (UserParameters = nil) then
-    Exit;
-
-  Value := UserParameters.Values[AName];
-
-  if Value = string.Empty then
-  begin
-    SavedCursor := Screen.Cursor;
-    Screen.Cursor := crDefault;
-    SavedTimer := TimerAnimate.Enabled;
-    TimerAnimate.Enabled := False;
-    try
-      if not InputQueryLite(renterparameter, renter + ' ' + AName, Value) then
-      begin
-        ResultOk := False;
-        Exit;
-      end;
-
-      // Double check after modal dialog closed
-      if Application.Terminated or (Self = nil) or (UserParameters = nil) then
-      begin
-        ResultOk := False;
-        Exit;
-      end;
-
-      Value := Trim(Value);
-      if Value <> string.Empty then
-        UserParameters.Values[AName] := Value;
-    finally
-      // Restore cursor only if Screen object is still valid
-      if not Application.Terminated then
-      begin
-        Screen.Cursor := SavedCursor;
-        TimerAnimate.Enabled := SavedTimer;
-      end;
-    end;
-  end;
-
-  Result := Value;
-end;
-
 procedure TformTrayslate.AdjustPopupHeight(AText: string; Force: boolean = False);
 var
   NewHeight: integer;
@@ -5158,6 +5118,65 @@ begin
     if Trans.Languages.Count > idnative then
       Result := Trans.Languages.Names[idnative];
   end;
+end;
+
+procedure TformTrayslate.TranslateGetParameter(const AParamName: string; var AValue: string; var AHandled: boolean);
+var
+  Ok: boolean = False;
+begin
+  AValue := GetParameterValue(AParamName, Ok);
+  AHandled := Ok;
+end;
+
+function TformTrayslate.GetParameterValue(AName: string; out ResultOk: boolean): string;
+var
+  Value: string;
+  SavedCursor: TCursor;
+  SavedTimer: boolean;
+begin
+  Result := string.Empty;
+  ResultOk := True;
+
+  // Check if application or form is destroying
+  if Application.Terminated or (Self = nil) or (UserParameters = nil) then
+    Exit;
+
+  Value := UserParameters.Values[AName];
+
+  if Value = string.Empty then
+  begin
+    SavedCursor := Screen.Cursor;
+    Screen.Cursor := crDefault;
+    SavedTimer := TimerAnimate.Enabled;
+    TimerAnimate.Enabled := False;
+    try
+      if not InputQueryLite(renterparameter, renter + ' ' + AName, Value) then
+      begin
+        ResultOk := False;
+        Exit;
+      end;
+
+      // Double check after modal dialog closed
+      if Application.Terminated or (Self = nil) or (UserParameters = nil) then
+      begin
+        ResultOk := False;
+        Exit;
+      end;
+
+      Value := Trim(Value);
+      if Value <> string.Empty then
+        UserParameters.Values[AName] := Value;
+    finally
+      // Restore cursor only if Screen object is still valid
+      if not Application.Terminated then
+      begin
+        Screen.Cursor := SavedCursor;
+        TimerAnimate.Enabled := SavedTimer;
+      end;
+    end;
+  end;
+
+  Result := Value;
 end;
 
 {%EndRegion}

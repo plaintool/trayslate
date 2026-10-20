@@ -55,6 +55,9 @@ type
     ImageIndex: integer;
   end;
 
+  { Event used to request a user-supplied parameter value from the host application }
+  TGetParameterEvent = procedure(const AParamName: string; var AValue: string; var AHandled: boolean) of object;
+
   { TTranslate }
   TTranslate = class
   private
@@ -114,6 +117,8 @@ type
     FParamName: string;
     FResultValue: string;
     FResultOk: boolean;
+    FUserParameters: TStringList;
+    FOnGetParameter: TGetParameterEvent;
     procedure SyncGetParameterValue;
   public
     constructor Create;
@@ -194,6 +199,9 @@ type
     property InitUrl: string read FInitUrl write FInitUrl;
     property InitParameters: TStringList read FInitParameters write FInitParameters;
     property InitLiveTime: integer read FInitLiveTime write FInitLiveTime;
+
+    property UserParameters: TStringList read FUserParameters write FUserParameters;
+    property OnGetParameter: TGetParameterEvent read FOnGetParameter write FOnGetParameter;
   end;
 
   { TTranslateThread }
@@ -228,7 +236,7 @@ const
 
 implementation
 
-uses Consts, MainForm, StringsHelper, StringHelper, Localize, OSUtils, Languages;
+uses Consts, StringsHelper, StringHelper, Localize, OSUtils, Languages;
 
   {%Region -fold TTranslate }
 
@@ -332,8 +340,10 @@ end;
 
 procedure TTranslate.SyncGetParameterValue;
 begin
-  if not Application.Terminated and Assigned(formTrayslate) then
-    FResultValue := formTrayslate.GetParameterValue(FParamName, FResultOk);
+  FResultOk := True;
+  FResultValue := string.Empty;
+  if Assigned(FOnGetParameter) then
+    FOnGetParameter(FParamName, FResultValue, FResultOk);
 end;
 
 procedure TTranslate.Clear;
@@ -461,25 +471,23 @@ var
 begin
   Result := True;
 
-  // User parameters {key=value}
-  if Assigned(formTrayslate) then
-    with formTrayslate do
-      if Assigned(UserParameters) and (UserParameters.Count > 0) then
-      begin
-        for i := 0 to UserParameters.Count - 1 do
-        begin
-          ParamName := UserParameters.Names[i];
-          Value := UserParameters.ValueFromIndex[i];
+  // User parameters {key=value} supplied by the host
+  if Assigned(FUserParameters) and (FUserParameters.Count > 0) then
+  begin
+    for i := 0 to FUserParameters.Count - 1 do
+    begin
+      ParamName := FUserParameters.Names[i];
+      Value := FUserParameters.ValueFromIndex[i];
 
-          // Skip empty parameters
-          if (ParamName = string.Empty) or (Value = string.Empty) then
-            Continue;
+      // Skip empty parameters
+      if (ParamName = string.Empty) or (Value = string.Empty) then
+        Continue;
 
-          // Add or override parameter
-          FParameterValues.Values[ParamName] := Value;
-          FParameterEncode.Values[ParamName] := ifthen(FEncodeCustomParameters, '1', '0');
-        end;
-      end;
+      // Add or override parameter
+      FParameterValues.Values[ParamName] := Value;
+      FParameterEncode.Values[ParamName] := ifthen(FEncodeCustomParameters, '1', '0');
+    end;
+  end;
 
   // Custom parameters (key=value)
   if Assigned(FCustomParameters) then
@@ -1383,9 +1391,6 @@ begin
     content := Post
   else
     content := Get;
-
-  if Assigned(formTrayslate) then
-    formTrayslate.RawTranslate := content;
 
   if content <> string.Empty then
   begin

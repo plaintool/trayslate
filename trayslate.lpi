@@ -223,22 +223,27 @@
       <Unit>
         <Filename Value="units\translate.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="Translate"/>
       </Unit>
       <Unit>
         <Filename Value="units\languages.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="Languages"/>
       </Unit>
       <Unit>
         <Filename Value="units\langdetect.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="LangDetect"/>
       </Unit>
       <Unit>
         <Filename Value="units\network.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="Network"/>
       </Unit>
       <Unit>
         <Filename Value="units\scriptrunner.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="ScriptRunner"/>
       </Unit>
       <Unit>
         <Filename Value="units\langprofiles_data.inc"/>
