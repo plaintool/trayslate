@@ -913,7 +913,6 @@ begin
   FTransDetect := TTranslate.Create(Self);
   FTransDetect.OnGetParameter := @TranslateGetParameter;
   FTransDetect.UserParameters := FUserParameters;
-  FTransDetect.LangDetect := True;
   FTransDetect.OnTranslateStart := @TransStart;
   FTransDetect.OnTranslateComplete := @TransComplete;
   FTransDetect.OnTranslateFinish := @TransFinish;
@@ -2744,10 +2743,10 @@ begin
     UpdateInputState(True);
     SetHints;
 
-    FTrans.Proxy := FProxy;
-    FTrans.Timeout := FTimeout;
-    FTransDetect.Proxy := FProxy;
-    FTransDetect.Timeout := FTimeout;
+    FTrans.Proxy.FromProxy(FProxy);
+    FTrans.Timeout.FromTimeout(FTimeout);
+    FTransDetect.Proxy.FromProxy(FProxy);
+    FTransDetect.Timeout.FromTimeout(FTimeout);
 
     UpdatePopupState;
     UpdateSpellCheck;
@@ -3376,10 +3375,10 @@ end;
 procedure TformTrayslate.SetProxy(Value: TProxy);
 begin
   FProxy := Value;
-  FTrans.Proxy := FProxy;
-  FTrans.Timeout := FTimeout;
-  FTransDetect.Proxy := FProxy;
-  FTransDetect.Timeout := FTimeout;
+  FTrans.Proxy.FromProxy(FProxy);
+  FTrans.Timeout.FromTimeout(FTimeout);
+  FTransDetect.Proxy.FromProxy(FProxy);
+  FTransDetect.Timeout.FromTimeout(FTimeout);
 end;
 
 procedure TformTrayslate.SetTranslateTarget(Value: TWinControl);
@@ -3499,7 +3498,6 @@ begin
     FTransDetect := TTranslate.Create(Self);
     FTransDetect.OnGetParameter := @TranslateGetParameter;
     FTransDetect.UserParameters := FUserParameters;
-    FTransDetect.LangDetect := True;
     FTransDetect.OnTranslateStart := @TransStart;
     FTransDetect.OnTranslateComplete := @TransComplete;
     FTransDetect.OnTranslateFinish := @TransFinish;
