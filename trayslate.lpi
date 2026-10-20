@@ -175,6 +175,7 @@
         <ComponentName Value="formSettingsTrayslate"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="FormSettings"/>
       </Unit>
       <Unit>
         <Filename Value="src\formconfig.pas"/>

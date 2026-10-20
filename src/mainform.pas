@@ -394,7 +394,6 @@ type
     {%EndRegion}
   private
     FTrans: TTranslate;
-    FTransDetect: TTranslate;
     FTranslateTarget: TWinControl;
     FFormSmallIcon: TIcon;
     FDropTarget: TTextDropTarget;
@@ -660,12 +659,12 @@ type
     procedure SetVerticalMode;
 
     // Translate Methods
-    function TranslateThread(ATrans: TTranslate; AText: string; AMemo: TRichMemo = nil): string;
+    function TranslateThread(ATrans: TTranslate; AText: string; AMemo: TRichMemo = nil; ADetectLanguage: boolean = True): string;
     procedure TransStart(Sender: TObject);
     procedure TransComplete(Sender: TObject; const AText: string);
     procedure TransFinish(Sender: TObject);
     procedure CancelTranslate;
-    procedure DetectLanguage(AText: string);
+    procedure TransLanguageDetected(Sender: TObject; const AResult: TLanguageDetectResult);
     procedure TranslateMemo(ADetectLanguage: boolean = True);
     procedure TranslatePopup(AText: string; X: integer = 0; Y: integer = 0);
     procedure TranslateFromClipboard;
@@ -682,7 +681,6 @@ type
 
     // Base properties
     property Trans: TTranslate read FTrans write FTrans;
-    property TransDetect: TTranslate read FTransDetect write FTransDetect;
     property TopMost: boolean read FTopMost write FTopMost;
     property IndexConfig: integer read GetConfigIndex;
     property IndexIcon: integer read GetIconIndex;
@@ -904,18 +902,12 @@ begin
 
   // Then create engines and wire host-owned references
   FTrans := TTranslate.Create(Self);
-  FTrans.OnGetParameter := @TranslateGetParameter;
   FTrans.UserParameters := FUserParameters;
+  FTrans.OnGetParameter := @TranslateGetParameter;
   FTrans.OnTranslateStart := @TransStart;
   FTrans.OnTranslateComplete := @TransComplete;
   FTrans.OnTranslateFinish := @TransFinish;
-
-  FTransDetect := TTranslate.Create(Self);
-  FTransDetect.OnGetParameter := @TranslateGetParameter;
-  FTransDetect.UserParameters := FUserParameters;
-  FTransDetect.OnTranslateStart := @TransStart;
-  FTransDetect.OnTranslateComplete := @TransComplete;
-  FTransDetect.OnTranslateFinish := @TransFinish;
+  FTrans.OnLanguageDetected := @TransLanguageDetected;
 
   // Force memo handles before loading text: TRichMemo may drop content
   // assigned through Lines when its native window is created later
@@ -1026,9 +1018,6 @@ begin
   // Set language
   SetLanguage(Language);
 
-  // Load LangDetect Profiles
-  FTrans.AutoLoadProfiles := BuiltInDetect;
-
   FTopMost := False;
   FFirstRun := False;
 end;
@@ -1068,7 +1057,6 @@ begin
   FreeAndNil(FConfigColors);
   FreeAndNil(FConfigImages);
   FreeAndNil(FTrans);
-  FreeAndNil(FTransDetect);
   FreeAndNil(FHint);
   FreeAndNil(FFontPopup);
   FreeAndNil(FFormSmallIcon);
@@ -2285,7 +2273,7 @@ begin
   if Assigned(formPopupTrayslate) then
     formPopupTrayslate.Close;
 
-  if FTrans.IsTranslating or FTransDetect.IsTranslating then
+  if FTrans.IsTranslating then
     CancelTranslate;
 
   Self.Enabled := False;
@@ -2455,7 +2443,7 @@ begin
     if ComboSource.Text = string.Empty then
     begin
       FLangSource := string.Empty;
-      FTrans.LangSource := string.Empty;
+      FTrans.SourceLanguage := string.Empty;
       SetTrayIcon;
     end
     else
@@ -2499,7 +2487,7 @@ begin
     if ComboTarget.Text = string.Empty then
     begin
       FLangTarget := string.Empty;
-      FTrans.LangTarget := string.Empty;
+      FTrans.TargetLanguage := string.Empty;
       SetTrayIcon;
     end
     else
@@ -2744,8 +2732,6 @@ begin
 
     FTrans.Proxy.FromProxy(FProxy);
     FTrans.Timeout.FromTimeout(FTimeout);
-    FTransDetect.Proxy.FromProxy(FProxy);
-    FTransDetect.Timeout.FromTimeout(FTimeout);
 
     UpdatePopupState;
     UpdateSpellCheck;
@@ -3223,9 +3209,11 @@ begin
     formSettingsTrayslate.BringToFront;
   end
   else
+  begin
     FAutoSwap := Value;
-
-  FTrans.AutoLoadProfiles := FBuiltInDetect and FAutoSwap;
+    Trans.Detect.Enabled := Value;
+    Trans.Detect.AutoSwap := Value;
+  end;
 end;
 
 procedure TformTrayslate.SetAllowHotkeys(Value: boolean);
@@ -3373,8 +3361,6 @@ begin
   FProxy := Value;
   FTrans.Proxy.FromProxy(FProxy);
   FTrans.Timeout.FromTimeout(FTimeout);
-  FTransDetect.Proxy.FromProxy(FProxy);
-  FTransDetect.Timeout.FromTimeout(FTimeout);
 end;
 
 procedure TformTrayslate.SetTranslateTarget(Value: TWinControl);
@@ -3402,7 +3388,7 @@ end;
 procedure TformTrayslate.SetBuiltInDetect(Value: boolean);
 begin
   FBuiltInDetect := Value;
-  FTrans.AutoLoadProfiles := FBuiltInDetect and FAutoSwap;
+  Trans.Detect.BuiltinDetect := Value;
 end;
 
 function TformTrayslate.GetRawTranslate: string;
@@ -3480,45 +3466,37 @@ end;
 
 procedure TFormTrayslate.LoadLangDetect;
 begin
-  // Load language detection config settings
-  if (not FBuiltInDetect) and (FConfigLangDetect <> string.Empty) then
-    FTransDetect.LoadIniSettings(FConfigLangDetect)
-  else
-  begin
-    // Recreate the engine to reset its state; the instance must stay alive
-    // because SetProxy and SettingsFormClose access it without nil checks
-    FreeAndNil(FTransDetect);
-    FTransDetect := TTranslate.Create(Self);
-    FTransDetect.OnGetParameter := @TranslateGetParameter;
-    FTransDetect.UserParameters := FUserParameters;
-    FTransDetect.OnTranslateStart := @TransStart;
-    FTransDetect.OnTranslateComplete := @TransComplete;
-    FTransDetect.OnTranslateFinish := @TransFinish;
-  end;
+  // Push all detect-related settings from the form into the component
+  Trans.Detect.BuiltinDetect := FBuiltInDetect;
+  Trans.Detect.Enabled := FAutoSwap;
+  Trans.Detect.AutoSwap := FAutoSwap;
+  Trans.Detect.SmartSwap := FSmartSwap;
+  Trans.Detect.SmartHard := FSmartHard;
+  Trans.Detect.PrimaryLanguage := FPrimaryLang;
+  Trans.Detect.SecondaryLanguage := FSecondaryLang;
+  Trans.Detect.ConfigFile := FConfigLangDetect;
 end;
 
 procedure TFormTrayslate.UpdateProxyState;
+var
+  DetectProxyAllowed: boolean;
 begin
-  // Disable proxy if not in the proxied list
+  // Translate proxy gate
   if ProxiedConfigs.Count > 0 then
-  begin
-    // Translate Proxy
-    if not ProxiedConfigs.Contains(FConfigFile) then
-      FTrans.AllowProxy := False
-    else
-      FTrans.AllowProxy := FTrans.ServiceProxy;
-
-    // LangDetect Proxy
-    if not ProxiedConfigs.Contains(FConfigLangDetect) then
-      FTransDetect.AllowProxy := False
-    else
-      FTransDetect.AllowProxy := FTransDetect.ServiceProxy;
-  end
+    FTrans.AllowProxy := ProxiedConfigs.Contains(FConfigFile) and FTrans.ServiceProxy
   else
-  begin
     FTrans.AllowProxy := FTrans.ServiceProxy;
-    FTransDetect.AllowProxy := FTransDetect.ServiceProxy;
-  end;
+
+  // Detect proxy gate intent
+  if ProxiedConfigs.Count > 0 then
+    DetectProxyAllowed := ProxiedConfigs.Contains(FConfigLangDetect)
+  else
+    DetectProxyAllowed := True;
+  FTrans.Detect.AllowProxy := DetectProxyAllowed;
+
+  // Existing detect engine picks up the new gate immediately
+  if Assigned(FTrans.DetectEngine) then
+    FTrans.DetectEngine.AllowProxy := DetectProxyAllowed and FTrans.DetectEngine.ServiceProxy;
 end;
 
 procedure TFormTrayslate.UpdateComboState(ASetDefault: boolean = True);
@@ -3560,17 +3538,17 @@ begin
     begin
       ComboSource.Text := string.Empty; // Clear if not in new list
       LangSource := string.Empty;
-      Trans.LangSource := string.Empty;
+      Trans.SourceLanguage := string.Empty;
     end
     else
     begin
       // Update the matched language in case of case change
       id := Trans.Languages.FindEqualIndex(FLangSource);
       if Id < 0 then
-        Trans.LangSource := Trans.Languages.Values[FLangSource]
+        Trans.SourceLanguage := Trans.Languages.Values[FLangSource]
       else
-        Trans.LangSource := Trans.Languages.ValueFromIndex[Id];
-      FLangSource := Trans.LangSource;
+        Trans.SourceLanguage := Trans.Languages.ValueFromIndex[Id];
+      FLangSource := Trans.SourceLanguage;
     end;
 
     // Fill ComboTarget with display names
@@ -3634,7 +3612,7 @@ begin
     begin
       ComboTarget.Text := string.Empty; // Clear if not in new list
       LangTarget := string.Empty;
-      Trans.LangTarget := string.Empty;
+      Trans.TargetLanguage := string.Empty;
     end
     else
     begin
@@ -3643,39 +3621,39 @@ begin
       begin
         id := Trans.LanguagesTarget.FindEqualIndex(FLangTarget);
         if Id < 0 then
-          Trans.LangTarget := Trans.LanguagesTarget.Values[FLangTarget]
+          Trans.TargetLanguage := Trans.LanguagesTarget.Values[FLangTarget]
         else
-          Trans.LangTarget := Trans.LanguagesTarget.ValueFromIndex[Id];
+          Trans.TargetLanguage := Trans.LanguagesTarget.ValueFromIndex[Id];
       end
       else
       begin
         id := Trans.Languages.FindEqualIndex(FLangTarget);
         if Id < 0 then
-          Trans.LangTarget := Trans.Languages.Values[FLangTarget]
+          Trans.TargetLanguage := Trans.Languages.Values[FLangTarget]
         else
-          Trans.LangTarget := Trans.Languages.ValueFromIndex[Id];
+          Trans.TargetLanguage := Trans.Languages.ValueFromIndex[Id];
       end;
-      FLangTarget := Trans.LangTarget;
+      FLangTarget := Trans.TargetLanguage;
     end;
 
     if ASetDefault then
     begin
       // Set default or saved languages
       if LangSource <> string.Empty then
-        Trans.LangSource := LangSource
+        Trans.SourceLanguage := LangSource
       else
       begin
         // Secondary language
         if (not FFirstRun) and (FLanguages.FindIndex('(' + SecondaryLang + ')', False) >= 0) then
         begin
-          FTrans.LangSource := SecondaryLang;
+          FTrans.SourceLanguage := SecondaryLang;
           FLangSource := SecondaryLang;
         end
         else
         // Primary language
         if (not FFirstRun) and (FLanguages.FindIndex('(' + PrimaryLang + ')', False) >= 0) then
         begin
-          FTrans.LangSource := PrimaryLang;
+          FTrans.SourceLanguage := PrimaryLang;
           FLangSource := PrimaryLang;
         end
         else
@@ -3687,14 +3665,14 @@ begin
       end;
 
       if LangTarget <> string.Empty then
-        Trans.LangTarget := LangTarget
+        Trans.TargetLanguage := LangTarget
       else
       begin
         // Primary language
         if (((FLanguagesTarget.Count > 0) and (FLanguagesTarget.FindIndex('(' + PrimaryLang + ')', False) >= 0)) or
           ((FLanguagesTarget.Count = 0) and (FLanguages.FindIndex('(' + PrimaryLang + ')', False) >= 0))) then
         begin
-          FTrans.LangTarget := PrimaryLang;
+          FTrans.TargetLanguage := PrimaryLang;
           FLangTarget := PrimaryLang;
         end
         else
@@ -3702,7 +3680,7 @@ begin
         if (((FLanguagesTarget.Count > 0) and (FLanguagesTarget.FindIndex('(' + SecondaryLang + ')', False) >= 0)) or
           ((FLanguagesTarget.Count = 0) and (FLanguages.FindIndex('(' + SecondaryLang + ')', False) >= 0))) then
         begin
-          FTrans.LangTarget := SecondaryLang;
+          FTrans.TargetLanguage := SecondaryLang;
           FLangTarget := SecondaryLang;
         end
         else
@@ -3710,7 +3688,7 @@ begin
         if (((FLanguagesTarget.Count > 0) and (FLanguagesTarget.FindIndex('(' + Language + ')', False) >= 0)) or
           ((FLanguagesTarget.Count = 0) and (FLanguages.FindIndex('(' + Language + ')', False) >= 0))) then
         begin
-          FTrans.LangTarget := Language; // Default system language
+          FTrans.TargetLanguage := Language; // Default system language
           FLangTarget := Language;
         end
         else
@@ -3722,8 +3700,8 @@ begin
     end;
 
     // Set combobox selection by language code
-    TLanguages.SetComboBoxByCode(ComboSource, Trans.LangSource);
-    TLanguages.SetComboBoxByCode(ComboTarget, Trans.LangTarget);
+    TLanguages.SetComboBoxByCode(ComboSource, Trans.SourceLanguage);
+    TLanguages.SetComboBoxByCode(ComboTarget, Trans.TargetLanguage);
 
     if ComboTarget.ItemIndex = -1 then
       ComboTarget.Text := string.Empty;
@@ -4164,8 +4142,8 @@ begin
   if FSettingTrayIcon then Exit;
   FSettingTrayIcon := True;
   try
-    Bitmap := CreateTrayIconLang(ifthen(FIconTwoLang, UpperCase(UpdateSourceLanguage(Trans.LangSource)),
-      UpperCase(UpdateTargetLanguage(Trans.LangTarget))), ifthen(FIconTwoLang, UpperCase(Trans.LangTarget)));
+    Bitmap := CreateTrayIconLang(ifthen(FIconTwoLang, UpperCase(UpdateSourceLanguage(Trans.SourceLanguage)),
+      UpperCase(UpdateTargetLanguage(Trans.TargetLanguage))), ifthen(FIconTwoLang, UpperCase(Trans.TargetLanguage)));
     try
       TrayIcon.Icon.Assign(Bitmap);
       TrayIcon.Visible := True;
@@ -4726,7 +4704,7 @@ begin
   if NewLang = string.Empty then
   begin
     LangSource := string.Empty;
-    Trans.LangSource := string.Empty;
+    Trans.SourceLanguage := string.Empty;
     exit;
   end;
 
@@ -4753,7 +4731,7 @@ begin
     end;
 
     ComboSource.Hint := LongestString([FLangSource, ComboSource.Text]);
-    Trans.LangSource := FLangSource;
+    Trans.SourceLanguage := FLangSource;
     UpdateCheckMenuPair;
     UpdateSpellCheck;
     if FIconTwoLang then SetTrayIcon;
@@ -4767,7 +4745,7 @@ begin
   if NewLang = string.Empty then
   begin
     LangTarget := string.Empty;
-    Trans.LangTarget := string.Empty;
+    Trans.TargetLanguage := string.Empty;
     exit;
   end;
 
@@ -4803,7 +4781,7 @@ begin
     end;
 
     ComboTarget.Hint := LongestString([FLangTarget, ComboTarget.Text]);
-    Trans.LangTarget := FLangTarget;
+    Trans.TargetLanguage := FLangTarget;
     UpdateCheckMenuPair;
     SetTrayIcon;
   end;
@@ -4976,8 +4954,7 @@ end;
 
 procedure TformTrayslate.UpdateTranslateButtonState(ForceTranslateButton: boolean = False);
 begin
-  // Both engines count as "translating" - detection runs before the actual translation
-  if (FTrans.IsTranslating or FTransDetect.IsTranslating) and not ForceTranslateButton then
+  if FTrans.IsTranslating and not ForceTranslateButton then
   begin
     aTranslate.ImageIndex := TDarkUtils.ThemeValue(16, 17);
     aTranslate.Hint := rtranslatestop;
@@ -5382,23 +5359,20 @@ end;
 
 {%Region -fold Translate Methods}
 
-function TformTrayslate.TranslateThread(ATrans: TTranslate; AText: string; AMemo: TRichMemo = nil): string;
+function TformTrayslate.TranslateThread(ATrans: TTranslate; AText: string; AMemo: TRichMemo = nil;
+  ADetectLanguage: boolean = True): string;
 begin
-  // Detection runs silently and does not touch the translate target
-  if ATrans <> FTransDetect then
-    TranslateTarget := AMemo;
-
+  TranslateTarget := AMemo;
   try
-    Result := ATrans.TranslateSync(AText);
+    Result := ATrans.TranslateSync(AText, ADetectLanguage);
   finally
-    if ATrans <> FTransDetect then
-      TranslateTarget := nil;
+    TranslateTarget := nil;
   end;
 end;
 
 procedure TformTrayslate.TransStart(Sender: TObject);
 begin
-  // Update UI for both engines - button shows Cancel immediately on detection
+  // Detection and translation share one thread; show Cancel immediately
   UpdateTranslateButtonState;
   Screen.Cursor := crAppStart;
   TimerAnimate.Enabled := True;
@@ -5408,9 +5382,6 @@ procedure TformTrayslate.TransComplete(Sender: TObject; const AText: string);
 var
   Zoom: double;
 begin
-  // Detection is silent - no memo update, no clipboard, no UI side effects
-  if Sender = FTransDetect then Exit;
-
   // Update the translate target memo if any
   if Assigned(TranslateTarget) and (TranslateTarget is TRichMemo) then
   begin
@@ -5434,27 +5405,15 @@ end;
 procedure TformTrayslate.TransFinish(Sender: TObject);
 begin
   UpdateTranslateButtonState;
-
-  // Detection is the first phase of a single translate operation.
-  // While a translate target is set the operation is still in progress,
-  // so keep the cursor and animation running to avoid a visible flicker.
-  if (Sender = FTransDetect) and Assigned(TranslateTarget) then
-    Exit;
-
   Screen.Cursor := crDefault;
   TimerAnimate.Enabled := False;
-
-  // Only the main translate engine owns the translate target
-  if Sender = FTrans then
-    TranslateTarget := nil;
+  TranslateTarget := nil;
 end;
 
 procedure TformTrayslate.CancelTranslate;
 begin
   try
-    // Cancel both engines - they were sequential before and share user intent
     FTrans.CancelTranslate;
-    FTransDetect.CancelTranslate;
     TranslateTarget := nil;
   finally
     UpdateTranslateButtonState;
@@ -5471,128 +5430,75 @@ begin
   end;
 end;
 
-procedure TformTrayslate.DetectLanguage(AText: string);
+procedure TformTrayslate.TransLanguageDetected(Sender: TObject; const AResult: TLanguageDetectResult);
 var
-  langSrc, langTar, langDetect, langPrimary, langSecondary: string;
-  idxSrc, idxTar, idx: integer;
-  NeedHint: boolean = False;
+  Idx: integer;
+  DisplayName: string;
+  NeedHint: boolean;
 begin
-  if FTransDetect.Cancelled then Exit;
-  if not FAutoSwap or not Trans.ServiceAutoSwap or not Assigned(FTransDetect) then Exit;
+  // Component already applied the result via Detect.AutoApply
+  if AResult.Applied then Exit;
 
-  langSrc := string.Empty;
-  langTar := string.Empty;
-  idxSrc := FLanguages.IndexOf(ComboSource.Text);
-  idxTar := FLanguages.IndexOf(ComboTarget.Text);
-  //  if (idxSrc < 0) or (idxTar < 0) then Exit;
+  NeedHint := False;
 
-  // Check selected languages
-  if (idxSrc >= 0) then
-    langSrc := LowerCase(Trans.Languages.Names[idxSrc]);
-  if (idxTar >= 0) then
-    langTar := LowerCase(Trans.Languages.Names[idxTar]);
-  langPrimary := LowerCase(PrimaryLang);
-  langSecondary := LowerCase(SecondaryLang);
-
-  // Detect language in source memo
-  if BuiltInDetect then
-    langDetect := FTrans.DetectLanguage(AText, langSrc)
-  else
-    langDetect := LowerCase(TranslateThread(TransDetect, AText.ExtractTextSample));
-
-  // Update deprecated codes
-  langDetect := FTrans.NormalizeLanguageCode(langDetect);
-
-  if FTransDetect.Cancelled or (langDetect = string.Empty) or (Length(langDetect) > 5) or (langDetect = UNKNOWN) then Exit;
-
-  // Swap if needed
-  if not SmartSwap then
-  begin
-    // Ordinary swap
-    if ((langSrc = langDetect) or (langTar = langDetect)) and (not TLanguages.IsSpecialCode(langSrc)) and
-      (not TLanguages.IsSpecialCode(langTar)) then
+  case AResult.Action of
+    ldaSwap:
     begin
-      if (langTar = langDetect) then
+      if SwapLanguages(False, True) then
+        NeedHint := True;
+    end;
+
+    ldaChangeSource:
+    begin
+      Idx := Trans.Languages.IndexOfNameIgnoreCase(AResult.NewSource);
+      if (Idx >= 0) and (Idx < FLanguages.Count) then
       begin
-        SwapLanguages;
-        ShowCustomHint(TrayIcon.Hint);
+        DisplayName := FLanguages.ValueFromIndex[Idx];
+        ChangeSourceLang(DisplayName, False);
+        NeedHint := True;
       end;
     end;
-  end
-  else
-  begin
-    // Smart swap
-    if ((langSrc = langDetect) or (langTar = langDetect)) and (not TLanguages.IsSpecialCode(langSrc)) and
-      (not TLanguages.IsSpecialCode(langTar)) and ((not SmartHard) or (((langSrc = langPrimary) and (langTar = langSecondary)) or
-      ((langSrc = langSecondary) and (langTar = langPrimary)))) then
+
+    ldaChangeTarget:
     begin
-      if (langTar = langDetect) then
+      Idx := Trans.Languages.IndexOfNameIgnoreCase(AResult.NewTarget);
+      if (Idx >= 0) and (Idx < FLanguages.Count) then
       begin
-        SwapLanguages;
-        ShowCustomHint(TrayIcon.Hint);
-      end;
-    end
-    else
-    begin
-      if (langSrc <> langDetect) or (TLanguages.IsSpecialCode(langSrc)) then
-      begin
-        if (langDetect = langPrimary) then
-        begin
-          if (langSrc <> langPrimary) and (not TLanguages.IsSpecialCode(langSrc)) then
-          begin
-            idx := Trans.Languages.IndexOfNameIgnoreCase(langPrimary);
-            if (idx > 0) and (idx < FLanguages.Count) then
-            begin
-              ChangeSourceLang(FLanguages[idx], False);
-              NeedHint := True;
-            end;
-          end;
-          if (langTar <> langSecondary) and (SmartHard) then
-          begin
-            idx := Trans.Languages.IndexOfNameIgnoreCase(langSecondary);
-            if (idx > 0) and (idx < FLanguages.Count) then
-            begin
-              ChangeTargetLang(FLanguages[idx]);
-              NeedHint := True;
-            end;
-          end;
-          if NeedHint then
-            ShowCustomHint(TrayIcon.Hint);
-        end
-        else
-        begin
-          if (langSrc <> langDetect) and (not TLanguages.IsSpecialCode(langSrc)) then
-          begin
-            idx := Trans.Languages.IndexOfNameIgnoreCase(langDetect);
-            if (idx > 0) and (idx < FLanguages.Count) then
-            begin
-              ChangeSourceLang(FLanguages[idx], False);
-              NeedHint := True;
-            end;
-          end;
-          if (langTar <> langPrimary) and (SmartHard) then
-          begin
-            idx := Trans.Languages.IndexOfNameIgnoreCase(langPrimary);
-            if (idx > 0) and (idx < FLanguages.Count) then
-            begin
-              ChangeTargetLang(FLanguages[idx]);
-              NeedHint := True;
-            end;
-          end;
-          if NeedHint then
-            ShowCustomHint(TrayIcon.Hint);
-        end;
+        DisplayName := FLanguages.ValueFromIndex[Idx];
+        ChangeTargetLang(DisplayName, True);
+        NeedHint := True;
       end;
     end;
+
+    ldaChangeBoth:
+    begin
+      Idx := Trans.Languages.IndexOfNameIgnoreCase(AResult.NewSource);
+      if (Idx >= 0) and (Idx < FLanguages.Count) then
+      begin
+        DisplayName := FLanguages.ValueFromIndex[Idx];
+        ChangeSourceLang(DisplayName, False);
+        NeedHint := True;
+      end;
+      Idx := Trans.Languages.IndexOfNameIgnoreCase(AResult.NewTarget);
+      if (Idx >= 0) and (Idx < FLanguages.Count) then
+      begin
+        DisplayName := FLanguages.ValueFromIndex[Idx];
+        ChangeTargetLang(DisplayName, True);
+        NeedHint := True;
+      end;
+    end;
+
+    ldaNone:
+      ; // nothing to do, translation proceeds with current languages
   end;
 
-  UpdateSpellCheck;
+  if NeedHint then
+    ShowCustomHint(TrayIcon.Hint);
 end;
 
 procedure TformTrayslate.TranslateMemo(ADetectLanguage: boolean = True);
 begin
   FTrans.Cancelled := False;
-  FTransDetect.Cancelled := False;
 
   if TimerTranslate.Enabled then
     TimerTranslate.Enabled := False;
@@ -5605,17 +5511,8 @@ begin
       Exit;
     end;
 
-    // Set target early so the memo is gray during language detection
-    TranslateTarget := formPopupTrayslate.MemoTarget;
-    try
-      if (ADetectLanguage) then
-        DetectLanguage(formPopupTrayslate.SourceText);
-
-      // Create translation thread for popup
-      TranslateThread(Trans, formPopupTrayslate.SourceText, formPopupTrayslate.MemoTarget);
-    finally
-      TranslateTarget := nil;
-    end;
+    // Create translation thread for popup; detection is handled inside the engine
+    TranslateThread(Trans, formPopupTrayslate.SourceText, formPopupTrayslate.MemoTarget, ADetectLanguage);
   end
   else
   begin
@@ -5625,45 +5522,27 @@ begin
       Exit;
     end;
 
-    TranslateTarget := MemoTarget;
-    try
-      if (ADetectLanguage) then
-        DetectLanguage(MemoSource.Text);
-
-      // Create translation thread
-      TranslateThread(Trans, MemoSource.Text, MemoTarget);
-    finally
-      TranslateTarget := nil;
-    end;
+    // Create translation thread; detection is handled inside the engine
+    TranslateThread(Trans, MemoSource.Text, MemoTarget, ADetectLanguage);
   end;
 end;
 
 procedure TformTrayslate.TranslatePopup(AText: string; X: integer = 0; Y: integer = 0);
 begin
   FTrans.Cancelled := False;
-  FTransDetect.Cancelled := False;
 
   if TimerTranslate.Enabled then
     TimerTranslate.Enabled := False;
 
   ShowPopup(AText, ifthen(X > 0, X, Mouse.CursorPos.X), ifthen(Y > 0, Y, Mouse.CursorPos.Y));
 
-  // Set target early so the memo is gray during language detection
-  TranslateTarget := formPopupTrayslate.MemoTarget;
-  try
-    DetectLanguage(AText);
-
-    // Create translation thread (it will handle exceptions itself)
-    TranslateThread(Trans, AText, formPopupTrayslate.MemoTarget);
-  finally
-    TranslateTarget := nil;
-  end;
+  // Detection is handled inside the translate engine
+  TranslateThread(Trans, AText, formPopupTrayslate.MemoTarget);
 end;
 
 procedure TformTrayslate.TranslateFromClipboard;
 begin
   FTrans.Cancelled := False;
-  FTransDetect.Cancelled := False;
 
   if not Showing then
     Show;
@@ -5682,7 +5561,6 @@ var
   TranslatedText: string;
 begin
   FTrans.Cancelled := False;
-  FTransDetect.Cancelled := False;
 
   {$IFDEF WINDOWS}
   SetSystemCursor(LoadCursor(0, IDC_APPSTARTING), OCR_IBEAM);
@@ -5695,8 +5573,6 @@ begin
       TimerTranslate.Enabled := False;
 
     if Clipboard.AsText = string.Empty then Exit;
-
-    DetectLanguage(Clipboard.AsText);
 
     TranslatedText := TranslateThread(Trans, Clipboard.AsText);
 
@@ -5716,7 +5592,6 @@ var
   ClipboardText: string;
 begin
   FTrans.Cancelled := False;
-  FTransDetect.Cancelled := False;
 
   {$IFDEF WINDOWS}
   SetSystemCursor(LoadCursor(0, IDC_APPSTARTING), OCR_IBEAM);
@@ -5736,16 +5611,8 @@ begin
       ShowPopup(ClipboardText);
     if ClipboardText = string.Empty then Exit;
 
-    // Set target early so the memo is gray during language detection
-    TranslateTarget := formPopupTrayslate.MemoTarget;
-    try
-      DetectLanguage(ClipboardText);
-
-      // Create translation thread (it will handle exceptions itself)
-      TranslateThread(Trans, ClipboardText, formPopupTrayslate.MemoTarget);
-    finally
-      TranslateTarget := nil;
-    end;
+    // Detection is handled inside the translate engine
+    TranslateThread(Trans, ClipboardText, formPopupTrayslate.MemoTarget);
   finally
     {$IFDEF WINDOWS}
     SystemParametersInfo(SPI_SETCURSORS, 0, nil, 0);
@@ -5773,7 +5640,6 @@ begin
   FOCRActive := True;
   try
     FTrans.Cancelled := False;
-    FTransDetect.Cancelled := False;
     RecognizedText := '';
     WasVisible := False;
 
@@ -5837,7 +5703,6 @@ begin
               // Mirror the TranslateFromClipboard flow with the recognized text
             begin
               FTrans.Cancelled := False;
-              FTransDetect.Cancelled := False;
               if not Showing then Show;
               BringToFront;
               FTopMost := True;
@@ -5993,7 +5858,6 @@ var
 
 begin
   FTrans.Cancelled := False;
-  FTransDetect.Cancelled := False;
 
   // Save current clipboard to restore later
   SaveClipboad;
@@ -6051,7 +5915,6 @@ var
 
 begin
   FTrans.Cancelled := False;
-  FTransDetect.Cancelled := False;
 
   {$IFDEF WINDOWS}
   SetSystemCursor(LoadCursor(0, IDC_APPSTARTING), OCR_IBEAM);
@@ -6078,8 +5941,6 @@ begin
 
     if SelectedText <> string.Empty then
     begin
-      DetectLanguage(SelectedText);
-
       TranslatedText := TranslateThread(Trans, SelectedText);
       if Trim(TranslatedText) <> string.Empty then
       begin
@@ -6133,7 +5994,6 @@ var
 
 begin
   FTrans.Cancelled := False;
-  FTransDetect.Cancelled := False;
 
   // Save current clipboard to restore later
   SaveClipboad;
@@ -6155,16 +6015,8 @@ begin
   begin
     ShowPopup(SelectedText, Mouse.CursorPos.X, Mouse.CursorPos.Y);
 
-    // Set target early so the memo is gray during language detection
-    TranslateTarget := formPopupTrayslate.MemoTarget;
-    try
-      DetectLanguage(SelectedText);
-
-      // Create translation thread (it will handle exceptions itself)
-      TranslateThread(Trans, SelectedText, formPopupTrayslate.MemoTarget);
-    finally
-      TranslateTarget := nil;
-    end;
+    // Detection is handled inside the translate engine
+    TranslateThread(Trans, SelectedText, formPopupTrayslate.MemoTarget);
   end;
 end;
 
@@ -6195,7 +6047,6 @@ var
 
 begin
   FTrans.Cancelled := False;
-  FTransDetect.Cancelled := False;
   FMouseHook.Enabled := False;
   try
     // Save current clipboard to restore later
@@ -6237,8 +6088,6 @@ begin
 
         mmShowBalloonTranslation:
         begin
-          DetectLanguage(SelectedText);
-
           TranslatedText := TranslateThread(Trans, SelectedText);
           if Trim(TranslatedText) <> string.Empty then
           begin
@@ -6252,16 +6101,8 @@ begin
         begin
           ShowPopup(SelectedText, ACursorPos.X, ACursorPos.Y);
 
-          // Set target early so the memo is gray during language detection
-          TranslateTarget := formPopupTrayslate.MemoTarget;
-          try
-            DetectLanguage(SelectedText);
-
-            // Create translation thread (it will handle exceptions itself)
-            TranslateThread(Trans, SelectedText, formPopupTrayslate.MemoTarget);
-          finally
-            TranslateTarget := nil;
-          end;
+          // Detection is handled inside the translate engine
+          TranslateThread(Trans, SelectedText, formPopupTrayslate.MemoTarget);
         end;
 
         mmShowMainWindow:
