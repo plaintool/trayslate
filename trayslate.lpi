@@ -181,6 +181,7 @@
         <ComponentName Value="formConfigTrayslate"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="FormConfig"/>
       </Unit>
       <Unit>
         <Filename Value="forms\formpopup.pas"/>

@@ -571,7 +571,7 @@ begin
   Screen.Cursor := crHourGlass;
   try
     LastIndex := ComboConfig.ItemIndex;
-    TTranslate.GetIniFiles(formTrayslate.ConfigFiles);
+    TTranslate.GetIniFiles(formTrayslate.ConfigFiles, APP_NAME);
     formTrayslate.BuildConfigMenu;
     Application.QueueAsyncCall(@formTrayslate.RebuildLangPairsPanel, 0);
     UpdateConfigList;

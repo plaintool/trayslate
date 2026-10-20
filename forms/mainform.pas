@@ -969,7 +969,7 @@ begin
   FConfigTitles := TStringList.Create;
   FConfigColors := TStringList.Create;
   FConfigImages := TStringList.Create;
-  TTranslate.GetIniFiles(FConfigFiles);
+  TTranslate.GetIniFiles(FConfigFiles, APP_NAME);
   BuildConfigMenu;
   FConfigLangDetect := TTranslate.GetConfigFullPath(FConfigLangDetect, FConfigFiles);
 

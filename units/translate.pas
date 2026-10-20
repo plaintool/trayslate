@@ -145,11 +145,11 @@ type
     procedure LoadIniSettings(AFileName: string);
     class function IsValidIni(const FileName: string): boolean; static;
     class procedure FindIniFiles(const Dir: string; List: TStrings); static;
-    class procedure GetIniFiles(List: TStrings); static;
+    class procedure GetIniFiles(List: TStrings; AppName: string); static;
     class function GetConfigFullPath(const ConfigName: string; ConfigFiles: TStringList): string; static;
     class function ConfigSortByOrderPathName(List: TStringList; Index1, Index2: integer): integer; static;
     class procedure ClearSection(AIni: TIniFile; const ASection: string; AErase: boolean); static;
-    class function GetIniDirectory(fileName: string = string.Empty): string; static;
+    class function GetIniDirectory(AppName: string; fileName: string = string.Empty): string;
 
     property LangSource: string read FLangSource write FLangSource;
     property LangTarget: string read FLangTarget write FLangTarget;
@@ -236,7 +236,7 @@ const
 
 implementation
 
-uses Consts, StringsHelper, StringHelper, Localize, OSUtils, Languages;
+uses StringsHelper, StringHelper, Localize, OSUtils, Languages;
 
   {%Region -fold TTranslate }
 
@@ -1857,7 +1857,7 @@ begin
   end;
 end;
 
-class procedure TTranslate.GetIniFiles(List: TStrings);
+class procedure TTranslate.GetIniFiles(List: TStrings; AppName: string);
 var
   ExeDir: string;
   SettingsDir: string;
@@ -1869,7 +1869,7 @@ begin
   FindIniFiles(ExeDir, List);
 
   // Settings directory
-  SettingsDir := TOS.GetSettingsDirectory(APP_NAME, '');
+  SettingsDir := TOS.GetSettingsDirectory(AppName, '');
   if CompareText(ExcludeTrailingPathDelimiter(ExeDir), ExcludeTrailingPathDelimiter(SettingsDir)) <> 0 then
     FindIniFiles(SettingsDir, List);
 end;
@@ -1951,12 +1951,12 @@ begin
   end;
 end;
 
-class function TTranslate.GetIniDirectory(fileName: string = string.Empty): string;
+class function TTranslate.GetIniDirectory(AppName: string; fileName: string = string.Empty): string;
 begin
   {$IFDEF WINDOWS}
   Result := ExtractFilePath(ParamStr(0)) + fileName;
   {$ELSE}
-  Result := IncludeTrailingPathDelimiter(GetUserDir) + '.config/trayslate/' + filename;
+  Result := IncludeTrailingPathDelimiter(GetUserDir) + '.config/' + AppName + '/' + filename;
   {$ENDIF}
 end;
 
