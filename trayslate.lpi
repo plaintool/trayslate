@@ -70,7 +70,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="forms;units"/>
+            <OtherUnitFiles Value="src"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -132,13 +132,13 @@
         <PackageName Value="darkmode"/>
       </Item>
       <Item>
-        <PackageName Value="laz_synapse"/>
-      </Item>
-      <Item>
         <PackageName Value="helpers"/>
       </Item>
       <Item>
         <PackageName Value="toolkit"/>
+      </Item>
+      <Item>
+        <PackageName Value="translator"/>
       </Item>
       <Item>
         <PackageName Value="richkit"/>
@@ -161,7 +161,7 @@
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="forms\mainform.pas"/>
+        <Filename Value="src\mainform.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="formTrayslate"/>
         <HasResources Value="True"/>
@@ -169,14 +169,14 @@
         <UnitName Value="MainForm"/>
       </Unit>
       <Unit>
-        <Filename Value="forms\formsettings.pas"/>
+        <Filename Value="src\formsettings.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="formSettingsTrayslate"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
-        <Filename Value="forms\formconfig.pas"/>
+        <Filename Value="src\formconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="formConfigTrayslate"/>
         <HasResources Value="True"/>
@@ -184,87 +184,42 @@
         <UnitName Value="FormConfig"/>
       </Unit>
       <Unit>
-        <Filename Value="forms\formpopup.pas"/>
+        <Filename Value="src\formpopup.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="formPopupTrayslate"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
-        <Filename Value="forms\formbutton.pas"/>
+        <Filename Value="src\formbutton.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="formButtonTrayslate"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
-        <Filename Value="forms\formdonate.pas"/>
+        <Filename Value="src\formdonate.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="formDonateTrayslate"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
-        <Filename Value="forms\formabout.pas"/>
+        <Filename Value="src\formabout.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="formAboutTrayslate"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
-        <Filename Value="units\consts.pas"/>
+        <Filename Value="src\consts.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Consts"/>
       </Unit>
       <Unit>
-        <Filename Value="units\settings.pas"/>
+        <Filename Value="src\settings.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Settings"/>
-      </Unit>
-      <Unit>
-        <Filename Value="units\translate.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="Translate"/>
-      </Unit>
-      <Unit>
-        <Filename Value="units\languages.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="Languages"/>
-      </Unit>
-      <Unit>
-        <Filename Value="units\langdetect.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="LangDetect"/>
-      </Unit>
-      <Unit>
-        <Filename Value="units\network.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="Network"/>
-      </Unit>
-      <Unit>
-        <Filename Value="units\scriptrunner.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="ScriptRunner"/>
-      </Unit>
-      <Unit>
-        <Filename Value="units\langprofiles_data.inc"/>
-        <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
-        <Filename Value="units\languages_data.inc"/>
-        <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
-        <Filename Value="units\currency_data.inc"/>
-        <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
-        <Filename Value="units\currencycrypto_data.inc"/>
-        <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
-        <Filename Value="units\units_data.inc"/>
-        <IsPartOfProject Value="True"/>
       </Unit>
     </Units>
   </ProjectOptions>
@@ -276,7 +231,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="forms;units"/>
+      <OtherUnitFiles Value="src"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

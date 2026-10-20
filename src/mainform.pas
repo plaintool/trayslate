@@ -3533,6 +3533,8 @@ begin
     FTransDetect.LoadIniSettings(FConfigLangDetect)
   else
   begin
+    // Recreate the engine to reset its state; the instance must stay alive
+    // because SetProxy and SettingsFormClose access it without nil checks
     FreeAndNil(FTransDetect);
     FTransDetect := TTranslate.Create;
     FTransDetect.OnGetParameter := @TranslateGetParameter;
@@ -3545,6 +3547,7 @@ begin
   // Disable proxy if not in the proxied list
   if ProxiedConfigs.Count > 0 then
   begin
+    // Translate Proxy
     if not ProxiedConfigs.Contains(FConfigFile) then
       FTrans.AllowProxy := False
     else

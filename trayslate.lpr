@@ -37,8 +37,8 @@ begin
 
   RequireDerivedFormResource := True;
   Language := TLocalize.GetOSLanguage;
-  Application.Title := 'Trayslate';
-  Application.Scaled := True;
+  Application.Title:='Trayslate';
+  Application.Scaled:=True;
   Application.Initialize;
   if not AcquireSingleInstance then
   begin

@@ -30,3 +30,7 @@
 	path = libs/designkit
 	url = https://github.com/plainlib/designkit.git
 	branch = main
+[submodule "libs/translator"]
+	path = libs/translator
+	url = https://github.com/plainlib/translator.git
+	branch = main
