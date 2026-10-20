@@ -395,15 +395,11 @@ type
   private
     FTrans: TTranslate;
     FTransDetect: TTranslate;
-    FTranslateThread: TTranslateThread;
     FTranslateTarget: TWinControl;
     FFormSmallIcon: TIcon;
     FDropTarget: TTextDropTarget;
-    FRawTranslate: string;
-    FActiveThreads: TList;
     FProxy: TProxy;
     FTimeout: TTimeout;
-    FCancelled: boolean;
     FOCRActive: boolean;
     FTopMost: boolean;
     FLeftButton: boolean;
@@ -568,6 +564,7 @@ type
     procedure SetProxy(Value: TProxy);
     procedure SetTranslateTarget(Value: TWinControl);
     procedure SetBuiltInDetect(Value: boolean);
+    function GetRawTranslate: string;
 
     procedure ChangeSourceLang(NewLang: string; AddRecentPairs: boolean = True);
     procedure ChangeTargetLang(NewLang: string; AddRecentPairs: boolean = True);
@@ -664,7 +661,9 @@ type
 
     // Translate Methods
     function TranslateThread(ATrans: TTranslate; AText: string; AMemo: TRichMemo = nil): string;
-    procedure ThreadDone(Sender: TObject);
+    procedure TransStart(Sender: TObject);
+    procedure TransComplete(Sender: TObject; const AText: string);
+    procedure TransFinish(Sender: TObject);
     procedure CancelTranslate;
     procedure DetectLanguage(AText: string);
     procedure TranslateMemo(ADetectLanguage: boolean = True);
@@ -761,7 +760,7 @@ type
     property FormAboutHeight: integer read FFormAboutHeight write FFormAboutHeight;
     property LastDarkMode: boolean read FLastDarkMode write FLastDarkMode;
     property CustomPoFile: string read FCustomPoFile write FCustomPoFile;
-    property RawTranslate: string read FRawTranslate write FRawTranslate;
+    property RawTranslate: string read GetRawTranslate;
     property TranslateTarget: TWinControl read FTranslateTarget write SetTranslateTarget;
     property MouseHook: TGlobalMouseHook read FMouseHook write FMouseHook;
     property KeyHook: TGlobalKeyboardHook read FKeyHook write FKeyHook;
@@ -846,10 +845,8 @@ begin
   FLastEnterTime := 0;
   FEnterCount := 0;
   FLastHotkeyTime := 0;
-  FTranslateThread := nil;
   FCustomPoFile := string.Empty;
   FSplitRatio := 0.5;
-  FCancelled := False;
   FOCRActive := False;
   FPopupOpen := False;
   FUnapplyCtrl := False;
@@ -865,7 +862,6 @@ begin
   FillChar(FPrevMouseDown, SizeOf(FPrevMouseDown), 0);
   FClickCount := 0;
   FSettingsPage := 0;
-  FActiveThreads := TList.Create;
   FDragBtnIndex := -1;
   FDragMoved := False;
   FSettingTrayIcon := False;
@@ -907,12 +903,20 @@ begin
   FEnabledLanguages := TStringList.Create;
 
   // Then create engines and wire host-owned references
-  FTrans := TTranslate.Create;
+  FTrans := TTranslate.Create(Self);
   FTrans.OnGetParameter := @TranslateGetParameter;
   FTrans.UserParameters := FUserParameters;
-  FTransDetect := TTranslate.Create;
+  FTrans.OnTranslateStart := @TransStart;
+  FTrans.OnTranslateComplete := @TransComplete;
+  FTrans.OnTranslateFinish := @TransFinish;
+
+  FTransDetect := TTranslate.Create(Self);
   FTransDetect.OnGetParameter := @TranslateGetParameter;
   FTransDetect.UserParameters := FUserParameters;
+  FTransDetect.LangDetect := True;
+  FTransDetect.OnTranslateStart := @TransStart;
+  FTransDetect.OnTranslateComplete := @TransComplete;
+  FTransDetect.OnTranslateFinish := @TransFinish;
 
   // Force memo handles before loading text: TRichMemo may drop content
   // assigned through Lines when its native window is created later
@@ -1032,10 +1036,6 @@ begin
 end;
 
 procedure TformTrayslate.FormDestroy(Sender: TObject);
-var
-  TotalDeadline: DWORD;
-  i: integer;
-  Th: TTranslateThread;
 begin
   TimerAnimate.Enabled := False;
   TimerActive.Enabled := False;
@@ -1051,74 +1051,30 @@ begin
   FreeAndNil(FKeyHook);
   {$ENDIF}
 
-  try
-    // Wait for the thread
-    //if Assigned(FActiveThreads) then
-    //begin
-    //  for i := FActiveThreads.Count - 1 downto 0 do
-    //  begin
-    //    Th := TTranslateThread(FActiveThreads[i]);
-    //    if Assigned(Th) and not Th.Finished and not Th.IsTerminated then Th.WaitFor;
-    //    FActiveThreads.Delete(i);
-    //  end;
-    //  FreeAndNil(FActiveThreads);
-    //end;
+  // Thread cleanup happens inside TTranslate.Destroy
+  if FFormSettingsLoaded then
+    SaveFormSettings(Self);
 
-    // Wait for all active translation threads to finish, with a single global timeout.
-    if Assigned(FActiveThreads) then
-    begin
-      TotalDeadline := TOS.GetTickCountXp + THREADS_WAIT_TIME;
-      repeat
-        // Remove finished threads from the list (iterate backwards)
-        for i := FActiveThreads.Count - 1 downto 0 do
-        begin
-          Th := TTranslateThread(FActiveThreads[i]);
-          if not Assigned(Th) or Th.IsTerminated then
-            FActiveThreads.Delete(i);
-        end;
-        // All threads have finished – exit the wait loop
-        if FActiveThreads.Count = 0 then Break;
-        // Total timeout expired – abandon any remaining threads
-        if TOS.GetTickCountXp >= TotalDeadline then
-        begin
-          {$IFDEF DEBUG}
-          UseHeapTrace := False;
-          {$ENDIF}
-          Break;
-        end;
-        // Keep the message loop alive so threads can post Synchronize calls
-        Application.ProcessMessages;
-        Sleep(1);
-      until False;
+  ShutdownThreads;
+  WaitForThreads;
 
-      // Any threads still left are stuck; they will be reclaimed by the OS when the process exits.
-      FreeAndNil(FActiveThreads);
-    end;
-  finally
-    if FFormSettingsLoaded then
-      SaveFormSettings(Self);
-
-    ShutdownThreads;
-    WaitForThreads;
-
-    FreeAndNil(FLangPairs);
-    FreeAndNil(FLangPairsHint);
-    FreeAndNil(FUserParameters);
-    FreeAndNil(FProxiedConfigs);
-    FreeAndNil(FEnabledLanguages);
-    FreeAndNil(FLanguages);
-    FreeAndNil(FLanguagesTarget);
-    FreeAndNil(FConfigFiles);
-    FreeAndNil(FConfigTitles);
-    FreeAndNil(FConfigColors);
-    FreeAndNil(FConfigImages);
-    FreeAndNil(FTrans);
-    FreeAndNil(FTransDetect);
-    FreeAndNil(FHint);
-    FreeAndNil(FFontPopup);
-    FreeAndNil(FFormSmallIcon);
-    FreeAndNil(FDropTarget);
-  end;
+  FreeAndNil(FLangPairs);
+  FreeAndNil(FLangPairsHint);
+  FreeAndNil(FUserParameters);
+  FreeAndNil(FProxiedConfigs);
+  FreeAndNil(FEnabledLanguages);
+  FreeAndNil(FLanguages);
+  FreeAndNil(FLanguagesTarget);
+  FreeAndNil(FConfigFiles);
+  FreeAndNil(FConfigTitles);
+  FreeAndNil(FConfigColors);
+  FreeAndNil(FConfigImages);
+  FreeAndNil(FTrans);
+  FreeAndNil(FTransDetect);
+  FreeAndNil(FHint);
+  FreeAndNil(FFontPopup);
+  FreeAndNil(FFormSmallIcon);
+  FreeAndNil(FDropTarget);
 end;
 
 procedure TformTrayslate.FormShow(Sender: TObject);
@@ -2331,7 +2287,7 @@ begin
   if Assigned(formPopupTrayslate) then
     formPopupTrayslate.Close;
 
-  if not FCancelled then
+  if FTrans.IsTranslating or FTransDetect.IsTranslating then
     CancelTranslate;
 
   Self.Enabled := False;
@@ -2749,8 +2705,7 @@ begin
       TimerTranslate.Enabled := False;
 
       // Cancel the current translation thread if it is still running
-      if Assigned(FTranslateThread) then
-        FTranslateThread.Cancel;
+      FTrans.CancelTranslate;
     end;
 
     // Start the timer to trigger translation after a short delay (debounce)
@@ -3458,6 +3413,11 @@ begin
     TLangDetect.UnloadProfiles;
 end;
 
+function TformTrayslate.GetRawTranslate: string;
+begin
+  Result := FTrans.RawTranslate;
+end;
+
 {%EndRegion}
 
 {%Region -fold Methods}
@@ -3536,9 +3496,13 @@ begin
     // Recreate the engine to reset its state; the instance must stay alive
     // because SetProxy and SettingsFormClose access it without nil checks
     FreeAndNil(FTransDetect);
-    FTransDetect := TTranslate.Create;
+    FTransDetect := TTranslate.Create(Self);
     FTransDetect.OnGetParameter := @TranslateGetParameter;
     FTransDetect.UserParameters := FUserParameters;
+    FTransDetect.LangDetect := True;
+    FTransDetect.OnTranslateStart := @TransStart;
+    FTransDetect.OnTranslateComplete := @TransComplete;
+    FTransDetect.OnTranslateFinish := @TransFinish;
   end;
 end;
 
@@ -5021,7 +4985,8 @@ end;
 
 procedure TformTrayslate.UpdateTranslateButtonState(ForceTranslateButton: boolean = False);
 begin
-  if Assigned(FTranslateThread) and not FTranslateThread.Finished and not FTranslateThread.IsCancelled and not ForceTranslateButton then
+  // Both engines count as "translating" - detection runs before the actual translation
+  if (FTrans.IsTranslating or FTransDetect.IsTranslating) and not ForceTranslateButton then
   begin
     aTranslate.ImageIndex := TDarkUtils.ThemeValue(16, 17);
     aTranslate.Hint := rtranslatestop;
@@ -5042,7 +5007,7 @@ begin
     if FAutoHeightAfter then
     begin
       FAutoHeightAfter := False;
-      AdjustPopupHeight(FRawTranslate);
+      AdjustPopupHeight(FTrans.RawTranslate);
     end;
 
     // Update StayOnTop NoFocus
@@ -5427,116 +5392,78 @@ end;
 {%Region -fold Translate Methods}
 
 function TformTrayslate.TranslateThread(ATrans: TTranslate; AText: string; AMemo: TRichMemo = nil): string;
-var
-  Th: TTranslateThread;
-  ThDone: boolean;
-  Zoom: double;
 begin
-  Result := string.Empty;
-  if FCancelled then
-  begin
-    Screen.Cursor := crDefault;
-    TimerAnimate.Enabled := False;
-    Exit;
-  end;
-
-  // Ensure any previous translation is fully stopped and cleaned up
-  if Assigned(FTranslateThread) then
-    CancelTranslate;
+  // Detection runs silently and does not touch the translate target
+  if ATrans <> FTransDetect then
+    TranslateTarget := AMemo;
 
   try
-    FCancelled := False;
-    ATrans.TextToTranslate := AText;
-    FRawTranslate := string.Empty;
-    ThDone := False;
-
-    Th := TTranslateThread.Create(ATrans, @FRawTranslate, @ThDone, ATrans = TransDetect);
-    FTranslateThread := Th;
-    FActiveThreads.Add(Th);
-
-    TranslateTarget := AMemo;
-    UpdateTranslateButtonState;
-    Screen.Cursor := crAppStart;
-    TimerAnimate.Enabled := True;
-    Th.OnTerminate := @ThreadDone;
-    Th.Start;
-    try
-      while Assigned(Th) and not ThDone do
-      begin
-        // If the thread was replaced or freed externally, abandon local reference
-        if FCancelled or (FTranslateThread <> Th) then
-        begin
-          Th := nil;
-          Result := string.Empty;
-          Break;
-        end;
-        Application.ProcessMessages;
-        Sleep(1);
-      end;
-      // Result only if the thread is still ours and not cancelled
-      if not FCancelled and (FRawTranslate.Trim <> string.Empty) then
-      begin
-        Result := FRawTranslate;
-        if Assigned(AMemo) then
-        begin
-          Zoom := AMemo.ZoomFactor;
-          AMemo.Text := FRawTranslate;
-          UpdateMemoState(AMemo);
-          AMemo.ZoomFactor := Zoom;
-        end;
-      end;
-    finally
-      if Assigned(Th) then
-      begin
-        FActiveThreads.Remove(Th);
-        Th := nil;   // Th is nil if the thread was replaced/force-killed
-      end;
-    end;
+    Result := ATrans.TranslateSync(AText);
   finally
-    if ATrans <> TransDetect then
-    begin
-      UpdateTranslateButtonState;
-      Screen.Cursor := crDefault;
-      TimerAnimate.Enabled := False;
-    end;
+    if ATrans <> FTransDetect then
+      TranslateTarget := nil;
   end;
 end;
 
-procedure TformTrayslate.ThreadDone(Sender: TObject);
+procedure TformTrayslate.TransStart(Sender: TObject);
 begin
-  if (Sender <> FTranslateThread) then
-    Exit;
+  // Update UI for both engines - button shows Cancel immediately on detection
+  UpdateTranslateButtonState;
+  Screen.Cursor := crAppStart;
+  TimerAnimate.Enabled := True;
+end;
 
-  if Assigned(FTranslateThread) and FTranslateThread.IsCancelled then
+procedure TformTrayslate.TransComplete(Sender: TObject; const AText: string);
+var
+  Zoom: double;
+begin
+  // Detection is silent - no memo update, no clipboard, no UI side effects
+  if Sender = FTransDetect then Exit;
+
+  // Update the translate target memo if any
+  if Assigned(TranslateTarget) and (TranslateTarget is TRichMemo) then
   begin
-    FTranslateThread := nil;
-    TranslateTarget := nil;
-    exit;
+    Zoom := (TranslateTarget as TRichMemo).ZoomFactor;
+    (TranslateTarget as TRichMemo).SetTextSafe(AText);
+    UpdateMemoState(TranslateTarget as TRichMemo);
+    (TranslateTarget as TRichMemo).ZoomFactor := Zoom;
   end;
 
   if FAutoCopy then
-    Clipboard.AsText := FRawTranslate;
+    Clipboard.AsText := AText;
 
-  if not (Sender as TTranslateThread).LangDetect then
-    UpdatePopupState;
+  UpdatePopupState;
 
   if not Visible and (not Assigned(formPopupTrayslate) or not formPopupTrayslate.Visible) then
     ShowCustomHint(TrayIcon.Hint);
 
   FormGrip.Visible := not MemoTarget.VertScrollBar.IsScrollBarVisible;
+end;
 
-  FTranslateThread := nil;
-  TranslateTarget := nil;
+procedure TformTrayslate.TransFinish(Sender: TObject);
+begin
+  UpdateTranslateButtonState;
+
+  // Detection is the first phase of a single translate operation.
+  // While a translate target is set the operation is still in progress,
+  // so keep the cursor and animation running to avoid a visible flicker.
+  if (Sender = FTransDetect) and Assigned(TranslateTarget) then
+    Exit;
+
+  Screen.Cursor := crDefault;
+  TimerAnimate.Enabled := False;
+
+  // Only the main translate engine owns the translate target
+  if Sender = FTrans then
+    TranslateTarget := nil;
 end;
 
 procedure TformTrayslate.CancelTranslate;
 begin
   try
-    FCancelled := True;
-
-    if Assigned(FTranslateThread) then
-      FTranslateThread.Cancel;
-
+    // Cancel both engines - they were sequential before and share user intent
+    FTrans.CancelTranslate;
+    FTransDetect.CancelTranslate;
     TranslateTarget := nil;
   finally
     UpdateTranslateButtonState;
@@ -5559,7 +5486,7 @@ var
   idxSrc, idxTar, idx: integer;
   NeedHint: boolean = False;
 begin
-  if FCancelled then Exit;
+  if FTransDetect.Cancelled then Exit;
   if not FAutoSwap or not Trans.ServiceAutoSwap or not Assigned(FTransDetect) then Exit;
 
   langSrc := string.Empty;
@@ -5585,7 +5512,7 @@ begin
   // Update deprecated codes
   langDetect := TLangDetect.NormalizeLanguageCode(langDetect);
 
-  if FCancelled or (langDetect = string.Empty) or (Length(langDetect) > 5) or (langDetect = UNKNOWN) then Exit;
+  if FTransDetect.Cancelled or (langDetect = string.Empty) or (Length(langDetect) > 5) or (langDetect = UNKNOWN) then Exit;
 
   // Swap if needed
   if not SmartSwap then
@@ -5673,7 +5600,8 @@ end;
 
 procedure TformTrayslate.TranslateMemo(ADetectLanguage: boolean = True);
 begin
-  FCancelled := False;
+  FTrans.Cancelled := False;
+  FTransDetect.Cancelled := False;
 
   if TimerTranslate.Enabled then
     TimerTranslate.Enabled := False;
@@ -5686,11 +5614,17 @@ begin
       Exit;
     end;
 
-    if (ADetectLanguage) then
-      DetectLanguage(formPopupTrayslate.SourceText);
+    // Set target early so the memo is gray during language detection
+    TranslateTarget := formPopupTrayslate.MemoTarget;
+    try
+      if (ADetectLanguage) then
+        DetectLanguage(formPopupTrayslate.SourceText);
 
-    // Create translation thread for popup
-    TranslateThread(Trans, formPopupTrayslate.SourceText, formPopupTrayslate.MemoTarget);
+      // Create translation thread for popup
+      TranslateThread(Trans, formPopupTrayslate.SourceText, formPopupTrayslate.MemoTarget);
+    finally
+      TranslateTarget := nil;
+    end;
   end
   else
   begin
@@ -5700,32 +5634,45 @@ begin
       Exit;
     end;
 
-    if (ADetectLanguage) then
-      DetectLanguage(MemoSource.Text);
+    TranslateTarget := MemoTarget;
+    try
+      if (ADetectLanguage) then
+        DetectLanguage(MemoSource.Text);
 
-    // Create translation thread
-    TranslateThread(Trans, MemoSource.Text, MemoTarget);
+      // Create translation thread
+      TranslateThread(Trans, MemoSource.Text, MemoTarget);
+    finally
+      TranslateTarget := nil;
+    end;
   end;
 end;
 
 procedure TformTrayslate.TranslatePopup(AText: string; X: integer = 0; Y: integer = 0);
 begin
-  FCancelled := False;
+  FTrans.Cancelled := False;
+  FTransDetect.Cancelled := False;
 
   if TimerTranslate.Enabled then
     TimerTranslate.Enabled := False;
 
   ShowPopup(AText, ifthen(X > 0, X, Mouse.CursorPos.X), ifthen(Y > 0, Y, Mouse.CursorPos.Y));
 
-  DetectLanguage(AText);
+  // Set target early so the memo is gray during language detection
+  TranslateTarget := formPopupTrayslate.MemoTarget;
+  try
+    DetectLanguage(AText);
 
-  // Create translation thread (it will handle exceptions itself)
-  TranslateThread(Trans, AText, formPopupTrayslate.MemoTarget);
+    // Create translation thread (it will handle exceptions itself)
+    TranslateThread(Trans, AText, formPopupTrayslate.MemoTarget);
+  finally
+    TranslateTarget := nil;
+  end;
 end;
 
 procedure TformTrayslate.TranslateFromClipboard;
 begin
-  FCancelled := False;
+  FTrans.Cancelled := False;
+  FTransDetect.Cancelled := False;
 
   if not Showing then
     Show;
@@ -5743,7 +5690,8 @@ procedure TformTrayslate.TranslateClipboard;
 var
   TranslatedText: string;
 begin
-  FCancelled := False;
+  FTrans.Cancelled := False;
+  FTransDetect.Cancelled := False;
 
   {$IFDEF WINDOWS}
   SetSystemCursor(LoadCursor(0, IDC_APPSTARTING), OCR_IBEAM);
@@ -5776,7 +5724,8 @@ procedure TformTrayslate.TranslateClipboardPopup(NearMouse: boolean = False);
 var
   ClipboardText: string;
 begin
-  FCancelled := False;
+  FTrans.Cancelled := False;
+  FTransDetect.Cancelled := False;
 
   {$IFDEF WINDOWS}
   SetSystemCursor(LoadCursor(0, IDC_APPSTARTING), OCR_IBEAM);
@@ -5796,10 +5745,16 @@ begin
       ShowPopup(ClipboardText);
     if ClipboardText = string.Empty then Exit;
 
-    DetectLanguage(ClipboardText);
+    // Set target early so the memo is gray during language detection
+    TranslateTarget := formPopupTrayslate.MemoTarget;
+    try
+      DetectLanguage(ClipboardText);
 
-    // Create translation thread (it will handle exceptions itself)
-    TranslateThread(Trans, ClipboardText, formPopupTrayslate.MemoTarget);
+      // Create translation thread (it will handle exceptions itself)
+      TranslateThread(Trans, ClipboardText, formPopupTrayslate.MemoTarget);
+    finally
+      TranslateTarget := nil;
+    end;
   finally
     {$IFDEF WINDOWS}
     SystemParametersInfo(SPI_SETCURSORS, 0, nil, 0);
@@ -5826,7 +5781,8 @@ begin
   if FOCRActive then Exit;
   FOCRActive := True;
   try
-    FCancelled := False;
+    FTrans.Cancelled := False;
+    FTransDetect.Cancelled := False;
     RecognizedText := '';
     WasVisible := False;
 
@@ -5889,7 +5845,8 @@ begin
             3:
               // Mirror the TranslateFromClipboard flow with the recognized text
             begin
-              FCancelled := False;
+              FTrans.Cancelled := False;
+              FTransDetect.Cancelled := False;
               if not Showing then Show;
               BringToFront;
               FTopMost := True;
@@ -6044,7 +6001,8 @@ var
   end;
 
 begin
-  FCancelled := False;
+  FTrans.Cancelled := False;
+  FTransDetect.Cancelled := False;
 
   // Save current clipboard to restore later
   SaveClipboad;
@@ -6101,7 +6059,8 @@ var
   end;
 
 begin
-  FCancelled := False;
+  FTrans.Cancelled := False;
+  FTransDetect.Cancelled := False;
 
   {$IFDEF WINDOWS}
   SetSystemCursor(LoadCursor(0, IDC_APPSTARTING), OCR_IBEAM);
@@ -6182,7 +6141,8 @@ var
   end;
 
 begin
-  FCancelled := False;
+  FTrans.Cancelled := False;
+  FTransDetect.Cancelled := False;
 
   // Save current clipboard to restore later
   SaveClipboad;
@@ -6204,10 +6164,16 @@ begin
   begin
     ShowPopup(SelectedText, Mouse.CursorPos.X, Mouse.CursorPos.Y);
 
-    DetectLanguage(SelectedText);
+    // Set target early so the memo is gray during language detection
+    TranslateTarget := formPopupTrayslate.MemoTarget;
+    try
+      DetectLanguage(SelectedText);
 
-    // Create translation thread (it will handle exceptions itself)
-    TranslateThread(Trans, SelectedText, formPopupTrayslate.MemoTarget);
+      // Create translation thread (it will handle exceptions itself)
+      TranslateThread(Trans, SelectedText, formPopupTrayslate.MemoTarget);
+    finally
+      TranslateTarget := nil;
+    end;
   end;
 end;
 
@@ -6237,7 +6203,8 @@ var
   end;
 
 begin
-  FCancelled := False;
+  FTrans.Cancelled := False;
+  FTransDetect.Cancelled := False;
   FMouseHook.Enabled := False;
   try
     // Save current clipboard to restore later
@@ -6294,10 +6261,16 @@ begin
         begin
           ShowPopup(SelectedText, ACursorPos.X, ACursorPos.Y);
 
-          DetectLanguage(SelectedText);
+          // Set target early so the memo is gray during language detection
+          TranslateTarget := formPopupTrayslate.MemoTarget;
+          try
+            DetectLanguage(SelectedText);
 
-          // Create translation thread (it will handle exceptions itself)
-          TranslateThread(Trans, SelectedText, formPopupTrayslate.MemoTarget);
+            // Create translation thread (it will handle exceptions itself)
+            TranslateThread(Trans, SelectedText, formPopupTrayslate.MemoTarget);
+          finally
+            TranslateTarget := nil;
+          end;
         end;
 
         mmShowMainWindow:

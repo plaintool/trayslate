@@ -78,7 +78,6 @@ const
   MOUSE_MODE_DELTA = 10; // pixel
   MOUSE_DBL_INTERVAL = 500; // ms
   BUTTON_DELTA = 10;
-  THREADS_WAIT_TIME = 5000; // ms
 
   MIDDLE_MOUSE = 'Middle-Click';
   DEF_LANGDETECT = 'languagedetect.ini';

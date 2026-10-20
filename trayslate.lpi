@@ -151,6 +151,7 @@
       <Unit>
         <Filename Value="trayslate.lpr"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="Trayslate"/>
       </Unit>
       <Unit>
         <Filename Value="LICENSE"/>
