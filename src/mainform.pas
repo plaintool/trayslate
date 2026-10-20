@@ -803,7 +803,7 @@ var
 
 implementation
 
-uses FormDonate, FormAbout, FormSettings, FormConfig, FormPopup, FormButton, Settings, Languages, LangDetect,
+uses FormDonate, FormAbout, FormSettings, FormConfig, FormPopup, FormButton, Settings, Languages,
   CheckUpdates, Base64Utils, Localize, ColorHelper, ControlsHelper, DarkUtils, PascalUtils, FlatButton,
   RichMemoHelper, OneShotThread;
 
@@ -1027,8 +1027,7 @@ begin
   SetLanguage(Language);
 
   // Load LangDetect Profiles
-  if BuiltInDetect then
-    TLangDetect.LoadProfiles;
+  FTrans.AutoLoadProfiles := BuiltInDetect;
 
   FTopMost := False;
   FFirstRun := False;
@@ -3226,10 +3225,7 @@ begin
   else
     FAutoSwap := Value;
 
-  if FBuiltInDetect and FAutoSwap then
-    TLangDetect.LoadProfiles
-  else
-    TLangDetect.UnloadProfiles;
+  FTrans.AutoLoadProfiles := FBuiltInDetect and FAutoSwap;
 end;
 
 procedure TformTrayslate.SetAllowHotkeys(Value: boolean);
@@ -3406,10 +3402,7 @@ end;
 procedure TformTrayslate.SetBuiltInDetect(Value: boolean);
 begin
   FBuiltInDetect := Value;
-  if FBuiltInDetect and FAutoSwap then
-    TLangDetect.LoadProfiles
-  else
-    TLangDetect.UnloadProfiles;
+  FTrans.AutoLoadProfiles := FBuiltInDetect and FAutoSwap;
 end;
 
 function TformTrayslate.GetRawTranslate: string;
@@ -5503,12 +5496,12 @@ begin
 
   // Detect language in source memo
   if BuiltInDetect then
-    langDetect := TLangDetect.DetectLanguageSafe(AText.ExtractTextSample(1000), langSrc, 0.5, Trans.LanguageCodes)
+    langDetect := FTrans.DetectLanguage(AText, langSrc)
   else
     langDetect := LowerCase(TranslateThread(TransDetect, AText.ExtractTextSample));
 
   // Update deprecated codes
-  langDetect := TLangDetect.NormalizeLanguageCode(langDetect);
+  langDetect := FTrans.NormalizeLanguageCode(langDetect);
 
   if FTransDetect.Cancelled or (langDetect = string.Empty) or (Length(langDetect) > 5) or (langDetect = UNKNOWN) then Exit;
 

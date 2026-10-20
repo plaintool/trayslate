@@ -81,6 +81,7 @@ const
 
   MIDDLE_MOUSE = 'Middle-Click';
   DEF_LANGDETECT = 'languagedetect.ini';
+  UNKNOWN = 'unknown';
 
   ICON_SIZE = 16;
 
