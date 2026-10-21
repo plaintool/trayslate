@@ -344,7 +344,7 @@ begin
   ComboValueType.Items.Add(rvaluetype4);
   ComboValueType.Items.Add(rvaluetype5);
   ComboValueType.Items.Add(rvaluetype6);
-  ComboValueType.ItemIndex := Ord(formTrayslate.Trans.LangType);
+  ComboValueType.ItemIndex := Ord(formTrayslate.Translate.LangType);
 
   SynScriptParameters.TabWidth := 2;
   SynScriptParameters.Options := SynScriptParameters.Options + [eoTabsToSpaces];
@@ -430,7 +430,7 @@ begin
   Screen.Cursor := crHourGlass;
   try
     if (MemoUrl.Text = string.empty) or not TestChanges then exit;
-    with formTrayslate.Trans do
+    with formTrayslate.Translate do
     begin
       ParametersAge := Now + 3650;
       Get(True).OpenStringInTextEditor;
@@ -447,7 +447,7 @@ begin
   Screen.Cursor := crHourGlass;
   try
     if (MemoPostData.Text = string.empty) or not TestChanges then exit;
-    with formTrayslate.Trans do
+    with formTrayslate.Translate do
     begin
       ParametersAge := Now + 3650;
       Post(True).OpenStringInTextEditor;
@@ -464,7 +464,7 @@ begin
   Screen.Cursor := crHourGlass;
   try
     if (MemoInitUrl.Text = string.empty) or not TestChanges then exit;
-    with formTrayslate.Trans do
+    with formTrayslate.Translate do
     begin
       ParametersAge := Now + 3650;
       GetInit.OpenStringInTextEditor;
@@ -481,7 +481,7 @@ begin
   Screen.Cursor := crHourGlass;
   try
     if (MemoJsonPointer.Text = string.empty) or (formTrayslate.MemoTarget.Text = string.Empty) or not TestChanges then exit;
-    with formTrayslate.Trans do
+    with formTrayslate.Translate do
       ParseResponse(formTrayslate.RawTranslate).OpenStringInTextEditor;
   finally
     Enabled := True;
@@ -495,7 +495,7 @@ begin
   Screen.Cursor := crHourGlass;
   try
     if (MemoInitUrl.Text = string.empty) or (MemoInitParameters.Text = string.empty) or not TestChanges then exit;
-    with formTrayslate.Trans do
+    with formTrayslate.Translate do
     begin
       ParametersAge := Now + 3650;
       if GetParameters(GetInit) then
@@ -513,7 +513,7 @@ begin
   Screen.Cursor := crHourGlass;
   try
     if (SynScriptParameters.Text = string.empty) or not TestChanges then exit;
-    with formTrayslate.Trans do
+    with formTrayslate.Translate do
     begin
       ParametersAge := Now + 3650;
       if GetParameters(GetInit) then
@@ -531,7 +531,7 @@ begin
   Screen.Cursor := crHourGlass;
   try
     if (SynScriptResponse.Text = string.empty) or not TestChanges then exit;
-    with formTrayslate.Trans do
+    with formTrayslate.Translate do
     begin
       ParametersAge := Now + 3650;
       Translate.OpenStringInTextEditor;
@@ -595,8 +595,8 @@ procedure TformConfigTrayslate.ASaveIconAsExecute(Sender: TObject);
 var
   Bmp: TBitmap;
 begin
-  if formTrayslate.Trans.ServiceName <> string.Empty then
-    DialogSave.FileName := formTrayslate.Trans.ServiceName;
+  if formTrayslate.Translate.ServiceName <> string.Empty then
+    DialogSave.FileName := formTrayslate.Translate.ServiceName;
   if DialogSave.Execute then
   begin
     Bmp := TBase64.Base64ToBitmap(FIconBase64);
@@ -959,7 +959,7 @@ end;
 
 procedure TformConfigTrayslate.UpdateConfig;
 begin
-  with formTrayslate.Trans do
+  with formTrayslate.Translate do
   begin
     EditServiceName.Text := ServiceName;
     FIconBase64 := ServiceIcon;
@@ -1007,7 +1007,7 @@ end;
 
 procedure TformConfigTrayslate.ClearConfig;
 begin
-  with formTrayslate.Trans do
+  with formTrayslate.Translate do
   begin
     Clear;
     UpdateConfig;
@@ -1036,7 +1036,7 @@ begin
 
   Screen.Cursor := crHourGlass;
   try
-    with formTrayslate.Trans do
+    with formTrayslate.Translate do
     begin
       ServiceName := EditServiceName.Text;
       ServiceIcon := FIconBase64;
@@ -1088,7 +1088,7 @@ begin
       InitParameters.Text := MemoInitParameters.Text;
       InitLiveTime := SpinInitLiveTime.Value;
     end;
-    formTrayslate.Trans.SaveIniSettings(formTrayslate.ConfigFile);
+    formTrayslate.Translate.SaveIniSettings(formTrayslate.ConfigFile);
     aSave.Enabled := False;
     formTrayslate.LoadConfig;
     formTrayslate.BuildConfigMenu;

@@ -1965,8 +1965,8 @@ begin
 
     Reset;
 
-    formTrayslate.Trans.Languages.Assign(formTrayslate.Trans.LanguagesOriginal);
-    formTrayslate.Trans.LanguagesTarget.Assign(formTrayslate.Trans.LanguagesTargetOriginal);
+    formTrayslate.Translate.Languages.Assign(formTrayslate.Translate.LanguagesOriginal);
+    formTrayslate.Translate.LanguagesTarget.Assign(formTrayslate.Translate.LanguagesTargetOriginal);
     formTrayslate.RestrictTranslate;
     formTrayslate.LoadLanguages;
     formTrayslate.UpdateComboState;

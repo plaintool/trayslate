@@ -332,15 +332,15 @@ object formTrayslate: TformTrayslate
     OnClick = TrayIconClick
     OnMouseMove = TrayIconMouseMove
     OnMouseUp = TrayIconMouseUp
-    Left = 216
-    Top = 312
+    Left = 32
+    Top = 296
   end
   object PopupTray: TPopupMenu
     Images = ImageConfig
     OnPopup = PopupTrayPopup
     OnClose = PopupTrayClose
-    Left = 128
-    Top = 312
+    Left = 272
+    Top = 72
     object MenuShow: TMenuItem
       Action = aShow
       Default = True
@@ -549,8 +549,8 @@ object formTrayslate: TformTrayslate
   end
   object ActionList: TActionList
     Images = ImageButtons
-    Left = 40
-    Top = 312
+    Left = 32
+    Top = 72
     object aSwap: TAction
       Category = 'Form'
       ImageIndex = 0
@@ -939,12 +939,12 @@ object formTrayslate: TformTrayslate
     Enabled = False
     Interval = 300
     OnTimer = TimerClickTimer
-    Left = 288
-    Top = 312
+    Left = 32
+    Top = 144
   end
   object ImageButtons: TImageList
-    Left = 40
-    Top = 384
+    Left = 32
+    Top = 216
     Bitmap = {
       4C7A1A0000001000000010000000A30500000000000078DAED9CC16B54491087
       4733890A7A8B20FB0708820759082CA2B92677219E7689E4E2594490A009C812
@@ -998,41 +998,41 @@ object formTrayslate: TformTrayslate
     Enabled = False
     Interval = 300
     OnTimer = TimerActiveTimer
-    Left = 376
-    Top = 312
+    Left = 112
+    Top = 144
   end
   object TimerTranslate: TTimer
     Enabled = False
     Interval = 700
     OnTimer = TimerTranslateTimer
-    Left = 288
-    Top = 456
+    Left = 352
+    Top = 144
   end
   object TimerAnimate: TTimer
     Enabled = False
     Interval = 10
     OnTimer = TimerAnimateTimer
     OnStopTimer = TimerAnimateStopTimer
-    Left = 288
-    Top = 384
+    Left = 272
+    Top = 144
   end
   object ImageConfig: TImageList
-    Left = 40
-    Top = 456
+    Left = 112
+    Top = 216
   end
   object OpenPo: TOpenDialog
     DefaultExt = '.po'
     Filter = 'Language File (*.po)|*.po'
     Options = [ofFileMustExist, ofEnableSizing, ofViewDetail]
-    Left = 40
-    Top = 240
+    Left = 352
+    Top = 296
   end
   object TimerUnapply: TTimer
     Enabled = False
     Interval = 200
     OnTimer = TimerUnapplyTimer
-    Left = 376
-    Top = 384
+    Left = 192
+    Top = 144
   end
   object ApplicationProp: TApplicationProperties
     OnActivate = ApplicationPropActivate
@@ -1041,13 +1041,13 @@ object formTrayslate: TformTrayslate
     OnEndSession = ApplicationPropEndSession
     OnShowHint = ApplicationPropShowHint
     OnUserInput = ApplicationPropUserInput
-    Left = 216
-    Top = 240
+    Left = 272
+    Top = 296
   end
   object PopupRecentPair: TPopupMenu
     OnPopup = PopupRecentPairPopup
-    Left = 128
-    Top = 384
+    Left = 352
+    Top = 72
     object MenuDeletePair: TMenuItem
       Action = aDeletePair
     end
@@ -1074,8 +1074,8 @@ object formTrayslate: TformTrayslate
     end
   end
   object PopupSource: TPopupMenu
-    Left = 128
-    Top = 168
+    Left = 112
+    Top = 72
     object MenuSourceUndo: TMenuItem
       Action = aUndo
     end
@@ -1112,8 +1112,8 @@ object formTrayslate: TformTrayslate
     end
   end
   object PopupTarget: TPopupMenu
-    Left = 128
-    Top = 240
+    Left = 192
+    Top = 72
     object MenuTargetUndo: TMenuItem
       Action = aUndo
     end
@@ -1157,7 +1157,18 @@ object formTrayslate: TformTrayslate
     SubMenuCaption = 'Suggestions'
     DicUrl = 'https://raw.githubusercontent.com/plainlib/dictionaries/main/{plaindict}'
     CheckVisibleOnly = True
-    Left = 216
-    Top = 384
+    Left = 192
+    Top = 296
+  end
+  object Translate: TTranslate
+    SourceLanguage = 'en'
+    AllowProxy = True
+    OnTranslateStart = TransStart
+    OnTranslateComplete = TransComplete
+    OnTranslateFinish = TransFinish
+    OnGetParameter = TranslateGetParameter
+    OnLanguageDetected = TranslateLanguageDetected
+    Left = 112
+    Top = 296
   end
 end

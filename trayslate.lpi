@@ -114,9 +114,6 @@
         <PackageName Value="lazmouseandkeyinput"/>
       </Item>
       <Item>
-        <PackageName Value="pascalscript"/>
-      </Item>
-      <Item>
         <PackageName Value="SynEdit"/>
       </Item>
       <Item>
