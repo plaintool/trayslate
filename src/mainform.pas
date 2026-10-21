@@ -969,8 +969,8 @@ begin
     end;
   end;
 
-  // Sync selection with ConfigManager before loading the config itself
-  ConfigManager.SelectedConfig := FConfigFile;
+  // Sync selection silently, LoadConfig is called explicitly below
+  ConfigManager.SetSelectedConfigSilent(FConfigFile);
 
   // Load current config
   LoadConfig;
@@ -4896,9 +4896,9 @@ procedure TformTrayslate.SetConfigFile(const Value: string);
 begin
   if FConfigFile = Value then Exit;
   FConfigFile := Value;
-  // Keep the manager in sync when the config is changed from outside
+  // Silent sync: programmatic change must not trigger OnSelect and LoadConfig
   if Assigned(ConfigManager) then
-    ConfigManager.SelectedConfig := Value;
+    ConfigManager.SetSelectedConfigSilent(Value);
 end;
 
 function TformTrayslate.GetConfigFilesProp: TStrings;
