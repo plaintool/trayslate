@@ -1024,8 +1024,8 @@ object formTrayslate: TformTrayslate
     DefaultExt = '.po'
     Filter = 'Language File (*.po)|*.po'
     Options = [ofFileMustExist, ofEnableSizing, ofViewDetail]
-    Left = 352
-    Top = 296
+    Left = 192
+    Top = 304
   end
   object TimerUnapply: TTimer
     Enabled = False
@@ -1041,8 +1041,8 @@ object formTrayslate: TformTrayslate
     OnEndSession = ApplicationPropEndSession
     OnShowHint = ApplicationPropShowHint
     OnUserInput = ApplicationPropUserInput
-    Left = 272
-    Top = 296
+    Left = 112
+    Top = 304
   end
   object PopupRecentPair: TPopupMenu
     OnPopup = PopupRecentPairPopup
@@ -1158,7 +1158,7 @@ object formTrayslate: TformTrayslate
     DicUrl = 'https://raw.githubusercontent.com/plainlib/dictionaries/main/{plaindict}'
     CheckVisibleOnly = True
     Left = 192
-    Top = 296
+    Top = 368
   end
   object Translate: TTranslate
     SourceLanguage = 'en'
@@ -1168,7 +1168,15 @@ object formTrayslate: TformTrayslate
     OnTranslateFinish = TransFinish
     OnGetParameter = TranslateGetParameter
     OnLanguageDetected = TranslateLanguageDetected
+    Left = 32
+    Top = 368
+  end
+  object ConfigManager: TConfigManager
+    TargetMenu = MenuConfig
+    AutoRefresh = False
+    OnBeforeSelect = ConfigManagerBeforeSelect
+    OnSelect = ConfigManagerSelect
     Left = 112
-    Top = 296
+    Top = 368
   end
 end

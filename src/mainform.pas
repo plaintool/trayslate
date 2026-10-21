@@ -37,7 +37,6 @@ uses
   Clipbrd,
   Buttons,
   Math,
-  IniFiles,
   LCLType,
   LMessages,
   MouseAndKeyInput,
@@ -47,6 +46,7 @@ uses
   GlobalMouseHook,
   FormGrip,
   Translate,
+  ConfigManager,
   Network,
   Consts,
   SpellChecker,
@@ -114,6 +114,7 @@ type
     aDonate: TAction;
     aExit: TAction;
     ActionList: TActionList;
+    ConfigManager: TConfigManager;
     FormGrip: TFormGrip;
     ImageConfig: TImageList;
     MenuBulgarian: TMenuItem;
@@ -285,8 +286,6 @@ type
     procedure ApplicationPropException(Sender: TObject; E: Exception);
     procedure ApplicationPropUserInput(Sender: TObject; Msg: cardinal);
     procedure ApplicationPropEndSession(Sender: TObject);
-    procedure PopupRecentPairPopup(Sender: TObject);
-    procedure OnTextDroppedHandler(Sender: TObject; const AText: string);
     procedure ScreenActiveFormChanged(Sender: TObject);
     procedure aConfigEditorExecute(Sender: TObject);
     procedure aSettingsExecute(Sender: TObject);
@@ -359,15 +358,18 @@ type
     procedure ButtonLangMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
     procedure ButtonLangMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
     procedure ButtonLangMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
-    procedure MenuConfigItemClick(Sender: TObject);
     procedure MenuPairClick(Sender: TObject);
     procedure PopupTrayClose(Sender: TObject);
+    procedure PopupRecentPairPopup(Sender: TObject);
+    procedure OnTextDroppedHandler(Sender: TObject; const AText: string);
     procedure PopupTrayPopup(Sender: TObject);
     procedure TranslateGetParameter(const AParamName: string; var AValue: string; var AHandled: boolean);
     procedure TranslateLanguageDetected(Sender: TObject; const AResult: TLanguageDetectResult);
     procedure TransStart(Sender: TObject);
     procedure TransComplete(Sender: TObject; const AText: string);
     procedure TransFinish(Sender: TObject);
+    procedure ConfigManagerBeforeSelect(Sender: TObject; AIndex: integer; const AConfigFile: string; var AAllow: boolean);
+    procedure ConfigManagerSelect(Sender: TObject; AIndex: integer; const AConfigFile: string);
     procedure aLangCustomExecute(Sender: TObject);
     procedure aLangBulgarianExecute(Sender: TObject);
     procedure aLangPortugueseBrazilExecute(Sender: TObject);
@@ -455,10 +457,6 @@ type
     FPortable: boolean;
     FFirstRun: boolean;
     FConfigFile: string;
-    FConfigFiles: TStringList;
-    FConfigTitles: TStringList;
-    FConfigColors: TStringList;
-    FConfigImages: TStringList;
     FConfigLangDetect: string;
     FLangSource: string;
     FLangTarget: string;
@@ -583,6 +581,11 @@ type
 
     function GetConfigIndex: integer;
     function GetIconIndex: integer;
+    procedure SetConfigFile(const Value: string);
+    function GetConfigFilesProp: TStrings;
+    function GetConfigTitlesProp: TStrings;
+    function GetConfigColorsProp: TStrings;
+    function GetConfigImagesProp: TStrings;
     function GetLangCode(ComboValue: string; Target: boolean = False): string;
 
     function GetParameterValue(AName: string; out ResultOk: boolean): string;
@@ -637,7 +640,6 @@ type
     procedure UpdateComboState(ASetDefault: boolean = True);
     procedure SetDefaultSettings;
     procedure SetDefaultHotKeys;
-    procedure BuildConfigMenu;
     procedure RebuildLangPairsPanel(Data: PtrInt);
     procedure SetTrayIcon;
     procedure SetHints;
@@ -645,7 +647,6 @@ type
     procedure DoRealign(Data: PtrInt);
     procedure DoRealignSplit(Data: PtrInt);
     procedure UpdateAutoDetect(Old, New: string);
-    procedure UpdateCheckConfigMenu;
     procedure UpdateCheckMenuPair;
     function UpdateSourceLanguage(const Lang: string): string;
     function UpdateTargetLanguage(const Lang: string): string;
@@ -685,11 +686,11 @@ type
     property IndexIcon: integer read GetIconIndex;
 
     // Settings properties
-    property ConfigFile: string read FConfigFile write FConfigFile;
-    property ConfigFiles: TStringList read FConfigFiles write FConfigFiles;
-    property ConfigTitles: TStringList read FConfigTitles write FConfigTitles;
-    property ConfigColors: TStringList read FConfigColors write FConfigColors;
-    property ConfigImages: TStringList read FConfigImages write FConfigImages;
+    property ConfigFile: string read FConfigFile write SetConfigFile;
+    property ConfigFiles: TStrings read GetConfigFilesProp;
+    property ConfigTitles: TStrings read GetConfigTitlesProp;
+    property ConfigColors: TStrings read GetConfigColorsProp;
+    property ConfigImages: TStrings read GetConfigImagesProp;
     property ConfigLangDetect: string read FConfigLangDetect write FConfigLangDetect;
     property Proxy: TProxy read FProxy write SetProxy;
     property ProxiedConfigs: TStringList read FProxiedConfigs write FProxiedConfigs;
@@ -801,7 +802,7 @@ var
 implementation
 
 uses FormDonate, FormAbout, FormSettings, FormConfig, FormPopup, FormButton, Settings, Languages,
-  CheckUpdates, Base64Utils, Localize, ColorHelper, ControlsHelper, DarkUtils, PascalUtils, FlatButton,
+  CheckUpdates, Localize, ColorHelper, ControlsHelper, DarkUtils, PascalUtils, FlatButton,
   RichMemoHelper, OneShotThread;
 
   {$R *.lfm}
@@ -952,25 +953,24 @@ begin
   aFastRealTime.Checked := FRealTime;
   aFastAutoCopy.Checked := FAutoCopy;
 
-  // Load config files
-  FConfigFiles := TStringList.Create;
-  FConfigTitles := TStringList.Create;
-  FConfigColors := TStringList.Create;
-  FConfigImages := TStringList.Create;
-  TTranslate.GetIniFiles(FConfigFiles, APP_NAME);
-  BuildConfigMenu;
-  FConfigLangDetect := TTranslate.GetConfigFullPath(FConfigLangDetect, FConfigFiles);
+  ConfigManager.AppName := APP_NAME;
+  ConfigManager.Refresh;
 
-  if (FConfigFiles.IndexOf(FConfigFile) < 0) then
+  FConfigLangDetect := TTranslate.GetConfigFullPath(FConfigLangDetect, TStringList(ConfigManager.ConfigFiles));
+
+  if ConfigManager.ConfigFiles.IndexOf(FConfigFile) < 0 then
   begin
-    if FConfigFiles.Count > 0 then
-      FConfigFile := FConfigFiles[0]
+    if ConfigManager.ConfigFiles.Count > 0 then
+      FConfigFile := ConfigManager.ConfigFiles[0]
     else
     begin
       FConfigFile := string.Empty;
       ShowMessage(rnoconfig);
     end;
   end;
+
+  // Sync selection with ConfigManager before loading the config itself
+  ConfigManager.SelectedConfig := FConfigFile;
 
   // Load current config
   LoadConfig;
@@ -1045,10 +1045,6 @@ begin
   FreeAndNil(FEnabledLanguages);
   FreeAndNil(FLanguages);
   FreeAndNil(FLanguagesTarget);
-  FreeAndNil(FConfigFiles);
-  FreeAndNil(FConfigTitles);
-  FreeAndNil(FConfigColors);
-  FreeAndNil(FConfigImages);
   FreeAndNil(FHint);
   FreeAndNil(FFontPopup);
   FreeAndNil(FFormSmallIcon);
@@ -3089,37 +3085,6 @@ begin
   end;
 end;
 
-procedure TFormTrayslate.MenuConfigItemClick(Sender: TObject);
-var
-  Item: TMenuItem;
-begin
-  if (Assigned(formConfigTrayslate)) and formConfigTrayslate.HandleAllocated and formConfigTrayslate.Showing and
-    (not formConfigTrayslate.TestChanges) then
-    Exit;
-
-  Item := TMenuItem(Sender);
-  if (Item.Tag < 0) or (Item.Tag >= FConfigFiles.Count) then Exit;
-
-  // Update current config and load it
-  FConfigFile := FConfigFiles[Item.Tag];
-  LoadConfig;
-
-  if (Assigned(formConfigTrayslate)) and formConfigTrayslate.HandleAllocated and (formConfigTrayslate.Showing) then
-  begin
-    formConfigTrayslate.UpdateConfigList;
-    formConfigTrayslate.UpdateConfig;
-  end;
-
-  if (FAutoAddLangPairs) and (FLangSource <> string.Empty) and (FLangTarget <> string.Empty) and (FLangSource <> FLangTarget) then
-  begin
-    AddLangPair(FLangSource + ':' + FLangTarget);
-    Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
-  end;
-
-  if not Translate.ServiceOnlyButton then
-    TranslateMemo;
-end;
-
 procedure TformTrayslate.MenuPairClick(Sender: TObject);
 begin
   if FProcessingPairClick then Exit;
@@ -3158,6 +3123,36 @@ end;
 procedure TformTrayslate.OnTextDroppedHandler(Sender: TObject; const AText: string);
 begin
   BringToFront;
+end;
+
+procedure TformTrayslate.ConfigManagerBeforeSelect(Sender: TObject; AIndex: integer; const AConfigFile: string; var AAllow: boolean);
+begin
+  AAllow := True;
+  // The config editor owns unsaved changes; block selection when the user cancels
+  if (Assigned(formConfigTrayslate)) and formConfigTrayslate.HandleAllocated and formConfigTrayslate.Showing and
+    (not formConfigTrayslate.TestChanges) then
+    AAllow := False;
+end;
+
+procedure TformTrayslate.ConfigManagerSelect(Sender: TObject; AIndex: integer; const AConfigFile: string);
+begin
+  FConfigFile := AConfigFile;
+  LoadConfig;
+
+  if (Assigned(formConfigTrayslate)) and formConfigTrayslate.HandleAllocated and (formConfigTrayslate.Showing) then
+  begin
+    formConfigTrayslate.UpdateConfigList;
+    formConfigTrayslate.UpdateConfig;
+  end;
+
+  if (FAutoAddLangPairs) and (FLangSource <> string.Empty) and (FLangTarget <> string.Empty) and (FLangSource <> FLangTarget) then
+  begin
+    AddLangPair(FLangSource + ':' + FLangTarget);
+    Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
+  end;
+
+  if not Translate.ServiceOnlyButton then
+    TranslateMemo;
 end;
 
 {%EndRegion}
@@ -3394,7 +3389,6 @@ end;
 
 procedure TformTrayslate.LoadConfig(ASetDefault: boolean = True; AUpdateComboState: boolean = True);
 begin
-  UpdateCheckConfigMenu;
   LoadTranslate;
   RestrictTranslate;
   LoadLanguages;
@@ -3770,8 +3764,8 @@ begin
 
   SetDefaultHotKeys;
 
-  if (Assigned(FConfigFiles)) then
-    FConfigLangDetect := TTranslate.GetConfigFullPath(FConfigLangDetect, FConfigFiles);
+  if Assigned(ConfigManager) and (ConfigManager.ConfigFiles.Count > 0) then
+    FConfigLangDetect := TTranslate.GetConfigFullPath(FConfigLangDetect, TStringList(ConfigManager.ConfigFiles));
 end;
 
 procedure TFormTrayslate.SetDefaultHotKeys;
@@ -3893,106 +3887,6 @@ begin
   FHotKeyRecent9.Key := Ord('9');
 end;
 
-procedure TFormTrayslate.BuildConfigMenu;
-var
-  i: integer;
-  Item: TMenuItem;
-  FileName, FilePath: string;
-  Ini: TIniFile;
-  SL: TStringList;
-  Data: PConfigData;
-begin
-  MenuConfig.Clear;
-  MenuConfig.Visible := FConfigFiles.Count > 0;
-
-  SL := TStringList.Create;
-  ImageConfig.Clear;
-
-  try
-    for i := 0 to FConfigFiles.Count - 1 do
-    begin
-      New(Data);
-
-      FilePath := FConfigFiles[i];
-      FileName := ExtractFileName(FilePath);
-
-      // defaults
-      Data^.Name := string.Empty;
-      Data^.Color := clBlue;
-      Data^.Visible := True;
-      Data^.Order := 0;
-      Data^.ImageIndex := -1;
-      Data^.PathOnly := ExtractFilePath(FilePath);
-
-      if FileExists(FilePath) then
-      begin
-        Ini := TIniFile.Create(FilePath);
-        try
-          Data^.Name := Trim(Ini.ReadString('Service', 'Name', string.Empty));
-          Data^.Color := Ini.ReadInteger('Service', 'ColorRecent', clBlue);
-          Data^.Visible := Ini.ReadBool('Service', 'Visible', True);
-          Data^.Order := Ini.ReadInteger('Service', 'Order', 0);
-          Data^.ImageIndex := TBase64.AddBase64ToImageList(Ini.ReadString('Service', 'Icon', string.Empty), ImageConfig);
-        finally
-          Ini.Free;
-        end;
-      end;
-
-      SL.AddObject(FilePath, TObject(Data));
-    end;
-
-    SL.CustomSort(@TTranslate.ConfigSortByOrderPathName);
-
-    // rebuild original list order
-    FConfigFiles.Clear;
-    for i := 0 to SL.Count - 1 do
-      FConfigFiles.Add(SL[i]);
-
-    // clear caches
-    FConfigTitles.Clear;
-    FConfigColors.Clear;
-    FConfigImages.Clear;
-
-    for i := 0 to SL.Count - 1 do
-    begin
-      Data := PConfigData(SL.Objects[i]);
-      FileName := ExtractFileName(SL[i]);
-
-      // caches
-      FConfigTitles.Add(SL[i] + '=' + Data^.Name);
-      FConfigColors.Add(SL[i] + '=' + IntToStr(Data^.Color));
-      FConfigImages.Add(SL[i] + '=' + IntToStr(Data^.ImageIndex));
-
-      // MenuFastEnableMouseMode item
-      Item := TMenuItem.Create(MenuConfig);
-
-      if Data^.Name <> string.Empty then
-        Item.Caption := Data^.Name
-      else
-        Item.Caption := FileName;
-
-      Item.Hint := SL[i];
-      Item.Tag := i;
-      Item.OnClick := @MenuConfigItemClick;
-      Item.Checked := SameText(SL[i], FConfigFile);
-      Item.Visible := Data^.Visible;
-
-      if Item.Checked then
-        Item.ImageIndex := -1
-      else
-        Item.ImageIndex := Data^.ImageIndex;
-
-      MenuConfig.Add(Item);
-
-      Dispose(Data);
-      SL.Objects[i] := nil;
-    end;
-
-  finally
-    SL.Free;
-  end;
-end;
-
 procedure TformTrayslate.RebuildLangPairsPanel(Data: PtrInt);
 
   procedure Build(Target: TFlowPanel; AFont: TFont; FillMenu: boolean = True);
@@ -4041,25 +3935,25 @@ procedure TformTrayslate.RebuildLangPairsPanel(Data: PtrInt);
         btn.Alignment := taCenter;
         btn.Transparent := False;
         btn.Caption := FLangPairs.ValueFromIndex[i];
-        configTitle := FConfigTitles.Values[FLangPairs.Names[i]];
+        configTitle := ConfigTitles.Values[FLangPairs.Names[i]];
         btn.Hint := configTitle + iif(FLangPairsHint[i] = string.Empty, '', ' - ' + FLangPairsHint[i]);
         btn.ShowHint := True;
         btn.PopupMenu := PopupRecentPair;
 
-        if not TryStrToInt(FConfigImages.Values[FLangPairs.Names[i]], ServiceIcon) then
+        if not TryStrToInt(ConfigImages.Values[FLangPairs.Names[i]], ServiceIcon) then
           ServiceIcon := -1;
 
-        // Use shared ImageList (must exist in the form, e.g. ImageList1) – no memory leak
+        // Use the image list owned by ConfigManager
         if ServiceIcon >= 0 then
         begin
-          btn.Images := ImageConfig;
+          btn.Images := ConfigManager.Images;
           btn.ImageIndex := ServiceIcon;
           btn.Layout := blGlyphLeft;
           btn.Margin := -1;
           btn.OffsetY := -1;
         end;
 
-        if not TryStrToInt(FConfigColors.Values[FLangPairs.Names[i]], ColorRecent) then
+        if not TryStrToInt(ConfigColors.Values[FLangPairs.Names[i]], ColorRecent) then
           ColorRecent := clBlue;
         btn.Font.Color := TDarkUtils.ThemeColor(ColorRecent, ColorRecent.ToDarkTheme);
 
@@ -4149,8 +4043,8 @@ begin
       hintText += ComboSource.Text;
     if ComboTarget.Text <> string.Empty then
       hintText += ' : ' + ComboTarget.Text;
-    if FConfigTitles.Values[FConfigFile] <> string.Empty then
-      hintText += sLineBreak + FConfigTitles.Values[FConfigFile];
+    if ConfigTitles.Values[FConfigFile] <> string.Empty then
+      hintText += sLineBreak + ConfigTitles.Values[FConfigFile];
     TrayIcon.Hint := rappname + ' - ' + hintText;
 
     // Set popup window caption
@@ -4158,9 +4052,7 @@ begin
       formPopupTrayslate.Caption := hintText.Replace(LineEnding, ' - ');
 
     // Set form small icon to config icon
-    if IndexIcon >= 0 then
-      ImageConfig.GetIcon(IndexIcon, FFormSmallIcon)
-    else
+    if not ConfigManager.GetSelectedIcon(FFormSmallIcon) then
       FFormSmallIcon.Clear;
     TOS.SetFormSmallIcon(Self, FFormSmallIcon);
   finally
@@ -4323,26 +4215,6 @@ begin
   end;
 end;
 
-procedure TFormTrayslate.UpdateCheckConfigMenu;
-var
-  i: integer;
-begin
-  for i := 0 to MenuConfig.Count - 1 do
-  begin
-    if i >= FConfigFiles.Count then Break;
-
-    if (FConfigFiles.Count > i) and SameText(FConfigFiles[i], FConfigFile) then
-      MenuConfig.Items[i].Checked := True
-    else
-      MenuConfig.Items[i].Checked := False;
-
-    if MenuConfig.Items[i].Checked then
-      MenuConfig.Items[i].ImageIndex := -1
-    else
-      MenuConfig.Items[i].ImageIndex := StrToInt(FConfigImages.ValueFromIndex[MenuConfig.Items[i].Tag]);
-  end;
-end;
-
 procedure TformTrayslate.UpdateCheckMenuPair;
 var
   currentPair: string;
@@ -4382,7 +4254,7 @@ begin
     MenuLangPairs.Items[i].Checked :=
       SameText(MenuLangPairs.Items[i].Hint, FConfigFile + '=' + currentPair);
 
-    if not TryStrToInt(FConfigImages.Values[FLangPairs.Names[i]], ServiceIcon) then
+    if not TryStrToInt(ConfigImages.Values[FLangPairs.Names[i]], ServiceIcon) then
       ServiceIcon := -1;
     if MenuLangPairs.Items[i].Checked then
       MenuLangPairs.Items[i].ImageIndex := -1
@@ -4926,7 +4798,7 @@ begin
   // If config changed - reload
   if FConfigFile <> Config then
   begin
-    FConfigFile := Config;
+    ConfigFile := Config;
     LoadConfig(False);
 
     if Assigned(formConfigTrayslate) and formConfigTrayslate.HandleAllocated then
@@ -5012,17 +4884,53 @@ end;
 
 function TformTrayslate.GetConfigIndex: integer;
 begin
-  Result := ConfigFiles.FindIndex(FConfigFile);
+  Result := ConfigManager.SelectedIndex;
 end;
 
 function TformTrayslate.GetIconIndex: integer;
-var
-  idx: integer;
 begin
-  Result := -1;
-  idx := IndexConfig;
-  if (idx >= 0) and (idx < ConfigImages.Count) then
-    Result := ConfigImages.ValueFromIndex[idx].ToInteger;
+  Result := ConfigManager.SelectedImageIndex;
+end;
+
+procedure TformTrayslate.SetConfigFile(const Value: string);
+begin
+  if FConfigFile = Value then Exit;
+  FConfigFile := Value;
+  // Keep the manager in sync when the config is changed from outside
+  if Assigned(ConfigManager) then
+    ConfigManager.SelectedConfig := Value;
+end;
+
+function TformTrayslate.GetConfigFilesProp: TStrings;
+begin
+  if Assigned(ConfigManager) then
+    Result := ConfigManager.ConfigFiles
+  else
+    Result := nil;
+end;
+
+function TformTrayslate.GetConfigTitlesProp: TStrings;
+begin
+  if Assigned(ConfigManager) then
+    Result := ConfigManager.ConfigTitles
+  else
+    Result := nil;
+end;
+
+function TformTrayslate.GetConfigColorsProp: TStrings;
+begin
+  if Assigned(ConfigManager) then
+    Result := ConfigManager.ConfigColors
+  else
+    Result := nil;
+end;
+
+function TformTrayslate.GetConfigImagesProp: TStrings;
+begin
+  if Assigned(ConfigManager) then
+    Result := ConfigManager.ConfigImages
+  else
+    Result := nil;
 end;
 
 function TformTrayslate.GetLangCode(ComboValue: string; Target: boolean = False): string;

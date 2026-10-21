@@ -1350,16 +1350,20 @@ procedure TformSettingsTrayslate.ClbProxiedConfigsDrawItem(Control: TWinControl;
 var
   Bmp: TBitmap;
   IconIdx: integer;
+  Images: TImageList;
 begin
   // Prepare optional icon
   Bmp := nil;
-  if Assigned(formTrayslate.ImageConfig) and Assigned(formTrayslate.ConfigImages) and (Index < formTrayslate.ConfigImages.Count) then
+  Images := nil;
+  if Assigned(formTrayslate.ConfigManager) then
+    Images := formTrayslate.ConfigManager.Images;
+  if Assigned(Images) and Assigned(formTrayslate.ConfigImages) and (Index < formTrayslate.ConfigImages.Count) then
   begin
     IconIdx := formTrayslate.ConfigImages.ValueFromIndex[Index].ToInteger;
-    if (IconIdx >= 0) and (IconIdx < formTrayslate.ImageConfig.Count) then
+    if (IconIdx >= 0) and (IconIdx < Images.Count) then
     begin
       Bmp := TBitmap.Create;
-      formTrayslate.ImageConfig.GetBitmap(IconIdx, Bmp);
+      Images.GetBitmap(IconIdx, Bmp);
       Bmp.Transparent := True;
       Bmp.TransparentColor := clWhite;
     end;

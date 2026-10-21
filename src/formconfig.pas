@@ -571,8 +571,7 @@ begin
   Screen.Cursor := crHourGlass;
   try
     LastIndex := ComboConfig.ItemIndex;
-    TTranslate.GetIniFiles(formTrayslate.ConfigFiles, APP_NAME);
-    formTrayslate.BuildConfigMenu;
+    formTrayslate.ConfigManager.Refresh;
     Application.QueueAsyncCall(@formTrayslate.RebuildLangPairsPanel, 0);
     UpdateConfigList;
     if (LastIndex >= ComboConfig.Items.Count) then Dec(LastIndex);
@@ -887,8 +886,8 @@ begin
     end;
   end;
 
-  formTrayslate.ConfigFiles.Add(DestFile);
-  formTrayslate.BuildConfigMenu;
+  // Rescan directories so the newly created INI shows up in the manager
+  formTrayslate.ConfigManager.Refresh;
   formTrayslate.ConfigFile := DestFile;
   formTrayslate.LoadConfig;
   UpdateConfigList;
@@ -898,7 +897,7 @@ end;
 procedure TformConfigTrayslate.DeleteConfig;
 var
   FileName: string;
-  idx, LastIndex: integer;
+  LastIndex: integer;
 begin
   FileName := ComboConfig.Text;
   LastIndex := ComboConfig.ItemIndex;
@@ -914,10 +913,8 @@ begin
     if FileExists(FileName) then
       DeleteFile(FileName);
 
-    // Remove from list
-    idx := formTrayslate.ConfigFiles.IndexOf(FileName);
-    if idx >= 0 then
-      formTrayslate.ConfigFiles.Delete(idx);
+    // Drop the entry from the manager and rebuild its menu
+    formTrayslate.ConfigManager.RemoveConfigFile(FileName);
 
     // Reset current config
     formTrayslate.ConfigFile := string.Empty;
@@ -929,7 +926,10 @@ begin
     end;
   end;
 
-  formTrayslate.BuildConfigMenu;
+  // The deleted file is gone, unsaved edits must not be prompted or saved
+  aSave.Enabled := False;
+  Caption := rcaption;
+
   // Reload UI
   UpdateConfigList;
   if (LastIndex >= ComboConfig.Items.Count) then Dec(LastIndex);
@@ -1090,8 +1090,8 @@ begin
     end;
     formTrayslate.Translate.SaveIniSettings(formTrayslate.ConfigFile);
     aSave.Enabled := False;
+    formTrayslate.ConfigManager.Refresh;
     formTrayslate.LoadConfig;
-    formTrayslate.BuildConfigMenu;
     Application.QueueAsyncCall(@formTrayslate.RebuildLangPairsPanel, 0);
     UpdateConfigList(False);
   finally
