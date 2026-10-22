@@ -1174,6 +1174,7 @@ object formTrayslate: TformTrayslate
   object ConfigManager: TConfigManager
     TargetMenu = MenuConfig
     AutoRefresh = False
+    OnBusy = ConfigManagerBusy
     OnBeforeSelect = ConfigManagerBeforeSelect
     OnSelect = ConfigManagerSelect
     OnConfigReload = ConfigManagerConfigReload

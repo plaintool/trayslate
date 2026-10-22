@@ -370,8 +370,9 @@ type
     procedure TransFinish(Sender: TObject);
     procedure ConfigManagerBeforeSelect(Sender: TObject; AIndex: integer; const AConfigFile: string; var AAllow: boolean);
     procedure ConfigManagerSelect(Sender: TObject; AIndex: integer; const AConfigFile: string);
-    procedure ConfigManagerConfigReload(Sender: TObject; const AConfigFile: string);
+    procedure ConfigManagerConfigReload(Sender: TObject; const AConfigFile: string; var AHandled: boolean);
     procedure ConfigManagerConfigsUpdated(Sender: TObject);
+    procedure ConfigManagerBusy(Sender: TObject; ABusy: boolean);
     procedure ConfigManagerRefreshSettings(Sender: TObject);
     procedure ConfigManagerGetSourceText(Sender: TObject; var AValue: string);
     procedure aLangCustomExecute(Sender: TObject);
@@ -593,19 +594,6 @@ type
 
     procedure GlobalCopy(MouseMode: boolean = False);
     procedure GlobalPaste;
-
-    function GetFormConfigLeft: integer;
-    procedure SetFormConfigLeft(Value: integer);
-    function GetFormConfigTop: integer;
-    procedure SetFormConfigTop(Value: integer);
-    function GetFormConfigWidth: integer;
-    procedure SetFormConfigWidth(Value: integer);
-    function GetFormConfigHeight: integer;
-    procedure SetFormConfigHeight(Value: integer);
-    function GetFormConfigSep1: integer;
-    procedure SetFormConfigSep1(Value: integer);
-    function GetFormConfigSep2: integer;
-    procedure SetFormConfigSep2(Value: integer);
   protected
     {$IFDEF WINDOWS}
     procedure WMActivate(var Message: TLMActivate); message LM_ACTIVATE;
@@ -747,12 +735,6 @@ type
     property OpacityIdle: integer read FOpacityIdle write FOpacityIdle;
     property AutoCheckUpdates: boolean read FAutoCheckUpdates write FAutoCheckUpdates;
     property SplitRatio: double read FSplitRatio write FSplitRatio;
-    property FormConfigLeft: integer read GetFormConfigLeft write SetFormConfigLeft;
-    property FormConfigTop: integer read GetFormConfigTop write SetFormConfigTop;
-    property FormConfigWidth: integer read GetFormConfigWidth write SetFormConfigWidth;
-    property FormConfigHeight: integer read GetFormConfigHeight write SetFormConfigHeight;
-    property FormConfigSep1: integer read GetFormConfigSep1 write SetFormConfigSep1;
-    property FormConfigSep2: integer read GetFormConfigSep2 write SetFormConfigSep2;
     property FormPopupLeft: integer read FFormPopupLeft write FFormPopupLeft;
     property FormPopupTop: integer read FFormPopupTop write FFormPopupTop;
     property FormPopupWidth: integer read FFormPopupWidth write FFormPopupWidth;
@@ -957,7 +939,6 @@ begin
 
   ConfigManager.AppName := APP_NAME;
   ConfigManager.Translate := Translate;
-  ConfigManager.HostForm := Self;
   ConfigManager.Refresh;
 
   FConfigLangDetect := TTranslate.GetConfigFullPath(FConfigLangDetect, TStringList(ConfigManager.ConfigFiles));
@@ -3124,6 +3105,36 @@ begin
     TranslateMemo;
 end;
 
+procedure TformTrayslate.ConfigManagerConfigReload(Sender: TObject; const AConfigFile: string; var AHandled: boolean);
+begin
+  FConfigFile := AConfigFile;
+  LoadConfig;
+  AHandled := True;
+end;
+
+procedure TformTrayslate.ConfigManagerConfigsUpdated(Sender: TObject);
+begin
+  Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
+end;
+
+procedure TformTrayslate.ConfigManagerBusy(Sender: TObject; ABusy: boolean);
+begin
+  // Block the main window only when it is actually on screen
+  if not Visible then Exit;
+  Enabled := not ABusy;
+end;
+
+procedure TformTrayslate.ConfigManagerRefreshSettings(Sender: TObject);
+begin
+  if Assigned(formSettingsTrayslate) and formSettingsTrayslate.Visible then
+    formSettingsTrayslate.FillConfigs;
+end;
+
+procedure TformTrayslate.ConfigManagerGetSourceText(Sender: TObject; var AValue: string);
+begin
+  AValue := MemoTarget.Text;
+end;
+
 {%EndRegion}
 
 {%Region -fold Setters}
@@ -3350,88 +3361,6 @@ end;
 function TformTrayslate.GetRawTranslate: string;
 begin
   Result := Translate.RawTranslate;
-end;
-
-function TformTrayslate.GetFormConfigLeft: integer;
-begin
-  Result := ConfigManager.ConfigFormLeft;
-end;
-
-procedure TformTrayslate.SetFormConfigLeft(Value: integer);
-begin
-  ConfigManager.ConfigFormLeft := Value;
-end;
-
-function TformTrayslate.GetFormConfigTop: integer;
-begin
-  Result := ConfigManager.ConfigFormTop;
-end;
-
-procedure TformTrayslate.SetFormConfigTop(Value: integer);
-begin
-  ConfigManager.ConfigFormTop := Value;
-end;
-
-function TformTrayslate.GetFormConfigWidth: integer;
-begin
-  Result := ConfigManager.ConfigFormWidth;
-end;
-
-procedure TformTrayslate.SetFormConfigWidth(Value: integer);
-begin
-  ConfigManager.ConfigFormWidth := Value;
-end;
-
-function TformTrayslate.GetFormConfigHeight: integer;
-begin
-  Result := ConfigManager.ConfigFormHeight;
-end;
-
-procedure TformTrayslate.SetFormConfigHeight(Value: integer);
-begin
-  ConfigManager.ConfigFormHeight := Value;
-end;
-
-function TformTrayslate.GetFormConfigSep1: integer;
-begin
-  Result := ConfigManager.ConfigFormSep1;
-end;
-
-procedure TformTrayslate.SetFormConfigSep1(Value: integer);
-begin
-  ConfigManager.ConfigFormSep1 := Value;
-end;
-
-function TformTrayslate.GetFormConfigSep2: integer;
-begin
-  Result := ConfigManager.ConfigFormSep2;
-end;
-
-procedure TformTrayslate.SetFormConfigSep2(Value: integer);
-begin
-  ConfigManager.ConfigFormSep2 := Value;
-end;
-
-procedure TformTrayslate.ConfigManagerConfigReload(Sender: TObject; const AConfigFile: string);
-begin
-  FConfigFile := AConfigFile;
-  LoadConfig;
-end;
-
-procedure TformTrayslate.ConfigManagerConfigsUpdated(Sender: TObject);
-begin
-  Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
-end;
-
-procedure TformTrayslate.ConfigManagerRefreshSettings(Sender: TObject);
-begin
-  if Assigned(formSettingsTrayslate) and formSettingsTrayslate.Visible then
-    formSettingsTrayslate.FillConfigs;
-end;
-
-procedure TformTrayslate.ConfigManagerGetSourceText(Sender: TObject; var AValue: string);
-begin
-  AValue := MemoTarget.Text;
 end;
 
 {%EndRegion}
