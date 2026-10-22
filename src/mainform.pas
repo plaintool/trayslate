@@ -370,6 +370,10 @@ type
     procedure TransFinish(Sender: TObject);
     procedure ConfigManagerBeforeSelect(Sender: TObject; AIndex: integer; const AConfigFile: string; var AAllow: boolean);
     procedure ConfigManagerSelect(Sender: TObject; AIndex: integer; const AConfigFile: string);
+    procedure ConfigManagerConfigReload(Sender: TObject; const AConfigFile: string);
+    procedure ConfigManagerConfigsUpdated(Sender: TObject);
+    procedure ConfigManagerRefreshSettings(Sender: TObject);
+    procedure ConfigManagerGetSourceText(Sender: TObject; var AValue: string);
     procedure aLangCustomExecute(Sender: TObject);
     procedure aLangBulgarianExecute(Sender: TObject);
     procedure aLangPortugueseBrazilExecute(Sender: TObject);
@@ -478,12 +482,6 @@ type
     FAutoCheckUpdates: boolean;
     FUpdatesChecked: boolean;
     FSplitRatio: double;
-    FFormConfigLeft: integer;
-    FFormConfigTop: integer;
-    FFormConfigWidth: integer;
-    FFormConfigHeight: integer;
-    FFormConfigSep1: integer;
-    FFormConfigSep2: integer;
     FFormPopupLeft: integer;
     FFormPopupTop: integer;
     FFormPopupWidth: integer;
@@ -596,6 +594,19 @@ type
 
     procedure GlobalCopy(MouseMode: boolean = False);
     procedure GlobalPaste;
+
+    function GetFormConfigLeft: integer;
+    procedure SetFormConfigLeft(Value: integer);
+    function GetFormConfigTop: integer;
+    procedure SetFormConfigTop(Value: integer);
+    function GetFormConfigWidth: integer;
+    procedure SetFormConfigWidth(Value: integer);
+    function GetFormConfigHeight: integer;
+    procedure SetFormConfigHeight(Value: integer);
+    function GetFormConfigSep1: integer;
+    procedure SetFormConfigSep1(Value: integer);
+    function GetFormConfigSep2: integer;
+    procedure SetFormConfigSep2(Value: integer);
   protected
     {$IFDEF WINDOWS}
     procedure WMActivate(var Message: TLMActivate); message LM_ACTIVATE;
@@ -737,12 +748,12 @@ type
     property OpacityIdle: integer read FOpacityIdle write FOpacityIdle;
     property AutoCheckUpdates: boolean read FAutoCheckUpdates write FAutoCheckUpdates;
     property SplitRatio: double read FSplitRatio write FSplitRatio;
-    property FormConfigLeft: integer read FFormConfigLeft write FFormConfigLeft;
-    property FormConfigTop: integer read FFormConfigTop write FFormConfigTop;
-    property FormConfigWidth: integer read FFormConfigWidth write FFormConfigWidth;
-    property FormConfigHeight: integer read FFormConfigHeight write FFormConfigHeight;
-    property FormConfigSep1: integer read FFormConfigSep1 write FFormConfigSep1;
-    property FormConfigSep2: integer read FFormConfigSep2 write FFormConfigSep2;
+    property FormConfigLeft: integer read GetFormConfigLeft write SetFormConfigLeft;
+    property FormConfigTop: integer read GetFormConfigTop write SetFormConfigTop;
+    property FormConfigWidth: integer read GetFormConfigWidth write SetFormConfigWidth;
+    property FormConfigHeight: integer read GetFormConfigHeight write SetFormConfigHeight;
+    property FormConfigSep1: integer read GetFormConfigSep1 write SetFormConfigSep1;
+    property FormConfigSep2: integer read GetFormConfigSep2 write SetFormConfigSep2;
     property FormPopupLeft: integer read FFormPopupLeft write FFormPopupLeft;
     property FormPopupTop: integer read FFormPopupTop write FFormPopupTop;
     property FormPopupWidth: integer read FFormPopupWidth write FFormPopupWidth;
@@ -801,7 +812,7 @@ var
 
 implementation
 
-uses FormDonate, FormAbout, FormSettings, FormConfig, FormPopup, FormButton, Settings, Languages,
+uses FormDonate, FormAbout, FormSettings, FormPopup, FormButton, Settings, Languages,
   CheckUpdates, Localize, ColorHelper, ControlsHelper, DarkUtils, PascalUtils, FlatButton,
   RichMemoHelper, OneShotThread;
 
@@ -823,12 +834,6 @@ begin
   FUpdatesChecked := False;
   FAutoCheckUpdates := True;
   FLangTarget := Language;
-  FFormConfigLeft := 0;
-  FFormConfigTop := 0;
-  FFormConfigWidth := 0;
-  FFormConfigHeight := 0;
-  FFormConfigSep1 := 0;
-  FFormConfigSep2 := 0;
   FFormPopupLeft := 0;
   FFormPopupTop := 0;
   FFormPopupWidth := 0;
@@ -954,6 +959,9 @@ begin
   aFastAutoCopy.Checked := FAutoCopy;
 
   ConfigManager.AppName := APP_NAME;
+  ConfigManager.Translate := Translate;
+  ConfigManager.HostForm := Self;
+  ConfigManager.CustomPoFile := FCustomPoFile;
   ConfigManager.Refresh;
 
   FConfigLangDetect := TTranslate.GetConfigFullPath(FConfigLangDetect, TStringList(ConfigManager.ConfigFiles));
@@ -1163,16 +1171,14 @@ end;
 
 procedure TformTrayslate.ScreenActiveFormChanged(Sender: TObject);
 begin
-  if Assigned(formConfigTrayslate) and formConfigTrayslate.HandleAllocated and (Screen.ActiveForm = formConfigTrayslate) then
-    formConfigTrayslate.Invalidate;
+  ConfigManager.InvalidateConfigEditor;
 end;
 
 procedure TformTrayslate.ApplicationPropActivate(Sender: TObject);
 begin
   if Screen.ActiveForm = Self then
     FTopMost := True;
-  if Assigned(formConfigTrayslate) and formConfigTrayslate.HandleAllocated then
-    formConfigTrayslate.Invalidate;
+  ConfigManager.InvalidateConfigEditor;
 end;
 
 procedure TformTrayslate.ApplicationPropDeactivate(Sender: TObject);
@@ -1819,35 +1825,7 @@ end;
 
 procedure TformTrayslate.aConfigEditorExecute(Sender: TObject);
 begin
-  if not Assigned(formConfigTrayslate) then
-    formConfigTrayslate := TformConfigTrayslate.Create(Application);
-
-  formConfigTrayslate.Position := poDesigned;
-
-  if FormConfigLeft > 0 then
-    formConfigTrayslate.Left := FormConfigLeft
-  else
-    formConfigTrayslate.Position := poDesktopCenter;
-
-  if FormConfigTop > 0 then
-    formConfigTrayslate.Top := FormConfigTop
-  else
-    formConfigTrayslate.Position := poDesktopCenter;
-
-  if FormConfigWidth > 0 then
-    formConfigTrayslate.Width := FormConfigWidth;
-
-  if FormConfigHeight > 0 then
-    formConfigTrayslate.Height := FormConfigHeight;
-
-  if FormConfigSep1 > 0 then
-    formConfigTrayslate.GroupBoxCustomParameters.Height := FormConfigSep1;
-
-  if FormConfigSep2 > 0 then
-    formConfigTrayslate.GroupResponse.Height := FormConfigSep2;
-
-  formConfigTrayslate.Show;
-  formConfigTrayslate.BringToFront;
+  ConfigManager.ShowConfigEditor;
 
   // Remove TopMost since the main form is not on the top
   if Visible then FTopMost := False;
@@ -3129,8 +3107,7 @@ procedure TformTrayslate.ConfigManagerBeforeSelect(Sender: TObject; AIndex: inte
 begin
   AAllow := True;
   // The config editor owns unsaved changes; block selection when the user cancels
-  if (Assigned(formConfigTrayslate)) and formConfigTrayslate.HandleAllocated and formConfigTrayslate.Showing and
-    (not formConfigTrayslate.TestChanges) then
+  if not ConfigManager.TestConfigChanges then
     AAllow := False;
 end;
 
@@ -3139,11 +3116,7 @@ begin
   FConfigFile := AConfigFile;
   LoadConfig;
 
-  if (Assigned(formConfigTrayslate)) and formConfigTrayslate.HandleAllocated and (formConfigTrayslate.Showing) then
-  begin
-    formConfigTrayslate.UpdateConfigList;
-    formConfigTrayslate.UpdateConfig;
-  end;
+  ConfigManager.UpdateConfigEditor;
 
   if (FAutoAddLangPairs) and (FLangSource <> string.Empty) and (FLangTarget <> string.Empty) and (FLangSource <> FLangTarget) then
   begin
@@ -3381,6 +3354,88 @@ end;
 function TformTrayslate.GetRawTranslate: string;
 begin
   Result := Translate.RawTranslate;
+end;
+
+function TformTrayslate.GetFormConfigLeft: integer;
+begin
+  Result := ConfigManager.ConfigFormLeft;
+end;
+
+procedure TformTrayslate.SetFormConfigLeft(Value: integer);
+begin
+  ConfigManager.ConfigFormLeft := Value;
+end;
+
+function TformTrayslate.GetFormConfigTop: integer;
+begin
+  Result := ConfigManager.ConfigFormTop;
+end;
+
+procedure TformTrayslate.SetFormConfigTop(Value: integer);
+begin
+  ConfigManager.ConfigFormTop := Value;
+end;
+
+function TformTrayslate.GetFormConfigWidth: integer;
+begin
+  Result := ConfigManager.ConfigFormWidth;
+end;
+
+procedure TformTrayslate.SetFormConfigWidth(Value: integer);
+begin
+  ConfigManager.ConfigFormWidth := Value;
+end;
+
+function TformTrayslate.GetFormConfigHeight: integer;
+begin
+  Result := ConfigManager.ConfigFormHeight;
+end;
+
+procedure TformTrayslate.SetFormConfigHeight(Value: integer);
+begin
+  ConfigManager.ConfigFormHeight := Value;
+end;
+
+function TformTrayslate.GetFormConfigSep1: integer;
+begin
+  Result := ConfigManager.ConfigFormSep1;
+end;
+
+procedure TformTrayslate.SetFormConfigSep1(Value: integer);
+begin
+  ConfigManager.ConfigFormSep1 := Value;
+end;
+
+function TformTrayslate.GetFormConfigSep2: integer;
+begin
+  Result := ConfigManager.ConfigFormSep2;
+end;
+
+procedure TformTrayslate.SetFormConfigSep2(Value: integer);
+begin
+  ConfigManager.ConfigFormSep2 := Value;
+end;
+
+procedure TformTrayslate.ConfigManagerConfigReload(Sender: TObject; const AConfigFile: string);
+begin
+  FConfigFile := AConfigFile;
+  LoadConfig;
+end;
+
+procedure TformTrayslate.ConfigManagerConfigsUpdated(Sender: TObject);
+begin
+  Application.QueueAsyncCall(@RebuildLangPairsPanel, 0);
+end;
+
+procedure TformTrayslate.ConfigManagerRefreshSettings(Sender: TObject);
+begin
+  if Assigned(formSettingsTrayslate) and formSettingsTrayslate.Visible then
+    formSettingsTrayslate.FillConfigs;
+end;
+
+procedure TformTrayslate.ConfigManagerGetSourceText(Sender: TObject; var AValue: string);
+begin
+  AValue := MemoTarget.Text;
 end;
 
 {%EndRegion}
@@ -4077,22 +4132,7 @@ begin
 
   OpenPo.Filter := ropenpofiletr;
 
-  if Assigned(formConfigTrayslate) then
-  begin
-    with formConfigTrayslate do
-    begin
-      ComboValueType.Items.Clear;
-      ComboValueType.Items.Add(rvaluetype1);
-      ComboValueType.Items.Add(rvaluetype2);
-      ComboValueType.Items.Add(rvaluetype3);
-      ComboValueType.Items.Add(rvaluetype4);
-      ComboValueType.Items.Add(rvaluetype5);
-      ComboValueType.Items.Add(rvaluetype6);
-      ComboValueType.ItemIndex := Ord(Translate.LangType);
-      LabelSort.Left := LabelFillLanguages.BoundsRect.Right + 10;
-      LabelTargetSort.Left := LabelFillTargetLanguages.BoundsRect.Right + 10;
-    end;
-  end;
+  ConfigManager.RelocalizeConfigEditor;
 
   if Assigned(formAboutTrayslate) then
     formAboutTrayslate.MemoAbout.Text := formAboutTrayslate.LblAbout.Caption;
@@ -4781,10 +4821,7 @@ var
   ApplyChanges: boolean;
 begin
   // Check config form state and ask to save changes
-  ApplyChanges := True;
-
-  if Assigned(formConfigTrayslate) and formConfigTrayslate.HandleAllocated then
-    ApplyChanges := formConfigTrayslate.TestChanges;
+  ApplyChanges := ConfigManager.TestConfigChanges;
 
   if not ApplyChanges then
     Exit;
@@ -4801,14 +4838,10 @@ begin
     ConfigFile := Config;
     LoadConfig(False);
 
-    if Assigned(formConfigTrayslate) and formConfigTrayslate.HandleAllocated then
-    begin
-      try
-        formConfigTrayslate.UpdateConfigList;
-        formConfigTrayslate.UpdateConfig;
-      except
-        formConfigTrayslate.Close;
-      end;
+    try
+      ConfigManager.UpdateConfigEditor;
+    except
+      ConfigManager.CloseConfigEditor;
     end;
   end;
 
@@ -6093,6 +6126,9 @@ begin
   end;
 
   UpdateAutoDetect(OldAutoDetect, rautodetect);
+
+  // Push the current custom PO file to the config editor manager
+  ConfigManager.CustomPoFile := FCustomPoFile;
 
   // Update form text
   SetHints;

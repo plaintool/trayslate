@@ -1176,6 +1176,10 @@ object formTrayslate: TformTrayslate
     AutoRefresh = False
     OnBeforeSelect = ConfigManagerBeforeSelect
     OnSelect = ConfigManagerSelect
+    OnConfigReload = ConfigManagerConfigReload
+    OnConfigsUpdated = ConfigManagerConfigsUpdated
+    OnRefreshSettings = ConfigManagerRefreshSettings
+    OnGetSourceText = ConfigManagerGetSourceText
     Left = 112
     Top = 368
   end

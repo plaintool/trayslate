@@ -114,12 +114,6 @@
         <PackageName Value="lazmouseandkeyinput"/>
       </Item>
       <Item>
-        <PackageName Value="SynEdit"/>
-      </Item>
-      <Item>
-        <PackageName Value="SynEditDsgn"/>
-      </Item>
-      <Item>
         <PackageName Value="richmemopackage"/>
       </Item>
       <Item>
@@ -173,14 +167,6 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="FormSettings"/>
-      </Unit>
-      <Unit>
-        <Filename Value="src\formconfig.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="formConfigTrayslate"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-        <UnitName Value="FormConfig"/>
       </Unit>
       <Unit>
         <Filename Value="src\formpopup.pas"/>
