@@ -99,8 +99,8 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 #ifexist MyAppExe
 ; 64-bit
 Source: "..\{#MyAppExeName}"; DestDir: "{app}"; DestName: "{#MyAppExeName}"; Check: Is64BitInstallMode; Flags: ignoreversion
-Source: "..\libcrypto-1_1-x64.dll"; DestDir: "{app}"; Check: Is64BitInstallMode; Flags: ignoreversion
-Source: "..\libssl-1_1-x64.dll"; DestDir: "{app}"; Check: Is64BitInstallMode; Flags: ignoreversion
+Source: "..\libcrypto-3-x64.dll"; DestDir: "{app}"; Check: Is64BitInstallMode; Flags: ignoreversion
+Source: "..\libssl-3-x64.dll"; DestDir: "{app}"; Check: Is64BitInstallMode; Flags: ignoreversion
 #endif
 
 #define MyAppExe32 "..\" + MyAppExeName32

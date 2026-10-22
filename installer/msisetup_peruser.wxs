@@ -16,8 +16,8 @@
         <?define ExeName = "trayslate.exe" ?>
         <?define ExeNameUpper = "TRAYSLATE.EXE" ?>
         <?define SystemFolder = "System64Folder" ?>
-        <?define LibCryptoName = "libcrypto-1_1-x64.dll" ?>
-        <?define LibSslName    = "libssl-1_1-x64.dll" ?>
+        <?define LibCryptoName = "libcrypto-3-x64.dll" ?>
+        <?define LibSslName    = "libssl-3-x64.dll" ?>
     <?else?>
         <?define ProductName = "Trayslate $(var.ProductVersion) (32-bit)" ?>
         <?define Win64Value = "no" ?>

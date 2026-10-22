@@ -27,8 +27,9 @@ echo Wait 2 seconds to ensure files are free...
 ping 127.0.0.1 -n 3 >nul
 
 :: Build file names and copy
-SET "FILE_SSL=libssl-1_1%SUFFIX%.dll"
-SET "FILE_CRYPTO=libcrypto-1_1%SUFFIX%.dll"
+IF "%ARCH%"=="32" (SET "SSL_VER=1_1") ELSE (SET "SSL_VER=3")
+SET "FILE_SSL=libssl-%SSL_VER%%SUFFIX%.dll"
+SET "FILE_CRYPTO=libcrypto-%SSL_VER%%SUFFIX%.dll"
 
 echo Copying %ARCH_LABEL% %OP_NAME%...
 copy /Y "%~dp0libs\openssl\%FILE_SSL%"    "%~dp0" >NUL

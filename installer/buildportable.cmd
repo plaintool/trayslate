@@ -31,7 +31,7 @@ echo.
     "$settings='%~dp0portable';" ^
     "$license='%~dp0\\LICENSE.rtf';" ^
     "$thirdparties='%~dp0..\\THIRD_PARTIES';" ^
-    "$dlls=@('%~dp0..\\libcrypto-1_1-x64.dll','%~dp0..\\libssl-1_1-x64.dll','%~dp0..\\libcrypto-1_1.dll','%~dp0..\\libssl-1_1.dll');" ^
+    "$dlls=@('%~dp0..\\libcrypto-3-x64.dll','%~dp0..\\libssl-3-x64.dll','%~dp0..\\libcrypto-1_1.dll','%~dp0..\\libssl-1_1.dll');" ^
     "$configDir='%~dp0..\\config';" ^
     "$destZip='%~dp0trayslate-%VERSION%-x86-x64-portable.zip';" ^
     "if ((Test-Path $exe64) -and (Test-Path $exe32) -and (Test-Path $configDir)) {" ^
