@@ -174,6 +174,7 @@
         <ComponentName Value="formPopupTrayslate"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="FormPopup"/>
       </Unit>
       <Unit>
         <Filename Value="src\formbutton.pas"/>
@@ -181,6 +182,7 @@
         <ComponentName Value="formButtonTrayslate"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="FormButton"/>
       </Unit>
       <Unit>
         <Filename Value="src\formdonate.pas"/>
@@ -188,6 +190,7 @@
         <ComponentName Value="formDonateTrayslate"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="FormDonate"/>
       </Unit>
       <Unit>
         <Filename Value="src\formabout.pas"/>
@@ -195,6 +198,7 @@
         <ComponentName Value="formAboutTrayslate"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="FormAbout"/>
       </Unit>
       <Unit>
         <Filename Value="src\consts.pas"/>

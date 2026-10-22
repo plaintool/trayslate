@@ -496,7 +496,6 @@ type
     FFormSettingsHeight: integer;
     FFormSettingsSplit: integer;
     FLastDarkMode: boolean;
-    FCustomPoFile: string;
     FProxiedConfigs: TStringList;
     FEnabledLanguages: TStringList;
     // HotKeys Common
@@ -768,7 +767,6 @@ type
     property FormAboutWidth: integer read FFormAboutWidth write FFormAboutWidth;
     property FormAboutHeight: integer read FFormAboutHeight write FFormAboutHeight;
     property LastDarkMode: boolean read FLastDarkMode write FLastDarkMode;
-    property CustomPoFile: string read FCustomPoFile write FCustomPoFile;
     property RawTranslate: string read GetRawTranslate;
     property TranslateTarget: TWinControl read FTranslateTarget write SetTranslateTarget;
     property MouseHook: TGlobalMouseHook read FMouseHook write FMouseHook;
@@ -848,7 +846,6 @@ begin
   FLastEnterTime := 0;
   FEnterCount := 0;
   FLastHotkeyTime := 0;
-  FCustomPoFile := string.Empty;
   FSplitRatio := 0.5;
   FOCRActive := False;
   FPopupOpen := False;
@@ -961,7 +958,6 @@ begin
   ConfigManager.AppName := APP_NAME;
   ConfigManager.Translate := Translate;
   ConfigManager.HostForm := Self;
-  ConfigManager.CustomPoFile := FCustomPoFile;
   ConfigManager.Refresh;
 
   FConfigLangDetect := TTranslate.GetConfigFullPath(FConfigLangDetect, TStringList(ConfigManager.ConfigFiles));
@@ -6102,16 +6098,16 @@ begin
   aLangVietnamese.Checked := False;
   aLangCustom.Checked := False;
 
-  if FCustomPoFile <> string.Empty then
+  if Localize.CustomPoFile <> string.Empty then
   begin
-    PoText := TLocalize.LoadCustomPoFile(FCustomPoFile);
+    PoText := TLocalize.LoadCustomPoFile(Localize.CustomPoFile);
     if PoText = string.Empty then
     begin
-      FCustomPoFile := string.Empty;
+      Localize.CustomPoFile := string.Empty;
       LangCode := TLocalize.GetOSLanguage;
     end
     else
-      LangCode := TLocalize.GetLangCodeFromPoFile(FCustomPoFile);
+      LangCode := TLocalize.GetLangCodeFromPoFile(Localize.CustomPoFile);
   end;
 
   if (LangCode <> string.Empty) then
@@ -6127,14 +6123,11 @@ begin
 
   UpdateAutoDetect(OldAutoDetect, rautodetect);
 
-  // Push the current custom PO file to the config editor manager
-  ConfigManager.CustomPoFile := FCustomPoFile;
-
   // Update form text
   SetHints;
   SetTrayIcon;
 
-  if FCustomPoFile = string.Empty then
+  if Localize.CustomPoFile = string.Empty then
   begin
     case Language of
       'ar': aLangArabic.Checked := True;
@@ -6178,175 +6171,175 @@ begin
   if not OpenPo.Execute then
     Exit;
 
-  FCustomPoFile := OpenPo.FileName;
+  Localize.CustomPoFile := OpenPo.FileName;
   SetLanguage;
 end;
 
 procedure TformTrayslate.aLangArabicExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('ar');
 end;
 
 procedure TformTrayslate.aLangBelarusianExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('be');
 end;
 
 procedure TformTrayslate.aLangBulgarianExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('bg');
 end;
 
 procedure TformTrayslate.aLangChineseExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('zh');
 end;
 
 procedure TformTrayslate.aLangCzechExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('cs');
 end;
 
 procedure TformTrayslate.aLangDanishExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('da');
 end;
 
 procedure TformTrayslate.aLangDutchExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('nl');
 end;
 
 procedure TformTrayslate.aLangEnglishExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('en');
 end;
 
 procedure TformTrayslate.aLangFinnishExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('fi');
 end;
 
 procedure TformTrayslate.aLangFrenchExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('fr');
 end;
 
 procedure TformTrayslate.aLangGermanExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('de');
 end;
 
 procedure TformTrayslate.aLangGreekExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('el');
 end;
 
 procedure TformTrayslate.aLangHebrewExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('he');
 end;
 
 procedure TformTrayslate.aLangHindiExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('hi');
 end;
 
 procedure TformTrayslate.aLangIndonesianExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('id');
 end;
 
 procedure TformTrayslate.aLangItalianExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('it');
 end;
 
 procedure TformTrayslate.aLangJapaneseExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('ja');
 end;
 
 procedure TformTrayslate.aLangKoreanExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('ko');
 end;
 
 procedure TformTrayslate.aLangPolishExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('pl');
 end;
 
 procedure TformTrayslate.aLangPortugueseExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('pt');
 end;
 
 procedure TformTrayslate.aLangPortugueseBrazilExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('pt-BR');
 end;
 
 procedure TformTrayslate.aLangRomanianExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('ro');
 end;
 
 procedure TformTrayslate.aLangRussianExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('ru');
 end;
 
 procedure TformTrayslate.aLangSpanishExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('es');
 end;
 
 procedure TformTrayslate.aLangSwedishExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('sv');
 end;
 
 procedure TformTrayslate.aLangTurkishExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('tr');
 end;
 
 procedure TformTrayslate.aLangUkrainianExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('uk');
 end;
 
 procedure TformTrayslate.aLangVietnameseExecute(Sender: TObject);
 begin
-  FCustomPoFile := string.empty;
+  Localize.CustomPoFile := string.empty;
   SetLanguage('vi');
 end;
 

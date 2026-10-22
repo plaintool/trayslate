@@ -146,7 +146,7 @@ begin
     JSONObj.Add('AutoAddLangPairs', Form.AutoAddLangPairs);
     JSONObj.Add('AllowHotKeys', Form.AllowHotKeys);
     JSONObj.Add('AutoCheckUpdates', Form.AutoCheckUpdates);
-    JSONObj.Add('CustomPoFile', Form.CustomPoFile);
+    JSONObj.Add('CustomPoFile', Localize.CustomPoFile);
 
     arrParams := TJSONArray.Create;
     for i := 0 to Form.EnabledLanguages.Count - 1 do
@@ -591,7 +591,7 @@ begin
           Form.AutoCheckUpdates := JSONObj.FindPath('AutoCheckUpdates').AsBoolean;
 
         if (JSONObj.FindPath('CustomPoFile') <> nil) then
-          Form.CustomPoFile := JSONObj.FindPath('CustomPoFile').AsString;
+          Localize.CustomPoFile := JSONObj.FindPath('CustomPoFile').AsString;
 
         // Load enabled languages
         Form.EnabledLanguages.Clear;

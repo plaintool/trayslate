@@ -55,7 +55,7 @@ uses Consts, MainForm, CheckUpdates, Localize, DarkUtils;
 
 procedure TformAboutTrayslate.FormCreate(Sender: TObject);
 begin
-  TLocalize.ApplicationTranslate(APP_NAME, language, self, TLocalize.LoadCustomPoFile(formTrayslate.CustomPoFile));
+  TLocalize.ApplicationTranslate(APP_NAME, language, self, TLocalize.LoadCustomPoFile(Localize.CustomPoFile));
 
   MemoAbout.Text := LblAbout.Caption;
   labelName.Caption := 'Trayslate © ' + GetAppVersion;

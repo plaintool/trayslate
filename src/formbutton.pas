@@ -80,7 +80,7 @@ uses Consts, MainForm, Localize, DarkUtils, OSUtils, HotKeyHelper;
 procedure TformButtonTrayslate.FormCreate(Sender: TObject);
 begin
   // Apply localization
-  TLocalize.ApplicationTranslate(APP_NAME, language, self, TLocalize.LoadCustomPoFile(formTrayslate.CustomPoFile));
+  TLocalize.ApplicationTranslate(APP_NAME, language, self, TLocalize.LoadCustomPoFile(Localize.CustomPoFile));
 
   // Set the appropriate icon based on the theme
   ImageTranslate.ImageIndex := TDarkUtils.ThemeValue(2, 3);

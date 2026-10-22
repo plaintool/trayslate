@@ -44,7 +44,7 @@ var
 
 implementation
 
-uses Consts, MainForm, Localize, DarkUtils;
+uses Consts, Localize, DarkUtils;
 
   {$R *.lfm}
 
@@ -52,7 +52,7 @@ uses Consts, MainForm, Localize, DarkUtils;
 
 procedure TformDonateTrayslate.FormCreate(Sender: TObject);
 begin
-  TLocalize.ApplicationTranslate(APP_NAME, language, self, TLocalize.LoadCustomPoFile(formTrayslate.CustomPoFile));
+  TLocalize.ApplicationTranslate(APP_NAME, language, self, TLocalize.LoadCustomPoFile(Localize.CustomPoFile));
 
   labelBank.Font.Color := TDarkUtils.ThemeColor(clBlue, clSkyBlue);
   labelCrypto.Font.Color := TDarkUtils.ThemeColor(clBlue, clSkyBlue);

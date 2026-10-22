@@ -479,7 +479,7 @@ procedure TformSettingsTrayslate.FormCreate(Sender: TObject);
 var
   List: TStringList;
 begin
-  TLocalize.ApplicationTranslate(APP_NAME, language, self, TLocalize.LoadCustomPoFile(formTrayslate.CustomPoFile));
+  TLocalize.ApplicationTranslate(APP_NAME, language, self, TLocalize.LoadCustomPoFile(Localize.CustomPoFile));
 
   PanelPages.BevelColor := TDarkUtils.ThemeColor(ColorBevel, ColorBevelDark);
   PagesSettings.PageIndex := 0;
@@ -1569,7 +1569,7 @@ end;
 
 procedure TformSettingsTrayslate.FillLanguage(ALangCode: string);
 begin
-  if formTrayslate.CustomPoFile <> string.Empty then
+  if Localize.CustomPoFile <> string.Empty then
     ComboAppLang.ItemIndex := -1
   else
     // Select current language in the combobox
@@ -1963,7 +1963,7 @@ begin
     if (LangCode <> string.Empty) and (FOriginalLanguage <> LangCode) then
     begin
       Language := LangCode;
-      formTrayslate.CustomPoFile := string.Empty;
+      Localize.CustomPoFile := string.Empty;
       formTrayslate.SetLanguage(LangCode);
     end;
 

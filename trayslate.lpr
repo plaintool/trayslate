@@ -53,7 +53,7 @@ begin
   Application.ShowMainForm := False;
   Application.CreateForm(TformTrayslate, formTrayslate);
   SetAppInstanceMessageEvent(@formTrayslate.OnAppInstanceMessage);
-  TLocalize.ApplicationTranslate(APP_NAME, Language, nil, TLocalize.LoadCustomPoFile(formTrayslate.CustomPoFile));
+  TLocalize.ApplicationTranslate(APP_NAME, Language, nil, TLocalize.LoadCustomPoFile(Localize.CustomPoFile));
   TLocalize.UpdatePackageTranslations(APP_NAME, 'checkupdates', Language, ['CheckUpdates']);
   Application.Run;
 end.

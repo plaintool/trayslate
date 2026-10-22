@@ -159,7 +159,7 @@ procedure TformPopupTrayslate.FormCreate(Sender: TObject);
 begin
   if Assigned(formTrayslate) then
   begin
-    TLocalize.ApplicationTranslate(APP_NAME, language, self, TLocalize.LoadCustomPoFile(formTrayslate.CustomPoFile));
+    TLocalize.ApplicationTranslate(APP_NAME, language, self, TLocalize.LoadCustomPoFile(Localize.CustomPoFile));
     aTranslateFromControlPopup.ShortCut := formTrayslate.HotKeyTransControlPopup.ToShortCut;
     aTranslateControl.ShortCut := formTrayslate.HotKeyTransControl.ToShortCut;
     aSwapPair.ShortCut := formTrayslate.HotKeyTransSwap.ToShortCut;
