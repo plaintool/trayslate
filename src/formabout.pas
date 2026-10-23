@@ -33,13 +33,15 @@ type
     LabelUrlEmail: TLabel;
     MemoAbout: TMemo;
     labelBy1: TLabel;
+    labelVersion: TLabel;
+    panelHeader: TPanel;
+    panelBody: TPanel;
+    panelFooter: TPanel;
     procedure FormCreate(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure LabelUrlEmailClick(Sender: TObject);
-  private
-
   public
-
+    procedure UpdateCaptions;
   end;
 
 var
@@ -57,10 +59,18 @@ procedure TformAboutTrayslate.FormCreate(Sender: TObject);
 begin
   TLocalize.ApplicationTranslate(APP_NAME, language, self, TLocalize.LoadCustomPoFile(Localize.CustomPoFile));
 
-  MemoAbout.Text := LblAbout.Caption;
-  labelName.Caption := 'Trayslate © ' + GetAppVersion;
+  UpdateCaptions;
+
+  // Links: color within the theme
   LabelUrlEmail.Font.Color := TDarkUtils.ThemeColor(clBlue, clSkyBlue);
-  LabelUrlGithub.Font.Color := TDarkUtils.ThemeColor(clBlue, clSkyBlue);
+  LabelUrlGithub.Font.Color := LabelUrlEmail.Font.Color;
+
+  // Panels: Light/Dark Theme Adaptation
+  panelHeader.Color := TDarkUtils.ThemeColor($00E7FDFF, $00194855);
+  panelBody.Color := TDarkUtils.ThemeColor(clWhite, $001E1E1E);
+  labelVersion.Font.Color := TDarkUtils.ThemeColor(clGray, clSilver);
+  panelFooter.Color := panelBody.Color;
+  MemoAbout.Color := panelBody.Color;
 end;
 
 procedure TformAboutTrayslate.FormResize(Sender: TObject);
@@ -72,6 +82,21 @@ end;
 procedure TformAboutTrayslate.LabelUrlEmailClick(Sender: TObject);
 begin
   OpenUrl((Sender as TLabel).Hint);
+end;
+
+procedure TformAboutTrayslate.UpdateCaptions;
+var
+  Arch: string;
+begin
+  MemoAbout.Text := LblAbout.Caption;
+
+  {$IFDEF CPU64}
+    Arch := 'x64';
+  {$ELSE}
+  Arch := 'x86';
+  {$ENDIF}
+  labelName.Caption := rappname + ' © 2026';
+  labelVersion.Caption := labelVersion.Caption + ' ' + GetAppVersion + ' · ' + Arch;
 end;
 
 end.

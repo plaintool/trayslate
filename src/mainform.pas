@@ -4060,7 +4060,7 @@ begin
   ConfigManager.RelocalizeConfigEditor;
 
   if Assigned(formAboutTrayslate) then
-    formAboutTrayslate.MemoAbout.Text := formAboutTrayslate.LblAbout.Caption;
+    formAboutTrayslate.UpdateCaptions;
 
   if Assigned(formSettingsTrayslate) then
   begin

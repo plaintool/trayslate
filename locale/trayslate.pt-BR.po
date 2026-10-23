@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: PoBatch 1.0.0\n"
 
 #: consts.rappname
 msgctxt "consts.rappname"
@@ -517,6 +517,10 @@ msgstr "github: plaintool/trayslate"
 #: tformabouttrayslate.labelurlgithub.hint
 msgid "https://github.com/plaintool/trayslate"
 msgstr "https://github.com/plaintool/trayslate"
+
+#: tformabouttrayslate.labelversion.caption
+msgid "Version"
+msgstr "Versão"
 
 #: tformabouttrayslate.lblabout.caption
 msgid ""
