@@ -1774,7 +1774,7 @@ begin
     Item := formTrayslate.ConfigTitles.Values[formTrayslate.ConfigFiles[i]];
     Path := formTrayslate.ConfigFiles[i];
     ComboLangDetect.Items.Add(Item);
-    ClbProxiedConfigs.Checked[ClbProxiedConfigs.Items.Add(Item)] := formTrayslate.ProxiedConfigs.Contains(Path);
+    ClbProxiedConfigs.Checked[ClbProxiedConfigs.Items.Add(Item)] := formTrayslate.ConfigManager.ProxiedConfigs.Contains(Path);
   end;
   ComboLangDetect.ItemIndex := formTrayslate.ConfigFiles.IndexOf(formTrayslate.ConfigLangDetect) + 1;
 end;
@@ -1882,10 +1882,10 @@ begin
       if ClbEnabledLang.Checked[i] then
         formTrayslate.EnabledLanguages.Add(TLanguages.ExtractCodeFromItem(ClbEnabledLang.Items[i]));
 
-    formTrayslate.ProxiedConfigs.Clear;
+    formTrayslate.ConfigManager.ProxiedConfigs.Clear;
     for i := 0 to ClbProxiedConfigs.Count - 1 do
       if ClbProxiedConfigs.Checked[i] and (i < formTrayslate.ConfigFiles.Count) then
-        formTrayslate.ProxiedConfigs.Add(formTrayslate.ConfigFiles[i]);
+        formTrayslate.ConfigManager.ProxiedConfigs.Add(formTrayslate.ConfigFiles[i]);
 
     T := formTrayslate.Timeout;
     T.Connection := SpinConnectTimeout.Value * 1000;
@@ -1977,7 +1977,7 @@ begin
 
     formTrayslate.TimerTranslate.Interval := Max(formTrayslate.RealTimeDelay, 1);
     formTrayslate.LoadLangDetect;
-    formTrayslate.UpdateProxyState;
+    formTrayslate.ConfigManager.ApplyProxyGate;
     formTrayslate.ComboSource.AdjustComboHeight;
     formTrayslate.ComboTarget.AdjustComboHeight;
     formTrayslate.DoRealign(0);
@@ -2096,7 +2096,7 @@ begin
   FOriginalConfigLangDetect := formTrayslate.ConfigLangDetect;
   FOriginalLanguage := Language;
   FOriginalEnabledLanguages.Assign(formTrayslate.EnabledLanguages);
-  FOriginalProxiedConfigs.Assign(formTrayslate.ProxiedConfigs);
+  FOriginalProxiedConfigs.Assign(formTrayslate.ConfigManager.ProxiedConfigs);
   FOriginalProxy := formTrayslate.Proxy;
   FOriginalTimeout := formTrayslate.Timeout;
   FOriginalUserParameters.Assign(formTrayslate.UserParameters);

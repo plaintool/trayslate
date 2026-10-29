@@ -497,7 +497,6 @@ type
     FFormSettingsHeight: integer;
     FFormSettingsSplit: integer;
     FLastDarkMode: boolean;
-    FProxiedConfigs: TStringList;
     FEnabledLanguages: TStringList;
     // HotKeys Common
     FHotKeyApp: THotKeyData;
@@ -634,7 +633,6 @@ type
     procedure LoadLanguages;
     procedure RestrictTranslate;
     procedure LoadLangDetect;
-    procedure UpdateProxyState;
     procedure UpdateComboState(ASetDefault: boolean = True);
     procedure SetDefaultSettings;
     procedure SetDefaultHotKeys;
@@ -691,7 +689,6 @@ type
     property ConfigImages: TStrings read GetConfigImagesProp;
     property ConfigLangDetect: string read FConfigLangDetect write FConfigLangDetect;
     property Proxy: TProxy read FProxy write SetProxy;
-    property ProxiedConfigs: TStringList read FProxiedConfigs write FProxiedConfigs;
     property Timeout: TTimeout read FTimeout write FTimeout;
     property AutoStart: boolean read FAutoStart write SetAutoStart;
     property IconBackgroundColor: TColor read FIconBackgroundColor write FIconBackgroundColor;
@@ -881,7 +878,6 @@ begin
   FLanguagesTarget := TStringList.Create;
   FLangPairs := TStringList.Create;
   FLangPairsHint := TStringList.Create;
-  FProxiedConfigs := TStringList.Create;
   FEnabledLanguages := TStringList.Create;
 
   // Then create engines and wire host-owned references
@@ -1026,7 +1022,6 @@ begin
   FreeAndNil(FLangPairs);
   FreeAndNil(FLangPairsHint);
   FreeAndNil(FUserParameters);
-  FreeAndNil(FProxiedConfigs);
   FreeAndNil(FEnabledLanguages);
   FreeAndNil(FLanguages);
   FreeAndNil(FLanguagesTarget);
@@ -3373,7 +3368,7 @@ begin
   RestrictTranslate;
   LoadLanguages;
   LoadLangDetect;
-  UpdateProxyState;
+  ConfigManager.ApplyProxyGate;
   if AUpdateComboState then
     UpdateComboState(ASetDefault);
   UpdateAutoDetect(AutoDetect, rautodetect);
@@ -3441,28 +3436,6 @@ begin
   Translate.Detect.PrimaryLanguage := FPrimaryLang;
   Translate.Detect.SecondaryLanguage := FSecondaryLang;
   Translate.Detect.ConfigFile := FConfigLangDetect;
-end;
-
-procedure TFormTrayslate.UpdateProxyState;
-var
-  DetectProxyAllowed: boolean;
-begin
-  // Translate proxy gate
-  if ProxiedConfigs.Count > 0 then
-    Translate.AllowProxy := ProxiedConfigs.Contains(FConfigFile) and Translate.ServiceProxy
-  else
-    Translate.AllowProxy := Translate.ServiceProxy;
-
-  // Detect proxy gate intent
-  if ProxiedConfigs.Count > 0 then
-    DetectProxyAllowed := ProxiedConfigs.Contains(FConfigLangDetect)
-  else
-    DetectProxyAllowed := True;
-  Translate.Detect.AllowProxy := DetectProxyAllowed;
-
-  // Existing detect engine picks up the new gate immediately
-  if Assigned(Translate.DetectEngine) then
-    Translate.DetectEngine.AllowProxy := DetectProxyAllowed and Translate.DetectEngine.ServiceProxy;
 end;
 
 procedure TFormTrayslate.UpdateComboState(ASetDefault: boolean = True);
@@ -3729,8 +3702,8 @@ begin
   FOpacityIdle := 40;
   if Assigned(FEnabledLanguages) then
     FEnabledLanguages.Clear;
-  if Assigned(FProxiedConfigs) then
-    FProxiedConfigs.Clear;
+  if Assigned(ConfigManager) then
+    ConfigManager.ProxiedConfigs.Clear;
 
   FTimeout.Connection := CONNECT_TIMEOUT;
   FTimeout.Request := REQUEST_TIMEOUT;

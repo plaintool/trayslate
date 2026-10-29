@@ -161,19 +161,18 @@ begin
     ProxyObj.Add('Authentication', Form.Proxy.Authentication);
     ProxyObj.Add('Login', Form.Proxy.Login);
     ProxyObj.Add('Password', Form.Proxy.Password);
-
     JSONObj.Add('Proxy', ProxyObj);
 
     TimeoutObj := TJSONObject.Create;
     TimeoutObj.Add('Request', Form.Timeout.Request);
     TimeoutObj.Add('Connection', Form.Timeout.Connection);
-
-    arrParams := TJSONArray.Create;
-    for i := 0 to Form.ProxiedConfigs.Count - 1 do
-      arrParams.Add(Form.ProxiedConfigs[i]);
-    JSONObj.Add('ProxiedConfigs', arrParams);
-
     JSONObj.Add('Timeout', TimeoutObj);
+
+    // Proxied configs
+    arrParams := TJSONArray.Create;
+    for i := 0 to Form.ConfigManager.ProxiedConfigs.Count - 1 do
+      arrParams.Add(Form.ConfigManager.ProxiedConfigs[i]);
+    JSONObj.Add('ProxiedConfigs', arrParams);
 
     // Save HotKeys Common
     JSONObj.Add('HotKeyApp_Modifiers', Form.HotKeyApp.Modifiers);
@@ -633,15 +632,6 @@ begin
           Form.Proxy := Proxy;
         end;
 
-        // Load proxied configs
-        Form.ProxiedConfigs.Clear;
-        if JSONObj.FindPath('ProxiedConfigs') <> nil then
-        begin
-          arrParams := JSONObj.FindPath('ProxiedConfigs') as TJSONArray;
-          for i := 0 to arrParams.Count - 1 do
-            Form.ProxiedConfigs.Add(arrParams.Items[i].AsString);
-        end;
-
         // Timeout Settings
         if JSONObj.FindPath('Timeout') <> nil then
         begin
@@ -656,6 +646,15 @@ begin
             Timeout.Connection := TimeoutObj.FindPath('Connection').AsInteger;
 
           Form.Timeout := Timeout;
+        end;
+
+        // Load proxied configs
+        Form.ConfigManager.ProxiedConfigs.Clear;
+        if JSONObj.FindPath('ProxiedConfigs') <> nil then
+        begin
+          arrParams := JSONObj.FindPath('ProxiedConfigs') as TJSONArray;
+          for i := 0 to arrParams.Count - 1 do
+            Form.ConfigManager.ProxiedConfigs.Add(arrParams.Items[i].AsString);
         end;
 
         // Load HotKeys Common
