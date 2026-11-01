@@ -3,7 +3,28 @@ setlocal
 
 :: Resolve script directory
 SET "SOURCE_DIR=%~dp0"
-SET "VERSION=%~1"
+
+:: Parse arguments
+:: - Like main script: %1 = platform (x64/x86), %2 = version
+:: - Backward compatible: if %1 is not a known platform, treat it as version (default x64)
+IF /I "%~1"=="x64" (
+    SET "PLATFORM=x64"
+    SET "VERSION=%~2"
+) ELSE IF /I "%~1"=="x86" (
+    SET "PLATFORM=x86"
+    SET "VERSION=%~2"
+) ELSE (
+    SET "PLATFORM=x64"
+    SET "VERSION=%~1"
+)
+
+:: Validate platform
+IF NOT "%PLATFORM%"=="x64" IF NOT "%PLATFORM%"=="x86" (
+    echo Error: Invalid platform parameter. Use x64 or x86.
+    echo Example: %0 x64
+    echo Example: %0 x86
+    exit /b 1
+)
 
 :: If no version passed, try to read from ..\VERSION
 IF "%VERSION%"=="" (
@@ -20,28 +41,38 @@ IF "%VERSION%"=="" (
 
 echo.
 echo ############################################################
-echo                   Build Portable %VERSION%                    
+echo              Build Portable %PLATFORM% %VERSION%
 echo ############################################################
 echo.
 
-    powershell -NoProfile -Command ^
+:: Select input exe, OpenSSL DLLs and output archive name depending on platform
+IF "%PLATFORM%"=="x64" (
+    SET "EXE=%~dp0..\trayslate.exe"
+    SET "DLL1=%~dp0..\libcrypto-3-x64.dll"
+    SET "DLL2=%~dp0..\libssl-3-x64.dll"
+) ELSE (
+    SET "EXE=%~dp0..\trayslate32.exe"
+    SET "DLL1=%~dp0..\libcrypto-1_1.dll"
+    SET "DLL2=%~dp0..\libssl-1_1.dll"
+)
+SET "DESTZIP=%~dp0trayslate-%VERSION%-%PLATFORM%-portable.zip"
+
+powershell -NoProfile -Command ^
     "$tmp='%~dp0temp_dist';" ^
-    "$exe64='%~dp0..\\trayslate.exe';" ^
-    "$exe32='%~dp0..\\trayslate32.exe';" ^
-    "$settings='%~dp0portable';" ^
-    "$license='%~dp0\\LICENSE.rtf';" ^
-    "$thirdparties='%~dp0..\\THIRD_PARTIES';" ^
-    "$dlls=@('%~dp0..\\libcrypto-3-x64.dll','%~dp0..\\libssl-3-x64.dll','%~dp0..\\libcrypto-1_1.dll','%~dp0..\\libssl-1_1.dll');" ^
-    "$configDir='%~dp0..\\config';" ^
-    "$destZip='%~dp0trayslate-%VERSION%-x86-x64-portable.zip';" ^
-    "if ((Test-Path $exe64) -and (Test-Path $exe32) -and (Test-Path $configDir)) {" ^
+    "$exe='%EXE%';" ^
+    "$dlls=@('%DLL1%','%DLL2%');" ^
+    "$portable='%~dp0portable';" ^
+    "$license='%~dp0LICENSE.rtf';" ^
+    "$configDir='%~dp0..\config';" ^
+    "$destZip='%DESTZIP%';" ^
+    "if ((Test-Path $exe) -and (Test-Path $configDir)) {" ^
     "  if (Test-Path $tmp) { Remove-Item -Recurse -Force $tmp };" ^
     "  New-Item -ItemType Directory -Path \"$tmp/config\" -Force | Out-Null;" ^
-    "  Copy-Item $exe64, $exe32, $settings, $license, $thirdparties -Destination $tmp;" ^
+    "  Copy-Item $exe, $portable, $license -Destination $tmp;" ^
     "  Copy-Item $dlls -Destination $tmp;" ^
-    "  Copy-Item \"$configDir\\*.ini\" -Destination \"$tmp/config\";" ^
+    "  Copy-Item \"$configDir\*.ini\" -Destination \"$tmp/config\";" ^
     "  Start-Sleep -Seconds 2;" ^
-    "  Compress-Archive -Force -Path \"$tmp\\*\" -DestinationPath $destZip;" ^
+    "  Compress-Archive -Force -Path \"$tmp\*\" -DestinationPath $destZip;" ^
     "  Remove-Item -Recurse -Force $tmp;" ^
     "} else { Write-Error 'Portable inputs missing'; exit 1 }"
 

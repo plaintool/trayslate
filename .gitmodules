@@ -13,7 +13,7 @@
 [submodule "libs/synapse"]
 	path = libs/synapse
 	url = https://github.com/plainlib/synapse.git
-	branch = main
+	branch = master
 [submodule "libs/toolkit"]
 	path = libs/toolkit
 	url = https://github.com/plainlib/toolkit.git
