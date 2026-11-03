@@ -642,6 +642,7 @@ type
     procedure SetAnimate(Angle: integer);
     procedure DoRealign(Data: PtrInt);
     procedure DoRealignSplit(Data: PtrInt);
+    procedure EnsureOverlaysOnTop;
     procedure UpdateAutoDetect(Old, New: string);
     procedure UpdateCheckMenuPair;
     function UpdateSourceLanguage(const Lang: string): string;
@@ -1075,6 +1076,8 @@ begin
 
   // Ensure the window is within the screen
   Self.FitToScreen;
+
+  EnsureOverlaysOnTop;
 end;
 
 procedure TformTrayslate.FormHide(Sender: TObject);
@@ -4138,6 +4141,17 @@ begin
     else
       ;
   end;
+
+  EnsureOverlaysOnTop;
+end;
+
+procedure TformTrayslate.EnsureOverlaysOnTop;
+begin
+  // RichMemo repaints over sibling panels; lift copy buttons back on top
+  if Assigned(PanelButtonSource) then
+    PanelButtonSource.BringToFront;
+  if Assigned(PanelButtonTarget) then
+    PanelButtonTarget.BringToFront;
 end;
 
 procedure TformTrayslate.UpdateAutoDetect(Old, New: string);
@@ -5231,6 +5245,8 @@ begin
     ShowCustomHint(TrayIcon.Hint);
 
   FormGrip.Visible := not MemoTarget.VertScrollBar.IsScrollBarVisible;
+
+  EnsureOverlaysOnTop;
 end;
 
 procedure TformTrayslate.TransFinish(Sender: TObject);
