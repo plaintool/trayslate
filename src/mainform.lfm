@@ -1153,6 +1153,8 @@ object formTrayslate: TformTrayslate
     RichMemo = MemoSource
     RealTime = True
     CheckDelay = 500
+    AllowAddToDictionary = True
+    AddToDictionaryCaption = 'Add To Dictionary'
     PopupMenu = PopupSource
     SubMenuCaption = 'Suggestions'
     DicUrl = 'https://raw.githubusercontent.com/plainlib/dictionaries/main/{plaindict}'

@@ -1566,3 +1566,7 @@ msgctxt "tformtrayslate.menulanguage.caption"
 msgid "Language"
 msgstr ""
 
+#: tformtrayslate.spellsource.addtodictionarycaption
+msgid "Add To Dictionary"
+msgstr ""
+
