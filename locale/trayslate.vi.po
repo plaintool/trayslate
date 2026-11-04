@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-03 23:37-0300\n"
+"PO-Revision-Date: 2026-11-04 22:45-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: none\n"
 "Language: vi\n"
@@ -1366,6 +1366,14 @@ msgstr "Bật kiểm tra chính tả"
 msgctxt "tformtrayslate.afastverticalsplit.caption"
 msgid "Side-By-Side Layout"
 msgstr "Bố cục cạnh nhau"
+
+#: tformtrayslate.ahistorynext.hint
+msgid "Next Translation"
+msgstr "Bản dịch tiếp theo"
+
+#: tformtrayslate.ahistoryprev.hint
+msgid "Previous Translation"
+msgstr "Bản dịch trước đó"
 
 #: tformtrayslate.alangarabic.caption
 msgid "Arabic"

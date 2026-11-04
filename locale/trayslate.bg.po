@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-03 23:37-0300\n"
+"PO-Revision-Date: 2026-11-04 22:45-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: bg\n"
@@ -1365,6 +1365,14 @@ msgstr "Активирай проверката на правописа"
 msgctxt "tformtrayslate.afastverticalsplit.caption"
 msgid "Side-By-Side Layout"
 msgstr "Странично оформление"
+
+#: tformtrayslate.ahistorynext.hint
+msgid "Next Translation"
+msgstr "Следващ превод"
+
+#: tformtrayslate.ahistoryprev.hint
+msgid "Previous Translation"
+msgstr "Предишен превод"
 
 #: tformtrayslate.alangarabic.caption
 msgid "Arabic"

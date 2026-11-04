@@ -57,7 +57,7 @@ uses
   StringsHelper,
   ClipboardHelper,
   OneShotHint,
-  TextDropTarget;
+  TextDropTarget, TranslateHistory;
 
 type
 
@@ -73,6 +73,8 @@ type
     aCopySource: TAction;
     aCopyTarget: TAction;
     aCopy: TAction;
+    aHistoryNext: TAction;
+    aHistoryPrev: TAction;
     aTranslateOCR: TAction;
     aDefaultZoom: TAction;
     aFastSpellCheck: TAction;
@@ -192,6 +194,8 @@ type
     SbMenu: TSpeedButton;
     SbNewTranslate: TSpeedButton;
     SbAddPair: TSpeedButton;
+    SbHistoryForward: TSpeedButton;
+    SbHistoryBack: TSpeedButton;
     Separator1: TMenuItem;
     Separator10: TMenuItem;
     Separator11: TMenuItem;
@@ -269,6 +273,8 @@ type
     MenuUkrainian: TMenuItem;
     MenuBelarusian: TMenuItem;
     MenuHindi: TMenuItem;
+    procedure aHistoryNextExecute(Sender: TObject);
+    procedure aHistoryPrevExecute(Sender: TObject);
     procedure aTranslateOCRExecute(Sender: TObject);
     procedure ComboDrawItem(Control: TWinControl; Index: integer; ARect: TRect; State: TOwnerDrawState);
     procedure FormCreate(Sender: TObject);
@@ -344,12 +350,16 @@ type
     procedure PanelLangResize(Sender: TObject);
     procedure SplitterMoved(Sender: TObject);
     procedure SbSwapMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
+    procedure SbHistoryBackMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
+    procedure SbHistoryForwardMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
     procedure TimerActiveTimer(Sender: TObject);
     procedure TimerAnimateStopTimer(Sender: TObject);
     procedure TimerAnimateTimer(Sender: TObject);
     procedure TimerUnapplyTimer(Sender: TObject);
     procedure TimerTranslateTimer(Sender: TObject);
     procedure TimerClickTimer(Sender: TObject);
+    procedure TranslateHistoryChanged(Sender: TObject);
+    procedure TranslateHistoryItem(Sender: TObject; AItem: THistoryItem);
     procedure TrayIconMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
     procedure TrayIconMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
     procedure TrayIconClick(Sender: TObject);
@@ -452,6 +462,8 @@ type
     FProcessingPairClick: boolean;
     FNeedRebuildPairs: boolean;
     FIgnoreKeyUpCode: word;
+    // Set on paste so the next real-time translation records itself in history
+    FCommitNextRealTime: boolean;
 
     // Non sorted combo named languages
     FLanguages: TStringList;
@@ -568,6 +580,7 @@ type
     procedure ChangeSourceLang(NewLang: string; AddRecentPairs: boolean = True);
     procedure ChangeTargetLang(NewLang: string; AddRecentPairs: boolean = True);
     function SwapLanguages(ASwapTranslate: boolean = False; AddRecentPairs: boolean = True): boolean;
+    procedure UpdateHistoryButtons;
     procedure AddLangPair(const Pair: string; ToEnd: boolean = True);
     procedure SelectPair(const Pair: string; RunTranslate: boolean = True);
     procedure SelectPairConfig(const LangPairIndex: integer; RunTranslate: boolean = True);
@@ -661,9 +674,11 @@ type
     procedure SetVerticalMode;
 
     // Translate Methods
-    function TranslateThread(ATrans: TTranslate; AText: string; AMemo: TRichMemo = nil; ADetectLanguage: boolean = True): string;
+    function TranslateThread(ATrans: TTranslate; AText: string; AMemo: TRichMemo = nil; ADetectLanguage: boolean = True;
+      AAddToHistory: boolean = True): string;
     procedure CancelTranslate;
-    procedure TranslateMemo(ADetectLanguage: boolean = True);
+    procedure CommitCurrentTranslation(AMarkEmpty: boolean = False);
+    procedure TranslateMemo(ADetectLanguage: boolean = True; AAddToHistory: boolean = True);
     procedure TranslatePopup(AText: string; X: integer = 0; Y: integer = 0);
     procedure TranslateFromClipboard;
     procedure TranslateClipboard;
@@ -850,12 +865,16 @@ begin
   FNeedRebuildPairs := False;
   FFormSmallIcon := TIcon.Create;
   FIgnoreKeyUpCode := 0;
+  FCommitNextRealTime := False;
 
   // Components config
   Left := Screen.WorkAreaRect.Right - Width - 30;
   Top := Screen.WorkAreaRect.Bottom - Height - 50;
 
   aNewTranslate.ImageIndex := TDarkUtils.ThemeValue(8, 9);
+  aSwap.ImageIndex := TDarkUtils.ThemeValue(0, 1);
+  aHistoryPrev.ImageIndex := TDarkUtils.ThemeValue(26, 27);
+  aHistoryNext.ImageIndex := TDarkUtils.ThemeValue(28, 29);
   aSwap.ImageIndex := TDarkUtils.ThemeValue(0, 1);
   aTranslate.ImageIndex := TDarkUtils.ThemeValue(2, 3);
   aAddPair.ImageIndex := TDarkUtils.ThemeValue(4, 5);
@@ -933,6 +952,9 @@ begin
   aFastAutoAddLangPairs.Checked := FAutoAddLangPairs;
   aFastRealTime.Checked := FRealTime;
   aFastAutoCopy.Checked := FAutoCopy;
+
+  Translate.History.AppName := APP_NAME;
+  Translate.History.Enabled := True;
 
   ConfigManager.AppName := APP_NAME;
   ConfigManager.Translate := Translate;
@@ -1077,12 +1099,20 @@ begin
   // Ensure the window is within the screen
   Self.FitToScreen;
 
+  // After a restart with an empty screen (left over from New) the first
+  // Back should show the last committed entry, not the one before it
+  if (Trim(MemoSource.Text) = '') and (Trim(MemoTarget.Text) = '') and (Translate.HistoryCount > 0) then
+    Translate.HistoryMarkEmpty;
+
   EnsureOverlaysOnTop;
 end;
 
 procedure TformTrayslate.FormHide(Sender: TObject);
 begin
   FDropTarget.Unregister;
+  // Persist the finished translation but keep the current position: hiding
+  // the window is not a destructive action, so no past-last state
+  CommitCurrentTranslation(False);
 end;
 
 procedure TformTrayslate.FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -1848,6 +1878,9 @@ end;
 procedure TformTrayslate.aNewTranslateExecute(Sender: TObject);
 begin
   CancelTranslate;
+  // Preserve the finished translation and mark the position past the last
+  // item so the first Back restores it without jumping to the previous one
+  CommitCurrentTranslation(True);
   MemoSource.ClearWithUndo;
   MemoTarget.ClearWithUndo;
 end;
@@ -1882,6 +1915,16 @@ procedure TformTrayslate.aSwapExecute(Sender: TObject);
 begin
   if SwapLanguages and not Translate.ServiceOnlyButton then
     TranslateMemo(False);
+end;
+
+procedure TformTrayslate.aHistoryPrevExecute(Sender: TObject);
+begin
+  Translate.HistoryPrev;
+end;
+
+procedure TformTrayslate.aHistoryNextExecute(Sender: TObject);
+begin
+  Translate.HistoryNext;
 end;
 
 procedure TformTrayslate.aCopySourceExecute(Sender: TObject);
@@ -2095,6 +2138,9 @@ begin
   if Self.ActiveControl is TRichMemo then
   begin
     Memo := Self.ActiveControl as TRichMemo;
+    // Let the real-time translation triggered by this paste record itself
+    if Memo = MemoSource then
+      FCommitNextRealTime := True;
     Memo.PasteFromClipboard;
     UpdateMemoState(Memo);
   end;
@@ -2497,9 +2543,16 @@ begin
   // AltGr-like input types national chars and must not fire shortcuts
   CharInput := TLocalize.IsCharInputModifier(Shift);
 
+  // Any non-paste keypress cancels a pending paste-triggered history write
+  if Key <> VK_V then
+    FCommitNextRealTime := False;
+
   // On pasting with Ctrl+V
   if (not CharInput) and (ssCtrl in Shift) and (Key = VK_V) then
   begin
+    // Let the real-time translation triggered by this paste record itself
+    if Sender = MemoSource then
+      FCommitNextRealTime := True;
     (Sender as TRichMemo).PasteFromClipboard;
     UpdateMemoState((Sender as TRichMemo));
     Key := 0;
@@ -2712,6 +2765,18 @@ begin
   end;
 end;
 
+procedure TformTrayslate.SbHistoryBackMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
+begin
+  if Button = mbMiddle then
+    Translate.HistoryFirst;
+end;
+
+procedure TformTrayslate.SbHistoryForwardMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
+begin
+  if Button = mbMiddle then
+    Translate.HistoryLast;
+end;
+
 procedure TformTrayslate.TimerActiveTimer(Sender: TObject);
 begin
   TimerActive.Enabled := False;
@@ -2768,11 +2833,16 @@ begin
 end;
 
 procedure TformTrayslate.TimerTranslateTimer(Sender: TObject);
+var
+  AddToHistory: boolean;
 begin
   TimerTranslate.Enabled := False;
+  // Flag is consumed exactly once, whether or not the translation runs
+  AddToHistory := FCommitNextRealTime;
+  FCommitNextRealTime := False;
   if FRealTime and Translate.ServiceRealTime then
   begin
-    TranslateMemo(False);
+    TranslateMemo(False, AddToHistory);
     if MemoSource.Text = string.Empty then
       MemoTarget.Clear;
   end;
@@ -3131,6 +3201,131 @@ end;
 procedure TformTrayslate.ConfigManagerGetSourceText(Sender: TObject; var AValue: string);
 begin
   AValue := MemoTarget.Text;
+end;
+
+procedure TformTrayslate.TranslateHistoryChanged(Sender: TObject);
+begin
+  UpdateHistoryButtons;
+end;
+
+procedure TformTrayslate.TranslateHistoryItem(Sender: TObject; AItem: THistoryItem);
+begin
+  if AItem = nil then
+  begin
+    // History became empty after the last entry was deleted
+    MemoSource.ClearWithUndo;
+    MemoTarget.ClearWithUndo;
+    UpdateCheckMenuPair;
+    SetTrayIcon;
+    Exit;
+  end;
+
+  // Switch config when the item belongs to a different service
+  if not SameText(AItem.ConfigFile, FConfigFile) then
+  begin
+    if ConfigManager.IndexOfConfig(AItem.ConfigFile) >= 0 then
+    begin
+      FConfigFile := AItem.ConfigFile;
+      ConfigManager.SetSelectedConfigSilent(AItem.ConfigFile);
+      // Reload the INI for the new service; UpdateComboState overwrites
+      // SourceLanguage/TargetLanguage from INI defaults
+      LoadConfig(False);
+    end;
+  end;
+
+  // Restore languages from the history entry after LoadConfig, otherwise
+  // the INI values win and the item is shown with the wrong pair
+  Translate.SourceLanguage := AItem.SourceLang;
+  Translate.TargetLanguage := AItem.TargetLang;
+  FLangSource := AItem.SourceLang;
+  FLangTarget := AItem.TargetLang;
+
+  // Apply the new spell checker language BEFORE the text change so the
+  // RichMemo hook re-scans the new text with the correct dictionary
+  UpdateSpellCheck;
+
+  TLanguages.SetComboBoxByCode(ComboSource, AItem.SourceLang);
+  TLanguages.SetComboBoxByCode(ComboTarget, AItem.TargetLang);
+  ComboSource.Hint := LongestString([AItem.SourceLang, ComboSource.Text]);
+  ComboTarget.Hint := LongestString([AItem.TargetLang, ComboTarget.Text]);
+
+  MemoSource.SetTextSafe(AItem.SourceText);
+  MemoTarget.SetTextSafe(AItem.TargetText);
+  UpdateMemoState(MemoSource);
+  UpdateMemoState(MemoTarget);
+
+  // Safety re-check in case the text change did not trigger an internal
+  // re-scan with the new dictionary
+  UpdateSpellCheck;
+
+  UpdateCheckMenuPair;
+  SetTrayIcon;
+end;
+
+procedure TformTrayslate.TranslateLanguageDetected(Sender: TObject; const AResult: TLanguageDetectResult);
+var
+  Idx: integer;
+  DisplayName: string;
+  NeedHint: boolean;
+begin
+  // Component already applied the result via Detect.AutoApply
+  if AResult.Applied then Exit;
+
+  NeedHint := False;
+
+  case AResult.Action of
+    ldaSwap:
+    begin
+      if SwapLanguages(False, True) then
+        NeedHint := True;
+    end;
+
+    ldaChangeSource:
+    begin
+      Idx := Translate.Languages.IndexOfNameIgnoreCase(AResult.NewSource);
+      if (Idx >= 0) and (Idx < FLanguages.Count) then
+      begin
+        DisplayName := FLanguages.ValueFromIndex[Idx];
+        ChangeSourceLang(DisplayName, False);
+        NeedHint := True;
+      end;
+    end;
+
+    ldaChangeTarget:
+    begin
+      Idx := Translate.Languages.IndexOfNameIgnoreCase(AResult.NewTarget);
+      if (Idx >= 0) and (Idx < FLanguages.Count) then
+      begin
+        DisplayName := FLanguages.ValueFromIndex[Idx];
+        ChangeTargetLang(DisplayName, True);
+        NeedHint := True;
+      end;
+    end;
+
+    ldaChangeBoth:
+    begin
+      Idx := Translate.Languages.IndexOfNameIgnoreCase(AResult.NewSource);
+      if (Idx >= 0) and (Idx < FLanguages.Count) then
+      begin
+        DisplayName := FLanguages.ValueFromIndex[Idx];
+        ChangeSourceLang(DisplayName, False);
+        NeedHint := True;
+      end;
+      Idx := Translate.Languages.IndexOfNameIgnoreCase(AResult.NewTarget);
+      if (Idx >= 0) and (Idx < FLanguages.Count) then
+      begin
+        DisplayName := FLanguages.ValueFromIndex[Idx];
+        ChangeTargetLang(DisplayName, True);
+        NeedHint := True;
+      end;
+    end;
+
+    ldaNone:
+      ; // nothing to do, translation proceeds with current languages
+  end;
+
+  if NeedHint then
+    ShowCustomHint(TrayIcon.Hint);
 end;
 
 {%EndRegion}
@@ -4078,13 +4273,53 @@ end;
 
 procedure TformTrayslate.DoRealign(Data: PtrInt);
 var
-  Available, Border: integer;
+  Border, HistoryGap, BackW, FwdW, GapBack, GapFwd, Available, CSWidth, CTWidth, TranslateLeft, SwapLeft: integer;
 begin
-  Border := 3;
+  Border := Scale96ToForm(3);
+  // Negative gap: visible history buttons overlap sbSwap by ~1 DPI pixel
+  // so the three icons read as one tight group.
+  HistoryGap := Scale96ToForm(-1);
 
   PanelLang.DisableAlign;
   try
-    Available := PanelLang.ClientWidth - sbSwap.Width - sbTranslate.Width - SbNewTranslate.Width - 15;
+    // Visible history buttons: reserve width + tight (overlapping) gap
+    // towards sbSwap. Hidden history buttons: reserve zero width, but keep
+    // a full Border gap between sbSwap and the adjacent combo, otherwise
+    // sbSwap would collide with the combo when its neighbour is hidden.
+    if sbHistoryBack.Visible then
+    begin
+      BackW := sbHistoryBack.Width;
+      GapBack := HistoryGap;
+    end
+    else
+    begin
+      BackW := 0;
+      GapBack := Border; // separator between ComboSource and sbSwap
+    end;
+
+    if sbHistoryForward.Visible then
+    begin
+      FwdW := sbHistoryForward.Width;
+      GapFwd := HistoryGap;
+    end
+    else
+    begin
+      FwdW := 0;
+      GapFwd := Border; // separator between sbSwap and ComboTarget
+    end;
+
+    // Space shared between the two combos: total width minus every button
+    // (history buttons only when visible), the four fixed Border gaps, and
+    // the variable Back/Fwd gaps (which are Border when the corresponding
+    // history button is hidden, HistoryGap when visible).
+    Available := PanelLang.ClientWidth - sbNewTranslate.Width - sbTranslate.Width - BackW - sbSwap.Width -
+      FwdW - Border * 4 - GapBack - GapFwd;
+
+    CSWidth := Available div 2;
+    CTWidth := Available - CSWidth;
+
+    // sbTranslate is anchored to the right, so its Left is fixed.
+    TranslateLeft := PanelLang.ClientWidth - sbTranslate.Width - Border * 2;
 
     sbNewTranslate.SetBounds(
       0,
@@ -4093,25 +4328,47 @@ begin
       ComboSource.Height);
 
     ComboSource.SetBounds(
-      SbNewTranslate.Width + Border,
+      sbNewTranslate.Width + Border,
       Border,
-      Available div 2,
+      CSWidth,
       ComboSource.Height);
 
+    // SwapLeft depends on whether sbHistoryBack is visible:
+    //   visible → BackW + HistoryGap (overlap, hugs sbSwap)
+    //   hidden  → 0 + Border       (Border gap from ComboSource)
+    SwapLeft := ComboSource.Left + ComboSource.Width + BackW + GapBack;
+
+    if sbHistoryBack.Visible then
+      sbHistoryBack.SetBounds(
+        ComboSource.Left + ComboSource.Width,
+        Border,
+        sbHistoryBack.Width,
+        ComboSource.Height);
+
     sbSwap.SetBounds(
-      ComboSource.Left + ComboSource.Width + Border,
+      SwapLeft,
       Border,
       sbSwap.Width,
       ComboSource.Height);
 
+    if sbHistoryForward.Visible then
+      sbHistoryForward.SetBounds(
+        SwapLeft + sbSwap.Width + GapFwd,
+        Border,
+        sbHistoryForward.Width,
+        ComboSource.Height);
+
+    // ComboTarget follows the swap group. When sbHistoryForward is hidden,
+    // GapFwd is Border and FwdW is 0, so ComboTarget sits a Border away
+    // from sbSwap — no phantom gap, no collision.
     ComboTarget.SetBounds(
-      sbSwap.Left + sbSwap.Width + Border,
+      SwapLeft + sbSwap.Width + GapFwd + FwdW,
       Border,
-      Available - ComboSource.Width - Border * 2,
+      CTWidth,
       ComboTarget.Height);
 
     sbTranslate.SetBounds(
-      PanelLang.ClientWidth - sbTranslate.Width - Border * 2,
+      TranslateLeft,
       Border,
       sbTranslate.Width,
       ComboTarget.Height);
@@ -4631,6 +4888,12 @@ begin
 
   UpdateSpellCheck;
   Result := True;
+end;
+
+procedure TformTrayslate.UpdateHistoryButtons;
+begin
+  aHistoryPrev.Enabled := Translate.HistoryCanPrev;
+  aHistoryNext.Enabled := Translate.HistoryCanNext;
 end;
 
 procedure TformTrayslate.AddLangPair(const Pair: string; ToEnd: boolean = True);
@@ -5205,11 +5468,11 @@ end;
 {%Region -fold Translate Methods}
 
 function TformTrayslate.TranslateThread(ATrans: TTranslate; AText: string; AMemo: TRichMemo = nil;
-  ADetectLanguage: boolean = True): string;
+  ADetectLanguage: boolean = True; AAddToHistory: boolean = True): string;
 begin
   TranslateTarget := AMemo;
   try
-    Result := ATrans.TranslateSync(AText, ADetectLanguage);
+    Result := ATrans.TranslateSync(AText, ADetectLanguage, AAddToHistory);
   finally
     TranslateTarget := nil;
   end;
@@ -5277,73 +5540,19 @@ begin
   end;
 end;
 
-procedure TformTrayslate.TranslateLanguageDetected(Sender: TObject; const AResult: TLanguageDetectResult);
-var
-  Idx: integer;
-  DisplayName: string;
-  NeedHint: boolean;
+procedure TformTrayslate.CommitCurrentTranslation(AMarkEmpty: boolean = False);
 begin
-  // Component already applied the result via Detect.AutoApply
-  if AResult.Applied then Exit;
+  // Nothing to commit when there is no finished translation
+  if Trim(MemoSource.Text) = '' then Exit;
+  if Trim(MemoTarget.Text) = '' then Exit;
 
-  NeedHint := False;
-
-  case AResult.Action of
-    ldaSwap:
-    begin
-      if SwapLanguages(False, True) then
-        NeedHint := True;
-    end;
-
-    ldaChangeSource:
-    begin
-      Idx := Translate.Languages.IndexOfNameIgnoreCase(AResult.NewSource);
-      if (Idx >= 0) and (Idx < FLanguages.Count) then
-      begin
-        DisplayName := FLanguages.ValueFromIndex[Idx];
-        ChangeSourceLang(DisplayName, False);
-        NeedHint := True;
-      end;
-    end;
-
-    ldaChangeTarget:
-    begin
-      Idx := Translate.Languages.IndexOfNameIgnoreCase(AResult.NewTarget);
-      if (Idx >= 0) and (Idx < FLanguages.Count) then
-      begin
-        DisplayName := FLanguages.ValueFromIndex[Idx];
-        ChangeTargetLang(DisplayName, True);
-        NeedHint := True;
-      end;
-    end;
-
-    ldaChangeBoth:
-    begin
-      Idx := Translate.Languages.IndexOfNameIgnoreCase(AResult.NewSource);
-      if (Idx >= 0) and (Idx < FLanguages.Count) then
-      begin
-        DisplayName := FLanguages.ValueFromIndex[Idx];
-        ChangeSourceLang(DisplayName, False);
-        NeedHint := True;
-      end;
-      Idx := Translate.Languages.IndexOfNameIgnoreCase(AResult.NewTarget);
-      if (Idx >= 0) and (Idx < FLanguages.Count) then
-      begin
-        DisplayName := FLanguages.ValueFromIndex[Idx];
-        ChangeTargetLang(DisplayName, True);
-        NeedHint := True;
-      end;
-    end;
-
-    ldaNone:
-      ; // nothing to do, translation proceeds with current languages
-  end;
-
-  if NeedHint then
-    ShowCustomHint(TrayIcon.Hint);
+  // Component deduplicates against the current entry; AMarkEmpty keeps the
+  // first Back pointing at the committed item even when it was a duplicate
+  if Translate.HistoryAdd(MemoSource.Text, MemoTarget.Text, '', '', '', AMarkEmpty) or AMarkEmpty then
+    UpdateHistoryButtons;
 end;
 
-procedure TformTrayslate.TranslateMemo(ADetectLanguage: boolean = True);
+procedure TformTrayslate.TranslateMemo(ADetectLanguage: boolean = True; AAddToHistory: boolean = True);
 begin
   Translate.Cancelled := False;
 
@@ -5359,7 +5568,7 @@ begin
     end;
 
     // Create translation thread for popup; detection is handled inside the engine
-    TranslateThread(Translate, formPopupTrayslate.SourceText, formPopupTrayslate.MemoTarget, ADetectLanguage);
+    TranslateThread(Translate, formPopupTrayslate.SourceText, formPopupTrayslate.MemoTarget, ADetectLanguage, AAddToHistory);
   end
   else
   begin
@@ -5370,7 +5579,7 @@ begin
     end;
 
     // Create translation thread; detection is handled inside the engine
-    TranslateThread(Translate, MemoSource.Text, MemoTarget, ADetectLanguage);
+    TranslateThread(Translate, MemoSource.Text, MemoTarget, ADetectLanguage, AAddToHistory);
   end;
 end;
 

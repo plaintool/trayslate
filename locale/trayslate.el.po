@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-03 23:37-0300\n"
+"PO-Revision-Date: 2026-11-04 22:45-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: el\n"
@@ -1364,6 +1364,14 @@ msgstr "Ενεργοποίηση ορθογραφικού ελέγχου"
 msgctxt "tformtrayslate.afastverticalsplit.caption"
 msgid "Side-By-Side Layout"
 msgstr "Διάταξη δίπλα-δίπλα"
+
+#: tformtrayslate.ahistorynext.hint
+msgid "Next Translation"
+msgstr "Επόμενη μετάφραση"
+
+#: tformtrayslate.ahistoryprev.hint
+msgid "Previous Translation"
+msgstr "Προηγούμενη μετάφραση"
 
 #: tformtrayslate.alangarabic.caption
 msgid "Arabic"
