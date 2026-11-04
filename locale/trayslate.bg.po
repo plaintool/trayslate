@@ -59,9 +59,7 @@ msgstr "В избраната област не е разпознат текст
 msgid ""
 "No OCR engine is installed for language \"%s\".\n"
 "Supported languages: %s"
-msgstr ""
-"Не е инсталиран OCR енджин за език „%s“.\n"
-"Поддържани езици: %s"
+msgstr "Не е инсталиран OCR енджин за език „%s“.\nПоддържани езици: %s"
 
 #: consts.rocrneedlang
 msgid "Screen OCR requires a specific source language. Please choose one in settings instead of automatic detection."
@@ -527,10 +525,7 @@ msgid ""
 "Trayslate is a tray-based client for translation services. You can enter text directly, translate clipboard content, or translate selected text in any application. You can also replace text in another app with its translation using a hotkey. The app lets you choose and fully configure the translation service you use.\n"
 "\n"
 "See THIRD_PARTIES for third-party licenses and notices."
-msgstr ""
-"Trayslate е клиент, базиран на системна лента, за преводачески услуги. Можете да въвеждате текст директно, да превеждате съдържание от клипборда или да превеждате избран текст във всяко приложение. Можете също така да замените текст в друго приложение с неговия превод, като използвате клавишна комбинация. Приложението ви позволява да изберете и напълно да конфигурирате услугата за превод, която използвате.\n"
-"\n"
-"Вижте THIRD_PARTIES за лицензи и известия на трети страни."
+msgstr "Trayslate е клиент, базиран на системна лента, за преводачески услуги. Можете да въвеждате текст директно, да превеждате съдържание от клипборда или да превеждате избран текст във всяко приложение. Можете също така да замените текст в друго приложение с неговия превод, като използвате клавишна комбинация. Приложението ви позволява да изберете и напълно да конфигурирате услугата за превод, която използвате.\n\nВижте THIRD_PARTIES за лицензи и известия на трети страни."
 
 #: tformbuttontrayslate.imagetranslate.hint
 msgctxt "tformbuttontrayslate.imagetranslate.hint"
@@ -881,9 +876,7 @@ msgstr "Винаги предпочитай основния/вторичния 
 msgid ""
 "Always prefer the Primary/Secondary language pair when the detected language matches the current target language.\n"
 "Restore the configured pair instead of performing a normal swap."
-msgstr ""
-"Винаги предпочитай двойка с основен/вторичен език, когато откритият език съвпада с текущия целеви език. \n"
-"Възстанови конфигурираната двойка вместо нормална смяна."
+msgstr "Винаги предпочитай двойка с основен/вторичен език, когато откритият език съвпада с текущия целеви език. \nВъзстанови конфигурираната двойка вместо нормална смяна."
 
 #: tformsettingstrayslate.checksmartswap.caption
 msgctxt "tformsettingstrayslate.checksmartswap.caption"
@@ -895,9 +888,7 @@ msgctxt "tformsettingstrayslate.checksmartswap.hint"
 msgid ""
 "If Detected language is outside the current pair, the Source language is replaced with the Detected language and the Target language is set to Primary.\n"
 "If Detected language equals Primary, the translation pair is set to Primary - Secondary."
-msgstr ""
-"Ако откритият език е извън текущата двойка, изходният се заменя с открития, а целевият е зададен на Основен.\n"
-"Ако Откритият език е Основен, двойката превод е зададена на Основен - Вторичен."
+msgstr "Ако откритият език е извън текущата двойка, изходният се заменя с открития, а целевият е зададен на Основен.\nАко Откритият език е Основен, двойката превод е зададена на Основен - Вторичен."
 
 #: tformsettingstrayslate.checkspellcheck.caption
 msgctxt "tformsettingstrayslate.checkspellcheck.caption"
@@ -1588,5 +1579,5 @@ msgstr "Език"
 
 #: tformtrayslate.spellsource.addtodictionarycaption
 msgid "Add To Dictionary"
-msgstr "Добавяне към речника"
+msgstr "Добави към речника"
 
