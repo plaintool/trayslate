@@ -1346,6 +1346,10 @@ msgctxt "tformtrayslate.afastverticalsplit.caption"
 msgid "Side-By-Side Layout"
 msgstr ""
 
+#: tformtrayslate.ahistoryclear.caption
+msgid "Clear From History"
+msgstr ""
+
 #: tformtrayslate.ahistorynext.hint
 msgid "Next Translation"
 msgstr ""

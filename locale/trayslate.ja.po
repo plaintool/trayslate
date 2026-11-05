@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-04 22:45-0300\n"
+"PO-Revision-Date: 2026-11-05 14:37-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: ja\n"
@@ -1364,6 +1364,10 @@ msgstr "スペルチェックを有効にする"
 msgctxt "tformtrayslate.afastverticalsplit.caption"
 msgid "Side-By-Side Layout"
 msgstr "左右レイアウト"
+
+#: tformtrayslate.ahistoryclear.caption
+msgid "Clear From History"
+msgstr "履歴から削除"
 
 #: tformtrayslate.ahistorynext.hint
 msgid "Next Translation"

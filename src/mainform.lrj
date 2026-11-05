@@ -63,11 +63,7 @@
 {"hash":304761,"name":"tformtrayslate.acopy.caption","sourcebytes":[67,111,112,121],"value":"Copy"},
 {"hash":5671589,"name":"tformtrayslate.apaste.caption","sourcebytes":[80,97,115,116,101],"value":"Paste"},
 {"hash":4860802,"name":"tformtrayslate.aclear.caption","sourcebytes":[67,108,101,97,114],"value":"Clear"},
-{"hash":195288076,"name":"tformtrayslate.aselectall.caption","sourcebytes":[83,101,108,101,99,116,32,65,108,108],"value":"Select All"},
-{"hash":205357346,"name":"tformtrayslate.asourcebidirighttoleft.caption","sourcebytes":[82,105,103,104,116,45,84,111,45,76,101,102,116,32,82,101,97,100,105,110,103,32,79,114,100,101,114],"value":"Right-To-Left Reading Order"},
-{"hash":205357346,"name":"tformtrayslate.atargetbidirighttoleft.caption","sourcebytes":[82,105,103,104,116,45,84,111,45,76,101,102,116,32,82,101,97,100,105,110,103,32,79,114,100,101,114],"value":"Right-To-Left Reading Order"},
 {"hash":232257691,"name":"tformtrayslate.afastspellcheck.caption","sourcebytes":[69,110,97,98,108,101,32,83,112,101,108,108,32,67,104,101,99,107],"value":"Enable Spell Check"},
-{"hash":131063453,"name":"tformtrayslate.adefaultzoom.caption","sourcebytes":[68,101,102,97,117,108,116,32,90,111,111,109],"value":"Default Zoom"},
 {"hash":103574377,"name":"tformtrayslate.atranslateocr.caption","sourcebytes":[84,114,97,110,115,108,97,116,101,32,83,99,114,101,101,110,32,65,114,101,97,32,40,79,67,82,41],"value":"Translate Screen Area (OCR)"},
 {"hash":1551550,"name":"tformtrayslate.asettings.caption","sourcebytes":[83,101,116,116,105,110,103,115,46,46,46],"value":"Settings..."},
 {"hash":208387838,"name":"tformtrayslate.aconfigeditor.caption","sourcebytes":[67,111,110,102,105,103,32,69,100,105,116,111,114,46,46,46],"value":"Config Editor..."},
@@ -78,5 +74,10 @@
 {"hash":315140,"name":"tformtrayslate.aexit.caption","sourcebytes":[69,120,105,116],"value":"Exit"},
 {"hash":96349118,"name":"tformtrayslate.ahistoryprev.hint","sourcebytes":[80,114,101,118,105,111,117,115,32,84,114,97,110,115,108,97,116,105,111,110],"value":"Previous Translation"},
 {"hash":7759086,"name":"tformtrayslate.ahistorynext.hint","sourcebytes":[78,101,120,116,32,84,114,97,110,115,108,97,116,105,111,110],"value":"Next Translation"},
+{"hash":259084697,"name":"tformtrayslate.ahistoryclear.caption","sourcebytes":[67,108,101,97,114,32,70,114,111,109,32,72,105,115,116,111,114,121],"value":"Clear From History"},
+{"hash":195288076,"name":"tformtrayslate.aselectall.caption","sourcebytes":[83,101,108,101,99,116,32,65,108,108],"value":"Select All"},
+{"hash":205357346,"name":"tformtrayslate.asourcebidirighttoleft.caption","sourcebytes":[82,105,103,104,116,45,84,111,45,76,101,102,116,32,82,101,97,100,105,110,103,32,79,114,100,101,114],"value":"Right-To-Left Reading Order"},
+{"hash":205357346,"name":"tformtrayslate.atargetbidirighttoleft.caption","sourcebytes":[82,105,103,104,116,45,84,111,45,76,101,102,116,32,82,101,97,100,105,110,103,32,79,114,100,101,114],"value":"Right-To-Left Reading Order"},
+{"hash":131063453,"name":"tformtrayslate.adefaultzoom.caption","sourcebytes":[68,101,102,97,117,108,116,32,90,111,111,109],"value":"Default Zoom"},
 {"hash":28787049,"name":"tformtrayslate.spellsource.addtodictionarycaption","sourcebytes":[65,100,100,32,84,111,32,68,105,99,116,105,111,110,97,114,121],"value":"Add To Dictionary"}
 ]}

@@ -894,33 +894,11 @@ object formTrayslate: TformTrayslate
       Caption = 'Clear'
       OnExecute = aClearExecute
     end
-    object aSelectAll: TAction
-      Category = 'Memo'
-      Caption = 'Select All'
-      OnExecute = aSelectAllExecute
-    end
-    object aSourceBidiRightToLeft: TAction
-      Category = 'Memo'
-      AutoCheck = True
-      Caption = 'Right-To-Left Reading Order'
-      OnExecute = aSourceBidiRightToLeftExecute
-    end
-    object aTargetBidiRightToLeft: TAction
-      Category = 'Memo'
-      AutoCheck = True
-      Caption = 'Right-To-Left Reading Order'
-      OnExecute = aTargetBidiRightToLeftExecute
-    end
     object aFastSpellCheck: TAction
       Category = 'FastSettings'
       AutoCheck = True
       Caption = 'Enable Spell Check'
       OnExecute = aFastSpellCheckExecute
-    end
-    object aDefaultZoom: TAction
-      Category = 'Memo'
-      Caption = 'Default Zoom'
-      OnExecute = aDefaultZoomExecute
     end
     object aTranslateOCR: TAction
       Category = 'Tray'
@@ -975,6 +953,33 @@ object formTrayslate: TformTrayslate
       Hint = 'Next Translation'
       ImageIndex = 28
       OnExecute = aHistoryNextExecute
+    end
+    object aHistoryClear: TAction
+      Category = 'Memo'
+      Caption = 'Clear From History'
+      OnExecute = aHistoryClearExecute
+    end
+    object aSelectAll: TAction
+      Category = 'Memo'
+      Caption = 'Select All'
+      OnExecute = aSelectAllExecute
+    end
+    object aSourceBidiRightToLeft: TAction
+      Category = 'Memo'
+      AutoCheck = True
+      Caption = 'Right-To-Left Reading Order'
+      OnExecute = aSourceBidiRightToLeftExecute
+    end
+    object aTargetBidiRightToLeft: TAction
+      Category = 'Memo'
+      AutoCheck = True
+      Caption = 'Right-To-Left Reading Order'
+      OnExecute = aTargetBidiRightToLeftExecute
+    end
+    object aDefaultZoom: TAction
+      Category = 'Memo'
+      Caption = 'Default Zoom'
+      OnExecute = aDefaultZoomExecute
     end
   end
   object TimerClick: TTimer
@@ -1143,13 +1148,16 @@ object formTrayslate: TformTrayslate
     object MenuSourceClear: TMenuItem
       Action = aClear
     end
+    object MenuItem5: TMenuItem
+      Action = aHistoryClear
+    end
     object Separator11: TMenuItem
       Caption = '-'
     end
     object MenuSourceSelectAll: TMenuItem
       Action = aSelectAll
     end
-    object Separator10: TMenuItem
+    object Separator17: TMenuItem
       Caption = '-'
     end
     object MenuSourceBidiMode: TMenuItem
@@ -1180,6 +1188,9 @@ object formTrayslate: TformTrayslate
     end
     object MenuTargetClear: TMenuItem
       Action = aClear
+    end
+    object MenuItem6: TMenuItem
+      Action = aHistoryClear
     end
     object Separator14: TMenuItem
       Caption = '-'

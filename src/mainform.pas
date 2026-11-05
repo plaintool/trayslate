@@ -73,6 +73,7 @@ type
     aCopySource: TAction;
     aCopyTarget: TAction;
     aCopy: TAction;
+    aHistoryClear: TAction;
     aHistoryNext: TAction;
     aHistoryPrev: TAction;
     aTranslateOCR: TAction;
@@ -124,6 +125,8 @@ type
     MenuFastMouseModeCtrl: TMenuItem;
     MenuFastSpellCheck: TMenuItem;
     MenuItem4: TMenuItem;
+    MenuItem5: TMenuItem;
+    MenuItem6: TMenuItem;
     MenuSourceDefaultZoom: TMenuItem;
     MenuTargetDefaultZoom: TMenuItem;
     MenuSourceBidiMode: TMenuItem;
@@ -197,13 +200,13 @@ type
     SbHistoryForward: TSpeedButton;
     SbHistoryBack: TSpeedButton;
     Separator1: TMenuItem;
-    Separator10: TMenuItem;
     Separator11: TMenuItem;
     Separator12: TMenuItem;
     Separator13: TMenuItem;
     Separator14: TMenuItem;
     Separator15: TMenuItem;
     Separator16: TMenuItem;
+    Separator17: TMenuItem;
     Separator2: TMenuItem;
     SbSwap: TSpeedButton;
     SbTranslate: TSpeedButton;
@@ -273,6 +276,7 @@ type
     MenuUkrainian: TMenuItem;
     MenuBelarusian: TMenuItem;
     MenuHindi: TMenuItem;
+    procedure aHistoryClearExecute(Sender: TObject);
     procedure aHistoryNextExecute(Sender: TObject);
     procedure aHistoryPrevExecute(Sender: TObject);
     procedure aTranslateOCRExecute(Sender: TObject);
@@ -1925,6 +1929,11 @@ end;
 procedure TformTrayslate.aHistoryNextExecute(Sender: TObject);
 begin
   Translate.HistoryNext;
+end;
+
+procedure TformTrayslate.aHistoryClearExecute(Sender: TObject);
+begin
+  Translate.HistoryDelete;
 end;
 
 procedure TformTrayslate.aCopySourceExecute(Sender: TObject);
@@ -4894,6 +4903,7 @@ procedure TformTrayslate.UpdateHistoryButtons;
 begin
   aHistoryPrev.Enabled := Translate.HistoryCanPrev;
   aHistoryNext.Enabled := Translate.HistoryCanNext;
+  aHistoryClear.Enabled := Translate.HistoryCount > 0;
 end;
 
 procedure TformTrayslate.AddLangPair(const Pair: string; ToEnd: boolean = True);
