@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Trayslate - Italian - 18.10.2026\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-05 14:37-0300\n"
+"PO-Revision-Date: 2026-11-05 21:33-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: bovirus (bovirus@gmail.com)\n"
 "Language: it\n"
@@ -1380,6 +1380,10 @@ msgstr "Traduzione successiva"
 #: tformtrayslate.ahistoryprev.hint
 msgid "Previous Translation"
 msgstr "Traduzione precedente"
+
+#: tformtrayslate.ahistorysearch.caption
+msgid "History Search..."
+msgstr "Cerca nella cronologia..."
 
 #: tformtrayslate.alangarabic.caption
 msgid "Arabic"

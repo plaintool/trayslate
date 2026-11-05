@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-05 14:36-0300\n"
+"PO-Revision-Date: 2026-11-05 21:33-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -1376,6 +1376,10 @@ msgstr "Traduction suivante"
 #: tformtrayslate.ahistoryprev.hint
 msgid "Previous Translation"
 msgstr "Traduction précédente"
+
+#: tformtrayslate.ahistorysearch.caption
+msgid "History Search..."
+msgstr "Recherche dans l’historique..."
 
 #: tformtrayslate.alangarabic.caption
 msgid "Arabic"

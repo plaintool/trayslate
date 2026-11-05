@@ -83,6 +83,10 @@ begin
     JSONObj.Add('FormSettingsWidth', Round(Form.FormSettingsWidth * 96 / DPI));
     JSONObj.Add('FormSettingsHeight', Round(Form.FormSettingsHeight * 96 / DPI));
     JSONObj.Add('FormSettingsSplit', Round(Form.FormSettingsSplit * 96 / DPI));
+    JSONObj.Add('FormSearchLeft', Round(Form.Translate.SearchPosition.Left * 96 / DPI));
+    JSONObj.Add('FormSearchTop', Round(Form.Translate.SearchPosition.Top * 96 / DPI));
+    JSONObj.Add('FormSearchWidth', Round(Form.Translate.SearchPosition.Width * 96 / DPI));
+    JSONObj.Add('FormSearchHeight', Round(Form.Translate.SearchPosition.Height * 96 / DPI));
     JSONObj.Add('FormAboutWidth', Round(Form.FormAboutWidth * 96 / DPI));
     JSONObj.Add('FormAboutHeight', Round(Form.FormAboutHeight * 96 / DPI));
 
@@ -429,6 +433,18 @@ begin
 
         if JSONObj.FindPath('FormSettingsSplit') <> nil then
           Form.FormSettingsSplit := Round(JSONObj.FindPath('FormSettingsSplit').AsInteger * DPI / 96);
+
+        if JSONObj.FindPath('FormSearchLeft') <> nil then
+          Form.Translate.SearchPosition.Left := Round(JSONObj.FindPath('FormSearchLeft').AsInteger * DPI / 96);
+
+        if JSONObj.FindPath('FormSearchTop') <> nil then
+          Form.Translate.SearchPosition.Top := Round(JSONObj.FindPath('FormSearchTop').AsInteger * DPI / 96);
+
+        if JSONObj.FindPath('FormSearchWidth') <> nil then
+          Form.Translate.SearchPosition.Width := Round(JSONObj.FindPath('FormSearchWidth').AsInteger * DPI / 96);
+
+        if JSONObj.FindPath('FormSearchHeight') <> nil then
+          Form.Translate.SearchPosition.Height := Round(JSONObj.FindPath('FormSearchHeight').AsInteger * DPI / 96);
 
         if JSONObj.FindPath('FormAboutWidth') <> nil then
           Form.FormAboutWidth := Round(JSONObj.FindPath('FormAboutWidth').AsInteger * DPI / 96);

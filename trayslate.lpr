@@ -24,7 +24,7 @@ uses
   Localize
   {$IFDEF WINDOWS}
   ,uDarkStyle
-  ,uWin32WidgetSetDark
+  ,uWin32WidgetSetDark, FormSearch
   {$ENDIF}
   ;
 

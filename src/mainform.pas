@@ -73,6 +73,7 @@ type
     aCopySource: TAction;
     aCopyTarget: TAction;
     aCopy: TAction;
+    aHistorySearch: TAction;
     aHistoryClear: TAction;
     aHistoryNext: TAction;
     aHistoryPrev: TAction;
@@ -127,6 +128,7 @@ type
     MenuItem4: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
+    MenuItem7: TMenuItem;
     MenuSourceDefaultZoom: TMenuItem;
     MenuTargetDefaultZoom: TMenuItem;
     MenuSourceBidiMode: TMenuItem;
@@ -279,6 +281,7 @@ type
     procedure aHistoryClearExecute(Sender: TObject);
     procedure aHistoryNextExecute(Sender: TObject);
     procedure aHistoryPrevExecute(Sender: TObject);
+    procedure aHistorySearchExecute(Sender: TObject);
     procedure aTranslateOCRExecute(Sender: TObject);
     procedure ComboDrawItem(Control: TWinControl; Index: integer; ARect: TRect; State: TOwnerDrawState);
     procedure FormCreate(Sender: TObject);
@@ -364,6 +367,7 @@ type
     procedure TimerClickTimer(Sender: TObject);
     procedure TranslateHistoryChanged(Sender: TObject);
     procedure TranslateHistoryItem(Sender: TObject; AItem: THistoryItem);
+    procedure TranslateHistoryItemActivated(Sender: TObject; AItem: THistoryItem);
     procedure TrayIconMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
     procedure TrayIconMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
     procedure TrayIconClick(Sender: TObject);
@@ -1926,6 +1930,11 @@ begin
   Translate.HistoryPrev;
 end;
 
+procedure TformTrayslate.aHistorySearchExecute(Sender: TObject);
+begin
+  Translate.ShowSearchForm;
+end;
+
 procedure TformTrayslate.aHistoryNextExecute(Sender: TObject);
 begin
   Translate.HistoryNext;
@@ -3271,6 +3280,15 @@ begin
   SetTrayIcon;
 end;
 
+procedure TformTrayslate.TranslateHistoryItemActivated(Sender: TObject; AItem: THistoryItem);
+begin
+  // Search form double-click: bring the main window to front if hidden
+  if Showing then Exit;
+  Show;
+  TOS.BringToFrontNoFocus(Self);
+  FTopMost := True;
+end;
+
 procedure TformTrayslate.TranslateLanguageDetected(Sender: TObject; const AResult: TLanguageDetectResult);
 var
   Idx: integer;
@@ -4238,6 +4256,7 @@ begin
   OpenPo.Filter := ropenpofiletr;
 
   ConfigManager.RelocalizeConfigEditor;
+  Translate.RelocalizeSearchForm;
 
   if Assigned(formAboutTrayslate) then
     formAboutTrayslate.UpdateCaptions;

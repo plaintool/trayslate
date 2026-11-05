@@ -387,6 +387,9 @@ object formTrayslate: TformTrayslate
     object MenuLangPairs: TMenuItem
       Caption = 'Recent Pairs'
     end
+    object MenuItem7: TMenuItem
+      Action = aHistorySearch
+    end
     object Separator2: TMenuItem
       Caption = '-'
     end
@@ -905,43 +908,6 @@ object formTrayslate: TformTrayslate
       Caption = 'Translate Screen Area (OCR)'
       OnExecute = aTranslateOCRExecute
     end
-    object aSettings: TAction
-      Category = 'Tray'
-      Caption = 'Settings...'
-      OnExecute = aSettingsExecute
-    end
-    object aConfigEditor: TAction
-      Category = 'Tray'
-      Caption = 'Config Editor...'
-      OnExecute = aConfigEditorExecute
-    end
-    object aDonate: TAction
-      Category = 'Tray'
-      Caption = 'Buy Me a Coffee...'
-      OnExecute = aDonateExecute
-    end
-    object aAutoCheckUpdates: TAction
-      Category = 'Tray'
-      AutoCheck = True
-      Caption = 'Auto Check Updates'
-      Checked = True
-      OnExecute = aAutoCheckUpdatesExecute
-    end
-    object aCheckForUpdates: TAction
-      Category = 'Tray'
-      Caption = 'Check For Updates'
-      OnExecute = aCheckForUpdatesExecute
-    end
-    object aAbout: TAction
-      Category = 'Tray'
-      Caption = 'About...'
-      OnExecute = aAboutExecute
-    end
-    object aExit: TAction
-      Category = 'Tray'
-      Caption = 'Exit'
-      OnExecute = aExitExecute
-    end
     object aHistoryPrev: TAction
       Category = 'Form'
       Hint = 'Previous Translation'
@@ -980,6 +946,48 @@ object formTrayslate: TformTrayslate
       Category = 'Memo'
       Caption = 'Default Zoom'
       OnExecute = aDefaultZoomExecute
+    end
+    object aHistorySearch: TAction
+      Category = 'Tray'
+      Caption = 'History Search...'
+      OnExecute = aHistorySearchExecute
+    end
+    object aSettings: TAction
+      Category = 'Tray'
+      Caption = 'Settings...'
+      OnExecute = aSettingsExecute
+    end
+    object aConfigEditor: TAction
+      Category = 'Tray'
+      Caption = 'Config Editor...'
+      OnExecute = aConfigEditorExecute
+    end
+    object aDonate: TAction
+      Category = 'Tray'
+      Caption = 'Buy Me a Coffee...'
+      OnExecute = aDonateExecute
+    end
+    object aAutoCheckUpdates: TAction
+      Category = 'Tray'
+      AutoCheck = True
+      Caption = 'Auto Check Updates'
+      Checked = True
+      OnExecute = aAutoCheckUpdatesExecute
+    end
+    object aCheckForUpdates: TAction
+      Category = 'Tray'
+      Caption = 'Check For Updates'
+      OnExecute = aCheckForUpdatesExecute
+    end
+    object aAbout: TAction
+      Category = 'Tray'
+      Caption = 'About...'
+      OnExecute = aAboutExecute
+    end
+    object aExit: TAction
+      Category = 'Tray'
+      Caption = 'Exit'
+      OnExecute = aExitExecute
     end
   end
   object TimerClick: TTimer
@@ -1229,6 +1237,7 @@ object formTrayslate: TformTrayslate
     History.MaxItems = 0
     OnHistoryItem = TranslateHistoryItem
     OnHistoryChanged = TranslateHistoryChanged
+    OnHistoryItemActivated = TranslateHistoryItemActivated
     OnTranslateStart = TransStart
     OnTranslateComplete = TransComplete
     OnTranslateFinish = TransFinish

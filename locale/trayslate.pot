@@ -1358,6 +1358,10 @@ msgstr ""
 msgid "Previous Translation"
 msgstr ""
 
+#: tformtrayslate.ahistorysearch.caption
+msgid "History Search..."
+msgstr ""
+
 #: tformtrayslate.alangarabic.caption
 msgid "Arabic"
 msgstr ""
