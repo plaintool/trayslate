@@ -4262,9 +4262,6 @@ begin
 
   OpenPo.Filter := ropenpofiletr;
 
-  ConfigManager.RelocalizeConfigEditor;
-  Translate.RelocalizeSearchForm;
-
   if Assigned(formAboutTrayslate) then
     formAboutTrayslate.UpdateCaptions;
 
@@ -6285,6 +6282,9 @@ begin
   end;
 
   UpdateAutoDetect(OldAutoDetect, rautodetect);
+
+  ConfigManager.RelocalizeConfigEditor;
+  Translate.RelocalizeSearchForm;
 
   // Update form text
   SetHints;
