@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-05 21:34-0300\n"
+"PO-Revision-Date: 2026-11-06 19:05-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: tr\n"
@@ -45,6 +45,15 @@ msgctxt "consts.rlockheight"
 msgid "Lock Height"
 msgstr "Yüksekliği kilitle"
 
+#: consts.rnextlast
+#, object-pascal-format
+msgid ""
+"Last Translation (%s)\n"
+"Next Translation"
+msgstr ""
+"Son Çeviri (%s)\n"
+"Sonraki Çeviri"
+
 #: consts.rnoconfig
 msgctxt "consts.rnoconfig"
 msgid "Configuration file not found! Create it in the configuration editor."
@@ -75,6 +84,15 @@ msgstr "Bu sistemde yüklü OCR dil paketi bulunmuyor."
 msgctxt "consts.ropenpofiletr"
 msgid "Language File (*.po)|*.po"
 msgstr "Dil dosyası (*.po)|*.po"
+
+#: consts.rprevfirst
+#, object-pascal-format
+msgid ""
+"First Translation (%s)\n"
+"Previous Translation"
+msgstr ""
+"İlk Çeviri (%s)\n"
+"Önceki Çeviri"
 
 #: consts.rremovepair
 #, object-pascal-format
@@ -1369,14 +1387,6 @@ msgstr "Yan yana düzen"
 #: tformtrayslate.ahistoryclear.caption
 msgid "Clear From History"
 msgstr "Geçmişten kaldır"
-
-#: tformtrayslate.ahistorynext.hint
-msgid "Next Translation"
-msgstr "Sonraki Çeviri"
-
-#: tformtrayslate.ahistoryprev.hint
-msgid "Previous Translation"
-msgstr "Önceki Çeviri"
 
 #: tformtrayslate.ahistorysearch.caption
 msgid "History Search..."

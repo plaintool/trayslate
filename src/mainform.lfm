@@ -910,14 +910,14 @@ object formTrayslate: TformTrayslate
     end
     object aHistoryPrev: TAction
       Category = 'Form'
-      Hint = 'Previous Translation'
       ImageIndex = 26
+      ShortCut = 8229
       OnExecute = aHistoryPrevExecute
     end
     object aHistoryNext: TAction
       Category = 'Form'
-      Hint = 'Next Translation'
       ImageIndex = 28
+      ShortCut = 8231
       OnExecute = aHistoryNextExecute
     end
     object aHistoryClear: TAction

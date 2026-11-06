@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-05 21:35-0300\n"
+"PO-Revision-Date: 2026-11-06 19:05-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: uk\n"
@@ -45,6 +45,15 @@ msgctxt "consts.rlockheight"
 msgid "Lock Height"
 msgstr "Зафіксувати висоту"
 
+#: consts.rnextlast
+#, object-pascal-format
+msgid ""
+"Last Translation (%s)\n"
+"Next Translation"
+msgstr ""
+"Останній переклад (%s)\n"
+"Наступний переклад"
+
 #: consts.rnoconfig
 msgctxt "consts.rnoconfig"
 msgid "Configuration file not found! Create it in the configuration editor."
@@ -75,6 +84,15 @@ msgstr "У цій системі не встановлено мовних пак
 msgctxt "consts.ropenpofiletr"
 msgid "Language File (*.po)|*.po"
 msgstr "Файл мови (*.po)|*.po"
+
+#: consts.rprevfirst
+#, object-pascal-format
+msgid ""
+"First Translation (%s)\n"
+"Previous Translation"
+msgstr ""
+"Перший переклад (%s)\n"
+"Попередній переклад"
 
 #: consts.rremovepair
 #, object-pascal-format
@@ -1368,14 +1386,6 @@ msgstr "Розташування поруч"
 #: tformtrayslate.ahistoryclear.caption
 msgid "Clear From History"
 msgstr "Видалити з історії"
-
-#: tformtrayslate.ahistorynext.hint
-msgid "Next Translation"
-msgstr "Наступний переклад"
-
-#: tformtrayslate.ahistoryprev.hint
-msgid "Previous Translation"
-msgstr "Попередній переклад"
 
 #: tformtrayslate.ahistorysearch.caption
 msgid "History Search..."

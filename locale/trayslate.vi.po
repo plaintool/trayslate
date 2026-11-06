@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-05 21:35-0300\n"
+"PO-Revision-Date: 2026-11-06 19:05-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: none\n"
 "Language: vi\n"
@@ -47,6 +47,15 @@ msgctxt "consts.rlockheight"
 msgid "Lock Height"
 msgstr "Khóa chiều cao"
 
+#: consts.rnextlast
+#, object-pascal-format
+msgid ""
+"Last Translation (%s)\n"
+"Next Translation"
+msgstr ""
+"Lần dịch cuối cùng (%s)\n"
+"Bản dịch tiếp theo"
+
 #: consts.rnoconfig
 msgctxt "consts.rnoconfig"
 msgid "Configuration file not found! Create it in the configuration editor."
@@ -77,6 +86,15 @@ msgstr "Hệ thống này chưa cài đặt gói ngôn ngữ OCR nào."
 msgctxt "consts.ropenpofiletr"
 msgid "Language File (*.po)|*.po"
 msgstr "Tệp ngôn ngữ (*.po)|*.po"
+
+#: consts.rprevfirst
+#, object-pascal-format
+msgid ""
+"First Translation (%s)\n"
+"Previous Translation"
+msgstr ""
+"İlk Çeviri (%s)\n"
+"Önceki Çeviri"
 
 #: consts.rremovepair
 #, object-pascal-format
@@ -1370,14 +1388,6 @@ msgstr "Bố cục cạnh nhau"
 #: tformtrayslate.ahistoryclear.caption
 msgid "Clear From History"
 msgstr "Xóa khỏi lịch sử"
-
-#: tformtrayslate.ahistorynext.hint
-msgid "Next Translation"
-msgstr "Bản dịch tiếp theo"
-
-#: tformtrayslate.ahistoryprev.hint
-msgid "Previous Translation"
-msgstr "Bản dịch trước đó"
 
 #: tformtrayslate.ahistorysearch.caption
 msgid "History Search..."

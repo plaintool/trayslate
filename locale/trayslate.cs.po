@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-05 21:33-0300\n"
+"PO-Revision-Date: 2026-11-06 19:05-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: cs\n"
@@ -45,6 +45,15 @@ msgctxt "consts.rlockheight"
 msgid "Lock Height"
 msgstr "Zamknout výšku"
 
+#: consts.rnextlast
+#, object-pascal-format
+msgid ""
+"Last Translation (%s)\n"
+"Next Translation"
+msgstr ""
+"Poslední překlad (%s)\n"
+"Další překlad"
+
 #: consts.rnoconfig
 msgctxt "consts.rnoconfig"
 msgid "Configuration file not found! Create it in the configuration editor."
@@ -75,6 +84,15 @@ msgstr "V tomto systému nejsou nainstalovány žádné jazykové balíčky OCR.
 msgctxt "consts.ropenpofiletr"
 msgid "Language File (*.po)|*.po"
 msgstr "Jazykový soubor (*.po)|*.po"
+
+#: consts.rprevfirst
+#, object-pascal-format
+msgid ""
+"First Translation (%s)\n"
+"Previous Translation"
+msgstr ""
+"První překlad (%s)\n"
+"Předchozí překlad"
 
 #: consts.rremovepair
 #, object-pascal-format
@@ -1368,14 +1386,6 @@ msgstr "Rozložení vedle sebe"
 #: tformtrayslate.ahistoryclear.caption
 msgid "Clear From History"
 msgstr "Odebrat z historie"
-
-#: tformtrayslate.ahistorynext.hint
-msgid "Next Translation"
-msgstr "Další překlad"
-
-#: tformtrayslate.ahistoryprev.hint
-msgid "Previous Translation"
-msgstr "Předchozí překlad"
 
 #: tformtrayslate.ahistorysearch.caption
 msgid "History Search..."

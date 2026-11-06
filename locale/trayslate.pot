@@ -35,6 +35,13 @@ msgctxt "consts.rlockheight"
 msgid "Lock Height"
 msgstr ""
 
+#: consts.rnextlast
+#, object-pascal-format
+msgid ""
+"Last Translation (%s)\n"
+"Next Translation"
+msgstr ""
+
 #: consts.rnoconfig
 msgctxt "consts.rnoconfig"
 msgid "Configuration file not found! Create it in the configuration editor."
@@ -62,6 +69,13 @@ msgstr ""
 #: consts.ropenpofiletr
 msgctxt "consts.ropenpofiletr"
 msgid "Language File (*.po)|*.po"
+msgstr ""
+
+#: consts.rprevfirst
+#, object-pascal-format
+msgid ""
+"First Translation (%s)\n"
+"Previous Translation"
 msgstr ""
 
 #: consts.rremovepair
@@ -1348,14 +1362,6 @@ msgstr ""
 
 #: tformtrayslate.ahistoryclear.caption
 msgid "Clear From History"
-msgstr ""
-
-#: tformtrayslate.ahistorynext.hint
-msgid "Next Translation"
-msgstr ""
-
-#: tformtrayslate.ahistoryprev.hint
-msgid "Previous Translation"
 msgstr ""
 
 #: tformtrayslate.ahistorysearch.caption

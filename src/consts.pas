@@ -96,6 +96,8 @@ const
 
 resourcestring
   rswap = 'Swap (%s) with text (%s)';
+  rnextlast = 'Last Translation (%s)' + LineEnding + 'Next Translation';
+  rprevfirst = 'First Translation (%s)' + LineEnding + 'Previous Translation';
   rtranslate = 'Translate (Ctrl ¦ Shift + Enter, Triple Enter)';
   rtranslatestop = 'Stop Translation (Esc)';
   rnoconfig = 'Configuration file not found! Create it in the configuration editor.';

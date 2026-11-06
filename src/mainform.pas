@@ -38,6 +38,7 @@ uses
   Buttons,
   Math,
   LCLType,
+  LCLProc,
   LMessages,
   MouseAndKeyInput,
   RichMemo,
@@ -4254,6 +4255,8 @@ begin
     Caption := rappname + ifthen(FConfigFile <> string.Empty, ' - ' + ExtractFileName(FConfigFile), string.Empty);
 
   aSwap.Hint := Format(rswap, [HotKeyTransSwap.ToText, MIDDLE_MOUSE]).Replace('() ', string.Empty);
+  aHistoryNext.Hint := Format(rnextlast, [MIDDLE_MOUSE]).Replace('() ', string.Empty);
+  aHistoryPrev.Hint := Format(rprevfirst, [MIDDLE_MOUSE]).Replace('() ', string.Empty);
 
   FlowPairs.Hint := MIDDLE_MOUSE + rtoremovepair;
 
