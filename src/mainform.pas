@@ -3282,10 +3282,17 @@ end;
 
 procedure TformTrayslate.TranslateHistoryItemActivated(Sender: TObject; AItem: THistoryItem);
 begin
-  // Search form double-click: bring the main window to front if hidden
-  if Showing then Exit;
-  Show;
-  TOS.BringToFrontNoFocus(Self);
+  // Search form double-click: activate the main window whether hidden or
+  // merely behind the search form
+  if not Showing then
+    Show;
+  // BringToFront reorders z, ForceForegroundWindow steals activation from
+  // the search form via AttachThreadInput; plain BringToFront alone leaves
+  // the window behind on Windows when the caller is not the foreground thread
+  BringToFront;
+  TOS.ForceForegroundWindow(Handle);
+  if CanFocus then
+    SetFocus;
   FTopMost := True;
 end;
 
