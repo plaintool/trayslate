@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-06 19:05-0300\n"
+"PO-Revision-Date: 2026-11-07 14:09-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: cs\n"
@@ -148,6 +148,11 @@ msgstr "Výchozí Ctrl+Shift+A"
 msgctxt "formsettings.rapp_hint"
 msgid "Shows or hides the main application window"
 msgstr "Zobrazí nebo skryje hlavní okno aplikace"
+
+#: formsettings.rclearhistory
+#, fuzzy
+msgid "Are you sure you want to clear the translation history?"
+msgstr "Opravdu chcete vymazat historii překladů?"
 
 #: formsettings.rdefaultfont
 msgctxt "formsettings.rdefaultfont"
@@ -725,6 +730,11 @@ msgctxt "tformsettingstrayslate.btncancel.caption"
 msgid "Cancel"
 msgstr "Zrušit"
 
+#: tformsettingstrayslate.btnclearhistory.caption
+msgctxt "tformsettingstrayslate.btnclearhistory.caption"
+msgid "Clear"
+msgstr "Vymazat"
+
 #: tformsettingstrayslate.btndefault.caption
 msgctxt "tformsettingstrayslate.btndefault.caption"
 msgid "Restore Defaults"
@@ -854,6 +864,16 @@ msgstr "Automaticky skrýt ovládací prvky"
 #: tformsettingstrayslate.checkhidecontrols.hint
 msgid "Hide window controls when the mouse is not over the popup window"
 msgstr "Skrýt ovládací prvky, když není myš nad vyskakovacím oknem"
+
+#: tformsettingstrayslate.checkhistoryenabled.caption
+#, fuzzy
+msgid "Enabled"
+msgstr "Povoleno"
+
+#: tformsettingstrayslate.checkhistoryenabled.hint
+#, fuzzy
+msgid "Store translations in history"
+msgstr "Ukládat překlady do historie"
 
 #: tformsettingstrayslate.checkinsertkey.caption
 msgid "Use Insert for Copy and Paste Emulation"
@@ -1049,6 +1069,11 @@ msgstr "Automatické prohazování jazyků"
 msgid "Enabled Languages (Default: All)"
 msgstr "Povolené jazyky (výchozí: všechny)"
 
+#: tformsettingstrayslate.grouphistory.caption
+#, fuzzy
+msgid "Translation History"
+msgstr "Historie překladů"
+
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
@@ -1141,6 +1166,11 @@ msgstr "Přihlášení"
 #: tformsettingstrayslate.labelmaxheight.caption
 msgid "Max Height"
 msgstr "Maximální výška"
+
+#: tformsettingstrayslate.labelmaxhistoryitems.caption
+#, fuzzy
+msgid "Max History Items"
+msgstr "Max. položek historie"
 
 #: tformsettingstrayslate.labelmaxlangpairs.caption
 msgctxt "tformsettingstrayslate.labelmaxlangpairs.caption"
@@ -1241,6 +1271,11 @@ msgstr "Doba navázání spojení. Pokud je 0, použije se výchozích 10 sekund
 #: tformsettingstrayslate.spinmaxheight.hint
 msgid "Set maximum window height for auto-size; 0 indicates limit to screen height"
 msgstr "Nastavte maximální výšku okna pro automatickou velikost; 0 znamená omezení na výšku obrazovky"
+
+#: tformsettingstrayslate.spinmaxhistoryitems.hint
+#, fuzzy
+msgid "Maximum number of history entries kept; oldest are dropped first; 0 means unlimited"
+msgstr "Maximální počet uchovávaných položek historie; nejstarší se odstraňují jako první; 0 znamená bez omezení"
 
 #: tformsettingstrayslate.spinmaxlangpairs.hint
 msgid "Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel"

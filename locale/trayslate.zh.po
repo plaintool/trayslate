@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-06 19:05-0300\n"
+"PO-Revision-Date: 2026-11-07 14:09-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: zh\n"
@@ -148,6 +148,11 @@ msgstr "默认 Ctrl+Shift+A"
 msgctxt "formsettings.rapp_hint"
 msgid "Shows or hides the main application window"
 msgstr "显示或隐藏主应用程序窗口"
+
+#: formsettings.rclearhistory
+#, fuzzy
+msgid "Are you sure you want to clear the translation history?"
+msgstr "确定要清除翻译历史记录吗？"
 
 #: formsettings.rdefaultfont
 msgctxt "formsettings.rdefaultfont"
@@ -725,6 +730,11 @@ msgctxt "tformsettingstrayslate.btncancel.caption"
 msgid "Cancel"
 msgstr "取消"
 
+#: tformsettingstrayslate.btnclearhistory.caption
+msgctxt "tformsettingstrayslate.btnclearhistory.caption"
+msgid "Clear"
+msgstr "清除"
+
 #: tformsettingstrayslate.btndefault.caption
 msgctxt "tformsettingstrayslate.btndefault.caption"
 msgid "Restore Defaults"
@@ -854,6 +864,16 @@ msgstr "自动隐藏控件"
 #: tformsettingstrayslate.checkhidecontrols.hint
 msgid "Hide window controls when the mouse is not over the popup window"
 msgstr "当鼠标不在弹出窗口上时隐藏控件"
+
+#: tformsettingstrayslate.checkhistoryenabled.caption
+#, fuzzy
+msgid "Enabled"
+msgstr "启用"
+
+#: tformsettingstrayslate.checkhistoryenabled.hint
+#, fuzzy
+msgid "Store translations in history"
+msgstr "将翻译保存到历史记录"
 
 #: tformsettingstrayslate.checkinsertkey.caption
 msgid "Use Insert for Copy and Paste Emulation"
@@ -1049,6 +1069,11 @@ msgstr "自动交换语言"
 msgid "Enabled Languages (Default: All)"
 msgstr "启用的语言（默认：全部）"
 
+#: tformsettingstrayslate.grouphistory.caption
+#, fuzzy
+msgid "Translation History"
+msgstr "翻译历史记录"
+
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
@@ -1141,6 +1166,11 @@ msgstr "登录"
 #: tformsettingstrayslate.labelmaxheight.caption
 msgid "Max Height"
 msgstr "最大高度"
+
+#: tformsettingstrayslate.labelmaxhistoryitems.caption
+#, fuzzy
+msgid "Max History Items"
+msgstr "最大历史记录数"
 
 #: tformsettingstrayslate.labelmaxlangpairs.caption
 msgctxt "tformsettingstrayslate.labelmaxlangpairs.caption"
@@ -1241,6 +1271,11 @@ msgstr "建立连接的时间。如果为 0，则使用默认 10 秒"
 #: tformsettingstrayslate.spinmaxheight.hint
 msgid "Set maximum window height for auto-size; 0 indicates limit to screen height"
 msgstr "设置自动大小的最大窗口高度；0 表示限制为屏幕高度"
+
+#: tformsettingstrayslate.spinmaxhistoryitems.hint
+#, fuzzy
+msgid "Maximum number of history entries kept; oldest are dropped first; 0 means unlimited"
+msgstr "保留的历史记录条目上限；最旧的条目会优先删除；0 表示不限制"
 
 #: tformsettingstrayslate.spinmaxlangpairs.hint
 msgid "Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel"

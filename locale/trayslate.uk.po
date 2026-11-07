@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-06 19:05-0300\n"
+"PO-Revision-Date: 2026-11-07 14:09-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: uk\n"
@@ -148,6 +148,11 @@ msgstr "За замовчуванням Ctrl+Shift+A"
 msgctxt "formsettings.rapp_hint"
 msgid "Shows or hides the main application window"
 msgstr "Показує або ховає головне вікно застосунку"
+
+#: formsettings.rclearhistory
+#, fuzzy
+msgid "Are you sure you want to clear the translation history?"
+msgstr "Ви впевнені, що хочете очистити історію перекладів?"
 
 #: formsettings.rdefaultfont
 msgctxt "formsettings.rdefaultfont"
@@ -725,6 +730,11 @@ msgctxt "tformsettingstrayslate.btncancel.caption"
 msgid "Cancel"
 msgstr "Скасувати"
 
+#: tformsettingstrayslate.btnclearhistory.caption
+msgctxt "tformsettingstrayslate.btnclearhistory.caption"
+msgid "Clear"
+msgstr "Очистити"
+
 #: tformsettingstrayslate.btndefault.caption
 msgctxt "tformsettingstrayslate.btndefault.caption"
 msgid "Restore Defaults"
@@ -854,6 +864,16 @@ msgstr "Автоматично приховувати елементи керу�
 #: tformsettingstrayslate.checkhidecontrols.hint
 msgid "Hide window controls when the mouse is not over the popup window"
 msgstr "Приховувати елементи керування, коли курсор не над спливаючим вікном"
+
+#: tformsettingstrayslate.checkhistoryenabled.caption
+#, fuzzy
+msgid "Enabled"
+msgstr "Увімкнено"
+
+#: tformsettingstrayslate.checkhistoryenabled.hint
+#, fuzzy
+msgid "Store translations in history"
+msgstr "Зберігати переклади в історії"
 
 #: tformsettingstrayslate.checkinsertkey.caption
 msgid "Use Insert for Copy and Paste Emulation"
@@ -1049,6 +1069,11 @@ msgstr "Авто-перемикання мов"
 msgid "Enabled Languages (Default: All)"
 msgstr "Увімкнені мови (за замовчуванням: усі)"
 
+#: tformsettingstrayslate.grouphistory.caption
+#, fuzzy
+msgid "Translation History"
+msgstr "Історія перекладів"
+
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
@@ -1141,6 +1166,11 @@ msgstr "Логін"
 #: tformsettingstrayslate.labelmaxheight.caption
 msgid "Max Height"
 msgstr "Максимальна висота"
+
+#: tformsettingstrayslate.labelmaxhistoryitems.caption
+#, fuzzy
+msgid "Max History Items"
+msgstr "Макс. записів в історії"
 
 #: tformsettingstrayslate.labelmaxlangpairs.caption
 msgctxt "tformsettingstrayslate.labelmaxlangpairs.caption"
@@ -1241,6 +1271,11 @@ msgstr "Час встановлення з’єднання. Якщо 0, вик�
 #: tformsettingstrayslate.spinmaxheight.hint
 msgid "Set maximum window height for auto-size; 0 indicates limit to screen height"
 msgstr "Встановіть максимальну висоту вікна для автоматичного розміру; 0 означає обмеження висоти екрана"
+
+#: tformsettingstrayslate.spinmaxhistoryitems.hint
+#, fuzzy
+msgid "Maximum number of history entries kept; oldest are dropped first; 0 means unlimited"
+msgstr "Максимальна кількість записів в історії; найстаріші видаляються першими; 0 — без обмежень"
 
 #: tformsettingstrayslate.spinmaxlangpairs.hint
 msgid "Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel"

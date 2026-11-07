@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-06 19:05-0300\n"
+"PO-Revision-Date: 2026-11-07 14:09-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -148,6 +148,11 @@ msgstr "Standard Ctrl+Shift+A"
 msgctxt "formsettings.rapp_hint"
 msgid "Shows or hides the main application window"
 msgstr "Zeigt oder verbirgt das Hauptfenster der Anwendung"
+
+#: formsettings.rclearhistory
+#, fuzzy
+msgid "Are you sure you want to clear the translation history?"
+msgstr "Möchten Sie den Übersetzungsverlauf wirklich löschen?"
 
 #: formsettings.rdefaultfont
 msgctxt "formsettings.rdefaultfont"
@@ -725,6 +730,11 @@ msgctxt "tformsettingstrayslate.btncancel.caption"
 msgid "Cancel"
 msgstr "Abbrechen"
 
+#: tformsettingstrayslate.btnclearhistory.caption
+msgctxt "tformsettingstrayslate.btnclearhistory.caption"
+msgid "Clear"
+msgstr "Löschen"
+
 #: tformsettingstrayslate.btndefault.caption
 msgctxt "tformsettingstrayslate.btndefault.caption"
 msgid "Restore Defaults"
@@ -854,6 +864,16 @@ msgstr "Steuerelemente automatisch ausblenden"
 #: tformsettingstrayslate.checkhidecontrols.hint
 msgid "Hide window controls when the mouse is not over the popup window"
 msgstr "Fenstersteuerung ausblenden, wenn sich die Maus nicht über dem Popup-Fenster befindet"
+
+#: tformsettingstrayslate.checkhistoryenabled.caption
+#, fuzzy
+msgid "Enabled"
+msgstr "Aktiviert"
+
+#: tformsettingstrayslate.checkhistoryenabled.hint
+#, fuzzy
+msgid "Store translations in history"
+msgstr "Übersetzungen im Verlauf speichern"
 
 #: tformsettingstrayslate.checkinsertkey.caption
 msgid "Use Insert for Copy and Paste Emulation"
@@ -1049,6 +1069,11 @@ msgstr "Automatischer Sprachwechsel"
 msgid "Enabled Languages (Default: All)"
 msgstr "Aktivierte Sprachen (Standard: alle)"
 
+#: tformsettingstrayslate.grouphistory.caption
+#, fuzzy
+msgid "Translation History"
+msgstr "Übersetzungsverlauf"
+
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
@@ -1141,6 +1166,11 @@ msgstr "Anmeldung"
 #: tformsettingstrayslate.labelmaxheight.caption
 msgid "Max Height"
 msgstr "Maximale Höhe"
+
+#: tformsettingstrayslate.labelmaxhistoryitems.caption
+#, fuzzy
+msgid "Max History Items"
+msgstr "Max. Verlaufseinträge"
 
 #: tformsettingstrayslate.labelmaxlangpairs.caption
 msgctxt "tformsettingstrayslate.labelmaxlangpairs.caption"
@@ -1241,6 +1271,11 @@ msgstr "Zeit zum Aufbau der Verbindung. Wenn 0, werden standardmäßig 10 Sekund
 #: tformsettingstrayslate.spinmaxheight.hint
 msgid "Set maximum window height for auto-size; 0 indicates limit to screen height"
 msgstr "Maximale Fensterhöhe für automatische Größe festlegen; 0 bedeutet Begrenzung auf Bildschirmhöhe"
+
+#: tformsettingstrayslate.spinmaxhistoryitems.hint
+#, fuzzy
+msgid "Maximum number of history entries kept; oldest are dropped first; 0 means unlimited"
+msgstr "Maximale Anzahl der im Verlauf gespeicherten Einträge; die ältesten werden zuerst entfernt; 0 bedeutet unbegrenzt"
 
 #: tformsettingstrayslate.spinmaxlangpairs.hint
 msgid "Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel"

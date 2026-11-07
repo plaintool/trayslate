@@ -963,7 +963,6 @@ begin
   aFastAutoCopy.Checked := FAutoCopy;
 
   Translate.History.AppName := APP_NAME;
-  Translate.History.Enabled := True;
 
   ConfigManager.AppName := APP_NAME;
   ConfigManager.Translate := Translate;
@@ -3913,6 +3912,8 @@ begin
   FAllowHotKeys := True;
   FRealTime := False;
   FRealTimeDelay := 1000;
+  Translate.History.Enabled := True;
+  Translate.History.MaxItems := 1000;
   FAutoSwap := False;
   FBuiltInDetect := True;
   FSmartSwap := False;
@@ -4926,10 +4927,24 @@ begin
 end;
 
 procedure TformTrayslate.UpdateHistoryButtons;
+var
+  HistoryEnabled: boolean;
+  LayoutChanged: boolean;
 begin
+  HistoryEnabled := Translate.History.Enabled;
+
+  // Hide navigation buttons entirely when history is disabled
+  LayoutChanged := (SbHistoryBack.Visible <> HistoryEnabled) or (SbHistoryForward.Visible <> HistoryEnabled);
+  SbHistoryBack.Visible := HistoryEnabled;
+  SbHistoryForward.Visible := HistoryEnabled;
+
   aHistoryPrev.Enabled := Translate.HistoryCanPrev;
   aHistoryNext.Enabled := Translate.HistoryCanNext;
   aHistoryClear.Enabled := Translate.HistoryCount > 0;
+
+  // Reflow the language panel so the remaining controls use the freed space
+  if LayoutChanged then
+    DoRealign(0);
 end;
 
 procedure TformTrayslate.AddLangPair(const Pair: string; ToEnd: boolean = True);

@@ -55,6 +55,7 @@ type
     BtnCancel: TButton;
     BtnOk: TButton;
     BtnResetPopup: TButton;
+    BtnClearHistory: TButton;
     CheckAllowHotkeys: TCheckBox;
     CheckAutoHidePopup: TCheckBox;
     CheckInsertKey: TCheckBox;
@@ -71,6 +72,7 @@ type
     CheckSmartHard: TCheckBox;
     CheckStayOnTop: TCheckBox;
     CheckRealTime: TCheckBox;
+    CheckHistoryEnabled: TCheckBox;
     CheckAutoSwap: TCheckBox;
     CheckHideControls: TCheckBox;
     CheckTwoLang: TCheckBox;
@@ -110,6 +112,7 @@ type
     GroupProxy: TGroupBox;
     GroupTransFromClipboard1: TGroupBox;
     GroupRealTime: TGroupBox;
+    GroupHistory: TGroupBox;
     GroupTrayIcon: TGroupBox;
     ImagesPages: TImageList;
     LabelInstalledLang: TLabel;
@@ -155,6 +158,7 @@ type
     SpinMaxHeight: TSpinEdit;
     SpinConnectTimeout: TSpinEdit;
     SpinRealTimeDelay: TSpinEdit;
+    SpinMaxHistoryItems: TSpinEdit;
     SpinProxyPort: TSpinEdit;
     SplitterPages: TSplitter;
     GridHotkeys: TStringGrid;
@@ -185,6 +189,7 @@ type
     procedure BtnDefaultHotkeysClick(Sender: TObject);
     procedure BtnFontPopupClick(Sender: TObject);
     procedure BtnResetPopupClick(Sender: TObject);
+    procedure BtnClearHistoryClick(Sender: TObject);
     procedure ValueListUserParametersColRowDeleted(Sender: TObject; IsColumn: boolean; sIndex, tIndex: integer);
     procedure ValueListUserParametersColRowInserted(Sender: TObject; IsColumn: boolean; sIndex, tIndex: integer);
     procedure ValueListUserParametersKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
@@ -223,6 +228,8 @@ type
     FOriginalAllowHotkeys: boolean;
     FOriginalRealTime: boolean;
     FOriginalRealTimeDelay: integer;
+    FOriginalHistoryEnabled: boolean;
+    FOriginalMaxHistoryItems: integer;
     FOriginalAutoSwap: boolean;
     FOriginalBuiltInDetect: boolean;
     FOriginalSmartSwap: boolean;
@@ -355,6 +362,7 @@ resourcestring
   rdefaultfont = 'Default';
   rdefaultsettings = 'Are you sure you want to restore default settings?';
   rdefaulthotkeys = 'Are you sure you want to restore default hotkeys?';
+  rclearhistory = 'Are you sure you want to clear the translation history?';
 
   rglobal = 'Translate';
   rfast = 'Quick settings';
@@ -1069,6 +1077,12 @@ begin
   PanelFontPopup.Font.Color := TDarkUtils.ThemeColor(clBlack, clWhite);
   SetPanelFont(PanelFontPopup, PanelFontPopup.Font);
   SettingChange(Self);
+end;
+
+procedure TformSettingsTrayslate.BtnClearHistoryClick(Sender: TObject);
+begin
+  if MessageDlg(rclearhistory, mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+    formTrayslate.Translate.HistoryClear;
 end;
 
 procedure TformSettingsTrayslate.BtnOkClick(Sender: TObject);
@@ -1850,6 +1864,8 @@ begin
     formTrayslate.AllowHotKeys := CheckAllowHotkeys.Checked;
     formTrayslate.RealTime := CheckRealTime.Checked;
     formTrayslate.RealTimeDelay := SpinRealTimeDelay.Value;
+    formTrayslate.Translate.History.Enabled := CheckHistoryEnabled.Checked;
+    formTrayslate.Translate.History.MaxItems := SpinMaxHistoryItems.Value;
     formTrayslate.AutoSwap := CheckAutoSwap.Checked;
     formTrayslate.BuiltInDetect := CheckBuiltInDetect.Checked;
     formTrayslate.SmartSwap := CheckSmartSwap.Checked;
@@ -2072,6 +2088,8 @@ begin
   FOriginalAllowHotkeys := formTrayslate.AllowHotKeys;
   FOriginalRealTime := formTrayslate.RealTime;
   FOriginalRealTimeDelay := formTrayslate.RealTimeDelay;
+  FOriginalHistoryEnabled := formTrayslate.Translate.History.Enabled;
+  FOriginalMaxHistoryItems := formTrayslate.Translate.History.MaxItems;
   FOriginalBuiltInDetect := formTrayslate.BuiltInDetect;
   FOriginalAutoSwap := formTrayslate.AutoSwap;
   FOriginalSmartSwap := formTrayslate.SmartSwap;
@@ -2117,6 +2135,8 @@ begin
   CheckAllowHotkeys.Checked := FOriginalAllowHotkeys;
   CheckRealTime.Checked := FOriginalRealTime;
   SpinRealTimeDelay.Value := FOriginalRealTimeDelay;
+  CheckHistoryEnabled.Checked := FOriginalHistoryEnabled;
+  SpinMaxHistoryItems.Value := FOriginalMaxHistoryItems;
   CheckAutoSwap.Checked := FOriginalAutoSwap;
   CheckBuiltInDetect.Checked := FOriginalBuiltInDetect;
   CheckSmartSwap.Checked := FOriginalSmartSwap;

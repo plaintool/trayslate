@@ -94,6 +94,61 @@ object formSettingsTrayslate: TformSettingsTrayslate
             OnMouseWheel = ComboMouseWheel
           end
         end
+        object GroupHistory: TGroupBox
+          Left = 5
+          Height = 99
+          Top = 445
+          Width = 579
+          Align = alTop
+          BorderSpacing.Around = 5
+          Caption = 'Translation History'
+          ClientHeight = 79
+          ClientWidth = 575
+          TabOrder = 3
+          object CheckHistoryEnabled: TCheckBox
+            Left = 16
+            Height = 19
+            Hint = 'Store translations in history'
+            Top = 8
+            Width = 60
+            Caption = 'Enabled'
+            TabOrder = 0
+            OnChange = SettingChange
+          end
+          object LabelMaxHistoryItems: TLabel
+            Left = 8
+            Height = 32
+            Top = 40
+            Width = 136
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = 'Max History Items'
+            WordWrap = True
+          end
+          object SpinMaxHistoryItems: TSpinEdit
+            Left = 152
+            Height = 23
+            Hint = 'Maximum number of history entries kept; oldest are dropped first; 0 means unlimited'
+            Top = 40
+            Width = 300
+            Anchors = [akTop, akLeft, akRight]
+            MaxValue = 1000
+            TabOrder = 1
+            Value = 100
+            OnChange = SettingChange
+            OnMouseWheel = ComboMouseWheel
+          end
+          object BtnClearHistory: TButton
+            Left = 461
+            Height = 25
+            Top = 40
+            Width = 91
+            Anchors = [akTop, akRight]
+            Caption = 'Clear'
+            TabOrder = 2
+            OnClick = BtnClearHistoryClick
+          end
+        end
         object GroupAutoSwap: TGroupBox
           Left = 5
           Height = 267
@@ -241,14 +296,14 @@ object formSettingsTrayslate: TformSettingsTrayslate
         object GroupMouseMode: TGroupBox
           Left = 5
           Height = 131
-          Top = 445
+          Top = 549
           Width = 579
           Align = alTop
           BorderSpacing.Around = 5
           Caption = 'Mouse Mode'
           ClientHeight = 111
           ClientWidth = 575
-          TabOrder = 3
+          TabOrder = 4
           object CheckEnableMouseMode: TCheckBox
             Left = 16
             Height = 19
@@ -305,14 +360,14 @@ object formSettingsTrayslate: TformSettingsTrayslate
         object GroupSpellCheck: TGroupBox
           Left = 5
           Height = 83
-          Top = 581
+          Top = 685
           Width = 579
           Align = alTop
           BorderSpacing.Around = 5
           Caption = 'Spell Check'
           ClientHeight = 63
           ClientWidth = 575
-          TabOrder = 4
+          TabOrder = 5
           object CheckSpellCheck: TCheckBox
             Left = 16
             Height = 19
@@ -1317,7 +1372,7 @@ object formSettingsTrayslate: TformSettingsTrayslate
           )
           ColWidths = (
             200
-            382
+            365
           )
         end
       end

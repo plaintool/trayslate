@@ -133,6 +133,10 @@ msgctxt "formsettings.rapp_hint"
 msgid "Shows or hides the main application window"
 msgstr ""
 
+#: formsettings.rclearhistory
+msgid "Are you sure you want to clear the translation history?"
+msgstr ""
+
 #: formsettings.rdefaultfont
 msgctxt "formsettings.rdefaultfont"
 msgid "Default"
@@ -706,6 +710,11 @@ msgctxt "tformsettingstrayslate.btncancel.caption"
 msgid "Cancel"
 msgstr ""
 
+#: tformsettingstrayslate.btnclearhistory.caption
+msgctxt "tformsettingstrayslate.btnclearhistory.caption"
+msgid "Clear"
+msgstr ""
+
 #: tformsettingstrayslate.btndefault.caption
 msgctxt "tformsettingstrayslate.btndefault.caption"
 msgid "Restore Defaults"
@@ -834,6 +843,14 @@ msgstr ""
 
 #: tformsettingstrayslate.checkhidecontrols.hint
 msgid "Hide window controls when the mouse is not over the popup window"
+msgstr ""
+
+#: tformsettingstrayslate.checkhistoryenabled.caption
+msgid "Enabled"
+msgstr ""
+
+#: tformsettingstrayslate.checkhistoryenabled.hint
+msgid "Store translations in history"
 msgstr ""
 
 #: tformsettingstrayslate.checkinsertkey.caption
@@ -1026,6 +1043,10 @@ msgstr ""
 msgid "Enabled Languages (Default: All)"
 msgstr ""
 
+#: tformsettingstrayslate.grouphistory.caption
+msgid "Translation History"
+msgstr ""
+
 #: tformsettingstrayslate.grouplangpairs.caption
 msgctxt "tformsettingstrayslate.grouplangpairs.caption"
 msgid "Recent Language Pairs"
@@ -1117,6 +1138,10 @@ msgstr ""
 
 #: tformsettingstrayslate.labelmaxheight.caption
 msgid "Max Height"
+msgstr ""
+
+#: tformsettingstrayslate.labelmaxhistoryitems.caption
+msgid "Max History Items"
 msgstr ""
 
 #: tformsettingstrayslate.labelmaxlangpairs.caption
@@ -1217,6 +1242,10 @@ msgstr ""
 
 #: tformsettingstrayslate.spinmaxheight.hint
 msgid "Set maximum window height for auto-size; 0 indicates limit to screen height"
+msgstr ""
+
+#: tformsettingstrayslate.spinmaxhistoryitems.hint
+msgid "Maximum number of history entries kept; oldest are dropped first; 0 means unlimited"
 msgstr ""
 
 #: tformsettingstrayslate.spinmaxlangpairs.hint

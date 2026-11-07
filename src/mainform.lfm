@@ -1234,7 +1234,7 @@ object formTrayslate: TformTrayslate
     SourceLanguage = 'en'
     AllowProxy = True
     History.Enabled = True
-    History.MaxItems = 0
+    History.MaxItems = 1000
     OnHistoryItem = TranslateHistoryItem
     OnHistoryChanged = TranslateHistoryChanged
     OnHistoryItemActivated = TranslateHistoryItemActivated

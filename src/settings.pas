@@ -149,6 +149,8 @@ begin
     JSONObj.Add('OpacityIdle', Form.OpacityIdle);
     JSONObj.Add('AutoAddLangPairs', Form.AutoAddLangPairs);
     JSONObj.Add('AllowHotKeys', Form.AllowHotKeys);
+    JSONObj.Add('HistoryEnabled', Form.Translate.History.Enabled);
+    JSONObj.Add('HistoryMaxItems', Form.Translate.History.MaxItems);
     JSONObj.Add('AutoCheckUpdates', Form.AutoCheckUpdates);
     JSONObj.Add('CustomPoFile', Localize.CustomPoFile);
 
@@ -601,6 +603,12 @@ begin
 
         if (JSONObj.FindPath('AllowHotKeys') <> nil) then
           Form.FAllowHotKeys := JSONObj.FindPath('AllowHotKeys').AsBoolean;
+
+        if (JSONObj.FindPath('HistoryEnabled') <> nil) then
+          Form.Translate.History.Enabled := JSONObj.FindPath('HistoryEnabled').AsBoolean;
+
+        if (JSONObj.FindPath('HistoryMaxItems') <> nil) then
+          Form.Translate.History.MaxItems := JSONObj.FindPath('HistoryMaxItems').AsInteger;
 
         if (JSONObj.FindPath('AutoCheckUpdates') <> nil) then
           Form.AutoCheckUpdates := JSONObj.FindPath('AutoCheckUpdates').AsBoolean;
