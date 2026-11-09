@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-07 14:09-0300\n"
+"PO-Revision-Date: 2026-11-09 15:36-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt-br\n"
@@ -30,6 +30,10 @@ msgstr "Cancelar"
 msgid "Copy To Clipboard"
 msgstr "Copiar para a Área de Transferência"
 
+#: consts.rdeletehistoryentry
+msgid "Delete the current history entry?"
+msgstr "Excluir a entrada atual do histórico?"
+
 #: consts.renter
 msgctxt "consts.renter"
 msgid "Enter"
@@ -39,6 +43,10 @@ msgstr "Inserir"
 msgctxt "consts.renterparameter"
 msgid "Enter the required parameter"
 msgstr "Insira o parâmetro necessário"
+
+#: consts.rhistorytruncate
+msgid "Delete all history after the current entry? (No - jump to the end without deleting)"
+msgstr "Excluir todas as entradas do histórico após a entrada atual? (Não - ir para o final sem excluir)"
 
 #: consts.rlockheight
 msgctxt "consts.rlockheight"
@@ -150,7 +158,6 @@ msgid "Shows or hides the main application window"
 msgstr "Exibir ou ocultar a janela principal do aplicativo"
 
 #: formsettings.rclearhistory
-#, fuzzy
 msgid "Are you sure you want to clear the translation history?"
 msgstr "Tem certeza de que deseja limpar o histórico de traduções?"
 
@@ -866,12 +873,10 @@ msgid "Hide window controls when the mouse is not over the popup window"
 msgstr "Oculta os controles da janela quando o mouse não está sobre a janela pop-up"
 
 #: tformsettingstrayslate.checkhistoryenabled.caption
-#, fuzzy
 msgid "Enabled"
 msgstr "Habilitado"
 
 #: tformsettingstrayslate.checkhistoryenabled.hint
-#, fuzzy
 msgid "Store translations in history"
 msgstr "Armazenar traduções no histórico"
 
@@ -1070,7 +1075,6 @@ msgid "Enabled Languages (Default: All)"
 msgstr "Idiomas Habilitados (Padrão: Todas)"
 
 #: tformsettingstrayslate.grouphistory.caption
-#, fuzzy
 msgid "Translation History"
 msgstr "Histórico de Traduções"
 
@@ -1168,7 +1172,6 @@ msgid "Max Height"
 msgstr "Altura Máxima"
 
 #: tformsettingstrayslate.labelmaxhistoryitems.caption
-#, fuzzy
 msgid "Max History Items"
 msgstr "Máx. Itens do Histórico"
 
@@ -1273,7 +1276,6 @@ msgid "Set maximum window height for auto-size; 0 indicates limit to screen heig
 msgstr "Define a altura máxima da janela para dimensionamento automático; 0 indica que o limite é a altura da tela"
 
 #: tformsettingstrayslate.spinmaxhistoryitems.hint
-#, fuzzy
 msgid "Maximum number of history entries kept; oldest are dropped first; 0 means unlimited"
 msgstr "Número máximo de entradas do histórico mantidas; as mais antigas são removidas primeiro; 0 significa ilimitado"
 

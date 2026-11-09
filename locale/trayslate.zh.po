@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-07 14:09-0300\n"
+"PO-Revision-Date: 2026-11-09 15:36-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: zh\n"
@@ -30,6 +30,10 @@ msgstr "取消"
 msgid "Copy To Clipboard"
 msgstr "复制到剪贴板"
 
+#: consts.rdeletehistoryentry
+msgid "Delete the current history entry?"
+msgstr "删除当前历史记录项？"
+
 #: consts.renter
 msgctxt "consts.renter"
 msgid "Enter"
@@ -39,6 +43,10 @@ msgstr "输入"
 msgctxt "consts.renterparameter"
 msgid "Enter the required parameter"
 msgstr "请输入必填参数"
+
+#: consts.rhistorytruncate
+msgid "Delete all history after the current entry? (No - jump to the end without deleting)"
+msgstr "删除当前记录之后的所有历史记录？（否 - 跳转到末尾但不删除）"
 
 #: consts.rlockheight
 msgctxt "consts.rlockheight"
@@ -150,7 +158,6 @@ msgid "Shows or hides the main application window"
 msgstr "显示或隐藏主应用程序窗口"
 
 #: formsettings.rclearhistory
-#, fuzzy
 msgid "Are you sure you want to clear the translation history?"
 msgstr "确定要清除翻译历史记录吗？"
 
@@ -866,12 +873,10 @@ msgid "Hide window controls when the mouse is not over the popup window"
 msgstr "当鼠标不在弹出窗口上时隐藏控件"
 
 #: tformsettingstrayslate.checkhistoryenabled.caption
-#, fuzzy
 msgid "Enabled"
 msgstr "启用"
 
 #: tformsettingstrayslate.checkhistoryenabled.hint
-#, fuzzy
 msgid "Store translations in history"
 msgstr "将翻译保存到历史记录"
 
@@ -1070,7 +1075,6 @@ msgid "Enabled Languages (Default: All)"
 msgstr "启用的语言（默认：全部）"
 
 #: tformsettingstrayslate.grouphistory.caption
-#, fuzzy
 msgid "Translation History"
 msgstr "翻译历史记录"
 
@@ -1168,7 +1172,6 @@ msgid "Max Height"
 msgstr "最大高度"
 
 #: tformsettingstrayslate.labelmaxhistoryitems.caption
-#, fuzzy
 msgid "Max History Items"
 msgstr "最大历史记录数"
 
@@ -1273,7 +1276,6 @@ msgid "Set maximum window height for auto-size; 0 indicates limit to screen heig
 msgstr "设置自动大小的最大窗口高度；0 表示限制为屏幕高度"
 
 #: tformsettingstrayslate.spinmaxhistoryitems.hint
-#, fuzzy
 msgid "Maximum number of history entries kept; oldest are dropped first; 0 means unlimited"
 msgstr "保留的历史记录条目上限；最旧的条目会优先删除；0 表示不限制"
 

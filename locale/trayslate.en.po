@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-07 14:09-0300\n"
+"PO-Revision-Date: 2026-11-09 15:36-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: en\n"
@@ -30,6 +30,10 @@ msgstr "Cancel"
 msgid "Copy To Clipboard"
 msgstr "Copy To Clipboard"
 
+#: consts.rdeletehistoryentry
+msgid "Delete the current history entry?"
+msgstr "Delete the current history entry?"
+
 #: consts.renter
 msgctxt "consts.renter"
 msgid "Enter"
@@ -39,6 +43,10 @@ msgstr "Enter"
 msgctxt "consts.renterparameter"
 msgid "Enter the required parameter"
 msgstr "Enter the required parameter"
+
+#: consts.rhistorytruncate
+msgid "Delete all history after the current entry? (No - jump to the end without deleting)"
+msgstr "Delete all history after the current entry? (No - jump to the end without deleting)"
 
 #: consts.rlockheight
 msgctxt "consts.rlockheight"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-07 14:09-0300\n"
+"PO-Revision-Date: 2026-11-09 15:36-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: tr\n"
@@ -30,6 +30,10 @@ msgstr "İptal"
 msgid "Copy To Clipboard"
 msgstr "Panoya Kopyala"
 
+#: consts.rdeletehistoryentry
+msgid "Delete the current history entry?"
+msgstr "Geçerli geçmiş kaydı silinsin mi?"
+
 #: consts.renter
 msgctxt "consts.renter"
 msgid "Enter"
@@ -39,6 +43,10 @@ msgstr "Gir"
 msgctxt "consts.renterparameter"
 msgid "Enter the required parameter"
 msgstr "Gerekli parametreyi girin"
+
+#: consts.rhistorytruncate
+msgid "Delete all history after the current entry? (No - jump to the end without deleting)"
+msgstr "Geçerli kayıttan sonraki tüm geçmiş kayıtları silinsin mi? (Hayır - silmeden sona git)"
 
 #: consts.rlockheight
 msgctxt "consts.rlockheight"
@@ -150,7 +158,6 @@ msgid "Shows or hides the main application window"
 msgstr "Ana uygulama penceresini gösterir veya gizler"
 
 #: formsettings.rclearhistory
-#, fuzzy
 msgid "Are you sure you want to clear the translation history?"
 msgstr "Çeviri geçmişini temizlemek istediğinizden emin misiniz?"
 
@@ -866,12 +873,10 @@ msgid "Hide window controls when the mouse is not over the popup window"
 msgstr "Fare açılır pencerenin üzerinde değilken kontrolleri gizle"
 
 #: tformsettingstrayslate.checkhistoryenabled.caption
-#, fuzzy
 msgid "Enabled"
 msgstr "Etkin"
 
 #: tformsettingstrayslate.checkhistoryenabled.hint
-#, fuzzy
 msgid "Store translations in history"
 msgstr "Çevirileri geçmişte sakla"
 
@@ -1070,7 +1075,6 @@ msgid "Enabled Languages (Default: All)"
 msgstr "Etkin Diller (Varsayılan: Tümü)"
 
 #: tformsettingstrayslate.grouphistory.caption
-#, fuzzy
 msgid "Translation History"
 msgstr "Çeviri Geçmişi"
 
@@ -1169,7 +1173,6 @@ msgid "Max Height"
 msgstr "Maksimum yükseklik"
 
 #: tformsettingstrayslate.labelmaxhistoryitems.caption
-#, fuzzy
 msgid "Max History Items"
 msgstr "Maks. Geçmiş Öğesi"
 
@@ -1274,7 +1277,6 @@ msgid "Set maximum window height for auto-size; 0 indicates limit to screen heig
 msgstr "Otomatik boyutlandırma için maksimum pencere yüksekliğini ayarlayın; 0 ekran yüksekliği sınırını ifade eder"
 
 #: tformsettingstrayslate.spinmaxhistoryitems.hint
-#, fuzzy
 msgid "Maximum number of history entries kept; oldest are dropped first; 0 means unlimited"
 msgstr "Saklanan maksimum geçmiş öğesi sayısı; en eskiler önce kaldırılır; 0 sınırsız anlamına gelir"
 

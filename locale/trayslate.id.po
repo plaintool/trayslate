@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-07 14:09-0300\n"
+"PO-Revision-Date: 2026-11-09 15:36-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: id\n"
@@ -30,6 +30,10 @@ msgstr "Batal"
 msgid "Copy To Clipboard"
 msgstr "Salin ke Papan Klip"
 
+#: consts.rdeletehistoryentry
+msgid "Delete the current history entry?"
+msgstr "Hapus entri riwayat saat ini?"
+
 #: consts.renter
 msgctxt "consts.renter"
 msgid "Enter"
@@ -39,6 +43,10 @@ msgstr "Masukkan"
 msgctxt "consts.renterparameter"
 msgid "Enter the required parameter"
 msgstr "Masukkan parameter yang diperlukan"
+
+#: consts.rhistorytruncate
+msgid "Delete all history after the current entry? (No - jump to the end without deleting)"
+msgstr "Hapus semua entri riwayat setelah entri saat ini? (Tidak - lompat ke akhir tanpa menghapus)"
 
 #: consts.rlockheight
 msgctxt "consts.rlockheight"
@@ -150,7 +158,6 @@ msgid "Shows or hides the main application window"
 msgstr "Menampilkan atau menyembunyikan jendela utama aplikasi"
 
 #: formsettings.rclearhistory
-#, fuzzy
 msgid "Are you sure you want to clear the translation history?"
 msgstr "Apakah Anda yakin ingin menghapus riwayat terjemahan?"
 
@@ -866,12 +873,10 @@ msgid "Hide window controls when the mouse is not over the popup window"
 msgstr "Sembunyikan kontrol saat mouse tidak berada di atas jendela popup"
 
 #: tformsettingstrayslate.checkhistoryenabled.caption
-#, fuzzy
 msgid "Enabled"
 msgstr "Diaktifkan"
 
 #: tformsettingstrayslate.checkhistoryenabled.hint
-#, fuzzy
 msgid "Store translations in history"
 msgstr "Simpan terjemahan dalam riwayat"
 
@@ -1070,7 +1075,6 @@ msgid "Enabled Languages (Default: All)"
 msgstr "Bahasa yang Diaktifkan (Bawaan: Semua)"
 
 #: tformsettingstrayslate.grouphistory.caption
-#, fuzzy
 msgid "Translation History"
 msgstr "Riwayat Terjemahan"
 
@@ -1168,7 +1172,6 @@ msgid "Max Height"
 msgstr "Tinggi maksimum"
 
 #: tformsettingstrayslate.labelmaxhistoryitems.caption
-#, fuzzy
 msgid "Max History Items"
 msgstr "Maks. Item Riwayat"
 
@@ -1273,7 +1276,6 @@ msgid "Set maximum window height for auto-size; 0 indicates limit to screen heig
 msgstr "Atur tinggi maksimum jendela untuk ukuran otomatis; 0 menunjukkan batas tinggi layar"
 
 #: tformsettingstrayslate.spinmaxhistoryitems.hint
-#, fuzzy
 msgid "Maximum number of history entries kept; oldest are dropped first; 0 means unlimited"
 msgstr "Jumlah maksimum entri riwayat yang disimpan; entri terlama dihapus lebih dulu; 0 berarti tak terbatas"
 

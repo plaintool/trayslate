@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-07 14:09-0300\n"
+"PO-Revision-Date: 2026-11-09 15:36-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -30,6 +30,10 @@ msgstr "Peruuta"
 msgid "Copy To Clipboard"
 msgstr "Kopioi leikepöydälle"
 
+#: consts.rdeletehistoryentry
+msgid "Delete the current history entry?"
+msgstr "Poistetaanko nykyinen historiatietue?"
+
 #: consts.renter
 msgctxt "consts.renter"
 msgid "Enter"
@@ -39,6 +43,10 @@ msgstr "Syötä"
 msgctxt "consts.renterparameter"
 msgid "Enter the required parameter"
 msgstr "Anna vaadittu parametri"
+
+#: consts.rhistorytruncate
+msgid "Delete all history after the current entry? (No - jump to the end without deleting)"
+msgstr "Poistetaanko kaikki nykyisen tietueen jälkeiset historiatietueet? (Ei - siirry loppuun poistamatta)"
 
 #: consts.rlockheight
 msgctxt "consts.rlockheight"
@@ -150,7 +158,6 @@ msgid "Shows or hides the main application window"
 msgstr "Näyttää tai piilottaa sovelluksen pääikkunan"
 
 #: formsettings.rclearhistory
-#, fuzzy
 msgid "Are you sure you want to clear the translation history?"
 msgstr "Haluatko varmasti tyhjentää käännöshistorian?"
 
@@ -866,12 +873,10 @@ msgid "Hide window controls when the mouse is not over the popup window"
 msgstr "Piilota ikkunan ohjaimet, kun hiiri ei ole ponnahdusikkunan päällä"
 
 #: tformsettingstrayslate.checkhistoryenabled.caption
-#, fuzzy
 msgid "Enabled"
 msgstr "Käytössä"
 
 #: tformsettingstrayslate.checkhistoryenabled.hint
-#, fuzzy
 msgid "Store translations in history"
 msgstr "Tallenna käännökset historiaan"
 
@@ -1070,7 +1075,6 @@ msgid "Enabled Languages (Default: All)"
 msgstr "Käytössä olevat kielet (oletus: kaikki)"
 
 #: tformsettingstrayslate.grouphistory.caption
-#, fuzzy
 msgid "Translation History"
 msgstr "Käännöshistoria"
 
@@ -1168,7 +1172,6 @@ msgid "Max Height"
 msgstr "Enimmäiskorkeus"
 
 #: tformsettingstrayslate.labelmaxhistoryitems.caption
-#, fuzzy
 msgid "Max History Items"
 msgstr "Historiakohteiden enimmäismäärä"
 
@@ -1273,7 +1276,6 @@ msgid "Set maximum window height for auto-size; 0 indicates limit to screen heig
 msgstr "Aseta ikkunan enimmäiskorkeus automaattiselle koolle; 0 tarkoittaa näytön korkeuden rajaa"
 
 #: tformsettingstrayslate.spinmaxhistoryitems.hint
-#, fuzzy
 msgid "Maximum number of history entries kept; oldest are dropped first; 0 means unlimited"
 msgstr "Historiaan tallennettavien kohteiden enimmäismäärä; vanhimmat poistetaan ensin; 0 tarkoittaa rajattonta"
 

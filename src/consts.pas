@@ -115,6 +115,8 @@ resourcestring
   rocrneedlang = 'Screen OCR requires a specific source language. Please choose one in settings instead of automatic detection.';
   rocrnopacks = 'No OCR language packs are installed on this system.';
   rocrlanguagenotsupported = 'No OCR engine is installed for language "%s".' + LineEnding + 'Supported languages: %s';
+  rhistorytruncate = 'Delete all history after the current entry? (No - jump to the end without deleting)';
+  rdeletehistoryentry = 'Delete the current history entry?';
 
   { Form Popup }
 

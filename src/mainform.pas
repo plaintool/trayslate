@@ -369,6 +369,7 @@ type
     procedure TranslateHistoryChanged(Sender: TObject);
     procedure TranslateHistoryItem(Sender: TObject; AItem: THistoryItem);
     procedure TranslateHistoryItemActivated(Sender: TObject; AItem: THistoryItem);
+    procedure TranslateHistoryTruncateQuery(Sender: TObject; var AAllow: boolean);
     procedure TrayIconMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
     procedure TrayIconMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
     procedure TrayIconClick(Sender: TObject);
@@ -589,7 +590,6 @@ type
     procedure ChangeSourceLang(NewLang: string; AddRecentPairs: boolean = True);
     procedure ChangeTargetLang(NewLang: string; AddRecentPairs: boolean = True);
     function SwapLanguages(ASwapTranslate: boolean = False; AddRecentPairs: boolean = True): boolean;
-    procedure UpdateHistoryButtons;
     procedure AddLangPair(const Pair: string; ToEnd: boolean = True);
     procedure SelectPair(const Pair: string; RunTranslate: boolean = True);
     procedure SelectPairConfig(const LangPairIndex: integer; RunTranslate: boolean = True);
@@ -673,6 +673,7 @@ type
     procedure UpdateInputState(AEnabled: boolean; ReenableHotKeys: boolean = True);
     procedure UpdateMouseHookState;
     procedure UpdateSpellCheck;
+    procedure UpdateHistoryButtons;
     procedure DoSetTrayIcon(Data: PtrInt);
     procedure DoCheckUpdates(Data: PtrInt);
     procedure ShowCustomHint(const AText: string; X: integer = 0; Y: integer = 0; Duration: integer = 3000);
@@ -1118,9 +1119,11 @@ end;
 procedure TformTrayslate.FormHide(Sender: TObject);
 begin
   FDropTarget.Unregister;
-  // Persist the finished translation but keep the current position: hiding
-  // the window is not a destructive action, so no past-last state
-  CommitCurrentTranslation(False);
+  // Persist the finished translation only when the position is at the tail.
+  // Committing from the middle would either fire the truncate query or
+  // silently truncate forward history on hide, which is not destructive-safe
+  if Translate.HistoryAtTail then
+    CommitCurrentTranslation(False);
 end;
 
 procedure TformTrayslate.FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -1942,7 +1945,13 @@ end;
 
 procedure TformTrayslate.aHistoryClearExecute(Sender: TObject);
 begin
-  Translate.HistoryDelete;
+  if MessageDlg(rdeletehistoryentry, mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+  begin
+    if Translate.HistoryCount > 0 then
+      Translate.HistoryDelete
+    else
+      aNewTranslate.Execute;
+  end;
 end;
 
 procedure TformTrayslate.aCopySourceExecute(Sender: TObject);
@@ -3077,7 +3086,8 @@ begin
     try
       // If no drag occurred and mouse didn't move much, treat as a click
       btn := Sender as TFlatButton;
-      if (FDragBtnIndex >= 0) and (not FDragMoved) and (Abs(btn.ClientToParent(Point(X, Y), btn.Parent).X - FDragBtnStartX) < 5) then
+      if (FDragBtnIndex >= 0) and (FDragBtnIndex < MenuLangPairs.Count) and (not FDragMoved) and
+        (Abs(btn.ClientToParent(Point(X, Y), btn.Parent).X - FDragBtnStartX) < 5) then
       begin
         if not MenuLangPairs.Items[FDragBtnIndex].Checked then
         begin
@@ -3294,6 +3304,12 @@ begin
   if CanFocus then
     SetFocus;
   FTopMost := True;
+end;
+
+procedure TformTrayslate.TranslateHistoryTruncateQuery(Sender: TObject; var AAllow: boolean);
+begin
+  // Yes - truncate forward entries (legacy behavior); No - jump to the end
+  AAllow := MessageDlg(rhistorytruncate, mtConfirmation, [mbYes, mbNo], 0) = mrYes;
 end;
 
 procedure TformTrayslate.TranslateLanguageDetected(Sender: TObject; const AResult: TLanguageDetectResult);
@@ -4611,6 +4627,27 @@ begin
     SpellSource.CheckNow;
 end;
 
+procedure TformTrayslate.UpdateHistoryButtons;
+var
+  HistoryEnabled: boolean;
+  LayoutChanged: boolean;
+begin
+  HistoryEnabled := Translate.History.Enabled;
+
+  // Hide navigation buttons entirely when history is disabled
+  LayoutChanged := (SbHistoryBack.Visible <> HistoryEnabled) or (SbHistoryForward.Visible <> HistoryEnabled);
+  SbHistoryBack.Visible := HistoryEnabled;
+  SbHistoryForward.Visible := HistoryEnabled;
+
+  aHistoryPrev.Enabled := Translate.HistoryCanPrev;
+  aHistoryNext.Enabled := Translate.HistoryCanNext;
+  //aHistoryClear.Enabled := Translate.HistoryCount > 0;
+
+  // Reflow the language panel so the remaining controls use the freed space
+  if LayoutChanged then
+    DoRealign(0);
+end;
+
 procedure TformTrayslate.DoSetTrayIcon(Data: PtrInt);
 begin
   SetTrayIcon;
@@ -4926,27 +4963,6 @@ begin
   Result := True;
 end;
 
-procedure TformTrayslate.UpdateHistoryButtons;
-var
-  HistoryEnabled: boolean;
-  LayoutChanged: boolean;
-begin
-  HistoryEnabled := Translate.History.Enabled;
-
-  // Hide navigation buttons entirely when history is disabled
-  LayoutChanged := (SbHistoryBack.Visible <> HistoryEnabled) or (SbHistoryForward.Visible <> HistoryEnabled);
-  SbHistoryBack.Visible := HistoryEnabled;
-  SbHistoryForward.Visible := HistoryEnabled;
-
-  aHistoryPrev.Enabled := Translate.HistoryCanPrev;
-  aHistoryNext.Enabled := Translate.HistoryCanNext;
-  aHistoryClear.Enabled := Translate.HistoryCount > 0;
-
-  // Reflow the language panel so the remaining controls use the freed space
-  if LayoutChanged then
-    DoRealign(0);
-end;
-
 procedure TformTrayslate.AddLangPair(const Pair: string; ToEnd: boolean = True);
 var
   idx: integer;
@@ -5058,11 +5074,11 @@ begin
 
   Config := FLangPairs.Names[LangPairIndex];
 
-  // If config changed - reload
+  // If config changed - reload; ConfigFile setter already loads the INI,
+  // LoadConfig refreshes the UI state without reloading the file
   if FConfigFile <> Config then
   begin
     ConfigFile := Config;
-    LoadConfig(False);
 
     try
       ConfigManager.UpdateConfigEditor;

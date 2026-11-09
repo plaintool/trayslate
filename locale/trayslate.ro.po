@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-07 14:09-0300\n"
+"PO-Revision-Date: 2026-11-09 15:36-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: ro\n"
@@ -30,6 +30,10 @@ msgstr "Anulează"
 msgid "Copy To Clipboard"
 msgstr "Copiază în clipboard"
 
+#: consts.rdeletehistoryentry
+msgid "Delete the current history entry?"
+msgstr "Ștergeți intrarea curentă din istoric?"
+
 #: consts.renter
 msgctxt "consts.renter"
 msgid "Enter"
@@ -39,6 +43,10 @@ msgstr "Introdu"
 msgctxt "consts.renterparameter"
 msgid "Enter the required parameter"
 msgstr "Introduceți parametrul necesar"
+
+#: consts.rhistorytruncate
+msgid "Delete all history after the current entry? (No - jump to the end without deleting)"
+msgstr "Ștergeți toate intrările din istoric după cea curentă? (Nu - mergeți la sfârșit fără a șterge)"
 
 #: consts.rlockheight
 msgctxt "consts.rlockheight"
@@ -150,7 +158,6 @@ msgid "Shows or hides the main application window"
 msgstr "Afișează sau ascunde fereastra principală a aplicației"
 
 #: formsettings.rclearhistory
-#, fuzzy
 msgid "Are you sure you want to clear the translation history?"
 msgstr "Sigur doriți să ștergeți istoricul traducerilor?"
 
@@ -866,12 +873,10 @@ msgid "Hide window controls when the mouse is not over the popup window"
 msgstr "Ascunde controalele când mouse-ul nu este deasupra ferestrei popup"
 
 #: tformsettingstrayslate.checkhistoryenabled.caption
-#, fuzzy
 msgid "Enabled"
 msgstr "Activat"
 
 #: tformsettingstrayslate.checkhistoryenabled.hint
-#, fuzzy
 msgid "Store translations in history"
 msgstr "Salvați traducerile în istoric"
 
@@ -1070,7 +1075,6 @@ msgid "Enabled Languages (Default: All)"
 msgstr "Limbi activate (implicit: toate)"
 
 #: tformsettingstrayslate.grouphistory.caption
-#, fuzzy
 msgid "Translation History"
 msgstr "Istoric traduceri"
 
@@ -1168,7 +1172,6 @@ msgid "Max Height"
 msgstr "Înălțime maximă"
 
 #: tformsettingstrayslate.labelmaxhistoryitems.caption
-#, fuzzy
 msgid "Max History Items"
 msgstr "Max. elemente istoric"
 
@@ -1273,7 +1276,6 @@ msgid "Set maximum window height for auto-size; 0 indicates limit to screen heig
 msgstr "Setați înălțimea maximă a ferestrei pentru redimensionare automată; 0 indică limita înălțimii ecranului"
 
 #: tformsettingstrayslate.spinmaxhistoryitems.hint
-#, fuzzy
 msgid "Maximum number of history entries kept; oldest are dropped first; 0 means unlimited"
 msgstr "Numărul maxim de intrări din istoric păstrate; cele mai vechi sunt eliminate primele; 0 înseamnă nelimitat"
 

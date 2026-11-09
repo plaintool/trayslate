@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-07 14:09-0300\n"
+"PO-Revision-Date: 2026-11-09 15:36-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: bg\n"
@@ -30,6 +30,10 @@ msgstr "Отказ"
 msgid "Copy To Clipboard"
 msgstr "Копиране в клипборда"
 
+#: consts.rdeletehistoryentry
+msgid "Delete the current history entry?"
+msgstr "Да се изтрие ли текущият запис от историята?"
+
 #: consts.renter
 msgctxt "consts.renter"
 msgid "Enter"
@@ -39,6 +43,10 @@ msgstr "Въведете"
 msgctxt "consts.renterparameter"
 msgid "Enter the required parameter"
 msgstr "Въведете необходимия параметър"
+
+#: consts.rhistorytruncate
+msgid "Delete all history after the current entry? (No - jump to the end without deleting)"
+msgstr "Да се изтрият ли всички записи от историята след текущия? (Не - преминаване към края без изтриване)"
 
 #: consts.rlockheight
 msgctxt "consts.rlockheight"
@@ -150,7 +158,6 @@ msgid "Shows or hides the main application window"
 msgstr "Покажи или скрий главния прозорец на приложението"
 
 #: formsettings.rclearhistory
-#, fuzzy
 msgid "Are you sure you want to clear the translation history?"
 msgstr "Сигурни ли сте, че искате да изчистите историята на преводите?"
 
@@ -866,12 +873,10 @@ msgid "Hide window controls when the mouse is not over the popup window"
 msgstr "Скриване на контролите на прозореца, когато курсорът на мишката не е върху изскачащия прозорец"
 
 #: tformsettingstrayslate.checkhistoryenabled.caption
-#, fuzzy
 msgid "Enabled"
 msgstr "Активирано"
 
 #: tformsettingstrayslate.checkhistoryenabled.hint
-#, fuzzy
 msgid "Store translations in history"
 msgstr "Съхраняване на преводите в историята"
 
@@ -1070,7 +1075,6 @@ msgid "Enabled Languages (Default: All)"
 msgstr "Активирани езици (по подразбиране: Всички)"
 
 #: tformsettingstrayslate.grouphistory.caption
-#, fuzzy
 msgid "Translation History"
 msgstr "История на преводите"
 
@@ -1169,7 +1173,6 @@ msgid "Max Height"
 msgstr "Максимална височина"
 
 #: tformsettingstrayslate.labelmaxhistoryitems.caption
-#, fuzzy
 msgid "Max History Items"
 msgstr "Макс. записи в историята"
 
@@ -1274,7 +1277,6 @@ msgid "Set maximum window height for auto-size; 0 indicates limit to screen heig
 msgstr "Задайте максимална височина на прозореца за автоматично оразмеряване; 0 показва ограничение за височината на екрана"
 
 #: tformsettingstrayslate.spinmaxhistoryitems.hint
-#, fuzzy
 msgid "Maximum number of history entries kept; oldest are dropped first; 0 means unlimited"
 msgstr "Максимален брой запазени записи в историята; най-старите се премахват първи; 0 означава без ограничение"
 

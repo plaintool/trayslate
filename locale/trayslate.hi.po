@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-07 14:09-0300\n"
+"PO-Revision-Date: 2026-11-09 15:36-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: hi\n"
@@ -30,6 +30,10 @@ msgstr "रद्द करें"
 msgid "Copy To Clipboard"
 msgstr "क्लिपबोर्ड पर कॉपी करें"
 
+#: consts.rdeletehistoryentry
+msgid "Delete the current history entry?"
+msgstr "क्या वर्तमान इतिहास प्रविष्टि हटानी है?"
+
 #: consts.renter
 msgctxt "consts.renter"
 msgid "Enter"
@@ -39,6 +43,10 @@ msgstr "दर्ज करें"
 msgctxt "consts.renterparameter"
 msgid "Enter the required parameter"
 msgstr "आवश्यक पैरामीटर दर्ज करें"
+
+#: consts.rhistorytruncate
+msgid "Delete all history after the current entry? (No - jump to the end without deleting)"
+msgstr "क्या वर्तमान प्रविष्टि के बाद की सभी इतिहास प्रविष्टियाँ हटानी हैं? (नहीं - बिना हटाए अंत पर जाएँ)"
 
 #: consts.rlockheight
 msgctxt "consts.rlockheight"
@@ -150,7 +158,6 @@ msgid "Shows or hides the main application window"
 msgstr "मुख्य एप्लिकेशन विंडो दिखाता या छुपाता है"
 
 #: formsettings.rclearhistory
-#, fuzzy
 msgid "Are you sure you want to clear the translation history?"
 msgstr "क्या आप वाकई अनुवाद इतिहास साफ़ करना चाहते हैं?"
 
@@ -866,12 +873,10 @@ msgid "Hide window controls when the mouse is not over the popup window"
 msgstr "जब माउस पॉपअप विंडो पर न हो तो नियंत्रण छुपाएँ"
 
 #: tformsettingstrayslate.checkhistoryenabled.caption
-#, fuzzy
 msgid "Enabled"
 msgstr "सक्षम"
 
 #: tformsettingstrayslate.checkhistoryenabled.hint
-#, fuzzy
 msgid "Store translations in history"
 msgstr "अनुवादों को इतिहास में संग्रहीत करें"
 
@@ -1070,7 +1075,6 @@ msgid "Enabled Languages (Default: All)"
 msgstr "सक्षम भाषाएँ (डिफ़ॉल्ट: सभी)"
 
 #: tformsettingstrayslate.grouphistory.caption
-#, fuzzy
 msgid "Translation History"
 msgstr "अनुवाद इतिहास"
 
@@ -1168,7 +1172,6 @@ msgid "Max Height"
 msgstr "अधिकतम ऊँचाई"
 
 #: tformsettingstrayslate.labelmaxhistoryitems.caption
-#, fuzzy
 msgid "Max History Items"
 msgstr "अधिकतम इतिहास आइटम"
 
@@ -1273,7 +1276,6 @@ msgid "Set maximum window height for auto-size; 0 indicates limit to screen heig
 msgstr "ऑटो-साइज़ के लिए अधिकतम विंडो ऊँचाई सेट करें; 0 स्क्रीन की ऊँचाई की सीमा दर्शाता है"
 
 #: tformsettingstrayslate.spinmaxhistoryitems.hint
-#, fuzzy
 msgid "Maximum number of history entries kept; oldest are dropped first; 0 means unlimited"
 msgstr "इतिहास में रखे जाने वाले आइटमों की अधिकतम संख्या; सबसे पुराने पहले हटाए जाते हैं; 0 का अर्थ असीमित है"
 

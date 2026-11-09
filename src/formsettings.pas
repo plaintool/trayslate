@@ -1866,6 +1866,8 @@ begin
     formTrayslate.RealTimeDelay := SpinRealTimeDelay.Value;
     formTrayslate.Translate.History.Enabled := CheckHistoryEnabled.Checked;
     formTrayslate.Translate.History.MaxItems := SpinMaxHistoryItems.Value;
+    // Refresh navigation buttons after the possible trim by the new limit
+    formTrayslate.UpdateHistoryButtons;
     formTrayslate.AutoSwap := CheckAutoSwap.Checked;
     formTrayslate.BuiltInDetect := CheckBuiltInDetect.Checked;
     formTrayslate.SmartSwap := CheckSmartSwap.Checked;

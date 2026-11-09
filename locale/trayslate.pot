@@ -20,6 +20,10 @@ msgstr ""
 msgid "Copy To Clipboard"
 msgstr ""
 
+#: consts.rdeletehistoryentry
+msgid "Delete the current history entry?"
+msgstr ""
+
 #: consts.renter
 msgctxt "consts.renter"
 msgid "Enter"
@@ -28,6 +32,10 @@ msgstr ""
 #: consts.renterparameter
 msgctxt "consts.renterparameter"
 msgid "Enter the required parameter"
+msgstr ""
+
+#: consts.rhistorytruncate
+msgid "Delete all history after the current entry? (No - jump to the end without deleting)"
 msgstr ""
 
 #: consts.rlockheight

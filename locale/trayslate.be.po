@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-07 14:09-0300\n"
+"PO-Revision-Date: 2026-11-09 15:37-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: be\n"
@@ -30,6 +30,10 @@ msgstr "Скасаваць"
 msgid "Copy To Clipboard"
 msgstr "Капіяваць у буфер абмену"
 
+#: consts.rdeletehistoryentry
+msgid "Delete the current history entry?"
+msgstr "Выдаліць бягучы запіс гісторыі?"
+
 #: consts.renter
 msgctxt "consts.renter"
 msgid "Enter"
@@ -39,6 +43,10 @@ msgstr "Увесці"
 msgctxt "consts.renterparameter"
 msgid "Enter the required parameter"
 msgstr "Увядзіце неабходны параметр"
+
+#: consts.rhistorytruncate
+msgid "Delete all history after the current entry? (No - jump to the end without deleting)"
+msgstr "Выдаліць усе запісы гісторыі пасля бягучага? (Не - перайсці ў канец без выдалення)"
 
 #: consts.rlockheight
 msgctxt "consts.rlockheight"
@@ -74,7 +82,7 @@ msgstr ""
 
 #: consts.rocrneedlang
 msgid "Screen OCR requires a specific source language. Please choose one in settings instead of automatic detection."
-msgstr "Для распазнавання тэксту на экране (OCR) неабходна задаць зыходную мову. Выберыце яе ў наладах замест аўтаматычнага вызначэння."
+msgstr "Для распазнавання тэксту на экране OCR неабходна задаць зыходную мову. Выберыце яе ў наладах замест аўтаматычнага вызначэння."
 
 #: consts.rocrnopacks
 msgid "No OCR language packs are installed on this system."
@@ -150,7 +158,6 @@ msgid "Shows or hides the main application window"
 msgstr "Паказвае або хавае галоўнае акно прыкладання"
 
 #: formsettings.rclearhistory
-#, fuzzy
 msgid "Are you sure you want to clear the translation history?"
 msgstr "Вы ўпэўнены, што хочаце ачысціць гісторыю перакладаў?"
 
@@ -866,12 +873,10 @@ msgid "Hide window controls when the mouse is not over the popup window"
 msgstr "Хаваць элементы акна, калі мыш не над ім"
 
 #: tformsettingstrayslate.checkhistoryenabled.caption
-#, fuzzy
 msgid "Enabled"
 msgstr "Уключана"
 
 #: tformsettingstrayslate.checkhistoryenabled.hint
-#, fuzzy
 msgid "Store translations in history"
 msgstr "Захоўваць пераклады ў гісторыі"
 
@@ -1070,7 +1075,6 @@ msgid "Enabled Languages (Default: All)"
 msgstr "Уключаныя мовы (па змаўчанні: усе)"
 
 #: tformsettingstrayslate.grouphistory.caption
-#, fuzzy
 msgid "Translation History"
 msgstr "Гісторыя перакладаў"
 
@@ -1168,7 +1172,6 @@ msgid "Max Height"
 msgstr "Максімальная вышыня"
 
 #: tformsettingstrayslate.labelmaxhistoryitems.caption
-#, fuzzy
 msgid "Max History Items"
 msgstr "Макс. запісаў у гісторыі"
 
@@ -1273,7 +1276,6 @@ msgid "Set maximum window height for auto-size; 0 indicates limit to screen heig
 msgstr "Усталюйце максімальную вышыню акна для аўтаматычнага памеру; 0 азначае абмежаванне вышынёй экрана"
 
 #: tformsettingstrayslate.spinmaxhistoryitems.hint
-#, fuzzy
 msgid "Maximum number of history entries kept; oldest are dropped first; 0 means unlimited"
 msgstr "Максімальная колькасць запісаў у гісторыі; самыя старыя выдаляюцца першымі; 0 — без абмежаванняў"
 

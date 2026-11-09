@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-07 14:09-0300\n"
+"PO-Revision-Date: 2026-11-09 15:36-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: el\n"
@@ -30,6 +30,10 @@ msgstr "Ακύρωση"
 msgid "Copy To Clipboard"
 msgstr "Αντιγραφή στο πρόχειρο"
 
+#: consts.rdeletehistoryentry
+msgid "Delete the current history entry?"
+msgstr "Να διαγραφεί η τρέχουσα καταχώρηση ιστορικού;"
+
 #: consts.renter
 msgctxt "consts.renter"
 msgid "Enter"
@@ -39,6 +43,10 @@ msgstr "Εισαγωγή"
 msgctxt "consts.renterparameter"
 msgid "Enter the required parameter"
 msgstr "Εισαγάγετε την απαιτούμενη παράμετρο"
+
+#: consts.rhistorytruncate
+msgid "Delete all history after the current entry? (No - jump to the end without deleting)"
+msgstr "Να διαγραφούν όλες οι καταχωρήσεις ιστορικού μετά την τρέχουσα; (Όχι - μετάβαση στο τέλος χωρίς διαγραφή)"
 
 #: consts.rlockheight
 msgctxt "consts.rlockheight"
@@ -150,7 +158,6 @@ msgid "Shows or hides the main application window"
 msgstr "Εμφανίζει ή αποκρύπτει το κύριο παράθυρο της εφαρμογής"
 
 #: formsettings.rclearhistory
-#, fuzzy
 msgid "Are you sure you want to clear the translation history?"
 msgstr "Είστε βέβαιοι ότι θέλετε να εκκαθαρίσετε το ιστορικό μεταφράσεων;"
 
@@ -866,12 +873,10 @@ msgid "Hide window controls when the mouse is not over the popup window"
 msgstr "Απόκρυψη χειριστηρίων όταν το ποντίκι δεν είναι πάνω στο αναδυόμενο παράθυρο"
 
 #: tformsettingstrayslate.checkhistoryenabled.caption
-#, fuzzy
 msgid "Enabled"
 msgstr "Ενεργό"
 
 #: tformsettingstrayslate.checkhistoryenabled.hint
-#, fuzzy
 msgid "Store translations in history"
 msgstr "Αποθήκευση μεταφράσεων στο ιστορικό"
 
@@ -1070,7 +1075,6 @@ msgid "Enabled Languages (Default: All)"
 msgstr "Ενεργοποιημένες γλώσσες (προεπιλογή: όλες)"
 
 #: tformsettingstrayslate.grouphistory.caption
-#, fuzzy
 msgid "Translation History"
 msgstr "Ιστορικό μεταφράσεων"
 
@@ -1168,7 +1172,6 @@ msgid "Max Height"
 msgstr "Μέγιστο ύψος"
 
 #: tformsettingstrayslate.labelmaxhistoryitems.caption
-#, fuzzy
 msgid "Max History Items"
 msgstr "Μέγ. καταχωρίσεις ιστορικού"
 
@@ -1273,7 +1276,6 @@ msgid "Set maximum window height for auto-size; 0 indicates limit to screen heig
 msgstr "Ορίστε το μέγιστο ύψος παραθύρου για αυτόματο μέγεθος· το 0 σημαίνει όριο στο ύψος της οθόνης"
 
 #: tformsettingstrayslate.spinmaxhistoryitems.hint
-#, fuzzy
 msgid "Maximum number of history entries kept; oldest are dropped first; 0 means unlimited"
 msgstr "Μέγιστος αριθμός καταχωρίσεων ιστορικού που διατηρούνται· οι παλαιότερες αφαιρούνται πρώτες· 0 σημαίνει χωρίς όριο"
 

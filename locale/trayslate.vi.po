@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-07 14:09-0300\n"
+"PO-Revision-Date: 2026-11-09 15:36-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: none\n"
 "Language: vi\n"
@@ -32,6 +32,10 @@ msgstr "Hủy"
 msgid "Copy To Clipboard"
 msgstr "Sao chép vào bộ nhớ tạm"
 
+#: consts.rdeletehistoryentry
+msgid "Delete the current history entry?"
+msgstr "Xóa mục lịch sử hiện tại?"
+
 #: consts.renter
 msgctxt "consts.renter"
 msgid "Enter"
@@ -41,6 +45,10 @@ msgstr "Nhập"
 msgctxt "consts.renterparameter"
 msgid "Enter the required parameter"
 msgstr "Nhập tham số cần thiết"
+
+#: consts.rhistorytruncate
+msgid "Delete all history after the current entry? (No - jump to the end without deleting)"
+msgstr "Xóa tất cả các mục lịch sử sau mục hiện tại? (Không - chuyển đến cuối mà không xóa)"
 
 #: consts.rlockheight
 msgctxt "consts.rlockheight"
@@ -152,7 +160,6 @@ msgid "Shows or hides the main application window"
 msgstr "Hiển thị hoặc ẩn cửa sổ ứng dụng chính"
 
 #: formsettings.rclearhistory
-#, fuzzy
 msgid "Are you sure you want to clear the translation history?"
 msgstr "Bạn có chắc chắn muốn xóa lịch sử dịch không?"
 
@@ -868,12 +875,10 @@ msgid "Hide window controls when the mouse is not over the popup window"
 msgstr "Ẩn điều khiển cửa sổ khi chuột không ở trên cửa sổ bật lên"
 
 #: tformsettingstrayslate.checkhistoryenabled.caption
-#, fuzzy
 msgid "Enabled"
 msgstr "Đã bật"
 
 #: tformsettingstrayslate.checkhistoryenabled.hint
-#, fuzzy
 msgid "Store translations in history"
 msgstr "Lưu bản dịch vào lịch sử"
 
@@ -1072,7 +1077,6 @@ msgid "Enabled Languages (Default: All)"
 msgstr "Ngôn ngữ được bật (mặc định: tất cả)"
 
 #: tformsettingstrayslate.grouphistory.caption
-#, fuzzy
 msgid "Translation History"
 msgstr "Lịch sử dịch"
 
@@ -1170,7 +1174,6 @@ msgid "Max Height"
 msgstr "Chiều cao tối đa"
 
 #: tformsettingstrayslate.labelmaxhistoryitems.caption
-#, fuzzy
 msgid "Max History Items"
 msgstr "Số mục lịch sử tối đa"
 
@@ -1275,7 +1278,6 @@ msgid "Set maximum window height for auto-size; 0 indicates limit to screen heig
 msgstr "Đặt chiều cao cửa sổ tối đa cho kích thước tự động; 0 biểu thị giới hạn chiều cao màn hình"
 
 #: tformsettingstrayslate.spinmaxhistoryitems.hint
-#, fuzzy
 msgid "Maximum number of history entries kept; oldest are dropped first; 0 means unlimited"
 msgstr "Số mục lịch sử tối đa được lưu giữ; các mục cũ nhất bị xóa trước; 0 nghĩa là không giới hạn"
 

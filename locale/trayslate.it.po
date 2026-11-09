@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Trayslate - Italian - 18.10.2026\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-07 14:09-0300\n"
+"PO-Revision-Date: 2026-11-09 15:38-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: bovirus (bovirus@gmail.com)\n"
 "Language: it\n"
@@ -31,6 +31,10 @@ msgstr "Annulla"
 msgid "Copy To Clipboard"
 msgstr "Copia negli appunti"
 
+#: consts.rdeletehistoryentry
+msgid "Delete the current history entry?"
+msgstr "Eliminare la voce corrente della cronologia?"
+
 #: consts.renter
 msgctxt "consts.renter"
 msgid "Enter"
@@ -40,6 +44,10 @@ msgstr "Invio"
 msgctxt "consts.renterparameter"
 msgid "Enter the required parameter"
 msgstr "Inserisci il parametro richiesto"
+
+#: consts.rhistorytruncate
+msgid "Delete all history after the current entry? (No - jump to the end without deleting)"
+msgstr "Eliminare tutte le voci della cronologia successive a quella corrente? (No - vai alla fine senza eliminare)"
 
 #: consts.rlockheight
 msgctxt "consts.rlockheight"
@@ -151,7 +159,6 @@ msgid "Shows or hides the main application window"
 msgstr "Visualizza/nascondi finestra principale dell'applicazione"
 
 #: formsettings.rclearhistory
-#, fuzzy
 msgid "Are you sure you want to clear the translation history?"
 msgstr "Sei sicuro di voler cancellare la cronologia delle traduzioni?"
 
@@ -833,7 +840,7 @@ msgstr "Scambia automaticamente la coppia di lingue"
 
 #: tformsettingstrayslate.checkautoswap.hint
 msgid "Automatically detect input language and swap pair if needed, does not work during Real-Time Translation"
-msgstr "Rileva automaticamente la lingua sorgente e scambia se necessario la coppia , non funziona durante la traduzione in tempo reale"
+msgstr "Rileva automaticamente la lingua sorgente e scambia se necessario la coppia, non funziona durante la traduzione in tempo reale"
 
 #: tformsettingstrayslate.checkbuiltindetect.caption
 msgid "Use Built-In Language Detection Engine"
@@ -870,12 +877,10 @@ msgid "Hide window controls when the mouse is not over the popup window"
 msgstr "Quando il mouse non si trova sulla finestra popup nascondi controlli finestra"
 
 #: tformsettingstrayslate.checkhistoryenabled.caption
-#, fuzzy
 msgid "Enabled"
 msgstr "Abilitato"
 
 #: tformsettingstrayslate.checkhistoryenabled.hint
-#, fuzzy
 msgid "Store translations in history"
 msgstr "Salva le traduzioni nella cronologia"
 
@@ -1074,7 +1079,6 @@ msgid "Enabled Languages (Default: All)"
 msgstr "Lingue abilitate (predefinite: tutte)"
 
 #: tformsettingstrayslate.grouphistory.caption
-#, fuzzy
 msgid "Translation History"
 msgstr "Cronologia traduzioni"
 
@@ -1172,7 +1176,6 @@ msgid "Max Height"
 msgstr "Altezza massima"
 
 #: tformsettingstrayslate.labelmaxhistoryitems.caption
-#, fuzzy
 msgid "Max History Items"
 msgstr "Elementi cronologia max"
 
@@ -1277,7 +1280,6 @@ msgid "Set maximum window height for auto-size; 0 indicates limit to screen heig
 msgstr "Imposta l'altezza massima della finestra per il ridimensionamento automatico; 0 indica il limite dell'altezza dello schermo"
 
 #: tformsettingstrayslate.spinmaxhistoryitems.hint
-#, fuzzy
 msgid "Maximum number of history entries kept; oldest are dropped first; 0 means unlimited"
 msgstr "Numero massimo di voci della cronologia conservate; le più vecchie vengono rimosse per prime; 0 significa illimitato"
 

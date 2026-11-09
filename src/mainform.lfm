@@ -911,13 +911,13 @@ object formTrayslate: TformTrayslate
     object aHistoryPrev: TAction
       Category = 'Form'
       ImageIndex = 26
-      ShortCut = 8229
+      ShortCut = 32805
       OnExecute = aHistoryPrevExecute
     end
     object aHistoryNext: TAction
       Category = 'Form'
       ImageIndex = 28
-      ShortCut = 8231
+      ShortCut = 32807
       OnExecute = aHistoryNextExecute
     end
     object aHistoryClear: TAction
@@ -1238,6 +1238,7 @@ object formTrayslate: TformTrayslate
     OnHistoryItem = TranslateHistoryItem
     OnHistoryChanged = TranslateHistoryChanged
     OnHistoryItemActivated = TranslateHistoryItemActivated
+    OnHistoryTruncateQuery = TranslateHistoryTruncateQuery
     OnTranslateStart = TransStart
     OnTranslateComplete = TransComplete
     OnTranslateFinish = TransFinish
