@@ -33,7 +33,7 @@ msgstr "Copia negli appunti"
 
 #: consts.rdeletehistoryentry
 msgid "Delete the current history entry?"
-msgstr "Eliminare la voce corrente della cronologia?"
+msgstr "Vuoi eliminare la voce attuale della cronologia?"
 
 #: consts.renter
 msgctxt "consts.renter"
@@ -47,7 +47,7 @@ msgstr "Inserisci il parametro richiesto"
 
 #: consts.rhistorytruncate
 msgid "Delete all history after the current entry? (No - jump to the end without deleting)"
-msgstr "Eliminare tutte le voci della cronologia successive a quella corrente? (No - vai alla fine senza eliminare)"
+msgstr "Vuoi eliminare tutte le voci della cronologia successive a quella attuale? (No - vai alla fine senza eliminare)"
 
 #: consts.rlockheight
 msgctxt "consts.rlockheight"
@@ -58,10 +58,10 @@ msgstr "Blocca altezza"
 #, object-pascal-format
 msgid ""
 "Last Translation (%s)\n"
-"Next Translation"
+"Ultima traduzione (%s)\n"
 msgstr ""
 "Ultima traduzione (%s)\n"
-"Traduzione successiva"
+"Traduzione successiva (%s)\n"
 
 #: consts.rnoconfig
 msgctxt "consts.rnoconfig"
@@ -160,7 +160,7 @@ msgstr "Visualizza/nascondi finestra principale dell'applicazione"
 
 #: formsettings.rclearhistory
 msgid "Are you sure you want to clear the translation history?"
-msgstr "Sei sicuro di voler cancellare la cronologia delle traduzioni?"
+msgstr "Vuoi cancellare la cronologia delle traduzioni?"
 
 #: formsettings.rdefaultfont
 msgctxt "formsettings.rdefaultfont"
@@ -882,7 +882,7 @@ msgstr "Abilitato"
 
 #: tformsettingstrayslate.checkhistoryenabled.hint
 msgid "Store translations in history"
-msgstr "Salva le traduzioni nella cronologia"
+msgstr "Salva traduzioni nella cronologia"
 
 #: tformsettingstrayslate.checkinsertkey.caption
 msgid "Use Insert for Copy and Paste Emulation"
@@ -1177,7 +1177,7 @@ msgstr "Altezza massima"
 
 #: tformsettingstrayslate.labelmaxhistoryitems.caption
 msgid "Max History Items"
-msgstr "Elementi cronologia max"
+msgstr "Elementi max cronologia"
 
 #: tformsettingstrayslate.labelmaxlangpairs.caption
 msgctxt "tformsettingstrayslate.labelmaxlangpairs.caption"
@@ -1281,7 +1281,7 @@ msgstr "Imposta l'altezza massima della finestra per il ridimensionamento automa
 
 #: tformsettingstrayslate.spinmaxhistoryitems.hint
 msgid "Maximum number of history entries kept; oldest are dropped first; 0 means unlimited"
-msgstr "Numero massimo di voci della cronologia conservate; le più vecchie vengono rimosse per prime; 0 significa illimitato"
+msgstr "Numero massimo voci cronologia conservate; le più vecchie vengono rimosse per prime; 0 significa illimitata"
 
 #: tformsettingstrayslate.spinmaxlangpairs.hint
 msgid "Number of recent pairs on the panel; pairs shift right when added; zero value hides the panel"
