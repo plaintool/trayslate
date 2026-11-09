@@ -36,6 +36,7 @@ uses
   LCLType,
   LCLIntf,
   Consts,
+  OSUtils,
   HotKeyHelper,
   StringHelper,
   Network;
@@ -199,6 +200,7 @@ type
     procedure GridHotkeysEditingDone(Sender: TObject);
     procedure GridHotkeysGetCellHint(Sender: TObject; ACol, ARow: integer; var HintText: string);
     procedure GridHotkeysKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+    procedure GridHotkeysKeyUp(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure GridHotkeysSelectEditor(Sender: TObject; aCol, aRow: integer; var Editor: TWinControl);
     procedure SplitterPagesMoved(Sender: TObject);
     procedure LabelInstalledLangClick(Sender: TObject);
@@ -323,6 +325,11 @@ type
     FOldKeyValue: string;
     FOldValueList: string;
     FLastFocused: TWinControl;
+    FLastEditKey: word;
+    FLastEditModifiers: cardinal;
+    FLastEditTime: DWORD;
+    // Physical state of each modifier, used to ignore OS auto-repeat
+    FModKeyDown: array[VK_SHIFT..VK_MENU] of boolean;
 
     procedure SetPanelFont(Panel: TPanel; const AFont: TFont);
     procedure ResetRealTimeSettings;
@@ -496,6 +503,9 @@ begin
   BtnResetPopup.Enabled := True;
   FApplySettings := False;
   FOldKeyValue := string.Empty;
+  FLastEditKey := 0;
+  FLastEditModifiers := 0;
+  FLastEditTime := 0;
 
   FillConfigs;
 
@@ -527,6 +537,8 @@ begin
   FillProxyMode;
   FillLanguage(Language);
   FillLanguages;
+
+  FillChar(FModKeyDown, SizeOf(FModKeyDown), 0);
 
   Screen.OnActiveControlChange := @ScreenActiveControlChanged;
 end;
@@ -772,6 +784,15 @@ begin
 
   Keys := GridHotkeys.Cells[aCol, aRow].Split(['+']);
 
+  // Split the " x2" suffix into its own keycap so it does not share the box
+  // with the actual key
+  if (Length(Keys) > 0) and (Length(Keys[High(Keys)]) > 3) and (RightStr(Keys[High(Keys)], 3) = ' x2') then
+  begin
+    Keys[High(Keys)] := Copy(Keys[High(Keys)], 1, Length(Keys[High(Keys)]) - 3);
+    SetLength(Keys, Length(Keys) + 1);
+    Keys[High(Keys)] := 'x2';
+  end;
+
   X := aRect.Left + 6;
   Y := aRect.Top + (aRect.Height div 2);
 
@@ -833,7 +854,6 @@ end;
 procedure TformSettingsTrayslate.GridHotkeysKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 var
   HK: THotKeyData;
-  HasRealKey: boolean;
 begin
   // Enter outside editor → start editing column 1
   if (not GridHotkeys.EditorMode) then
@@ -918,28 +938,82 @@ begin
   HK.Modifiers := 0;
   HK.Key := 0;
 
+  // Ignore OS auto-repeat: while a modifier is already physically held,
+  // Windows keeps resending KeyDown. FModKeyDown is cleared in KeyUp
+  if Key in [VK_SHIFT, VK_LSHIFT, VK_RSHIFT] then
+  begin
+    if FModKeyDown[VK_SHIFT] then
+    begin
+      Key := 0;
+      Exit;
+    end;
+    FModKeyDown[VK_SHIFT] := True;
+  end
+  else if Key in [VK_CONTROL, VK_LCONTROL, VK_RCONTROL] then
+  begin
+    if FModKeyDown[VK_CONTROL] then
+    begin
+      Key := 0;
+      Exit;
+    end;
+    FModKeyDown[VK_CONTROL] := True;
+  end
+  else if Key in [VK_MENU, VK_LMENU, VK_RMENU] then
+  begin
+    if FModKeyDown[VK_MENU] then
+    begin
+      Key := 0;
+      Exit;
+    end;
+    FModKeyDown[VK_MENU] := True;
+  end;
+
+  // Standard modifier detection from the keyboard state
   if ssCtrl in Shift then
     HK.Modifiers := HK.Modifiers or HOTKEY_CTRL;
-
   if ssShift in Shift then
     HK.Modifiers := HK.Modifiers or HOTKEY_SHIFT;
-
   if ssAlt in Shift then
     HK.Modifiers := HK.Modifiers or HOTKEY_ALT;
-
   if ssMeta in Shift then
     HK.Modifiers := HK.Modifiers or HOTKEY_META;
 
-  // Detect real key
-  HasRealKey := not (Key in [VK_CONTROL, VK_SHIFT, VK_MENU]);
-
-  if HasRealKey then
+  // Move the just-pressed modifier from Modifiers to Key, so a lone press
+  // still becomes a standalone key. If other modifiers are also held, this
+  // produces a pure modifier combo such as Ctrl+Shift
+  if Key in [VK_SHIFT, VK_LSHIFT, VK_RSHIFT] then
   begin
-    HK.Key := Key;
-    Key := 0;
+    HK.Modifiers := HK.Modifiers and not HOTKEY_SHIFT;
+    HK.Key := VK_SHIFT;
+  end
+  else if Key in [VK_CONTROL, VK_LCONTROL, VK_RCONTROL] then
+  begin
+    HK.Modifiers := HK.Modifiers and not HOTKEY_CTRL;
+    HK.Key := VK_CONTROL;
+  end
+  else if Key in [VK_MENU, VK_LMENU, VK_RMENU] then
+  begin
+    HK.Modifiers := HK.Modifiers and not HOTKEY_ALT;
+    HK.Key := VK_MENU;
   end
   else
-    HK.Key := 0;
+    HK.Key := Key;
+
+  Key := 0;
+
+  // Double hotkey detection: same full combination pressed twice within the interval
+  if (HK.Key > 0) and (FLastEditKey = HK.Key) and (FLastEditModifiers = HK.Modifiers) and
+    ((TOS.GetTickCountXp - FLastEditTime) <= HOTKEY_DBL_INTERVAL) then
+  begin
+    HK.double := True;
+    FLastEditKey := 0;
+    FLastEditModifiers := 0;
+    FLastEditTime := 0;
+  end;
+
+  FLastEditKey := HK.Key;
+  FLastEditModifiers := HK.Modifiers;
+  FLastEditTime := TOS.GetTickCountXp;
 
   // Apply hotkey
   SetHotKeyByRow(GridHotkeys.Row, HK);
@@ -948,6 +1022,17 @@ begin
 
   if (HK.Key > 0) and (FOldKeyValue <> HK.ToText) then
     SettingChange(Sender);
+end;
+
+procedure TformSettingsTrayslate.GridHotkeysKeyUp(Sender: TObject; var Key: word; Shift: TShiftState);
+begin
+  // Clearing the down flag is what lets the next physical press pass
+  // through the auto-repeat filter in GridHotkeysKeyDown
+  case Key of
+    VK_SHIFT, VK_LSHIFT, VK_RSHIFT: FModKeyDown[VK_SHIFT] := False;
+    VK_CONTROL, VK_LCONTROL, VK_RCONTROL: FModKeyDown[VK_CONTROL] := False;
+    VK_MENU, VK_LMENU, VK_RMENU: FModKeyDown[VK_MENU] := False;
+  end;
 end;
 
 procedure TformSettingsTrayslate.GridHotkeysSelectEditor(Sender: TObject; aCol, aRow: integer; var Editor: TWinControl);
@@ -967,7 +1052,10 @@ begin
 
   HK := GetHotKeyByRow(GridHotkeys.Row);
   OriginalHK := GetOriginalHotKey(GridHotkeys.Row);
-  if (HK.Key = 0) and (HK.Modifiers <> 0) then
+  // Reject a single modifier without double press, but accept a pure
+  // modifier combo (extra modifiers are held) and a modifier x2
+  if ((HK.Key = 0) and (HK.Modifiers <> 0)) or ((HK.Key in [VK_SHIFT, VK_CONTROL, VK_MENU]) and (HK.Modifiers = 0) and
+    not HK.double) then
   begin
     SetHotKeyByRow(GridHotkeys.Row, OriginalHK);
     GridHotkeys.Cells[1, GridHotkeys.Row] := OriginalHK.ToText;

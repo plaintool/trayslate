@@ -439,6 +439,9 @@ type
     FLastEnterTime: DWORD;
     FEnterCount: integer;
     FLastHotkeyTime: DWORD;
+    FHotKeyPending: boolean;
+    FHotKeyPendingId: integer;
+    FHotKeyPendingTime: DWORD;
     FLastMouseInfo: TMouseEventInfo;
     FClickCount: integer;
     FClickTimer: TTimer;
@@ -474,6 +477,10 @@ type
     FIgnoreKeyUpCode: word;
     // Set on paste so the next real-time translation records itself in history
     FCommitNextRealTime: boolean;
+
+    // Modifier double-press tracking for Shift x2 / Ctrl x2 / Alt x2
+    FModKeyTime: array[VK_SHIFT..VK_MENU] of DWORD;
+    FModKeyReleased: array[VK_SHIFT..VK_MENU] of boolean;
 
     // Non sorted combo named languages
     FLanguages: TStringList;
@@ -598,6 +605,9 @@ type
     procedure UpdateMemoState(AMemo: TRichMemo);
     procedure MoveButtonTo(AFromIndex, AToIndex: integer);
 
+    function FindModifierHotKeyId(AVk: word): integer;
+    function HasModifierDoubleHotKeys: boolean;
+
     function GetConfigIndex: integer;
     function GetIconIndex: integer;
     procedure SetConfigFile(const Value: string);
@@ -646,7 +656,9 @@ type
     // HotKeys Events
     procedure RegisterHotKeys;
     procedure UnregisterHotKeys;
+    function GetHotKeyDataById(AHotKeyId: integer): THotKeyData;
     procedure ReleaseHotKeyModifiers(const AHotKey: THotKeyData);
+    procedure ExecuteHotKeyById(AHotKeyId: integer);
     {$ENDIF}
 
     // Methods
@@ -851,6 +863,9 @@ begin
   FLastEnterTime := 0;
   FEnterCount := 0;
   FLastHotkeyTime := 0;
+  FHotKeyPending := False;
+  FHotKeyPendingId := 0;
+  FHotKeyPendingTime := 0;
   FSplitRatio := 0.5;
   FOCRActive := False;
   FPopupOpen := False;
@@ -876,6 +891,13 @@ begin
   FFormSmallIcon := TIcon.Create;
   FIgnoreKeyUpCode := 0;
   FCommitNextRealTime := False;
+
+  // Modifier double-press state: start as "released" so the very first
+  // physical press is treated as a fresh tap and can form a double
+  FillChar(FModKeyTime, SizeOf(FModKeyTime), 0);
+  FModKeyReleased[VK_SHIFT] := True;
+  FModKeyReleased[VK_CONTROL] := True;
+  FModKeyReleased[VK_MENU] := True;
 
   // Components config
   Left := Screen.WorkAreaRect.Right - Width - 30;
@@ -1265,204 +1287,248 @@ end;
 
 procedure TformTrayslate.WndProc(var TheMessage: TLMessage);
 var
-  LangIndex: integer;
+  HotKeyToExecute: integer;
+  HotKeyData: THotKeyData;
 begin
+  HotKeyToExecute := 0;
   if TheMessage.msg = WM_HOTKEY then
   begin
-    if TOS.GetTickCountXp - FLastHotkeyTime < HOTKEY_INTERVAL then
-      exit;
+    HotKeyData := GetHotKeyDataById(TheMessage.WParam);
 
-    FLastHotkeyTime := TOS.GetTickCountXp;
-
-    case TheMessage.WParam of
-
-      // HotKeys Common
-      HOTKEY_APP:
-      try
-        if Showing then Hide
-        else
-          Show;
-        BringToFront;
-        FTopMost := True;
-      finally
-        // Release modifiers used in the "App" hotkey (e.g. Ctrl+Shift+A)
-        ReleaseHotKeyModifiers(FHotKeyApp);
-      end;
-
-      HOTKEY_TRANS_SWAP:
-      try
-        aSwap.Execute;
-        ShowCustomHint(TrayIcon.Hint);
-      finally
-        ReleaseHotKeyModifiers(FHotKeyTransSwap);
-      end;
-
-      HOTKEY_TRANS_FROM_CLIPBOARD:
-      try
-        TranslateFromClipboard;
-      finally
-        ReleaseHotKeyModifiers(FHotKeyTransFromClipboard);
-      end;
-
-      HOTKEY_TRANS_CLIPBOARD:
-      try
-        TranslateClipboard;
-      finally
-        ReleaseHotKeyModifiers(FHotKeyTransClipboard);
-      end;
-
-      HOTKEY_TRANS_CLIPBOARD_POPUP:
-      try
-        TranslateClipboardPopup(True);
-      finally
-        ReleaseHotKeyModifiers(FHotKeyTransClipboardPopup);
-      end;
-
-      HOTKEY_TRANS_FROM_CONTROL:
-      try
-        Application.QueueAsyncCall(@TranslateFromControl, 0);
-      finally
-        ReleaseHotKeyModifiers(FHotKeyTransFromControl);
-      end;
-
-      HOTKEY_TRANS_CONTROL:
-      try
-        Application.QueueAsyncCall(@TranslateControl, 0);
-      finally
-        ReleaseHotKeyModifiers(FHotKeyTransControl);
-      end;
-
-      HOTKEY_TRANS_CONTROL_POPUP:
-      try
-        Application.QueueAsyncCall(@TranslateFromControlPopup, 0);
-      finally
-        ReleaseHotKeyModifiers(FHotKeyTransControlPopup);
-      end;
-
-      HOTKEY_TRANS_OCR:
-      try
-         TranslateFromScreenArea;
-      finally
-        ReleaseHotKeyModifiers(FHotKeyTransOCR);
-      end;
-
-      // HotKeys Fast Settings
-      HOTKEY_FAST_ALLOW_HOTKEYS:
-      try
-        aFastAllowHotKeys.Execute;
-        ShowCustomHint(rfastallowhotkeys + ' - '+ iif(aFastAllowHotKeys.Checked, ron, roff));
-      finally
-        ReleaseHotKeyModifiers(FHotKeyFastAllowHotKeys);
-      end;
-
-      HOTKEY_FAST_ENABLE_MOUSEMODE:
-      try
-        aFastEnableMouseMode.Execute;
-        ShowCustomHint(rfastenablemousemode + ' - '+ iif(aFastEnableMouseMode.Checked, ron, roff));
-      finally
-        ReleaseHotKeyModifiers(FHotKeyFastEnableMouseMode);
-      end;
-
-      HOTKEY_FAST_MOUSEMODE_CTRL:
-      try
-        aFastMouseModeCtrl.Execute;
-        ShowCustomHint(rfastmousemodectrl + ' - '+ iif(aFastMouseModeCtrl.Checked, ron, roff));
-      finally
-        ReleaseHotKeyModifiers(FHotKeyFastMouseModeCtrl);
-      end;
-
-      HOTKEY_FAST_AUTO_SWAP:
-      try
-        aFastAutoSwap.Execute;
-        ShowCustomHint(rfastautoswap + ' - '+ iif(aFastAutoSwap.Checked, ron, roff));
-      finally
-        ReleaseHotKeyModifiers(FHotKeyFastAutoSwap);
-      end;
-
-      HOTKEY_FAST_AUTO_ADD_LANG_PAIRS:
-      try
-        aFastAutoAddLangPairs.Execute;
-        ShowCustomHint(rfastautoaddlangpairs + ' - '+ iif(aFastAutoAddLangPairs.Checked, ron, roff));
-      finally
-        ReleaseHotKeyModifiers(FHotKeyFastAutoAddLangPairs);
-      end;
-
-      HOTKEY_FAST_REAL_TIME:
-      try
-        aFastRealTime.Execute;
-        ShowCustomHint(rfastrealtime + ' - '+ iif(aFastRealTime.Checked, ron, roff));
-      finally
-        ReleaseHotKeyModifiers(FHotKeyFastRealTime);
-      end;
-
-      HOTKEY_FAST_AUTO_COPY:
-      try
-        aFastAutoCopy.Execute;
-        ShowCustomHint(rfastautocopy + ' - '+ iif(aFastAutoCopy.Checked, ron, roff));
-      finally
-        ReleaseHotKeyModifiers(FHotKeyFastAutoCopy);
-      end;
-
-      HOTKEY_FAST_VERTICAL_SPLIT:
-      try
-        aFastVerticalSplit.Execute;
-        ShowCustomHint(rfastverticalsplit + ' - '+ iif(aFastVerticalSplit.Checked, ron, roff));
-      finally
-        ReleaseHotKeyModifiers(FHotKeyFastVerticalSplit);
-      end;
-
-      HOTKEY_FAST_AUTO_HEIGHT:
-      try
-        aFastAutoHeight.Execute;
-        ShowCustomHint(rfastautoheight + ' - '+ iif(aFastAutoHeight.Checked, ron, roff));
-      finally
-        ReleaseHotKeyModifiers(FHotKeyFastAutoHeight);
-      end;
-
-      HOTKEY_FAST_HIDE_CONTROLS:
-      try
-        aFastAutoHidePopup.Execute;
-        ShowCustomHint(rfastautohidepopup + ' - '+ iif(aFastAutoHidePopup.Checked, ron, roff));
-      finally
-        ReleaseHotKeyModifiers(FHotKeyFastAutoHide);
-      end;
-
-      HOTKEY_FAST_SPELL_CHECK:
-      try
-        aFastSpellCheck.Execute;
-        ShowCustomHint(rfastspellcheck + ' - '+ iif(aFastSpellCheck.Checked, ron, roff));
-      finally
-        ReleaseHotKeyModifiers(FHotKeyFastSpellCheck);
-      end;
-
+    if FHotKeyPending then
+    begin
+      if (TOS.GetTickCountXp - FHotKeyPendingTime) > HOTKEY_DBL_INTERVAL then
+      begin
+        // Sequence timed out - reset and handle this press as a fresh first press
+        FHotKeyPending := False;
+        FHotKeyPendingId := 0;
+      end
       else
-        if (TheMessage.WParam >= HOTKEY_RECENT1) and (TheMessage.WParam <= HOTKEY_RECENT9) then
-        begin
-          LangIndex := TheMessage.WParam - 11;
-
-          if (LangIndex >= 0) and (LangIndex < MenuLangPairs.Count) then
-          try
-            SelectPairConfig(MenuLangPairs.Items[LangIndex].Tag, Showing and TopMost);
-            ShowCustomHint(TrayIcon.Hint);
-          finally
-            // Release modifiers for the specific recent pair hotkey that was pressed
-            case TheMessage.WParam of
-              HOTKEY_RECENT1: ReleaseHotKeyModifiers(FHotKeyRecent1);
-              HOTKEY_RECENT2: ReleaseHotKeyModifiers(FHotKeyRecent2);
-              HOTKEY_RECENT3: ReleaseHotKeyModifiers(FHotKeyRecent3);
-              HOTKEY_RECENT4: ReleaseHotKeyModifiers(FHotKeyRecent4);
-              HOTKEY_RECENT5: ReleaseHotKeyModifiers(FHotKeyRecent5);
-              HOTKEY_RECENT6: ReleaseHotKeyModifiers(FHotKeyRecent6);
-              HOTKEY_RECENT7: ReleaseHotKeyModifiers(FHotKeyRecent7);
-              HOTKEY_RECENT8: ReleaseHotKeyModifiers(FHotKeyRecent8);
-              HOTKEY_RECENT9: ReleaseHotKeyModifiers(FHotKeyRecent9);
-            end;
-          end;
-        end;
+      if TheMessage.WParam = FHotKeyPendingId then
+      begin
+        // Second press within the interval - execute the double hotkey
+        FHotKeyPending := False;
+        FHotKeyPendingId := 0;
+        FLastHotkeyTime := 0;
+        HotKeyToExecute := TheMessage.WParam;
+      end
+      else
+      begin
+        // A different hotkey was pressed - restart pending state for it
+        FHotKeyPending := False;
+        FHotKeyPendingId := 0;
+      end;
     end;
+
+    if (HotKeyToExecute = 0) and HotKeyData.Double then
+    begin
+      FHotKeyPending := True;
+      FHotKeyPendingId := TheMessage.WParam;
+      FHotKeyPendingTime := TOS.GetTickCountXp;
+    end
+    else
+      ExecuteHotKeyById(TheMessage.WParam);
   end;
 
   inherited WndProc(TheMessage);
+end;
+
+procedure TformTrayslate.ExecuteHotKeyById(AHotKeyId: integer);
+var
+  LangIndex: integer;
+begin
+  if TOS.GetTickCountXp - FLastHotkeyTime < HOTKEY_INTERVAL then
+    exit;
+
+  FLastHotkeyTime := TOS.GetTickCountXp;
+
+  case AHotKeyId of
+
+  // HotKeys Common
+  HOTKEY_APP:
+  try
+    if Showing then Hide
+    else
+      Show;
+    BringToFront;
+    FTopMost := True;
+  finally
+    // Release modifiers used in the "App" hotkey (e.g. Ctrl+Shift+A)
+    ReleaseHotKeyModifiers(FHotKeyApp);
+  end;
+
+  HOTKEY_TRANS_SWAP:
+  try
+    aSwap.Execute;
+    ShowCustomHint(TrayIcon.Hint);
+  finally
+    ReleaseHotKeyModifiers(FHotKeyTransSwap);
+  end;
+
+  HOTKEY_TRANS_FROM_CLIPBOARD:
+  try
+    TranslateFromClipboard;
+  finally
+    ReleaseHotKeyModifiers(FHotKeyTransFromClipboard);
+  end;
+
+  HOTKEY_TRANS_CLIPBOARD:
+  try
+    TranslateClipboard;
+  finally
+    ReleaseHotKeyModifiers(FHotKeyTransClipboard);
+  end;
+
+  HOTKEY_TRANS_CLIPBOARD_POPUP:
+  try
+    TranslateClipboardPopup(True);
+  finally
+    ReleaseHotKeyModifiers(FHotKeyTransClipboardPopup);
+  end;
+
+  HOTKEY_TRANS_FROM_CONTROL:
+  try
+    Application.QueueAsyncCall(@TranslateFromControl, 0);
+  finally
+    ReleaseHotKeyModifiers(FHotKeyTransFromControl);
+  end;
+
+  HOTKEY_TRANS_CONTROL:
+  try
+    Application.QueueAsyncCall(@TranslateControl, 0);
+  finally
+    ReleaseHotKeyModifiers(FHotKeyTransControl);
+  end;
+
+  HOTKEY_TRANS_CONTROL_POPUP:
+  try
+    Application.QueueAsyncCall(@TranslateFromControlPopup, 0);
+  finally
+    ReleaseHotKeyModifiers(FHotKeyTransControlPopup);
+  end;
+
+  HOTKEY_TRANS_OCR:
+  try
+     TranslateFromScreenArea;
+  finally
+    ReleaseHotKeyModifiers(FHotKeyTransOCR);
+  end;
+
+  // HotKeys Fast Settings
+  HOTKEY_FAST_ALLOW_HOTKEYS:
+  try
+    aFastAllowHotKeys.Execute;
+    ShowCustomHint(rfastallowhotkeys + ' - '+ iif(aFastAllowHotKeys.Checked, ron, roff));
+  finally
+    ReleaseHotKeyModifiers(FHotKeyFastAllowHotKeys);
+  end;
+
+  HOTKEY_FAST_ENABLE_MOUSEMODE:
+  try
+    aFastEnableMouseMode.Execute;
+    ShowCustomHint(rfastenablemousemode + ' - '+ iif(aFastEnableMouseMode.Checked, ron, roff));
+  finally
+    ReleaseHotKeyModifiers(FHotKeyFastEnableMouseMode);
+  end;
+
+  HOTKEY_FAST_MOUSEMODE_CTRL:
+  try
+    aFastMouseModeCtrl.Execute;
+    ShowCustomHint(rfastmousemodectrl + ' - '+ iif(aFastMouseModeCtrl.Checked, ron, roff));
+  finally
+    ReleaseHotKeyModifiers(FHotKeyFastMouseModeCtrl);
+  end;
+
+  HOTKEY_FAST_AUTO_SWAP:
+  try
+    aFastAutoSwap.Execute;
+    ShowCustomHint(rfastautoswap + ' - '+ iif(aFastAutoSwap.Checked, ron, roff));
+  finally
+    ReleaseHotKeyModifiers(FHotKeyFastAutoSwap);
+  end;
+
+  HOTKEY_FAST_AUTO_ADD_LANG_PAIRS:
+  try
+    aFastAutoAddLangPairs.Execute;
+    ShowCustomHint(rfastautoaddlangpairs + ' - '+ iif(aFastAutoAddLangPairs.Checked, ron, roff));
+  finally
+    ReleaseHotKeyModifiers(FHotKeyFastAutoAddLangPairs);
+  end;
+
+  HOTKEY_FAST_REAL_TIME:
+  try
+    aFastRealTime.Execute;
+    ShowCustomHint(rfastrealtime + ' - '+ iif(aFastRealTime.Checked, ron, roff));
+  finally
+    ReleaseHotKeyModifiers(FHotKeyFastRealTime);
+  end;
+
+  HOTKEY_FAST_AUTO_COPY:
+  try
+    aFastAutoCopy.Execute;
+    ShowCustomHint(rfastautocopy + ' - '+ iif(aFastAutoCopy.Checked, ron, roff));
+  finally
+    ReleaseHotKeyModifiers(FHotKeyFastAutoCopy);
+  end;
+
+  HOTKEY_FAST_VERTICAL_SPLIT:
+  try
+    aFastVerticalSplit.Execute;
+    ShowCustomHint(rfastverticalsplit + ' - '+ iif(aFastVerticalSplit.Checked, ron, roff));
+  finally
+    ReleaseHotKeyModifiers(FHotKeyFastVerticalSplit);
+  end;
+
+  HOTKEY_FAST_AUTO_HEIGHT:
+  try
+    aFastAutoHeight.Execute;
+    ShowCustomHint(rfastautoheight + ' - '+ iif(aFastAutoHeight.Checked, ron, roff));
+  finally
+    ReleaseHotKeyModifiers(FHotKeyFastAutoHeight);
+  end;
+
+  HOTKEY_FAST_HIDE_CONTROLS:
+  try
+    aFastAutoHidePopup.Execute;
+    ShowCustomHint(rfastautohidepopup + ' - '+ iif(aFastAutoHidePopup.Checked, ron, roff));
+  finally
+    ReleaseHotKeyModifiers(FHotKeyFastAutoHide);
+  end;
+
+  HOTKEY_FAST_SPELL_CHECK:
+  try
+    aFastSpellCheck.Execute;
+    ShowCustomHint(rfastspellcheck + ' - '+ iif(aFastSpellCheck.Checked, ron, roff));
+  finally
+    ReleaseHotKeyModifiers(FHotKeyFastSpellCheck);
+  end;
+
+  else
+    if (AHotKeyId >= HOTKEY_RECENT1) and (AHotKeyId <= HOTKEY_RECENT9) then
+    begin
+      LangIndex := AHotKeyId - 11;
+
+      if (LangIndex >= 0) and (LangIndex < MenuLangPairs.Count) then
+      try
+        SelectPairConfig(MenuLangPairs.Items[LangIndex].Tag, Showing and TopMost);
+        ShowCustomHint(TrayIcon.Hint);
+      finally
+        // Release modifiers for the specific recent pair hotkey that was pressed
+        case AHotKeyId of
+          HOTKEY_RECENT1: ReleaseHotKeyModifiers(FHotKeyRecent1);
+          HOTKEY_RECENT2: ReleaseHotKeyModifiers(FHotKeyRecent2);
+          HOTKEY_RECENT3: ReleaseHotKeyModifiers(FHotKeyRecent3);
+          HOTKEY_RECENT4: ReleaseHotKeyModifiers(FHotKeyRecent4);
+          HOTKEY_RECENT5: ReleaseHotKeyModifiers(FHotKeyRecent5);
+          HOTKEY_RECENT6: ReleaseHotKeyModifiers(FHotKeyRecent6);
+          HOTKEY_RECENT7: ReleaseHotKeyModifiers(FHotKeyRecent7);
+          HOTKEY_RECENT8: ReleaseHotKeyModifiers(FHotKeyRecent8);
+          HOTKEY_RECENT9: ReleaseHotKeyModifiers(FHotKeyRecent9);
+        end;
+      end;
+    end;
+end;
+
 end;
 
 { Public }
@@ -1492,8 +1558,9 @@ end;
 
 procedure TFormTrayslate.OnKeyboardEvent(Sender: TObject; var Info: TKeyboardEventInfo);
 var
-  // packedCoords: PtrInt;
   Tick: DWORD;
+  NormVk: word;
+  HotKeyId: integer;
 begin
   Tick := TOS.GetTickCountXp;
 
@@ -1503,6 +1570,51 @@ begin
     FCtrlArmed := Info.IsDown;
     UpdateMouseHookState;
     Application.QueueAsyncCall(@DoSetTrayIcon, 0);
+  end;
+
+  // Track modifier double presses (Shift x2, Ctrl x2, Alt x2).
+  // This is the only way to fire them: RegisterHotKey does not accept a
+  // modifier as the main key, so WM_HOTKEY never arrives for these
+  if not Info.IsInjected then
+  begin
+    case Info.KeyCode of
+      VK_LSHIFT, VK_RSHIFT: NormVk := VK_SHIFT;
+      VK_LCONTROL, VK_RCONTROL: NormVk := VK_CONTROL;
+      VK_LMENU, VK_RMENU: NormVk := VK_MENU;
+      VK_SHIFT: NormVk := VK_SHIFT;
+      VK_CONTROL: NormVk := VK_CONTROL;
+      VK_MENU: NormVk := VK_MENU;
+      else
+        NormVk := 0;
+    end;
+
+    if NormVk in [VK_SHIFT, VK_CONTROL, VK_MENU] then
+    begin
+      if Info.IsDown then
+      begin
+        if FModKeyReleased[NormVk] then
+        begin
+          // Ignore presses with another modifier held - that is a modifier combo
+          if ((NormVk = VK_SHIFT) and not ((GetAsyncKeyState(VK_CONTROL) < 0) or (GetAsyncKeyState(VK_MENU) < 0))) or
+             ((NormVk = VK_CONTROL) and not ((GetAsyncKeyState(VK_SHIFT) < 0) or (GetAsyncKeyState(VK_MENU) < 0))) or
+             ((NormVk = VK_MENU) and not ((GetAsyncKeyState(VK_SHIFT) < 0) or (GetAsyncKeyState(VK_CONTROL) < 0))) then
+          begin
+            if Tick - FModKeyTime[NormVk] <= HOTKEY_DBL_INTERVAL then
+            begin
+              HotKeyId := FindModifierHotKeyId(NormVk);
+              if HotKeyId <> 0 then
+                ExecuteHotKeyById(HotKeyId);
+              FModKeyTime[NormVk] := 0;
+            end
+            else
+              FModKeyTime[NormVk] := Tick;
+            FModKeyReleased[NormVk] := False;
+          end;
+        end;
+      end
+      else
+        FModKeyReleased[NormVk] := True;
+    end;
   end;
 
   if not Info.IsDown then Exit;
@@ -1808,6 +1920,41 @@ begin
     UnregisterHotKey(Handle, HOTKEY_RECENT1 + i);
 end;
 
+function TformTrayslate.GetHotKeyDataById(AHotKeyId: integer): THotKeyData;
+begin
+  Result := FHotKeyApp;
+  case AHotKeyId of
+    HOTKEY_TRANS_SWAP: Result := FHotKeyTransSwap;
+    HOTKEY_TRANS_FROM_CLIPBOARD: Result := FHotKeyTransFromClipboard;
+    HOTKEY_TRANS_CLIPBOARD: Result := FHotKeyTransClipboard;
+    HOTKEY_TRANS_CLIPBOARD_POPUP: Result := FHotKeyTransClipboardPopup;
+    HOTKEY_TRANS_FROM_CONTROL: Result := FHotKeyTransFromControl;
+    HOTKEY_TRANS_CONTROL: Result := FHotKeyTransControl;
+    HOTKEY_TRANS_CONTROL_POPUP: Result := FHotKeyTransControlPopup;
+    HOTKEY_TRANS_OCR: Result := FHotKeyTransOCR;
+    HOTKEY_FAST_ALLOW_HOTKEYS: Result := FHotKeyFastAllowHotKeys;
+    HOTKEY_FAST_ENABLE_MOUSEMODE: Result := FHotKeyFastEnableMouseMode;
+    HOTKEY_FAST_MOUSEMODE_CTRL: Result := FHotKeyFastMouseModeCtrl;
+    HOTKEY_FAST_AUTO_SWAP: Result := FHotKeyFastAutoSwap;
+    HOTKEY_FAST_AUTO_ADD_LANG_PAIRS: Result := FHotKeyFastAutoAddLangPairs;
+    HOTKEY_FAST_REAL_TIME: Result := FHotKeyFastRealTime;
+    HOTKEY_FAST_AUTO_COPY: Result := FHotKeyFastAutoCopy;
+    HOTKEY_FAST_VERTICAL_SPLIT: Result := FHotKeyFastVerticalSplit;
+    HOTKEY_FAST_AUTO_HEIGHT: Result := FHotKeyFastAutoHeight;
+    HOTKEY_FAST_HIDE_CONTROLS: Result := FHotKeyFastAutoHide;
+    HOTKEY_FAST_SPELL_CHECK: Result := FHotKeyFastSpellCheck;
+    HOTKEY_RECENT1: Result := FHotKeyRecent1;
+    HOTKEY_RECENT2: Result := FHotKeyRecent2;
+    HOTKEY_RECENT3: Result := FHotKeyRecent3;
+    HOTKEY_RECENT4: Result := FHotKeyRecent4;
+    HOTKEY_RECENT5: Result := FHotKeyRecent5;
+    HOTKEY_RECENT6: Result := FHotKeyRecent6;
+    HOTKEY_RECENT7: Result := FHotKeyRecent7;
+    HOTKEY_RECENT8: Result := FHotKeyRecent8;
+    HOTKEY_RECENT9: Result := FHotKeyRecent9;
+  end;
+end;
+
 procedure TformTrayslate.ReleaseHotKeyModifiers(const AHotKey: THotKeyData);
 begin
   if (AHotKey.Modifiers and MOD_SHIFT) <> 0 then
@@ -1821,6 +1968,67 @@ begin
   if (AHotKey.Modifiers and MOD_ALT) <> 0 then
     if GetAsyncKeyState(VK_MENU) >= 0 then
       KeyInput.Unapply([ssAlt]);
+end;
+
+function TformTrayslate.FindModifierHotKeyId(AVk: word): integer;
+const
+  ModKeys = [VK_SHIFT, VK_CONTROL, VK_MENU];
+  Ids: array[0..28] of integer = (
+    HOTKEY_APP, HOTKEY_TRANS_SWAP, HOTKEY_TRANS_FROM_CLIPBOARD,
+    HOTKEY_TRANS_CLIPBOARD, HOTKEY_TRANS_CLIPBOARD_POPUP,
+    HOTKEY_TRANS_FROM_CONTROL, HOTKEY_TRANS_CONTROL,
+    HOTKEY_TRANS_CONTROL_POPUP, HOTKEY_TRANS_OCR,
+    HOTKEY_FAST_ALLOW_HOTKEYS, HOTKEY_FAST_ENABLE_MOUSEMODE,
+    HOTKEY_FAST_MOUSEMODE_CTRL, HOTKEY_FAST_AUTO_SWAP,
+    HOTKEY_FAST_AUTO_ADD_LANG_PAIRS, HOTKEY_FAST_REAL_TIME,
+    HOTKEY_FAST_AUTO_COPY, HOTKEY_FAST_VERTICAL_SPLIT,
+    HOTKEY_FAST_AUTO_HEIGHT, HOTKEY_FAST_HIDE_CONTROLS,
+    HOTKEY_FAST_SPELL_CHECK,
+    HOTKEY_RECENT1, HOTKEY_RECENT2, HOTKEY_RECENT3,
+    HOTKEY_RECENT4, HOTKEY_RECENT5, HOTKEY_RECENT6,
+    HOTKEY_RECENT7, HOTKEY_RECENT8, HOTKEY_RECENT9);
+var
+  i: integer;
+  HK: THotKeyData;
+begin
+  for i := Low(Ids) to High(Ids) do
+  begin
+    HK := GetHotKeyDataById(Ids[i]);
+    // Modifier double hotkeys have no extra modifiers and Double must be set
+    if HK.Double and (HK.Key = AVk) and (HK.Modifiers = 0) and (HK.Key in ModKeys) then
+      Exit(Ids[i]);
+  end;
+  Result := 0;
+end;
+
+function TformTrayslate.HasModifierDoubleHotKeys: boolean;
+const
+  ModKeys = [VK_SHIFT, VK_CONTROL, VK_MENU];
+  Ids: array[0..28] of integer = (
+    HOTKEY_APP, HOTKEY_TRANS_SWAP, HOTKEY_TRANS_FROM_CLIPBOARD,
+    HOTKEY_TRANS_CLIPBOARD, HOTKEY_TRANS_CLIPBOARD_POPUP,
+    HOTKEY_TRANS_FROM_CONTROL, HOTKEY_TRANS_CONTROL,
+    HOTKEY_TRANS_CONTROL_POPUP, HOTKEY_TRANS_OCR,
+    HOTKEY_FAST_ALLOW_HOTKEYS, HOTKEY_FAST_ENABLE_MOUSEMODE,
+    HOTKEY_FAST_MOUSEMODE_CTRL, HOTKEY_FAST_AUTO_SWAP,
+    HOTKEY_FAST_AUTO_ADD_LANG_PAIRS, HOTKEY_FAST_REAL_TIME,
+    HOTKEY_FAST_AUTO_COPY, HOTKEY_FAST_VERTICAL_SPLIT,
+    HOTKEY_FAST_AUTO_HEIGHT, HOTKEY_FAST_HIDE_CONTROLS,
+    HOTKEY_FAST_SPELL_CHECK,
+    HOTKEY_RECENT1, HOTKEY_RECENT2, HOTKEY_RECENT3,
+    HOTKEY_RECENT4, HOTKEY_RECENT5, HOTKEY_RECENT6,
+    HOTKEY_RECENT7, HOTKEY_RECENT8, HOTKEY_RECENT9);
+var
+  i: integer;
+  HK: THotKeyData;
+begin
+  for i := Low(Ids) to High(Ids) do
+  begin
+    HK := GetHotKeyDataById(Ids[i]);
+    if HK.Double and (HK.Key in ModKeys) then
+      Exit(True);
+  end;
+  Result := False;
 end;
 
 {$ENDIF}
@@ -3457,7 +3665,7 @@ begin
     FEnableMouseMode := Value;
     if OldValue <> Value then
     begin
-      FKeyHook.Enabled := EnableMouseMode;
+      FKeyHook.Enabled := EnableMouseMode or HasModifierDoubleHotKeys;
       UpdateMouseHookState;
       SetTrayIcon;
     end;
@@ -3480,7 +3688,7 @@ begin
     FMouseModeCtrl := Value;
     if OldValue <> Value then
     begin
-      FKeyHook.Enabled := EnableMouseMode;
+      FKeyHook.Enabled := EnableMouseMode or HasModifierDoubleHotKeys;
       UpdateMouseHookState;
       SetTrayIcon;
     end;
@@ -3973,121 +4181,95 @@ end;
 
 procedure TFormTrayslate.SetDefaultHotKeys;
 begin
+  // Defaults never use the double press flag, so build each record via
+  // Create - it also resets Double which a plain field assign leaves intact
+
   // Ctrl+Shift+A
-  FHotKeyApp.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyApp.Key := Ord('A');
+  FHotKeyApp := THotKeyData.Create(Ord('A'), MOD_CONTROL or MOD_SHIFT);
 
   // Ctrl+Shift+S
-  FHotKeyTransSwap.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyTransSwap.Key := Ord('S');
+  FHotKeyTransSwap := THotKeyData.Create(Ord('S'), MOD_CONTROL or MOD_SHIFT);
 
   // Ctrl+Shift+T
-  FHotKeyTransFromClipboard.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyTransFromClipboard.Key := Ord('T');
+  FHotKeyTransFromClipboard := THotKeyData.Create(Ord('T'), MOD_CONTROL or MOD_SHIFT);
 
   // Ctrl+Shift+R
-  FHotKeyTransClipboard.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyTransClipboard.Key := Ord('R');
+  FHotKeyTransClipboard := THotKeyData.Create(Ord('R'), MOD_CONTROL or MOD_SHIFT);
 
   // Ctrl+Shift+P
-  FHotKeyTransClipboardPopup.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyTransClipboardPopup.Key := Ord('P');
+  FHotKeyTransClipboardPopup := THotKeyData.Create(Ord('P'), MOD_CONTROL or MOD_SHIFT);
 
   // Ctrl+Shift+C
-  FHotKeyTransFromControl.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyTransFromControl.Key := Ord('C');
+  FHotKeyTransFromControl := THotKeyData.Create(Ord('C'), MOD_CONTROL or MOD_SHIFT);
 
   // Ctrl+Shift+V
-  FHotKeyTransControl.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyTransControl.Key := Ord('V');
+  FHotKeyTransControl := THotKeyData.Create(Ord('V'), MOD_CONTROL or MOD_SHIFT);
 
   // Ctrl+Shift+X
-  FHotKeyTransControlPopup.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyTransControlPopup.Key := Ord('X');
+  FHotKeyTransControlPopup := THotKeyData.Create(Ord('X'), MOD_CONTROL or MOD_SHIFT);
 
   // Ctrl+Shift+O
-  FHotKeyTransOCR.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyTransOCR.Key := Ord('O');
+  FHotKeyTransOCR := THotKeyData.Create(Ord('O'), MOD_CONTROL or MOD_SHIFT);
 
   // Alt+F1
-  FHotKeyFastAllowHotKeys.Modifiers := MOD_SHIFT;
-  FHotKeyFastAllowHotKeys.Key := VK_F1;
+  FHotKeyFastAllowHotKeys := THotKeyData.Create(VK_F1, MOD_SHIFT);
 
   // Alt+F2
-  FHotKeyFastEnableMouseMode.Modifiers := MOD_SHIFT;
-  FHotKeyFastEnableMouseMode.Key := VK_F2;
+  FHotKeyFastEnableMouseMode := THotKeyData.Create(VK_F2, MOD_SHIFT);
 
   // Alt+F3
-  FHotKeyFastMouseModeCtrl.Modifiers := MOD_SHIFT;
-  FHotKeyFastMouseModeCtrl.Key := VK_F3;
+  FHotKeyFastMouseModeCtrl := THotKeyData.Create(VK_F3, MOD_SHIFT);
 
   // Alt+F4
-  FHotKeyFastAutoSwap.Modifiers := MOD_SHIFT;
-  FHotKeyFastAutoSwap.Key := VK_F4;
+  FHotKeyFastAutoSwap := THotKeyData.Create(VK_F4, MOD_SHIFT);
 
   // Alt+F5
-  FHotKeyFastAutoAddLangPairs.Modifiers := MOD_SHIFT;
-  FHotKeyFastAutoAddLangPairs.Key := VK_F5;
+  FHotKeyFastAutoAddLangPairs := THotKeyData.Create(VK_F5, MOD_SHIFT);
 
   // Alt+F6
-  FHotKeyFastRealTime.Modifiers := MOD_SHIFT;
-  FHotKeyFastRealTime.Key := VK_F6;
+  FHotKeyFastRealTime := THotKeyData.Create(VK_F6, MOD_SHIFT);
 
   // Alt+F7
-  FHotKeyFastAutoCopy.Modifiers := MOD_SHIFT;
-  FHotKeyFastAutoCopy.Key := VK_F7;
+  FHotKeyFastAutoCopy := THotKeyData.Create(VK_F7, MOD_SHIFT);
 
   // Alt+F8
-  FHotKeyFastVerticalSplit.Modifiers := MOD_SHIFT;
-  FHotKeyFastVerticalSplit.Key := VK_F8;
+  FHotKeyFastVerticalSplit := THotKeyData.Create(VK_F8, MOD_SHIFT);
 
   // Alt+F9
-  FHotKeyFastAutoHide.Modifiers := MOD_SHIFT;
-  FHotKeyFastAutoHide.Key := VK_F9;
+  FHotKeyFastAutoHide := THotKeyData.Create(VK_F9, MOD_SHIFT);
 
   // Alt+F10
-  FHotKeyFastAutoHeight.Modifiers := MOD_SHIFT;
-  FHotKeyFastAutoHeight.Key := VK_F10;
+  FHotKeyFastAutoHeight := THotKeyData.Create(VK_F10, MOD_SHIFT);
 
   // Alt+F11
-  FHotKeyFastSpellCheck.Modifiers := MOD_SHIFT;
-  FHotKeyFastSpellCheck.Key := VK_F11;
+  FHotKeyFastSpellCheck := THotKeyData.Create(VK_F11, MOD_SHIFT);
 
   // Ctrl+Shift+1
-  FHotKeyRecent1.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyRecent1.Key := Ord('1');
+  FHotKeyRecent1 := THotKeyData.Create(Ord('1'), MOD_CONTROL or MOD_SHIFT);
 
   // Ctrl+Shift+2
-  FHotKeyRecent2.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyRecent2.Key := Ord('2');
+  FHotKeyRecent2 := THotKeyData.Create(Ord('2'), MOD_CONTROL or MOD_SHIFT);
 
   // Ctrl+Shift+3
-  FHotKeyRecent3.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyRecent3.Key := Ord('3');
+  FHotKeyRecent3 := THotKeyData.Create(Ord('3'), MOD_CONTROL or MOD_SHIFT);
 
   // Ctrl+Shift+4
-  FHotKeyRecent4.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyRecent4.Key := Ord('4');
+  FHotKeyRecent4 := THotKeyData.Create(Ord('4'), MOD_CONTROL or MOD_SHIFT);
 
   // Ctrl+Shift+5
-  FHotKeyRecent5.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyRecent5.Key := Ord('5');
+  FHotKeyRecent5 := THotKeyData.Create(Ord('5'), MOD_CONTROL or MOD_SHIFT);
 
   // Ctrl+Shift+6
-  FHotKeyRecent6.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyRecent6.Key := Ord('6');
+  FHotKeyRecent6 := THotKeyData.Create(Ord('6'), MOD_CONTROL or MOD_SHIFT);
 
   // Ctrl+Shift+7
-  FHotKeyRecent7.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyRecent7.Key := Ord('7');
+  FHotKeyRecent7 := THotKeyData.Create(Ord('7'), MOD_CONTROL or MOD_SHIFT);
 
   // Ctrl+Shift+8
-  FHotKeyRecent8.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyRecent8.Key := Ord('8');
+  FHotKeyRecent8 := THotKeyData.Create(Ord('8'), MOD_CONTROL or MOD_SHIFT);
 
   // Ctrl+Shift+9
-  FHotKeyRecent9.Modifiers := MOD_CONTROL or MOD_SHIFT;
-  FHotKeyRecent9.Key := Ord('9');
+  FHotKeyRecent9 := THotKeyData.Create(Ord('9'), MOD_CONTROL or MOD_SHIFT);
 end;
 
 procedure TformTrayslate.RebuildLangPairsPanel(Data: PtrInt);
@@ -4592,7 +4774,7 @@ begin
 
   if AEnabled then
   begin
-    KeyHook.Enabled := FEnableMouseMode;
+    KeyHook.Enabled := FEnableMouseMode or HasModifierDoubleHotKeys;
     UpdateMouseHookState;
     if ReenableHotKeys then
       RegisterHotKeys;

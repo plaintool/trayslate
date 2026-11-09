@@ -74,6 +74,7 @@ const
 const
   DOUBLE_ENTER_INTERVAL = 200; // ms
   HOTKEY_INTERVAL = 100; // ms
+  HOTKEY_DBL_INTERVAL = 300; // ms (interval between the two presses of a double hotkey)
   MOUSE_MODE_INTERVAL = 100; // ms
   MOUSE_MODE_DELTA = 10; // pixel
   MOUSE_DBL_INTERVAL = 500; // ms
