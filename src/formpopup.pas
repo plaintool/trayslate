@@ -176,6 +176,10 @@ begin
       FormStyle := fsNormal;
   end;
 
+  // Allocate the handle first so DisableBuiltInDragDrop can revoke the
+  // Richedit built-in drop target, which only exists after WM_CREATE
+  MemoTarget.HandleNeeded;
+
   MemoTarget.DisableBuiltInDragDrop;
   MemoTarget.EnableSmartSelection;
   FDropTarget := TTextDropTarget.Create(Self);
