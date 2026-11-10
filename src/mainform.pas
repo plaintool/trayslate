@@ -5203,11 +5203,13 @@ begin
 
   Config := FLangPairs.Names[LangPairIndex];
 
-  // If config changed - reload; ConfigFile setter already loads the INI,
-  // LoadConfig refreshes the UI state without reloading the file
+  // If config changed - reload the INI and UI state; the setter is silent,
+  // so LoadConfig must be called here explicitly to avoid a duplicate load
+  // from ConfigManagerSelect
   if FConfigFile <> Config then
   begin
     ConfigFile := Config;
+    LoadConfig;
 
     try
       ConfigManager.UpdateConfigEditor;
