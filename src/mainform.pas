@@ -3392,6 +3392,8 @@ begin
 end;
 
 procedure TformTrayslate.TranslateHistoryItem(Sender: TObject; AItem: THistoryItem);
+var
+  Idx: integer;
 begin
   if AItem = nil then
   begin
@@ -3427,8 +3429,26 @@ begin
   // RichMemo hook re-scans the new text with the correct dictionary
   UpdateSpellCheck;
 
+  // History stores the value side of Languages key=value pairs; for configs
+  // where the value is long text (e.g. AI prompts) the code lookup fails, so
+  // fall back to FindEqualIndex to map the value back to the list position
   TLanguages.SetComboBoxByCode(ComboSource, AItem.SourceLang);
+  if ComboSource.ItemIndex < 0 then
+  begin
+    Idx := Translate.Languages.FindEqualIndex(AItem.SourceLang);
+    if (Idx >= 0) and (Idx < ComboSource.Items.Count) then
+      ComboSource.ItemIndex := Idx;
+  end;
   TLanguages.SetComboBoxByCode(ComboTarget, AItem.TargetLang);
+  if ComboTarget.ItemIndex < 0 then
+  begin
+    if Translate.LanguagesTarget.Count > 0 then
+      Idx := Translate.LanguagesTarget.FindEqualIndex(AItem.TargetLang)
+    else
+      Idx := Translate.Languages.FindEqualIndex(AItem.TargetLang);
+    if (Idx >= 0) and (Idx < ComboTarget.Items.Count) then
+      ComboTarget.ItemIndex := Idx;
+  end;
   ComboSource.Hint := LongestString([AItem.SourceLang, ComboSource.Text]);
   ComboTarget.Hint := LongestString([AItem.TargetLang, ComboTarget.Text]);
 
