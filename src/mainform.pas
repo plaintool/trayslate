@@ -5665,7 +5665,18 @@ end;
 
 function TformTrayslate.TranslateThread(ATrans: TTranslate; AText: string; AMemo: TRichMemo = nil;
   ADetectLanguage: boolean = True; AAddToHistory: boolean = True): string;
+var
+  IsMainFormTarget: boolean;
 begin
+  IsMainFormTarget := Assigned(AMemo) and (AMemo = MemoTarget);
+
+  // Preserve main form's pending translation before an external (non-main)
+  // translation moves the history position and possibly truncates forward
+  // entries; dedup inside HistoryAdd makes this a no-op when the memos
+  // already match the current history entry
+  if not IsMainFormTarget and AAddToHistory then
+    CommitCurrentTranslation(False);
+
   TranslateTarget := AMemo;
   try
     Result := ATrans.TranslateSync(AText, ADetectLanguage, AAddToHistory);
@@ -5685,7 +5696,10 @@ end;
 procedure TformTrayslate.TransComplete(Sender: TObject; const AText: string);
 var
   Zoom: double;
+  IsMainFormTarget: boolean;
 begin
+  IsMainFormTarget := Assigned(TranslateTarget) and (TranslateTarget = MemoTarget);
+
   // Update the translate target memo if any
   if Assigned(TranslateTarget) and (TranslateTarget is TRichMemo) then
   begin
@@ -5694,6 +5708,12 @@ begin
     UpdateMemoState(TranslateTarget as TRichMemo);
     (TranslateTarget as TRichMemo).ZoomFactor := Zoom;
   end;
+
+  // For non-main translations (popup, clipboard, control) the history gained
+  // a new tail entry while the main form still shows an older one; move the
+  // main form to the tail so its memos and nav buttons stay in sync
+  if not IsMainFormTarget and not Translate.HistoryCanNext and (Translate.HistoryCount > 0) then
+    Translate.HistoryLast;
 
   if FAutoCopy then
     Clipboard.AsText := AText;
