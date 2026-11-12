@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-09 15:36-0300\n"
+"PO-Revision-Date: 2026-11-12 19:13-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: ar\n"
@@ -505,63 +505,6 @@ msgstr "الاسم"
 msgid "Value"
 msgstr "القيمة"
 
-#: tformabouttrayslate.buttonok.caption
-msgctxt "tformabouttrayslate.buttonok.caption"
-msgid "OK"
-msgstr "OK"
-
-#: tformabouttrayslate.caption
-msgid "About"
-msgstr "حول"
-
-#: tformabouttrayslate.labelby.caption
-msgid "by Alexander Tverskoy is licensed under"
-msgstr "بواسطة Alexander Tverskoy مرخّص بموجب"
-
-#: tformabouttrayslate.labelby1.caption
-msgid "the GNU General Public License, Version 3"
-msgstr "رخصة GNU العامة، الإصدار 3"
-
-#: tformabouttrayslate.labellic.caption
-msgid "For questions or feedback, contact me at"
-msgstr "للأسئلة أو الملاحظات، تواصل معي على"
-
-#: tformabouttrayslate.labelname.caption
-msgid "Trayslate © 2026"
-msgstr "Trayslate © 2026"
-
-#: tformabouttrayslate.labelurlemail.caption
-msgctxt "tformabouttrayslate.labelurlemail.caption"
-msgid "astverskoy@gmail.com"
-msgstr "astverskoy@gmail.com"
-
-#: tformabouttrayslate.labelurlemail.hint
-msgctxt "tformabouttrayslate.labelurlemail.hint"
-msgid "mailto:astverskoy@gmail.com"
-msgstr "mailto:astverskoy@gmail.com"
-
-#: tformabouttrayslate.labelurlgithub.caption
-msgid "github: plaintool/trayslate"
-msgstr "github: plaintool/trayslate"
-
-#: tformabouttrayslate.labelurlgithub.hint
-msgid "https://github.com/plaintool/trayslate"
-msgstr "https://github.com/plaintool/trayslate"
-
-#: tformabouttrayslate.labelversion.caption
-msgid "Version"
-msgstr "الإصدار"
-
-#: tformabouttrayslate.lblabout.caption
-msgid ""
-"Trayslate is a tray-based client for translation services. You can enter text directly, translate clipboard content, or translate selected text in any application. You can also replace text in another app with its translation using a hotkey. The app lets you choose and fully configure the translation service you use.\n"
-"\n"
-"See THIRD_PARTIES for third-party licenses and notices."
-msgstr ""
-"Trayslate هو عميل يعمل من منطقة الإعلام لخدمات الترجمة. يمكنك إدخال النص مباشرةً، أو ترجمة محتوى الحافظة، أو ترجمة النص المحدد في أي تطبيق. يمكنك أيضًا استبدال النص في تطبيق آخر بترجمته باستخدام مفتاح اختصار. يتيح لك التطبيق اختيار خدمة الترجمة التي تستخدمها وتكوينها بالكامل.\n"
-"\n"
-"راجع THIRD_PARTIES للحصول على تراخيص وإشعارات الجهات الخارجية."
-
 #: tformbuttontrayslate.imagetranslate.hint
 msgctxt "tformbuttontrayslate.imagetranslate.hint"
 msgid "Translate in Popup"
@@ -585,50 +528,6 @@ msgstr "ترجمة المحدد إلى النافذة الرئيسية"
 msgctxt "tformbuttontrayslate.menutranslatefromcontrolpopup.caption"
 msgid "Translate Selected To Popup"
 msgstr "ترجمة المحدد إلى النافذة المنبثقة"
-
-#: tformdonatetrayslate.btnok.caption
-msgctxt "tformdonatetrayslate.btnok.caption"
-msgid "OK"
-msgstr "OK"
-
-#: tformdonatetrayslate.caption
-msgid "Buy me a coffee"
-msgstr "ادعم المشروع"
-
-#: tformdonatetrayslate.labelbank.caption
-msgctxt "tformdonatetrayslate.labelbank.caption"
-msgid "Donate with Bank Card or PayPal"
-msgstr "تبرع ببطاقة مصرفية أو PayPal"
-
-#: tformdonatetrayslate.labelbank.hint
-msgctxt "tformdonatetrayslate.labelbank.hint"
-msgid "https://app.lava.top/en/astverskoy?tabId=about&currency=EUR"
-msgstr "https://app.lava.top/en/astverskoy?tabId=about&currency=EUR"
-
-#: tformdonatetrayslate.labelcontribution.caption
-msgctxt "tformdonatetrayslate.labelcontribution.caption"
-msgid "Every contribution helps keep the project active and moving forward. Thank you for your support!"
-msgstr "كل مساهمة تساعد في استمرار المشروع وتطويره. شكراً لدعمك!"
-
-#: tformdonatetrayslate.labelcrypto.caption
-msgctxt "tformdonatetrayslate.labelcrypto.caption"
-msgid "Donate with Cryptocurrency"
-msgstr "تبرع بالعملات الرقمية"
-
-#: tformdonatetrayslate.labelcrypto.hint
-msgctxt "tformdonatetrayslate.labelcrypto.hint"
-msgid "https://nowpayments.io/donation/astverskoy"
-msgstr "https://nowpayments.io/donation/astverskoy"
-
-#: tformdonatetrayslate.labeldonate.caption
-msgctxt "tformdonatetrayslate.labeldonate.caption"
-msgid "Hey there! Fuel this passion project with a little caffeine boost! Every donation helps keep the code rolling and the coffee brewing. Thanks for supporting the work and the developer behind it!"
-msgstr "مرحباً! ادعم هذا المشروع العاطفي بقليل من الكافيين! كل تبرع يساعد في استمرار الكود وتخمير القهوة. شكراً لدعمك العمل والمطور وراءه!"
-
-#: tformdonatetrayslate.labelsupport.caption
-msgctxt "tformdonatetrayslate.labelsupport.caption"
-msgid "You can support development through one of the following options:"
-msgstr "يمكنك دعم التطوير عبر أحد الخيارات التالية:"
 
 #: tformpopuptrayslate.aapplyautoheight.caption
 msgid "Apply Auto Height"
@@ -1579,6 +1478,121 @@ msgstr "لصق"
 msgctxt "tformtrayslate.apopuptranslate.caption"
 msgid "Translate In Popup"
 msgstr "الترجمة في نافذة منبثقة"
+
+#: tformtrayslate.appdialogs.aboutdialog.abouttext
+msgctxt "tformtrayslate.appdialogs.aboutdialog.abouttext"
+msgid ""
+"Trayslate is a tray-based client for translation services. You can enter text directly, translate clipboard content, or translate selected text in any application. You can also replace text in another app with its translation using a hotkey. The app lets you choose and fully configure the translation service you use.\n"
+"\n"
+"See THIRD_PARTIES for third-party licenses and notices."
+msgstr ""
+"Trayslate هو عميل يعمل من منطقة الإعلام لخدمات الترجمة. يمكنك إدخال النص مباشرةً، أو ترجمة محتوى الحافظة، أو ترجمة النص المحدد في أي تطبيق. يمكنك أيضًا استبدال النص في تطبيق آخر بترجمته باستخدام مفتاح اختصار. يتيح لك التطبيق اختيار خدمة الترجمة التي تستخدمها وتكوينها بالكامل.\n"
+"\n"
+"راجع THIRD_PARTIES للحصول على تراخيص وإشعارات الجهات الخارجية."
+
+#: tformtrayslate.appdialogs.aboutdialog.appname
+msgctxt "tformtrayslate.appdialogs.aboutdialog.appname"
+msgid "Trayslate"
+msgstr "Trayslate"
+
+#: tformtrayslate.appdialogs.aboutdialog.caption
+msgctxt "tformtrayslate.appdialogs.aboutdialog.caption"
+msgid "About"
+msgstr "حول"
+
+#: tformtrayslate.appdialogs.aboutdialog.contactline
+msgctxt "tformtrayslate.appdialogs.aboutdialog.contactline"
+msgid "For questions or feedback, contact me at"
+msgstr "للأسئلة أو الملاحظات، تواصل معي على"
+
+#: tformtrayslate.appdialogs.aboutdialog.copyright
+msgid "© 2026"
+msgstr "© 2026"
+
+#: tformtrayslate.appdialogs.aboutdialog.emailcaption
+msgctxt "tformtrayslate.appdialogs.aboutdialog.emailcaption"
+msgid "astverskoy@gmail.com"
+msgstr "astverskoy@gmail.com"
+
+#: tformtrayslate.appdialogs.aboutdialog.emailurl
+msgctxt "tformtrayslate.appdialogs.aboutdialog.emailurl"
+msgid "mailto:astverskoy@gmail.com"
+msgstr "mailto:astverskoy@gmail.com"
+
+#: tformtrayslate.appdialogs.aboutdialog.githubcaption
+msgctxt "tformtrayslate.appdialogs.aboutdialog.githubcaption"
+msgid "github: plaintool/trayslate"
+msgstr "github: plaintool/trayslate"
+
+#: tformtrayslate.appdialogs.aboutdialog.githuburl
+msgctxt "tformtrayslate.appdialogs.aboutdialog.githuburl"
+msgid "https://github.com/plaintool/trayslate"
+msgstr "https://github.com/plaintool/trayslate"
+
+#: tformtrayslate.appdialogs.aboutdialog.licenseline1
+msgctxt "tformtrayslate.appdialogs.aboutdialog.licenseline1"
+msgid "by Alexander Tverskoy is licensed under"
+msgstr "بواسطة Alexander Tverskoy مرخّص بموجب"
+
+#: tformtrayslate.appdialogs.aboutdialog.licenseline2
+msgctxt "tformtrayslate.appdialogs.aboutdialog.licenseline2"
+msgid "the GNU General Public License, Version 3"
+msgstr "رخصة GNU العامة، الإصدار 3"
+
+#: tformtrayslate.appdialogs.aboutdialog.okcaption
+msgctxt "tformtrayslate.appdialogs.aboutdialog.okcaption"
+msgid "OK"
+msgstr "OK"
+
+#: tformtrayslate.appdialogs.aboutdialog.version
+msgctxt "tformtrayslate.appdialogs.aboutdialog.version"
+msgid "Version"
+msgstr "الإصدار"
+
+#: tformtrayslate.appdialogs.donatedialog.bankcaption
+msgctxt "tformtrayslate.appdialogs.donatedialog.bankcaption"
+msgid "Donate with Bank Card or PayPal"
+msgstr "تبرع ببطاقة مصرفية أو PayPal"
+
+#: tformtrayslate.appdialogs.donatedialog.bankurl
+msgctxt "tformtrayslate.appdialogs.donatedialog.bankurl"
+msgid "https://app.lava.top/en/astverskoy?tabId=about&currency=EUR"
+msgstr "https://app.lava.top/en/astverskoy?tabId=about&currency=EUR"
+
+#: tformtrayslate.appdialogs.donatedialog.caption
+msgctxt "tformtrayslate.appdialogs.donatedialog.caption"
+msgid "Buy me a coffee"
+msgstr "ادعم المشروع"
+
+#: tformtrayslate.appdialogs.donatedialog.contribution
+msgctxt "tformtrayslate.appdialogs.donatedialog.contribution"
+msgid "Every contribution helps keep the project active and moving forward. Thank you for your support!"
+msgstr "كل مساهمة تساعد في استمرار المشروع وتطويره. شكراً لدعمك!"
+
+#: tformtrayslate.appdialogs.donatedialog.cryptocaption
+msgctxt "tformtrayslate.appdialogs.donatedialog.cryptocaption"
+msgid "Donate with Cryptocurrency"
+msgstr "تبرع بالعملات الرقمية"
+
+#: tformtrayslate.appdialogs.donatedialog.cryptourl
+msgctxt "tformtrayslate.appdialogs.donatedialog.cryptourl"
+msgid "https://nowpayments.io/donation/astverskoy"
+msgstr "https://nowpayments.io/donation/astverskoy"
+
+#: tformtrayslate.appdialogs.donatedialog.header
+msgctxt "tformtrayslate.appdialogs.donatedialog.header"
+msgid "Hey there! Fuel this passion project with a little caffeine boost! Every donation helps keep the code rolling and the coffee brewing. Thanks for supporting the work and the developer behind it!"
+msgstr "مرحباً! ادعم هذا المشروع العاطفي بقليل من الكافيين! كل تبرع يساعد في استمرار الكود وتخمير القهوة. شكراً لدعمك العمل والمطور وراءه!"
+
+#: tformtrayslate.appdialogs.donatedialog.okcaption
+msgctxt "tformtrayslate.appdialogs.donatedialog.okcaption"
+msgid "OK"
+msgstr "OK"
+
+#: tformtrayslate.appdialogs.donatedialog.supportline
+msgctxt "tformtrayslate.appdialogs.donatedialog.supportline"
+msgid "You can support development through one of the following options:"
+msgstr "يمكنك دعم التطوير عبر أحد الخيارات التالية:"
 
 #: tformtrayslate.aselectall.caption
 msgctxt "tformtrayslate.aselectall.caption"

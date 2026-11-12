@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-09 15:36-0300\n"
+"PO-Revision-Date: 2026-11-12 19:13-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: ko\n"
@@ -505,63 +505,6 @@ msgstr "이름"
 msgid "Value"
 msgstr "값"
 
-#: tformabouttrayslate.buttonok.caption
-msgctxt "tformabouttrayslate.buttonok.caption"
-msgid "OK"
-msgstr "OK"
-
-#: tformabouttrayslate.caption
-msgid "About"
-msgstr "정보"
-
-#: tformabouttrayslate.labelby.caption
-msgid "by Alexander Tverskoy is licensed under"
-msgstr "by Alexander Tverskoy에 의해 다음 라이선스로 제공됨"
-
-#: tformabouttrayslate.labelby1.caption
-msgid "the GNU General Public License, Version 3"
-msgstr "the GNU General Public License, 버전 3"
-
-#: tformabouttrayslate.labellic.caption
-msgid "For questions or feedback, contact me at"
-msgstr "질문이나 피드백은 다음으로 연락하세요"
-
-#: tformabouttrayslate.labelname.caption
-msgid "Trayslate © 2026"
-msgstr "Trayslate © 2026"
-
-#: tformabouttrayslate.labelurlemail.caption
-msgctxt "tformabouttrayslate.labelurlemail.caption"
-msgid "astverskoy@gmail.com"
-msgstr "astverskoy@gmail.com"
-
-#: tformabouttrayslate.labelurlemail.hint
-msgctxt "tformabouttrayslate.labelurlemail.hint"
-msgid "mailto:astverskoy@gmail.com"
-msgstr "mailto:astverskoy@gmail.com"
-
-#: tformabouttrayslate.labelurlgithub.caption
-msgid "github: plaintool/trayslate"
-msgstr "github: plaintool/trayslate"
-
-#: tformabouttrayslate.labelurlgithub.hint
-msgid "https://github.com/plaintool/trayslate"
-msgstr "https://github.com/plaintool/trayslate"
-
-#: tformabouttrayslate.labelversion.caption
-msgid "Version"
-msgstr "버전"
-
-#: tformabouttrayslate.lblabout.caption
-msgid ""
-"Trayslate is a tray-based client for translation services. You can enter text directly, translate clipboard content, or translate selected text in any application. You can also replace text in another app with its translation using a hotkey. The app lets you choose and fully configure the translation service you use.\n"
-"\n"
-"See THIRD_PARTIES for third-party licenses and notices."
-msgstr ""
-"Trayslate는 시스템 트레이에서 사용할 수 있는 번역 서비스 클라이언트입니다. 텍스트를 직접 입력하거나 클립보드 내용을 번역하거나 모든 애플리케이션에서 선택한 텍스트를 번역할 수 있습니다. 또한 단축키를 사용하여 다른 앱의 텍스트를 해당 번역으로 바꿀 수도 있습니다. 사용하는 번역 서비스를 선택하고 모든 설정을 직접 구성할 수 있습니다.\n"
-"\n"
-"타사 라이선스 및 고지 사항은 THIRD_PARTIES를 참조하세요."
-
 #: tformbuttontrayslate.imagetranslate.hint
 msgctxt "tformbuttontrayslate.imagetranslate.hint"
 msgid "Translate in Popup"
@@ -585,50 +528,6 @@ msgstr "선택한 내용을 기본 창으로 번역"
 msgctxt "tformbuttontrayslate.menutranslatefromcontrolpopup.caption"
 msgid "Translate Selected To Popup"
 msgstr "선택한 내용을 팝업으로 번역"
-
-#: tformdonatetrayslate.btnok.caption
-msgctxt "tformdonatetrayslate.btnok.caption"
-msgid "OK"
-msgstr "OK"
-
-#: tformdonatetrayslate.caption
-msgid "Buy me a coffee"
-msgstr "프로젝트 후원"
-
-#: tformdonatetrayslate.labelbank.caption
-msgctxt "tformdonatetrayslate.labelbank.caption"
-msgid "Donate with Bank Card or PayPal"
-msgstr "은행 카드 또는 PayPal로 후원"
-
-#: tformdonatetrayslate.labelbank.hint
-msgctxt "tformdonatetrayslate.labelbank.hint"
-msgid "https://app.lava.top/en/astverskoy?tabId=about&currency=EUR"
-msgstr "https://app.lava.top/en/astverskoy?tabId=about&currency=EUR"
-
-#: tformdonatetrayslate.labelcontribution.caption
-msgctxt "tformdonatetrayslate.labelcontribution.caption"
-msgid "Every contribution helps keep the project active and moving forward. Thank you for your support!"
-msgstr "모든 후원은 프로젝트를 계속 발전시키는 데 도움이 됩니다. 지원해 주셔서 감사합니다!"
-
-#: tformdonatetrayslate.labelcrypto.caption
-msgctxt "tformdonatetrayslate.labelcrypto.caption"
-msgid "Donate with Cryptocurrency"
-msgstr "암호화폐로 후원"
-
-#: tformdonatetrayslate.labelcrypto.hint
-msgctxt "tformdonatetrayslate.labelcrypto.hint"
-msgid "https://nowpayments.io/donation/astverskoy"
-msgstr "https://nowpayments.io/donation/astverskoy"
-
-#: tformdonatetrayslate.labeldonate.caption
-msgctxt "tformdonatetrayslate.labeldonate.caption"
-msgid "Hey there! Fuel this passion project with a little caffeine boost! Every donation helps keep the code rolling and the coffee brewing. Thanks for supporting the work and the developer behind it!"
-msgstr "안녕하세요! 이 열정적인 프로젝트에 약간의 카페인 충전으로 힘을 실어주세요! 모든 후원은 코드를 유지하고 커피를 내리는 데 도움이 됩니다. 작품과 그 뒤의 개발자를 지원해 주셔서 감사합니다!"
-
-#: tformdonatetrayslate.labelsupport.caption
-msgctxt "tformdonatetrayslate.labelsupport.caption"
-msgid "You can support development through one of the following options:"
-msgstr "다음 방법 중 하나로 개발을 지원할 수 있습니다:"
 
 #: tformpopuptrayslate.aapplyautoheight.caption
 msgid "Apply Auto Height"
@@ -1579,6 +1478,121 @@ msgstr "붙여넣기"
 msgctxt "tformtrayslate.apopuptranslate.caption"
 msgid "Translate In Popup"
 msgstr "팝업에서 번역"
+
+#: tformtrayslate.appdialogs.aboutdialog.abouttext
+msgctxt "tformtrayslate.appdialogs.aboutdialog.abouttext"
+msgid ""
+"Trayslate is a tray-based client for translation services. You can enter text directly, translate clipboard content, or translate selected text in any application. You can also replace text in another app with its translation using a hotkey. The app lets you choose and fully configure the translation service you use.\n"
+"\n"
+"See THIRD_PARTIES for third-party licenses and notices."
+msgstr ""
+"Trayslate는 시스템 트레이에서 사용할 수 있는 번역 서비스 클라이언트입니다. 텍스트를 직접 입력하거나 클립보드 내용을 번역하거나 모든 애플리케이션에서 선택한 텍스트를 번역할 수 있습니다. 또한 단축키를 사용하여 다른 앱의 텍스트를 해당 번역으로 바꿀 수도 있습니다. 사용하는 번역 서비스를 선택하고 모든 설정을 직접 구성할 수 있습니다.\n"
+"\n"
+"타사 라이선스 및 고지 사항은 THIRD_PARTIES를 참조하세요."
+
+#: tformtrayslate.appdialogs.aboutdialog.appname
+msgctxt "tformtrayslate.appdialogs.aboutdialog.appname"
+msgid "Trayslate"
+msgstr "Trayslate"
+
+#: tformtrayslate.appdialogs.aboutdialog.caption
+msgctxt "tformtrayslate.appdialogs.aboutdialog.caption"
+msgid "About"
+msgstr "정보"
+
+#: tformtrayslate.appdialogs.aboutdialog.contactline
+msgctxt "tformtrayslate.appdialogs.aboutdialog.contactline"
+msgid "For questions or feedback, contact me at"
+msgstr "질문이나 피드백은 다음으로 연락하세요"
+
+#: tformtrayslate.appdialogs.aboutdialog.copyright
+msgid "© 2026"
+msgstr "© 2026"
+
+#: tformtrayslate.appdialogs.aboutdialog.emailcaption
+msgctxt "tformtrayslate.appdialogs.aboutdialog.emailcaption"
+msgid "astverskoy@gmail.com"
+msgstr "astverskoy@gmail.com"
+
+#: tformtrayslate.appdialogs.aboutdialog.emailurl
+msgctxt "tformtrayslate.appdialogs.aboutdialog.emailurl"
+msgid "mailto:astverskoy@gmail.com"
+msgstr "mailto:astverskoy@gmail.com"
+
+#: tformtrayslate.appdialogs.aboutdialog.githubcaption
+msgctxt "tformtrayslate.appdialogs.aboutdialog.githubcaption"
+msgid "github: plaintool/trayslate"
+msgstr "github: plaintool/trayslate"
+
+#: tformtrayslate.appdialogs.aboutdialog.githuburl
+msgctxt "tformtrayslate.appdialogs.aboutdialog.githuburl"
+msgid "https://github.com/plaintool/trayslate"
+msgstr "https://github.com/plaintool/trayslate"
+
+#: tformtrayslate.appdialogs.aboutdialog.licenseline1
+msgctxt "tformtrayslate.appdialogs.aboutdialog.licenseline1"
+msgid "by Alexander Tverskoy is licensed under"
+msgstr "by Alexander Tverskoy에 의해 다음 라이선스로 제공됨"
+
+#: tformtrayslate.appdialogs.aboutdialog.licenseline2
+msgctxt "tformtrayslate.appdialogs.aboutdialog.licenseline2"
+msgid "the GNU General Public License, Version 3"
+msgstr "the GNU General Public License, 버전 3"
+
+#: tformtrayslate.appdialogs.aboutdialog.okcaption
+msgctxt "tformtrayslate.appdialogs.aboutdialog.okcaption"
+msgid "OK"
+msgstr "OK"
+
+#: tformtrayslate.appdialogs.aboutdialog.version
+msgctxt "tformtrayslate.appdialogs.aboutdialog.version"
+msgid "Version"
+msgstr "버전"
+
+#: tformtrayslate.appdialogs.donatedialog.bankcaption
+msgctxt "tformtrayslate.appdialogs.donatedialog.bankcaption"
+msgid "Donate with Bank Card or PayPal"
+msgstr "은행 카드 또는 PayPal로 후원"
+
+#: tformtrayslate.appdialogs.donatedialog.bankurl
+msgctxt "tformtrayslate.appdialogs.donatedialog.bankurl"
+msgid "https://app.lava.top/en/astverskoy?tabId=about&currency=EUR"
+msgstr "https://app.lava.top/en/astverskoy?tabId=about&currency=EUR"
+
+#: tformtrayslate.appdialogs.donatedialog.caption
+msgctxt "tformtrayslate.appdialogs.donatedialog.caption"
+msgid "Buy me a coffee"
+msgstr "프로젝트 후원"
+
+#: tformtrayslate.appdialogs.donatedialog.contribution
+msgctxt "tformtrayslate.appdialogs.donatedialog.contribution"
+msgid "Every contribution helps keep the project active and moving forward. Thank you for your support!"
+msgstr "모든 후원은 프로젝트를 계속 발전시키는 데 도움이 됩니다. 지원해 주셔서 감사합니다!"
+
+#: tformtrayslate.appdialogs.donatedialog.cryptocaption
+msgctxt "tformtrayslate.appdialogs.donatedialog.cryptocaption"
+msgid "Donate with Cryptocurrency"
+msgstr "암호화폐로 후원"
+
+#: tformtrayslate.appdialogs.donatedialog.cryptourl
+msgctxt "tformtrayslate.appdialogs.donatedialog.cryptourl"
+msgid "https://nowpayments.io/donation/astverskoy"
+msgstr "https://nowpayments.io/donation/astverskoy"
+
+#: tformtrayslate.appdialogs.donatedialog.header
+msgctxt "tformtrayslate.appdialogs.donatedialog.header"
+msgid "Hey there! Fuel this passion project with a little caffeine boost! Every donation helps keep the code rolling and the coffee brewing. Thanks for supporting the work and the developer behind it!"
+msgstr "안녕하세요! 이 열정적인 프로젝트에 약간의 카페인 충전으로 힘을 실어주세요! 모든 후원은 코드를 유지하고 커피를 내리는 데 도움이 됩니다. 작품과 그 뒤의 개발자를 지원해 주셔서 감사합니다!"
+
+#: tformtrayslate.appdialogs.donatedialog.okcaption
+msgctxt "tformtrayslate.appdialogs.donatedialog.okcaption"
+msgid "OK"
+msgstr "OK"
+
+#: tformtrayslate.appdialogs.donatedialog.supportline
+msgctxt "tformtrayslate.appdialogs.donatedialog.supportline"
+msgid "You can support development through one of the following options:"
+msgstr "다음 방법 중 하나로 개발을 지원할 수 있습니다:"
 
 #: tformtrayslate.aselectall.caption
 msgctxt "tformtrayslate.aselectall.caption"

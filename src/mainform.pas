@@ -45,7 +45,8 @@ uses
   OneShotTimer,
   GlobalKeyboardHook,
   GlobalMouseHook,
-  FormGrip,
+  FormGrip, 
+  AppDialogs,
   Translate,
   ConfigManager,
   Network,
@@ -78,6 +79,7 @@ type
     aHistoryClear: TAction;
     aHistoryNext: TAction;
     aHistoryPrev: TAction;
+    AppDialogs: TAppDialogs;
     aTranslateOCR: TAction;
     aDefaultZoom: TAction;
     aFastSpellCheck: TAction;
@@ -520,8 +522,6 @@ type
     FFormPopupHeight: integer;
     FFormPopupZoomFactor: double;
     FFormPopupBidiMode: TBiDiMode;
-    FFormAboutWidth: integer;
-    FFormAboutHeight: integer;
     FFormSettingsLeft: integer;
     FFormSettingsTop: integer;
     FFormSettingsWidth: integer;
@@ -783,8 +783,6 @@ type
     property FormSettingsWidth: integer read FFormSettingsWidth write FFormSettingsWidth;
     property FormSettingsHeight: integer read FFormSettingsHeight write FFormSettingsHeight;
     property FormSettingsSplit: integer read FFormSettingsSplit write FFormSettingsSplit;
-    property FormAboutWidth: integer read FFormAboutWidth write FFormAboutWidth;
-    property FormAboutHeight: integer read FFormAboutHeight write FFormAboutHeight;
     property LastDarkMode: boolean read FLastDarkMode write FLastDarkMode;
     property RawTranslate: string read GetRawTranslate;
     property TranslateTarget: TWinControl read FTranslateTarget write SetTranslateTarget;
@@ -829,7 +827,7 @@ var
 
 implementation
 
-uses FormDonate, FormAbout, FormSettings, FormPopup, FormButton, Settings, Languages,
+uses FormSettings, FormPopup, FormButton, Settings, Languages,
   CheckUpdates, Localize, ColorHelper, ControlsHelper, DarkUtils, PascalUtils, FlatButton,
   RichMemoHelper, OneShotThread;
 
@@ -860,8 +858,6 @@ begin
   FFormSettingsWidth := 0;
   FFormSettingsHeight := 0;
   FFormSettingsSplit := 0;
-  FFormAboutWidth := 0;
-  FFormAboutHeight := 0;
   FLastEnterTime := 0;
   FEnterCount := 0;
   FLastHotkeyTime := 0;
@@ -2411,28 +2407,12 @@ end;
 
 procedure TformTrayslate.aDonateExecute(Sender: TObject);
 begin
-  formDonateTrayslate := TformDonateTrayslate.Create(Application);
-  try
-    formDonateTrayslate.ShowModal;
-  finally
-    formDonateTrayslate.Free;
-  end;
+  AppDialogs.ShowDonate;
 end;
 
 procedure TformTrayslate.aAboutExecute(Sender: TObject);
 begin
-  formAboutTrayslate := TformAboutTrayslate.Create(Application);
-
-  if FormAboutWidth > 0 then
-    formAboutTrayslate.Width := FormAboutWidth;
-  if FormAboutHeight > 0 then
-    formAboutTrayslate.Height := FormAboutHeight;
-
-  try
-    formAboutTrayslate.ShowModal;
-  finally
-    FreeAndNil(formAboutTrayslate);
-  end;
+  AppDialogs.ShowAbout;
 end;
 
 procedure TformTrayslate.aExitExecute(Sender: TObject);
@@ -4431,8 +4411,7 @@ begin
 
   OpenPo.Filter := ropenpofiletr;
 
-  if Assigned(formAboutTrayslate) then
-    formAboutTrayslate.UpdateCaptions;
+  AppDialogs.UpdateCaptions;
 
   if Assigned(formSettingsTrayslate) then
   begin

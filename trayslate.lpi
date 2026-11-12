@@ -185,22 +185,6 @@
         <UnitName Value="FormButton"/>
       </Unit>
       <Unit>
-        <Filename Value="src\formdonate.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="formDonateTrayslate"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-        <UnitName Value="FormDonate"/>
-      </Unit>
-      <Unit>
-        <Filename Value="src\formabout.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="formAboutTrayslate"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-        <UnitName Value="FormAbout"/>
-      </Unit>
-      <Unit>
         <Filename Value="src\consts.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Consts"/>

@@ -87,8 +87,8 @@ begin
     JSONObj.Add('FormSearchTop', Round(Form.Translate.SearchPosition.Top * 96 / DPI));
     JSONObj.Add('FormSearchWidth', Round(Form.Translate.SearchPosition.Width * 96 / DPI));
     JSONObj.Add('FormSearchHeight', Round(Form.Translate.SearchPosition.Height * 96 / DPI));
-    JSONObj.Add('FormAboutWidth', Round(Form.FormAboutWidth * 96 / DPI));
-    JSONObj.Add('FormAboutHeight', Round(Form.FormAboutHeight * 96 / DPI));
+    JSONObj.Add('FormAboutWidth', Round(Form.AppDialogs.AboutDialog.Width * 96 / DPI));
+    JSONObj.Add('FormAboutHeight', Round(Form.AppDialogs.AboutDialog.Height * 96 / DPI));
 
     // Save language
     JSONObj.Add('Language', Language);
@@ -478,10 +478,10 @@ begin
           Form.Translate.SearchPosition.Height := Round(JSONObj.FindPath('FormSearchHeight').AsInteger * DPI / 96);
 
         if JSONObj.FindPath('FormAboutWidth') <> nil then
-          Form.FormAboutWidth := Round(JSONObj.FindPath('FormAboutWidth').AsInteger * DPI / 96);
+          Form.AppDialogs.AboutDialog.Width := Round(JSONObj.FindPath('FormAboutWidth').AsInteger * DPI / 96);
 
         if JSONObj.FindPath('FormAboutHeight') <> nil then
-          Form.FormAboutHeight := Round(JSONObj.FindPath('FormAboutHeight').AsInteger * DPI / 96);
+          Form.AppDialogs.AboutDialog.Height := Round(JSONObj.FindPath('FormAboutHeight').AsInteger * DPI / 96);
 
         // Load language
         if JSONObj.FindPath('Language') <> nil then
