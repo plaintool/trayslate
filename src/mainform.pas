@@ -45,7 +45,7 @@ uses
   OneShotTimer,
   GlobalKeyboardHook,
   GlobalMouseHook,
-  FormGrip, 
+  FormGrip,
   AppDialogs,
   Translate,
   ConfigManager,
@@ -59,7 +59,8 @@ uses
   StringsHelper,
   ClipboardHelper,
   OneShotHint,
-  TextDropTarget, TranslateHistory;
+  TextDropTarget,
+  TranslateHistory;
 
 type
 
@@ -2801,6 +2802,8 @@ begin
           FLastEnterTime := NowTime;
         end;
       end;
+      else
+        ;
     end; // case
   end;
 end;
@@ -3527,6 +3530,8 @@ begin
 
     ldaNone:
       ; // nothing to do, translation proceeds with current languages
+    else
+      ;
   end;
 
   if NeedHint then
@@ -5987,6 +5992,8 @@ begin
             4:
               // Reuse the shared popup translation flow
               TranslatePopup(RecognizedText);
+            else
+              ;
           end;
         end;
       end

@@ -1032,6 +1032,8 @@ begin
     VK_SHIFT, VK_LSHIFT, VK_RSHIFT: FModKeyDown[VK_SHIFT] := False;
     VK_CONTROL, VK_LCONTROL, VK_RCONTROL: FModKeyDown[VK_CONTROL] := False;
     VK_MENU, VK_LMENU, VK_RMENU: FModKeyDown[VK_MENU] := False;
+    else
+      ;
   end;
 end;
 
