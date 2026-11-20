@@ -43,6 +43,7 @@ uses
   MouseAndKeyInput,
   RichMemo,
   OneShotTimer,
+  OneShotTooltip,
   GlobalKeyboardHook,
   GlobalMouseHook,
   FormGrip,
@@ -6395,8 +6396,13 @@ begin
           MemoSource.SetTextSafe(SelectedText);
           TranslateMemo;
         end;
-        else
-          ;
+        mmShowTooltipTranslation:
+        begin
+          // Translate and show a short tooltip with the result
+          TranslatedText := TranslateThread(Translate, SelectedText);
+          if Trim(TranslatedText) <> string.Empty then
+            TOneShotTooltip.Show(TranslatedText, 500, clWhite);
+        end;
       end;
     end
     else

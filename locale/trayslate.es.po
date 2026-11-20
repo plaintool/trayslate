@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-12 19:13-0300\n"
+"PO-Revision-Date: 2026-11-20 11:53-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -346,6 +346,10 @@ msgstr "Mostrar ventana principal"
 #: formsettings.rmousemodepopup
 msgid "Show Popup Translation"
 msgstr "Mostrar traducción emergente"
+
+#: formsettings.rmousemodetooltip
+msgid "Show Tooltip Translation"
+msgstr "Mostrar traducción en información sobre herramientas"
 
 #: formsettings.roff
 msgid "Off"

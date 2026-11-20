@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-12 19:13-0300\n"
+"PO-Revision-Date: 2026-11-20 11:55-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: \n"
 "Language: ja\n"
@@ -346,6 +346,10 @@ msgstr "メインウィンドウを表示"
 #: formsettings.rmousemodepopup
 msgid "Show Popup Translation"
 msgstr "ポップアップ翻訳を表示"
+
+#: formsettings.rmousemodetooltip
+msgid "Show Tooltip Translation"
+msgstr "ツールチップに翻訳を表示"
 
 #: formsettings.roff
 msgid "Off"

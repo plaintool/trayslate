@@ -23,7 +23,8 @@ type
     mmShowTranslateButton,
     mmShowBalloonTranslation,
     mmShowPopupTranslation,
-    mmShowMainWindow
+    mmShowMainWindow,
+    mmShowTooltipTranslation
     );
 
   { Common Consts }

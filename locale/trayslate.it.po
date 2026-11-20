@@ -348,6 +348,10 @@ msgstr "Visualizza finestra principale"
 msgid "Show Popup Translation"
 msgstr "Visualizza popup traduzione"
 
+#: formsettings.rmousemodetooltip
+msgid "Show Tooltip Translation"
+msgstr "Mostra la traduzione nel suggerimento"
+
 #: formsettings.roff
 msgid "Off"
 msgstr "OFF"

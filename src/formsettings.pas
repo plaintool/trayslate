@@ -469,6 +469,7 @@ resourcestring
   rmousemodeballon = 'Show Balloon Translation';
   rmousemodepopup = 'Show Popup Translation';
   rmousemodemain = 'Show Main Window';
+  rmousemodetooltip = 'Show Tooltip Translation';
 
   rproxymodenoproxy = 'No Proxy';
   rproxymodesystemproxy = 'System Proxy';
@@ -1815,6 +1816,7 @@ begin
   ComboMouseMode.Items.Add(rmousemodeballon);
   ComboMouseMode.Items.Add(rmousemodepopup);
   ComboMouseMode.Items.Add(rmousemodemain);
+  ComboMouseMode.Items.Add(rmousemodetooltip);
 
   // Restore selection safely
   if (SavedIndex >= 0) and (SavedIndex < ComboMouseMode.Items.Count) then
