@@ -331,6 +331,10 @@ msgstr ""
 msgid "Show Popup Translation"
 msgstr ""
 
+#: formsettings.rmousemodetooltip
+msgid "Show Tooltip Translation"
+msgstr ""
+
 #: formsettings.roff
 msgid "Off"
 msgstr ""

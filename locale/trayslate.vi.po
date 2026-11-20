@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-12 19:13-0300\n"
+"PO-Revision-Date: 2026-11-20 11:56-0300\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: none\n"
 "Language: vi\n"
@@ -348,6 +348,10 @@ msgstr "Hiển thị cửa sổ chính"
 #: formsettings.rmousemodepopup
 msgid "Show Popup Translation"
 msgstr "Hiển thị bản dịch cửa sổ bật lên"
+
+#: formsettings.rmousemodetooltip
+msgid "Show Tooltip Translation"
+msgstr "Hiển thị bản dịch trong chú giải công cụ"
 
 #: formsettings.roff
 msgid "Off"
