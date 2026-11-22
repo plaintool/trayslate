@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Trayslate - Italian - 18.11.2026\n"
+"Project-Id-Version: Trayslate - Italian - 23.11.2026\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2026-11-18 21:25-0300\n"
+"PO-Revision-Date: 2026-11-23 12:39+0100\n"
 "Last-Translator: plaintool <astverskoy@gmail.com>\n"
 "Language-Team: bovirus (bovirus@gmail.com)\n"
 "Language: it\n"
@@ -350,7 +350,7 @@ msgstr "Visualizza popup traduzione"
 
 #: formsettings.rmousemodetooltip
 msgid "Show Tooltip Translation"
-msgstr "Mostra la traduzione nel suggerimento"
+msgstr "Visualizza traduzione suggerimento"
 
 #: formsettings.roff
 msgid "Off"
