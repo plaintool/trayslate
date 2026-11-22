@@ -3475,68 +3475,103 @@ procedure TformTrayslate.TranslateLanguageDetected(Sender: TObject; const AResul
 var
   Idx: integer;
   DisplayName: string;
+  DetectedDisplayName: string;
+  HintText: string;
   NeedHint: boolean;
 begin
-  // Component already applied the result via Detect.AutoApply
-  if AResult.Applied then Exit;
-
   NeedHint := False;
+  DetectedDisplayName := string.Empty;
 
-  case AResult.Action of
-    ldaSwap:
-    begin
-      if SwapLanguages(False, True) then
-        NeedHint := True;
-    end;
-
-    ldaChangeSource:
-    begin
-      Idx := Translate.Languages.IndexOfNameIgnoreCase(AResult.NewSource);
-      if (Idx >= 0) and (Idx < FLanguages.Count) then
-      begin
-        DisplayName := FLanguages.ValueFromIndex[Idx];
-        ChangeSourceLang(DisplayName, False);
-        NeedHint := True;
-      end;
-    end;
-
-    ldaChangeTarget:
-    begin
-      Idx := Translate.Languages.IndexOfNameIgnoreCase(AResult.NewTarget);
-      if (Idx >= 0) and (Idx < FLanguages.Count) then
-      begin
-        DisplayName := FLanguages.ValueFromIndex[Idx];
-        ChangeTargetLang(DisplayName, True);
-        NeedHint := True;
-      end;
-    end;
-
-    ldaChangeBoth:
-    begin
-      Idx := Translate.Languages.IndexOfNameIgnoreCase(AResult.NewSource);
-      if (Idx >= 0) and (Idx < FLanguages.Count) then
-      begin
-        DisplayName := FLanguages.ValueFromIndex[Idx];
-        ChangeSourceLang(DisplayName, False);
-        NeedHint := True;
-      end;
-      Idx := Translate.Languages.IndexOfNameIgnoreCase(AResult.NewTarget);
-      if (Idx >= 0) and (Idx < FLanguages.Count) then
-      begin
-        DisplayName := FLanguages.ValueFromIndex[Idx];
-        ChangeTargetLang(DisplayName, True);
-        NeedHint := True;
-      end;
-    end;
-
-    ldaNone:
-      ; // nothing to do, translation proceeds with current languages
+  // Resolve the detected language when automatic source detection is used in Swap mode
+  if FAutoSwap and TLanguages.IsSpecialCode(Translate.SourceLanguage) and
+    (AResult.DetectedLanguage <> string.Empty) then
+  begin
+    Idx := Translate.Languages.IndexOfNameIgnoreCase(AResult.DetectedLanguage);
+    if (Idx >= 0) and (Idx < FLanguages.Count) then
+      DetectedDisplayName := FLanguages.ValueFromIndex[Idx]
     else
-      ;
+      DetectedDisplayName := AResult.DetectedLanguage;
+
+    NeedHint := True;
+  end;
+
+  // Component already applied the result via Detect.AutoApply
+  if not AResult.Applied then
+  begin
+    case AResult.Action of
+      ldaSwap:
+      begin
+        if SwapLanguages(False, True) then
+          NeedHint := True;
+      end;
+
+      ldaChangeSource:
+      begin
+        Idx := Translate.Languages.IndexOfNameIgnoreCase(AResult.NewSource);
+        if (Idx >= 0) and (Idx < FLanguages.Count) then
+        begin
+          DisplayName := FLanguages.ValueFromIndex[Idx];
+          ChangeSourceLang(DisplayName, False);
+          NeedHint := True;
+        end;
+      end;
+
+      ldaChangeTarget:
+      begin
+        Idx := Translate.Languages.IndexOfNameIgnoreCase(AResult.NewTarget);
+        if (Idx >= 0) and (Idx < FLanguages.Count) then
+        begin
+          DisplayName := FLanguages.ValueFromIndex[Idx];
+          ChangeTargetLang(DisplayName, True);
+          NeedHint := True;
+        end;
+      end;
+
+      ldaChangeBoth:
+      begin
+        Idx := Translate.Languages.IndexOfNameIgnoreCase(AResult.NewSource);
+        if (Idx >= 0) and (Idx < FLanguages.Count) then
+        begin
+          DisplayName := FLanguages.ValueFromIndex[Idx];
+          ChangeSourceLang(DisplayName, False);
+          NeedHint := True;
+        end;
+
+        Idx := Translate.Languages.IndexOfNameIgnoreCase(AResult.NewTarget);
+        if (Idx >= 0) and (Idx < FLanguages.Count) then
+        begin
+          DisplayName := FLanguages.ValueFromIndex[Idx];
+          ChangeTargetLang(DisplayName, True);
+          NeedHint := True;
+        end;
+      end;
+
+      ldaNone:
+        ; // Nothing to do, translation proceeds with current languages
+      else
+        ;
+    end;
   end;
 
   if NeedHint then
-    ShowCustomHint(TrayIcon.Hint);
+  begin
+    // Build the hint without the application name
+    HintText := string.Empty;
+
+    if DetectedDisplayName <> string.Empty then
+      HintText := DetectedDisplayName
+    else if ComboSource.Text <> string.Empty then
+      HintText := ComboSource.Text;
+
+    if ComboTarget.Text <> string.Empty then
+      HintText += ' : ' + ComboTarget.Text;
+
+    if ConfigTitles.Values[FConfigFile] <> string.Empty then
+      HintText += sLineBreak + ConfigTitles.Values[FConfigFile];
+
+    if HintText <> string.Empty then
+      ShowCustomHint(HintText);
+  end;
 end;
 
 {%EndRegion}
