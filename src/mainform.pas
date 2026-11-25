@@ -3483,8 +3483,7 @@ begin
   DetectedDisplayName := string.Empty;
 
   // Resolve the detected language when automatic source detection is used in Swap mode
-  if FAutoSwap and TLanguages.IsSpecialCode(Translate.SourceLanguage) and
-    (AResult.DetectedLanguage <> string.Empty) then
+  if FAutoSwap and TLanguages.IsSpecialCode(Translate.SourceLanguage) and (AResult.DetectedLanguage <> string.Empty) then
   begin
     Idx := Translate.Languages.IndexOfNameIgnoreCase(AResult.DetectedLanguage);
     if (Idx >= 0) and (Idx < FLanguages.Count) then
@@ -6343,6 +6342,8 @@ var
   IsText: boolean;
   SelectedText, TranslatedText: string;
   Ticks: DWORD;
+  MousePos: TPoint;
+  WaitHint: TOneShotTooltip;
 
   procedure SaveClipboad;
   begin
@@ -6431,12 +6432,24 @@ begin
           MemoSource.SetTextSafe(SelectedText);
           TranslateMemo;
         end;
+
         mmShowTooltipTranslation:
         begin
-          // Translate and show a short tooltip with the result
-          TranslatedText := TranslateThread(Translate, SelectedText);
-          if Trim(TranslatedText) <> string.Empty then
-            TOneShotTooltip.Show(TranslatedText, 500, clWhite);
+          // Show the source text first as an owned instance so it can be replaced
+          MousePos := Mouse.CursorPos;
+          WaitHint := TOneShotTooltip.Create(Self);
+          try
+            WaitHint.ShowHintText(SelectedText, MousePos.X + 15, MousePos.Y + 15,
+              512, 0, 0, clBtnFace);
+            TranslatedText := TranslateThread(Translate, SelectedText);
+            // Result hint auto-frees itself on hide, shown at the source coordinates
+            if Trim(TranslatedText) <> string.Empty then
+              TOneShotTooltip.Show(TranslatedText, 512, clWindow, 0,
+                MousePos.X + 15, MousePos.Y + 15);
+          finally
+            WaitHint.Hide;
+            WaitHint.Free;
+          end;
         end;
       end;
     end
