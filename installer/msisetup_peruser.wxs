@@ -58,16 +58,18 @@
                           <File Id="CONFIG9" Name="yandex.ini" Source="..\config\yandex.ini" />
                           <File Id="CONFIG10" Name="mymemory.ini" Source="..\config\mymemory.ini" />
                           <File Id="CONFIG11" Name="reverso.ini" Source="..\config\reverso.ini" />
-                          <File Id="CONFIG12" Name="google-get-dictionary.ini" Source="..\config\google-get-dictionary.ini" />
-                          <File Id="CONFIG13" Name="wiktionary.ini" Source="..\config\wiktionary.ini" />
-                          <File Id="CONFIG14" Name="marketshost.ini" Source="..\config\marketshost.ini" />
-                          <File Id="CONFIG15" Name="coinconvert.ini" Source="..\config\coinconvert.ini" />
-                          <File Id="CONFIG16" Name="mathjs.ini" Source="..\config\mathjs.ini" />
-                          <File Id="CONFIG17" Name="LLM7-ai-api.ini" Source="..\config\LLM7-ai-api.ini" />
-                          <File Id="CONFIG18" Name="LLM7-ai-api-ask.ini" Source="..\config\LLM7-ai-api-ask.ini" />
-                          <File Id="CONFIG19" Name="pollinations-ai-api.ini" Source="..\config\pollinations-ai-api.ini" />
-                          <File Id="CONFIG20" Name="pollinations-ai-api-ask.ini" Source="..\config\pollinations-ai-api-ask.ini" />
-                          <File Id="CONFIG21" Name="languagedetect.ini" Source="..\config\languagedetect.ini" /> 
+                          <File Id="CONFIG12" Name="mozhi-reverso.ini" Source="..\config\mozhi-reverso.ini" />
+                          <File Id="CONFIG13" Name="mozhi-duckduckgo.ini" Source="..\config\mozhi-duckduckgo.ini" />
+                          <File Id="CONFIG14" Name="google-get-dictionary.ini" Source="..\config\google-get-dictionary.ini" />
+                          <File Id="CONFIG15" Name="wiktionary.ini" Source="..\config\wiktionary.ini" />
+                          <File Id="CONFIG16" Name="marketshost.ini" Source="..\config\marketshost.ini" />
+                          <File Id="CONFIG17" Name="coinconvert.ini" Source="..\config\coinconvert.ini" />
+                          <File Id="CONFIG18" Name="mathjs.ini" Source="..\config\mathjs.ini" />
+                          <File Id="CONFIG19" Name="LLM7-ai-api.ini" Source="..\config\LLM7-ai-api.ini" />
+                          <File Id="CONFIG20" Name="LLM7-ai-api-ask.ini" Source="..\config\LLM7-ai-api-ask.ini" />
+                          <File Id="CONFIG21" Name="pollinations-ai-api.ini" Source="..\config\pollinations-ai-api.ini" />
+                          <File Id="CONFIG22" Name="pollinations-ai-api-ask.ini" Source="..\config\pollinations-ai-api-ask.ini" />
+                          <File Id="CONFIG23" Name="languagedetect.ini" Source="..\config\languagedetect.ini" />
                           <RegistryValue Root="HKCU" Key="Software\Alexander Tverskoy\Trayslate" Name="ConfigPath" Type="string" Value="[CONFIGDIR]" KeyPath="yes" />
                           <RemoveFolder Id="RemoveCONFIGDIR" On="uninstall" />
                         </Component>

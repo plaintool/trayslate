@@ -65,12 +65,13 @@ powershell -NoProfile -Command ^
     "$license='%~dp0LICENSE.rtf';" ^
     "$configDir='%~dp0..\config';" ^
     "$destZip='%DESTZIP%';" ^
+    "$configFiles=@('google-get-apis.ini','google-get-clients5.ini','google-post.ini','google-webtran.ini','microsofttranslator.ini','laratranslate.ini','deepl.ini','deepl-oneshot.ini','yandex.ini','mymemory.ini','reverso.ini','mozhi-reverso.ini','mozhi-duckduckgo.ini','google-get-dictionary.ini','wiktionary.ini','marketshost.ini','coinconvert.ini','mathjs.ini','LLM7-ai-api.ini','LLM7-ai-api-ask.ini','pollinations-ai-api.ini','pollinations-ai-api-ask.ini','languagedetect.ini');" ^
     "if ((Test-Path $exe) -and (Test-Path $configDir)) {" ^
     "  if (Test-Path $tmp) { Remove-Item -Recurse -Force $tmp };" ^
     "  New-Item -ItemType Directory -Path \"$tmp/config\" -Force | Out-Null;" ^
     "  Copy-Item $exe, $portable, $license -Destination $tmp;" ^
     "  Copy-Item $dlls -Destination $tmp;" ^
-    "  Copy-Item \"$configDir\*.ini\" -Destination \"$tmp/config\";" ^
+    "  foreach ($file in $configFiles) { Copy-Item (Join-Path $configDir $file) -Destination \"$tmp/config\" };" ^
     "  Start-Sleep -Seconds 2;" ^
     "  Compress-Archive -Force -Path \"$tmp\*\" -DestinationPath $destZip;" ^
     "  Remove-Item -Recurse -Force $tmp;" ^
