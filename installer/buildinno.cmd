@@ -1,5 +1,5 @@
 @echo off
-setlocal
+setlocal EnableDelayedExpansion
 
 echo.
 echo ############################################################
@@ -17,10 +17,22 @@ IF "%VERSION%"=="" (
     FOR /F "usebackq delims=" %%i IN ("%SOURCE_DIR%..\VERSION") DO SET "VERSION=%%i"
 )
 
-:: --- Copying languages ---
-set "source=%~dp0innolanguages"
-set "destination=C:\Program Files (x86)\Inno Setup 6\Languages"
-xcopy "%source%\*" "%destination%\" /y /i /s
+:: --- Download Inno Setup language files (local build only) ---
+if not defined CI (
+    set "destination=C:\Program Files (x86)\Inno Setup 6\Languages"
+
+    if not exist "!destination!\Belarusian.isl" curl -fLsS -o "!destination!\Belarusian.isl" "https://raw.githubusercontent.com/jrsoftware/issrc/refs/heads/main/Files/Languages/Unofficial/Belarusian.isl"
+    if not exist "!destination!\ChineseSimplified.isl" curl -fLsS -o "!destination!\ChineseSimplified.isl" "https://raw.githubusercontent.com/jrsoftware/issrc/refs/heads/main/Files/Languages/ChineseSimplified.isl"
+    if not exist "!destination!\Greek.isl" curl -fLsS -o "!destination!\Greek.isl" "https://raw.githubusercontent.com/jrsoftware/issrc/refs/heads/main/Files/Languages/Unofficial/Greek.isl"
+    if not exist "!destination!\Hindi.islu" curl -fLsS -o "!destination!\Hindi.islu" "https://raw.githubusercontent.com/jrsoftware/issrc/refs/heads/main/Files/Languages/Unofficial/Hindi.islu"
+    if not exist "!destination!\Indonesian.isl" curl -fLsS -o "!destination!\Indonesian.isl" "https://raw.githubusercontent.com/jrsoftware/issrc/refs/heads/main/Files/Languages/Unofficial/Indonesian.isl"
+    if not exist "!destination!\Romanian.isl" curl -fLsS -o "!destination!\Romanian.isl" "https://raw.githubusercontent.com/jrsoftware/issrc/refs/heads/main/Files/Languages/Unofficial/Romanian.isl"
+
+    if errorlevel 1 (
+        echo Failed to download Inno Setup language files
+        exit /b 1
+    )
+)
 
 :: --- Build inno setup ---
 "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" /DMyVersion=%VERSION% "%SOURCE_DIR%\innosetup.iss"
@@ -77,4 +89,5 @@ if not "%CERTFILE%"=="" (
     echo Skipping signing: CERTFILE not set.
 )
 
+endlocal
 echo Build and signing trayslate-%VERSION%-any-x86-x64.exe completed successfully!

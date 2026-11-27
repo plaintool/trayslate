@@ -73,12 +73,24 @@ jobs:
           }
           Start-Process -FilePath $innoInstaller -ArgumentList "/VERYSILENT","/SUPPRESSMSGBOXES","/NORESTART" -Wait
 
-      - name: Copy Inno Setup language files
+      - name: Download Inno Setup language files
         shell: pwsh
         run: |
-          $src = "$env:GITHUB_WORKSPACE\installer\innolanguages\*"
           $dst = "C:\Program Files (x86)\Inno Setup 6\Languages"
-          Copy-Item -Path $src -Destination $dst -Recurse -Force
+
+          $urls = @(
+            "https://raw.githubusercontent.com/jrsoftware/issrc/refs/heads/main/Files/Languages/Unofficial/Belarusian.isl",
+            "https://raw.githubusercontent.com/jrsoftware/issrc/refs/heads/main/Files/Languages/ChineseSimplified.isl",
+            "https://raw.githubusercontent.com/jrsoftware/issrc/refs/heads/main/Files/Languages/Unofficial/Greek.isl",
+            "https://raw.githubusercontent.com/jrsoftware/issrc/refs/heads/main/Files/Languages/Unofficial/Hindi.islu",
+            "https://raw.githubusercontent.com/jrsoftware/issrc/refs/heads/main/Files/Languages/Unofficial/Indonesian.isl",
+            "https://raw.githubusercontent.com/jrsoftware/issrc/refs/heads/main/Files/Languages/Unofficial/Romanian.isl"
+          )
+
+          foreach ($url in $urls) {
+            $fileName = Split-Path $url -Leaf
+            Invoke-WebRequest -Uri $url -OutFile (Join-Path $dst $fileName)
+          }
 
       - name: Locate 32-bit FPC
         shell: pwsh
