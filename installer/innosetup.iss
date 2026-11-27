@@ -125,6 +125,7 @@ Source: "..\config\deepl-oneshot.ini"; DestDir: "{app}\config"; Flags: ignorever
 Source: "..\config\yandex.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\mymemory.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\reverso.ini"; DestDir: "{app}\config"; Flags: ignoreversion
+Source: "..\config\duckduckgo.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\mozhi-reverso.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\mozhi-duckduckgo.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\config\google-get-dictionary.ini"; DestDir: "{app}\config"; Flags: ignoreversion

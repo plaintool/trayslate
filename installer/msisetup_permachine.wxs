@@ -48,31 +48,32 @@
                 <Directory Id="INSTALLDIR" Name="Trayslate">
                   <Directory Id="CONFIGDIR" Name="config">
                     <Component Id="ConfigFiles" Guid="D4A1B2C3-5678-4E9A-ABCD-1234567890AB" Win64="$(var.Win64Value)">
-                        <File Id="CONFIG1" Name="google-get-apis.ini" Source="..\config\google-get-apis.ini" />
-                        <File Id="CONFIG2" Name="google-get-clients5.ini" Source="..\config\google-get-clients5.ini" />
-                        <File Id="CONFIG3" Name="google-post.ini" Source="..\config\google-post.ini" />
-                        <File Id="CONFIG4" Name="google-webtran.ini" Source="..\config\google-webtran.ini" />             
-                        <File Id="CONFIG5" Name="microsofttranslator.ini" Source="..\config\microsofttranslator.ini" />
-                        <File Id="CONFIG6" Name="laratranslate.ini" Source="..\config\laratranslate.ini" />           
-                        <File Id="CONFIG7" Name="deepl.ini" Source="..\config\deepl.ini" />
-                        <File Id="CONFIG8" Name="deepl-oneshot.ini" Source="..\config\deepl-oneshot.ini" />
-                        <File Id="CONFIG9" Name="yandex.ini" Source="..\config\yandex.ini" />
-                        <File Id="CONFIG10" Name="mymemory.ini" Source="..\config\mymemory.ini" />
-                        <File Id="CONFIG11" Name="reverso.ini" Source="..\config\reverso.ini" />
-                        <File Id="CONFIG12" Name="mozhi-reverso.ini" Source="..\config\mozhi-reverso.ini" />
-                        <File Id="CONFIG13" Name="mozhi-duckduckgo.ini" Source="..\config\mozhi-duckduckgo.ini" />
-                        <File Id="CONFIG14" Name="google-get-dictionary.ini" Source="..\config\google-get-dictionary.ini" />
-                        <File Id="CONFIG15" Name="wiktionary.ini" Source="..\config\wiktionary.ini" />
-                        <File Id="CONFIG16" Name="marketshost.ini" Source="..\config\marketshost.ini" />
-                        <File Id="CONFIG17" Name="coinconvert.ini" Source="..\config\coinconvert.ini" />
-                        <File Id="CONFIG18" Name="mathjs.ini" Source="..\config\mathjs.ini" />
-                        <File Id="CONFIG19" Name="LLM7-ai-api.ini" Source="..\config\LLM7-ai-api.ini" />
-                        <File Id="CONFIG20" Name="LLM7-ai-api-ask.ini" Source="..\config\LLM7-ai-api-ask.ini" />
-                        <File Id="CONFIG21" Name="pollinations-ai-api.ini" Source="..\config\pollinations-ai-api.ini" />
-                        <File Id="CONFIG22" Name="pollinations-ai-api-ask.ini" Source="..\config\pollinations-ai-api-ask.ini" />
-                        <File Id="CONFIG23" Name="languagedetect.ini" Source="..\config\languagedetect.ini" />
-                        <RegistryValue Root="HKLM" Key="Software\Alexander Tverskoy\Trayslate" Name="ConfigPath" Type="string" Value="[CONFIGDIR]" KeyPath="yes" />
-                        <RemoveFolder Id="RemoveCONFIGDIR" On="uninstall" />
+                      <File Id="CONFIG1" Name="google-get-apis.ini" Source="..\config\google-get-apis.ini" />
+                      <File Id="CONFIG2" Name="google-get-clients5.ini" Source="..\config\google-get-clients5.ini" />
+                      <File Id="CONFIG3" Name="google-post.ini" Source="..\config\google-post.ini" />
+                      <File Id="CONFIG4" Name="google-webtran.ini" Source="..\config\google-webtran.ini" />             
+                      <File Id="CONFIG5" Name="microsofttranslator.ini" Source="..\config\microsofttranslator.ini" />
+                      <File Id="CONFIG6" Name="laratranslate.ini" Source="..\config\laratranslate.ini" />           
+                      <File Id="CONFIG7" Name="deepl.ini" Source="..\config\deepl.ini" />
+                      <File Id="CONFIG8" Name="deepl-oneshot.ini" Source="..\config\deepl-oneshot.ini" />
+                      <File Id="CONFIG9" Name="yandex.ini" Source="..\config\yandex.ini" />
+                      <File Id="CONFIG10" Name="mymemory.ini" Source="..\config\mymemory.ini" />
+                      <File Id="CONFIG11" Name="reverso.ini" Source="..\config\reverso.ini" />
+                      <File Id="CONFIG12" Name="duckduckgo.ini" Source="..\config\duckduckgo.ini" />
+                      <File Id="CONFIG13" Name="mozhi-reverso.ini" Source="..\config\mozhi-reverso.ini" />
+                      <File Id="CONFIG14" Name="mozhi-duckduckgo.ini" Source="..\config\mozhi-duckduckgo.ini" />
+                      <File Id="CONFIG15" Name="google-get-dictionary.ini" Source="..\config\google-get-dictionary.ini" />
+                      <File Id="CONFIG16" Name="wiktionary.ini" Source="..\config\wiktionary.ini" />
+                      <File Id="CONFIG17" Name="marketshost.ini" Source="..\config\marketshost.ini" />
+                      <File Id="CONFIG18" Name="coinconvert.ini" Source="..\config\coinconvert.ini" />
+                      <File Id="CONFIG19" Name="mathjs.ini" Source="..\config\mathjs.ini" />
+                      <File Id="CONFIG20" Name="LLM7-ai-api.ini" Source="..\config\LLM7-ai-api.ini" />
+                      <File Id="CONFIG21" Name="LLM7-ai-api-ask.ini" Source="..\config\LLM7-ai-api-ask.ini" />
+                      <File Id="CONFIG22" Name="pollinations-ai-api.ini" Source="..\config\pollinations-ai-api.ini" />
+                      <File Id="CONFIG23" Name="pollinations-ai-api-ask.ini" Source="..\config\pollinations-ai-api-ask.ini" />
+                      <File Id="CONFIG24" Name="languagedetect.ini" Source="..\config\languagedetect.ini" />
+                      <RegistryValue Root="HKLM" Key="Software\Alexander Tverskoy\Trayslate" Name="ConfigPath" Type="string" Value="[CONFIGDIR]" KeyPath="yes" />
+                      <RemoveFolder Id="RemoveCONFIGDIR" On="uninstall" />
                     </Component>
                   </Directory>
                   <Component Id="TrayslateFiles" DiskId="1" Guid="C3D9A1F5-7E2B-4A8C-9F1D-6B0E3C4D7A5F" Win64="$(var.Win64Value)">
